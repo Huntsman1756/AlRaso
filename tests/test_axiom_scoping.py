@@ -10,6 +10,12 @@ import threading
 
 import pytest
 
+# This module exercises the RuleSpec PROJECTION layer, which needs the optional
+# `alraso[axiom]` serializer to build the RuleSpec text. The core suite is
+# stdlib-only: without PyYAML the whole module skips with an explicit reason
+# instead of failing or (worse) pretending to have checked something.
+pytest.importorskip("yaml", reason="RuleSpec projection needs the alraso[axiom] extra (PyYAML)")
+
 from alraso.engine_axiom import (
     AXIOM_PARITY,
     AXIOM_STATUS,
