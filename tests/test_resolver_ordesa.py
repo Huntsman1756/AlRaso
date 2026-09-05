@@ -41,8 +41,8 @@ def test_contract_fields_populated():
     urls = {e["canonical_url"] for e in res["evidence"]}
     assert any("pnomp.es" in u for u in urls)
     stages = [t["stage"] for t in res["precedenceTrace"]]
-    assert stages[:5] == ["activity_vocab", "spatial", "bitemporal_select",
-                          "eligibility", "engine_eval"]
+    assert stages[:6] == ["activity_vocab", "spatial", "bitemporal_select",
+                          "eligibility", "scope_coverage", "engine_eval"]
     assert "eligibility" in stages
     assert res["unresolvedConflicts"] == []
     assert STANDING_WARNING in res["warnings"]

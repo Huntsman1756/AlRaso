@@ -8,9 +8,11 @@ import pytest
 
 from alraso.bitemporal import BitemporalStore
 from alraso.domain import KnowledgeStatus, LegalStatus, Query
-from alraso.engine import EngineCapabilities, EngineResult, JudgmentResult
+from alraso.engine import (EngineCapabilities, EngineResult, JudgmentResult,
+                           OwnEvaluatorAdapter)
+from alraso.errors import EngineTimeout
 from alraso.resolver import Resolver
-from conftest import frag, new_store, relation, rule, scope
+from conftest import frag, new_store, raw_version, relation, rule, scope
 
 S = "s-inv"
 Q = Query(activity="VIVAC_AL_RASO", activity_date="2021-07-15",
@@ -278,3 +280,113 @@ def test_adversarial_sweep_no_false_permitted():
         res = Resolver(s).resolve(Q)
         assert res.legal_status is not LegalStatus.PERMITTED, \
             f"variant {name} produced unsafe PERMITTED"
+
+
+# ---- never-permit sweep over the HARDENING axes (H1-H4) -------------------------------
+
+_BOX_A = [[(42.00, 0.00), (42.00, 0.10), (42.10, 0.10), (42.10, 0.00)]]
+_BOX_B = [[(42.05, 0.05), (42.05, 0.15), (42.15, 0.15), (42.15, 0.05)]]
+_COORD = Query(activity="VIVAC_AL_RASO", activity_date="2021-07-15",
+               knowledge_date="2023-06-15", lat=42.07, lon=0.07)
+
+
+def _boxes():
+    from alraso.spatial import InMemorySpatialProvider
+
+    p = InMemorySpatialProvider()
+    p.add_scope("sw-a", "sw-a", "PARK_SECTOR", _BOX_A)
+    p.add_scope("sw-b", "sw-b", "PARK_SECTOR", _BOX_B)
+    return p
+
+
+def _two_scopes(s, relevance_b="REGULATORY", b_effect=None, b_et=None):
+    scope(s, "sw-a", geometry="src", review_status="VERIFIED")
+    scope(s, "sw-b", geometry="src", review_status="VERIFIED", relevance=relevance_b)
+    rule(s, "alraso:es:t/sw2#a", "sw-a", "PERMITTED")
+    if b_effect:
+        rule(s, "alraso:es:t/sw2#b", "sw-b", b_effect, ef="2020-01-01", et=b_et)
+    return Resolver(s, spatial=_boxes())
+
+
+class _TimeoutEngine(OwnEvaluatorAdapter):
+    def evaluate(self, versions, facts, mode="fast"):
+        raise EngineTimeout("axiom timed out")
+
+
+def _broken_provider():
+    class _Boom:
+        def resolve(self, lat, lon):
+            raise RuntimeError("wfs unreachable")
+
+    return _Boom()
+
+
+def test_adversarial_sweep_hardening_axes_never_permitted():
+    """Every axis the hardening round introduced is attacked exactly like the
+    F25 clauses: a broken axis must never produce PERMITTED."""
+    def frag_unpublishable():
+        s = new_store()
+        scope(s, S)
+        rule(s, "alraso:es:t/sw2#f", S, "PERMITTED", evidence=("lf-raw",),
+             frag_status="REVIEW_REQUIRED")
+        return Resolver(s), Q
+
+    def overlap_legacy_dump():
+        s = new_store()
+        scope(s, S)
+        raw_version(s, "alraso:es:t/sw2#o", "PERMITTED", ef="2020-01-01", et=None,
+                    rec="2020-06-01", scope_id=S)
+        raw_version(s, "alraso:es:t/sw2#o", "PROHIBITED", ef="2021-01-01", et=None,
+                    rec="2020-07-01", scope_id=S)
+        return Resolver(s), Q
+
+    def facts_malformed():
+        s = new_store()
+        scope(s, S)
+        rule(s, "alraso:es:t/sw2#m", S, "PERMITTED")
+        return Resolver(s), Query(activity="VIVAC_AL_RASO", activity_date="2021-07-15",
+                                  knowledge_date="2023-06-15", spatial_scope_id=S,
+                                  facts="nope")
+
+    def facts_missing():
+        s = new_store()
+        scope(s, S)
+        rule(s, "alraso:es:t/sw2#x", S, "PERMITTED",
+             condition={"field": "altitude_m", "op": "gte", "value": 1800})
+        return Resolver(s), Query(activity="VIVAC_AL_RASO", activity_date="2021-07-15",
+                                  knowledge_date="2023-06-15", spatial_scope_id=S,
+                                  facts={})
+
+    def facts_invalid_value():
+        s = new_store()
+        scope(s, S)
+        rule(s, "alraso:es:t/sw2#y", S, "PERMITTED",
+             condition={"field": "altitude_m", "op": "gte", "value": 1800})
+        return Resolver(s), Query(activity="VIVAC_AL_RASO", activity_date="2021-07-15",
+                                  knowledge_date="2023-06-15", spatial_scope_id=S,
+                                  facts={"altitude_m": "high"})
+
+    variants = {
+        "fragment_unpublishable": frag_unpublishable,
+        "regulatory_scope_uncovered": lambda: (
+            _two_scopes(new_store()), _COORD),
+        "regulatory_scope_temporal_gap": lambda: (
+            _two_scopes(new_store(), b_effect="PERMITTED", b_et="2020-12-31"), _COORD),
+        "overlapping_versions_legacy_dump": overlap_legacy_dump,
+        "facts_malformed": facts_malformed,
+        "facts_missing_for_condition": facts_missing,
+        "facts_invalid_value": facts_invalid_value,
+        "engine_timeout": lambda: (
+            Resolver(_two_scopes(new_store(), relevance_b="CONTEXT_ONLY").store,
+                     engine=_TimeoutEngine()), _COORD),
+        "spatial_provider_failure": lambda: (
+            Resolver(_two_scopes(new_store()).store, spatial=_broken_provider()), _COORD),
+    }
+    for name, build in variants.items():
+        resolver, query = build()
+        res = resolver.resolve(query)
+        assert res.legal_status is not LegalStatus.PERMITTED, \
+            f"hardening variant {name} produced unsafe PERMITTED"
+        if res.legal_status is LegalStatus.UNDETERMINED:
+            assert res.reason_codes and res.decision_reason, \
+                f"hardening variant {name} failed closed without diagnostics"

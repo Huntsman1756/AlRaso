@@ -3,9 +3,14 @@ in a conclusion, and their presence never changes a prior public answer."""
 
 from __future__ import annotations
 
+import sqlite3
+
+import pytest
+
 from alraso.domain import KnowledgeStatus, LegalStatus, Query
+from alraso.eligibility import is_rule_version_eligible
 from alraso.resolver import Resolver
-from conftest import new_store, rule, scope
+from conftest import DOC, make_version, new_store, rule, scope
 
 S = "s-el"
 BASE = dict(activity="VIVAC_AL_RASO", activity_date="2021-07-15",
@@ -49,8 +54,12 @@ def test_missing_evidence_cannot_permit():
     r = resolver_with(lambda s: rule(s, "alraso:es:t/p#ne", S, "PERMITTED", evidence=None))
     res = r.resolve(q())
     assert res.legal_status is LegalStatus.UNDETERMINED
-    assert "EVIDENCE_MISSING" in res.precedence_trace[-1].get("reason", "") \
-        or res.reason_codes == ["NO_PUBLISHABLE_RULE_COVERAGE"]
+    assert res.knowledge_status is KnowledgeStatus.INCOMPLETE
+    # H2/D3: absent evidence is reported as non-publishable evidence, not just
+    # as a generic coverage hole.
+    assert res.reason_codes == ["NO_PUBLISHABLE_RULE_COVERAGE", "EVIDENCE_NOT_PUBLISHABLE"]
+    elig = next(t for t in res.precedence_trace if t["stage"] == "eligibility")
+    assert any("EVIDENCE_MISSING" in r for e in elig["excluded"] for r in e["reasons"])
 
 
 def test_unresolvable_evidence_ref_cannot_permit():
@@ -65,17 +74,37 @@ def test_unresolvable_evidence_ref_cannot_permit():
             "evidence": ["lf-does-not-exist"]})
     res = resolver_with(setup).resolve(q())
     assert res.legal_status is LegalStatus.UNDETERMINED
-    assert res.reason_codes == ["NO_PUBLISHABLE_RULE_COVERAGE"]
+    assert res.reason_codes == ["NO_PUBLISHABLE_RULE_COVERAGE", "EVIDENCE_NOT_PUBLISHABLE"]
 
 
-def test_source_document_removal_breaks_resolution():
-    # evidence resolution requires fragment+document (SQL JOIN); a fragment
-    # whose document is gone is unresolvable -> ineligible.
+def test_evidence_cannot_be_orphaned_under_a_determination():
+    """H6: replaces the earlier, misleading test_source_document_removal_breaks_resolution.
+
+    The failure mode that name claimed to test is UNREACHABLE by construction,
+    so testing it "by assertion of a control case" was dishonest. Evidence rows
+    are append-only (BEFORE DELETE triggers) and a fragment pointing at a
+    missing document cannot even be inserted (foreign_keys=ON). What resolution
+    must guarantee is that a corpus that arrives ALREADY broken (legacy dump,
+    hand-made store) makes the rule ineligible instead of permitting. Both
+    halves are asserted here.
+    """
     s = new_store()
     scope(s, S)
     rule(s, "alraso:es:t/p#sd", S, "PERMITTED")
-    res = Resolver(s).resolve(q())
-    assert res.legal_status is LegalStatus.PERMITTED  # control
+    assert Resolver(s).resolve(q()).legal_status is LegalStatus.PERMITTED  # control
+
+    with pytest.raises(sqlite3.IntegrityError):
+        s.conn.execute("DELETE FROM source_document WHERE id=?", (DOC["id"],))
+    with pytest.raises(sqlite3.IntegrityError):
+        s.conn.execute("DELETE FROM legal_fragment WHERE id='lf-test'")
+    with pytest.raises(sqlite3.IntegrityError):
+        s.conn.execute("INSERT INTO legal_fragment (id, source_document_id, locator) "
+                       "VALUES ('lf-orphan', 'sd-nope', 'art. 1')")
+
+    # a dangling reference can therefore only come from outside the store
+    v = make_version(rule_id="alraso:es:t/p#sd", evidence=["lf-gone"])
+    reasons = is_rule_version_eligible(v, s)
+    assert any(r.startswith("EVIDENCE_UNRESOLVABLE") for r in reasons)
 
 
 def test_spatial_review_required_cannot_permit_via_version_flag():

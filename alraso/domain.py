@@ -8,9 +8,34 @@ an unrecognised activity/scope/fact never becomes PERMITTED.
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any
+
+
+def _safe_repr(value: Any) -> str:
+    try:
+        return repr(value)[:200]
+    except Exception:  # noqa: BLE001 - reporting must never raise (H4/D1)
+        return f"<unrepresentable {type(value).__name__}>"
+
+
+def _safe_fact_value(value: Any) -> Any:
+    """JSON-safe projection of one fact value.
+
+    Anything that is not a valid fact literal is described instead of echoed,
+    so a malformed query can be recorded and replayed without smuggling
+    NaN/Infinity or arbitrary objects into stored JSON.
+    """
+    if value is None or isinstance(value, (bool, int, str)):
+        return value
+    if isinstance(value, float):
+        if math.isfinite(value):
+            return value
+        return {"__unvalidated_value__": {"type": "float", "value": _safe_repr(value)}}
+    return {"__unvalidated_value__": {"type": type(value).__name__,
+                                      "value": _safe_repr(value)}}
 
 
 class Activity(str, Enum):
@@ -141,6 +166,28 @@ class Query:
     lon: float | None = None
     facts: dict[str, Any] = field(default_factory=dict)
 
+    def safe_facts(self) -> dict[str, Any]:
+        """Never-raising, always-JSON-safe facts projection (H4/D1).
+
+        ``validate_facts`` is the normative gate that decides whether facts are
+        usable; this projection only guarantees that reporting an unusable value
+        can never itself raise nor poison stored JSON (a malformed ``facts`` must
+        produce a normalized UNDETERMINED, not a traceback). Valid facts pass
+        through untouched, so replay keeps the exact input.
+        """
+        if not isinstance(self.facts, dict):
+            return {"__unvalidated_facts__": {"type": type(self.facts).__name__,
+                                              "value": _safe_repr(self.facts)}}
+        out: dict[str, Any] = {}
+        for i, (key, value) in enumerate(self.facts.items()):
+            if isinstance(key, str) and key:
+                out[key] = _safe_fact_value(value)
+            else:
+                out[f"__unvalidated_key_{i}__"] = {
+                    "key_type": type(key).__name__, "key": _safe_repr(key),
+                    "value": _safe_fact_value(value)}
+        return out
+
     def as_dict(self) -> dict[str, Any]:
         return {
             "activity": self.activity,
@@ -149,7 +196,7 @@ class Query:
             "spatial_scope_id": self.spatial_scope_id,
             "lat": self.lat,
             "lon": self.lon,
-            "facts": dict(self.facts),
+            "facts": self.safe_facts(),
         }
 
 

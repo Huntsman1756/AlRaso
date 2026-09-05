@@ -1,29 +1,42 @@
 """The resolver: Query -> ResolveResult (discovery §L contract, M1-remediated).
 
 Pipeline (each stage appended to precedenceTrace):
-  1. strict query validation + closed activity vocabulary
+  1. strict query validation (facts structure FIRST) + closed activity vocab
   2. spatial resolution          -> lat/lon to ALL intersecting scopes (F03:
-                                    composition, never a single "picked" scope)
+                                     composition, never a single "picked" scope)
   3. bitemporal selection        -> governing LegalRuleVersion per rule_id per
-                                    scope (system time x valid time)
+                                     scope (system time x valid time)
   3b. eligibility gate           -> ONLY publishable rule versions participate
-                                    (F01, alraso.eligibility — single site)
+                                     (F01, alraso.eligibility — single site;
+                                     H2/D3 includes fragment review status)
+  3c. overlap gate               -> visible+applicable versions of one rule_id
+                                     that overlap in valid time are ambiguity,
+                                     never a ranking (H1/D2)
+  3d. coverage map               -> REGULATORY scopes must have publishable
+                                     coverage; CONTEXT_ONLY is explicit (H3/D4)
   4. engine evaluation           -> capability contract pre-checked (F02), then
-                                    conditions over facts via the adapter
+                                     conditions over facts via the adapter
   5. precedence                  -> grounded resolution over the COMPLETE set
-                                    with bitemporal relations (F04)
+                                     with bitemporal relations (F04); ambiguous
+                                     relation versions are inert + conflicting
+  5b. coverage gate              -> a PERMITTED may not stand on an unresolved
+                                     applicable jurisdiction (H3/D4)
   6. PERMITTED invariant gate    -> defense-in-depth: a PERMITTED must prove
-                                    every clause of the safety contract (F25)
+                                     every clause of the safety contract (F25)
   7. composition                 -> legalStatus x knowledgeStatus + evidence +
-                                    trace + conflicts + warnings; canonical
-                                    replay record when record=True (F05)
+                                     trace + conflicts + warnings; canonical
+                                     replay record when record=True (F05)
 
 Safety invariants (WHEN_IN_DOUBT -> UNDETERMINED, NEVER_GUESS):
   - Nothing here can return PERMITTED from an absence: empty selection, a
     temporal gap, ineligible rules, a missing fact, an unsupported condition,
     an unresolved conflict or an engine failure never yield PERMITTED.
+  - Absence of a known prohibition is not permission, and neither is an
+    applicable jurisdiction whose regulation we do not (yet) publish.
   - Conflicts report legalStatus=UNDETERMINED + knowledgeStatus=CONFLICTING
     (never a winner; never first-wins/most-specific-wins/latest-wins).
+  - resolve() normalizes malformed input (non-dict facts included) instead of
+    leaking a traceback (H4/D1).
 """
 
 from __future__ import annotations
@@ -38,6 +51,7 @@ from alraso.bitemporal import (
     PUBLISHABLE_REVIEW_STATUSES,
     RelationVersionRow,
     VersionRow,
+    version_material_signature,
 )
 from alraso.domain import (
     Activity,
@@ -53,15 +67,24 @@ from alraso.errors import (
     EngineFailure,
     SpatialResolutionError,
     REASON_ACTIVITY_VOCAB,
+    REASON_AMBIGUOUS_RELATIONS,
+    REASON_EVIDENCE_NOT_PUBLISHABLE,
     REASON_INVARIANT_VIOLATION,
+    REASON_INCOMPLETE_SCOPE_COVERAGE,
     REASON_NO_ACTIVE_RULE,
     REASON_NO_ELIGIBLE_RULE,
     REASON_NO_KNOWLEDGE,
     REASON_NO_SCOPE,
+    REASON_OVERLAPPING_VERSIONS,
     REASON_TEMPORAL_GAP,
     REASON_UNRESOLVED_CONFLICT,
 )
-from alraso.precedence import Judgment, relation_is_applicable, resolve_precedence
+from alraso.precedence import (
+    Judgment,
+    ambiguous_relation_groups,
+    relation_is_applicable,
+    resolve_precedence,
+)
 from alraso.spatial import SpatialFactsProvider, ScopeHit
 from alraso.validation import parse_date_strict, validate_facts
 
@@ -69,7 +92,7 @@ STANDING_WARNING = ("Las restricciones operativas no codificadas en el corpus "
                     "(acceso de vehiculos, reservas, cierres estacionales, avisos "
                     "de la direccion) no estan cubiertas por esta determinacion.")
 
-RESOLVER_VERSION = "0.2.0-remediation"
+RESOLVER_VERSION = "0.2.1-hardening"
 SCHEMA_VERSION = "m1r2"
 
 DRIFT_TYPES = ("LEGAL_STATUS_CHANGED", "KNOWLEDGE_STATUS_CHANGED", "RULE_SET_CHANGED",
@@ -86,6 +109,31 @@ def _basis(scope_ids: list[str] | None = None, rule_seqs: list[int] | None = Non
         "relation_seqs": sorted(relation_seqs or []),
         "fragment_ids": sorted(fragment_ids or []),
     }
+
+
+def overlapping_version_groups(versions: list[VersionRow]) -> list[dict[str, Any]]:
+    """Visible+applicable versions of the SAME (rule_id, activity, scope) that
+    come from different lineages and overlap in valid time (H1/D2).
+
+    Materially identical duplicates are reported separately: they do not change
+    the legal answer, but they must never pass unnoticed.
+    """
+    groups: dict[tuple[str, str, str], list[VersionRow]] = {}
+    for v in versions:
+        groups.setdefault((v.rule_id, v.activity, v.spatial_scope_id), []).append(v)
+    out: list[dict[str, Any]] = []
+    for (rule_id, activity, scope), rows in sorted(groups.items()):
+        if len(rows) < 2:
+            continue
+        sigs = {version_material_signature(v) for v in rows}
+        out.append({
+            "rule_id": rule_id, "activity": activity, "scope_id": scope,
+            "seqs": sorted(v.seq for v in rows),
+            "effects": sorted({v.effect for v in rows}),
+            "windows": sorted([[v.effective_from, v.effective_to] for v in rows]),
+            "material_identical": len(sigs) == 1,
+        })
+    return out
 
 
 class Resolver:
@@ -116,22 +164,25 @@ class Resolver:
     # ---- pipeline --------------------------------------------------------------
     def _resolve_inner(self, query: Query, *, mode: str, record: bool) -> ResolveResult:
         trace: list[dict[str, Any]] = []
+
+        # (0) strict query validation BEFORE anything is built (H4/D1): a
+        # structurally broken query must be normalized, never crash.
+        parse_date_strict(query.activity_date, field="activity_date")
+        parse_date_strict(query.knowledge_date, field="knowledge_date")
+        facts = validate_facts(query.facts)
+
         result = ResolveResult(legal_status=LegalStatus.UNDETERMINED,
                                knowledge_status=KnowledgeStatus.CURRENT,
                                query=query.as_dict())
         result.warnings.append(STANDING_WARNING)
-
-        # (0) strict query validation ---------------------------------------------
-        parse_date_strict(query.activity_date, field="activity_date")
-        parse_date_strict(query.knowledge_date, field="knowledge_date")
-        facts = validate_facts(query.facts)
 
         # (1) closed activity vocabulary -------------------------------------------
         activity = query.activity
         if Activity.parse(activity) is None:
             return self._fail(query, reason=REASON_ACTIVITY_VOCAB,
                               message=f"actividad fuera del vocabulario cerrado: {activity!r}",
-                              record=record)
+                              record=record,
+                              trace=trace)
         trace.append({"stage": "activity_vocab", "ok": True, "activity": activity})
 
         # (2) spatial resolution: ALL applicable scopes (F03) ------------------------
@@ -142,16 +193,19 @@ class Resolver:
         if not hits:
             return self._fail(query, reason=REASON_NO_SCOPE,
                               message="no hay ambito espacial resoluble para este punto/scope",
-                              record=record, scopes=hits)
+                              record=record, scopes=hits,
+                              trace=trace)
 
         # (3) bitemporal selection across ALL scopes (F03) ----------------------------
         covering: list[VersionRow] = []
+        per_scope_covering: dict[str, list[VersionRow]] = {}
         gap_scopes: list[str] = []
         empty_scopes: list[str] = []
         for h in sorted(hits, key=lambda x: x.scope_id):
             sel = self.store.select(activity, h.scope_id, query.activity_date,
                                     query.knowledge_date)
             covering.extend(sel.covering)
+            per_scope_covering[h.scope_id] = list(sel.covering)
             if sel.is_gap:
                 gap_scopes.append(h.scope_id)
             elif sel.is_empty:
@@ -167,11 +221,13 @@ class Resolver:
                                            "activity_date (version expirada sin sucesor "
                                            "visible)"),
                                   record=record, scopes=hits,
-                                  knowledge=KnowledgeStatus.INCOMPLETE)
+                                  knowledge=KnowledgeStatus.INCOMPLETE,
+                                  trace=trace)
             return self._fail(query, reason=REASON_NO_KNOWLEDGE,
                               message=("sin version conocida a esta knowledge_date "
                                        "(fuera del ambito modelado)"),
-                              record=record, scopes=hits)
+                              record=record, scopes=hits,
+                              trace=trace)
 
         # (3b) eligibility gate: publishable rules only (F01) --------------------------
         eligible: list[VersionRow] = []
@@ -189,15 +245,72 @@ class Resolver:
                 "reglas excluidas por no ser publicables: "
                 + ", ".join(f"{e['rule_id']}(seq {e['seq']})" for e in excluded))
         if not eligible:
-            return self._fail(query, reason=REASON_NO_ELIGIBLE_RULE,
+            codes = [REASON_NO_ELIGIBLE_RULE]
+            if all(any(r.startswith("EVIDENCE_") for r in e["reasons"]) for e in excluded):
+                codes.append(REASON_EVIDENCE_NOT_PUBLISHABLE)
+            return self._fail(query, reason=codes[0],
                               message=("ninguna regla aplicable es publicable "
                                        "(revision/evidencia incompletas)"),
                               record=record, scopes=hits,
-                              knowledge=KnowledgeStatus.INCOMPLETE)
+                              knowledge=KnowledgeStatus.INCOMPLETE, extra_codes=codes[1:],
+                              trace=trace)
+
+        # (3c) same-rule overlapping versions (H1/D2): never ranked away -------------
+        groups = overlapping_version_groups(eligible)
+        hard = [g for g in groups if not g["material_identical"]]
+        dupes = [g for g in groups if g["material_identical"]]
+        if hard:
+            trace.append({"stage": "overlapping_versions", "groups": hard})
+            conflict_result = self._fail(query, reason=REASON_OVERLAPPING_VERSIONS,
+                                         message=("versiones simultaneamente visibles de la "
+                                                  "misma regla con ventanas de validez "
+                                                  "solapadas y contenido distinto: no puede "
+                                                  "demostrarse la version canonica"),
+                                         record=record, scopes=hits,
+                                         knowledge=KnowledgeStatus.CONFLICTING,
+                                         trace=trace)
+            conflict_result.unresolved_conflicts = hard
+            conflict_result.evidence = self._evidence_for(eligible)
+            return conflict_result
+        if dupes:
+            # duplicate double-entry: same legal content, kept as ONE canonical
+            # description and reported (never silently).
+            trace.append({"stage": "overlapping_versions_duplicates", "groups": dupes})
+            result.warnings.append(
+                "doble registro materialmente identico (se conserva una sola descripcion "
+                "equivalente y se reporta): "
+                + ", ".join(f"{g['rule_id']}{g['seqs']}" for g in dupes))
+            eligible = self._collapse_identical_duplicates(eligible)
         if gap_scopes or empty_scopes:
             result.warnings.append(
                 "cobertura incompleta en ambitos: "
                 + ", ".join(sorted(set(gap_scopes + empty_scopes))))
+
+        # (3d) jurisdictional coverage of REGULATORY scopes (H3/D4) --------------------
+        # A scope is REGULATORY unless a human declared it CONTEXT_ONLY: an
+        # unresolved applicable jurisdiction is not permission. Context-only
+        # scopes still contribute their rules; they just do not demand coverage.
+        eligible_by_scope: dict[str, list[VersionRow]] = {sid: [] for sid in scope_ids}
+        for v in eligible:
+            eligible_by_scope.setdefault(v.spatial_scope_id, []).append(v)
+        uncovered: list[dict[str, Any]] = []
+        context_only: list[str] = []
+        for sid in scope_ids:
+            relevance = (self.store.get_scope(sid) or {}).get("relevance") or "REGULATORY"
+            if relevance == "CONTEXT_ONLY":
+                context_only.append(sid)
+                continue
+            if sid in gap_scopes:
+                uncovered.append({"scope_id": sid, "reason": REASON_TEMPORAL_GAP})
+            elif sid in empty_scopes:
+                uncovered.append({"scope_id": sid, "reason": REASON_NO_KNOWLEDGE})
+            elif not eligible_by_scope.get(sid):
+                uncovered.append({"scope_id": sid, "reason": REASON_NO_ELIGIBLE_RULE})
+        trace.append({"stage": "scope_coverage",
+                      "covering_by_scope": {sid: sorted(v.seq for v in rows)
+                                            for sid, rows in per_scope_covering.items()},
+                      "uncovered_regulatory": uncovered,
+                      "context_only_scopes": context_only})
 
         # (4) engine: capability contract FIRST, then evaluate (F02) --------------------
         kinds, ops, effects = collect_requirements(eligible)
@@ -208,7 +321,8 @@ class Resolver:
                               message=(f"engine {self.engine.name!r} no soporta "
                                        f"{unsupported}; no se degrada silenciosamente"),
                               record=record, scopes=hits,
-                              knowledge=KnowledgeStatus.INCOMPLETE)
+                              knowledge=KnowledgeStatus.INCOMPLETE,
+                              trace=trace)
         try:
             engine_result = self.engine.evaluate(eligible, facts, mode=mode)
         except EngineFailure as e:
@@ -216,7 +330,8 @@ class Resolver:
                           "message": str(e)})
             result.warnings.append(f"motor devolvio {e.reason_code}; fail-closed a UNDETERMINED")
             return self._fail(query, reason=e.reason_code, message=str(e), record=record,
-                              scopes=hits, knowledge=KnowledgeStatus.INCOMPLETE)
+                              scopes=hits, knowledge=KnowledgeStatus.INCOMPLETE,
+                              trace=trace)
         trace.append({"stage": "engine_eval", "engine": self.engine.name,
                       "outcomes": {j.rule_id: j.outcome for j in engine_result.judgments}})
 
@@ -242,7 +357,8 @@ class Resolver:
             return self._fail(query, reason="ENGINE_IDENTITY_MISMATCH",
                               message="engine devolvio versiones ajenas a las evaluadas",
                               record=record, scopes=hits,
-                              knowledge=KnowledgeStatus.INCOMPLETE)
+                              knowledge=KnowledgeStatus.INCOMPLETE,
+                              trace=trace)
         active_versions = [by_seq[s] for s in sorted(active_seqs)]
         relations = self.store.relations_at([v.rule_id for v in active_versions],
                                             query.activity_date, query.knowledge_date)
@@ -259,7 +375,10 @@ class Resolver:
             result.evidence = self._evidence_for(active_versions)
             result.decision_reason = ("conflicto normativo no resuelto (nunca se infiere "
                                       "PERMITTED; nunca first-wins/most-specific-wins)")
-            result.reason_codes = [REASON_UNRESOLVED_CONFLICT]
+            codes = [REASON_UNRESOLVED_CONFLICT]
+            if outcome.ambiguous_relation_ids:
+                codes.append(REASON_AMBIGUOUS_RELATIONS)
+            result.reason_codes = codes
             result.basis = _basis(scope_ids, [v.seq for v in active_versions],
                                   [r["seq"] for r in outcome.relations_used],
                                   self._fragments_of(result.evidence))
@@ -274,19 +393,40 @@ class Resolver:
         if effect is None:
             return self._fail(query, reason=REASON_UNRESOLVED_CONFLICT,
                               message="supervivientes con efectos incompatibles", record=record,
-                              scopes=hits, knowledge=KnowledgeStatus.CONFLICTING)
+                              scopes=hits, knowledge=KnowledgeStatus.CONFLICTING,
+                              trace=trace)
         try:
             legal = LegalStatus(effect)
         except ValueError:
             return self._fail(query, reason="EFFECT_UNMAPPED",
                               message=f"efecto sin mapeo a estado legal: {effect!r}",
-                              record=record, scopes=hits)
+                              record=record, scopes=hits,
+                              trace=trace)
 
         participating = list(outcome.survivors)
         used_rel_seqs = [r["seq"] for r in outcome.relations_used]
         result.evidence = self._evidence_for(participating)
         frag_ids = self._fragments_of(result.evidence)
         doc_ids = self._documents_of(result.evidence)
+
+        # (5b) PERMITTED requires complete REGULATORY coverage (H3/D4) -------------------
+        # Documented semantics: absence of a known prohibition is never a
+        # permission, and neither is an unresolved applicable jurisdiction. A
+        # restrictive answer (PROHIBITED / AUTHORIZATION_REQUIRED) may stand on a
+        # single regulatory scope's positive prohibition — that is legally
+        # sufficient — so this gate only blocks affirmative permission claims.
+        if legal is LegalStatus.PERMITTED and uncovered:
+            result.warnings.append(
+                "PERMITTED bloqueado por cobertura regulatoria incompleta: "
+                + ", ".join(f"{u['scope_id']}({u['reason']})" for u in uncovered))
+            return self._fail(query, reason=REASON_INCOMPLETE_SCOPE_COVERAGE,
+                              message=("ambitos regulatorios aplicables sin cobertura "
+                                       "normativa publicable: "
+                                       + ", ".join(f"{u['scope_id']}({u['reason']})"
+                                                   for u in uncovered)),
+                              record=record, scopes=hits,
+                              knowledge=KnowledgeStatus.INCOMPLETE,
+                              trace=trace)
 
         # (6) PERMITTED invariant gate (F25, defense in depth) ---------------------------
         if legal is LegalStatus.PERMITTED:
@@ -297,14 +437,16 @@ class Resolver:
                 evidence=result.evidence, relations=relations,
                 used_rel_seqs=used_rel_seqs, knowledge_date=query.knowledge_date,
                 engine_result=engine_result,
-                via_coordinates=query.spatial_scope_id is None)
+                via_coordinates=query.spatial_scope_id is None,
+                eligible_versions=eligible, uncovered_regulatory=uncovered)
             if violations:
                 result.warnings.append("PERMITTED bloqueado por el invariant: "
                                        + "; ".join(violations))
                 return self._fail(query, reason=REASON_INVARIANT_VIOLATION,
                                   message="PERMITTED no demostrable: " + "; ".join(violations),
                                   record=record, scopes=hits,
-                                  knowledge=KnowledgeStatus.INCOMPLETE)
+                                  knowledge=KnowledgeStatus.INCOMPLETE,
+                                  trace=trace)
 
         result.legal_status = legal
         result.decision_reason = self._decision_reason(legal, activity, participating)
@@ -369,7 +511,9 @@ class Resolver:
                               used_rel_seqs: list[int],
                               knowledge_date: str,
                               engine_result: Any,
-                              via_coordinates: bool) -> list[str]:
+                              via_coordinates: bool,
+                              eligible_versions: list[VersionRow],
+                              uncovered_regulatory: list[dict[str, Any]]) -> list[str]:
         """Every clause must be PROVABLE for PERMITTED to stand. This is the
         last line of defence, deliberately redundant with the pipeline."""
         v: list[str] = []
@@ -380,11 +524,19 @@ class Resolver:
                 v.append(f"participante no elegible seq {p.seq}")
             elif is_rule_version_eligible(p, self.store):
                 v.append(f"participante perdio elegibilidad seq {p.seq}")
+        # H1/D2: an ambiguous canonical version forbids any affirmative answer
+        if any(not g["material_identical"]
+               for g in overlapping_version_groups(eligible_versions)):
+            v.append("versiones solapadas de la misma regla (OVERLAPPING_RULE_VERSIONS)")
         required = sorted({e for p in participating for e in p.evidence})
         if not required:
             v.append("sin evidencia")
         elif self.store.missing_fragments(required):
             v.append("evidence no resoluble")
+        # H2/D3: unverified citations cannot be laundered by the rule's review
+        if self.store.unpublishable_fragments(sorted({e for p in participating
+                                                      for e in p.evidence})):
+            v.append("evidence no publicable (fragmento sin revisar)")
         if not set(required) <= {e["id"] for e in evidence}:
             v.append("evidence no materializada en el resultado")
         if any(j.outcome not in ("holds", "not_holds") for j in engine_result.judgments):
@@ -392,6 +544,13 @@ class Resolver:
         effects = {p.effect for p in participating}
         if len(effects) != 1 or "PERMITTED" not in effects:
             v.append("efectos no univocos o no permisivos")
+        # H3/D4: every applicable REGULATORY jurisdiction must be covered
+        if uncovered_regulatory:
+            v.append("cobertura regulatoria incompleta: "
+                     + ", ".join(f"{u['scope_id']}({u['reason']})"
+                                 for u in uncovered_regulatory))
+        if ambiguous_relation_groups(relations):
+            v.append("relaciones de precedencia ambiguas (AMBIGUOUS_RELATION_VERSIONS)")
         by_seq = {r.seq: r for r in relations}
         by_rule: dict[str, list[VersionRow]] = {}
         for a in active_versions:
@@ -428,17 +587,50 @@ class Resolver:
         validate_facts(query.facts)
         return v
 
+    # ---- same-rule grouping (H1/D2) ----------------------------------------------------
+    @staticmethod
+    def _group_same_rule(versions: list[VersionRow]) -> dict[tuple[str, str, str],
+                                                             list[VersionRow]]:
+        groups: dict[tuple[str, str, str], list[VersionRow]] = {}
+        for v in versions:
+            groups.setdefault((v.rule_id, v.activity, v.spatial_scope_id), []).append(v)
+        return groups
+
+    @classmethod
+    def _collapse_identical_duplicates(cls, versions: list[VersionRow]) -> list[VersionRow]:
+        """Fold material-identical double entries into one description.
+
+        Choosing among byte-identical descriptions is not a legal tie-break:
+        every candidate asserts the same effect, condition and evidence, so the
+        answer is invariant. Contradictory lineages are never folded here (they
+        are a conflict, handled by the caller)."""
+        out: list[VersionRow] = []
+        for _, rows in sorted(cls._group_same_rule(versions).items()):
+            if len(rows) == 1:
+                out.append(rows[0])
+                continue
+            if len({version_material_signature(v) for v in rows}) == 1:
+                out.append(max(rows, key=lambda v: (v.recorded_at, v.seq)))
+            else:
+                out.extend(rows)
+        return sorted(out, key=lambda v: v.seq)
+
     # ---- fail-closed helper ----------------------------------------------------------------
     def _fail(self, query: Query, *, reason: str, message: str, record: bool,
               scopes: list[ScopeHit] | None = None,
-              knowledge: KnowledgeStatus = KnowledgeStatus.CURRENT) -> ResolveResult:
+              knowledge: KnowledgeStatus = KnowledgeStatus.CURRENT,
+              extra_codes: list[str] | None = None,
+              trace: list[dict[str, Any]] | None = None) -> ResolveResult:
         result = ResolveResult(legal_status=LegalStatus.UNDETERMINED,
                                knowledge_status=knowledge, query=query.as_dict())
         result.warnings.append(STANDING_WARNING)
         result.decision_reason = message
-        result.reason_codes = [reason]
+        result.reason_codes = [reason] + [c for c in (extra_codes or []) if c != reason]
         result.applicable_scope = [h.as_dict() for h in (scopes or [])]
-        result.precedence_trace = [{"stage": "fail_closed", "reason": reason}]
+        # diagnostics of the stages that got here are kept: a fail-closed answer
+        # must still be auditable (which rule was excluded, and why).
+        result.precedence_trace = [dict(t) for t in (trace or [])] + \
+            [{"stage": "fail_closed", "reason": reason}]
         result.basis = _basis([h.scope_id for h in (scopes or [])])
         if record:
             self._record(result, query, True)
@@ -486,7 +678,7 @@ class Resolver:
             "activity": query.activity,
             "queryMode": "coordinates" if query.spatial_scope_id is None else "scope",
             "spatialScopeId": query.spatial_scope_id,
-            "facts": dict(sorted(query.facts.items())),
+            "facts": dict(sorted(query.safe_facts().items())),
             "applicableScopeIds": basis["scope_ids"],
             "ruleVersionSeqs": basis["rule_seqs"],
             "relationVersionSeqs": basis["relation_seqs"],

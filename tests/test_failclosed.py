@@ -142,3 +142,58 @@ def test_unexpected_engine_failure_never_permitted():
                           knowledge_date="2023-06-15", spatial_scope_id=SECTOR))
     assert res.legal_status is LegalStatus.UNDETERMINED
     assert res.reason_codes == ["UNEXPECTED_FAILURE"]
+
+
+# ---- H6: normalized engine / spatial failure paths (explicit coverage) ------
+from alraso.engine import OwnEvaluatorAdapter           # noqa: E402
+from alraso.errors import (EngineBinaryNotFound, EngineNonZeroExit,  # noqa: E402
+                           EngineTimeout, SpatialResolutionError)
+
+
+class _FailingEngine(OwnEvaluatorAdapter):
+    def __init__(self, error: Exception) -> None:
+        self._error = error
+
+    def evaluate(self, versions, facts, mode="fast"):
+        raise self._error
+
+
+@pytest.mark.parametrize("error,code", [
+    (EngineTimeout("axiom timed out"), "ENGINE_TIMEOUT"),
+    (EngineNonZeroExit("axiom exited 1"), "ENGINE_NONZERO_EXIT"),
+    (EngineBinaryNotFound("no binary"), "ENGINE_BINARY_NOT_FOUND"),
+])
+def test_engine_process_failures_are_normalized_not_permitted(error, code):
+    s = BitemporalStore.connect(":memory:")
+    load_ordesa(s)
+    res = Resolver(s, engine=_FailingEngine(error)).resolve(
+        Query(activity="VIVAC_AL_RASO", activity_date="2023-06-15",
+              knowledge_date="2023-06-15", spatial_scope_id=SECTOR))
+    assert res.legal_status is LegalStatus.UNDETERMINED
+    assert res.knowledge_status is KnowledgeStatus.INCOMPLETE
+    assert res.reason_codes == [code]           # named failure, not a traceback
+    assert res.reason_codes != ["UNEXPECTED_FAILURE"]
+    assert res.decision_reason
+
+
+class _BrokenProvider:
+    def __init__(self, error: Exception) -> None:
+        self._error = error
+
+    def resolve(self, lat, lon):
+        raise self._error
+
+
+@pytest.mark.parametrize("error", [RuntimeError("wfs unreachable"),
+                                   SpatialResolutionError("postgis is down")])
+def test_spatial_provider_failure_fails_closed(error):
+    S = "s-geo-boom"
+    s = new_store()
+    scope(s, S, geometry="src", review_status="VERIFIED")
+    rule(s, "alraso:es:t/geo#a", S, "PERMITTED")
+    res = Resolver(s, spatial=_BrokenProvider(error)).resolve(
+        Query(activity="VIVAC_AL_RASO", activity_date="2021-07-15",
+              knowledge_date="2023-06-15", lat=42.05, lon=0.05))
+    assert res.legal_status is LegalStatus.UNDETERMINED
+    assert res.knowledge_status is KnowledgeStatus.INCOMPLETE
+    assert res.reason_codes == ["SPATIAL_RESOLUTION_ERROR"]
