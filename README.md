@@ -24,7 +24,7 @@ input malformado produce `UNDETERMINED` normalizado, jamás un traceback.
 | Capacidad | Estatus | Verificación |
 |---|---|---|
 | Almacén bitemporal SQLite append-only + triggers + FK | **IMPLEMENTED / VALIDATED** | `tests/test_storage_integrity.py` |
-| Motor propio (pure-Python, sin deps) | **IMPLEMENTED / VALIDATED** | suite hermetica (271 passed; paquete stdlib-only, ver nota de perfiles abajo) |
+| Motor propio (pure-Python, sin deps) | **IMPLEMENTED / VALIDATED** | suite hermetica (276 passed; paquete stdlib-only, ver nota de perfiles abajo) |
 | Contrato de motor (capabilities, identidad, invariante PERMITTED) | **IMPLEMENTED / VALIDATED** | `tests/test_engine_contract.py`, `tests/test_invariants.py` |
 | Precedencia bitemporal (grounded, ciclos→conflicto) | **IMPLEMENTED / VALIDATED** | `tests/test_precedence.py` |
 | Composición multi-ámbito con orden canónico | **IMPLEMENTED / VALIDATED** | `tests/test_spatial_composition.py` |
@@ -75,9 +75,9 @@ python -m alraso replay  --db ordesa.db --new-knowledge 2028-01-01             #
 ## Verificación
 
 ```powershell
-python -m pytest -q                                   # 271 hermeticos (sin red ni motor externo)
+python -m pytest -q                                   # 276 hermeticos (sin red ni motor externo)
 powershell -File tooling/clean_wheel.ps1              # gate de instalacion limpia (F09 + H1-H4)
-powershell -File discovery/spikes/m1-axiom-integration/run-docker.ps1  # + Axiom real: 276
+powershell -File discovery/spikes/m1-axiom-integration/run-docker.ps1  # + Axiom real: 281
 ```
 
 Perfiles de la suite hermética (dichos con precisión, porque "0 dependencias" solo
@@ -85,18 +85,21 @@ es cierto para el **paquete**):
 
 | Perfil | Instalado | Resultado |
 |---|---|---|
-| `audit` (el de la auditoría) | `pytest` + extra opcional `alraso[axiom]` (PyYAML), **sin** binario Axiom | 271 passed, 5 skipped (los 5 piden binario Axiom) |
-| `stdlib-only` | sólo `pytest` | 251 passed, 6 skipped — el módulo de proyección RuleSpec se salta entero con motivo explícito |
+| `audit` (el de la auditoría) | `pytest` + extra opcional `alraso[axiom]` (PyYAML), **sin** binario Axiom | 276 passed, 5 skipped (los 5 piden binario Axiom) |
+| `stdlib-only` | sólo `pytest` | 256 passed, 6 skipped — el módulo de proyección RuleSpec se salta entero con motivo explícito |
 
 CI ejecuta ambos perfiles en Python 3.11 y 3.12, más el gate de wheel limpio en
 Linux y el script local `tooling/clean_wheel.ps1` en Windows (`.github/workflows/gates.yml`).
 La integración con Axiom real es un workflow **manual y no bloqueante**
 (`axiom-integration.yml`): prueba comportamiento contra el motor real, nunca paridad.
 
-La evidencia de descubrimiento de geometría oficial para M1.1 (WFS/CSW de
-ICEARAGON, clasificación `NO_OFFICIAL_VECTOR_SCOPE_FOUND` y re-verificación
-reproducible con `tooling/m11_vector_discovery.py --verify`) está en
-`docs/ALRASO-M11-VECTOR-DISCOVERY.md`.
+La evidencia de descubrimiento de geometría oficial para M1.1 está en
+`docs/ALRASO-M11-VECTOR-DISCOVERY.md`: WFS/CSW de ICEARAGON
+(`NO_OFFICIAL_VECTOR_SCOPE_FOUND`, re-verificable con
+`tooling/m11_vector_discovery.py --verify`) y estudio del Anexo 11.5 de
+cartografía del PRUG (clasificación `D2`: mapa oficial sin frontera sectorial
+inequívoca y obsoleto). La rama espacial de M1.1 queda cerrada en
+`SPATIAL_EVIDENCE_INCOMPLETE`.
 
 Versiones e identidades fijadas en `tooling/DEPENDENCIES.lock.json`
 (Axiom v0.2.2 commit `d142c64`, SHA-256 del binario; `rulespec/v1+m1r1`;
