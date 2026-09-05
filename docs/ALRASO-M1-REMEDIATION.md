@@ -9,8 +9,8 @@ audited F01–F09) · `RESOLVER_VERSION=0.2.1-hardening` (la remediacion publico
 
 | Gate | Resultado |
 |---|---|
-| Suite hermetica (host, Python 3.11.15, sin red ni motor externo) | **266 passed, 5 skipped** (los 5 requieren binario Axiom). Perfil de dependencias, dicho con precision: el **paquete** es stdlib-only; la suite usa ademas el extra opcional `alraso[axiom]` (PyYAML) para los 20 tests de proyeccion RuleSpec, que **se saltan con motivo explicito** si PyYAML no esta instalado (246 passed, 6 skipped). CI verifica los dos perfiles |
-| Suite completa con Axiom real (Docker, python:3.12-slim, `run-docker.ps1`) | **271 passed, 0 skipped** |
+| Suite hermetica (host, Python 3.11.15, sin red ni motor externo) | **271 passed, 5 skipped** (los 5 requieren binario Axiom). Perfil de dependencias, dicho con precision: el **paquete** es stdlib-only; la suite usa ademas el extra opcional `alraso[axiom]` (PyYAML) para los 20 tests de proyeccion RuleSpec, que **se saltan con motivo explicito** si PyYAML no esta instalado (251 passed, 6 skipped). CI verifica los dos perfiles |
+| Suite completa con Axiom real (Docker, python:3.12-slim, `run-docker.ps1`) | **276 passed, 0 skipped** |
 | Clean-wheel gate (`tooling/clean_wheel.ps1`, venv limpio fuera del checkout) | **PASS** (build, install, import desde site-packages, CLI help, fixture empaquetado, resolve PERMITTED/PROHIBITED, y safety smoke F01+H1+H2+H3+H4 contra el paquete INSTALADO) |
 | Identidad binario Axiom | SHA-256 `d4078c4659344c7ac07cc53d5e512e5dffb74c0e08f06885aeb6b7d38d93f229` == lock (v0.2.2 commit `d142c64`) |
 | Falsos PERMITTED | **0** (barridos adversariales en `tests/test_invariants.py`: ejes F25 + ejes de endurecimiento H1–H4) |
