@@ -1,0 +1,120 @@
+name: gates
+
+# Blocking gates: everything here is deterministic and needs no external engine,
+# no Docker and no pinned binary. The real-Axiom gate is a separate, optional
+# workflow (axiom-integration.yml) because the adapter stays EXPERIMENTAL_ADAPTER
+# and AXIOM_PARITY=NOT_PROVEN.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hermetic:
+    name: hermetic suite (py${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: install only the dev extra (core is stdlib-only by design)
+        run: python -m pip install --upgrade pip "pytest>=8"
+      - name: run suite
+        run: |
+          python -m pytest -q -rs > pytest.log 2>&1
+          status=$?
+          cat pytest.log
+          exit $status
+      - name: only Axiom-dependent tests may skip, and the suite stays big
+        run: |
+          python - <<'PY'
+          import re, sys
+          text = open("pytest.log", encoding="utf-8", errors="replace").read()
+          skips = [l.strip() for l in text.splitlines() if l.startswith("SKIPPED [")]
+          unexpected = [l for l in skips if "ALRASO_AXIOM" not in l]
+          summary = [l for l in text.splitlines() if re.search(r"\d+ passed", l)]
+          print(f"skips={len(skips)} unexpected_skips={len(unexpected)}")
+          for line in unexpected:
+              print("UNEXPECTED SKIP:", line)
+          if not summary:
+              print("FAIL: no pass summary line (suite did not finish)")
+              sys.exit(1)
+          passed = int(re.search(r"(\d+) passed", summary[-1]).group(1))
+          print(summary[-1])
+          # floor, not exact: catches silent collection loss without pinning CI to
+          # a number that changes every time a test is added.
+          if passed < 250:
+              print(f"FAIL: only {passed} tests passed (expected >= 250)")
+              sys.exit(1)
+          if unexpected:
+              sys.exit(1)
+          PY
+
+  clean-wheel:
+    name: clean wheel + installed smoke (linux)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: build wheel OUT OF TREE
+        run: |
+          python -m pip install --upgrade pip "setuptools>=77" wheel
+          rm -rf "$RUNNER_TEMP/wheels"
+          mkdir -p "$RUNNER_TEMP/wheels"
+          python -m pip wheel --no-deps --wheel-dir "$RUNNER_TEMP/wheels" .
+      - name: fresh venv outside the checkout
+        run: |
+          python -m venv "$RUNNER_TEMP/venv"
+          "$RUNNER_TEMP/venv/bin/python" -m pip install --quiet "$RUNNER_TEMP"/wheels/alraso-*.whl
+      - name: import from the venv only, CLI works, smoke battery passes
+        run: |
+          cd "$RUNNER_TEMP"
+          VPY="$RUNNER_TEMP/venv/bin/python"
+          "$VPY" -c "import alraso; assert 'site-packages' in alraso.__file__, alraso.__file__; print('import ok:', alraso.__file__)"
+          "$VPY" -m alraso --help > /dev/null
+          "$VPY" "$GITHUB_WORKSPACE/tooling/smoke_installed.py"
+      - name: wheel identity (license + packaged fixture) survives packaging
+        run: |
+          python - <<'PY'
+          import glob, os, zipfile
+          wheel = sorted(glob.glob(os.path.join(os.environ["RUNNER_TEMP"], "wheels",
+                                                "alraso-*.whl")))[-1]
+          zf = zipfile.ZipFile(wheel)
+          names = zf.namelist()
+          meta = zf.read([n for n in names if n.endswith("METADATA")][0]).decode()
+          checks = {
+              "License-Expression: Apache-2.0": "License-Expression: Apache-2.0" in meta,
+              "bundled LICENSE": any(n.endswith("licenses/LICENSE") for n in names),
+              "bundled NOTICE.md": any(n.endswith("licenses/NOTICE.md") for n in names),
+              "packaged fixture": any(n.endswith("alraso/resources/fixture_ordesa.json")
+                                      for n in names),
+              "requires-python >=3.11": "Requires-Python: >=3.11" in meta,
+          }
+          for label, ok in checks.items():
+              print(("ok   " if ok else "FAIL ") + label)
+          raise SystemExit(0 if all(checks.values()) else 1)
+          PY
+
+  clean-wheel-windows:
+    name: clean wheel gate (windows, same script as locally)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: run tooling/clean_wheel.ps1 exactly as on the dev machine
+        shell: pwsh
+        run: ./tooling/clean_wheel.ps1
