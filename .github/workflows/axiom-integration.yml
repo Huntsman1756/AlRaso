@@ -75,6 +75,7 @@ jobs:
         run: |
           mkdir -p "$ALRASO_AXIOM_ROOT"
           python -m pip install --upgrade pip "pytest>=8" "PyYAML>=6,<7"
+          set +e                      # capture pytest's own status, then show the log
           python -m pytest -q -rs > axiom.log 2>&1
           status=$?
           cat axiom.log
