@@ -84,8 +84,17 @@ Versiones e identidades pinnadas en `tooling/DEPENDENCIES.lock.json`
 (Axiom v0.2.2 commit `d142c64`, SHA-256 del binario; `rulespec/v1+m1r1`;
 `schema m1r2`; `resolver 0.2.1-hardening`).
 
+## Licencia y atribuciones
+
+- Código propio de AlRaso: **Apache-2.0** → [`LICENSE`](LICENSE).
+- Datos, textos oficiales, material judicial y componentes externos: →
+  [`NOTICE.md`](NOTICE.md), con procedencia, hash y estado de verificación de las
+  condiciones de reutilización de cada fuente (Apache-2.0 **no** relicencia esos
+  materiales).
+
 ## Advertencia permanente
 
 Este software determina regímenes normativos codificados en el corpus. Las restricciones
 operativas (reservas, accesos, avisos de la dirección del parque) NO están cubiertas y
-el resultado SIEMPRE lleva ese warning. No es asesoramiento jurídico.
+el resultado SIEMPRE lleva ese warning. No es asesoramiento jurídico. El software se
+proporciona "TAL CUAL", sin garantías de ningún tipo (sección 8 de Apache-2.0).

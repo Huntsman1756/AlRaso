@@ -1,14 +1,31 @@
 [build-system]
-requires = ["setuptools>=68"]
+# >=77 for PEP 639 (SPDX `license` string + `license-files`).
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "alraso"
 version = "0.2.1"
 description = "AlRaso pure bitemporal geospatial legal resolver (Milestone 1 pilot, Ordesa)"
+readme = "README.md"
 requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE.md"]
+authors = [{ name = "AlRaso contributors" }]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Scientific/Engineering :: GIS",
+]
 # Core is stdlib-only BY DESIGN (fail-closed, minimal supply chain).
 dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/Huntsman1756/AlRaso"
+Repository = "https://github.com/Huntsman1756/AlRaso"
+Issues = "https://github.com/Huntsman1756/AlRaso/issues"
 
 [project.optional-dependencies]
 # Axiom is an EXPERIMENTAL adapter (AXIOM_PARITY=NOT_PROVEN); never required

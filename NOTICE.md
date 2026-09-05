@@ -1,0 +1,81 @@
+# NOTICE — terceros, datos y condiciones de reutilización
+
+Este archivo acompaña a `LICENSE` (Apache License 2.0) y **no relicencia nada de
+terceros**. `LICENSE` cubre exclusivamente el código propio de AlRaso. Todo lo
+listado aquí mantiene la licencia o condiciones de su propio titular, y AlRaso
+declara de forma explícita qué está verificado y qué no.
+
+Convención de honestidad usada en todo el proyecto: un hecho se afirma solo si
+está comprobado; si no lo está, se marca como `NOT_VERIFIED` en lugar de
+presentarse como cumplido.
+
+## 1. Software de terceros
+
+| Componente | Licencia | Cómo se usa | ¿Se distribuye en este repo? |
+|---|---|---|---|
+| [Axiom Rules Engine](https://github.com/TheAxiomFoundation/axiom-rules-engine) v0.2.2 (commit `d142c64`) | Apache-2.0 (verificado en el `LICENSE` del checkout usado) | Motor externo **opcional** vía CLI, detrás de `AxiomCliAdapter`. Estado declarado: `AXIOM_STATUS=EXPERIMENTAL_ADAPTER`, `AXIOM_PARITY=NOT_PROVEN`. El motor por defecto es el evaluador propio (`DEFAULT_ENGINE=own`). | **No**: ni código fuente ni binario. El binario Linux usado en la integración se identifica por SHA-256 en `tooling/DEPENDENCIES.lock.json` (`d4078c46…f229`) |
+| Corpus `rulespec-es` (raíces de reglas del adapter Axiom) | `NOT_VERIFIED` (no se han registrado las condiciones del corpus) | Montado solo en la ejecución Docker de integración vía `ALRASO_AXIOM_ROOT`; nunca se copia al paquete | **No** |
+| PyYAML (`>=6,<7`) | MIT (metadatos PyPI) | Solo extra `alraso[axiom]` (serialización RuleSpec) | **No** (dependencia declarada, no empaquetada) |
+| pytest (`>=8`) | MIT (metadatos PyPI) | Solo extra `dev` (suites de prueba) | **No** |
+| psycopg (`>=3,<4`) | LGPL-3.0-only (metadatos PyPI) | Solo extra `postgis`, que corresponde a `POSTGRES_NORMATIVE_STORE_STATUS=NOT_IMPLEMENTED`: no hay almacén PostgreSQL funcional | **No** |
+
+El núcleo de AlRaso es **stdlib-only por diseño**; nada de lo anterior es
+necesario para la ruta por defecto.
+
+## 2. Textos normativos oficiales (usados como evidencia)
+
+Se reproduce texto literal de disposiciones oficiales como evidencia citable de
+las determinaciones. Los textos oficiales de las Administraciones públicas
+españolas están excluidos de protección por derecho de autor (art. 8.1 del
+RDL 1/1996, TRLPI); aun así, las **condiciones de reutilización de cada portal
+están `NOT_VERIFIED`** y su comprobación es tarea pendiente (M1.1).
+
+| Disposición | Fuente | URL canónica registrada | Estado de la cita |
+|---|---|---|---|
+| Ley 52/1982 (reclasificación y ampliación del PN Ordesa y Monte Perdido) | BOE | `https://www.boe.es/eli/es/l/1982-07-13/52` | verificada |
+| RD 409/1995 (PRUG originario, vigencia agotada) | BOE | `https://www.boe.es/buscar/act.php?id=BOE-A-1995-11259` | verificada |
+| Decreto 49/2015 (PRUG PNOMP, Aragón) | BOA n.º 80 (29-04-2015) | PDF consolidado oficial en `aragon.es` / copia MITECO; **deep-link BOA pendiente** (`TAREA_INGESTA`) | parcial |
+| Decreto 16/2022 (modifica el régimen de pernocta del sector Ordesa) | BOA (8-02-2022) | listado oficial `https://pnomp.es/es/legislacion`; **deep-link BOA pendiente** (`TAREA_INGESTA`) | parcial |
+| Decreto 18/2020 (PRUG PN Sierra de Guadarrama) — extracto | BOCM extraordinario n.º 29 (29-02-2020) | texto consolidado oficial (extracto local, ver hash abajo) | evidencia M2, no usada en M1 |
+
+## 3. Material judicial (identificación, no redistribución)
+
+`discovery/evidence/guadarrama-prug/` contiene **registros de identificación** de
+sentencias del TSJ de Madrid (Sala Contencioso-Administrativa, Sección 8.ª) que
+afectan al PRUG de Guadarrama: `1135/2021` (rec. 431/2020) y `1003/2022`, entre
+otras. No se distribuye el texto de las sentencias: la identificación se apoya en
+las notas del **texto consolidado oficial** publicado en BOCM. La obtención del
+ECLI vía CENDOJ está **diferida** y documentada como tarea (`tsjm-evidence-registry.json`).
+
+## 4. Datos geoespaciales
+
+Ninguno de estos datos sustenta hoy una determinación `PERMITTED` por coordenadas:
+el fixture de aceptación declara `SPATIAL_REVIEW_PENDING_GEOMETRY` y
+`M1_ORDESA_REAL_WORLD_SPATIAL=NOT_VALIDATED`. La validación extremo a extremo con
+geometría oficial es exactamente el alcance de **M1.1**.
+
+| Conjunto | Procedencia | Fecha de obtención | SHA-256 | Estado de las condiciones de reutilización |
+|---|---|---|---|---|
+| Límites de PN + ZPP (17 parques + AEP Guadarrama), GeoJSON WFS 2.0.0 | OAPN/MITECO, GeoServer: `https://sigred.oapn.es/geoserverOAPN/LimitesParquesNacionalesZPP/ows?...request=GetFeature&typeNames=LimitesParquesNacionalesZPP:view_red_oapn_limite_pn&outputFormat=application/json` → `discovery/spikes/spike-b-postgis/oapn-limites.geojson` | 2026-09-05 | `7fc5077b223475d69287e2121ed37b7f56b691d7a6df6aa16c7a90be5d678770` (coincide con el hash registrado en `discovery/spikes/spike-b-postgis/README.md`) | `NOT_VERIFIED` |
+| Zonificación de espacios naturales protegidos (muestra de la descarga oficial RedNat ENP, 33 features) | Gobierno de Aragón / IDEAragon: `https://idearagon.aragon.es/datosdescarga/descarga.php?file=MA_MedioNatural/ProtectedSites/rednat_enp.json.zip` → muestra en `discovery/evidence/aragon-wfs-enp-zonificacion-muestra.geojson` (entidad `V112_RZ_ENPZonificacion`) | 2026-09-05 | `06b1dc6e4b8aece9b5bc456084a819c0…` (muestra recortada, hash propio) | `NOT_VERIFIED` |
+| Extracto del PRUG de Guadarrama y contexto de sentencias (texto) | BOCM / registro propio de evidencia | 2026-09-05 | `c267b53402f8b1480fc185c703a65b55…` y `eeec4af07231ace71e4e60ab7da1a8b0…` | ver sección 2 |
+
+Nota: OAPN no versiona sus descargas, por eso el hash por descarga es obligatorio
+en este proyecto. Si en el futuro se incorporan datasets de OSM, PMTiles,
+Refuges.info u otros, se añaden aquí con su licencia y atribución originales.
+
+## 5. Sin garantía / no asesoramiento jurídico
+
+El software se proporciona "TAL CUAL", sin garantías de ningún tipo, conforme a
+la sección 8 de Apache-2.0. Determina regímenes normativos codificados en el
+corpus ingestado; **no** cubre restricciones operativas (reservas, accesos,
+avisos de la dirección del parque) y **no** es asesoramiento jurídico. Cada
+resultado lleva ese warning de forma permanente.
+
+```text
+CODE_LICENSE=Apache-2.0
+THIRD_PARTY_CODE_DISTRIBUTED=none
+THIRD_PARTY_DATA_DISTRIBUTED=official_gis_samples (see section 4)
+DATA_REUSE_TERMS_VERIFICATION=NOT_VERIFIED (M1.1 task)
+DISCLAIMER=NO_WARRANTY_NOT_LEGAL_ADVICE
+```
