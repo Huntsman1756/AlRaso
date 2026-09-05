@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "alraso"
-version = "0.2.0"
+version = "0.2.1"
 description = "AlRaso pure bitemporal geospatial legal resolver (Milestone 1 pilot, Ordesa)"
 requires-python = ">=3.11"
 # Core is stdlib-only BY DESIGN (fail-closed, minimal supply chain).

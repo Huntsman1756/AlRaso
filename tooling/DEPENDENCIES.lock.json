@@ -22,5 +22,5 @@
   },
   "rulespec_compiler_contract_version": "rulespec/v1+m1r1",
   "schema_version": "m1r2",
-  "resolver_version": "0.2.0-remediation"
+  "resolver_version": "0.2.1-hardening"
 }

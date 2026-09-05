@@ -1,6 +1,17 @@
 # MILESTONE-1 — Pure Resolver (CLI, sin mapa): estado
 
-**Fecha:** 2026-09-05
+> **ATENCIÓN — DOCUMENTO HISTÓRICO (no describe el estado actual).**
+> Este archivo es la evidencia del hito tal como se cerró ANTES de la ronda de
+> remediación (F01–F25) y de la ronda de endurecimiento (H1–H6). Sus tokens
+> (p. ej. `M1_STATUS=CORE_COMPLETE_PILOT_ACCEPTANCE_PASS`, "evaluador propio
+> paridad completa", `TESTS=23/25`) están **superados** y no deben citarse como
+> estado vigente. El estado vigente está en `README.md` y
+> `docs/ALRASO-M1-REMEDIATION.md`. En concreto: no se afirma paridad con Axiom
+> (`AXIOM_PARITY=NOT_PROVEN` por diseño), el motor por defecto es el evaluador
+> propio, y `M1_STATUS` vigente lo publica la ronda de endurecimiento.
+
+**Fecha:** 2026-09-05 (histórico)
+
 **Alcance de referencia:** discovery §L "Milestone 1" (BD bitemporal, ingesta de evidencia
 de un piloto, wrapper Axiom, resolve() con salida completa, suite de replay temporal,
 casos Ordesa pre/post D 16/2022).
@@ -52,16 +63,18 @@ casos Ordesa pre/post D 16/2022).
 4. Versiones de regla para el resto de modalidades del piloto (PERNOCTA_REFUGIO,
    ACAMPADA por sectores, TARP) con revisión humana.
 
-## Tokens
+## Tokens (históricos: ver el aviso de arriba; el estado vigente está en README.md)
 
 ```text
-M1_STATUS=CORE_COMPLETE_PILOT_ACCEPTANCE_PASS
+M1_STATUS=CORE_COMPLETE_PILOT_ACCEPTANCE_PASS   # SUPERADO: ver README.md / ALRASO-M1-REMEDIATION.md
 RESOLVER_CONTRACT=COMPLETE (legalStatus, knowledgeStatus, applicableScope, conditions,
 ruleVersions, evidence, precedenceTrace, unresolvedConflicts, warnings, decisionReason)
 ORDESA_CASES=2021->PERMITTED; 2023->PROHIBITED (CLI+tests, fixture canonico)
 BITEMPORAL_GUARANTEES=append-only-db-enforced; late-discovery-replay-verified; STALE-audit-ok
 FAIL_CLOSED_TESTED=6 caminos, ninguno produce PERMITTED
 ENGINE_INTEGRATION=AXIOM_REAL_BINARY 25/25 PASSED (docker); evaluador propio paridad completa
+    # SUPERADO: la paridad con Axiom NO se afirma (AXIOM_PARITY=NOT_PROVEN); la bateria
+    # compartida Own/Axiom no es una prueba de equivalencia (ver test_engine_contract.py)
 TESTS=23 passed + 2 skipped (host); 25 passed (docker, motor real)
 NEXT=geometria oficial sector Ordesa + fetcher/snapshots WORM + deep-link BOA + modalidades restantes
 ```

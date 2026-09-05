@@ -82,20 +82,96 @@ print("wheel smoke OK:", pre.legal_status.value, "/", post.legal_status.value)
     $safety = @'
 from alraso.bitemporal import BitemporalStore
 from alraso.domain import LegalStatus, Query
+from alraso.errors import OverlappingRuleVersions
 from alraso.resolver import Resolver
 from alraso.engine_axiom import AXIOM_STATUS, AXIOM_PARITY
 
+Q = dict(activity="VIVAC_AL_RASO", activity_date="2021-01-01", knowledge_date="2023-01-01",
+         spatial_scope_id="s")
+
+DOC = {"id": "sd", "authority": "A", "jurisdiction": "ES", "document_type": "T",
+       "title": "T", "canonical_url": "https://example.test/t"}
+
+
+def store_with_scope(relevance=None, fragment_status="VERIFIED"):
+    store = BitemporalStore.connect(":memory:")
+    scope = {"id": "s", "scope_type": "OTHER", "official_name": "S"}
+    if relevance is not None:
+        scope["relevance"] = relevance
+    store.add_spatial_scope(scope)
+    store.add_source_document(DOC)
+    store.add_legal_fragment({"id": "lf", "source_document_id": "sd", "locator": "art. 1",
+                              "review_status": fragment_status})
+    return store
+
+
+def add_rule(store, effect, rid, ef="2020-01-01", review="VERIFIED", evidence=("lf",)):
+    store.add_rule_version({"rule_id": rid, "activity": "VIVAC_AL_RASO",
+                            "spatial_scope_id": "s", "effect": effect,
+                            "effective_from": ef, "recorded_at": "2020-06-01",
+                            "review_status": review, "legal_review_complete": True,
+                            "evidence": list(evidence)})
+
+
+# F01: unreviewed rule cannot permit
+store = store_with_scope()
+add_rule(store, "PERMITTED", "alraso:es:t#w#rr", review="REVIEW_REQUIRED", evidence=())
+res = Resolver(store).resolve(Query(**Q))
+assert res.legal_status is LegalStatus.UNDETERMINED, "unreviewed rule permitted!"
+
+# H1: two visible lineages of one rule_id with overlapping valid time are refused
+store = store_with_scope()
+add_rule(store, "PERMITTED", "alraso:es:t#w#ov")
+try:
+    add_rule(store, "PROHIBITED", "alraso:es:t#w#ov", ef="2020-06-01")
+    raise AssertionError("overlapping rule versions were accepted")
+except OverlappingRuleVersions:
+    pass
+assert Resolver(store).resolve(Query(**Q)).legal_status is LegalStatus.PERMITTED
+
+# H2: a rule cannot be publishable on evidence that is not publishable
+store = store_with_scope(fragment_status="DISCOVERED")
+add_rule(store, "PERMITTED", "alraso:es:t#w#ev")
+res = Resolver(store).resolve(Query(**Q))
+assert res.legal_status is LegalStatus.UNDETERMINED, "unverified fragment permitted!"
+assert "EVIDENCE_NOT_PUBLISHABLE" in res.reason_codes, res.reason_codes
+
+# H3: an applicable REGULATORY scope with no publishable coverage is not permission
+from alraso.spatial import InMemorySpatialProvider
+
 store = BitemporalStore.connect(":memory:")
-store.add_spatial_scope({"id": "s", "scope_type": "OTHER", "official_name": "S"})
-store.add_rule_version({"rule_id": "alraso:es:t#w#p", "activity": "VIVAC_AL_RASO",
+store.add_source_document({"id": "sd", "authority": "A", "jurisdiction": "ES",
+                           "document_type": "T", "title": "T",
+                           "canonical_url": "https://example.test/t"})
+store.add_legal_fragment({"id": "lf", "source_document_id": "sd", "locator": "art. 1",
+                          "review_status": "VERIFIED"})
+for sid in ("s", "s2"):
+    store.add_spatial_scope({"id": sid, "scope_type": "OTHER", "official_name": sid,
+                             "geometry_source": "sd", "review_status": "VERIFIED"})
+store.add_rule_version({"rule_id": "alraso:es:t#w#cov", "activity": "VIVAC_AL_RASO",
                         "spatial_scope_id": "s", "effect": "PERMITTED",
                         "effective_from": "2020-01-01", "recorded_at": "2020-06-01",
-                        "review_status": "REVIEW_REQUIRED", "evidence": []})
-res = Resolver(store).resolve(Query(activity="VIVAC_AL_RASO", activity_date="2021-01-01",
-                                    knowledge_date="2023-01-01", spatial_scope_id="s"))
-assert res.legal_status is LegalStatus.UNDETERMINED, "unreviewed rule permitted!"
+                        "review_status": "VERIFIED", "legal_review_complete": True,
+                        "spatial_review_complete": True, "evidence": ["lf"]})
+prov = InMemorySpatialProvider()
+prov.add_scope("s", "s", "OTHER", [[(0.0, 0.0), (0.0, 1.0), (1.0, 1.0), (1.0, 0.0)]])
+prov.add_scope("s2", "s2", "OTHER", [[(0.5, 0.5), (0.5, 1.5), (1.5, 1.5), (1.5, 0.5)]])
+res = Resolver(store, spatial=prov).resolve(
+    Query(activity="VIVAC_AL_RASO", activity_date="2021-01-01",
+          knowledge_date="2023-01-01", lat=0.7, lon=0.7))
+assert res.legal_status is LegalStatus.UNDETERMINED, "PERMITTED over uncovered jurisdiction"
+assert "INCOMPLETE_SCOPE_COVERAGE" in res.reason_codes, res.reason_codes
+
+# H4: malformed facts never escape as a traceback
+store = store_with_scope()
+add_rule(store, "PERMITTED", "alraso:es:t#w#ok")
+res = Resolver(store).resolve(Query(**Q, facts="nope"))
+assert res.legal_status is LegalStatus.UNDETERMINED and res.reason_codes, res
+assert Resolver(store).resolve(Query(**Q)).legal_status is LegalStatus.PERMITTED
+
 assert AXIOM_STATUS == "EXPERIMENTAL_ADAPTER" and AXIOM_PARITY == "NOT_PROVEN"
-print("safety smoke OK: unreviewed rule cannot permit")
+print("safety smoke OK: F01 unreviewed, H1 overlap, H2 fragment, H3 coverage, "
+      "H4 malformed facts")
 '@
     $safetyFile = Join-Path $smoke "safety_smoke.py"
     Set-Content -LiteralPath $safetyFile -Value $safety -Encoding UTF8
