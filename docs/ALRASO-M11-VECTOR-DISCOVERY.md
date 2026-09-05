@@ -101,3 +101,56 @@ Provenance obligatoria de cualquier derivado futuro: `source_document`,
 `source_map_number`, `source_page`, `source_sha256`, `source_crs`,
 `digitization_method`, `digitization_tool_version`, `operator`, `reviewer`,
 `derived_geometry_sha256`.
+
+## Resultado M1.1-B: `D2` — rama CERRADA (2026-09-05)
+
+Evidencia fijada: `tooling/m11b_prug_annex.evidence.json` (URLs canónicas,
+`retrieved_at`, SHA-256 y verbatim por página, extraídos del PDF oficial).
+
+Documentos: "Actualización del PRUG. Febrero 2022" (95 págs.) y
+**Anexo 11.5. Cartografía** (`ORDESA_PRUG_MAPAS.pdf`, 101 págs., vector, CRS
+declarado en todos los mapas: `ETRS'89/GRS80/UTM huso 30T`, fecha del anexo
+2013; contenido de aragon.es bajo **CC BY 4.0**).
+
+Cadena normativa verificada:
+
+```text
+PRUG 9.2.1 (p.33): "el Parque Nacional se divide en cuatro sectores, definidos
+  por las cuencas hidrográficas de los ríos Arazas (Sector Ordesa), Bellós
+  (Sector Añisclo), Yaga (Sector Escuaín) y Cinca (Sector Pineta)"
+    -> PRUG 9.2.1.3.1 (p.39): vivac PROHIBIDO en el sector Ordesa (excepción
+       cupo Góriz); en el resto, restringido sobre cotas 1.650/1.800/2.550 m
+       "(Véase Anexo 11.5 Cartografía. Mapa 88)"
+        -> Mapa 88 (Anexo p.92): leyenda = Zonas de Vivac por cotas
+           (Ordesa 2.500 / Añisclo 1.650 / Escuaín 1.800 / Pineta 2.550)
+```
+
+Por qué `D2` y no `D1`:
+
+1. **El Mapa 88 no delimita el Sector Ordesa**: sus polígonos son *bandas de
+   altitud* (zonas de vivac), no la frontera sectorial. Ninguna de las 101
+   páginas del anexo dibuja la cuenca del Arazas como línea: la frontera
+   sectorial está definida jurídicamente por cuenca, pero **no cartografiada**.
+2. **El mapa está obsoleto y contradice la norma vigente.** Mapa 88 lleva
+   `Fecha: 2013` y su leyenda admite vivac "Ordesa: cota 2.500 m"; el texto
+   operativo de 2022 lo **prohíbe** en todo el Sector Ordesa salvo Góriz. Usar
+   ese mapa como geometría operativa sería aplicar una regla muerta — y
+   *parecería* correcto, que es el peor fallo posible.
+3. El anexo arrastra un registro OCG huérfano (2.231 entradas, 174 nombres)
+   donde **ninguna página pinta** una capa `sector`/`vivac`/`acampada`: la
+   geometría está aplanada, así que ni siquiera una conversión podría separarla
+   de forma fiable por etiqueta.
+
+Góriz, aparte y ahora con cadena jurídica: la propia norma (p.20) cita
+*"Zona de acampada de alta montaña adyacente al refugio de Góriz (Anexo 11.5
+Cartografía. Mapa 29)"* → el vínculo `NORMA → Mapa 29 → polígono` **sí está
+probado** (sube de candidato B a A *para ese ámbito concreto*, que no es el
+sector). Sigue prohibido mezclarlo con la delimitación sectorial.
+
+Consecuencia: se mantiene **`SPATIAL_EVIDENCE_INCOMPLETE`** y la rama espacial
+de M1.1 queda **cerrada** según lo acordado. Si algún día se reabre, el único
+camino honesto es la derivación de la cuenca del Arazas (PRUG 9.2.1) mediante
+protocolo explícito + revisión humana independiente, etiquetada siempre como
+*derivado propio a partir de cartografía normativa oficial*. El runtime no
+cambia: la regla de pernocta de Sector Ordesa seguirá devolviendo `UNDETERMINED`
+por cobertura espacial incompleta antes que inventar una frontera.

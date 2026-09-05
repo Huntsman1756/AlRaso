@@ -1,0 +1,84 @@
+{
+  "schema": "alraso-m11b-prug-cartography-evidence/v1",
+  "phase": "M1.1-B",
+  "question": "Does the normative annex cartography of the PRUG contain an explicit, unambiguous delimitation of Sector Ordesa?",
+  "retrieved_at": "2026-09-05T20:05:55.965672+00:00",
+  "recorded_at": "2026-09-05T20:18:04.602126+00:00",
+  "classification": "D2",
+  "classification_label": "OFFICIAL_MAP_BUT_BOUNDARY_NOT_UNAMBIGUOUS",
+  "spatial_status_after": "SPATIAL_EVIDENCE_INCOMPLETE (branch closed per policy)",
+  "authority": "Gobierno de Aragon - Departamento de Medio Ambiente (planificacion de ENP)",
+  "source_page_index": "https://www.aragon.es/-/planificacion-y-gestion-de-los-espacios-naturales-protegidos",
+  "page_license": "CC BY 4.0 (stated at page footer: 'Todo el contenido bajo licencia CC BY 4.0')",
+  "normative_documents": {
+    "prug_update_2022": {
+      "label": "Actualizacion del PRUG. Febrero 2022",
+      "source_document": "ORDESA_PRUG_202202.pdf",
+      "url": "https://www.aragon.es/documents/20127/3427740/ORDESA_PRUG_202202.pdf/a57774e9-9bcc-1763-c516-572c871332df?t=1680181987809",
+      "sha256": "bec715b70c30d482b7942b5870d8a39763b9ea2451f706b834e9f031c2a2940f",
+      "bytes": 1049218,
+      "pages": 95,
+      "pdf_metadata_title": "PRUG. Parque Nacional de Ordesa y Monte Perdido",
+      "creator": "Microsoft Word 2016, Author 'Aurelio Morales', created 2022-02-17"
+    },
+    "annex_11_5_cartography": {
+      "label": "Anexo 11.5. Cartografia",
+      "source_document": "ORDESA_PRUG_MAPAS.pdf",
+      "url": "https://www.aragon.es/documents/20127/3427740/ORDESA_PRUG_MAPAS.pdf/824f22f6-971a-6b96-81bf-0d19fbb42c2e?t=1685364857340",
+      "sha256": "2b801679cddc106f9074518327178ed02c4f3b98b61360c48add7327fdc8cf52",
+      "bytes": 54497898,
+      "pages": 101,
+      "format": "vector PDF (0/101 pages without extractable text); CRS stated on every map: ETRS'89 / GRS80 / UTM huso 30T"
+    },
+    "referenced_not_downloaded": {
+      "aprobacion_prug_boa_2015": "http://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=851182221717",
+      "modificacion_prug_boa_2022": "http://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1205403022828&type=pdf"
+    }
+  },
+  "chain": {
+    "norma": {
+      "sectors_defined_by_basins": {
+        "source_page": 33,
+        "verbatim": ".1 La visita A efectos de la vis ita, el Parque Nacional se divide en cuatro sectores, definidos por las cuencas hidrográficas de los ríos Arazas (Sector Ordesa), Bellós (Sector Añisclo), Yaga (Sector Escuaín) y Cinca (Sector Pineta). Durante la vigencia del presente PRUG se limitará el n úmero de visitantes y el tipo de ac"
+      },
+      "vivac_rule": {
+        "source_page": 39,
+        "verbatim": "establecer las regulaciones oportunas. 9.2.1.3. La pernocta 9.2.1.3.1. Vivac y acampada nocturna. La actividad del vivac o acampada nocturna queda prohibida en el sector Ordesa, con la excepción, hasta el 31 de diciembre de 2023, de un cupo de 90 personas que se establece para la Zona de Uso Moderado de Góriz en los casos de aforo completo del refugio. A partir de esa fecha dicho cupo quedará reducido a 50 personas. En todo caso, la pernocta no excederá de tres noches. En el resto de sectores del Parque Nacional esta actividad queda restringida a los terrenos por encima de las siguientes cotas de altitud, estableciendo que la pernocta en un mismo sector no excederá de tres noches: · Añisclo: 1.650 m. (Fuenblanca). · Escuaín: 1.800 m. (La Ralla). · Pineta: 2.550 m. (por encima del Balcón de Pineta). (Véase Anexo 11.5 Cartogra"
+      },
+      "goriz_camping_zone": {
+        "source_page": 20,
+        "verbatim": "ampos y masadas de Aso (Anexo 11.5 Cartografía. Mapa 28).  Zona de acampada de alta montaña adyacente al refugio de Góriz ( Anexo 11.5 Cartografía. Mapa 29). Las zonas de uso moderado ocupan una superficie de 115,89 ha."
+      }
+    },
+    "mapa_88": {
+      "source_map_number": 88,
+      "annex_page": 92,
+      "legend_verbatim": "SercuéRío Ara Río Cinca Río Bellos Rio Yaga Río Arazas Río Ara Río CincaNerín EscuainBroto Bielsa Torla Oto Sarvise BelsierreGallisue Lafortunada Laspuña Javierre Vio Sase Buesa Linas de Broto Espierba Puyarruego Cortillas Fanlo Asín de BrotoBergua Tella Viu Parzán Bestue Cajol Sasa Ceresa Yeba Buerba Fragen Gere Salinas Basarán Burgase Hospital de Parzán Ceresuela Puértolas Escalona Casal (El) Revilla Hospital Buisan Badain Chisagüés Santa María Castellar Bies Santa Justa San Felices de Ara 727000 732000 737000 742000 747000 752000 757000 762000 4710000 4715000 4720000 4725000 4730000 4735000 4740000 NORMATIVA PNOMP: Áreas de vivac o acampada nocturna Mapa 88: Fecha: 2013 ­ PLAN RECTOR DE USO Y GESTIÓN DEL PARQUE NACIONAL DE ORDESA Y MONTE PERDIDO Y SU ZONA PERIFÉRICA DE PROTECCIÓN. Escala: 0 2 4 6 8 101 Kilómetros ÁREAS DE VIAC O DE ACAMPADA NOCTURNA - Ordesa: cota 2.500 metros - Añisclo: cota 1.650 metros - Escuaín: cota 1.800 metros - Pineta: cota 2.550 metros Leyenda Límite PNOMP Límite ZPP Carreteras Pistas forestales Pista forestal asfaltada en MUP 66 Red hidrográfica Ibones o lagos Núcleos de población Zonas de vivac y acampada nocturna Zona de Vivac en Ordesa Zona de Vivac en Añisclo Zona de Vivac en Escuaín Zona de Vivac en Pineta M A P A S D E S I T U A C I Ó NM A P A S D E S I T U A C I Ó N !. !. !. !. !. Aínsa Broto Torla Bielsa Boltaña S o b r a r b eS o b r a r b e F R AN C I AF R AN C I A Sistema de referencia ETRS'89. Elipsoide GRS80. Proyección UTM HUSO 30T Superficie total: 7.511,17 ha",
+      "stated_date": "2013"
+    },
+    "mapa_29_goriz": {
+      "source_map_number": 29,
+      "annex_page": 33,
+      "legend_excerpt": "Río Arazas ZONAS DE USO MODERADO Zona de acampada de alta montaña adyacente al refugio de Góriz Mapa 29: Fecha: 2013 ­ PLAN RECTOR DE USO Y GESTIÓN DEL PARQUE NACIONAL DE ORDESA Y MONTE PERDIDO Y SU ZONA PERIFÉRICA DE PROTECCIÓN. Escala: Leyenda Ríos principales Resto red fluvial Zona de acampada de alta montaña M A P A S D E S I "
+    },
+    "map_inventory_88": {
+      "source_page": 86,
+      "verbatim": " Cuello Gordo, desde Cuello Arenas hasta bajo Cuello Gordo. 88. Áreas de vivac o acampada nocturna."
+    }
+  },
+  "findings": [
+      "Mapa 88 exists, is named by the rule text itself (Vease Anexo 11.5 Cartografia. Mapa 88), and shows the four 'Zonas de Vivac' polygons (Ordesa/Añisclo/Escuaín/Pineta) defined by altitude quotas (2.500/1.650/1.800/2.550 m) with total area 7.511,17 ha.",
+      "Mapa 88 does NOT draw a Sector Ordesa boundary: the polygons it delimits are altitude bands (vivac areas), not the sector. The sector is defined elsewhere in the text by the Arazas hydrographic basin, a watershed that no annex page draws as a line.",
+      "STALENESS / CONFLICT: Mapa 88 is dated 2013 and its legend reads 'Ordesa: cota 2.500 metros' (i.e. vivac permitted above 2.500 m in Ordesa), while the operative 2022 text PROHIBITS vivac in the whole Sector Ordesa except the Góriz quota. The annex map is therefore not the current expression of the rule and must not be used as its operative geometry.",
+      "GORIZ legal link PROVEN: PRUG text names 'Zona de acampada de alta montaña adyacente al refugio de Góriz' with explicit reference 'Anexo 11.5 Cartografía. Mapa 29' -> the legal chain for that polygon is now demonstrable (was grade-B candidate in the WFS discovery).",
+    "The annex carries an orphaned OCG registry (2.231 entries; 174 unique layer names) but no page paints a layer named sector/vivac/acampada: the geometry is flattened into generic layers, so even a hypothetical conversion could not tag-separate it reliably."
+  ],
+  "derivation_path_if_reopened": [
+    "sector boundary = watershed of Rio Arazas per PRUG 9.2.1; a reproducible derivation would need an explicit protocol (pour points, official DEM MDT02 already identified in the WFS phase, hydrography source, documented parameters) plus independent human review; this is OUR derived geometry from official normative cartography, never 'official vector geometry'."
+  ],
+  "policy": {
+    "digitization_allowed": false,
+    "mapa_88_as_operative_geometry": "FORBIDDEN (2013 vintage, contradicts 2022 text for Ordesa)",
+    "goriz_polygon_must_stay_separate_from_sector_delimitation": true
+  }
+}
