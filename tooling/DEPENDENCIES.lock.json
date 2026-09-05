@@ -1,0 +1,26 @@
+{
+  "schema": "alraso-dependencies-lock/v1",
+  "purpose": "Reproducible identity for the M1 pilot environment (remediation F09). Not a pip lockfile: the runtime package is stdlib-only; this pins what the repo's executable verification depends on.",
+  "python": {
+    "tested": ["3.11.15 (Windows, hermetic suite)", "3.12 (Docker, real-Axiom integration)"],
+    "minimum": "3.11"
+  },
+  "python_packages": {
+    "pytest": {"pin": ">=8", "used_for": "dev/test extra only"},
+    "PyYAML": {"pin": ">=6,<7", "used_for": "alraso[axiom] extra only; core stays dep-free"}
+  },
+  "axiom": {
+    "status": "EXPERIMENTAL_ADAPTER",
+    "parity_claim": false,
+    "repository_version": "0.2.2",
+    "commit": "d142c64",
+    "binary": {
+      "target": "x86-64-unknown-linux-gnu (release)",
+      "sha256": "d4078c4659344c7ac07cc53d5e512e5dffb74c0e08f06885aeb6b7d38d93f229",
+      "build": "cargo build --release under rust:1-slim (see discovery/spikes/m1-axiom-integration/run-docker.ps1)"
+    }
+  },
+  "rulespec_compiler_contract_version": "rulespec/v1+m1r1",
+  "schema_version": "m1r2",
+  "resolver_version": "0.2.0-remediation"
+}

@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "alraso"
+version = "0.2.0"
+description = "AlRaso pure bitemporal geospatial legal resolver (Milestone 1 pilot, Ordesa)"
+requires-python = ">=3.11"
+# Core is stdlib-only BY DESIGN (fail-closed, minimal supply chain).
+dependencies = []
+
+[project.optional-dependencies]
+# Axiom is an EXPERIMENTAL adapter (AXIOM_PARITY=NOT_PROVEN); never required
+# for the default OwnEvaluator path.
+axiom = ["PyYAML>=6,<7"]
+postgis = ["psycopg[binary]>=3,<4"]
+dev = ["pytest>=8"]
+
+[project.scripts]
+alraso = "alraso.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["alraso*"]
+
+[tool.setuptools.package-data]
+"alraso.resources" = ["*.json"]
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+testpaths = ["tests"]
