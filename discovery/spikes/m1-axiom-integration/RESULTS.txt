@@ -1,0 +1,39 @@
+SPIKE M1 — AxiomCliAdapter contra el binario real (Linux x86_64 d142c64, via docker)
+Fecha: 2026-09-05
+Ejecución: run-docker.ps1 (o el comando docker equivalente; imagen python:3.12-slim —
+Debian 13 trixie, glibc compatible con el binario construido en rust:1-slim).
+
+Pipeline ejecutado (el del producto real):
+  store SQLite bitemporal con fixture Ordesa
+   -> store.select(activity, scope, activity_date, knowledge_date)   [la BD manda: el
+                                                                      wrapper SELECCIONA]
+   -> alraso.engine_axiom.generate_rulespec(covering)                [proyeccion rulespec/v1;
+                                                                      YAML via yaml.safe_dump]
+   -> AxiomCliAdapter.compile_bundle                                 [cache por sha256(YAML); F2.1B]
+   -> binario run-compiled + modo explain                            [JSON in/out]
+
+RESULTADO REAL:
+pre-override  activity_date=2021-07-15 knowledge=2023-06-15 -> PERMITTED  (want PERMITTED)  ks=672d34a30728 [OK]
+post-override activity_date=2023-06-15 knowledge=2023-06-15 -> PROHIBITED (want PROHIBITED) ks=345121a778b7 [OK]
+cached_compiled_artifacts: 2 ['345121a778b74312.compiled.json', '672d34a30728fc30.compiled.json']
+distinct knowledge-states: 2 -> ['PERMITTED', 'PROHIBITED']
+AXIOM_INTEGRATION: PASS
+
+Suite completa DENTRO de docker (incluye tests/test_axiom_adapter.py contra el binario):
+  25 passed in 0.96s
+Suite en host Windows (tests de Axiom se saltan limpiamente):
+  23 passed, 2 skipped
+
+Lecciones de interfaz (aplicadas en alraso/engine_axiom.py):
+1. El engine EXIGE que --rulespec-root se nombre exactamente "rulespec-<pais>". Es un nombre de
+   contrato del motor, no una copia del repositorio rulespec-es (sin licencia): nuestro contenido
+   se genera en tiempo de ejecucion bajo <root>/es/policies/vivac/<hash>.yaml.
+2. La ruta de fichero de un modulo = module_id con ":" -> "/" (el primer segmento es el directorio
+   de jurisdiccion). Bug detectado en esta sesion: al construir la ruta se perdio el prefijo de
+   jurisdiccion -> error "root-level policies/ is forbidden". Corregido y cubierto por tests.
+3. El cache de compilacion por hash de contenido funciona en flujo real: 2 knowledge-states
+   distintos = 2 artefactos; re-solicitar el mismo estado NO recompila (tests/test_axiom_adapter.py
+   ::test_compile_cache_is_content_addressed comprueba que el artefacto no se reescribe).
+
+tests/test_axiom_adapter.py se ejecuta automaticamente cuando ALRASO_AXIOM_BIN y
+ALRASO_AXIOM_ROOT estan definidos; fuera de docker se salta sin fallos.

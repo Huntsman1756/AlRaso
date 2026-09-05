@@ -1,0 +1,116 @@
+format: rulespec/v1
+module:
+  summary: |-
+    F2.1A SPIKE — Activity as a closed type over a single Text input + match.
+
+    TECHNICAL DISCOVERY ONLY — thresholds are placeholders. Goal: prove that a
+    single closed-vocabulary `activity_name` Text input with exhaustive
+    `match` arms + `_ => false` fallback gives enum-like behaviour: unknown
+    values fail closed, impossible states (two modalities at once) are
+    structurally unrepresentable, and a missing input is a hard engine error
+    (mapped to UNDETERMINED by our wrapper).
+rules:
+  - name: actividad_conocida_flag
+    kind: derived
+    entity: Location
+    dtype: Boolean
+    period: Day
+    versions:
+      - effective_from: '2020-01-01'
+        formula: |-
+          match activity_name:
+              "VIVAC_AL_RASO" => true
+              "FUNDA_VIVAC" => true
+              "TIENDA_NOCTURNA" => true
+              "TARP" => true
+              "ACAMPADA" => true
+              "PERNOCTA_REFUGIO" => true
+              "VEHICULO" => true
+              _ => false
+
+  - name: modalidad_conocida
+    kind: derived
+    entity: Location
+    dtype: Judgment
+    period: Day
+    versions:
+      - effective_from: '2020-01-01'
+        formula: actividad_conocida_flag == true
+
+  - name: actividad_refugio
+    kind: derived
+    entity: Location
+    dtype: Boolean
+    period: Day
+    versions:
+      - effective_from: '2020-01-01'
+        formula: |-
+          match activity_name:
+              "PERNOCTA_REFUGIO" => true
+              _ => false
+
+  - name: actividad_vivac_raso
+    kind: derived
+    entity: Location
+    dtype: Boolean
+    period: Day
+    versions:
+      - effective_from: '2020-01-01'
+        formula: |-
+          match activity_name:
+              "VIVAC_AL_RASO" => true
+              _ => false
+
+  - name: actividad_tienda_o_tarp
+    kind: derived
+    entity: Location
+    dtype: Boolean
+    period: Day
+    versions:
+      - effective_from: '2020-01-01'
+        formula: |-
+          match activity_name:
+              "FUNDA_VIVAC" => true
+              "TIENDA_NOCTURNA" => true
+              "TARP" => true
+              _ => false
+
+  - name: caso_permitida
+    kind: derived
+    entity: Location
+    dtype: Judgment
+    period: Day
+    versions:
+      - effective_from: '2020-01-01'
+        formula: |-
+          modalidad_conocida and ((actividad_refugio == true and inside_refugio_zone) or (actividad_vivac_raso == true and altitude_m >= 1800 and not inside_zona_servicios))
+
+  - name: caso_autorizacion
+    kind: derived
+    entity: Location
+    dtype: Judgment
+    period: Day
+    versions:
+      - effective_from: '2020-01-01'
+        formula: |-
+          modalidad_conocida and (actividad_tienda_o_tarp == true) and inside_park and not caso_permitida
+
+  - name: caso_prohibida
+    kind: derived
+    entity: Location
+    dtype: Judgment
+    period: Day
+    versions:
+      - effective_from: '2020-01-01'
+        formula: |-
+          modalidad_conocida and not caso_permitida and not caso_autorizacion
+
+  - name: resolucion_unica
+    kind: derived
+    entity: Location
+    dtype: Judgment
+    period: Day
+    versions:
+      - effective_from: '2020-01-01'
+        formula: |-
+          exactly_one(caso_permitida, caso_autorizacion, caso_prohibida)

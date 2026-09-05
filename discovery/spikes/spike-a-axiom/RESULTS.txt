@@ -1,0 +1,67 @@
+﻿===== case1_bivouac_1742m_2023
+  excepcion_refugio => not_holds
+  excepcion_vivac_cota => not_holds
+  pernocta_permitida => not_holds
+  pernocta_prohibida => holds
+  pernocta_requiere_autorizacion => not_holds
+  resolucion_unica => holds
+  assessment_date_echo: (none)
+  trace[unica].executed: ((es:policies/vivac/picos-spike#pernocta_permitida and not (es:policies/vivac/picos-spike#pernocta_requiere_autorizacion) and not (es:policies/vivac/picos-spike
+===== case2_bivouac_above_threshold
+  excepcion_refugio => not_holds
+  excepcion_vivac_cota => holds
+  pernocta_permitida => holds
+  pernocta_prohibida => not_holds
+  pernocta_requiere_autorizacion => not_holds
+  resolucion_unica => holds
+  assessment_date_echo: (none)
+  trace[unica].executed: ((es:policies/vivac/picos-spike#pernocta_permitida and not (es:policies/vivac/picos-spike#pernocta_requiere_autorizacion) and not (es:policies/vivac/picos-spike
+===== case3_same_point_period_2021
+  excepcion_refugio => not_holds
+  excepcion_vivac_cota => holds
+  pernocta_permitida => holds
+  pernocta_prohibida => not_holds
+  pernocta_requiere_autorizacion => not_holds
+  resolucion_unica => holds
+  assessment_date_echo: (none)
+  trace[unica].executed: ((es:policies/vivac/picos-spike#pernocta_permitida and not (es:policies/vivac/picos-spike#pernocta_requiere_autorizacion) and not (es:policies/vivac/picos-spike
+===== case4_tent_requires_auth
+  excepcion_refugio => not_holds
+  excepcion_vivac_cota => not_holds
+  pernocta_permitida => not_holds
+  pernocta_prohibida => not_holds
+  pernocta_requiere_autorizacion => holds
+  resolucion_unica => holds
+  assessment_date_echo: (none)
+  trace[unica].executed: ((es:policies/vivac/picos-spike#pernocta_permitida and not (es:policies/vivac/picos-spike#pernocta_requiere_autorizacion) and not (es:policies/vivac/picos-spike
+===== case5_group_too_big
+  excepcion_refugio => not_holds
+  excepcion_vivac_cota => not_holds
+  pernocta_permitida => not_holds
+  pernocta_prohibida => holds
+  pernocta_requiere_autorizacion => not_holds
+  resolucion_unica => holds
+  assessment_date_echo: (none)
+  trace[unica].executed: ((es:policies/vivac/picos-spike#pernocta_permitida and not (es:policies/vivac/picos-spike#pernocta_requiere_autorizacion) and not (es:policies/vivac/picos-spike
+===== case6_outside_scope
+  excepcion_refugio => not_holds
+  excepcion_vivac_cota => not_holds
+  pernocta_permitida => not_holds
+  pernocta_prohibida => not_holds
+  pernocta_requiere_autorizacion => not_holds
+  resolucion_unica => not_holds
+  assessment_date_echo: (none)
+  trace[unica].executed: ((es:policies/vivac/picos-spike#pernocta_permitida and not (es:policies/vivac/picos-spike#pernocta_requiere_autorizacion) and not (es:policies/vivac/picos-spike
+===== case7_missing_altitude
+RAW: missing input `altitude_m` for entity `loc:p1` over 2023-07-15..2023-07-16
+EXITCODE=1
+
+===== case8_assessment_date_probe
+  excepcion_refugio => not_holds
+  excepcion_vivac_cota => not_holds
+  pernocta_permitida => not_holds
+  pernocta_prohibida => holds
+  pernocta_requiere_autorizacion => not_holds
+  resolucion_unica => holds
+  assessment_date_echo: 2023-12-31
+  trace[unica].executed: ((es:policies/vivac/picos-spike#pernocta_permitida and not (es:policies/vivac/picos-spike#pernocta_requiere_autorizacion) and not (es:policies/vivac/picos-spike

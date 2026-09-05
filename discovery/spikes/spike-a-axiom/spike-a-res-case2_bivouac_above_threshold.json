@@ -1,0 +1,222 @@
+﻿{
+  "metadata": {
+    "requested_mode": "explain",
+    "actual_mode": "explain",
+    "fallback_reason": null
+  },
+  "results": [
+    {
+      "entity_id": "loc:p1",
+      "period": {
+        "period_kind": "custom",
+        "name": "day",
+        "start": "2023-07-15",
+        "end": "2023-07-16"
+      },
+      "outputs": {
+        "es:policies/vivac/picos-spike#excepcion_refugio": {
+          "kind": "judgment",
+          "name": "excepcion_refugio",
+          "id": "es:policies/vivac/picos-spike#excepcion_refugio",
+          "unit": null,
+          "outcome": "not_holds"
+        },
+        "es:policies/vivac/picos-spike#excepcion_vivac_cota": {
+          "kind": "judgment",
+          "name": "excepcion_vivac_cota",
+          "id": "es:policies/vivac/picos-spike#excepcion_vivac_cota",
+          "unit": null,
+          "outcome": "holds"
+        },
+        "es:policies/vivac/picos-spike#pernocta_permitida": {
+          "kind": "judgment",
+          "name": "pernocta_permitida",
+          "id": "es:policies/vivac/picos-spike#pernocta_permitida",
+          "unit": null,
+          "outcome": "holds"
+        },
+        "es:policies/vivac/picos-spike#pernocta_prohibida": {
+          "kind": "judgment",
+          "name": "pernocta_prohibida",
+          "id": "es:policies/vivac/picos-spike#pernocta_prohibida",
+          "unit": null,
+          "outcome": "not_holds"
+        },
+        "es:policies/vivac/picos-spike#pernocta_requiere_autorizacion": {
+          "kind": "judgment",
+          "name": "pernocta_requiere_autorizacion",
+          "id": "es:policies/vivac/picos-spike#pernocta_requiere_autorizacion",
+          "unit": null,
+          "outcome": "not_holds"
+        },
+        "es:policies/vivac/picos-spike#resolucion_unica": {
+          "kind": "judgment",
+          "name": "resolucion_unica",
+          "id": "es:policies/vivac/picos-spike#resolucion_unica",
+          "unit": null,
+          "outcome": "holds"
+        }
+      },
+      "trace": {
+        "es:policies/vivac/picos-spike#dentro_parque": {
+          "kind": "judgment",
+          "name": "dentro_parque",
+          "id": "es:policies/vivac/picos-spike#dentro_parque",
+          "entity_id": "loc:p1",
+          "unit": null,
+          "outcome": "holds",
+          "source": "SPIKE-DEMO park-extent fact (PostGIS point-in-polygon in production)",
+          "source_url": "https://example.invalid/spike",
+          "executed_expression": "(input(\"inside_park\") == true)",
+          "dependencies": []
+        },
+        "es:policies/vivac/picos-spike#excepcion_refugio": {
+          "kind": "judgment",
+          "name": "excepcion_refugio",
+          "id": "es:policies/vivac/picos-spike#excepcion_refugio",
+          "entity_id": "loc:p1",
+          "unit": null,
+          "outcome": "not_holds",
+          "executed_expression": "((input(\"is_refuge\") == true) and (input(\"inside_refugio_zone\") == true))",
+          "dependencies": []
+        },
+        "es:policies/vivac/picos-spike#excepcion_vivac_cota": {
+          "kind": "judgment",
+          "name": "excepcion_vivac_cota",
+          "id": "es:policies/vivac/picos-spike#excepcion_vivac_cota",
+          "entity_id": "loc:p1",
+          "unit": null,
+          "outcome": "holds",
+          "executed_expression": "(((input(\"is_bivouac\") == true) and (input(\"altitude_m\") >= es:policies/vivac/picos-spike#vivac_altitude_min[0])) and not ((input(\"inside_zona_servicios\") == true)))",
+          "parameter_reads": [
+            {
+              "parameter": "es:policies/vivac/picos-spike#vivac_altitude_min",
+              "name": "vivac_altitude_min",
+              "id": "es:policies/vivac/picos-spike#vivac_altitude_min",
+              "index": 0,
+              "value": {
+                "kind": "integer",
+                "value": 1800
+              },
+              "effective_from": "2022-02-09"
+            }
+          ],
+          "dependencies": []
+        },
+        "es:policies/vivac/picos-spike#grupo_dentro_limite": {
+          "kind": "judgment",
+          "name": "grupo_dentro_limite",
+          "id": "es:policies/vivac/picos-spike#grupo_dentro_limite",
+          "entity_id": "loc:p1",
+          "unit": null,
+          "outcome": "holds",
+          "executed_expression": "(input(\"party_size\") <= es:policies/vivac/picos-spike#max_group_size[0])",
+          "parameter_reads": [
+            {
+              "parameter": "es:policies/vivac/picos-spike#max_group_size",
+              "name": "max_group_size",
+              "id": "es:policies/vivac/picos-spike#max_group_size",
+              "index": 0,
+              "value": {
+                "kind": "integer",
+                "value": 10
+              },
+              "effective_from": "2020-01-01"
+            }
+          ],
+          "dependencies": []
+        },
+        "es:policies/vivac/picos-spike#pernocta_permitida": {
+          "kind": "judgment",
+          "name": "pernocta_permitida",
+          "id": "es:policies/vivac/picos-spike#pernocta_permitida",
+          "entity_id": "loc:p1",
+          "unit": null,
+          "outcome": "holds",
+          "executed_expression": "((es:policies/vivac/picos-spike#dentro_parque and (es:policies/vivac/picos-spike#excepcion_vivac_cota or es:policies/vivac/picos-spike#excepcion_refugio)) and es:policies/vivac/picos-spike#grupo_dentro_limite)",
+          "dependencies": [
+            "es:policies/vivac/picos-spike#dentro_parque",
+            "es:policies/vivac/picos-spike#excepcion_vivac_cota",
+            "es:policies/vivac/picos-spike#grupo_dentro_limite"
+          ],
+          "not_evaluated_dependencies": [
+            {
+              "dependency": "es:policies/vivac/picos-spike#excepcion_refugio",
+              "reason": "short_circuit"
+            }
+          ]
+        },
+        "es:policies/vivac/picos-spike#pernocta_prohibida": {
+          "kind": "judgment",
+          "name": "pernocta_prohibida",
+          "id": "es:policies/vivac/picos-spike#pernocta_prohibida",
+          "entity_id": "loc:p1",
+          "unit": null,
+          "outcome": "not_holds",
+          "executed_expression": "((es:policies/vivac/picos-spike#dentro_parque and not (es:policies/vivac/picos-spike#pernocta_permitida)) and not (es:policies/vivac/picos-spike#pernocta_requiere_autorizacion))",
+          "dependencies": [
+            "es:policies/vivac/picos-spike#dentro_parque",
+            "es:policies/vivac/picos-spike#pernocta_permitida"
+          ],
+          "not_evaluated_dependencies": [
+            {
+              "dependency": "es:policies/vivac/picos-spike#pernocta_requiere_autorizacion",
+              "reason": "short_circuit"
+            }
+          ]
+        },
+        "es:policies/vivac/picos-spike#pernocta_requiere_autorizacion": {
+          "kind": "judgment",
+          "name": "pernocta_requiere_autorizacion",
+          "id": "es:policies/vivac/picos-spike#pernocta_requiere_autorizacion",
+          "entity_id": "loc:p1",
+          "unit": null,
+          "outcome": "not_holds",
+          "executed_expression": "(((es:policies/vivac/picos-spike#dentro_parque and (input(\"is_tent\") == true)) and es:policies/vivac/picos-spike#grupo_dentro_limite) and not (es:policies/vivac/picos-spike#pernocta_permitida))",
+          "dependencies": [
+            "es:policies/vivac/picos-spike#dentro_parque"
+          ],
+          "not_evaluated_dependencies": [
+            {
+              "dependency": "es:policies/vivac/picos-spike#grupo_dentro_limite",
+              "reason": "short_circuit"
+            },
+            {
+              "dependency": "es:policies/vivac/picos-spike#pernocta_permitida",
+              "reason": "short_circuit"
+            }
+          ]
+        },
+        "es:policies/vivac/picos-spike#resolucion_unica": {
+          "kind": "judgment",
+          "name": "resolucion_unica",
+          "id": "es:policies/vivac/picos-spike#resolucion_unica",
+          "entity_id": "loc:p1",
+          "unit": null,
+          "outcome": "holds",
+          "executed_expression": "((es:policies/vivac/picos-spike#pernocta_permitida and not (es:policies/vivac/picos-spike#pernocta_requiere_autorizacion) and not (es:policies/vivac/picos-spike#pernocta_prohibida)) or (not (es:policies/vivac/picos-spike#pernocta_permitida) and es:policies/vivac/picos-spike#pernocta_requiere_autorizacion and not (es:policies/vivac/picos-spike#pernocta_prohibida)) or (not (es:policies/vivac/picos-spike#pernocta_permitida) and not (es:policies/vivac/picos-spike#pernocta_requiere_autorizacion) and es:policies/vivac/picos-spike#pernocta_prohibida))",
+          "dependencies": [
+            "es:policies/vivac/picos-spike#pernocta_permitida",
+            "es:policies/vivac/picos-spike#pernocta_requiere_autorizacion",
+            "es:policies/vivac/picos-spike#pernocta_prohibida"
+          ],
+          "not_evaluated_dependencies": [
+            {
+              "dependency": "es:policies/vivac/picos-spike#pernocta_permitida",
+              "reason": "short_circuit"
+            },
+            {
+              "dependency": "es:policies/vivac/picos-spike#pernocta_requiere_autorizacion",
+              "reason": "short_circuit"
+            },
+            {
+              "dependency": "es:policies/vivac/picos-spike#pernocta_prohibida",
+              "reason": "short_circuit"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+EXITCODE=0

@@ -1,0 +1,9 @@
+﻿== 1. resolve(activity_date=2023-06-15, knowledge_date=2023-06-15)  [before discovery]
+  -> ('PERMITTED', 'effective 2020-01-01.., recorded 2020-06-01', 'RD 409/1995 anexo I D.a')
+== late discovery in 2027: append-only correction
+== 2. resolve(activity_date=2023-06-15, knowledge_date=2028-01-01)  [after discovery]
+  -> ('PROHIBITED', 'effective 2022-02-09.., recorded 2027-05-10', 'D 16/2022 BOA 8-2-2022')
+== 3. vigilant counterfactual: decree recorded 2022-02-20, knowledge 2023-06-15
+  -> ('PROHIBITED', 'effective 2022-02-09.., recorded 2022-02-20', 'D 16/2022 BOA 8-2-2022 (vigilant)')
+== 4. retro-audit: replay 2023 determination under both knowledge dates
+  answered then: PERMITTED | in force (today's knowledge): PROHIBITED -> flag STALE + re-review

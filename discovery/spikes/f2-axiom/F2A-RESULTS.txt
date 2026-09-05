@@ -1,0 +1,51 @@
+﻿===== a1_known_activity
+  caso_autorizacion => not_holds
+  caso_permitida => holds
+  caso_prohibida => not_holds
+  modalidad_conocida => holds
+  resolucion_unica => holds
+===== a2_unknown_activity
+  caso_autorizacion => not_holds
+  caso_permitida => not_holds
+  caso_prohibida => not_holds
+  modalidad_conocida => not_holds
+  resolucion_unica => not_holds
+===== a3_lowercase_unmatched
+  caso_autorizacion => not_holds
+  caso_permitida => not_holds
+  caso_prohibida => not_holds
+  modalidad_conocida => not_holds
+  resolucion_unica => not_holds
+===== a4_missing_activity_input
+  HARD_ERROR: missing input `activity_name` for entity `loc:p1` over 2023-07-15..2023-07-16
+EXITCODE=1
+===== a5_refuge_activity
+  caso_autorizacion => not_holds
+  caso_permitida => holds
+  caso_prohibida => not_holds
+  modalidad_conocida => holds
+  resolucion_unica => holds
+===== a6_tent_activity
+  caso_autorizacion => holds
+  caso_permitida => not_holds
+  caso_prohibida => not_holds
+  modalidad_conocida => holds
+  resolucion_unica => holds
+===== p1_two_modalities (2026-09-05, re-run session: duplicate activity_name facts, VIVAC_AL_RASO + ACAMPADA, same entity+interval)
+  HARD_ERROR: ambiguous input `activity_name` for entity `loc:p1`: records effective from 2023-07-15
+  have conflicting values; merge or split the spells so one value applies at each start date
+EXITCODE=1
+===== p2_combined_value (single Text "VIVAC_AL_RASO;ACAMPADA")
+  caso_autorizacion => not_holds
+  caso_permitida => not_holds
+  caso_prohibida => not_holds
+  modalidad_conocida => not_holds
+  resolucion_unica => not_holds
+  (fail-closed: unknown literal falls to `_ => false` arm; wrapper maps resolucion_unica=not_holds -> UNDETERMINED)
+===== CONCLUSION F2.1A
+  Activity como Text cerrado + match exhaustivo + fallback `_`:
+  - valor conocido => correcto; valor desconocido / casing incorrecto / valor compuesto => fail-closed (not_holds global);
+  - hecho faltante => error duro del engine (mapeable a UNDETERMINED+INCOMPLETE);
+  - dos modalidades simultáneas: estructuralmente irrepresentables con un único input Text;
+    incluso introducidas a la fuerza (hechos duplicados) producen HARD ERROR del engine.
+  AXIOM_ACTIVITY_MODEL=TEXT_MATCH_ACCEPTABLE

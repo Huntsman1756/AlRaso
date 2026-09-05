@@ -1,0 +1,121 @@
+format: rulespec/v1
+module:
+  summary: |-
+    SPIKE A (TECHNICAL DISCOVERY ONLY — NOT LEGAL ADVICE, NOT ENCODED LAW).
+
+    Synthetic Picos-de-Europa-shaped bivouac/pernocta module used to test
+    whether the Axiom rules-engine paradigm fits a geospatial normative
+    resolver. All thresholds are PLACEHOLDERS for engineering validation;
+    they do not reproduce any real provision. Facts (inside_park, altitude,
+    zone flags) are the normalized facts that PostGIS would supply.
+
+    Demonstrates: versioned rules (valid time), a parameter override
+    (threshold change), authorization-required case, group-size condition,
+    exactly_one single-outcome gate, and fail-closed behaviour outside the
+    modelled scope.
+rules:
+  - name: vivac_altitude_min
+    kind: parameter
+    dtype: Integer
+    versions:
+      - effective_from: '2020-01-01'
+        formula: '1600'
+      - effective_from: '2022-02-09'
+        formula: '1800'
+
+  - name: max_group_size
+    kind: parameter
+    dtype: Integer
+    versions:
+      - effective_from: '2020-01-01'
+        formula: '10'
+
+  - name: dentro_parque
+    kind: derived
+    entity: Location
+    dtype: Judgment
+    period: Day
+    sources:
+      - citation: SPIKE-DEMO park-extent fact (PostGIS point-in-polygon in production)
+        url: https://example.invalid/spike
+    versions:
+      - effective_from: '2020-01-01'
+        formula: inside_park
+
+  - name: excepcion_vivac_cota
+    kind: derived
+    entity: Location
+    dtype: Judgment
+    period: Day
+    versions:
+      - effective_from: '2020-01-01'
+        formula: |-
+          is_bivouac and altitude_m >= vivac_altitude_min and not inside_zona_servicios
+
+  - name: excepcion_refugio
+    kind: derived
+    entity: Location
+    dtype: Judgment
+    period: Day
+    versions:
+      - effective_from: '2020-01-01'
+        formula: is_refuge and inside_refugio_zone
+
+  - name: grupo_dentro_limite
+    kind: derived
+    entity: Location
+    dtype: Judgment
+    period: Day
+    versions:
+      - effective_from: '2020-01-01'
+        formula: party_size <= max_group_size
+
+  - name: pernocta_permitida
+    kind: derived
+    entity: Location
+    dtype: Judgment
+    period: Day
+    versions:
+      - effective_from: '2020-01-01'
+        formula: |-
+          dentro_parque and (excepcion_vivac_cota or excepcion_refugio) and grupo_dentro_limite
+
+  - name: pernocta_requiere_autorizacion
+    kind: derived
+    entity: Location
+    dtype: Judgment
+    period: Day
+    versions:
+      - effective_from: '2020-01-01'
+        formula: |-
+          dentro_parque and is_tent and grupo_dentro_limite and not pernocta_permitida
+
+  - name: pernocta_prohibida
+    kind: derived
+    entity: Location
+    dtype: Judgment
+    period: Day
+    versions:
+      - effective_from: '2020-01-01'
+        formula: |-
+          dentro_parque and not pernocta_permitida and not pernocta_requiere_autorizacion
+
+  - name: resolucion_unica
+    kind: derived
+    entity: Location
+    dtype: Judgment
+    period: Day
+    versions:
+      - effective_from: '2020-01-01'
+        formula: |-
+          exactly_one(pernocta_permitida, pernocta_requiere_autorizacion, pernocta_prohibida)
+
+  - name: viveac_en_zona_servicios
+    kind: derived
+    entity: Location
+    dtype: Judgment
+    period: Day
+    versions:
+      - effective_from: '2020-01-01'
+        formula: |-
+          dentro_parque and (is_bivouac or is_tent) and inside_zona_servicios

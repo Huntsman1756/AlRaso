@@ -1,0 +1,56 @@
+F2.1C — Integración / binding (ejecutado 2026-09-05, sesión F2)
+
+== Opciones evaluadas (sin escribir bindings propios) ==
+
+1. BINDING PYTHON OFICIAL (in-tree: axiom-rules-engine/python/axiom_rules_engine)
+   - EXISTE y FUNCIONA: probado en docker (python:3.12-slim) contra el binario Linux real.
+   - Es un envoltorio subprocess + modelos pydantic (client.py: AxiomRulesEngine.execute /
+     execute_compiled / compile / compile_composed / run / run_compiled; timeout matando el proceso).
+   - Limitaciones: NO publicado en PyPI (HTTP 404 verificado 2026-09-05); pyproject exige
+     requires-python ==3.14.* (empaquetado, no código: el import funcionó en 3.12 sin cambios);
+     licencia Apache-2.0 (reutilizable citando).
+   - Salida de prueba:
+       EXECUTE_COMPILED_OK, outputs: 10 (rule_00000 holds, resto not_holds — correcto p/ alt 1742)
+       MISSING_INPUT_RUNTIME_ERROR: "missing input `activity_name` for entity `loc:p1` over
+       2023-07-15..2023-07-16"  -> errores del engine emergen como RuntimeError con stderr
+       (mapeable a UNDETERMINED/INCOMPLETE por el wrapper).
+
+2. CLI / SUBPROCESS DIRECTO (contrato JSON stdin/stdout, exit codes)
+   - Usado en Spike A, F2.1A y F2.1B con éxito total. Cero dependencias de librería.
+   - `compile --program X --rulespec-root R --output A`, `run-compiled --artifact A < request.json`.
+   - Artefactos byte-deterministas (ver F2B-BENCH-RESULTS.txt) = cache por contenido viable.
+
+3. SERVICIO AISLADO
+   - No existe servidor oficial (no hay subcomando serve). Construirlo es trivial sobre (2)
+     y aisla crashes/versiones; lo haríamos nosotros igualmente.
+
+4. EMBEDDING ALTERNATIVO OFICIAL
+   - `wasm/` existe en el repo (misma base Rust). Relevante solo para navegador; no aplica a
+     Milestone 1 (CLI/API servidor). No probado.
+
+== Decisión ==
+- Interfaz canónica de integración: el CONTRATO CLI (JSON in/out + exit code). El binding
+  oficial Python ES ese contrato (subprocess); no aporta acoplamiento extra usarlo como
+  referencia, pero no lo adoptamos como dependencia: nuestro adapter lo reimplementa en <=100
+  líneas sobre subprocess, sin PyPI ni pin 3.14.
+- La BD bitemporal (PostgreSQL) no conoce Axiom: el adapter recibe artefactos compilados y
+  peticiones; la selección de versiones/knowledge-date vive fuera del adapter.
+
+== Interfaz mínima del adapter (contrato, sin implementación de producto) ==
+
+  class RuleEngineAdapter(Protocol):
+      def compile(self, *, rulespec_bundle_dir: Path, program: str,
+                  output_path: Path) -> CompiledRef: ...
+          # CompiledRef: { path, sha256, knowledge_state_hash }
+      def run(self, *, compiled: CompiledRef,
+              facts: list[Fact], queries: list[Query],
+              mode: Literal["fast","explain"]) -> EngineResult: ...
+          # EngineResult: { outputs: dict[rule_id, ScalarResult|JudgmentResult],
+          #                 trace: TraceNode[] | None }
+      # Errores normalizados (única vía de fallo): EngineError
+      #   kind: MISSING_INPUT | AMBIGUOUS_INPUT | COMPILE | ARTIFACT | TIMEOUT | ENGINE
+      #   message (stderr crudo), rule_id? — el wrapper los mapea a
+      #   UNDETERMINED / INCOMPLETE / CONFLICT NUNCA a PERMITTED.
+
+  Implementaciones previstas: AxiomCliAdapter (M1) | OwnEvaluatorAdapter (fallback, mismo contrato).
+  Sustituir Axiom = cambiar una clase; el resto del resolver ignora el motor.

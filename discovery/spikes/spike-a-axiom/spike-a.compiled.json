@@ -1,0 +1,1016 @@
+{
+  "artifact_format_version": 2,
+  "engine_version": "0.2.2",
+  "program": {
+    "module": {
+      "summary": "SPIKE A (TECHNICAL DISCOVERY ONLY — NOT LEGAL ADVICE, NOT ENCODED LAW).\n\nSynthetic Picos-de-Europa-shaped bivouac/pernocta module used to test\nwhether the Axiom rules-engine paradigm fits a geospatial normative\nresolver. All thresholds are PLACEHOLDERS for engineering validation;\nthey do not reproduce any real provision. Facts (inside_park, altitude,\nzone flags) are the normalized facts that PostGIS would supply.\n\nDemonstrates: versioned rules (valid time), a parameter override\n(threshold change), authorization-required case, group-size condition,\nexactly_one single-outcome gate, and fail-closed behaviour outside the\nmodelled scope."
+    },
+    "units": [
+      {
+        "name": "GBP",
+        "kind": "currency",
+        "minor_units": 2
+      },
+      {
+        "name": "USD",
+        "kind": "currency",
+        "minor_units": 2
+      },
+      {
+        "name": "EUR",
+        "kind": "currency",
+        "minor_units": 2
+      },
+      {
+        "name": "CHF",
+        "kind": "currency",
+        "minor_units": 2
+      },
+      {
+        "name": "NOK",
+        "kind": "currency",
+        "minor_units": 2
+      },
+      {
+        "name": "GHS",
+        "kind": "currency",
+        "minor_units": 2
+      },
+      {
+        "name": "GHp",
+        "kind": "currency",
+        "minor_units": 0
+      },
+      {
+        "name": "NGN",
+        "kind": "currency",
+        "minor_units": 2
+      },
+      {
+        "name": "UGX",
+        "kind": "currency",
+        "minor_units": 0
+      },
+      {
+        "name": "ZMW",
+        "kind": "currency",
+        "minor_units": 2
+      },
+      {
+        "name": "ETB",
+        "kind": "currency",
+        "minor_units": 2
+      },
+      {
+        "name": "RWF",
+        "kind": "currency",
+        "minor_units": 0
+      },
+      {
+        "name": "TZS",
+        "kind": "currency",
+        "minor_units": 2
+      },
+      {
+        "name": "DKK",
+        "kind": "currency",
+        "minor_units": 2
+      },
+      {
+        "name": "AMD",
+        "kind": "currency",
+        "minor_units": 2
+      },
+      {
+        "name": "count",
+        "kind": "count"
+      },
+      {
+        "name": "person",
+        "kind": "count"
+      },
+      {
+        "name": "ratio",
+        "kind": "ratio"
+      },
+      {
+        "name": "status",
+        "kind": "custom",
+        "label": "judgment"
+      }
+    ],
+    "relations": [],
+    "parameters": [
+      {
+        "id": "es:policies/vivac/picos-spike#vivac_altitude_min",
+        "name": "vivac_altitude_min",
+        "unit": null,
+        "indexed_by": null,
+        "source": null,
+        "source_url": null,
+        "versions": [
+          {
+            "effective_from": "2020-01-01",
+            "values": {
+              "0": {
+                "kind": "integer",
+                "value": 1600
+              }
+            }
+          },
+          {
+            "effective_from": "2022-02-09",
+            "values": {
+              "0": {
+                "kind": "integer",
+                "value": 1800
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "es:policies/vivac/picos-spike#max_group_size",
+        "name": "max_group_size",
+        "unit": null,
+        "indexed_by": null,
+        "source": null,
+        "source_url": null,
+        "versions": [
+          {
+            "effective_from": "2020-01-01",
+            "values": {
+              "0": {
+                "kind": "integer",
+                "value": 10
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "derived": [
+      {
+        "id": "es:policies/vivac/picos-spike#dentro_parque",
+        "name": "dentro_parque",
+        "entity": "Location",
+        "dtype": "judgment",
+        "unit": null,
+        "period": "Day",
+        "source": "SPIKE-DEMO park-extent fact (PostGIS point-in-polygon in production)",
+        "source_url": "https://example.invalid/spike",
+        "semantics": "judgment",
+        "expr": {
+          "kind": "comparison",
+          "left": {
+            "kind": "input",
+            "name": "inside_park"
+          },
+          "op": "eq",
+          "right": {
+            "kind": "literal",
+            "value": {
+              "kind": "bool",
+              "value": true
+            }
+          }
+        },
+        "versions": [
+          {
+            "effective_from": "2020-01-01",
+            "semantics": "judgment",
+            "expr": {
+              "kind": "comparison",
+              "left": {
+                "kind": "input",
+                "name": "inside_park"
+              },
+              "op": "eq",
+              "right": {
+                "kind": "literal",
+                "value": {
+                  "kind": "bool",
+                  "value": true
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "es:policies/vivac/picos-spike#excepcion_vivac_cota",
+        "name": "excepcion_vivac_cota",
+        "entity": "Location",
+        "dtype": "judgment",
+        "unit": null,
+        "period": "Day",
+        "source": null,
+        "source_url": null,
+        "semantics": "judgment",
+        "expr": {
+          "kind": "and",
+          "items": [
+            {
+              "kind": "and",
+              "items": [
+                {
+                  "kind": "comparison",
+                  "left": {
+                    "kind": "input",
+                    "name": "is_bivouac"
+                  },
+                  "op": "eq",
+                  "right": {
+                    "kind": "literal",
+                    "value": {
+                      "kind": "bool",
+                      "value": true
+                    }
+                  }
+                },
+                {
+                  "kind": "comparison",
+                  "left": {
+                    "kind": "input",
+                    "name": "altitude_m"
+                  },
+                  "op": "gte",
+                  "right": {
+                    "kind": "parameter_lookup",
+                    "parameter": "vivac_altitude_min",
+                    "index": {
+                      "kind": "literal",
+                      "value": {
+                        "kind": "integer",
+                        "value": 0
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "not",
+              "item": {
+                "kind": "comparison",
+                "left": {
+                  "kind": "input",
+                  "name": "inside_zona_servicios"
+                },
+                "op": "eq",
+                "right": {
+                  "kind": "literal",
+                  "value": {
+                    "kind": "bool",
+                    "value": true
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "versions": [
+          {
+            "effective_from": "2020-01-01",
+            "semantics": "judgment",
+            "expr": {
+              "kind": "and",
+              "items": [
+                {
+                  "kind": "and",
+                  "items": [
+                    {
+                      "kind": "comparison",
+                      "left": {
+                        "kind": "input",
+                        "name": "is_bivouac"
+                      },
+                      "op": "eq",
+                      "right": {
+                        "kind": "literal",
+                        "value": {
+                          "kind": "bool",
+                          "value": true
+                        }
+                      }
+                    },
+                    {
+                      "kind": "comparison",
+                      "left": {
+                        "kind": "input",
+                        "name": "altitude_m"
+                      },
+                      "op": "gte",
+                      "right": {
+                        "kind": "parameter_lookup",
+                        "parameter": "vivac_altitude_min",
+                        "index": {
+                          "kind": "literal",
+                          "value": {
+                            "kind": "integer",
+                            "value": 0
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "kind": "not",
+                  "item": {
+                    "kind": "comparison",
+                    "left": {
+                      "kind": "input",
+                      "name": "inside_zona_servicios"
+                    },
+                    "op": "eq",
+                    "right": {
+                      "kind": "literal",
+                      "value": {
+                        "kind": "bool",
+                        "value": true
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "es:policies/vivac/picos-spike#excepcion_refugio",
+        "name": "excepcion_refugio",
+        "entity": "Location",
+        "dtype": "judgment",
+        "unit": null,
+        "period": "Day",
+        "source": null,
+        "source_url": null,
+        "semantics": "judgment",
+        "expr": {
+          "kind": "and",
+          "items": [
+            {
+              "kind": "comparison",
+              "left": {
+                "kind": "input",
+                "name": "is_refuge"
+              },
+              "op": "eq",
+              "right": {
+                "kind": "literal",
+                "value": {
+                  "kind": "bool",
+                  "value": true
+                }
+              }
+            },
+            {
+              "kind": "comparison",
+              "left": {
+                "kind": "input",
+                "name": "inside_refugio_zone"
+              },
+              "op": "eq",
+              "right": {
+                "kind": "literal",
+                "value": {
+                  "kind": "bool",
+                  "value": true
+                }
+              }
+            }
+          ]
+        },
+        "versions": [
+          {
+            "effective_from": "2020-01-01",
+            "semantics": "judgment",
+            "expr": {
+              "kind": "and",
+              "items": [
+                {
+                  "kind": "comparison",
+                  "left": {
+                    "kind": "input",
+                    "name": "is_refuge"
+                  },
+                  "op": "eq",
+                  "right": {
+                    "kind": "literal",
+                    "value": {
+                      "kind": "bool",
+                      "value": true
+                    }
+                  }
+                },
+                {
+                  "kind": "comparison",
+                  "left": {
+                    "kind": "input",
+                    "name": "inside_refugio_zone"
+                  },
+                  "op": "eq",
+                  "right": {
+                    "kind": "literal",
+                    "value": {
+                      "kind": "bool",
+                      "value": true
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "es:policies/vivac/picos-spike#grupo_dentro_limite",
+        "name": "grupo_dentro_limite",
+        "entity": "Location",
+        "dtype": "judgment",
+        "unit": null,
+        "period": "Day",
+        "source": null,
+        "source_url": null,
+        "semantics": "judgment",
+        "expr": {
+          "kind": "comparison",
+          "left": {
+            "kind": "input",
+            "name": "party_size"
+          },
+          "op": "lte",
+          "right": {
+            "kind": "parameter_lookup",
+            "parameter": "max_group_size",
+            "index": {
+              "kind": "literal",
+              "value": {
+                "kind": "integer",
+                "value": 0
+              }
+            }
+          }
+        },
+        "versions": [
+          {
+            "effective_from": "2020-01-01",
+            "semantics": "judgment",
+            "expr": {
+              "kind": "comparison",
+              "left": {
+                "kind": "input",
+                "name": "party_size"
+              },
+              "op": "lte",
+              "right": {
+                "kind": "parameter_lookup",
+                "parameter": "max_group_size",
+                "index": {
+                  "kind": "literal",
+                  "value": {
+                    "kind": "integer",
+                    "value": 0
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "es:policies/vivac/picos-spike#pernocta_permitida",
+        "name": "pernocta_permitida",
+        "entity": "Location",
+        "dtype": "judgment",
+        "unit": null,
+        "period": "Day",
+        "source": null,
+        "source_url": null,
+        "semantics": "judgment",
+        "expr": {
+          "kind": "and",
+          "items": [
+            {
+              "kind": "and",
+              "items": [
+                {
+                  "kind": "derived",
+                  "name": "dentro_parque"
+                },
+                {
+                  "kind": "or",
+                  "items": [
+                    {
+                      "kind": "derived",
+                      "name": "excepcion_vivac_cota"
+                    },
+                    {
+                      "kind": "derived",
+                      "name": "excepcion_refugio"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "derived",
+              "name": "grupo_dentro_limite"
+            }
+          ]
+        },
+        "versions": [
+          {
+            "effective_from": "2020-01-01",
+            "semantics": "judgment",
+            "expr": {
+              "kind": "and",
+              "items": [
+                {
+                  "kind": "and",
+                  "items": [
+                    {
+                      "kind": "derived",
+                      "name": "dentro_parque"
+                    },
+                    {
+                      "kind": "or",
+                      "items": [
+                        {
+                          "kind": "derived",
+                          "name": "excepcion_vivac_cota"
+                        },
+                        {
+                          "kind": "derived",
+                          "name": "excepcion_refugio"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "derived",
+                  "name": "grupo_dentro_limite"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "es:policies/vivac/picos-spike#pernocta_requiere_autorizacion",
+        "name": "pernocta_requiere_autorizacion",
+        "entity": "Location",
+        "dtype": "judgment",
+        "unit": null,
+        "period": "Day",
+        "source": null,
+        "source_url": null,
+        "semantics": "judgment",
+        "expr": {
+          "kind": "and",
+          "items": [
+            {
+              "kind": "and",
+              "items": [
+                {
+                  "kind": "and",
+                  "items": [
+                    {
+                      "kind": "derived",
+                      "name": "dentro_parque"
+                    },
+                    {
+                      "kind": "comparison",
+                      "left": {
+                        "kind": "input",
+                        "name": "is_tent"
+                      },
+                      "op": "eq",
+                      "right": {
+                        "kind": "literal",
+                        "value": {
+                          "kind": "bool",
+                          "value": true
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "kind": "derived",
+                  "name": "grupo_dentro_limite"
+                }
+              ]
+            },
+            {
+              "kind": "not",
+              "item": {
+                "kind": "derived",
+                "name": "pernocta_permitida"
+              }
+            }
+          ]
+        },
+        "versions": [
+          {
+            "effective_from": "2020-01-01",
+            "semantics": "judgment",
+            "expr": {
+              "kind": "and",
+              "items": [
+                {
+                  "kind": "and",
+                  "items": [
+                    {
+                      "kind": "and",
+                      "items": [
+                        {
+                          "kind": "derived",
+                          "name": "dentro_parque"
+                        },
+                        {
+                          "kind": "comparison",
+                          "left": {
+                            "kind": "input",
+                            "name": "is_tent"
+                          },
+                          "op": "eq",
+                          "right": {
+                            "kind": "literal",
+                            "value": {
+                              "kind": "bool",
+                              "value": true
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "derived",
+                      "name": "grupo_dentro_limite"
+                    }
+                  ]
+                },
+                {
+                  "kind": "not",
+                  "item": {
+                    "kind": "derived",
+                    "name": "pernocta_permitida"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "es:policies/vivac/picos-spike#pernocta_prohibida",
+        "name": "pernocta_prohibida",
+        "entity": "Location",
+        "dtype": "judgment",
+        "unit": null,
+        "period": "Day",
+        "source": null,
+        "source_url": null,
+        "semantics": "judgment",
+        "expr": {
+          "kind": "and",
+          "items": [
+            {
+              "kind": "and",
+              "items": [
+                {
+                  "kind": "derived",
+                  "name": "dentro_parque"
+                },
+                {
+                  "kind": "not",
+                  "item": {
+                    "kind": "derived",
+                    "name": "pernocta_permitida"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "not",
+              "item": {
+                "kind": "derived",
+                "name": "pernocta_requiere_autorizacion"
+              }
+            }
+          ]
+        },
+        "versions": [
+          {
+            "effective_from": "2020-01-01",
+            "semantics": "judgment",
+            "expr": {
+              "kind": "and",
+              "items": [
+                {
+                  "kind": "and",
+                  "items": [
+                    {
+                      "kind": "derived",
+                      "name": "dentro_parque"
+                    },
+                    {
+                      "kind": "not",
+                      "item": {
+                        "kind": "derived",
+                        "name": "pernocta_permitida"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "kind": "not",
+                  "item": {
+                    "kind": "derived",
+                    "name": "pernocta_requiere_autorizacion"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "es:policies/vivac/picos-spike#resolucion_unica",
+        "name": "resolucion_unica",
+        "entity": "Location",
+        "dtype": "judgment",
+        "unit": null,
+        "period": "Day",
+        "source": null,
+        "source_url": null,
+        "semantics": "judgment",
+        "expr": {
+          "kind": "exactly_one",
+          "items": [
+            {
+              "kind": "derived",
+              "name": "pernocta_permitida"
+            },
+            {
+              "kind": "derived",
+              "name": "pernocta_requiere_autorizacion"
+            },
+            {
+              "kind": "derived",
+              "name": "pernocta_prohibida"
+            }
+          ]
+        },
+        "versions": [
+          {
+            "effective_from": "2020-01-01",
+            "semantics": "judgment",
+            "expr": {
+              "kind": "exactly_one",
+              "items": [
+                {
+                  "kind": "derived",
+                  "name": "pernocta_permitida"
+                },
+                {
+                  "kind": "derived",
+                  "name": "pernocta_requiere_autorizacion"
+                },
+                {
+                  "kind": "derived",
+                  "name": "pernocta_prohibida"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "es:policies/vivac/picos-spike#viveac_en_zona_servicios",
+        "name": "viveac_en_zona_servicios",
+        "entity": "Location",
+        "dtype": "judgment",
+        "unit": null,
+        "period": "Day",
+        "source": null,
+        "source_url": null,
+        "semantics": "judgment",
+        "expr": {
+          "kind": "and",
+          "items": [
+            {
+              "kind": "and",
+              "items": [
+                {
+                  "kind": "derived",
+                  "name": "dentro_parque"
+                },
+                {
+                  "kind": "or",
+                  "items": [
+                    {
+                      "kind": "comparison",
+                      "left": {
+                        "kind": "input",
+                        "name": "is_bivouac"
+                      },
+                      "op": "eq",
+                      "right": {
+                        "kind": "literal",
+                        "value": {
+                          "kind": "bool",
+                          "value": true
+                        }
+                      }
+                    },
+                    {
+                      "kind": "comparison",
+                      "left": {
+                        "kind": "input",
+                        "name": "is_tent"
+                      },
+                      "op": "eq",
+                      "right": {
+                        "kind": "literal",
+                        "value": {
+                          "kind": "bool",
+                          "value": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "comparison",
+              "left": {
+                "kind": "input",
+                "name": "inside_zona_servicios"
+              },
+              "op": "eq",
+              "right": {
+                "kind": "literal",
+                "value": {
+                  "kind": "bool",
+                  "value": true
+                }
+              }
+            }
+          ]
+        },
+        "versions": [
+          {
+            "effective_from": "2020-01-01",
+            "semantics": "judgment",
+            "expr": {
+              "kind": "and",
+              "items": [
+                {
+                  "kind": "and",
+                  "items": [
+                    {
+                      "kind": "derived",
+                      "name": "dentro_parque"
+                    },
+                    {
+                      "kind": "or",
+                      "items": [
+                        {
+                          "kind": "comparison",
+                          "left": {
+                            "kind": "input",
+                            "name": "is_bivouac"
+                          },
+                          "op": "eq",
+                          "right": {
+                            "kind": "literal",
+                            "value": {
+                              "kind": "bool",
+                              "value": true
+                            }
+                          }
+                        },
+                        {
+                          "kind": "comparison",
+                          "left": {
+                            "kind": "input",
+                            "name": "is_tent"
+                          },
+                          "op": "eq",
+                          "right": {
+                            "kind": "literal",
+                            "value": {
+                              "kind": "bool",
+                              "value": true
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "comparison",
+                  "left": {
+                    "kind": "input",
+                    "name": "inside_zona_servicios"
+                  },
+                  "op": "eq",
+                  "right": {
+                    "kind": "literal",
+                    "value": {
+                      "kind": "bool",
+                      "value": true
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "evaluation_order": [
+      "dentro_parque",
+      "excepcion_refugio",
+      "excepcion_vivac_cota",
+      "grupo_dentro_limite",
+      "pernocta_permitida",
+      "pernocta_requiere_autorizacion",
+      "pernocta_prohibida",
+      "resolucion_unica",
+      "viveac_en_zona_servicios"
+    ],
+    "fast_path": {
+      "strategy": "generic_bulk",
+      "compatible": true,
+      "blockers": []
+    },
+    "input_catalog": [
+      {
+        "slot": "altitude_m",
+        "canonical_request_name": "es:policies/vivac/picos-spike#input.altitude_m",
+        "request_names": [
+          "es:policies/vivac/picos-spike#input.altitude_m"
+        ]
+      },
+      {
+        "slot": "inside_park",
+        "canonical_request_name": "es:policies/vivac/picos-spike#input.inside_park",
+        "request_names": [
+          "es:policies/vivac/picos-spike#input.inside_park"
+        ]
+      },
+      {
+        "slot": "inside_refugio_zone",
+        "canonical_request_name": "es:policies/vivac/picos-spike#input.inside_refugio_zone",
+        "request_names": [
+          "es:policies/vivac/picos-spike#input.inside_refugio_zone"
+        ]
+      },
+      {
+        "slot": "inside_zona_servicios",
+        "canonical_request_name": "es:policies/vivac/picos-spike#input.inside_zona_servicios",
+        "request_names": [
+          "es:policies/vivac/picos-spike#input.inside_zona_servicios"
+        ]
+      },
+      {
+        "slot": "is_bivouac",
+        "canonical_request_name": "es:policies/vivac/picos-spike#input.is_bivouac",
+        "request_names": [
+          "es:policies/vivac/picos-spike#input.is_bivouac"
+        ]
+      },
+      {
+        "slot": "is_refuge",
+        "canonical_request_name": "es:policies/vivac/picos-spike#input.is_refuge",
+        "request_names": [
+          "es:policies/vivac/picos-spike#input.is_refuge"
+        ]
+      },
+      {
+        "slot": "is_tent",
+        "canonical_request_name": "es:policies/vivac/picos-spike#input.is_tent",
+        "request_names": [
+          "es:policies/vivac/picos-spike#input.is_tent"
+        ]
+      },
+      {
+        "slot": "party_size",
+        "canonical_request_name": "es:policies/vivac/picos-spike#input.party_size",
+        "request_names": [
+          "es:policies/vivac/picos-spike#input.party_size"
+        ]
+      }
+    ]
+  }
+}

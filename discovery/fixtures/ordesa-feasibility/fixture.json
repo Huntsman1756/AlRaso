@@ -1,0 +1,207 @@
+{
+  "$schema": "https://alraso.example/schemas/ordesa-feasibility-fixture-v0.json",
+  "fixture_meta": {
+    "name": "ORDESA_FEASIBILITY_ACCEPTANCE_FIXTURE",
+    "purpose": "Acceptance fixture for Milestone 1 (PURE_BITEMPORAL_GEOSPATIAL_LEGAL_RESOLVER). Not product. No new legal conclusion: only regimes already verified in VIVAC-TECHNICAL-DISCOVERY.md.",
+    "created": "2026-09-05",
+    "f2_decisions_assembled": {
+      "activity_model": "TEXT_MATCH_ACCEPTABLE (single closed-vocabulary Text input + exhaustive match + _ fallback)",
+      "rule_id_scheme": "alraso namespace (see DURABLE_RULE_ID_SCHEME)",
+      "spatial_facts": "PostGIS ST_Intersects over OAPN WFS GeoJSON (Spike B)",
+      "engine": "Axiom RuleSpec compiled artifact keyed by knowledge-state hash (Spike A + F2.1B)"
+    }
+  },
+  "source_documents": [
+    {
+      "id": "sd-ley-52-1982",
+      "authority": "Estado (Jefatura del Estado)",
+      "jurisdiction": "ES-NATIONAL",
+      "document_type": "LAW",
+      "title": "Ley 52/1982, de 13 de julio, de reclasificación y ampliación del Parque Nacional de Ordesa y Monte Perdido",
+      "canonical_url": "https://www.boe.es/eli/es/l/1982/07/13/52",
+      "boe_id": "BOE-A-1982-19494",
+      "official_status": "VIGENTE"
+    },
+    {
+      "id": "sd-rd-409-1995",
+      "authority": "Estado",
+      "jurisdiction": "ES-NATIONAL",
+      "document_type": "PRUG",
+      "title": "Real Decreto 409/1995, de 17 de marzo, por el que se aprueba el Plan Rector de Uso y Gestión",
+      "canonical_url": "https://www.boe.es/buscar/act.php?id=BOE-A-1995-11259",
+      "boe_id": "BOE-A-1995-11259",
+      "official_status": "VIGENCIA_AGOTADA (BOE: 'Vigencia agotada' desde 30-04-2015)"
+    },
+    {
+      "id": "sd-d-49-2015",
+      "authority": "Gobierno de Aragón",
+      "jurisdiction": "ES-ARAGON",
+      "document_type": "PRUG",
+      "title": "Decreto 49/2015, de 8 de abril, del Gobierno de Aragón, PRUG del Parque Nacional de Ordesa y Monte Perdido",
+      "canonical_url": "BOA nº 80, de 29-04-2015 (PDF consolidado oficial: aragon.es ORDESA_PRUG_202202.pdf; copia MITECO prug-ordesa_tcm30-65577.pdf)",
+      "official_status": "VIGENTE (modificado)"
+    },
+    {
+      "id": "sd-d-16-2022",
+      "authority": "Gobierno de Aragón",
+      "jurisdiction": "ES-ARAGON",
+      "document_type": "PRUG_AMENDMENT",
+      "title": "Decreto 16/2022, de 26 de enero, que modifica el D 49/2015 en lo relativo al régimen de pernocta en el sector de Ordesa",
+      "canonical_url": "BOA de 8-02-2022 (listado oficial: https://pnomp.es/es/legislacion)",
+      "official_status": "VIGENTE"
+    },
+    {
+      "id": "sd-oapn-gis",
+      "authority": "OAPN / MITECO",
+      "jurisdiction": "ES-NATIONAL",
+      "document_type": "OFFICIAL_GIS_LAYER",
+      "title": "Límites de Parques Nacionales (WFS GeoJSON, feature 'Parque Nacional de Ordesa y Monte Perdido')",
+      "canonical_url": "https://sigred.oapn.es/geoserverOAPN/LimitesParquesNacionalesZPP/ows?service=WFS&version=2.0.0&request=GetFeature&typeNames=LimitesParquesNacionalesZPP%3Aview_red_oapn_limite_pn&outputFormat=application%2Fjson",
+      "content_hash_pattern": "SHA-256 por descarga (Spike B demostró el patrón; hash del feature a registrar en ingesta)",
+      "official_status": "VIGENTE"
+    },
+    {
+      "id": "sd-pnomp-pernocta",
+      "authority": "Parque Nacional de Ordesa y Monte Perdido (Dirección)",
+      "jurisdiction": "ES-ARAGON",
+      "document_type": "OPERATIVE_PAGE",
+      "title": "Pernocta en el Parque Nacional (página operativa; monitores restricciones operativas)",
+      "canonical_url": "https://pnomp.es/es/pernocta-en-el-parque-nacional",
+      "official_status": "VIGENTE (re-verificación programada)"
+    }
+  ],
+  "legal_fragments": [
+    {
+      "id": "lf-rd409-anexo1-da",
+      "source_document_id": "sd-rd-409-1995",
+      "locator": "Anexo I, apartado D.a (acampada/vivac por sectores)",
+      "exact_text_hint": "Acampada libre con tienda max 1,30 m sobre 2.100 m en sector Ordesa (1800 Añisclo/Escuaín, 2500 Pineta), max 3 noches",
+      "extracted_at": "2026-09-05",
+      "review_status": "VERIFIED_DISCOVERY"
+    },
+    {
+      "id": "lf-d16-2022-pernocta",
+      "source_document_id": "sd-d-16-2022",
+      "locator": "Artículo único (modificación del régimen de pernocta del sector Ordesa)",
+      "exact_text_hint": "Vivac/acampada nocturna PROHIBIDA en todo el sector Ordesa desde 09-02-2022 (confirmado en pnomp.es y MITECO)",
+      "extracted_at": "2026-09-05",
+      "review_status": "VERIFIED_DISCOVERY"
+    },
+    {
+      "id": "lf-pnomp-pernocta-operativa",
+      "source_document_id": "sd-pnomp-pernocta",
+      "locator": "Sección 'Pernocta en el Parque Nacional'",
+      "exact_text_hint": "Prohibición sector Ordesa vigente; zona de acampada Góriz con reserva; cotas Añisclo >1650, Escuaín >1800, Pineta >2550; max 3 noches",
+      "extracted_at": "2026-09-05",
+      "review_status": "VERIFIED_DISCOVERY"
+    }
+  ],
+  "spatial_scopes": [
+    {
+      "id": "ss-ordesa-park",
+      "scope_type": "NATIONAL_PARK",
+      "official_name": "Parque Nacional de Ordesa y Monte Perdido",
+      "geometry_source": "sd-oapn-gis",
+      "feature_id": "Parque Nacional de Ordesa y Monte Perdido",
+      "srid_native": 25830,
+      "geometry_ref": "PostGIS spatial_scope row (Spike B pattern); fixture no inclui geometría"
+    },
+    {
+      "id": "ss-ordesa-sector-ordesa",
+      "scope_type": "PARK_SECTOR",
+      "parent_scope": "ss-ordesa-park",
+      "official_name": "Sector Ordesa",
+      "geometry_source": "PENDING: delimitación sectorial oficial (PRUG cartografía; fallback: DEM altitude check + park polygon)",
+      "review_status": "SPATIAL_REVIEW_REQUIRED"
+    }
+  ],
+  "legal_rule_versions": [
+    {
+      "rule_id": "alraso:es-ar/pn-ordesa/pernocta#vivac-sector-ordesa",
+      "activity": "VIVAC_AL_RASO",
+      "spatial_scope_id": "ss-ordesa-sector-ordesa",
+      "effect": "PERMITTED",
+      "effective_from": "2020-01-01",
+      "effective_to": null,
+      "recorded_at": "2020-06-01",
+      "recorded_until": null,
+      "evidence": ["lf-rd409-anexo1-da"],
+      "interpretation_note": "Estado inicial tal como un sistema informado por RD 409/1995 lo habría registrado: regla abierta (sin effective_to) hasta descubrir el sucesor."
+    },
+    {
+      "rule_id": "alraso:es-ar/pn-ordesa/pernocta#vivac-sector-ordesa",
+      "activity": "VIVAC_AL_RASO",
+      "spatial_scope_id": "ss-ordesa-sector-ordesa",
+      "effect": "PERMITTED",
+      "effective_from": "2020-01-01",
+      "effective_to": "2022-02-08",
+      "recorded_at": "2022-02-20",
+      "recorded_until": null,
+      "evidence": ["lf-rd409-anexo1-da", "lf-d16-2022-pernocta"],
+      "interpretation_note": "Cierre retroactivo append-only (counterfactual 'vigilante': sistema que ingiere D 16/2022 en feb-2022)."
+    },
+    {
+      "rule_id": "alraso:es-ar/pn-ordesa/pernocta#vivac-sector-ordesa",
+      "activity": "VIVAC_AL_RASO",
+      "spatial_scope_id": "ss-ordesa-sector-ordesa",
+      "effect": "PROHIBITED",
+      "effective_from": "2022-02-09",
+      "effective_to": null,
+      "recorded_at": "2022-02-20",
+      "recorded_until": null,
+      "evidence": ["lf-d16-2022-pernocta", "lf-pnomp-pernocta-operativa"],
+      "review_status": "LEGAL_REVIEWED",
+      "interpretation_note": "Versión vigente. Variante de descubrimiento tardío: recorded_at=2027-05-10 (ver expected.knowledge_replay)."
+    }
+  ],
+  "rule_relations": [
+    {
+      "id": "rr-d16-2022-overrides",
+      "relation_type": "OVERRIDES",
+      "from_rule_id": "alraso:es-ar/pn-ordesa/pernocta#vivac-sector-ordesa",
+      "from_effect": "PROHIBITED",
+      "to_rule_id": "alraso:es-ar/pn-ordesa/pernocta#vivac-sector-ordesa",
+      "to_effect": "PERMITTED",
+      "evidence": ["lf-d16-2022-pernocta"],
+      "review_status": "LEGAL_REVIEWED",
+      "ai_proposed": true,
+      "human_verified": true
+    }
+  ],
+  "expected": {
+    "basic_queries": [
+      {
+        "query": {"activity_date": "2021-07-15", "knowledge_date": "2023-06-15", "activity": "VIVAC_AL_RASO", "spatial_scope_id": "ss-ordesa-sector-ordesa"},
+        "expected_legal_status": "PERMITTED",
+        "expected_rule_version": "vigente 2020-01-01..2022-02-08"
+      },
+      {
+        "query": {"activity_date": "2023-06-15", "knowledge_date": "2023-06-15", "activity": "VIVAC_AL_RASO", "spatial_scope_id": "ss-ordesa-sector-ordesa"},
+        "expected_legal_status": "PROHIBITED",
+        "expected_rule_version": "vigente desde 2022-02-09"
+      }
+    ],
+    "knowledge_replay": [
+      {
+        "scenario": "vigilante (D 16/2022 recorded 2022-02-20)",
+        "query": {"activity_date": "2023-06-15", "knowledge_date": "2023-06-15"},
+        "expected": "PROHIBITED"
+      },
+      {
+        "scenario": "descubrimiento tardío (R1 abierta; D 16/2022 recorded 2027-05-10)",
+        "query": {"activity_date": "2023-06-15", "knowledge_date": "2023-06-15"},
+        "expected": "PERMITTED (correcto-conocimiento-de-entonces; Spike C pattern)",
+        "expected_after_late_discovery": {"activity_date": "2023-06-15", "knowledge_date": "2028-01-01", "legal_status": "PROHIBITED"},
+        "retro_audit": "determinaciones 2023 PERMITTED -> flag STALE tras el descubrimiento"
+      },
+      {
+        "scenario": "gap: cierre retroactivo visible sin sucesor ingestado",
+        "query": {"activity_date": "2023-06-15", "knowledge_date": "2028-01-01"},
+        "expected": "UNDETERMINED + knowledge_status INCOMPLETE (versión expirada sin sucesor visible)"
+      }
+    ],
+    "impossible_states": {
+      "note": "Con activity como Text cerrado no existen inputs booleanos por modalidad: vivac=true&acampada=true es estructuralmente irrepresentable (F2.1A)."
+    }
+  }
+}

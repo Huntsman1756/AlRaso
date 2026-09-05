@@ -1,0 +1,54 @@
+{
+  "$schema": "https://alraso.example/schemas/tsjm-evidence-registry-v0.json",
+  "purpose": "F2.3B — identificacion juridica precisa de las sentencias TSJM que afectan al PRUG (D 18/2020) del PN Sierra de Guadarrama. No modelado completo: registro de evidencia.",
+  "evidence_basis": {
+    "priority_used": "3 (texto consolidado administrativo oficial que identifica inequivocamente cada sentencia)",
+    "document": "Decreto 18/2020, de 11 de febrero, PRUG PN Sierra de Guadarrama (BOCM extraordinario n.29, 29-02-2020) — texto consolidado publicado por la Administracion que incorpora notas de nulidad por sentencia",
+    "local_copy": "discovery/evidence/guadarrama-prug/prug-cam-consolidado-extracto.txt (extracto) + guadarrama-prug.pdf / prug-cam-final.pdf en workspace temporal F2",
+    "priority_1_status": "ECLI via CENDOJ: DIFERIDO. www.poderjudicial.es alcanzable (TCP/TLS OK) pero sus endpoints de busqueda no ofrecen contrato REST estable (404 en openSearch, 500 en rest/doSearch sin sesion UI). Procedimiento pendiente documentado: UI CENDOJ -> TSJ Madrid, Sala Contencioso-Administrativo, Seccion 8a, recurso 431/2020 / 197/2022 / 455/2020, o consulta ECLI resolver una vez identificado.",
+    "secondary_sources": "Europa Press (solo para localizar, NO evidencia definitiva)"
+  },
+  "decisions": [
+    {
+      "court": "Tribunal Superior de Justicia de Madrid, Sala de lo Contencioso-Administrativo, Seccion 8a",
+      "decision_number": "1135/2021",
+      "decision_date": "2021-10-07",
+      "appeal_number": "recurso contencioso-administrativo 431/2020",
+      "ecli": null,
+      "ecli_note": "pendiente CENDOJ (diferido; no afecta a Ordesa)",
+      "canonical_source": "notas del texto consolidado oficial del D 18/2020 (BOCM 29-02-2020), puntos 5 y 9 de las notas a texto",
+      "affected_provision": ["art. 49 (sobrevuelo de aeronaves no impulsadas a motor) — anulacion total", "art. 38.1.x) — anulacion"],
+      "effect": "NULIDAD PARCIAL: disposiciones inaplicables en el extremo anulado",
+      "review_status": "VERIFIED_PRIORITY_3_OFFICIAL_CONSOLIDATED_TEXT"
+    },
+    {
+      "court": "Tribunal Superior de Justicia de Madrid, Sala de lo Contencioso-Administrativo, Seccion 8a",
+      "decision_number": "1003/2022",
+      "decision_date": "2022-11-04",
+      "appeal_number": "recurso contencioso-administrativo 197/2022",
+      "ecli": null,
+      "ecli_note": "pendiente CENDOJ (diferido; no afecta a Ordesa)",
+      "canonical_source": "notas del texto consolidado oficial del D 18/2020, fundamento de Derecho Septimo citado en notas + nota 8 al art. 48",
+      "affected_provision": [
+        "art. 47.b).5 — nulidad del inciso sobre autorizacion excepcional de apertura/equipacion de vias",
+        "Fichas 'Garganta de la Solana I/II' y 'Las Hoyuelas' — nulidad del extremo relativo a cambio de uso en obras de reparacion/mejora",
+        "art. 48.2 — nulidad EN EL EXTREMO que fija el limite de altitud en 2.000 m para la practica de vivac (VERIFICA la hipotesis del discovery §I con evidencia primaria: la sentencia afecta a la pernocta/vivac)",
+        "obligacion administrativa de incluir la relacion de pruebas/deportivas de baja incidencia ambiental (art. 51 o equivalente)"
+      ],
+      "effect": "NULIDAD PARCIAL: el limite de 2.000 m para vivac del art. 48.2 no es aplicable; regimen vuelve al extremo no anulado",
+      "review_status": "VERIFIED_PRIORITY_3_OFFICIAL_CONSOLIDATED_TEXT"
+    },
+    {
+      "court": "Tribunal Superior de Justicia de Madrid, Sala de lo Contencioso-Administrativo, Seccion 8a",
+      "decision_number": "135/2023",
+      "decision_date": "2023-02-02",
+      "appeal_number": "recurso contencioso-administrativo 455/2020",
+      "ecli": null,
+      "ecli_note": "pendiente CENDOJ (diferido; no afecta a Ordesa)",
+      "canonical_source": "notas del texto consolidado oficial del D 18/2020, punto 4 de las notas",
+      "affected_provision": ["art. 38.1.w) ultimo inciso ('o de las areas sensibles al sobrevuelo recogidas en el anexo VI') — anulacion"],
+      "effect": "NULIDAD PARCIAL",
+      "review_status": "VERIFIED_PRIORITY_3_OFFICIAL_CONSOLIDATED_TEXT"
+    }
+  ]
+}

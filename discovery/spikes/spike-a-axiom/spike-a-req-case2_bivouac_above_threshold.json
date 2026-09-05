@@ -1,0 +1,130 @@
+{
+ "mode": "explain",
+ "dataset": {
+  "inputs": [
+   {
+    "name": "es:policies/vivac/picos-spike#input.inside_park",
+    "entity": "Location",
+    "entity_id": "loc:p1",
+    "interval": {
+     "start": "2023-07-15",
+     "end": "2023-07-16"
+    },
+    "value": {
+     "kind": "bool",
+     "value": true
+    }
+   },
+   {
+    "name": "es:policies/vivac/picos-spike#input.is_bivouac",
+    "entity": "Location",
+    "entity_id": "loc:p1",
+    "interval": {
+     "start": "2023-07-15",
+     "end": "2023-07-16"
+    },
+    "value": {
+     "kind": "bool",
+     "value": true
+    }
+   },
+   {
+    "name": "es:policies/vivac/picos-spike#input.is_tent",
+    "entity": "Location",
+    "entity_id": "loc:p1",
+    "interval": {
+     "start": "2023-07-15",
+     "end": "2023-07-16"
+    },
+    "value": {
+     "kind": "bool",
+     "value": false
+    }
+   },
+   {
+    "name": "es:policies/vivac/picos-spike#input.is_refuge",
+    "entity": "Location",
+    "entity_id": "loc:p1",
+    "interval": {
+     "start": "2023-07-15",
+     "end": "2023-07-16"
+    },
+    "value": {
+     "kind": "bool",
+     "value": false
+    }
+   },
+   {
+    "name": "es:policies/vivac/picos-spike#input.inside_refugio_zone",
+    "entity": "Location",
+    "entity_id": "loc:p1",
+    "interval": {
+     "start": "2023-07-15",
+     "end": "2023-07-16"
+    },
+    "value": {
+     "kind": "bool",
+     "value": false
+    }
+   },
+   {
+    "name": "es:policies/vivac/picos-spike#input.inside_zona_servicios",
+    "entity": "Location",
+    "entity_id": "loc:p1",
+    "interval": {
+     "start": "2023-07-15",
+     "end": "2023-07-16"
+    },
+    "value": {
+     "kind": "bool",
+     "value": false
+    }
+   },
+   {
+    "name": "es:policies/vivac/picos-spike#input.altitude_m",
+    "entity": "Location",
+    "entity_id": "loc:p1",
+    "interval": {
+     "start": "2023-07-15",
+     "end": "2023-07-16"
+    },
+    "value": {
+     "kind": "decimal",
+     "value": "1850"
+    }
+   },
+   {
+    "name": "es:policies/vivac/picos-spike#input.party_size",
+    "entity": "Location",
+    "entity_id": "loc:p1",
+    "interval": {
+     "start": "2023-07-15",
+     "end": "2023-07-16"
+    },
+    "value": {
+     "kind": "integer",
+     "value": 2
+    }
+   }
+  ]
+ },
+ "queries": [
+  {
+   "entity_id": "loc:p1",
+   "period": {
+    "period_kind": "custom",
+    "name": "day",
+    "start": "2023-07-15",
+    "end": "2023-07-16"
+   },
+   "outputs": [
+    "es:policies/vivac/picos-spike#resolucion_unica",
+    "es:policies/vivac/picos-spike#pernocta_permitida",
+    "es:policies/vivac/picos-spike#pernocta_requiere_autorizacion",
+    "es:policies/vivac/picos-spike#pernocta_prohibida",
+    "es:policies/vivac/picos-spike#excepcion_vivac_cota",
+    "es:policies/vivac/picos-spike#excepcion_refugio"
+   ]
+  }
+ ]
+}
