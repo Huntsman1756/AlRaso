@@ -2,10 +2,19 @@
 
 Status claims (M1 remediation F08 — no unproven parity claims):
 
-  SQLITE_DDL   implemented + hermetically tested. Integrity enforced at the DB
-               level: PRAGMA foreign_keys=ON (set per connection by the store,
-               never relying on driver defaults) + append-only UPDATE/DELETE
-               triggers on every normative table.
+   SQLITE_DDL   implemented + hermetically tested. Integrity enforced at the DB
+                level: PRAGMA foreign_keys=ON (set per connection by the store,
+                never relying on driver defaults) + append-only triggers.
+                Append-only EXACTLY means (asserted in
+                tests/test_storage_integrity.py):
+                  legal_rule_version, rule_relation_version, source_document,
+                  legal_fragment, determination  -> UPDATE and DELETE forbidden
+                  spatial_scope                  -> DELETE forbidden; metadata
+                     UPDATE is intentionally allowed (name/geometry_source/
+                     review_status are descriptive attributes of a durable
+                     scope id, not normative history — normative history lives
+                     in the version tables).
+                Store-side verification: BitemporalStore.verify_integrity().
   POSTGRES_DDL TARGET DESIGN ONLY. POSTGRES_NORMATIVE_STORE_STATUS =
                "NOT_IMPLEMENTED": no functional PostgreSQL store or test
                exists, so NO parity claim with SQLite semantics is made.
@@ -29,6 +38,18 @@ Both LegalRuleVersion and RuleRelationVersion carry the SAME bitemporal +
 review semantics (F04: precedence must answer "what did the system know on
 that date?", so relations are versioned too — the old mutable rule_relation
 table is gone).
+
+No silent ambiguity (M1 final hardening H1): two simultaneously-visible
+versions of the SAME logical id (rule_id / relation_id) belonging to DIFFERENT
+lineages (different effective_from) must not overlap in valid time: the
+canonical version would then be undemonstrable. The store refuses such writes
+and the resolver refuses to conclude from such rows.
+
+spatial_scope.relevance (H3): REGULATORY (default, fail-closed) means the
+scope is expected to regulate the modelled activities, so a jurisdictional
+coverage hole in it blocks a PERMITTED; CONTEXT_ONLY is an explicit,
+human-declared statement that the scope does not regulate the activity. It is
+never inferred from names or scope_type.
 
 Note: the SQL keywords below are assembled via _expand() from split literals.
 This is deliberate — hand-typed multi-word SQL keywords were observed to be
@@ -85,7 +106,8 @@ CREATE TABLE __INE__ spatial_scope (
   geometry_source TEXT,
   feature_id      TEXT,
   srid_native     INTEGER,
-  review_status   TEXT
+  review_status   TEXT,
+  relevance       TEXT __NN__ DEFAULT 'REGULATORY'
 );
 
 CREATE TABLE __INE__ legal_rule_version (
@@ -213,6 +235,7 @@ CREATE TABLE __INE__ spatial_scope (
   feature_id      text,
   srid_native     integer,
   review_status   text,
+  relevance       text __NN__ DEFAULT 'REGULATORY',
   geom            geometry(MultiPolygon, 4258)
 );
 CREATE INDEX __INE__ spatial_scope_gix ON spatial_scope USING gist (geom);

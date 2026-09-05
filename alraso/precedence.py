@@ -23,6 +23,12 @@ Semantics:
 
 There is no "first override wins", no "latest rule wins", no
 "most-specific wins" and no "permissive wins" anywhere in this module.
+
+Ambiguous relations (M1 hardening H1): if the same relation_id is visible
+through two lineages whose material content disagrees, the relation is inert
+and a CONFLICT is reported (AMBIGUOUS_RELATION_VERSIONS). Deciding which
+description "wins" would let the ordering of rows pick a permissive or a
+restrictive outcome, which is exactly what this module exists to prevent.
 """
 
 from __future__ import annotations
@@ -35,6 +41,7 @@ from alraso.bitemporal import (
     KNOWN_RELATION_TYPES,
     RelationVersionRow,
     VersionRow,
+    relation_material_signature,
 )
 
 
@@ -51,6 +58,7 @@ class PrecedenceOutcome:
     relations_used: list[dict[str, Any]]
     conflicts: list[dict[str, Any]]
     trace: list[dict[str, Any]] = field(default_factory=list)
+    ambiguous_relation_ids: list[str] = field(default_factory=list)
 
     @property
     def has_conflict(self) -> bool:
@@ -60,6 +68,43 @@ class PrecedenceOutcome:
     def unique_effect(self) -> str | None:
         effects = {v.effect for v in self.survivors}
         return effects.pop() if len(effects) == 1 else None
+
+
+def ambiguous_relation_groups(relations: list[RelationVersionRow]) -> list[dict[str, Any]]:
+    """Visible descriptions of the same relation_id that disagree materially
+    (H1-adjacent: same class of defect as overlapping rule versions).
+
+    Duplicate identical descriptions are not a conflict; contradictory ones are,
+    and neither may be resolved by ranking: a permissive relation and a
+    restrictive relation of the same id would otherwise decide the answer by
+    accident of ordering.
+    """
+    by_id: dict[str, list[RelationVersionRow]] = {}
+    for r in relations:
+        by_id.setdefault(r.relation_id, []).append(r)
+    out = []
+    for relation_id, rows in sorted(by_id.items()):
+        sigs = {relation_material_signature(r) for r in rows}
+        if len(sigs) > 1:
+            out.append({
+                "relation_id": relation_id,
+                "seqs": sorted(r.seq for r in rows),
+                "endpoints": sorted({(r.from_rule_id, r.to_rule_id) for r in rows}),
+            })
+    return out
+
+
+def dedupe_relation_descriptions(
+        relations: list[RelationVersionRow]) -> list[RelationVersionRow]:
+    """One description per relation_id for edge building: among byte-identical
+    descriptions the choice is material-neutral (any works); contradictory ones
+    are handled by ambiguous_relation_groups, never silently merged."""
+    best: dict[str, RelationVersionRow] = {}
+    for r in relations:
+        prev = best.get(r.relation_id)
+        if prev is None or r.seq > prev.seq:
+            best[r.relation_id] = r
+    return [best[k] for k in sorted(best)]
 
 
 def relation_is_applicable(rel: RelationVersionRow,
@@ -96,8 +141,17 @@ def resolve_precedence(active: list[Judgment],
     for j in active:
         by_rule.setdefault(j.version.rule_id, []).append(j.version)
 
+    ambiguous = ambiguous_relation_groups(relations)
+    ambiguous_ids = {g["relation_id"] for g in ambiguous}
+    for g in ambiguous:
+        trace.append({"stage": "precedence_relation", "relation_id": g["relation_id"],
+                      "seqs": g["seqs"], "applicable": False,
+                      "reason": "AMBIGUOUS_RELATION_VERSIONS"})
+
     applicable: list[RelationVersionRow] = []
-    for rel in sorted(relations, key=lambda r: (r.relation_id, r.seq)):
+    for rel in dedupe_relation_descriptions(relations):
+        if rel.relation_id in ambiguous_ids:
+            continue  # never attack with an undecidable precedence
         reason = relation_is_applicable(rel, by_rule)
         if reason is None:
             applicable.append(rel)
@@ -155,6 +209,16 @@ def resolve_precedence(active: list[Judgment],
             "note": "PRECEDENCE_CYCLE: ciclo o conjunto no fundamentado en el grafo de precedencia",
         })
 
+    for g in ambiguous:
+        conflicts.append({
+            "rules": sorted({rid for pair in g["endpoints"] for rid in pair}),
+            "seqs": g["seqs"],
+            "effects": [],
+            "note": (f"AMBIGUOUS_RELATION_VERSIONS: relaciones {g['relation_id']!r} con "
+                     "descripciones visibles contradictorias; ninguna es canónica, "
+                     "no se decide por orden"),
+        })
+
     survivor_effects = sorted({v.effect for v in survivors})
     if len(survivor_effects) > 1:
         conflicts.append({
@@ -179,4 +243,5 @@ def resolve_precedence(active: list[Judgment],
                   "survivors": sorted(versions_by_seq[s].rule_id for s in versions_by_seq
                                       if state.get(s) == "in")})
     return PrecedenceOutcome(survivors=survivors, relations_used=used,
-                             conflicts=conflicts, trace=trace)
+                             conflicts=conflicts, trace=trace,
+                             ambiguous_relation_ids=sorted(ambiguous_ids))

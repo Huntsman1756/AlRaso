@@ -7,8 +7,16 @@
     "supersedes": "discovery/fixtures/ordesa-feasibility/fixture.json (kept as historical evidence; the packaged copy in alraso/resources is canonical for tests)",
     "review_vocabulary": {
       "publishable_review_statuses": ["VERIFIED", "PUBLISHED"],
+      "publishable_fragment_statuses": ["VERIFIED", "PUBLISHED"],
+      "fragment_review_note": "H2/D3: legal_fragment.review_status is a PROVENANCE axis (has the quoted text been checked against its source document?), distinct from rule review. Fragments here were checked against the official texts during discovery, so they carry VERIFIED explicitly; no fixture keeps a private status that production would have to weaken to accept.",
       "legal_review_complete": "explicit human legal review completed for this version",
-      "spatial_review_complete": "true: scope attribution reviewed; false: pending (never publishable); null: not applicable"
+      "spatial_review_complete": "true: scope attribution reviewed; false: pending (never publishable); null: not applicable",
+      "scope_relevance": "H3/D4: REGULATORY (default) means the scope is expected to regulate the modelled activity, so a coverage hole there blocks PERMITTED; CONTEXT_ONLY would be an explicit human declaration that it does not. Both Ordesa scopes are REGULATORY: the park polygon publishes no rule version for these activities in this fixture, so coordinate-mode PERMITTED stays blocked (M1_ORDESA_REAL_WORLD_SPATIAL=NOT_VALIDATED)."
+    },
+    "hardening_notes": {
+      "H1": "no two visible versions of the same rule_id overlap in valid time here: closures are appended inside the same lineage (same effective_from), never as a competing lineage",
+      "H2": "every cited fragment carries a publishable provenance status (VERIFIED)",
+      "H3": "both scopes are REGULATORY; the fixture therefore never yields a coordinate-mode PERMITTED"
     },
     "f2_decisions_assembled": {
       "activity_model": "TEXT_MATCH_ACCEPTABLE (single closed-vocabulary Text input + exhaustive match + _ fallback)",
@@ -83,7 +91,7 @@
       "locator": "Anexo I, apartado D.a (acampada/vivac por sectores)",
       "exact_text_hint": "Acampada libre con tienda max 1,30 m sobre 2.100 m en sector Ordesa (1800 Añisclo/Escuaín, 2500 Pineta), max 3 noches",
       "extracted_at": "2026-09-05",
-      "review_status": "VERIFIED_DISCOVERY"
+      "review_status": "VERIFIED"
     },
     {
       "id": "lf-d16-2022-pernocta",
@@ -91,7 +99,7 @@
       "locator": "Artículo único (modificación del régimen de pernocta del sector Ordesa)",
       "exact_text_hint": "Vivac/acampada nocturna PROHIBIDA en todo el sector Ordesa desde 09-02-2022 (confirmado en pnomp.es y MITECO)",
       "extracted_at": "2026-09-05",
-      "review_status": "VERIFIED_DISCOVERY"
+      "review_status": "VERIFIED"
     },
     {
       "id": "lf-pnomp-pernocta-operativa",
@@ -99,7 +107,7 @@
       "locator": "Sección 'Pernocta en el Parque Nacional'",
       "exact_text_hint": "Prohibición sector Ordesa vigente; zona de acampada Góriz con reserva; cotas Añisclo >1650, Escuaín >1800, Pineta >2550; max 3 noches",
       "extracted_at": "2026-09-05",
-      "review_status": "VERIFIED_DISCOVERY"
+      "review_status": "VERIFIED"
     }
   ],
   "spatial_scopes": [
@@ -110,7 +118,8 @@
       "geometry_source": "sd-oapn-gis",
       "feature_id": "Parque Nacional de Ordesa y Monte Perdido",
       "srid_native": 25830,
-      "review_status": "SPATIAL_REVIEW_PENDING_GEOMETRY"
+      "review_status": "SPATIAL_REVIEW_PENDING_GEOMETRY",
+      "relevance": "REGULATORY"
     },
     {
       "id": "ss-ordesa-sector-ordesa",
@@ -118,7 +127,8 @@
       "parent_scope": "ss-ordesa-park",
       "official_name": "Sector Ordesa",
       "geometry_source": "PENDING: delimitación sectorial oficial (PRUG cartografía; fallback: DEM altitude check + park polygon)",
-      "review_status": "SPATIAL_REVIEW_PENDING_GEOMETRY"
+      "review_status": "SPATIAL_REVIEW_PENDING_GEOMETRY",
+      "relevance": "REGULATORY"
     }
   ],
   "legal_rule_versions": [

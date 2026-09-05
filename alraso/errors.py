@@ -46,6 +46,14 @@ class InvalidScope(AlRasoError):
     reason_code = "INVALID_SCOPE"
 
 
+class OverlappingRuleVersions(InvalidRule):
+    """Two simultaneously-visible versions of the SAME rule_id whose validity
+    windows overlap and whose material content differs: the canonical version
+    cannot be demonstrated through explicit lineage/versioning (H1/D2)."""
+
+    reason_code = "OVERLAPPING_RULE_VERSIONS"
+
+
 # ---- spatial ------------------------------------------------------------------
 class SpatialResolutionError(AlRasoError):
     reason_code = "SPATIAL_RESOLUTION_ERROR"
@@ -100,3 +108,8 @@ REASON_PRECEDENCE_CYCLE = "PRECEDENCE_CYCLE"
 REASON_SPATIAL_REVIEW = "SPATIAL_REVIEW_INCOMPLETE"
 REASON_ACTIVITY_VOCAB = "ACTIVITY_OUTSIDE_VOCABULARY"
 REASON_INVARIANT_VIOLATION = "PERMITTED_INVARIANT_VIOLATION"
+# M1 final hardening (H1/H2/H3)
+REASON_OVERLAPPING_VERSIONS = "OVERLAPPING_RULE_VERSIONS"
+REASON_AMBIGUOUS_RELATIONS = "AMBIGUOUS_RELATION_VERSIONS"
+REASON_EVIDENCE_NOT_PUBLISHABLE = "EVIDENCE_NOT_PUBLISHABLE"
+REASON_INCOMPLETE_SCOPE_COVERAGE = "INCOMPLETE_SCOPE_COVERAGE"

@@ -22,6 +22,14 @@ effective/recorded ranges and review, so "which precedences did the system know
 on that date?" is answerable. Nothing here is mutable: every writer is a pure
 INSERT guarded by DB triggers.
 
+No silent winner (M1 hardening H1/D2): after lineage collapse, every visible
+lineage whose valid time covers the activity date is returned. Two visible
+lineages of one rule_id overlapping in valid time are an ambiguity, not a tie
+to break: ``add_rule_version`` refuses such a corpus at its commit point and
+the resolver answers UNDETERMINED + CONFLICTING + OVERLAPPING_RULE_VERSIONS.
+There is no "latest/effective_from/seq/restricted/permissive wins" rule
+anywhere in this module.
+
 Integrity (F08): every connection enforces PRAGMA foreign_keys=ON explicitly
 (never trusting the sqlite3 default) and exposes verify_integrity(). All rows
 pass strict validation (F06) before INSERT — invalid dates, effects, review
@@ -45,7 +53,12 @@ from dataclasses import dataclass
 from datetime import date
 from typing import Any, Iterator
 
-from alraso.errors import InvalidRelation, InvalidRule, InvalidScope
+from alraso.errors import (
+    InvalidRelation,
+    InvalidRule,
+    InvalidScope,
+    OverlappingRuleVersions,
+)
 from alraso.schema import SQLITE_DDL
 from alraso.validation import (
     parse_bool_strict,
@@ -56,6 +69,23 @@ from alraso.validation import (
 PUBLISHABLE_REVIEW_STATUSES = frozenset({"VERIFIED", "PUBLISHED"})
 KNOWN_EFFECTS = frozenset({"PERMITTED", "PROHIBITED", "AUTHORIZATION_REQUIRED"})
 KNOWN_RELATION_TYPES = frozenset({"OVERRIDES"})
+
+# H2/D3: evidence review is a DIFFERENT axis from rule legal review. A
+# LegalFragment carries a provenance status (has the quoted text been verified
+# against the source document?); reusing PUBLISHABLE_REVIEW_STATUSES here would
+# conflate "the rule is legally reviewed" with "the citation has been checked
+# against its source", so the sets are declared separately even while their
+# current members coincide. A fragment in any other state (DISCOVERED,
+# EXTRACTED, REVIEW_REQUIRED, unknown, missing) can never back a publishable
+# determination.
+PUBLISHABLE_FRAGMENT_STATUSES = frozenset({"VERIFIED", "PUBLISHED"})
+
+# H3/D4: whether a scope is expected to regulate the modelled activities.
+# REGULATORY is the fail-closed default: a coverage hole there blocks PERMITTED.
+# CONTEXT_ONLY is an explicit human declaration that the scope does not
+# regulate the activity (never inferred from names or scope_type).
+SCOPE_RELEVANCES = frozenset({"REGULATORY", "CONTEXT_ONLY"})
+DEFAULT_SCOPE_RELEVANCE = "REGULATORY"
 
 
 @dataclass
@@ -136,6 +166,13 @@ class RelationVersionRow:
 
 @dataclass
 class Selection:
+    """Result of a bitemporal selection for one (activity, scope) pair.
+
+    ``covering`` now carries ONE description per visible lineage, so a rule_id
+    with two simultaneously-visible lineages that both cover the activity date
+    appears twice (H1/D2): the caller must resolve the ambiguity instead of the
+    store silently ranking one away.
+    """
     covering: list[VersionRow]
     saw_lineage: bool
 
@@ -146,6 +183,30 @@ class Selection:
     @property
     def is_empty(self) -> bool:
         return not self.saw_lineage
+
+
+def _window_overlaps(ef_a: str, et_a: str | None, ef_b: str, et_b: str | None) -> bool:
+    """Closed-interval overlap with NULL meaning open (unbounded) end."""
+    end_a = et_a if et_a is not None else "\uffff"
+    end_b = et_b if et_b is not None else "\uffff"
+    return ef_a <= end_b and ef_b <= end_a
+
+
+def version_material_signature(v: VersionRow) -> str:
+    """Canonical material identity of a rule version: what a determination
+    would actually rest on. Two visible lineages that share it are duplicate
+    descriptions (a data-quality smell, flagged but not a legal conflict);
+    two that differ are an unresolvable ambiguity."""
+    return json.dumps({"effect": v.effect, "condition": v.condition,
+                       "evidence": sorted(v.evidence)}, sort_keys=True)
+
+
+def relation_material_signature(r: RelationVersionRow) -> str:
+    return json.dumps({"relation_type": r.relation_type, "from_rule_id": r.from_rule_id,
+                       "from_effect": r.from_effect, "to_rule_id": r.to_rule_id,
+                       "to_effect": r.to_effect, "evidence": sorted(r.evidence),
+                       "review_status": r.review_status, "human_verified": r.human_verified,
+                       "legal_review_complete": r.legal_review_complete}, sort_keys=True)
 
 
 _COLUMNS = (
@@ -165,6 +226,7 @@ class BitemporalStore:
     def __init__(self, conn: sqlite3.Connection) -> None:
         self.conn = conn
         self._tx_depth = 0
+        self._versions_dirty = False
 
     @classmethod
     def connect(cls, path: str = ":memory:") -> "BitemporalStore":
@@ -176,15 +238,35 @@ class BitemporalStore:
             raise sqlite3.DatabaseError("PRAGMA foreign_keys could not be enabled")
         conn.executescript(SQLITE_DDL)
         conn.commit()
-        return cls(conn)
+        store = cls(conn)
+        store._migrate_add_columns()
+        return store
+
+    def _migrate_add_columns(self) -> None:
+        """Additive-only migration for databases written by an earlier M1
+        schema. Never rewrites or removes data (append-only preserved)."""
+        cols = {r["name"] for r in
+                self.conn.execute("PRAGMA table_info(spatial_scope)").fetchall()}
+        if "relevance" not in cols:
+            self.conn.execute(
+                "ALTER TABLE spatial_scope ADD COLUMN relevance TEXT NOT NULL "
+                "DEFAULT 'REGULATORY'")
+            self.conn.commit()
 
     def verify_integrity(self) -> None:
-        """Raised if FK enforcement is off or the DB reports integrity issues."""
+        """Raised if FK enforcement is off, the DB reports integrity issues, or
+        the corpus contains contradictory overlapping rule versions (H1/D2)."""
         if self.conn.execute("PRAGMA foreign_keys").fetchone()[0] != 1:
             raise sqlite3.IntegrityError("foreign_keys pragma is OFF on this connection")
         bad = self.conn.execute("PRAGMA foreign_key_check").fetchall()
         if bad:
             raise sqlite3.IntegrityError(f"foreign key violations: {[tuple(r) for r in bad]}")
+        hard = [g for g in self.find_ambiguous_rule_version_groups()
+                if not g["material_identical"]]
+        if hard:
+            raise OverlappingRuleVersions(
+                f"corpus has ambiguous overlapping rule versions: "
+                f"{[g['rule_id'] for g in hard]}", detail={"groups": hard})
 
     # ---- use-case transactions (F07) -------------------------------------------
     @contextmanager
@@ -192,7 +274,10 @@ class BitemporalStore:
         """One atomic use-case boundary. Nested calls join the outermost one.
 
         Writers inside commit nothing; failure anywhere rolls back the whole
-        batch, so a half-ingested corpus is unobservable.
+        batch, so a half-ingested corpus is unobservable. Corpus-level
+        invariants (no ambiguous overlapping rule versions, H1/D2) are checked
+        at the COMMIT point, so a batch may legitimately reorder its own rows
+        as long as the final state is unambiguous.
         """
         if self._tx_depth:
             yield
@@ -202,15 +287,92 @@ class BitemporalStore:
             yield
         except BaseException:
             self._tx_depth = 0
+            self._versions_dirty = False
             self.conn.rollback()
             raise
         else:
             self._tx_depth = 0
+            try:
+                self._assert_no_ambiguous_versions()
+            except BaseException:
+                self._versions_dirty = False
+                self.conn.rollback()   # a refused batch leaves no half-state
+                raise
+            self._versions_dirty = False
             self.conn.commit()
 
     def _finish(self) -> None:
         if self._tx_depth == 0:
+            try:
+                self._assert_no_ambiguous_versions()
+            except BaseException:
+                self._versions_dirty = False
+                self.conn.rollback()   # a refused write leaves no trace
+                raise
+            self._versions_dirty = False
             self.conn.commit()
+
+    # ---- corpus ambiguity gate (H1/D2) -----------------------------------------
+    def find_ambiguous_rule_version_groups(self) -> list[dict[str, Any]]:
+        """Visible current descriptions of the SAME (rule_id, activity, scope)
+        that come from different lineages (different effective_from) and whose
+        VALID windows overlap.
+
+        ``material_identical`` distinguishes a duplicated double-entry (harmless
+        in legal terms, still a data-quality defect that must be visible) from a
+        genuine contradiction, where the canonical version cannot be
+        demonstrated and the resolver must answer UNDETERMINED + CONFLICTING.
+        """
+        rows = self.conn.execute(f"SELECT {_COLUMNS} FROM legal_rule_version").fetchall()
+        current: dict[tuple[str, str, str, str], VersionRow] = {}
+        for r in rows:
+            v = self._row_to_version(r)
+            key = (v.rule_id, v.activity, v.spatial_scope_id, v.effective_from)
+            prev = current.get(key)
+            if prev is None or (v.recorded_at, v.seq) > (prev.recorded_at, prev.seq):
+                current[key] = v
+        groups: dict[tuple[str, str, str], list[VersionRow]] = {}
+        for v in current.values():
+            if v.recorded_until is not None:
+                continue  # not the system's current belief any more
+            groups.setdefault((v.rule_id, v.activity, v.spatial_scope_id), []).append(v)
+        out: list[dict[str, Any]] = []
+        for (rule_id, activity, scope), versions in sorted(groups.items()):
+            if len(versions) < 2:
+                continue
+            for i in range(len(versions)):
+                for j in range(i + 1, len(versions)):
+                    a, b = versions[i], versions[j]
+                    if not _window_overlaps(a.effective_from, a.effective_to,
+                                            b.effective_from, b.effective_to):
+                        continue
+                    out.append({
+                        "rule_id": rule_id, "activity": activity, "scope_id": scope,
+                        "seqs": sorted([a.seq, b.seq]),
+                        "effects": sorted({a.effect, b.effect}),
+                        "windows": [[a.effective_from, a.effective_to],
+                                    [b.effective_from, b.effective_to]],
+                        "material_identical": (version_material_signature(a)
+                                               == version_material_signature(b)),
+                    })
+        return out
+
+    def _assert_no_ambiguous_versions(self) -> None:
+        if not self._versions_dirty:
+            return
+        hard = [g for g in self.find_ambiguous_rule_version_groups()
+                if not g["material_identical"]]
+        if hard:
+            raise OverlappingRuleVersions(
+                "overlapping visible versions of the same rule_id with different "
+                f"material content: {[g['rule_id'] for g in hard]}",
+                detail={"groups": hard})
+
+    def overlapping_duplicate_groups(self) -> list[dict[str, Any]]:
+        """Duplicate double-entries (same material content): allowed to exist,
+        never allowed to pass unnoticed."""
+        return [g for g in self.find_ambiguous_rule_version_groups()
+                if g["material_identical"]]
 
     # ---- append-only writers (all strictly validated, F06) ---------------------
     def add_source_document(self, d: dict[str, Any]) -> None:
@@ -233,23 +395,38 @@ class BitemporalStore:
     def add_legal_fragment(self, d: dict[str, Any]) -> None:
         if not d.get("id") or not d.get("source_document_id") or not d.get("locator"):
             raise InvalidRule("legal_fragment requires id, source_document_id and locator")
+        # H2/D3: NO publishable default. A fragment is only publishable when a
+        # human explicitly says so; "REVIEW_REQUIRED" (or anything outside
+        # PUBLISHABLE_FRAGMENT_STATUSES) can never back a determination.
+        review_status = d.get("review_status", "REVIEW_REQUIRED")
+        if not isinstance(review_status, str) or not review_status:
+            raise InvalidRule("legal_fragment review_status must be a non-empty string")
         self.conn.execute(
             "INSERT INTO legal_fragment (id,source_document_id,locator,exact_text_hint,"
             "extracted_at,review_status) VALUES (?,?,?,?,?,?)",
             (d["id"], d["source_document_id"], d["locator"], d.get("exact_text_hint"),
-             d.get("extracted_at"), d.get("review_status", "VERIFIED")),
+             d.get("extracted_at"), review_status),
         )
         self._finish()
 
     def add_spatial_scope(self, d: dict[str, Any]) -> None:
         if not d.get("id") or not d.get("official_name") or not d.get("scope_type"):
             raise InvalidScope("spatial_scope requires id, scope_type and official_name")
+        relevance = d.get("relevance")
+        if relevance is None:
+            # fail-closed default: an unmarked scope IS expected to regulate and
+            # therefore its coverage is required for a PERMITTED (H3/D4)
+            relevance = DEFAULT_SCOPE_RELEVANCE
+        if relevance not in SCOPE_RELEVANCES:
+            raise InvalidScope(f"unknown relevance {relevance!r} "
+                               f"(expected one of {sorted(SCOPE_RELEVANCES)})")
         self.conn.execute(
             "INSERT INTO spatial_scope (id,scope_type,parent_scope,official_name,"
-            "geometry_source,feature_id,srid_native,review_status) VALUES (?,?,?,?,?,?,?,?)",
+            "geometry_source,feature_id,srid_native,review_status,relevance) "
+            "VALUES (?,?,?,?,?,?,?,?,?)",
             (d["id"], d["scope_type"], d.get("parent_scope"), d["official_name"],
              d.get("geometry_source"), d.get("feature_id"), d.get("srid_native"),
-             d.get("review_status")),
+             d.get("review_status"), relevance),
         )
         self._finish()
 
@@ -295,9 +472,10 @@ class BitemporalStore:
              d.get("recorded_until"), json.dumps(evidence),
              d.get("interpretation_note"), review_status,
              int(legal_review_complete),
-             None if spatial_review_complete is None else int(spatial_review_complete),
-             int(evidence_required)),
+              None if spatial_review_complete is None else int(spatial_review_complete),
+              int(evidence_required)),
         )
+        self._versions_dirty = True
         self._finish()
 
     def add_relation(self, d: dict[str, Any]) -> None:
@@ -367,11 +545,18 @@ class BitemporalStore:
         )
 
     @staticmethod
-    def _select_bitemporal(rows: list, lineage_key, valid_covers, rank) -> tuple[list, bool]:
+    def _select_bitemporal(rows: list, lineage_key, valid_covers) -> tuple[list, bool]:
         """Shared 2-phase algorithm for versions and relation versions.
 
         Phase 1: collapse each lineage to the latest recorded description.
-        Phase 2: valid-time coverage; greatest rank wins per logical id.
+        Phase 2: keep every lineage description whose valid time covers the
+        activity date.
+
+        There is deliberately NO third phase that picks one description per
+        logical id (H1/D2): if two lineages of the same rule_id are visible and
+        applicable at once, both are returned and the caller must treat it as
+        ambiguity. Silent ranking (greatest effective_from / latest recorded_at
+        / highest seq) is exactly what this store must never do.
         """
         lineages: dict[Any, Any] = {}
         for v in rows:
@@ -379,14 +564,9 @@ class BitemporalStore:
             prev = lineages.get(key)
             if prev is None or (v.recorded_at, v.seq) > (prev.recorded_at, prev.seq):
                 lineages[key] = v
-        by_id: dict[Any, Any] = {}
-        for v in lineages.values():
-            if not valid_covers(v):
-                continue
-            prev = by_id.get(lineage_key(v)[0])
-            if prev is None or rank(v) > rank(prev):
-                by_id[lineage_key(v)[0]] = v
-        return list(by_id.values()), bool(lineages)
+        covering = [v for v in lineages.values() if valid_covers(v)]
+        covering.sort(key=lambda v: (lineage_key(v)[0], v.seq))
+        return covering, bool(lineages)
 
     def select(self, activity: str, scope_id: str, activity_date: str,
                knowledge_date: str) -> Selection:
@@ -403,9 +583,8 @@ class BitemporalStore:
             lineage_key=lambda v: (v.rule_id, v.effective_from),
             valid_covers=lambda v: v.effective_from <= activity_date and (
                 v.effective_to is None or activity_date <= v.effective_to),
-            rank=lambda v: (v.effective_from, v.recorded_at, v.seq),
         )
-        return Selection(covering=sorted(covering, key=lambda x: x.rule_id),
+        return Selection(covering=sorted(covering, key=lambda x: (x.rule_id, x.seq)),
                          saw_lineage=saw_lineage)
 
     def _row_to_relation(self, r: sqlite3.Row) -> RelationVersionRow:
@@ -424,9 +603,12 @@ class BitemporalStore:
                      knowledge_date: str) -> list[RelationVersionRow]:
         """Bitemporal visibility of relations among the given rule ids (F04).
 
-        Returns, for each relation_id, the description the system knew at
-        knowledge_date, restricted to those whose validity covers activity_date.
-        Ordering: by seq — callers must not rely on order for semantics.
+        Returns, for each visible relation LINEAGE, the description the system
+        knew at knowledge_date whose validity covers activity_date. Two visible
+        lineages of the same relation_id are both returned: precedence treats
+        that as ambiguity (AMBIGUOUS_RELATION_VERSIONS), never as "whichever
+        ranks higher wins". Ordering: by seq — callers must not rely on order
+        for semantics.
         """
         self._check_dates(activity_date, knowledge_date)
         if not rule_ids:
@@ -444,7 +626,6 @@ class BitemporalStore:
             lineage_key=lambda v: (v.relation_id, v.effective_from),
             valid_covers=lambda v: v.effective_from <= activity_date and (
                 v.effective_to is None or activity_date <= v.effective_to),
-            rank=lambda v: (v.effective_from, v.recorded_at, v.seq),
         )
         return sorted(applicable, key=lambda v: v.seq)
 
@@ -469,10 +650,23 @@ class BitemporalStore:
         found = {f["id"] for f in self.get_fragments(ids)}
         return [i for i in ids if i not in found]
 
+    def unpublishable_fragments(self, ids: list[str]) -> list[str]:
+        """Ids of cited evidence whose own review status is not publishable
+        (H2/D3). An unverified citation can never be laundered into publishable
+        evidence by the review state of the rule that cites it."""
+        if not ids:
+            return []
+        qmarks = ",".join("?" * len(ids))
+        cur = self.conn.execute(
+            f"SELECT id, COALESCE(review_status,'') AS review_status "
+            f"FROM legal_fragment WHERE id IN ({qmarks})", ids)
+        return sorted(r["id"] for r in cur.fetchall()
+                      if r["review_status"] not in PUBLISHABLE_FRAGMENT_STATUSES)
+
     def get_scope(self, scope_id: str) -> dict[str, Any] | None:
         r = self.conn.execute(
             "SELECT id,scope_type,parent_scope,official_name,geometry_source,feature_id,"
-            "review_status FROM spatial_scope WHERE id=?", (scope_id,),
+            "review_status,relevance FROM spatial_scope WHERE id=?", (scope_id,),
         ).fetchone()
         return dict(r) if r else None
 
@@ -497,11 +691,13 @@ class BitemporalStore:
             "relation_version_seqs,evidence_fragment_ids,source_document_ids,engine_adapter,"
             "engine_version,resolver_version,schema_version,knowledge_state_hash,decided_on) "
             "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-            (json.dumps(canonical_query, sort_keys=True), activity, activity_date,
-             knowledge_date, legal_status, knowledge_status,
-             json.dumps(sorted(applicable_scope_ids)), json.dumps(sorted(rule_version_seqs)),
-             json.dumps(sorted(relation_version_seqs)), json.dumps(sorted(evidence_fragment_ids)),
-             json.dumps(sorted(source_document_ids)), engine_adapter, engine_version,
+             (json.dumps(canonical_query, sort_keys=True, allow_nan=False), activity,
+              activity_date,
+              knowledge_date, legal_status, knowledge_status,
+              json.dumps(sorted(applicable_scope_ids)), json.dumps(sorted(rule_version_seqs)),
+              json.dumps(sorted(relation_version_seqs)), json.dumps(sorted(evidence_fragment_ids)),
+              json.dumps(sorted(source_document_ids), allow_nan=False), engine_adapter,
+              engine_version,
              resolver_version, schema_version, knowledge_state_hash, decided_on),
         )
         self._finish()

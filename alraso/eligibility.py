@@ -17,6 +17,10 @@ A version is eligible iff ALL hold:
   5. evidence is present when the version requires it (evidence_required) and
      EVERY evidence reference resolves to a legal_fragment whose
      source_document exists (no dangling citations).
+  5b. EVERY cited fragment is itself publishable (H2/D3,
+     alraso.bitemporal.PUBLISHABLE_FRAGMENT_STATUSES): the rule's own review
+     state can never launder a citation that has not been checked against its
+     source document.
   6. the version's condition AST is structurally valid.
 
 Geometry precision itself is policed separately: the PERMITTED invariant
@@ -62,6 +66,8 @@ def is_rule_version_eligible(version: VersionRow, store: "BitemporalStore") -> l
     if version.evidence:
         for frag in store.missing_fragments(version.evidence):
             reasons.append(f"EVIDENCE_UNRESOLVABLE:{frag}")
+        for frag in store.unpublishable_fragments(version.evidence):
+            reasons.append(f"EVIDENCE_NOT_PUBLISHABLE:{frag}")
 
     if version.condition is not None:
         from alraso.errors import InvalidCondition
