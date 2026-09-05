@@ -55,6 +55,9 @@ def test_dependency_lock_matches_code_constants():
     ax = lock["axiom"]
     assert ax["status"] == "EXPERIMENTAL_ADAPTER" and ax["parity_claim"] is False
     assert re.fullmatch(r"[0-9a-f]{64}", ax["binary"]["sha256"])
+    # Full SHA, not a prefix: a short SHA is not an immutable identity and
+    # actions/checkout cannot resolve one (this exact bug failed a CI run).
+    assert re.fullmatch(r"[0-9a-f]{40}", ax["commit"])
 
 
 def test_postgres_status_is_honest_everywhere():
