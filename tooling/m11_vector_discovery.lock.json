@@ -1,0 +1,166 @@
+{
+  "schema": "alraso-m11-vector-discovery/v1",
+  "question": "Does an official, legally identifiable vector geometry exist for the exact legal scope used by the PNOMP overnight/vivac rule (Sector Ordesa)?",
+  "classified_at": "2026-09-05T19:55:33.635565+00:00",
+  "classification": "NO_OFFICIAL_VECTOR_SCOPE_FOUND",
+  "spatial_status": "SPATIAL_EVIDENCE_INCOMPLETE",
+  "authority": "Gobierno de Aragon - IGEAR / ICEARAGON (official IDE of Aragon)",
+  "policy": {
+    "digitization_allowed": false,
+    "park_polygon_as_sector_substitute": "FORBIDDEN",
+    "next_phase_requires": "explicit decision on the PRUG annex cartography (M1.1-B), with D1/D2/D3 classification before any conversion",
+    "discovery_inconclusive_if": "any endpoint unreachable -> classification must be DISCOVERY_INCONCLUSIVE, never C"
+  },
+  "endpoints": {
+    "wfs_cartografia_basica": "https://icearagon.aragon.es/Visor2D",
+    "wfs_dit": "https://icearagon.aragon.es/DIT",
+    "wfs_sium": "https://icearagon.aragon.es/SIUa_WMS",
+    "csw_registro_cartografico": "https://icearagon.aragon.es/RCA/srv/spa/csw",
+    "discovered_from": [
+      "https://idearagon.aragon.es/portal/wfs.jsp",
+      "https://idearagon.aragon.es/portal/csw.jsp"
+    ]
+  },
+  "evidence": [
+    {
+      "artifact": "wfs_caps_WFS_Visor2D_cartografia_basica_",
+      "file": "wfs_caps_WFS_Visor2D_cartografia_basica_.xml",
+      "endpoint": "https://icearagon.aragon.es/Visor2D",
+      "query": "?service=WFS&version=2.0.0&request=GetCapabilities",
+      "bytes": 713614,
+      "sha256": "86bdf4e41a18b91fc90ae576690bae99081020f304a4f78fbe2a2dcc5164a2ac",
+      "note": "official WFS GetCapabilities (cartografia basica)"
+    },
+    {
+      "artifact": "wfs_caps_WFS_DIT_documentos_informativos_territoriales_",
+      "file": "wfs_caps_WFS_DIT_documentos_informativos_territoriales_.xml",
+      "endpoint": "https://icearagon.aragon.es/DIT",
+      "query": "?service=WFS&version=2.0.0&request=GetCapabilities",
+      "bytes": 233688,
+      "sha256": "cb7f0641966fdbdece04676f9273deb7597bbeac190677ad5cfacd274163e36b",
+      "note": "official WFS GetCapabilities (documentos informativos territoriales)"
+    },
+    {
+      "artifact": "wfs_caps_WFS_SIUa_urbanismo_",
+      "file": "wfs_caps_WFS_SIUa_urbanismo_.xml",
+      "endpoint": "https://icearagon.aragon.es/SIUa_WMS",
+      "query": "?service=WFS&version=2.0.0&request=getcapabilities",
+      "bytes": 113306,
+      "sha256": "0101c57b82a694438b86c06498645cb14187bf9a4e487526b6cd8eb17b42d4d8",
+      "note": "official WFS GetCapabilities (urbanismo SIUa)"
+    },
+    {
+      "artifact": "feat_ENP_ES24",
+      "file": "feat_ENP_ES24.json",
+      "endpoint": "https://icearagon.aragon.es/Visor2D",
+      "query": "?service=WFS&version=2.0.0&request=GetFeature&typeName=VISOR2D:ENP_ES24&srsName=EPSG:4326&outputFormat=application/json&maxFeatures=300&CQL_FILTER=INTERSECTS(shape,SRID=4326;POLYGON((0.0 42.60,0.28 42.60,0.28 42.75,0.0 42.75,0.0 42.60)))",
+      "bytes": 177311,
+      "sha256": "8363c8460afed905da96f8a25415314c7ae530a35d2bb9246247bd4dcb2b2688",
+      "note": "protection figures intersecting the PNOMP window",
+      "number_matched": 3,
+      "number_returned": 3
+    },
+    {
+      "artifact": "feat_bbox_ZENP",
+      "file": "feat_bbox_ZENP.json",
+      "endpoint": "https://icearagon.aragon.es/Visor2D",
+      "query": "?service=WFS&version=2.0.0&request=GetFeature&typeName=VISOR2D:ZENP&srsName=EPSG:4326&outputFormat=application/json&count=300&bbox=735000,4710000,765000,4740000,EPSG:25830",
+      "bytes": 2383428,
+      "sha256": "e4318ac2bc0a503201aed73434931bc216dfdcf38d643c03ec71bc0dad3a776b",
+      "note": "ENP zoning layer, PNOMP window",
+      "number_matched": 158,
+      "number_returned": 158
+    },
+    {
+      "artifact": "feat_bbox_V112_RZ_ENPZonificacion",
+      "file": "feat_bbox_V112_RZ_ENPZonificacion.json",
+      "endpoint": "https://icearagon.aragon.es/Visor2D",
+      "query": "?service=WFS&version=2.0.0&request=GetFeature&typeName=VISOR2D:V112_RZ_ENPZonificacion&srsName=EPSG:4326&outputFormat=application/json&count=300&bbox=735000,4710000,765000,4740000,EPSG:25830",
+      "bytes": 2386430,
+      "sha256": "0b34fd82445034f0b210f8aa5d338125ba06748917ae63ff2dc0a8b2b4b1839f",
+      "note": "duplicate publication of ZENP under an INSPIRE-style name",
+      "number_matched": 158,
+      "number_returned": 158
+    },
+    {
+      "artifact": "feat_bbox_ZPORNs",
+      "file": "feat_bbox_ZPORNs.json",
+      "endpoint": "https://icearagon.aragon.es/Visor2D",
+      "query": "?service=WFS&version=2.0.0&request=GetFeature&typeName=VISOR2D:ZPORNs&srsName=EPSG:4326&outputFormat=application/json&count=300&bbox=735000,4710000,765000,4740000,EPSG:25830",
+      "bytes": 147,
+      "sha256": "9ea79fc8aea3888eb559410861e26824de9ecaad31b02c40472d93bfa2dc6a94",
+      "note": "PORN zoning layer, PNOMP window",
+      "number_matched": 0,
+      "number_returned": 0
+    },
+    {
+      "artifact": "feat_bbox_PORN_ES24",
+      "file": "feat_bbox_PORN_ES24.json",
+      "endpoint": "https://icearagon.aragon.es/Visor2D",
+      "query": "?service=WFS&version=2.0.0&request=GetFeature&typeName=VISOR2D:PORN_ES24&srsName=EPSG:4326&outputFormat=application/json&count=300&bbox=735000,4710000,765000,4740000,EPSG:25830",
+      "bytes": 147,
+      "sha256": "bb0d5a434014729711da56e08d3f062c059fc3bdc883ccedc4f016e3b8d8c800",
+      "note": "PORN plan-area layer, PNOMP window",
+      "number_matched": 0,
+      "number_returned": 0
+    },
+    {
+      "artifact": "feat_DIT_8_005_a",
+      "file": "feat_DIT_8_005_a.json",
+      "endpoint": "https://icearagon.aragon.es/DIT",
+      "query": "?service=WFS&version=2.0.0&request=GetFeature&typeName=DIT:DIT_8_005_a&srsName=EPSG:4326&outputFormat=application/json&maxFeatures=300&CQL_FILTER=INTERSECTS(shape,SRID=4326;POLYGON((0.0 42.60,0.28 42.60,0.28 42.75,0.0 42.75,0.0 42.60)))",
+      "bytes": 180389,
+      "sha256": "63344645956cc088ba852f984ed1586795cd5cdea39230218262f3c67d56bbfd",
+      "note": "national-park territorial documents, PNOMP window",
+      "number_matched": 2,
+      "number_returned": 2
+    }
+  ],
+  "observations": {
+    "published_feature_types_total": 1001,
+    "published_layer_names_matching_prug_pernocta_acampada_vivac": [],
+    "published_layer_names_matching_sector": [
+      "VISOR2D:v206_sector_salud"
+    ],
+    "zenp_features_for_ENP101": 153,
+    "zenp_enp101_zonetypes": [
+      "PNac",
+      "ZPP"
+    ],
+    "zenp_enp101_sector_named_features": 0,
+    "zenp_enp101_features_with_nonempty_planificationzone": 0,
+    "zenp_duplicate_publication_identical_count": true,
+    "porn_plan_layer_features_pnomp": 0,
+    "porn_zoning_layer_features_pnomp": 0,
+    "dit_national_park_features_pnomp_codes": [
+      "ENP101",
+      "ZENP101"
+    ],
+    "csw_anytext_ordesa_records": 0
+  },
+  "park_polygon_never_a_sector_substitute": {
+    "layer": "VISOR2D:ENP_ES24",
+    "codigo": "ENP101",
+    "enp_id": 201,
+    "descripcio": "Parque Nacional de Ordesa y Monte Perdido",
+    "superficie_ha": 15692.09207925,
+    "legalfoundationdate": "1982-07-12T22:00:00Z",
+    "legalfoundationdocument": "http://www.boe.es/boe/dias/1982/07/30/pdfs/A20627-20629.pdf",
+    "scope": "WHOLE PARK (declared figure). Proven legal chain, wrong scope for the sector rule.",
+    "native_crs": "EPSG:25830 (ETRS89 / UTM30N)"
+  },
+  "kept_separate_candidate_B": {
+    "layer": "VISOR2D:ZENP",
+    "zonecode": "ENP101_137",
+    "zonename": "Zona de acampada adyacente al refugio de Góriz",
+    "grade": "B-candidate (official polygon of an official campsite; legal link to the overnight rule NOT proven). Must never be merged with the sector delimitation."
+  },
+  "negative_findings": [
+    "0 of 1001 published feature types is a PRUG / plan rector / pernocta / acampada / vivac layer",
+    "no 'sector'-named feature exists for PNOMP in the zoning layers (assets only: refuges, fountains, livestock watering points, roads, visitor centres)",
+    "PORN plan-area and PORN-zoning layers publish ZERO features for this park",
+    "ZENP models legal zoning elsewhere in Aragon ('Zona de uso limitado', 'ZUG', 'ZUC2', PORN zones) -> the gap is a publication gap for PNOMP, not a modelling gap",
+    "CSW (Registro Cartografico de Aragon) returns 0 records for 'ordesa'",
+    "all candidate layers have empty Abstract, no legal reference, no dataset version"
+  ]
+}
