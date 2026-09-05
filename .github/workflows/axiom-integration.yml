@@ -1,0 +1,100 @@
+name: axiom-integration (optional, non-blocking)
+
+# Manual gate. It builds Axiom from the commit pinned in
+# tooling/DEPENDENCIES.lock.json, runs the FULL suite against that real binary
+# and reports what happened. It is deliberately NOT required to merge:
+# AXIOM_STATUS=EXPERIMENTAL_ADAPTER and AXIOM_PARITY=NOT_PROVEN, so this job
+# proves contract behaviour against a real engine, never parity.
+# continue-on-error keeps a broken upstream build from blocking anything.
+
+on:
+  workflow_dispatch:
+    inputs:
+      axiom_ref:
+        description: "Axiom commit/tag to build (default: commit pinned in the lock)"
+        required: false
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  real-axiom:
+    name: full suite against a real Axiom binary
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: alraso
+
+      - name: resolve the Axiom ref to build
+        id: ref
+        working-directory: alraso
+        run: |
+          ref="${{ inputs.axiom_ref }}"
+          if [ -z "$ref" ]; then
+            ref=$(python -c "import json;print(json.load(open('tooling/DEPENDENCIES.lock.json'))['axiom']['commit'])")
+          fi
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
+          echo "building axiom ref=$ref"
+
+      - uses: actions/checkout@v4
+        with:
+          repository: TheAxiomFoundation/axiom-rules-engine
+          ref: ${{ steps.ref.outputs.ref }}
+          path: axiom
+
+      - name: build Axiom (release)
+        run: cargo build --release --quiet --manifest-path axiom/Cargo.toml
+
+      - name: report binary identity (informational, never assumed)
+        run: |
+          sha=$(sha256sum axiom/target/release/axiom-rules-engine | cut -d' ' -f1)
+          pinned=$(python -c "import json;print(json.load(open('alraso/tooling/DEPENDENCIES.lock.json'))['axiom']['binary']['sha256'])")
+          {
+            echo "## Axiom binary identity"
+            echo "- built from ref: \`$(cd axiom && git rev-parse --short HEAD)\`"
+            echo "- rebuilt sha256: \`$sha\`"
+            echo "- pinned in lock: \`$pinned\`"
+            if [ "$sha" = "$pinned" ]; then
+              echo "- result: byte-identical with the M1 audit binary"
+            else
+              echo "- result: DIFFERENT bytes. Expected possibility: the lock pins the"
+              echo "  binary actually used in the M1 audit; a rebuild only has to satisfy"
+              echo "  the same contract battery, and does NOT establish parity either way."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: full suite with the real binary (Axiom tests must not skip)
+        working-directory: alraso
+        env:
+          ALRASO_AXIOM_BIN: ${{ github.workspace }}/axiom/target/release/axiom-rules-engine
+          ALRASO_AXIOM_ROOT: ${{ runner.temp }}/rs_root/rulespec-es
+        run: |
+          mkdir -p "$ALRASO_AXIOM_ROOT"
+          python -m pip install --upgrade pip "pytest>=8" "PyYAML>=6,<7"
+          python -m pytest -q -rs > axiom.log 2>&1
+          status=$?
+          cat axiom.log
+          exit $status
+
+      - name: assert nothing skipped and the suite is whole
+        working-directory: alraso
+        run: |
+          python - <<'PY'
+          import re, sys
+          text = open("axiom.log", encoding="utf-8", errors="replace").read()
+          skips = [l for l in text.splitlines() if l.startswith("SKIPPED [")]
+          summary = [l for l in text.splitlines() if re.search(r"\d+ passed", l)]
+          if not summary:
+              print("FAIL: suite did not finish")
+              sys.exit(1)
+          print(summary[-1])
+          print(f"skips={len(skips)} (expected 0: the real binary was available)")
+          for l in skips:
+              print("UNEXPECTED SKIP:", l.strip())
+          passed = int(re.search(r"(\d+) passed", summary[-1]).group(1))
+          sys.exit(0 if passed >= 265 and not skips else 1)
+          PY
