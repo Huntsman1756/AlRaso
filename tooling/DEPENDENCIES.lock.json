@@ -1,6 +1,6 @@
 {
   "schema": "alraso-dependencies-lock/v1",
-  "purpose": "Reproducible identity for the M1 pilot environment (remediation F09). Not a pip lockfile: the runtime package is stdlib-only; this pins what the repo's executable verification depends on.",
+  "purpose": "Reproducible identity for the M1 pilot environment (remediation F09). Not a pip lockfile: the runtime package is stdlib-only; this pins what the repo's executable verification depends on. Git commits are full 40-hex SHAs: a short SHA is neither an immutable identity nor resolvable by CI checkout.",
   "python": {
     "tested": ["3.11.15 (Windows, hermetic suite)", "3.12 (Docker, real-Axiom integration)"],
     "minimum": "3.11"
@@ -13,7 +13,7 @@
     "status": "EXPERIMENTAL_ADAPTER",
     "parity_claim": false,
     "repository_version": "0.2.2",
-    "commit": "d142c64",
+    "commit": "d142c645917817cf590e036fb99f99b2d4780e1a",
     "binary": {
       "target": "x86-64-unknown-linux-gnu (release)",
       "sha256": "d4078c4659344c7ac07cc53d5e512e5dffb74c0e08f06885aeb6b7d38d93f229",

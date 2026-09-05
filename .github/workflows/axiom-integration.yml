@@ -51,7 +51,11 @@ jobs:
           if [ -z "$ref" ]; then
             ref=$(python -c "import json;print(json.load(open('tooling/DEPENDENCIES.lock.json'))['axiom']['commit'])")
           fi
-          case "$ref" in (*[!A-Za-z0-9._/-]*|'') echo "ref: refusing unsafe value"; exit 1;; esac
+          if ! printf '%s' "$ref" | grep -Eq '^[0-9a-f]{40}$'; then
+            echo "ref must be a FULL 40-hex commit SHA: a short SHA is not an immutable"
+            echo "identity and actions/checkout cannot resolve one. Got: '$ref'"
+            exit 1
+          fi
           echo "ref=$ref" >> "$GITHUB_OUTPUT"
           echo "building axiom ref=$ref"
 
