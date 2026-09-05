@@ -24,10 +24,19 @@ The wrapper never lets the engine override the bitemporal store: the compiled
 projection re-derives the store-selected effect from the closed activity match
 and the result is cross-checked; any disagreement fails closed.
 
-Cache (F09-adjacent): publication is atomic (temp file + fsync + os.replace),
-the cache key embeds knowledge-state hash + rulespec/compiler contract version
-+ axiom version, and a cached artifact is validated (parseable JSON) before
-reuse; corrupt artifacts are recompiled.
+Cache (F09-adjacent, hardened by H5/D5): publication is atomic (temp file +
+fsync + os.replace). The cache identity is
+
+    rulespec/compiler contract version
+    + axiom version label
+    + SHA-256 of the axiom BINARY itself
+    + canonical RuleSpec/content hash
+
+so two different binaries that claim the same version label can never share an
+artifact. If the binary identity cannot be established (missing/unreadable
+binary), NO cached artifact is reused: the artifact is written to a one-shot
+path instead. A cached artifact is validated (parseable JSON) before reuse;
+corrupt artifacts are recompiled.
 """
 
 from __future__ import annotations
@@ -170,7 +179,6 @@ class AxiomCliAdapter:
         self.binary = str(binary_path)
         self.version = f"axiom-cli/{axiom_version}"
         self.axiom_version = axiom_version
-        self.binary_sha256 = binary_sha256
         self.root = Path(rulespec_root)
         self.cache = Path(cache_dir)
         if not self.root.name.startswith("rulespec-"):
@@ -178,8 +186,27 @@ class AxiomCliAdapter:
                 "rulespec root must be named rulespec-<country> (Axiom hard requirement)")
         if binary_sha256 is not None:
             self._verify_binary(binary_sha256)
+            self.binary_sha256: str | None = binary_sha256
+        else:
+            # H5/D5: identity is never optional in the cache key. When the
+            # caller did not pin it, we measure the binary we are about to
+            # execute; if that is impossible, the identity stays None and the
+            # cache is disabled for this adapter.
+            self.binary_sha256 = self._observed_binary_sha256()
         self.cache.mkdir(parents=True, exist_ok=True)
         self.root.mkdir(parents=True, exist_ok=True)
+
+    def _observed_binary_sha256(self) -> str | None:
+        try:
+            p = Path(self.binary)
+            if not p.is_file():
+                return None
+            return hashlib.sha256(p.read_bytes()).hexdigest()
+        except OSError:
+            return None
+
+    def cache_identity_verified(self) -> bool:
+        return self.binary_sha256 is not None
 
     def _verify_binary(self, expected_sha256: str) -> None:
         p = Path(self.binary)
@@ -217,8 +244,14 @@ class AxiomCliAdapter:
 
     # ---- atomic cache ----------------------------------------------------------
     def _cache_key(self, yaml_text: str) -> str:
+        """Identity of a compiled artifact (H5/D5).
+
+        Two binaries that claim the same version label produce different keys;
+        an adapter whose binary identity cannot be established produces a key
+        that is never reused (see compile_bundle)."""
         material = json.dumps({"contract": RULESPEC_CONTRACT_VERSION,
                                "axiom": self.axiom_version,
+                               "axiom_binary_sha256": self.binary_sha256 or "unverified",
                                "yaml": hashlib.sha256(yaml_text.encode()).hexdigest()},
                               sort_keys=True)
         return hashlib.sha256(material.encode()).hexdigest()
@@ -243,12 +276,17 @@ class AxiomCliAdapter:
 
     def compile_bundle(self, yaml_text: str, module_id: str,
                        compiler: Any | None = None) -> CompiledRef:
-        """Compile with atomic, version-keyed caching.
+        """Compile with atomic, identity-keyed caching.
 
         ``compiler`` (tests) is a callable(tmp_path) writing the artifact;
         production uses the real binary. A cached artifact is validated before
         reuse; corrupt entries are discarded and recompiled. Concurrent writers
         are safe: only fully-fsynced temp files are os.replace()-d into place.
+
+        Identity rule (H5/D5): reuse requires a VERIFIED binary identity. With
+        no verifiable SHA-256 the adapter neither reads nor feeds the shared
+        cache (one-shot artifact path), so an artifact compiled by an unknown
+        binary can never answer for another one.
         """
         rel = module_id.replace(":", "/") + ".yaml"
         src = self.root / rel
@@ -258,11 +296,15 @@ class AxiomCliAdapter:
         _publish(tmp_src, src)
 
         key = self._cache_key(yaml_text)
-        artifact = self.cache / (key[:16] + ".compiled.json")
-        if artifact.exists() and self._artifact_valid(artifact):
-            return CompiledRef(path=artifact, sha256=key, knowledge_state=module_id)
-        if artifact.exists():  # corrupt cache entry: drop and recompile
-            try:
+        verified = self.cache_identity_verified()
+        if verified:
+            artifact = self.cache / (key[:16] + ".compiled.json")
+        else:
+            artifact = self.cache / f"{key[:16]}.unverified-{uuid.uuid4().hex}.compiled.json"
+        if verified and artifact.exists():
+            if self._artifact_valid(artifact):
+                return CompiledRef(path=artifact, sha256=key, knowledge_state=module_id)
+            try:  # corrupt cache entry: drop and recompile
                 artifact.unlink()
             except OSError:
                 pass

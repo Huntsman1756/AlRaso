@@ -41,6 +41,21 @@ def compiler_ok(path):
     path.write_text(json.dumps({"compiled": True}), encoding="utf-8")
 
 
+def fake_binary(tmp_path, name="axiom-fake.bin", payload=b"axiom-binary-v1"):
+    """A real file on disk: its SHA-256 is measurable, so cache identity can be
+    verified without ever executing it (compilation is always injected)."""
+    p = tmp_path / name
+    p.write_bytes(payload)
+    return p
+
+
+def verified_adapter(tmp_path, binary=None) -> AxiomCliAdapter:
+    """Adapter with a VERIFIABLE binary identity (H5/D5 requires this for any
+    cache reuse)."""
+    root = tmp_path / "rulespec-es"
+    return AxiomCliAdapter(str(binary or fake_binary(tmp_path)), root, tmp_path / "cache")
+
+
 def test_status_constants_are_honest():
     assert AXIOM_STATUS == "EXPERIMENTAL_ADAPTER"
     assert AXIOM_PARITY == "NOT_PROVEN"
@@ -159,7 +174,7 @@ def test_corrupt_cache_is_detected_and_recompiled(tmp_path):
 
 
 def test_cache_hit_does_not_recompile(tmp_path):
-    a = adapter(tmp_path)
+    a = verified_adapter(tmp_path)
     _, y = generate_rulespec(make_version())
     calls = []
 
@@ -171,10 +186,60 @@ def test_cache_hit_does_not_recompile(tmp_path):
     r2 = a.compile_bundle(y, "es:policies/vivac/hh", compiler=compiler)
     assert len(calls) == 1 and r1.path == r2.path
     assert json.loads(r2.path.read_text(encoding="utf-8")) == {"ok": True}
+    assert a.cache_identity_verified() is True
+
+
+def test_cache_identity_includes_binary_sha(tmp_path):
+    """H5/D5: same rulespec + same version label but a DIFFERENT binary must
+    never read the artifact produced by the other binary."""
+    b1 = fake_binary(tmp_path, "axiom-a.bin", b"binary-A")
+    b2 = fake_binary(tmp_path, "axiom-b.bin", b"binary-B")
+    _, y = generate_rulespec(make_version())
+    calls = []
+
+    def compiler(path):
+        calls.append(1)
+        path.write_text(json.dumps({"n": len(calls)}), encoding="utf-8")
+
+    root = tmp_path / "rulespec-es"
+    cache = tmp_path / "cache"
+    a1 = AxiomCliAdapter(str(b1), root, cache)
+    a2 = AxiomCliAdapter(str(b2), root, cache)
+    assert a1.axiom_version == a2.axiom_version          # same label on purpose
+    r1 = a1.compile_bundle(y, "es:policies/vivac/hs", compiler=compiler)
+    r2 = a2.compile_bundle(y, "es:policies/vivac/hs", compiler=compiler)
+    assert len(calls) == 2, "different binary identity reused the cache"
+    assert r1.path != r2.path and r1.sha256 != r2.sha256
+    # the same binary keeps hitting
+    a1b = AxiomCliAdapter(str(b1), root, cache)
+    r3 = a1b.compile_bundle(y, "es:policies/vivac/hs", compiler=compiler)
+    assert len(calls) == 2 and r3.path == r1.path
+
+
+def test_unverifiable_binary_identity_disables_cache_reuse(tmp_path):
+    """H5/D5: no verifiable SHA -> nothing is read from (or fed to) the cache."""
+    a = adapter(tmp_path)                      # bogus binary path
+    _, y = generate_rulespec(make_version())
+    calls = []
+
+    def compiler(path):
+        calls.append(1)
+        path.write_text(json.dumps({"ok": True}), encoding="utf-8")
+
+    assert a.cache_identity_verified() is False
+    r1 = a.compile_bundle(y, "es:policies/vivac/uv", compiler=compiler)
+    r2 = a.compile_bundle(y, "es:policies/vivac/hs", compiler=compiler)
+    assert len(calls) == 2, "unverified identity reused a cached artifact"
+    assert r1.path != r2.path
+    assert "unverified" in r1.path.name and "unverified" in r2.path.name
+    # an adapter WITH identity must not pick up an unverified artifact
+    v = verified_adapter(tmp_path)
+    r3 = v.compile_bundle(y, "es:policies/vivac/uv", compiler=compiler)
+    assert len(calls) == 3 and "unverified" not in r3.path.name
 
 
 def test_concurrent_writers_publish_atomically(tmp_path):
-    a = adapter(tmp_path)
+    a = verified_adapter(tmp_path)
     _, y = generate_rulespec(make_version())
     errors = []
 
