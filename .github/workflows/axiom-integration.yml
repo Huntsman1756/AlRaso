@@ -23,20 +23,35 @@ jobs:
   real-axiom:
     name: full suite against a real Axiom binary
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
         with:
           path: alraso
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: install Rust (stable, minimal; no third-party action)
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+            | sh -s -- -y --profile minimal --default-toolchain stable
+          echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
+          cargo --version
+
       - name: resolve the Axiom ref to build
         id: ref
         working-directory: alraso
+        env:
+          AXIOM_REF: ${{ inputs.axiom_ref }}
         run: |
-          ref="${{ inputs.axiom_ref }}"
+          ref="$AXIOM_REF"
           if [ -z "$ref" ]; then
             ref=$(python -c "import json;print(json.load(open('tooling/DEPENDENCIES.lock.json'))['axiom']['commit'])")
           fi
+          case "$ref" in (*[!A-Za-z0-9._/-]*|'') echo "ref: refusing unsafe value"; exit 1;; esac
           echo "ref=$ref" >> "$GITHUB_OUTPUT"
           echo "building axiom ref=$ref"
 
