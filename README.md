@@ -1,0 +1,81 @@
+# AlRaso — Milestone 1 (remediation M1 closed)
+
+Resolutor jurídico-geoespacial bitemporal (CLI, sin mapa). Piloto: Parque Nacional de
+Ordesa y Monte Perdido. Base: `VIVAC-TECHNICAL-DISCOVERY.md` + `ALRASO-F2-CLOSURE.md`.
+Evidencia de la remediación F01–F09: `docs/ALRASO-M1-REMEDIATION.md`.
+
+## Qué es (y qué no es)
+
+Una consulta `(actividad, lugar, activity_date, knowledge_date)` recibe una
+determinación: `legalStatus ∈ {PERMITTED, AUTHORIZATION_REQUIRED, PROHIBITED,
+UNDETERMINED}` + `knowledgeStatus ∈ {CURRENT, INCOMPLETE, STALE, CONFLICTING}` +
+ámbitos aplicables, versiones de regla, evidencia, trazas y warnings.
+`PERMITTED` solo es publicable si una versión de regla **elegible** (revisión
+legal y espacial completas, evidencia resolvable) lo afirma de forma trazable;
+nunca se infiere desde la ausencia de información (fail-closed).
+
+## Estatus de las capacidades (honesto)
+
+| Capacidad | Estatus | Verificación |
+|---|---|---|
+| Almacén bitemporal SQLite append-only + triggers + FK | **IMPLEMENTED / VALIDATED** | `tests/test_storage_integrity.py` |
+| Motor propio (pure-Python, sin deps) | **IMPLEMENTED / VALIDATED** | suite hermetica (203 passed, 0 deps) |
+| Contrato de motor (capabilities, identidad, invariante PERMITTED) | **IMPLEMENTED / VALIDATED** | `tests/test_engine_contract.py`, `tests/test_invariants.py` |
+| Precedencia bitemporal (grounded, ciclos→conflicto) | **IMPLEMENTED / VALIDATED** | `tests/test_precedence.py` |
+| Composición multi-ámbito con orden canónico | **IMPLEMENTED / VALIDATED** | `tests/test_spatial_composition.py` |
+| Replay determinista + detección de drift | **IMPLEMENTED / VALIDATED** | `tests/test_replay.py` |
+| Ingesta atómica fixture Ordesa | **IMPLEMENTED / VALIDATED** | `tests/test_storage_integrity.py` |
+| Motor Axiom (binario real v0.2.2) | **EXPERIMENTAL_ADAPTER** — solo reglas simples sin condición; `AXIOM_PARITY=NOT_PROVEN` | battery compartida en Docker (214 passed, 0 skipped) |
+| PostgreSQL / PostGIS como almacén normativo | **NOT_IMPLEMENTED** (`POSTGRES_NORMATIVE_STORE_STATUS`) | DDL de referencia solo; sin verificación |
+| Geometría oficial con polyfill real | **DEFERRED** (M2) | fixture declara `SPATIAL_REVIEW_PENDING_GEOMETRY` |
+
+## Estructura
+
+```text
+alraso/
+  domain.py        vocabulario cerrado y objetos del contrato
+  validation.py    validación estricta (fechas ISO, booleanos, efectos, condiciones)
+  eligibility.py   única puerta de elegibilidad de versiones de regla
+  precedence.py    grafo de precedencia bitemporal (semántica grounded)
+  schema.py        DDL SQLite (append-only + triggers) + DDL PostgreSQL/PostGIS de referencia
+  bitemporal.py    almacén append-only, transacciones, selección bitemporal
+  conditions.py    AST de condiciones y evaluador total (sin eval)
+  errors.py        taxonomía de fallos → reason_codes
+  engine.py        protocolo EngineCapabilities + OwnEvaluatorAdapter
+  engine_axiom.py  adapter Axiom EXPERIMENTAL (frontera acotada, cache atómico, sha pinning)
+  spatial.py       protocolo SpatialProvider + impl in-memory (ray casting)
+  ingest/ordesa.py carga transaccional del fixture empaquetado
+  resolver.py      resolve(): pipeline completo + invariante PERMITTED + replay
+  cli.py           CLI: load-ordesa | resolve | replay
+  resources/       fixture de aceptación Ordesa (paquete incluido)
+```
+
+## Uso rápido
+
+```powershell
+python -m pip install .                 # núcleo sin dependencias
+python -m alraso load-ordesa --db ordesa.db
+python -m alraso resolve --db ordesa.db --activity VIVAC_AL_RASO `
+    --scope ss-ordesa-sector-ordesa --date 2021-07-15 --knowledge 2023-06-15   # PERMITTED
+python -m alraso resolve --db ordesa.db --activity VIVAC_AL_RASO `
+    --scope ss-ordesa-sector-ordesa --date 2023-06-15 --knowledge 2023-06-15   # PROHIBITED (D 16/2022)
+python -m alraso replay  --db ordesa.db --new-knowledge 2028-01-01             # determinaciones STALE
+```
+
+## Verificación
+
+```powershell
+python -m pytest -q                                   # 203 hermeticos (0 deps de red)
+powershell -File tooling/clean_wheel.ps1              # gate de instalacion limpia (F09)
+powershell -File discovery/spikes/m1-axiom-integration/run-docker.ps1  # + Axiom real: 214
+```
+
+Versiones e identidades pinnadas en `tooling/DEPENDENCIES.lock.json`
+(Axiom v0.2.2 commit `d142c64`, SHA-256 del binario; `rulespec/v1+m1r1`;
+`schema m1r2`; `resolver 0.2.0-remediation`).
+
+## Advertencia permanente
+
+Este software determina regímenes normativos codificados en el corpus. Las restricciones
+operativas (reservas, accesos, avisos de la dirección del parque) NO están cubiertas y
+el resultado SIEMPRE lleva ese warning. No es asesoramiento jurídico.
