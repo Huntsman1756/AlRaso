@@ -37,7 +37,8 @@ a { color:#7fb3ff; text-decoration:none; word-break:break-all; }
 #cond-list .ok { color:#4ade80; } #cond-list .fail { color:#fbbf24; }
 @media (max-width: 820px) {
   main { flex-direction:column; height:auto; }
-  #map { height:52vh; } #card { width:100%; border-left:none; border-top:1px solid var(--line); }
+  /* flex:none anula flex-basis:0% de #map: sin eso, en columna el mapa colapsa a 0px */
+  #map { flex:none; height:52vh; } #card { width:100%; border-left:none; border-top:1px solid var(--line); }
   #searchform { width:100%; margin-left:0; } #q { flex:1; min-width:0; }
   select, input[type=date], input[type=number], input[type=text], button {
     min-height:44px; font-size:15px;

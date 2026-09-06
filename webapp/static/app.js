@@ -34,13 +34,16 @@ map.on("load", async () => {
         "fill-opacity": 0.18,
       },
     });
+    const covColor = ["match", ["get", "coverage"], "VERIFIED", "#22c55e", "PARTIAL", "#f59e0b", "#94a3b8"];
     map.addLayer({
       id: "cov-line", type: "line", source: "coverage",
-      paint: {
-        "line-color": ["match", ["get", "coverage"], "VERIFIED", "#22c55e", "PARTIAL", "#f59e0b", "#94a3b8"],
-        "line-width": 1.4,
-        "line-dasharray": ["case", ["==", ["get", "boundary"], "esquematico"], ["literal", [3, 3]], ["literal", [1]]],
-      },
+      filter: ["==", ["get", "boundary"], "oficial"],
+      paint: { "line-color": covColor, "line-width": 1.6 },
+    });
+    map.addLayer({
+      id: "cov-line-esquematico", type: "line", source: "coverage",
+      filter: ["==", ["get", "boundary"], "esquematico"],
+      paint: { "line-color": covColor, "line-width": 1.2, "line-dasharray": [3, 3] },
     });
     map.fitBounds([[-5.3, 42.55], [0.3, 43.45]], { padding: 30 });
   } catch (e) { console.error(e); }
@@ -130,6 +133,58 @@ async function refresh() {
   render(await r.json());
 }
 
+const FACT_LABELS = {
+  refuge_capacity_full: "el refugio está sin capacidad",
+  nights: "número de noches",
+  noches: "número de noches",
+  cota_m: "altitud (m)",
+  actividad_montana_o_escalada: "actividad montana o escalada",
+};
+const OP_TEXT = {
+  is_true: (l) => l,
+  is_false: (l) => `${l} (no)`,
+  lte: (l, v) => `${l} ≤ ${v}`,
+  gte: (l, v) => `${l} ≥ ${v}`,
+  lt: (l, v) => `${l} < ${v}`,
+  gt: (l, v) => `${l} > ${v}`,
+  eq: (l, v) => `${l} = ${v}`,
+};
+function conditionText(c) {
+  const parts = ((c && c.ast && c.ast.all) || []).map((x) => {
+    const label = FACT_LABELS[x.field] || x.field;
+    const fn = OP_TEXT[x.op];
+    if (fn) return fn(label, x.value);
+    return x.value === undefined ? `${label}: ${x.op}` : `${label} ${x.op} ${x.value}`;
+  });
+  const body = parts.join(" y ");
+  if (c && c.holds === false) return `No se cumple: ${body || "—"}.`;
+  return `Se cumplen las condiciones: ${body || "—"}.`;
+}
+
+const ACT_LABELS = {
+  VIVAC_AL_RASO: "dormir al raso (vivac)",
+  FUNDA_VIVAC: "pernoctar con funda vivac",
+  TIENDA_NOCTURNA: "usar tienda de campaña nocturna",
+  ACAMPADA: "acampar",
+  PERNOCTA_REFUGIO: "pernoctar en refugio",
+};
+function whyText(d) {
+  const legal = d.determination.legalStatus;
+  const act = ACT_LABELS[d.query.activity] || d.query.activity;
+  const scope = (d.applicableScope || [])[0];
+  const zone = scope ? ` en «${scope.official_name}»` : "";
+  if (legal === "PERMITTED")
+    return `La normativa verificada permite ${act}${zone} en la fecha consultada` +
+      ((d.conditions || []).length ? ", siempre que se cumplan las condiciones indicadas." : ".");
+  if (legal === "PROHIBITED") return `La normativa verificada prohíbe ${act}${zone}.`;
+  if (legal === "AUTHORIZATION_REQUIRED") return `Para ${act}${zone} hace falta una autorización previa según la normativa verificada.`;
+  if (d.coverage.status === "UNKNOWN")
+    return "Ninguna norma del corpus de AlRaso llega a este punto, así que no podemos afirmar ni permiso ni prohibición. Los códigos canónicos de esta comprobación están en «Detalle técnico».";
+  if (d.coverage.status === "PARTIAL")
+    return "Conocemos la normativa de esta zona, pero la comprobación punto a punto no está cerrada: para este punto concreto no afirmamos ni permiso ni prohibición.";
+  return "Faltan datos por confirmar (mira las condiciones de arriba): sin ellos AlRaso no afirma ni permiso ni prohibición.";
+}
+
 function badge(el, value, plain) {
   el.textContent = plain;
   el.dataset.code = value;
@@ -159,12 +214,12 @@ function render(d) {
   cl.innerHTML = "";
   (d.conditions || []).forEach((c) => {
     const li = document.createElement("li");
-    li.textContent = JSON.stringify(c);
+    li.textContent = conditionText(c);
     cl.appendChild(li);
   });
   $("condiciones").style.display = (d.conditions || []).length ? "" : "none";
 
-  $("decision").textContent = d.determination.decisionReason || "—";
+  $("decision").textContent = whyText(d);
 
   const zones = $("region-list");
   zones.innerHTML = "";
@@ -192,7 +247,7 @@ function render(d) {
     li.innerHTML = `${esc(s.title)}${s.canonical_url ? ` — <a target="_blank" rel="noopener" href="${esc(s.canonical_url)}">documento</a>` : ""}${s.official_status ? ` <i>(${esc(s.official_status)})</i>` : ""}`;
     src.appendChild(li);
   });
-  if (!(d.sources || []).length) src.innerHTML = "<li>Sin fuentes: la resolución no llegó a materializarse en norma publicable (fail-closed).</li>";
+  if (!(d.sources || []).length) src.innerHTML = "<li>Sin fuentes: ninguna norma verificada cubre este punto. Eso no es una prohibición.</li>";
 
   const tech = $("tech-codes");
   tech.innerHTML = "";
@@ -200,7 +255,9 @@ function render(d) {
     `legalStatus=${d.determination.legalStatus}`,
     `knowledgeStatus=${d.determination.knowledgeStatus}`,
     `coverage=${d.coverage.status}`,
+    `decisionReason=${d.determination.decisionReason || "—"}`,
     ...(d.determination.reasonCodes || []),
+    ...(d.conditions || []).map((c) => `condition=${JSON.stringify(c)}`),
   ];
   codes.forEach((rc) => {
     const li = document.createElement("li");
