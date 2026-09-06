@@ -1,10 +1,20 @@
 "use strict";
 const $ = (id) => document.getElementById(id);
 const state = { lat: null, lon: null, marker: null };
+let poiClickGuard = 0;
 
 // Proveedor de basemap NO hardcodeado: se pide a /api/config (el server lee
 // ALRASO_MAP_STYLE_URL). Default del lado cliente solo por si el fetch falla.
 const FALLBACK_STYLE_URL = "https://tiles.openfreemap.org/styles/liberty";
+
+const POI_CATS = {
+  refuge: { emoji: "🏠", label: "Refugio", color: "#b45309" },
+  shelter: { emoji: "🛖", label: "Abrigo / cabaña", color: "#f97316" },
+  water: { emoji: "💧", label: "Agua", color: "#0ea5e9" },
+  camping: { emoji: "⛺", label: "Camping / bivouac", color: "#16a34a" },
+  protected_area: { emoji: "🌲", label: "Referencia OSM: espacio natural protegido", color: "#0d9488" },
+};
+const POI_ORDER = ["refuge", "shelter", "water", "camping", "protected_area"];
 
 let map = null;
 
@@ -45,11 +55,92 @@ async function boot() {
         filter: ["==", ["get", "boundary"], "esquematico"],
         paint: { "line-color": covColor, "line-width": 1.2, "line-dasharray": [3, 3] },
       });
+      await loadPois();
       map.fitBounds([[-5.3, 42.55], [0.3, 43.45]], { padding: 30 });
     } catch (e) { console.error(e); }
   });
 
-  map.on("click", (e) => selectPoint(e.lngLat.lat, e.lngLat.lng, null, false));
+  map.on("click", (e) => {
+    if (Date.now() - poiClickGuard < 150) return; // ya lo ha manejado una capa POI
+    selectPoint(e.lngLat.lat, e.lngLat.lng, null, false);
+  });
+}
+
+async function loadPois() {
+  let fc;
+  try { fc = await (await fetch("/api/pois")).json(); }
+  catch (e) { console.error("pois", e); return; }
+  map.addSource("pois", { type: "geojson", data: fc });
+  POI_ORDER.forEach((cat) => {
+    const c = POI_CATS[cat];
+    map.addLayer({
+      id: `poi-circles-${cat}`, type: "circle", source: "pois",
+      filter: ["==", ["get", "category"], cat],
+      paint: { "circle-color": c.color, "circle-radius": 5.5,
+               "circle-stroke-color": "#0b0e12", "circle-stroke-width": 1.2 },
+    });
+    if (cat !== "water") {
+      map.addLayer({
+        id: `poi-labels-${cat}`, type: "symbol", source: "pois",
+        filter: ["==", ["get", "category"], cat],
+        layout: { "text-field": ["get", "name"], "text-size": 11,
+                  "text-offset": [0, 1.1], "text-anchor": "top",
+                  "text-optional": true, "text-max-width": 9,
+                  "text-font": ["Noto Sans Regular"] },
+        paint: { "text-color": "#e8edf2", "text-halo-color": "#101418",
+                 "text-halo-width": 1.2 },
+      });
+    }
+    map.on("click", `poi-circles-${cat}`, (e) => onPoiClick(e));
+  });
+  bindLayerToggles();
+}
+
+function bindLayerToggles() {
+  const groups = {
+    "lg-refuge": ["poi-circles-refuge", "poi-labels-refuge"],
+    "lg-shelter": ["poi-circles-shelter", "poi-labels-shelter"],
+    "lg-water": ["poi-circles-water"],
+    "lg-camping": ["poi-circles-camping", "poi-labels-camping"],
+    "lg-protected": ["poi-circles-protected_area", "poi-labels-protected_area"],
+    "lg-coverage": ["cov-fill", "cov-line", "cov-line-esquematico"],
+  };
+  Object.keys(groups).forEach((boxId) => {
+    const box = $(boxId);
+    if (!box) return;
+    box.addEventListener("change", () => {
+      groups[boxId].forEach((id) => {
+        if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", box.checked ? "visible" : "none");
+      });
+    });
+  });
+}
+
+function onPoiClick(e) {
+  const f = e.features && e.features[0];
+  if (!f) return;
+  const p = f.properties;
+  poiClickGuard = Date.now();
+  selectPoint(f.geometry.coordinates[1], f.geometry.coordinates[0], p.name, false);
+  renderPoi(p);
+}
+
+function renderPoi(p) {
+  const cat = POI_CATS[p.category] || { emoji: "📍", label: p.category };
+  $("poi").hidden = false;
+  $("poi-emoji").textContent = cat.emoji;
+  $("poi-name").textContent = p.name;
+  const parts = [cat.label];
+  if (p.alt_m) parts.push(`${p.alt_m} m`);
+  if (p.source_label) parts.push(`fuente: ${p.source_label}`);
+  $("poi-meta").textContent = parts.join(" · ");
+  $("poi-note").textContent = p.note || "";
+  const box = $("poi-srcbox"), link = $("poi-src");
+  if (p.osm_url) {
+    link.href = p.osm_url; link.textContent = p.osm_url; box.style.display = "";
+  } else {
+    box.style.display = "none";
+  }
 }
 
 void boot();
@@ -66,6 +157,7 @@ function selectPoint(lat, lon, name, fly = true) {
     }
     if (fly) map.flyTo({ center: ll, zoom: Math.max(map.getZoom(), 10) });
   }
+  if (!name) $("poi").hidden = true;
   $("searchmsg").textContent = name ? `Zona seleccionada: ${name}` : "";
   refresh();
 }
@@ -108,6 +200,11 @@ $("searchform").addEventListener("submit", async (ev) => {
     selectPoint(f.lat, f.lon, null);
   } else if (f.kind === "place") {
     selectPoint(f.lat, f.lon, f.name);
+  } else if (f.kind === "poi") {
+    // Solo cartografia OSM: mueve el mapa y muestra la tarjeta POI. Nunca
+    // suministra hechos al resolver.
+    selectPoint(f.lat, f.lon, f.name, true);
+    renderPoi(f);
   } else if (f.kind === "ambiguous") {
     $("searchmsg").textContent = "Varias zonas coinciden: " +
       f.matches.map((m) => m.name).join(" · ") + ". Concreta la búsqueda.";

@@ -152,6 +152,25 @@ def find_query(svc: "Service", text: str) -> dict:
         return {"kind": "place", **matches[0]}
     if len(matches) > 1:
         return {"kind": "ambiguous", "matches": matches[:8]}
+    # Sin coincidencia en la lista curada, se consultan los POIs observacionales.
+    # Son solo cartografia (OSM): su aparicion en la busqueda mueve el mapa pero
+    # NUNCA suministra hechos al resolver. Se marca kind=poi + source para que la
+    # UI no los trate como un lugar curado.
+    poi_matches = [p for p in svc.pois if needle in _norm_name(p["name"])]
+    if len(poi_matches) == 1:
+        p = poi_matches[0]
+        return {"kind": "poi", "source": p.get("source", "openstreetmap"),
+                "category": p["category"], "id": p["id"], "name": p["name"],
+                "lat": p["lat"], "lon": p["lon"], "alt_m": p.get("alt_m"),
+                "source_label": p.get("source_label", "OSM"),
+                "source_ref": p.get("source_ref", ""),
+                "osm_url": p.get("osm_url", ""), "note": p.get("note", "")}
+    if len(poi_matches) > 1:
+        return {"kind": "ambiguous",
+                "matches": [{"kind": "poi", "source": p.get("source", "openstreetmap"),
+                             "category": p["category"], "id": p["id"], "name": p["name"],
+                             "lat": p["lat"], "lon": p["lon"], "note": p.get("note", "")}
+                            for p in poi_matches[:8]]}
     return {"kind": "none"}
 
 
@@ -206,6 +225,13 @@ class Service:
         places_doc = json.loads((WEBAPP / "places.json").read_text(encoding="utf-8"))
         self.places = [{k: p[k] for k in ("id", "name", "lat", "lon", "note")}
                        for p in places_doc["places"]]
+        pois_doc = json.loads((WEBAPP / "pois.json").read_text(encoding="utf-8"))
+        # POIs se guardan completos (categoria, altitud, fuente, nota) para la capa
+        # observacional. NUNCA entran en el resolver: son cartografia, no derecho.
+        self.pois = list(pois_doc["features"])
+        self.searchable = (self.places +
+                           [{k: p[k] for k in ("id", "name", "lat", "lon", "note")}
+                            for p in self.pois])
         self.cov_provider = InMemorySpatialProvider()
         self.regions_by_id: dict[str, dict] = {}
         for region in self.coverage["regions"]:
@@ -329,6 +355,27 @@ def coverage_geojson(svc: Service) -> dict:
     return {"type": "FeatureCollection", "features": features}
 
 
+def pois_geojson(svc: Service) -> dict:
+    """Capa OBSERVACIONAL de puntos de interes. Solo cartografia: describe donde
+    existe algo (refugio, fuente, abrigo, camping, espacio protegido) segun OSM.
+    No contiene ninguna determinacion legal y no puede modificarla."""
+    features = []
+    for p in svc.pois:
+        features.append({
+            "type": "Feature",
+            "geometry": {"type": "Point", "coordinates": [p["lon"], p["lat"]]},
+            "properties": {
+                "id": p["id"], "name": p["name"], "category": p["category"],
+                "alt_m": p.get("alt_m"), "source": p.get("source", "openstreetmap"),
+                "region": p.get("region", ""),
+                "source_label": p.get("source_label", "OSM"),
+                "source_ref": p.get("source_ref", ""),
+                "osm_url": p.get("osm_url", ""), "note": p.get("note", ""),
+            },
+        })
+    return {"type": "FeatureCollection", "features": features}
+
+
 STATIC_FILES = {
     "/": ("index.html", "text/html; charset=utf-8"),
     "/index.html": ("index.html", "text/html; charset=utf-8"),
@@ -367,7 +414,9 @@ def make_handler(svc: Service):
                 elif path == "/api/config":
                     self._json(HTTPStatus.OK, {"mapStyleUrl": map_style_url()})
                 elif path == "/api/places":
-                    self._json(HTTPStatus.OK, {"places": svc.places})
+                    self._json(HTTPStatus.OK, {"places": svc.searchable})
+                elif path == "/api/pois":
+                    self._json(HTTPStatus.OK, pois_geojson(svc))
                 elif path == "/api/find":
                     params = urllib.parse.parse_qs(parsed.query)
                     q = params.get("q", [""])[-1]
