@@ -150,3 +150,156 @@ def test_frontend_provider_is_decoupled_not_hardcoded():
     js = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
     assert "tile.openstreetmap.org" not in js, "M2.2: no direct OSMF tile usage"
     assert "/api/config" in js, "the map style must come from server config"
+
+
+POI_CATS = {"refuge", "shelter", "water", "camping", "protected_area"}
+
+
+def test_pois_geojson_is_wellformed_and_categorized(svc):
+    fc = server.pois_geojson(svc)
+    assert fc["type"] == "FeatureCollection" and fc["features"]
+    cats = set()
+    for f in fc["features"]:
+        assert f["geometry"]["type"] == "Point"
+        lon, lat = f["geometry"]["coordinates"]
+        assert -180 <= lon <= 180 and -90 <= lat <= 90
+        cats.add(f["properties"]["category"])
+    assert cats == POI_CATS
+
+
+def test_pois_are_observational_never_legal(svc):
+    fc = server.pois_geojson(svc)
+    legal_keys = {"legalStatus", "knowledgeStatus", "determination", "permitido",
+                  "permitted", "coverage", "prohibido"}
+    for f in fc["features"]:
+        props = set(f["properties"])
+        assert not (props & legal_keys), f["properties"].get("id")
+
+
+def test_poi_has_provenance(svc):
+    fc = server.pois_geojson(svc)
+    for f in fc["features"]:
+        props = f["properties"]
+        assert props["source"] in ("openstreetmap", "alraso"), props["id"]
+        assert props["source_label"], props["id"]
+        assert props["region"] in ("ordesa", "picos"), props["id"]
+        assert props["name"], props["id"]
+        if props["source"] == "openstreetmap":
+            assert props["source_ref"], props["id"]
+            assert props["osm_url"], props["id"]
+    # goriz es ancla del proyecto, no OSM redistribuido.
+    goriz = next(p for p in fc["features"] if p["properties"]["id"] == "poi-goriz")["properties"]
+    assert goriz["source"] == "alraso"
+    assert goriz["source_ref"] == "alraso_anchor"
+    assert goriz["osm_url"] == ""
+
+
+def test_every_osm_feature_has_reconstructible_source_ref(svc):
+    fc = server.pois_geojson(svc)
+    for f in fc["features"]:
+        props = f["properties"]
+        if props["source"] != "openstreetmap":
+            continue
+        assert props["source_ref"].startswith(("node/", "way/", "relation/")), props["id"]
+        assert props["osm_url"].startswith("https://www.openstreetmap.org/"), props["id"]
+
+
+def test_poi_policy_states_separation():
+    doc = json.loads((ROOT / "webapp" / "pois.json").read_text(encoding="utf-8"))
+    policy = doc["policy"].lower()
+    assert "observacional" in policy
+    assert "no es un permiso" in policy or "no implica" in policy
+    # Ningun POI lleva un campo de determinacion legal en el propio dato.
+    for f in doc["features"]:
+        assert "legalStatus" not in f and "coverage" not in f, f["id"]
+
+
+def test_poi_search_returns_poi_kind_not_place(svc):
+    out = server.find_query(svc, "Turieto")
+    assert out["kind"] == "poi"
+    assert out["source"] == "openstreetmap"
+    assert out["category"] == "refuge"
+    assert out["name"] == "Refugio de Turieto"
+    # La busqueda puede mover el mapa, pero nunca suministra hechos al resolver.
+    for key in ("facts", "nights", "refuge_capacity_full"):
+        assert key not in out
+
+
+def test_curated_search_takes_precedence_over_poi(svc):
+    # "goriz" coincide con el lugar curado (refugio-goriz) Y con el POI goriz:
+    # debe ganar el lugar curado, no el POI.
+    out = server.find_query(svc, "goriz")
+    assert out["kind"] == "place"
+    assert out["id"] == "refugio-goriz"
+
+
+def test_poi_provenance_is_reproducible():
+    doc = json.loads((ROOT / "webapp" / "pois.json").read_text(encoding="utf-8"))
+    m = doc["metadata"]
+    assert m["snapshot"] is True and m["may_be_stale"] is True
+    assert m["retrieved_at"] == "2026-09-06"
+    assert m["source"] == "OpenStreetMap"
+    assert "overpass-api.de" in m["overpass_endpoint"]
+    for key in ("query_ordesa", "query_picos", "query_protected_ordesa", "query_protected_picos"):
+        assert m[key].startswith("[out:json]"), key
+    for key in ("ordesa_overpass_response_sha256", "picos_overpass_response_sha256",
+                "protected_ordesa_overpass_response_sha256",
+                "protected_picos_overpass_response_sha256"):
+        assert len(m["source_digests"][key]) == 64, key
+    assert m["license"] == "ODbL-1.0"
+    assert m["license_url"].startswith("https://")
+    assert "OpenStreetMap contributors" in m["attribution"]
+
+
+def test_poi_notes_do_not_claim_park_membership():
+    doc = json.loads((ROOT / "webapp" / "pois.json").read_text(encoding="utf-8"))
+    # No se afirma pertenencia a un parque por haber salido de un bounding box.
+    banned = ("en el valle de Ordesa", "en picos de europa", "en el pirineo aragonés",
+              "en el macizo central de picos", "parque nacional")
+    for f in doc["features"]:
+        if f.get("source") != "openstreetmap":
+            continue  # goriz es ancla del proyecto
+        if f["category"] == "protected_area":
+            continue  # nombre oficial del objeto OSM (referencia), no inferencia
+        low = f["note"].lower()
+        for b in banned:
+            assert b not in low, f"POI {f['id']} afirma región sin contenedor: {f['note']}"
+
+
+def test_poi_no_duplicate_ids_and_valid_coords(svc):
+    fc = server.pois_geojson(svc)
+    ids = [f["properties"]["id"] for f in fc["features"]]
+    assert len(ids) == len(set(ids)), "POI ids deben ser unicos"
+    for f in fc["features"]:
+        lon, lat = f["geometry"]["coordinates"]
+        assert -180 <= lon <= 180 and -90 <= lat <= 90
+        assert isinstance(lat, float) and isinstance(lon, float)
+
+
+def test_protected_area_is_osm_reference_not_legal_layer():
+    doc = json.loads((ROOT / "webapp" / "pois.json").read_text(encoding="utf-8"))
+    label = doc["categories"]["protected_area"]["label"]
+    assert "OSM" in label, "la capa protegida debe llamarse referencia OSM, no capa juridica"
+    for f in doc["features"]:
+        if f["category"] == "protected_area":
+            assert "No determina el ámbito jurídico" in f["note"], f["id"]
+            assert "prohibición automática" in f["note"], f["id"]
+            assert f["source_ref"].startswith("relation/"), f["id"]
+    # La UI no debe presentar espacios protegidos junto a las capas legales.
+    html = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
+    assert "Referencias OSM: espacios protegidos" in html
+    js = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
+    assert "Referencia OSM: espacio natural protegido" in js
+    assert "/api/coverage" in js and "/api/pois" in js
+
+
+def test_pois_do_not_change_resolution(svc):
+    # La existencia de un POI en unas coordenadas no altera la determinacion:
+    # el POI del refugio de Goriz resuelve igual que el punto de control.
+    poi = next(p for p in svc.pois if p["id"] == "poi-goriz")
+    out = server.resolve_point(svc, lat=poi["lat"], lon=poi["lon"], activity="VIVAC_AL_RASO",
+                               activity_date=TODAY, knowledge_date=TODAY,
+                               facts={"refuge_capacity_full": True, "nights": 2})
+    assert out["determination"]["legalStatus"] == "PERMITTED"
+    assert out["coverage"]["status"] == "VERIFIED"
+    assert "poi-goriz" not in json.dumps(out), "POIs nunca aparecen en la determinacion"

@@ -19,6 +19,15 @@
     <button id="search-btn" type="submit">Buscar</button>
   </form>
 </header>
+<div id="layers">
+  <span class="layers-title">Capas</span>
+  <label><input type="checkbox" id="lg-refuge" checked> 🏠 Refugios</label>
+  <label><input type="checkbox" id="lg-shelter" checked> 🛖 Abrigos</label>
+  <label><input type="checkbox" id="lg-water" checked> 💧 Agua</label>
+  <label><input type="checkbox" id="lg-camping" checked> ⛺ Campings</label>
+  <label><input type="checkbox" id="lg-protected" checked> 🌲 Referencias OSM: espacios protegidos</label>
+  <label><input type="checkbox" id="lg-coverage" checked> 🗺️ Cobertura legal</label>
+</div>
 <p id="searchmsg" role="status" aria-live="polite"></p>
 <main>
   <div id="map"></div>
@@ -31,11 +40,19 @@
       <p class="legend">
         <span class="chip ok">Cobertura completa</span> norma y geometría oficial verificadas<br>
         <span class="chip warn">Cobertura parcial</span> normativa de la zona verificada, respuesta punto a punto sin cerrar<br>
-        <span class="chip unk">Sin información</span> sin corpus: no sabemos; eso no significa que esté prohibido
+        <span class="chip unk">Sin información</span> sin corpus: no sabemos; eso no significa que esté prohibido<br>
+        <span class="chip poi">Puntos de interés</span> refugios, agua, abrigos, campings y espacios protegidos (OSM). Solo cartografía, no determinan legalidad.
       </p>
     </div>
     <div id="card-result" hidden>
       <div id="coords"></div>
+      <section id="poi" hidden>
+        <div class="poi-head"><span id="poi-emoji"></span><span id="poi-name" class="poi-name"></span></div>
+        <div id="poi-meta" class="poi-meta"></div>
+        <p id="poi-note" class="poi-note"></p>
+        <p class="poi-sep">Este punto es solo una observación (OSM). Su existencia <b>no</b> implica ningún permiso.</p>
+        <details id="poi-srcbox"><summary>Fuente</summary><a id="poi-src" target="_blank" rel="noopener"></a></details>
+      </section>
       <p id="headline" class="headline"></p>
       <div class="badges">
         <div><span class="badge-label">SITUACIÓN LEGAL</span><span id="legal" class="badge">—</span></div>
@@ -68,5 +85,10 @@
 </main>
 <script src="/vendor/maplibre-gl.js"></script>
 <script src="/app.js"></script>
+<footer>
+  <span>Basemap: OpenFreeMap</span>
+  <span>Datos de puntos de interés: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© contribuidores de OpenStreetMap (ODbL)</a></span>
+  <span>AlRaso no ofrece asesoramiento jurídico. La capa legal procede de un corpus verificado; los POIs son solo cartografía.</span>
+</footer>
 </body>
 </html>
