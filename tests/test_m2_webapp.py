@@ -82,8 +82,14 @@ def test_parse_params_fail_closed_on_garbage():
         with pytest.raises(server.BadRequest):
             server.parse_resolve_params(bad)
     ok = server.parse_resolve_params({"lat": "1.5", "lon": "2.5", "nights": "3",
-                                      "refuge_capacity_full": "true"})
-    assert ok["facts"] == {"nights": 3, "refuge_capacity_full": True}
+                                      "refuge_capacity_full": "true",
+                                      "actividad_montana_o_escalada": "true",
+                                      "cota_m": "2400"})
+    assert ok["facts"] == {"nights": 3, "refuge_capacity_full": True,
+                           "actividad_montana_o_escalada": True, "cota_m": 2400}
+    with pytest.raises(server.BadRequest):
+        server.parse_resolve_params({"lat": "1.5", "lon": "2.5",
+                                     "actividad_montana_o_escalada": "1"})
 
 
 def test_bool_facts_accept_only_canonical_spellings():
@@ -307,6 +313,44 @@ def test_unknown_coverage_knowledge_copy(svc):
     assert out["coverage"]["status"] == "UNKNOWN"
     assert out["determination"]["knowledgeStatus"] == "CURRENT"  # canonico intacto
     assert out["ui"]["knowledge"] == "No disponemos de información normativa para esta zona"
+
+
+def test_picos_product_is_jurisdiction_aware(svc):
+    # P1 Urriellu (es-as) con hechos -> PERMITTED por art. 51; cobertura PARTIAL (DEM=C).
+    out = server.resolve_point(svc, lat=43.2662, lon=-4.8686, activity="VIVAC_AL_RASO",
+                               activity_date=TODAY, knowledge_date=TODAY,
+                               facts={"actividad_montana_o_escalada": True,
+                                      "nights": 2, "cota_m": 2400})
+    assert out["determination"]["legalStatus"] == "PERMITTED"
+    assert out["coverage"]["status"] == "PARTIAL"
+    assert any(r["scope_id"] == "ss-pnpe-es-as" for r in out["applicableScope"])
+
+
+def test_picos_product_without_facts_never_permitted(svc):
+    out = server.resolve_point(svc, lat=43.2662, lon=-4.8686, activity="VIVAC_AL_RASO",
+                               activity_date=TODAY, knowledge_date=TODAY, facts={})
+    assert out["determination"]["legalStatus"] == "UNDETERMINED"
+    assert "ENGINE_MISSING_INPUT" in out["determination"]["reasonCodes"]
+
+
+def test_picos_boundary_guard_fails_closed(svc):
+    # P4a: 300 m de la frontera ES13|ES12. La app calcula boundary_safe=False
+    # (hecho interno) -> la regla no sostiene PERMITTED -> UNDETERMINED + motivo.
+    out = server.resolve_point(svc, lat=43.25005, lon=-4.72339, activity="VIVAC_AL_RASO",
+                               activity_date=TODAY, knowledge_date=TODAY,
+                               facts={"actividad_montana_o_escalada": True,
+                                      "nights": 2, "cota_m": 2400})
+    assert out["determination"]["legalStatus"] == "UNDETERMINED"
+    assert "BOUNDARY_EVIDENCE_INCOMPLETE" in out["determination"]["reasonCodes"]
+    assert any("BOUNDARY_EVIDENCE_INCOMPLETE" in w for w in out["determination"]["warnings"])
+
+
+def test_internal_fact_not_accept_from_query():
+    # El guard de frontera es un hecho interno calculado por la app: no puede
+    # falsearse desde la URL (no está en ALLOWED_FACT_KEYS).
+    params = server.parse_resolve_params({"lat": "43.2662", "lon": "-4.8686",
+                                          "jurisdiction_boundary_safe": "true"})
+    assert "jurisdiction_boundary_safe" not in params["facts"]
 
 
 def test_pois_do_not_change_resolution(svc):
