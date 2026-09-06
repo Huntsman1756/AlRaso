@@ -34,31 +34,83 @@ map.on("load", async () => {
         "fill-opacity": 0.18,
       },
     });
+    const covColor = ["match", ["get", "coverage"], "VERIFIED", "#22c55e", "PARTIAL", "#f59e0b", "#94a3b8"];
     map.addLayer({
       id: "cov-line", type: "line", source: "coverage",
-      paint: {
-        "line-color": ["match", ["get", "coverage"], "VERIFIED", "#22c55e", "PARTIAL", "#f59e0b", "#94a3b8"],
-        "line-width": 1.4,
-        "line-dasharray": ["case", ["==", ["get", "boundary"], "esquematico"], ["literal", [3, 3]], ["literal", [1]]],
-      },
+      filter: ["==", ["get", "boundary"], "oficial"],
+      paint: { "line-color": covColor, "line-width": 1.6 },
+    });
+    map.addLayer({
+      id: "cov-line-esquematico", type: "line", source: "coverage",
+      filter: ["==", ["get", "boundary"], "esquematico"],
+      paint: { "line-color": covColor, "line-width": 1.2, "line-dasharray": [3, 3] },
     });
     map.fitBounds([[-5.3, 42.55], [0.3, 43.45]], { padding: 30 });
   } catch (e) { console.error(e); }
 });
 
-map.on("click", (e) => {
-  state.lat = e.lngLat.lat;
-  state.lon = e.lngLat.lng;
+map.on("click", (e) => selectPoint(e.lngLat.lat, e.lngLat.lng, null, false));
+
+function selectPoint(lat, lon, name, fly = true) {
+  state.lat = lat;
+  state.lon = lon;
+  const ll = [lon, lat];
   if (!state.marker) {
-    state.marker = new maplibregl.Marker({ color: "#e11d48" }).setLngLat(e.lngLat).addTo(map);
+    state.marker = new maplibregl.Marker({ color: "#e11d48" }).setLngLat(ll).addTo(map);
   } else {
-    state.marker.setLngLat(e.lngLat);
+    state.marker.setLngLat(ll);
   }
+  if (fly) map.flyTo({ center: ll, zoom: Math.max(map.getZoom(), 10) });
+  $("searchmsg").textContent = name ? `Zona seleccionada: ${name}` : "";
   refresh();
-});
+}
 
 $("date").valueAsDate = new Date();
 ["activity", "date"].forEach((id) => $(id).addEventListener("change", () => state.lat !== null && refresh()));
+
+$("center-btn").addEventListener("click", () => {
+  const c = map.getCenter();
+  selectPoint(c.lat, c.lng, null, false);
+});
+
+(async () => {
+  try {
+    const { places } = await (await fetch("/api/places")).json();
+    const dl = $("places-list");
+    dl.innerHTML = "";
+    places.forEach((p) => {
+      const opt = document.createElement("option");
+      opt.value = p.name;
+      opt.label = p.note || p.name;
+      dl.appendChild(opt);
+    });
+  } catch (e) { console.error(e); }
+})();
+
+$("searchform").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const q = $("q").value.trim();
+  if (!q) return;
+  let f;
+  try {
+    f = await (await fetch("/api/find?q=" + encodeURIComponent(q))).json();
+  } catch (e) {
+    $("searchmsg").textContent = "No se pudo consultar la búsqueda.";
+    return;
+  }
+  if (f.kind === "coords") {
+    selectPoint(f.lat, f.lon, null);
+  } else if (f.kind === "place") {
+    selectPoint(f.lat, f.lon, f.name);
+  } else if (f.kind === "ambiguous") {
+    $("searchmsg").textContent = "Varias zonas coinciden: " +
+      f.matches.map((m) => m.name).join(" · ") + ". Concreta la búsqueda.";
+  } else {
+    $("searchmsg").textContent =
+      "Sin coincidencias. Escribe coordenadas «lat, lon» (ej. 42.6627, 0.0160) " +
+      "o elige una zona conocida de la lista.";
+  }
+});
 
 function factsFromForm() {
   const out = [];
@@ -81,8 +133,61 @@ async function refresh() {
   render(await r.json());
 }
 
-function badge(el, value) {
-  el.textContent = value;
+const FACT_LABELS = {
+  refuge_capacity_full: "el refugio está sin capacidad",
+  nights: "número de noches",
+  noches: "número de noches",
+  cota_m: "altitud (m)",
+  actividad_montana_o_escalada: "actividad montana o escalada",
+};
+const OP_TEXT = {
+  is_true: (l) => l,
+  is_false: (l) => `${l} (no)`,
+  lte: (l, v) => `${l} ≤ ${v}`,
+  gte: (l, v) => `${l} ≥ ${v}`,
+  lt: (l, v) => `${l} < ${v}`,
+  gt: (l, v) => `${l} > ${v}`,
+  eq: (l, v) => `${l} = ${v}`,
+};
+function conditionText(c) {
+  const parts = ((c && c.ast && c.ast.all) || []).map((x) => {
+    const label = FACT_LABELS[x.field] || x.field;
+    const fn = OP_TEXT[x.op];
+    if (fn) return fn(label, x.value);
+    return x.value === undefined ? `${label}: ${x.op}` : `${label} ${x.op} ${x.value}`;
+  });
+  const body = parts.join(" y ");
+  if (c && c.holds === false) return `No se cumple: ${body || "—"}.`;
+  return `Se cumplen las condiciones: ${body || "—"}.`;
+}
+
+const ACT_LABELS = {
+  VIVAC_AL_RASO: "dormir al raso (vivac)",
+  FUNDA_VIVAC: "pernoctar con funda vivac",
+  TIENDA_NOCTURNA: "usar tienda de campaña nocturna",
+  ACAMPADA: "acampar",
+  PERNOCTA_REFUGIO: "pernoctar en refugio",
+};
+function whyText(d) {
+  const legal = d.determination.legalStatus;
+  const act = ACT_LABELS[d.query.activity] || d.query.activity;
+  const scope = (d.applicableScope || [])[0];
+  const zone = scope ? ` en «${scope.official_name}»` : "";
+  if (legal === "PERMITTED")
+    return `La normativa verificada permite ${act}${zone} en la fecha consultada` +
+      ((d.conditions || []).length ? ", siempre que se cumplan las condiciones indicadas." : ".");
+  if (legal === "PROHIBITED") return `La normativa verificada prohíbe ${act}${zone}.`;
+  if (legal === "AUTHORIZATION_REQUIRED") return `Para ${act}${zone} hace falta una autorización previa según la normativa verificada.`;
+  if (d.coverage.status === "UNKNOWN")
+    return "Ninguna norma del corpus de AlRaso llega a este punto, así que no podemos afirmar ni permiso ni prohibición. Los códigos canónicos de esta comprobación están en «Detalle técnico».";
+  if (d.coverage.status === "PARTIAL")
+    return "Conocemos la normativa de esta zona, pero la comprobación punto a punto no está cerrada: para este punto concreto no afirmamos ni permiso ni prohibición.";
+  return "Faltan datos por confirmar (mira las condiciones de arriba): sin ellos AlRaso no afirma ni permiso ni prohibición.";
+}
+
+function badge(el, value, plain) {
+  el.textContent = plain;
+  el.dataset.code = value;
   el.className = "badge " + (
     { PERMITTED: "ok", PROHIBITED: "bad", AUTHORIZATION_REQUIRED: "warn", UNDETERMINED: "unk",
       CURRENT: "ok", INCOMPLETE: "warn", CONFLICTING: "bad",
@@ -96,10 +201,12 @@ function esc(s) {
 function render(d) {
   $("card-empty").hidden = true;
   $("card-result").hidden = false;
+  const ui = d.ui || {};
   $("coords").textContent = `${state.lat.toFixed(5)}, ${state.lon.toFixed(5)} · ${d.query.activity} · ${d.query.activity_date}`;
-  badge($("legal"), d.determination.legalStatus);
-  badge($("knowledge"), d.determination.knowledgeStatus);
-  badge($("coverage"), d.coverage.status);
+  $("headline").textContent = ui.headline || d.determination.legalStatus;
+  badge($("legal"), d.determination.legalStatus, ui.legal || d.determination.legalStatus);
+  badge($("knowledge"), d.determination.knowledgeStatus, ui.knowledge || d.determination.knowledgeStatus);
+  badge($("coverage"), d.coverage.status, ui.coverage || d.coverage.status);
 
   renderFacts(d);
 
@@ -107,24 +214,17 @@ function render(d) {
   cl.innerHTML = "";
   (d.conditions || []).forEach((c) => {
     const li = document.createElement("li");
-    li.textContent = JSON.stringify(c);
+    li.textContent = conditionText(c);
     cl.appendChild(li);
   });
   $("condiciones").style.display = (d.conditions || []).length ? "" : "none";
 
-  $("decision").textContent = d.determination.decisionReason || "—";
-  const rl = $("reasons");
-  rl.innerHTML = "";
-  (d.determination.reasonCodes || []).forEach((rc) => {
-    const li = document.createElement("li");
-    li.textContent = rc;
-    rl.appendChild(li);
-  });
+  $("decision").textContent = whyText(d);
 
   const zones = $("region-list");
   zones.innerHTML = "";
   if (!(d.coverage.regions || []).length) {
-    zones.innerHTML = '<div class="region">Ninguna región cubierta contiene este punto.<br><span class="meta">coverage=UNKNOWN: AlRaso no tiene corpus aquí y por eso la determinación legal es UNDETERMINED (nunca un permiso por ausencia).</span></div>';
+    zones.innerHTML = '<div class="region">Ninguna región cubierta contiene este punto.<br><span class="meta">AlRaso no tiene corpus aquí y por eso no puede afirmar nada: ni permiso ni prohibición.</span></div>';
   }
   (d.coverage.regions || []).forEach((r) => {
     const div = document.createElement("div");
@@ -133,7 +233,7 @@ function render(d) {
       `<li>${esc(n.title)}${n.canonical_url ? ` — <a target="_blank" rel="noopener" href="${esc(n.canonical_url)}">fuente</a>` : ""}${n.official_status ? ` <i>(${esc(n.official_status)})</i>` : ""}</li>`).join("");
     const notes = (r.notes || []).map((n) => `<li>${esc(n)}</li>`).join("");
     div.innerHTML = `
-      <div class="rhead"><span>${esc(r.name)}</span><span class="chip ${r.coverage === "VERIFIED" ? "ok" : "warn"}">${r.coverage}</span></div>
+      <div class="rhead"><span>${esc(r.name)}</span><span class="chip ${r.coverage === "VERIFIED" ? "ok" : "warn"}">${r.coverage === "VERIFIED" ? "completa" : "parcial"}</span></div>
       <div class="meta">verificado ${esc(r.verified_at)} · límite ${r.boundary === "oficial" ? "OFICIAL (geometría del motor)" : "ESQUEMÁTICO (informativo, sin valor legal)"}</div>
       <p>${esc(r.summary)}</p>
       <details><summary>normas y fuentes de la zona</summary><ul>${norms}</ul>${notes ? `<ul>${notes}</ul>` : ""}</details>`;
@@ -147,7 +247,23 @@ function render(d) {
     li.innerHTML = `${esc(s.title)}${s.canonical_url ? ` — <a target="_blank" rel="noopener" href="${esc(s.canonical_url)}">documento</a>` : ""}${s.official_status ? ` <i>(${esc(s.official_status)})</i>` : ""}`;
     src.appendChild(li);
   });
-  if (!(d.sources || []).length) src.innerHTML = "<li>Sin fuentes: la resolución no llegó a materializarse en norma publicable (fail-closed).</li>";
+  if (!(d.sources || []).length) src.innerHTML = "<li>Sin fuentes: ninguna norma verificada cubre este punto. Eso no es una prohibición.</li>";
+
+  const tech = $("tech-codes");
+  tech.innerHTML = "";
+  const codes = [
+    `legalStatus=${d.determination.legalStatus}`,
+    `knowledgeStatus=${d.determination.knowledgeStatus}`,
+    `coverage=${d.coverage.status}`,
+    `decisionReason=${d.determination.decisionReason || "—"}`,
+    ...(d.determination.reasonCodes || []),
+    ...(d.conditions || []).map((c) => `condition=${JSON.stringify(c)}`),
+  ];
+  codes.forEach((rc) => {
+    const li = document.createElement("li");
+    li.textContent = rc;
+    tech.appendChild(li);
+  });
 
   $("warning").textContent = (d.determination.warnings || [])[0] || "";
 }
@@ -159,18 +275,16 @@ function renderFacts(d) {
   (d.conditions || []).forEach((c) => {
     if (c && c.field) wanted.set(c.field, c);
   });
-  (d.applicableScope || []).forEach(() => {});
-  // hechos típicos del corpus vigente para que el usuario pueda jugar con ellos
   ["refuge_capacity_full", "nights"].forEach((f) => wanted.set(f, { field: f }));
   [...wanted.keys()].forEach((f) => {
     if (had.has(f)) return;
     if (f === "refuge_capacity_full") {
       const label = document.createElement("label");
-      label.innerHTML = `<input type="checkbox" name="${f}"> refugio sin capacidad`;
+      label.innerHTML = `<input type="checkbox" name="${f}"> el refugio está sin capacidad`;
       box.appendChild(label);
     } else {
       const label = document.createElement("label");
-      label.innerHTML = `${f} <input type="number" name="${f}" min="1" max="30" value="1" style="width:70px">`;
+      label.innerHTML = `número de noches <input type="number" name="${f}" min="1" max="30" value="1" style="width:70px">`;
       box.appendChild(label);
     }
     const el = box.querySelector(`[name="${f}"]`);

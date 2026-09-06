@@ -136,6 +136,14 @@ Los contornos `esquematico` del mapa son informativos y jamás pueden producir
 `PERMITTED`. Ver `docs/ALRASO-M2-PRODUCT-SLICE.md` (incluye el presupuesto de
 investigación por zona: 2–4 h y clasificación A/B/C).
 
+**M2.1 — Product Preview Readiness (actual):** la tarjeta responde en lenguaje
+llano (titular + «no es un permiso, pero tampoco una prohibición» cuando
+`UNDETERMINED`), hay búsqueda por coordenadas o zona conocida (`/api/find`,
+`webapp/places.json`) y a11y básica (foco, labels, `aria-live`, táctil ≥44 px).
+Los códigos canónicos se conservan en «Detalle técnico». Despliegue público
+**bloqueado** hasta sustituir `tile.openstreetmap.org`. Ver
+`docs/ALRASO-M2.1-PREVIEW-READINESS.md` (checklist de revisión humana incluida).
+
 Versiones e identidades fijadas en `tooling/DEPENDENCIES.lock.json`
 (Axiom v0.2.2 commit `d142c64`, SHA-256 del binario; `rulespec/v1+m1r1`;
 `schema m1r2`; `resolver 0.2.1-hardening`).

@@ -15,6 +15,7 @@ import math
 import re
 import sys
 import threading
+import unicodedata
 import urllib.parse
 from datetime import date
 from http import HTTPStatus
@@ -38,6 +39,95 @@ DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 COVERAGE_PRIORITY = {"VERIFIED": 0, "PARTIAL": 1}
 ALLOWED_FACT_KEYS = {"refuge_capacity_full", "nights", "actividad_montana_o_escalada",
                      "cota_m", "noches"}
+SEMICOLON_DECIMAL_RE = re.compile(r"^(-?\d+(?:[.,]\d+)?)\s*;\s*(-?\d+(?:[.,]\d+)?)$")
+COMMA_OR_SPACE_RE = re.compile(r"^(-?\d+(?:\.\d+)?)\s*[, ]\s*(-?\d+(?:\.\d+)?)$")
+
+# Capa de lenguaje llano para personas. Los codigos canonicos NUNCA desaparecen
+# de la respuesta (determination.*); esto es solo presentacion y no puede
+# cambiar ninguna determinacion. Codigo desconocido -> se muestra tal cual.
+PLAIN_LEGAL = {
+    "PERMITTED": "Permitido según la normativa verificada",
+    "PROHIBITED": "Prohibido según la normativa verificada",
+    "AUTHORIZATION_REQUIRED": "Necesitas una autorización previa",
+    "UNDETERMINED": "No lo podemos determinar",
+}
+PLAIN_KNOWLEDGE = {
+    "CURRENT": "Información normativa verificada para la fecha consultada",
+    "INCOMPLETE": "Información normativa incompleta",
+    "CONFLICTING": "Fuentes normativas en conflicto",
+}
+PLAIN_COVERAGE = {
+    "VERIFIED": "Cobertura completa para este punto",
+    "PARTIAL": "Cobertura parcial: normativa de la zona verificada, respuesta punto a punto sin cerrar",
+    "UNKNOWN": "Sin información en esta zona",
+}
+
+
+def ui_texto(legal: str, knowledge: str, coverage: str, conditions: list) -> dict:
+    if legal == "UNDETERMINED":
+        if coverage == "UNKNOWN":
+            headline = ("No sabemos: aquí no hay ninguna normativa estudiada todavía. "
+                        "No es un permiso, pero tampoco una prohibición.")
+        elif coverage == "PARTIAL":
+            headline = ("Todavía no podemos afirmarlo: conocemos la normativa de esta zona, "
+                        "pero la comprobación punto a punto no está cerrada. "
+                        "No es un permiso, pero tampoco una prohibición.")
+        else:
+            headline = ("No podemos afirmarlo con los datos actuales: faltan condiciones "
+                        "por confirmar. No es un permiso, pero tampoco una prohibición.")
+    elif legal == "PERMITTED":
+        headline = "Permitido según la normativa verificada" + \
+                   (" — bajo las condiciones indicadas" if conditions else "")
+    elif legal == "PROHIBITED":
+        headline = "Prohibido según la normativa verificada"
+    elif legal == "AUTHORIZATION_REQUIRED":
+        headline = "Solo con autorización previa"
+    else:
+        headline = legal
+    return {
+        "headline": headline,
+        "legal": PLAIN_LEGAL.get(legal, legal),
+        "knowledge": PLAIN_KNOWLEDGE.get(knowledge, knowledge),
+        "coverage": PLAIN_COVERAGE.get(coverage, coverage),
+    }
+
+
+def _norm_name(s: str) -> str:
+    decomposed = unicodedata.normalize("NFD", s.casefold())
+    return "".join(c for c in decomposed if not unicodedata.combining(c))
+
+
+def _strict_coord(text: str) -> tuple[float, float]:
+    lat, lon = (float(part.replace(",", ".")) for part in text)
+    if not (-90.0 <= lat <= 90.0 and -180.0 <= lon <= 180.0):
+        raise BadRequest("coordenadas fuera de rango")
+    if not (math.isfinite(lat) and math.isfinite(lon)):
+        raise BadRequest("coordenadas no finitas")
+    return lat, lon
+
+
+def find_query(svc: "Service", text: str) -> dict:
+    """Búsqueda de producto: coordenadas ('42.66, 0.01' / '42,66; 0,01') o
+    nombre aproximado de un sitio conocido. Nunca adivina: sin coincidencia
+    clara devuelve kind=none."""
+    q = (text or "").strip()
+    if not q:
+        raise BadRequest("consulta vacia")
+    m = SEMICOLON_DECIMAL_RE.match(q)
+    if m:
+        lat, lon = _strict_coord((m.group(1), m.group(2)))
+        return {"kind": "coords", "lat": lat, "lon": lon}
+    m = COMMA_OR_SPACE_RE.match(q)
+    if m:
+        lat, lon = _strict_coord((m.group(1), m.group(2)))
+        return {"kind": "coords", "lat": lat, "lon": lon}
+    needle = _norm_name(q)
+    matches = [p for p in svc.places if needle in _norm_name(p["name"])]
+    if len(matches) == 1:
+        return {"kind": "place", **matches[0]}
+    if len(matches) > 1:
+        return {"kind": "ambiguous", "matches": matches[:8]}
+    return {"kind": "none"}
 
 
 class BadRequest(ValueError):
@@ -88,6 +178,9 @@ class Service:
             for d in fx.get("source_documents", []):
                 self.docs[d["id"]] = d
         self.coverage = json.loads((WEBAPP / "coverage.json").read_text(encoding="utf-8"))
+        places_doc = json.loads((WEBAPP / "places.json").read_text(encoding="utf-8"))
+        self.places = [{k: p[k] for k in ("id", "name", "lat", "lon", "note")}
+                       for p in places_doc["places"]]
         self.cov_provider = InMemorySpatialProvider()
         self.regions_by_id: dict[str, dict] = {}
         for region in self.coverage["regions"]:
@@ -153,6 +246,8 @@ def resolve_point(svc: Service, *, lat: float, lon: float, activity: str,
             "decisionReason": result["decisionReason"],
             "warnings": result["warnings"],
         },
+        "ui": ui_texto(result["legalStatus"], result["knowledgeStatus"],
+                       coverage_status, result["conditions"]),
         "conditions": result["conditions"],
         "applicableScope": result["applicableScope"],
         "coverage": {"status": coverage_status,
@@ -244,6 +339,12 @@ def make_handler(svc: Service):
             try:
                 if path == "/api/coverage":
                     self._json(HTTPStatus.OK, coverage_geojson(svc))
+                elif path == "/api/places":
+                    self._json(HTTPStatus.OK, {"places": svc.places})
+                elif path == "/api/find":
+                    params = urllib.parse.parse_qs(parsed.query)
+                    q = params.get("q", [""])[-1]
+                    self._json(HTTPStatus.OK, find_query(svc, q))
                 elif path == "/api/resolve":
                     params = urllib.parse.parse_qs(parsed.query)
                     args = parse_resolve_params(params)

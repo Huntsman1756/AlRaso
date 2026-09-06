@@ -11,28 +11,39 @@
 <header>
   <div class="brand">AlRaso</div>
   <p class="tagline">Te mostramos exactamente qué podemos afirmar, con qué fuente y qué no podemos determinar.</p>
+  <form id="searchform" role="search">
+    <label class="sr-only" for="q">Buscar una zona conocida o coordenadas</label>
+    <input id="q" type="text" list="places-list" autocomplete="off"
+           placeholder="Busca “Góriz” o escribe 42.6627, 0.0160">
+    <datalist id="places-list"></datalist>
+    <button id="search-btn" type="submit">Buscar</button>
+  </form>
 </header>
+<p id="searchmsg" role="status" aria-live="polite"></p>
 <main>
   <div id="map"></div>
-  <aside id="card">
+  <aside id="card" aria-live="polite">
     <div id="card-empty">
-      <h2>Toca un punto del mapa</h2>
-      <p>AlRaso cruza tu ubicación con normativa verificada y geometría oficial.
-         Si no puede afirmar algo, lo dice: <b>UNDETERMINED</b> / <b>UNKNOWN</b> no son errores, son la respuesta honesta.</p>
+      <h2>¿Dormir aquí? Te decimos qué sabemos</h2>
+      <p>Toca un punto del mapa, usa el botón «Usar el centro del mapa» o busca una zona arriba.
+         Si AlRaso no puede afirmar algo, lo dice: <b>«no lo podemos determinar» no es un permiso,
+         pero tampoco una prohibición</b>.</p>
       <p class="legend">
-        <span class="chip ok">VERIFIED</span> norma + geometría oficial en el motor<br>
-        <span class="chip warn">PARTIAL</span> hay verificación, sin determinación punto a punto<br>
-        <span class="chip unk">UNKNOWN</span> sin corpus: nada que afirmar
+        <span class="chip ok">Cobertura completa</span> norma y geometría oficial verificadas<br>
+        <span class="chip warn">Cobertura parcial</span> normativa de la zona verificada, respuesta punto a punto sin cerrar<br>
+        <span class="chip unk">Sin información</span> sin corpus: no sabemos; eso no significa que esté prohibido
       </p>
     </div>
     <div id="card-result" hidden>
       <div id="coords"></div>
+      <p id="headline" class="headline"></p>
       <div class="badges">
-        <div><span class="badge-label">LEGAL STATUS</span><span id="legal" class="badge">—</span></div>
-        <div><span class="badge-label">KNOWLEDGE STATUS</span><span id="knowledge" class="badge">—</span></div>
-        <div><span class="badge-label">COVERAGE STATUS</span><span id="coverage" class="badge">—</span></div>
+        <div><span class="badge-label">SITUACIÓN LEGAL</span><span id="legal" class="badge">—</span></div>
+        <div><span class="badge-label">ESTADO DE LA INFORMACIÓN</span><span id="knowledge" class="badge">—</span></div>
+        <div><span class="badge-label">COBERTURA</span><span id="coverage" class="badge">—</span></div>
       </div>
-      <section><h3>Actividad</h3>
+      <button id="center-btn" type="button">Usar el centro del mapa</button>
+      <section><h3><label for="activity">Actividad</label></h3>
         <select id="activity">
           <option value="VIVAC_AL_RASO">Vivac al raso</option>
           <option value="FUNDA_VIVAC">Funda vivac</option>
@@ -44,9 +55,13 @@
         <div id="factbox"></div>
       </section>
       <section id="condiciones"><h3>Condiciones evaluadas</h3><ul id="cond-list"></ul></section>
-      <section><h3>Por qué sabemos / por qué no</h3><p id="decision"></p><ul id="reasons"></ul></section>
+      <section><h3>Por qué sabemos / por qué no</h3><p id="decision"></p></section>
       <section id="zonas"><h3>Zonas de cobertura</h3><div id="region-list"></div></section>
       <section><h3>Fuentes</h3><ul id="sources"></ul></section>
+      <details id="tech">
+        <summary>Detalle técnico (códigos)</summary>
+        <ul id="tech-codes"></ul>
+      </details>
       <p id="warning" class="warning"></p>
     </div>
   </aside>
