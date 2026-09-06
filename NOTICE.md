@@ -18,6 +18,7 @@ presentarse como cumplido.
 | PyYAML (`>=6,<7`) | MIT (metadatos PyPI) | Solo extra `alraso[axiom]` (serialización RuleSpec) | **No** (dependencia declarada, no empaquetada) |
 | pytest (`>=8`) | MIT (metadatos PyPI) | Solo extra `dev` (suites de prueba) | **No** |
 | psycopg (`>=3,<4`) | LGPL-3.0-only (metadatos PyPI) | Solo extra `postgis`, que corresponde a `POSTGRES_NORMATIVE_STORE_STATUS=NOT_IMPLEMENTED`: no hay almacén PostgreSQL funcional | **No** |
+| [MapLibre GL JS](https://github.com/maplibre/maplibre-gl-js) 4.7.1 | BSD-3-Clause + avisos/licencias de terceros incluidos (mapbox-gl-js ≤v1.13 BSD-3-Clause, glfx.js MIT, d3-color BSD-3-Clause), según `LICENSE.txt` upstream | Renderizador de mapa en el navegador, **vendorizado sin modificar** en `webapp/static/vendor/maplibre-gl.js` / `maplibre-gl.css` | **Sí**: `webapp/static/vendor/maplibre-gl.js`, `webapp/static/vendor/maplibre-gl.css`, texto completo de licencia en `webapp/static/vendor/MAPLIBRE-LICENSE.txt` |
 
 El núcleo de AlRaso es **stdlib-only por diseño**; nada de lo anterior es
 necesario para la ruta por defecto.
@@ -78,7 +79,7 @@ resultado lleva ese warning de forma permanente.
 
 ```text
 CODE_LICENSE=Apache-2.0
-THIRD_PARTY_CODE_DISTRIBUTED=none
+THIRD_PARTY_CODE_DISTRIBUTED=maplibre_gl_js_4.7.1 (BSD-3-Clause + bundled notices, see section 1)
 THIRD_PARTY_DATA_DISTRIBUTED=official_gis_samples (see section 4)
 DATA_REUSE_TERMS_VERIFICATION=NOT_VERIFIED (M1.1 task)
 M1.1_GORIZ_REAL_WORLD=VALIDATED

@@ -103,6 +103,25 @@ def test_frontend_assets_present_and_vendor_vendored():
     assert css.stat().st_size > 10_000
 
 
+def test_vendored_maplibre_license_is_shipped_and_declared():
+    vendor = ROOT / "webapp" / "static" / "vendor"
+    header = "\n".join((vendor / "maplibre-gl.js").read_text(encoding="utf-8")
+                       .splitlines()[:5])
+    assert "MapLibre GL JS" in header
+    assert "https://github.com/maplibre/maplibre-gl-js/blob/v4.7.1/LICENSE.txt" in header
+    license_text = (vendor / "MAPLIBRE-LICENSE.txt").read_text(encoding="utf-8")
+    assert "Copyright (c) 2023, MapLibre contributors" in license_text
+    assert "Copyright (c) 2020, Mapbox" in license_text
+    assert "glfx.js" in license_text
+    assert "d3-color" in license_text
+    notice = (ROOT / "NOTICE.md").read_text(encoding="utf-8")
+    assert "MapLibre GL JS" in notice
+    assert "maplibre-gl-js) 4.7.1" in notice
+    assert "BSD-3-Clause" in notice
+    assert "webapp/static/vendor/MAPLIBRE-LICENSE.txt" in notice
+    assert "THIRD_PARTY_CODE_DISTRIBUTED=maplibre_gl_js_4.7.1" in notice
+
+
 def test_http_layer_rejects_unknown_paths_and_serves_api(monkeypatch):
     # unit-level: the route table exposes no traversal and the API parses strictly
     assert "/" in server.STATIC_FILES
