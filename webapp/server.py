@@ -52,7 +52,7 @@ PLAIN_LEGAL = {
     "UNDETERMINED": "No lo podemos determinar",
 }
 PLAIN_KNOWLEDGE = {
-    "CURRENT": "Información normativa verificada y al día",
+    "CURRENT": "Información normativa verificada para la fecha consultada",
     "INCOMPLETE": "Información normativa incompleta",
     "CONFLICTING": "Fuentes normativas en conflicto",
 }
@@ -107,7 +107,7 @@ def _strict_coord(text: str) -> tuple[float, float]:
 
 
 def find_query(svc: "Service", text: str) -> dict:
-    """Búsqueda de producto: coordenadas ('42.66, -0.01' / '42,66; -0,01') o
+    """Búsqueda de producto: coordenadas ('42.66, 0.01' / '42,66; 0,01') o
     nombre aproximado de un sitio conocido. Nunca adivina: sin coincidencia
     clara devuelve kind=none."""
     q = (text or "").strip()

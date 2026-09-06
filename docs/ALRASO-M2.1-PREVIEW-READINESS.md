@@ -16,8 +16,8 @@ inalterado; `VERIFIED/PARTIAL/UNKNOWN` sigue separado del resolver; los contorno
    **nunca desaparecen** de la respuesta: se muestran en «Detalle técnico».
    Regla dura del titular `UNDETERMINED`: siempre dice *«no es un permiso, pero
    tampoco una prohibición»* (testeado para los tres estados de cobertura).
-2. **Búsqueda** (`/api/places`, `/api/find`): coordenadas (`42.66, -0.01` /
-   `42,66; -0,01` / `42.66 -0.01`) o nombre aproximado (sin acentos/mayúsculas)
+2. **Búsqueda** (`/api/places`, `/api/find`): coordenadas (`42.66, 0.01` /
+   `42,66; 0,01` / `42.66 0.01`) o nombre aproximado (sin acentos/mayúsculas)
    sobre una lista curta y honesta en `webapp/places.json`. Sin coincidencia
    clara → `kind=none`/mensaje; nunca adivina. La lista no afirma nada legal:
    el estado lo decide el resolver, y un test bloquea cualquier `PERMITTED`

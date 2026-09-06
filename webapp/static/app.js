@@ -104,7 +104,7 @@ $("searchform").addEventListener("submit", async (ev) => {
       f.matches.map((m) => m.name).join(" · ") + ". Concreta la búsqueda.";
   } else {
     $("searchmsg").textContent =
-      "Sin coincidencias. Escribe coordenadas «lat, lon» (ej. 42.6627, -0.0160) " +
+      "Sin coincidencias. Escribe coordenadas «lat, lon» (ej. 42.6627, 0.0160) " +
       "o elige una zona conocida de la lista.";
   }
 });
