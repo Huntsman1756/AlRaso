@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import re
 import sys
 import threading
@@ -61,6 +62,30 @@ PLAIN_COVERAGE = {
     "PARTIAL": "Cobertura parcial: normativa de la zona verificada, respuesta punto a punto sin cerrar",
     "UNKNOWN": "Sin información en esta zona",
 }
+
+# Proveedor de basemap desacoplado. El navegador NO puede leer variables de
+# entorno del servidor, asi que la unica configuracion limpia para esta app
+# stdlib es: server lee ALRASO_MAP_STYLE_URL, expone /api/config, y el
+# frontend la consume antes de crear el mapa. Rollback real: cambiar el env y
+# reiniciar. Sin claves: OpenFreeMap no las necesita. No se hardcodea el
+# proveedor en el frontend.
+DEFAULT_MAP_STYLE_URL = "https://tiles.openfreemap.org/styles/liberty"
+
+
+def map_style_url() -> str:
+    """URL del estilo MapLibre. Defensivo: solo se acepta un http(s) absoluto;
+    un valor malformed cae al default aprobado (OpenFreeMap) en vez de romper
+    el arranque o servir algo que MapLibre no pueda consumir."""
+    raw = (os.environ.get("ALRASO_MAP_STYLE_URL") or "").strip()
+    if not raw:
+        return DEFAULT_MAP_STYLE_URL
+    try:
+        parsed = urllib.parse.urlsplit(raw)
+    except ValueError:
+        return DEFAULT_MAP_STYLE_URL
+    if parsed.scheme in ("https", "http") and parsed.netloc:
+        return raw
+    return DEFAULT_MAP_STYLE_URL
 
 
 def ui_texto(legal: str, knowledge: str, coverage: str, conditions: list) -> dict:
@@ -339,6 +364,8 @@ def make_handler(svc: Service):
             try:
                 if path == "/api/coverage":
                     self._json(HTTPStatus.OK, coverage_geojson(svc))
+                elif path == "/api/config":
+                    self._json(HTTPStatus.OK, {"mapStyleUrl": map_style_url()})
                 elif path == "/api/places":
                     self._json(HTTPStatus.OK, {"places": svc.places})
                 elif path == "/api/find":

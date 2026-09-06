@@ -128,3 +128,25 @@ def test_http_layer_rejects_unknown_paths_and_serves_api(monkeypatch):
     assert not any(".." in p or "\\" in p for p in server.STATIC_FILES)
     with pytest.raises(server.BadRequest):
         server.parse_resolve_params({"lat": "", "lon": ""})
+
+
+def test_map_style_url_defaults_to_openfreemap_without_key(monkeypatch):
+    monkeypatch.delenv("ALRASO_MAP_STYLE_URL", raising=False)
+    assert server.map_style_url() == "https://tiles.openfreemap.org/styles/liberty"
+
+
+def test_map_style_url_is_configurable_by_env(monkeypatch):
+    monkeypatch.setenv("ALRASO_MAP_STYLE_URL", "https://tiles.openfreemap.org/styles/positron")
+    assert server.map_style_url() == "https://tiles.openfreemap.org/styles/positron"
+
+
+def test_map_style_url_fails_closed_to_default_on_garbage(monkeypatch):
+    for bad in ("javascript:alert(1)", "not a url", "ftp://example/x", "   ", "://nope"):
+        monkeypatch.setenv("ALRASO_MAP_STYLE_URL", bad)
+        assert server.map_style_url() == server.DEFAULT_MAP_STYLE_URL, bad
+
+
+def test_frontend_provider_is_decoupled_not_hardcoded():
+    js = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
+    assert "tile.openstreetmap.org" not in js, "M2.2: no direct OSMF tile usage"
+    assert "/api/config" in js, "the map style must come from server config"
