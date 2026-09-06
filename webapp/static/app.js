@@ -2,65 +2,70 @@
 const $ = (id) => document.getElementById(id);
 const state = { lat: null, lon: null, marker: null };
 
-const style = {
-  version: 8,
-  sources: {
-    osm: {
-      type: "raster",
-      tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-      tileSize: 256,
-      attribution: "© OpenStreetMap contributors",
-    },
-  },
-  layers: [{ id: "osm", type: "raster", source: "osm" }],
-};
+// Proveedor de basemap NO hardcodeado: se pide a /api/config (el server lee
+// ALRASO_MAP_STYLE_URL). Default del lado cliente solo por si el fetch falla.
+const FALLBACK_STYLE_URL = "https://tiles.openfreemap.org/styles/liberty";
 
-const map = new maplibregl.Map({
-  container: "map",
-  style,
-  center: [-1.6, 42.95],
-  zoom: 6.6,
-  attributionControl: true,
-});
+let map = null;
 
-map.on("load", async () => {
+async function boot() {
+  let styleUrl = FALLBACK_STYLE_URL;
   try {
-    const fc = await (await fetch("/api/coverage")).json();
-    map.addSource("coverage", { type: "geojson", data: fc });
-    map.addLayer({
-      id: "cov-fill", type: "fill", source: "coverage",
-      paint: {
-        "fill-color": ["match", ["get", "coverage"], "VERIFIED", "#22c55e", "PARTIAL", "#f59e0b", "#94a3b8"],
-        "fill-opacity": 0.18,
-      },
-    });
-    const covColor = ["match", ["get", "coverage"], "VERIFIED", "#22c55e", "PARTIAL", "#f59e0b", "#94a3b8"];
-    map.addLayer({
-      id: "cov-line", type: "line", source: "coverage",
-      filter: ["==", ["get", "boundary"], "oficial"],
-      paint: { "line-color": covColor, "line-width": 1.6 },
-    });
-    map.addLayer({
-      id: "cov-line-esquematico", type: "line", source: "coverage",
-      filter: ["==", ["get", "boundary"], "esquematico"],
-      paint: { "line-color": covColor, "line-width": 1.2, "line-dasharray": [3, 3] },
-    });
-    map.fitBounds([[-5.3, 42.55], [0.3, 43.45]], { padding: 30 });
-  } catch (e) { console.error(e); }
-});
+    const cfg = await (await fetch("/api/config")).json();
+    if (cfg && typeof cfg.mapStyleUrl === "string" && cfg.mapStyleUrl) styleUrl = cfg.mapStyleUrl;
+  } catch (e) { console.error("config fallback", e); }
 
-map.on("click", (e) => selectPoint(e.lngLat.lat, e.lngLat.lng, null, false));
+  map = new maplibregl.Map({
+    container: "map",
+    style: styleUrl,
+    center: [-1.6, 42.95],
+    zoom: 6.6,
+    attributionControl: true,
+  });
+
+  map.on("load", async () => {
+    try {
+      const fc = await (await fetch("/api/coverage")).json();
+      map.addSource("coverage", { type: "geojson", data: fc });
+      map.addLayer({
+        id: "cov-fill", type: "fill", source: "coverage",
+        paint: {
+          "fill-color": ["match", ["get", "coverage"], "VERIFIED", "#22c55e", "PARTIAL", "#f59e0b", "#94a3b8"],
+          "fill-opacity": 0.18,
+        },
+      });
+      const covColor = ["match", ["get", "coverage"], "VERIFIED", "#22c55e", "PARTIAL", "#f59e0b", "#94a3b8"];
+      map.addLayer({
+        id: "cov-line", type: "line", source: "coverage",
+        filter: ["==", ["get", "boundary"], "oficial"],
+        paint: { "line-color": covColor, "line-width": 1.6 },
+      });
+      map.addLayer({
+        id: "cov-line-esquematico", type: "line", source: "coverage",
+        filter: ["==", ["get", "boundary"], "esquematico"],
+        paint: { "line-color": covColor, "line-width": 1.2, "line-dasharray": [3, 3] },
+      });
+      map.fitBounds([[-5.3, 42.55], [0.3, 43.45]], { padding: 30 });
+    } catch (e) { console.error(e); }
+  });
+
+  map.on("click", (e) => selectPoint(e.lngLat.lat, e.lngLat.lng, null, false));
+}
+
+void boot();
 
 function selectPoint(lat, lon, name, fly = true) {
   state.lat = lat;
   state.lon = lon;
-  const ll = [lon, lat];
-  if (!state.marker) {
-    state.marker = new maplibregl.Marker({ color: "#e11d48" }).setLngLat(ll).addTo(map);
-  } else {
-    state.marker.setLngLat(ll);
+  if (map) {
+    const ll = [lon, lat];
+    if (!state.marker) {
+      state.marker = new maplibregl.Marker({ color: "#e11d48" }).setLngLat(ll).addTo(map);
+    } else {
+      state.marker.setLngLat(ll);
+    }
+    if (fly) map.flyTo({ center: ll, zoom: Math.max(map.getZoom(), 10) });
   }
-  if (fly) map.flyTo({ center: ll, zoom: Math.max(map.getZoom(), 10) });
   $("searchmsg").textContent = name ? `Zona seleccionada: ${name}` : "";
   refresh();
 }
@@ -69,6 +74,7 @@ $("date").valueAsDate = new Date();
 ["activity", "date"].forEach((id) => $(id).addEventListener("change", () => state.lat !== null && refresh()));
 
 $("center-btn").addEventListener("click", () => {
+  if (!map) return;
   const c = map.getCenter();
   selectPoint(c.lat, c.lng, null, false);
 });
