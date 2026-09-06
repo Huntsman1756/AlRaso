@@ -98,8 +98,19 @@ La evidencia de descubrimiento de geometría oficial para M1.1 está en
 (`NO_OFFICIAL_VECTOR_SCOPE_FOUND`, re-verificable con
 `tooling/m11_vector_discovery.py --verify`) y estudio del Anexo 11.5 de
 cartografía del PRUG (clasificación `D2`: mapa oficial sin frontera sectorial
-inequívoca y obsoleto). La rama espacial de M1.1 queda cerrada en
+inequívoca y obsoleta). La rama **sectorial** de M1.1 queda cerrada en
 `SPATIAL_EVIDENCE_INCOMPLETE`.
+
+La rama **Góriz** de M1.1 (M1.1-C) sí cerró en **`OFFICIAL_SCOPE_LINK_PROVEN`
+(gate A)**: la "Zona de acampada de alta montaña adyacente al refugio de Góriz"
+queda identity-probada entre el WFS oficial de OAPN (registro estatal que cita el
+`Decreto 49/2015` en el propio feature) y el WFS de ICEAragon (`ENP101_137`): IoU
+`0.999844`, Hausdorff `0,005 m`. Es el primer ámbito con geometría oficial que
+resuelve de extremo a extremo (dentro + condiciones → `PERMITTED`; sin condiciones o
+fuera → `UNDETERMINED`, nunca prohibición sectorial). Ver
+`docs/ALRASO-M11C-GORIZ-SCOPE.md`, `tooling/m11c_goriz_scope.evidence.json` y
+re-verificación en vivo con `tooling/m11c_goriz_identity.py --verify`. Ninguna
+consulta "fuera de Góriz" reabre la rama sectorial.
 
 Versiones e identidades fijadas en `tooling/DEPENDENCIES.lock.json`
 (Axiom v0.2.2 commit `d142c64`, SHA-256 del binario; `rulespec/v1+m1r1`;

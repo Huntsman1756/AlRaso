@@ -1,0 +1,28 @@
+{
+ "feature_id": "ENP101_137",
+ "geometry_meta": {
+  "bbox": [
+   747088.6451,
+   4727687.58,
+   747256.1267,
+   4727880.4616
+  ],
+  "coord_digest": "b2f4ca1f4de479471348858bc064a359b12494d6a107ab62218421a99cd349f7",
+  "n_points": 92,
+  "parts": 2,
+  "type": "MultiPolygon"
+ },
+ "note": "full geometry NOT redistributed (reuse terms NOT_VERIFIED); properties + geometry metadata + digest only; re-fetchable from source_url",
+ "properties": {
+  "area": null,
+  "codeara": "ENP101",
+  "enpassociated": null,
+  "objectid": 475,
+  "planificationzone": null,
+  "zonecode": "ENP101_137",
+  "zonename": "Zona de acampada adyacente al refugio de Góriz",
+  "zonetype": "PNac"
+ },
+ "retrieved_at": "2026-09-05",
+ "source_url": "https://icearagon.aragon.es/Visor2D?service=WFS&version=2.0.0&request=GetFeature&typeName=VISOR2D:ZENP&outputFormat=application/json&srsName=EPSG:25830&CQL_FILTER=zonecode%3D%27ENP101_137%27"
+}

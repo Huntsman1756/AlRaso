@@ -1,0 +1,533 @@
+{
+ "$schema": "https://alraso.example/schemas/goriz-realworld-fixture-v1.json",
+ "expected": {
+  "inside_with_conditions": {
+   "knowledge": "CURRENT",
+   "legal": "PERMITTED"
+  },
+  "inside_without_conditions": {
+   "knowledge": "INCOMPLETE",
+   "legal": "UNDETERMINED",
+   "note": "hechos operativos ausentes -> fail-closed"
+  },
+  "outside": {
+   "legal": "UNDETERMINED",
+   "reason": "sin ambito resoluble; NUNCA 'PROHIBITED en Sector Ordesa'"
+  }
+ },
+ "fixture_meta": {
+  "created": "2026-09-06",
+  "identity_evidence": "tooling/m11c_goriz_scope.evidence.json (gate A; raw artifacts under discovery/evidence/m11c-goriz/)",
+  "name": "GORIZ_REALWORLD_ACCEPTANCE_FIXTURE",
+  "purpose": "M1.1-C: first real-world scope whose geometry is official and identity-proven (gate A, OFFICIAL_SCOPE_LINK_PROVEN). Encodes ONLY the literal reading of D 16/2022 art. unico for the Goriz ZUM. Not product; acceptance/demo corpus.",
+  "semantics": {
+   "boundary_policy": "PostGIS target uses ST_Intersects (boundary-insclusive); InMemory raycast MUST NOT be relied on for exact edges (see spatial.py)",
+   "condition_facts": "refuge_capacity_full (legal trigger: 'en los casos de aforo completo del refugio') and nights (PRUG 'la pernocta no excedera de tres noches') are caller-supplied; missing facts fail closed to UNDETERMINED",
+   "not_encoded": "cupo de 50 personas y disponibilidad/reserva = OPERATIONAL/LIVE layer (reservas de la plataforma OAPN); never treated as legality here",
+   "provider_rings": "[[lat, lon], ...] WGS84; each ring = independent polygon part (InMemorySpatialProvider)"
+  }
+ },
+ "geometry": {
+  "rings_latlon": [
+   [
+    [
+     42.663304,
+     0.0152851
+    ],
+    [
+     42.6633059,
+     0.0153263
+    ],
+    [
+     42.6633059,
+     0.0153271
+    ],
+    [
+     42.6633061,
+     0.0153287
+    ],
+    [
+     42.6633063,
+     0.0153302
+    ],
+    [
+     42.6633066,
+     0.0153318
+    ],
+    [
+     42.6633068,
+     0.0153325
+    ],
+    [
+     42.663313,
+     0.0153578
+    ],
+    [
+     42.6633132,
+     0.0153586
+    ],
+    [
+     42.6633137,
+     0.0153601
+    ],
+    [
+     42.6633142,
+     0.0153615
+    ],
+    [
+     42.6633148,
+     0.0153629
+    ],
+    [
+     42.6633154,
+     0.0153642
+    ],
+    [
+     42.6633158,
+     0.0153649
+    ],
+    [
+     42.6633665,
+     0.0154549
+    ],
+    [
+     42.6633668,
+     0.0154555
+    ],
+    [
+     42.6633676,
+     0.0154567
+    ],
+    [
+     42.6633809,
+     0.0154761
+    ],
+    [
+     42.6633818,
+     0.0154772
+    ],
+    [
+     42.6633827,
+     0.0154783
+    ],
+    [
+     42.6633836,
+     0.0154793
+    ],
+    [
+     42.6633846,
+     0.0154802
+    ],
+    [
+     42.6633856,
+     0.015481
+    ],
+    [
+     42.6633866,
+     0.0154817
+    ],
+    [
+     42.6633877,
+     0.0154823
+    ],
+    [
+     42.6633888,
+     0.0154828
+    ],
+    [
+     42.66339,
+     0.0154832
+    ],
+    [
+     42.6633911,
+     0.0154835
+    ],
+    [
+     42.6633923,
+     0.0154837
+    ],
+    [
+     42.6633935,
+     0.0154839
+    ],
+    [
+     42.6633946,
+     0.0154839
+    ],
+    [
+     42.6633958,
+     0.0154838
+    ],
+    [
+     42.663397,
+     0.0154836
+    ],
+    [
+     42.6633981,
+     0.0154833
+    ],
+    [
+     42.6633993,
+     0.0154828
+    ],
+    [
+     42.6634004,
+     0.0154823
+    ],
+    [
+     42.6634015,
+     0.0154817
+    ],
+    [
+     42.6634025,
+     0.015481
+    ],
+    [
+     42.6634036,
+     0.0154802
+    ],
+    [
+     42.6634046,
+     0.0154794
+    ],
+    [
+     42.6634055,
+     0.0154784
+    ],
+    [
+     42.6634057,
+     0.0154781
+    ],
+    [
+     42.6635865,
+     0.0152711
+    ],
+    [
+     42.6635868,
+     0.0152708
+    ],
+    [
+     42.6637033,
+     0.0151321
+    ],
+    [
+     42.6637141,
+     0.0151945
+    ],
+    [
+     42.6636962,
+     0.0152388
+    ],
+    [
+     42.6636633,
+     0.0153147
+    ],
+    [
+     42.6636459,
+     0.0153429
+    ],
+    [
+     42.6634274,
+     0.0156777
+    ],
+    [
+     42.66307,
+     0.0162221
+    ],
+    [
+     42.6629048,
+     0.0163433
+    ],
+    [
+     42.662787,
+     0.0164731
+    ],
+    [
+     42.662733,
+     0.0165319
+    ],
+    [
+     42.662696,
+     0.0165785
+    ],
+    [
+     42.662631,
+     0.0166948
+    ],
+    [
+     42.6624802,
+     0.0168134
+    ],
+    [
+     42.66235,
+     0.0168717
+    ],
+    [
+     42.662244,
+     0.0169182
+    ],
+    [
+     42.6622278,
+     0.016898
+    ],
+    [
+     42.6621984,
+     0.0168385
+    ],
+    [
+     42.6621496,
+     0.0167006
+    ],
+    [
+     42.66205,
+     0.0164117
+    ],
+    [
+     42.662021,
+     0.0163392
+    ],
+    [
+     42.6619857,
+     0.016231
+    ],
+    [
+     42.6619655,
+     0.0161848
+    ],
+    [
+     42.6619546,
+     0.0160552
+    ],
+    [
+     42.662035,
+     0.0159881
+    ],
+    [
+     42.6622803,
+     0.0158095
+    ],
+    [
+     42.6623388,
+     0.0157606
+    ],
+    [
+     42.6624862,
+     0.0156806
+    ],
+    [
+     42.662636,
+     0.0156039
+    ],
+    [
+     42.6627823,
+     0.0154754
+    ],
+    [
+     42.662941,
+     0.0154185
+    ],
+    [
+     42.6630552,
+     0.0153369
+    ],
+    [
+     42.6631301,
+     0.0152953
+    ],
+    [
+     42.66321,
+     0.0152475
+    ],
+    [
+     42.6632697,
+     0.0153311
+    ],
+    [
+     42.663304,
+     0.0152851
+    ]
+   ],
+   [
+    [
+     42.6633379,
+     0.0152394
+    ],
+    [
+     42.6633809,
+     0.0151816
+    ],
+    [
+     42.6635024,
+     0.0150002
+    ],
+    [
+     42.6635802,
+     0.0149394
+    ],
+    [
+     42.6636831,
+     0.0150154
+    ],
+    [
+     42.6636936,
+     0.0150764
+    ],
+    [
+     42.6636902,
+     0.0150827
+    ],
+    [
+     42.6635632,
+     0.015234
+    ],
+    [
+     42.6633956,
+     0.0154259
+    ],
+    [
+     42.6633946,
+     0.0154243
+    ],
+    [
+     42.6633462,
+     0.0153385
+    ],
+    [
+     42.6633416,
+     0.0153201
+    ],
+    [
+     42.6633379,
+     0.0152394
+    ]
+   ]
+  ],
+  "srid": 4326
+ },
+ "legal_fragments": [
+  {
+   "exact_text_hint": "La actividad del vivac o acampada nocturna queda prohibida en el sector Ordesa, con la excepción, hasta el 31 de diciembre de 2023, de un cupo de 90 personas que se establece para la Zona de Uso Moderado de Góriz en los casos de aforo completo del refugio. A partir de esa fecha dicho cupo quedará reducido a 50 personas. En todo caso, la pernocta no excederá de tres noches.",
+   "extracted_at": "2026-09-05",
+   "id": "lf-d16-2022-vivac-goriz",
+   "locator": "Articulo unico - modificacion de 9.2.1.3.1 del PRUG (D 49/2015)",
+   "review_status": "VERIFIED",
+   "source_document_id": "sd-d16-boa-pdf"
+  },
+  {
+   "exact_text_hint": "{\"Nombre Parque\": \"Parque Nacional de Ordesa y Monte Perdido\", \"Nombre\": \"Zona de acampada adyacente al refugio de Góriz\", \"Zona\": \"Zona de Uso Moderado\", \"Normativa\": \"Decreto 49/2015, de 8 de abril,(BOA 80, 29/04/2015)\", \"Observaciones\": \"Uso público. Área vivac. Sector Ordesa\", \"Superficie (ha)\": \"        1,251\"}",
+   "extracted_at": "2026-09-05",
+   "id": "lf-oapn-zum-attributes",
+   "locator": "feature properties (Nombre/Zona/Normativa/Observaciones/Superficie)",
+   "review_status": "VERIFIED",
+   "source_document_id": "sd-oapn-wfs-prug"
+  },
+  {
+   "exact_text_hint": "El listado oficial de legislacion del parque no incluye ninguna modificacion del regimen de pernocta posterior a D 16/2022 (verificado 2026-09-05; sha256 6035bd5e59e6521623b13b907fe784f4f4ed47c0e867a98abe3c039853ecc601)",
+   "extracted_at": "2026-09-05",
+   "id": "lf-pnomp-legislacion-no-later",
+   "locator": "listado de normas (extracto fijado en discovery/evidence/m11c-goriz/pnomp-legislacion-extract.txt)",
+   "review_status": "VERIFIED",
+   "source_document_id": "sd-pnomp-legislacion"
+  }
+ ],
+ "legal_rule_versions": [
+  {
+   "activity": "VIVAC_AL_RASO",
+   "condition": {
+    "all": [
+     {
+      "field": "refuge_capacity_full",
+      "op": "is_true"
+     },
+     {
+      "field": "nights",
+      "op": "lte",
+      "value": 3
+     }
+    ]
+   },
+   "effect": "PERMITTED",
+   "effective_from": "2022-02-09",
+   "effective_to": null,
+   "evidence": [
+    "lf-d16-2022-vivac-goriz",
+    "lf-oapn-zum-attributes",
+    "lf-pnomp-legislacion-no-later"
+   ],
+   "interpretation_note": "Lectura literal del art. unico D 16/2022: en la Zona de Uso Moderado de Goriz la pernocta (vivac/acampada nocturna) queda permitida 'en los casos de aforo completo del refugio' y 'no excedera de tres noches'. El cupo de 50 personas no se codifica: es disponibilidad gestionada (capa OPERACIONAL/LIVE), nunca legalidad. Fuera de este ambito la pregunta sector Ordesa sigue UNDETERMINED (geometria sectorial inexistente - M1.1/M1.1-B).",
+   "legal_review_complete": true,
+   "recorded_at": "2026-09-05",
+   "recorded_until": null,
+   "review_status": "VERIFIED",
+   "rule_id": "alraso:es-ar/pn-ordesa/pernocta#vivac-zona-goriz-zum",
+   "spatial_review_complete": true,
+   "spatial_scope_id": "ss-ordesa-goriz-zum"
+  }
+ ],
+ "probe_points": {
+  "inside_3m_wgs84": [
+   42.6632854,
+   0.0153502
+  ],
+  "inside_wgs84": [
+   42.6627475,
+   0.0159801
+  ],
+  "outside_wgs84": [
+   42.6664621,
+   0.0200979
+  ]
+ },
+ "rule_relations": [],
+ "source_documents": [
+  {
+   "authority": "Gobierno de Aragon (BOA)",
+   "canonical_url": "http://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1205403022828&type=pdf",
+   "document_type": "PRUG_AMENDMENT_PDF",
+   "id": "sd-d16-boa-pdf",
+   "jurisdiction": "ES-ARAGON",
+   "official_status": "VIGENTE (sin modificacion posterior listada en pnomp.es/es/legislacion)",
+   "sha256": "819ba8148a7880c1dc25e1eb5a14ad31147d3e0bcc4bf2fadc96f60102930806",
+   "title": "Decreto 16/2022, de 26 de enero (BOA 08-02-2022 num 26) - PDF oficial descargado y fijado"
+  },
+  {
+   "authority": "OAPN / MITECO (SIGRED)",
+   "canonical_url": "https://sigred.oapn.es/geoserverOAPN/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=ZonificacionPRUG%3Aview_zon_zonificacion_prug&outputFormat=application%2Fjson&srsName=EPSG%3A4326",
+   "document_type": "OFFICIAL_GIS_LAYER",
+   "id": "sd-oapn-wfs-prug",
+   "jurisdiction": "ES-NATIONAL",
+   "official_status": "VIGENTE",
+   "title": "ZonificacionPRUG:view_zon_zonificacion_prug - zonificacion oficial de PRUG de los Parques Nacionales"
+  },
+  {
+   "authority": "Gobierno de Aragon (ICEAragon)",
+   "canonical_url": "https://icearagon.aragon.es/Visor2D?service=WFS&version=2.0.0&request=GetFeature&typeName=VISOR2D%3AZENP&outputFormat=application%2Fjson",
+   "document_type": "OFFICIAL_GIS_LAYER",
+   "id": "sd-aragon-wfs-zenp",
+   "jurisdiction": "ES-ARAGON",
+   "official_status": "VIGENTE",
+   "title": "VISOR2D:ZENP - zonas ENP de Aragon (feature ENP101_137)"
+  },
+  {
+   "authority": "Parque Nacional de Ordesa y Monte Perdido (Direccion)",
+   "canonical_url": "https://pnomp.es/es/legislacion",
+   "document_type": "OFFICIAL_LEGISLATION_PAGE",
+   "id": "sd-pnomp-legislacion",
+   "jurisdiction": "ES-ARAGON",
+   "official_status": "VIGENTE",
+   "title": "Legislacion vigente del parque (lista oficial de normas; ultima modificacion pernocta: D 16/2022)"
+  }
+ ],
+ "spatial_scopes": [
+  {
+   "geometry_source": "sd-aragon-wfs-zenp#ENP101_137; identidad vectorial probada con sd-oapn-wfs-prug (IoU 0.999844, Hausdorff 0.005 m en EPSG:25830; ver tooling/m11c_goriz_scope.evidence.json)",
+   "id": "ss-ordesa-goriz-zum",
+   "official_name": "Zona de acampada adyacente al refugio de Goriz (Zona de Uso Moderado)",
+   "parent_scope": null,
+   "relevance": "REGULATORY",
+   "review_status": "VERIFIED",
+   "scope_type": "OTHER",
+   "srid_native": 25830
+  }
+ ]
+}
