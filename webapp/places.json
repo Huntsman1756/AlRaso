@@ -1,0 +1,16 @@
+{
+ "$schema": "alraso-m2-places/v1",
+ "policy": "Lista curta de sitios conocidos para poder buscar sin saber coordenadas. Es material de demostracion del proyecto: no afirma nada legal sobre ninguno de los puntos. Lo que hay en cada punto (permitido / no determinado / sin informacion) lo decide exclusivamente el resolver + coverage, no este archivo.",
+ "places": [
+  {"id": "refugio-goriz", "name": "Refugio de Góriz (PN Ordesa y Monte Perdido)", "lat": 42.6627475, "lon": 0.0159801,
+   "note": "Zona de uso múltiple verificada extremo a extremo (Decreto 16/2022, BOA)."},
+  {"id": "pradera-ordesa", "name": "Pradera de Ordesa (PN Ordesa y Monte Perdido)", "lat": 42.64944, "lon": 0.02472,
+   "note": "Acceso clásico al valle; dentro del parque, fuera de la zona verificada de Góriz."},
+  {"id": "cares-picos", "name": "Garganta de la Cares (PN Picos de Europa)", "lat": 43.17068, "lon": -4.80299,
+   "note": "Ruta iconica Picos; normativa 2026 verificada en los tres diarios oficiales, motor aun no."},
+  {"id": "torla-portal", "name": "Torla (portal del PN Ordesa)", "lat": 42.62619, "lon": -0.11146,
+   "note": "Nucleo de pueblo junto al parque: muestra lo que pasa fuera de toda zona de cobertura."},
+  {"id": "control-sin-corpus", "name": "Punto de control sin corpus (Sistema Ibérico)", "lat": 41.9, "lon": -2.4,
+   "note": "Demostracion deliberada de UNKNOWN: AlRaso no tiene aqui nada que afirmar."}
+ ]
+}
