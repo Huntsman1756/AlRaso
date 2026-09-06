@@ -11,3 +11,6 @@ opencode.json
 # LLM auxiliary tooling run log (safe metadata only, but never committed)
 tooling/llm/runs.jsonl
 *.env
+
+# Prepared DEM tile (auto-elevation); never commit the raster
+webapp/data/dem/
