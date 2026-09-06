@@ -127,6 +127,15 @@ solo >cota 1.800 m, máx. 3 noches). Evidencia y digests en
 de Picos está en el runtime: la implementación Phase B requiere aprobar antes los
 fixtures del documento.
 
+**M2 — Product vertical slice (actual):** `python webapp/server.py` abre un mapa
+(MapLibre vendorizado, cero dependencias nuevas) donde un clic resuelve por el
+motor real y muestra `LEGAL / KNOWLEDGE / COVERAGE` + condiciones + fuentes +
+"por qué sabemos / por qué no". Cobertura visible: `VERIFIED` (Góriz), `PARTIAL`
+(Ordesa sin geometría de sectores; Picos sin motor ni DEM), `UNKNOWN` (resto).
+Los contornos `esquematico` del mapa son informativos y jamás pueden producir
+`PERMITTED`. Ver `docs/ALRASO-M2-PRODUCT-SLICE.md` (incluye el presupuesto de
+investigación por zona: 2–4 h y clasificación A/B/C).
+
 Versiones e identidades fijadas en `tooling/DEPENDENCIES.lock.json`
 (Axiom v0.2.2 commit `d142c64`, SHA-256 del binario; `rulespec/v1+m1r1`;
 `schema m1r2`; `resolver 0.2.1-hardening`).

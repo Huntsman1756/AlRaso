@@ -1,0 +1,72 @@
+{
+ "$schema": "alraso-m2-coverage/v1",
+ "policy": "El mapa muestra lo que PODEMOS AFIRMAR, no la cartografía oficial. Los anillos con boundary=esquematico son contornos dibujados a mano por el proyecto SOLO para indicar la zona donde existe (o no) trabajo regulatorio verificado: NO son límites administrativos ni oficiales y nunca determinan estado legal. La determinación legal de un punto proviene exclusivamente del resolver sobre corpus con geometría oficial (boundary=oficial).",
+ "coverage_status_legend": {
+  "VERIFIED": "norma vigente verificada en fuente oficial Y geometría oficial enlazada al motor (determinación punto a punto posible)",
+  "PARTIAL": "hay trabajo regulatorio verificado pero la determinación punto a punto NO está completa (falta geometría oficial enlazada, motor, o cobertura jurisdiccional)",
+  "UNKNOWN": "fuera de toda región: el sistema no puede afirmar nada (y lo dice)"
+ },
+ "example_points": {
+  "goriz_inside": [42.6627475, 0.0159801],
+  "picos_cantabria": [43.17068, -4.80299],
+  "outside_all": [41.9, -2.4]
+ },
+ "regions": [
+  {
+   "id": "ss-ordesa-goriz-zum",
+   "name": "ZUM Góriz (PN Ordesa y Monte Perdido)",
+   "coverage": "VERIFIED",
+   "boundary": "oficial",
+   "verified_at": "2026-09-05",
+   "geometry": {"from_fixture": "fixture_goriz.json"},
+   "summary": "Vivac/pernocta al raso PERMITIDO bajo condiciones (capacidad de refugio colmatada y ≤3 noches) en la ZUM de Góriz según Decreto 16/2022 (BOA 08-02-2022). Primer ámbito real validado de extremo a extremo.",
+   "norms": [
+    {"title": "Decreto 16/2022, de 26 de enero (BOA 08-02-2022 núm. 26)", "canonical_url": "http://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1205403022828&type=pdf", "official_status": "VIGENTE (sin modificación posterior listada en pnomp.es/es/legislacion)", "verified_at": "2026-09-05"},
+    {"title": "Zonificación PRUG OAPN (view_zon_zonificacion_prug, feature ENP Góriz)", "canonical_url": "https://sigred.oapn.es/geoserverOAPN/ows", "official_status": "geometría oficial descargada y fijada (sha256 en tooling/m11c_goriz_scope.evidence.json)", "verified_at": "2026-09-05"}
+   ],
+   "notes": ["Sin hechos de condición (refugio colmatado / noches) el resultado es UNDETERMINED, jamás PERMITTED."]
+  },
+  {
+   "id": "pn-ordesa-esquema",
+   "name": "PN Ordesa y Monte Perdido (esquema de cobertura)",
+   "coverage": "PARTIAL",
+   "boundary": "esquematico",
+   "verified_at": "2026-09-05",
+   "geometry": {"rings_latlon": [[
+    [42.660, -0.090], [42.695, -0.085], [42.705, -0.010], [42.712, 0.040],
+    [42.705, 0.100], [42.680, 0.150], [42.645, 0.160], [42.625, 0.115],
+    [42.628, 0.050], [42.632, -0.010], [42.640, -0.060], [42.660, -0.090]
+   ]]},
+   "summary": "Corpus bitemporal del régimen de pernocta del parque en el motor (RD 409/1995 → prohibición D 16/2022). La geometría oficial por sectores NO está enlazada (M1.1_ORDESA_SECTOR_SPATIAL=INCOMPLETE): fuera de la ZUM Góriz, un punto del parque devuelve UNDETERMINED.",
+   "norms": [
+    {"title": "Real Decreto 409/1995, PRUG Ordesa", "canonical_url": "https://www.boe.es/buscar/act.php?id=BOE-A-1995-11259", "official_status": "VIGENCIA_AGOTADA (BOE) desde 30-04-2015", "verified_at": "2026-09-05"},
+    {"title": "Decreto 16/2022 (BOA) — prohibición de pernocta salvo zonas autorizadas", "canonical_url": "http://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1205403022828&type=pdf", "official_status": "VIGENTE", "verified_at": "2026-09-05"}
+   ],
+   "notes": ["Contorno esquemático dibujado por AlRaso: solo indica 'aquí hay corpus parcial'. Los puntos del interior que no caen en la ZUM Góriz se resuelven UNDETERMINED por diseño fail-closed."]
+  },
+  {
+   "id": "pn-picos-esquema",
+   "name": "PN Picos de Europa (esquema de cobertura)",
+   "coverage": "PARTIAL",
+   "boundary": "esquematico",
+   "verified_at": "2026-09-06",
+   "geometry": {"rings_latlon": [[
+    [43.315, -4.720], [43.300, -4.630], [43.230, -4.620], [43.150, -4.660],
+    [43.075, -4.750], [43.090, -4.870], [43.125, -4.960], [43.180, -5.050],
+    [43.245, -5.120], [43.295, -5.050], [43.310, -4.920], [43.318, -4.800],
+    [43.315, -4.720]
+   ]]},
+   "summary": "Normativa localizada y verificada en los tres diarios oficiales (regla común art. 51: vivac de montaña solo sobre cota 1.800 m, máx. 3 noches): Castilla y León vigente desde 2026-01-04, Asturias desde 2026-04-19, Cantabria desde 2026-08-24. Las reglas AÚN NO están en el motor y falta DEM oficial para la cota: la determinación punto a punto es UNDETERMINED.",
+   "norms": [
+    {"title": "Decreto 17/2025, de 11 de diciembre (BOCyL núm. 240, 15-12-2025) — ámbito Castilla y León", "canonical_url": "https://bocyl.jcyl.es/boletin.do?fechaBoletin=15/12/2025", "official_status": "VIGENTE desde 2026-01-04", "verified_at": "2026-09-06"},
+    {"title": "Decreto 21/2026, de 16 de marzo (BOPA 30-03-2026, Cód. 2026-02506) — ámbito Asturias", "canonical_url": "https://miprincipado.asturias.es/bopa", "official_status": "VIGENTE desde 2026-04-19 (número de disposición por confirmar: cabecera 30/03 vs INAP 31/03)", "verified_at": "2026-09-06"},
+    {"title": "Decreto 57/2026, de 30 de julio (BOC núm. 148, 04-08-2026) — ámbito Cantabria", "canonical_url": "https://www.cantabria.es/web/boc", "official_status": "VIGENTE desde 2026-08-24", "verified_at": "2026-09-06"}
+   ],
+   "notes": [
+    "Evidencia completa: docs/ALRASO-M2A-PICOS-DISCOVERY.md y tooling/m2a_picos_discovery.evidence.json.",
+    "Histórico anterior a 2026: cadena jurídica RD 384/2002 no probada -> UNDETERMINED.",
+    "Puntos a <1 km de fronteras entre CCAA: sin verificación IDE -> sin afirmación."
+   ]
+  }
+ ]
+}

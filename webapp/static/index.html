@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AlRaso — ¿dormir al raso? Solo lo que podemos afirmar.</title>
+<link rel="stylesheet" href="/vendor/maplibre-gl.css">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+  <div class="brand">AlRaso</div>
+  <p class="tagline">Te mostramos exactamente qué podemos afirmar, con qué fuente y qué no podemos determinar.</p>
+</header>
+<main>
+  <div id="map"></div>
+  <aside id="card">
+    <div id="card-empty">
+      <h2>Toca un punto del mapa</h2>
+      <p>AlRaso cruza tu ubicación con normativa verificada y geometría oficial.
+         Si no puede afirmar algo, lo dice: <b>UNDETERMINED</b> / <b>UNKNOWN</b> no son errores, son la respuesta honesta.</p>
+      <p class="legend">
+        <span class="chip ok">VERIFIED</span> norma + geometría oficial en el motor<br>
+        <span class="chip warn">PARTIAL</span> hay verificación, sin determinación punto a punto<br>
+        <span class="chip unk">UNKNOWN</span> sin corpus: nada que afirmar
+      </p>
+    </div>
+    <div id="card-result" hidden>
+      <div id="coords"></div>
+      <div class="badges">
+        <div><span class="badge-label">LEGAL STATUS</span><span id="legal" class="badge">—</span></div>
+        <div><span class="badge-label">KNOWLEDGE STATUS</span><span id="knowledge" class="badge">—</span></div>
+        <div><span class="badge-label">COVERAGE STATUS</span><span id="coverage" class="badge">—</span></div>
+      </div>
+      <section><h3>Actividad</h3>
+        <select id="activity">
+          <option value="VIVAC_AL_RASO">Vivac al raso</option>
+          <option value="FUNDA_VIVAC">Funda vivac</option>
+          <option value="TIENDA_NOCTURNA">Tienda de campaña nocturna</option>
+          <option value="ACAMPADA">Acampada</option>
+          <option value="PERNOCTA_REFUGIO">Pernocta en refugio</option>
+        </select>
+        <label>Fecha de la actividad <input type="date" id="date"></label>
+        <div id="factbox"></div>
+      </section>
+      <section id="condiciones"><h3>Condiciones evaluadas</h3><ul id="cond-list"></ul></section>
+      <section><h3>Por qué sabemos / por qué no</h3><p id="decision"></p><ul id="reasons"></ul></section>
+      <section id="zonas"><h3>Zonas de cobertura</h3><div id="region-list"></div></section>
+      <section><h3>Fuentes</h3><ul id="sources"></ul></section>
+      <p id="warning" class="warning"></p>
+    </div>
+  </aside>
+</main>
+<script src="/vendor/maplibre-gl.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
