@@ -1,0 +1,37 @@
+{
+  "status": "CONFIGURED_NOT_LIVE",
+  "default_timeout_s": 30,
+  "providers": {
+    "groq": {
+      "role": "primary",
+      "enabled": true,
+      "base_url": "https://api.groq.com/openai/v1",
+      "model": "openai/gpt-oss-120b",
+      "env_key": "GROQ_API_KEY",
+      "credit_card_required": false,
+      "verified_primary_source": true,
+      "verification_notes": "console.groq.com/docs/rate-limits: Free plan, OpenAI-compatible, no card. openai/gpt-oss-120b free 30 RPM / 1K RPD / 8K TPM / 200K TPD."
+    },
+    "cerebras": {
+      "role": "fallback_1",
+      "enabled": true,
+      "base_url": "https://api.cerebras.ai/v1",
+      "model": "llama3.1-70b",
+      "env_key": "CEREBRAS_API_KEY",
+      "credit_card_required": false,
+      "verified_primary_source": false,
+      "verification_notes": "Directory lists free tier, no card, OpenAI-compatible. Primary docs (docs.cerebras.ai/cloud-platform/*) returned 404 from the sandbox; re-verify before activating a key."
+    },
+    "gemini": {
+      "role": "fallback_2",
+      "enabled": true,
+      "base_url": "https://generativelanguage.googleapis.com/v1beta/openai",
+      "model": "gemini-3.6-flash",
+      "env_key": "GEMINI_API_KEY",
+      "credit_card_required": false,
+      "verified_primary_source": false,
+      "verification_notes": "AI Studio free tier (no card). OpenAI-compatible endpoint used. Primary docs (ai.google.dev/*) were bot-blocked from the sandbox; re-verify the exact free-tier model id before activating a key."
+    }
+  },
+  "order": ["groq", "cerebras", "gemini"]
+}
