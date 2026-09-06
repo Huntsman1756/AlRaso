@@ -25,12 +25,12 @@ TODAY = "2026-09-06"
 BBOX = (-5.35, 42.40, 0.35, 43.40)
 
 
-def _make_tile(path: Path, value: float, nodata=None, bbox=BBOX) -> str:
+def _make_tile(path: Path, value: float, nodata=None, bbox=BBOX, crs="EPSG:4326") -> str:
     from rasterio.transform import from_bounds
     left, bottom, right, top = bbox
     transform = from_bounds(left, bottom, right, top, 1, 1)
     profile = {"driver": "GTiff", "width": 1, "height": 1, "count": 1,
-               "dtype": "float32", "crs": "EPSG:4326", "transform": transform}
+               "dtype": "float32", "crs": crs, "transform": transform}
     if nodata is not None:
         profile["nodata"] = nodata
     with rasterio.open(path, "w", **profile) as dst:
@@ -38,15 +38,16 @@ def _make_tile(path: Path, value: float, nodata=None, bbox=BBOX) -> str:
     return dem_mod._sha256_file(str(path))
 
 
-def _configure(monkeypatch, tmp_path, value, *, nodata=None, bbox=BBOX,
+def _configure(monkeypatch, tmp_path, value, *, nodata=None, bbox=BBOX, crs="EPSG:4326",
                source_sha256=None):
     tile = tmp_path / "tile.tif"
-    real_sha = _make_tile(tile, value, nodata=nodata, bbox=bbox)
+    real_sha = _make_tile(tile, value, nodata=nodata, bbox=bbox, crs=crs)
     meta = {
         "source": "IGN/CNIG", "product": "MDT (synthetic test)", "authority": "test",
         "source_url": "https://example.invalid/mdt", "source_artifact_id": "test-tile",
         "source_sha256": source_sha256 or real_sha, "retrieved_at": TODAY,
-        "vertical_datum": "EGM08", "resolution_m": 25, "reuse_terms": "test",
+        "vertical_datum": "orthometric", "vertical_reference_detail": "NOT_VERIFIED",
+        "resolution_m": 25, "reuse_terms": "test",
     }
     meta_path = tmp_path / "meta.json"
     meta_path.write_text(json.dumps(meta), encoding="utf-8")
@@ -148,3 +149,30 @@ def test_dem_priority_over_user_and_diff_warning(svc, monkeypatch, tmp_path):
     assert out["cotaFactSource"] == "OFFICIAL_DEM"
     assert out["userVsDem"]["DIFF_M"] == pytest.approx(900.0)
     assert any("difiere materialmente" in w for w in out["determination"]["warnings"])
+
+
+def test_dem_non4326_crs_is_transformed(svc, monkeypatch, tmp_path):
+    # The real IGN MDT25 is EPSG:25830 (native UTM30), NOT 4326. The runtime must
+    # NOT force EPSG:4326: it reads src.crs and transforms the query point via
+    # rasterio.warp.transform before sampling. Prove the transform path works.
+    import rasterio.warp
+    from rasterio.transform import from_bounds
+    x0, y0 = rasterio.warp.transform("EPSG:4326", "EPSG:25830", [-5.17066], [43.02469])
+    x1, y1 = rasterio.warp.transform("EPSG:4326", "EPSG:25830", [-4.56729], [43.36586])
+    bbox = (x0[0], y0[0], x1[0], y1[0])
+    _configure(monkeypatch, tmp_path, 2400.0, bbox=bbox, crs="EPSG:25830")
+    out = _resolve(svc, 43.2662, -4.8686, BASE_FACTS)
+    assert out["cotaFactSource"] == "OFFICIAL_DEM"
+    assert out["dem"]["value_m"] == pytest.approx(2400.0)
+    assert out["dem"]["crs"] == "EPSG:25830"
+    assert out["dem"]["crs_epsg"] == 25830
+    assert out["determination"]["legalStatus"] == "PERMITTED"
+
+
+def test_dem_no_crs_fails_closed(svc, monkeypatch, tmp_path):
+    # A raster with no CRS cannot be transformed -> fail closed (never inject cota_m).
+    _configure(monkeypatch, tmp_path, 2400.0, crs=None)
+    out = _resolve(svc, 43.2662, -4.8686, BASE_FACTS)
+    assert out["cotaFactSource"] == "NONE"
+    assert out["dem"] is None
+    assert out["determination"]["legalStatus"] == "UNDETERMINED"

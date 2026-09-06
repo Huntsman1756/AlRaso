@@ -92,7 +92,7 @@ jobs:
           python -m pip install --quiet ".[dem]"
       - name: run dem elevation + fail-closed tests
         run: |
-          python -m pytest -q tests/test_dem_elevation.py tests/test_dem_failclosed.py
+          python -m pytest -q tests/test_dem_elevation.py tests/test_dem_failclosed.py tests/test_dem_prep.py
 
   clean-wheel:
     name: clean wheel + installed smoke (linux)

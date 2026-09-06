@@ -8,6 +8,11 @@ UNDETERMINED. There is never a silent fallback (no 0, no last value, no SRTM).
 DEM produces a FACT_SOURCE (elevation + provenance). It NEVER decides legality:
 the resolver still evaluates `cota_m > 1800`.
 
+CRS: we do NOT force the raster to EPSG:4326. The prepared tile's real CRS (e.g.
+EPSG:25830 for the IGN MDT25) is read from `src.crs` and the WGS84 query point is
+transformed into it with `rasterio.warp.transform` (CUSTOM_CRS_MATH=0). The real
+CRS is registered in the returned provenance.
+
 Sampling: `rasterio.sample` -> NEAREST pixel (no custom interpolation; rasterio
 does not expose bilinear point sampling, and the task forbids writing our own).
 """
@@ -25,7 +30,9 @@ DEM_TILE = os.environ.get("ALRASO_DEM_TILE", str(DEM_DIR / "picos_mdt.tif"))
 DEM_META = os.environ.get("ALRASO_DEM_META", str(DEM_DIR / "picos_mdt.meta.json"))
 
 SAMPLING_METHOD = "nearest_pixel"
-_REQUIRED_CRS_EPSG = 4326
+# We do NOT force a CRS on the raster. The prepared tile's real CRS (e.g.
+# EPSG:25830 for the IGN MDT25) is read from src.crs and the WGS84 query point
+# is transformed into it with rasterio.warp.transform (CUSTOM_CRS_MATH=0).
 _INVALID_LOW = -100.0  # plausible Picos elevations are well above this; fail-closed below
 
 
@@ -55,6 +62,7 @@ def sample_elevation(lat: float, lon: float) -> dict:
         raise DemEvidenceIncomplete("DEM metadata not initialized")
     try:
         import rasterio  # noqa: F401  (optional)
+        import rasterio.warp  # noqa: F401  (optional; coordinate transform)
     except Exception as exc:  # noqa: BLE001
         raise DemEvidenceIncomplete(f"rasterio not available: {type(exc).__name__}") from exc
     if not os.path.exists(DEM_TILE):
@@ -63,13 +71,16 @@ def sample_elevation(lat: float, lon: float) -> dict:
         raise DemEvidenceIncomplete("DEM hash mismatch")
     try:
         with rasterio.open(DEM_TILE) as src:  # noqa: F821
-            epsg = src.crs.to_epsg() if src.crs else None
-            if epsg != _REQUIRED_CRS_EPSG:
-                raise DemEvidenceIncomplete(f"unexpected CRS: {src.crs}")
+            if src.crs is None:
+                raise DemEvidenceIncomplete("raster has no CRS")
+            # Transform the WGS84 query point into the raster's real CRS using
+            # rasterio.warp.transform (no hand-written projection math).
+            xs, ys = rasterio.warp.transform("EPSG:4326", src.crs, [lon], [lat])
+            x, y = xs[0], ys[0]
             left, bottom, right, top = src.bounds
-            if not (left <= lon <= right and bottom <= lat <= top):
+            if not (left <= x <= right and bottom <= y <= top):
                 raise DemEvidenceIncomplete("point out of raster coverage")
-            values = [v[0] for v in src.sample([(lon, lat)])]
+            values = [v[0] for v in src.sample([(x, y)])]
             if not values:
                 raise DemEvidenceIncomplete("no sample returned")
             value = float(values[0])
@@ -79,6 +90,8 @@ def sample_elevation(lat: float, lon: float) -> dict:
                 raise DemEvidenceIncomplete("implausible elevation (nodata-like)")
             if src.nodata is not None and value == float(src.nodata):
                 raise DemEvidenceIncomplete("nodata")
+            epsg = src.crs.to_epsg()
+            crs = f"EPSG:{epsg}" if epsg else str(src.crs)
     except DemEvidenceIncomplete:
         raise
     except Exception as exc:  # noqa: BLE001 - library error -> fail closed
@@ -92,8 +105,10 @@ def sample_elevation(lat: float, lon: float) -> dict:
         "source_artifact_id": meta.get("source_artifact_id", ""),
         "source_sha256": meta["source_sha256"],
         "retrieved_at": meta.get("retrieved_at", ""),
-        "crs": f"EPSG:{_REQUIRED_CRS_EPSG}",
+        "crs": crs,
+        "crs_epsg": epsg,
         "vertical_datum": meta.get("vertical_datum", ""),
+        "vertical_reference_detail": meta.get("vertical_reference_detail", ""),
         "resolution_m": meta.get("resolution_m", ""),
         "sampling_method": SAMPLING_METHOD,
         "sample_lat": lat,

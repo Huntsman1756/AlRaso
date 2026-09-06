@@ -14,3 +14,11 @@ tooling/llm/runs.jsonl
 
 # Prepared DEM tile (auto-elevation); never commit the raster
 webapp/data/dem/
+# Orca kit: generated entries
+
+.orca-local/
+
+.orca-tools/
+
+.opencode/node_modules/
+
