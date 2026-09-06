@@ -285,12 +285,28 @@ def test_protected_area_is_osm_reference_not_legal_layer():
             assert "No determina el ámbito jurídico" in f["note"], f["id"]
             assert "prohibición automática" in f["note"], f["id"]
             assert f["source_ref"].startswith("relation/"), f["id"]
-    # La UI no debe presentar espacios protegidos junto a las capas legales.
-    html = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
-    assert "Referencias OSM: espacios protegidos" in html
+    # protected_area queda en provenance pero NO se renderiza ni es interactivo.
     js = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
-    assert "Referencia OSM: espacio natural protegido" in js
+    assert "poi-circles-protected_area" not in js, "no se renderiza como capa POI"
+    assert "lg-protected" not in js, "no hay toggle de espacios protegidos"
+    assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in js
+    html = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
+    assert "lg-protected" not in html, "no hay checkbox de espacios protegidos"
     assert "/api/coverage" in js and "/api/pois" in js
+
+
+def test_find_excludes_protected_area(svc):
+    # El espacio protegido no es un destino interactivo: no debe aparecer en la busqueda.
+    assert server.find_query(svc, "Parque Nacional de Ordesa")["kind"] == "none"
+    assert server.find_query(svc, "Parque Nacional de Picos")["kind"] == "none"
+
+
+def test_unknown_coverage_knowledge_copy(svc):
+    out = server.resolve_point(svc, lat=41.9, lon=-2.4, activity="VIVAC_AL_RASO",
+                               activity_date=TODAY, knowledge_date=TODAY, facts={})
+    assert out["coverage"]["status"] == "UNKNOWN"
+    assert out["determination"]["knowledgeStatus"] == "CURRENT"  # canonico intacto
+    assert out["ui"]["knowledge"] == "No disponemos de información normativa para esta zona"
 
 
 def test_pois_do_not_change_resolution(svc):

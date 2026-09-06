@@ -109,10 +109,18 @@ def ui_texto(legal: str, knowledge: str, coverage: str, conditions: list) -> dic
         headline = "Solo con autorización previa"
     else:
         headline = legal
+    # Capa de presentación contextualiza ambos ejes. Si no hay corpus (UNKNOWN),
+    # el eje de "estado de la información" no puede leerse como "verificada",
+    # aunque internamente knowledgeStatus=CURRENT venga del resolver. El código
+    # canónico (determination.knowledgeStatus) NO cambia; solo se ajusta el plain.
+    if coverage == "UNKNOWN":
+        knowledge_plain = "No disponemos de información normativa para esta zona"
+    else:
+        knowledge_plain = PLAIN_KNOWLEDGE.get(knowledge, knowledge)
     return {
         "headline": headline,
         "legal": PLAIN_LEGAL.get(legal, legal),
-        "knowledge": PLAIN_KNOWLEDGE.get(knowledge, knowledge),
+        "knowledge": knowledge_plain,
         "coverage": PLAIN_COVERAGE.get(coverage, coverage),
     }
 
@@ -155,8 +163,10 @@ def find_query(svc: "Service", text: str) -> dict:
     # Sin coincidencia en la lista curada, se consultan los POIs observacionales.
     # Son solo cartografia (OSM): su aparicion en la busqueda mueve el mapa pero
     # NUNCA suministra hechos al resolver. Se marca kind=poi + source para que la
-    # UI no los trate como un lugar curado.
-    poi_matches = [p for p in svc.pois if needle in _norm_name(p["name"])]
+    # UI no los trate como un lugar curado. protected_area NO se busca (no es un
+    # destino interactivo).
+    poi_matches = [p for p in svc.pois
+                   if p["category"] != "protected_area" and needle in _norm_name(p["name"])]
     if len(poi_matches) == 1:
         p = poi_matches[0]
         return {"kind": "poi", "source": p.get("source", "openstreetmap"),
@@ -228,10 +238,11 @@ class Service:
         pois_doc = json.loads((WEBAPP / "pois.json").read_text(encoding="utf-8"))
         # POIs se guardan completos (categoria, altitud, fuente, nota) para la capa
         # observacional. NUNCA entran en el resolver: son cartografia, no derecho.
+        # protected_area queda en el snapshot/provenance pero NO es interactivo.
         self.pois = list(pois_doc["features"])
         self.searchable = (self.places +
                            [{k: p[k] for k in ("id", "name", "lat", "lon", "note")}
-                            for p in self.pois])
+                            for p in self.pois if p["category"] != "protected_area"])
         self.cov_provider = InMemorySpatialProvider()
         self.regions_by_id: dict[str, dict] = {}
         for region in self.coverage["regions"]:

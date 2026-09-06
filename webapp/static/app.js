@@ -14,7 +14,9 @@ const POI_CATS = {
   camping: { emoji: "⛺", label: "Camping / bivouac", color: "#16a34a" },
   protected_area: { emoji: "🌲", label: "Referencia OSM: espacio natural protegido", color: "#0d9488" },
 };
-const POI_ORDER = ["refuge", "shelter", "water", "camping", "protected_area"];
+// protected_area queda en el snapshot (provenance) pero NO se renderiza ni es
+// interactivo: un centroide de relación de parque no es un destino del usuario.
+const POI_ORDER = ["refuge", "shelter", "water", "camping"];
 
 let map = null;
 
@@ -28,8 +30,8 @@ async function boot() {
   map = new maplibregl.Map({
     container: "map",
     style: styleUrl,
-    center: [-1.6, 42.95],
-    zoom: 6.6,
+    center: [-2.5, 42.9],
+    zoom: 6.8,
     attributionControl: true,
   });
 
@@ -56,7 +58,8 @@ async function boot() {
         paint: { "line-color": covColor, "line-width": 1.2, "line-dasharray": [3, 3] },
       });
       await loadPois();
-      map.fitBounds([[-5.3, 42.55], [0.3, 43.45]], { padding: 30 });
+      // Reencuadre al contenido útil (Ordesa + Picos) sin dejar el centro en el mar.
+      map.fitBounds([[-5.35, 42.45], [0.25, 43.4]], { padding: 30 });
     } catch (e) { console.error(e); }
   });
 
@@ -83,6 +86,7 @@ async function loadPois() {
       map.addLayer({
         id: `poi-labels-${cat}`, type: "symbol", source: "pois",
         filter: ["==", ["get", "category"], cat],
+        minzoom: 9,  // las etiquetas aparecen al acercarse; los puntos siguen visibles antes
         layout: { "text-field": ["get", "name"], "text-size": 11,
                   "text-offset": [0, 1.1], "text-anchor": "top",
                   "text-optional": true, "text-max-width": 9,
@@ -102,7 +106,6 @@ function bindLayerToggles() {
     "lg-shelter": ["poi-circles-shelter", "poi-labels-shelter"],
     "lg-water": ["poi-circles-water"],
     "lg-camping": ["poi-circles-camping", "poi-labels-camping"],
-    "lg-protected": ["poi-circles-protected_area", "poi-labels-protected_area"],
     "lg-coverage": ["cov-fill", "cov-line", "cov-line-esquematico"],
   };
   Object.keys(groups).forEach((boxId) => {
