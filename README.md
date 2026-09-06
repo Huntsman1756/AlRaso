@@ -117,6 +117,16 @@ Estado M1.1: `M1.1_GORIZ_REAL_WORLD=VALIDATED` ·
 de M1.1 se considera cumplido; siguiente frente: **M2-A Picos de Europa**
 (jurisdicciones autonómicas distintas dentro de un mismo parque).
 
+Estado M2-A (discovery, 2026-09-06): **completada con Gate A condicionado**. El PRUG
+de Picos se aprueba por tres decretos autonómicos en vigor simultáneo desde 2026-08-24
+(BOCyL D 17/2025, BOPA D 21/2026, BOC D 57/2026; regla común art. 51: vivac de montaña
+solo >cota 1.800 m, máx. 3 noches). Evidencia y digests en
+`tooling/m2a_picos_discovery.evidence.json`, matriz jurisdicción×norma×geometría en
+`docs/ALRASO-M2A-PICOS-DISCOVERY.md`, re-verificación en vivo con
+`tooling/m2a_picos_verify.py` (sin red ⇒ `INCONCLUSIVE`, nunca OK falso). Ninguna regla
+de Picos está en el runtime: la implementación Phase B requiere aprobar antes los
+fixtures del documento.
+
 Versiones e identidades fijadas en `tooling/DEPENDENCIES.lock.json`
 (Axiom v0.2.2 commit `d142c64`, SHA-256 del binario; `rulespec/v1+m1r1`;
 `schema m1r2`; `resolver 0.2.1-hardening`).

@@ -62,6 +62,8 @@ geometría oficial es exactamente el alcance de **M1.1**.
 
 | Extractos de evidencia Góriz (M1.1-C): properties + metadatos geométricos + digest de `ENP101_137`/`ENP101_025` (ICEAragon WFS) y de los features Góriz de `ZonificacionPRUG` (OAPN WFS); texto D 16/2022 (BOA); extracto de `pnomp.es/es/legislacion` | ICEAragon / OAPN-SIGRED / BOA / PNOMP, URLs canónicas fijadas en `tooling/m11c_goriz_scope.evidence.json` → `discovery/evidence/m11c-goriz/*.extract.*` | 2026-09-05 | por artefacto, en `tooling/m11c_goriz_scope.evidence.json` (`artifacts`) | `NOT_VERIFIED` — **no se redistribuyen geometrías completas**; única excepción mínima necesaria: anillo WGS84 de la ZUM (1,25 ha) en `alraso/resources/fixture_goriz.json` |
 
+| Extractos de evidencia Picos (M2-A): verbatim de BOCyL D 17/2025 / BOPA D 21/2026 / BOC D 57/2026 (ámbito, superficies, vigencia, derogatoria, arts. 51-52); digests del límite PN (OAPN WFS, EPSG:25830) y de NUTS2 ES12/ES13/ES41 (GISCO) | BOCyL / BOPA / BOC (PDFs oficiales citados en el lock; NO redistribuidos, 38-77 MB) + OAPN-SIGRED + Eurostat GISCO, URLs canónicas fijadas en `tooling/m2a_picos_discovery.evidence.json` → `discovery/evidence/m2a-picos/*.txt` | 2026-09-06 | por artefacto en el lock; PDFs fuente: `70b07b6d…`(BOCyL) `a1e374e5…`(BOPA) `28ad80f9…`(BOC) `950cff8f…`(GISCO) | `NOT_VERIFIED` — **no se redistribuyen PDFs de diario ni geometrías completas**; solo extracts + digests |
+
 Nota: OAPN no versiona sus descargas, por eso el hash por descarga es obligatorio
 en este proyecto. Si en el futuro se incorporan datasets de OSM, PMTiles,
 Refuges.info u otros, se añaden aquí con su licencia y atribución originales.
@@ -82,5 +84,8 @@ DATA_REUSE_TERMS_VERIFICATION=NOT_VERIFIED (M1.1 task)
 M1.1_GORIZ_REAL_WORLD=VALIDATED
 M1.1_ORDESA_SECTOR_SPATIAL=INCOMPLETE
 FIRST_REAL_WORLD_E2E=PASS
+M2A_PICOS_DISCOVERY=COMPLETE
+M2A_MULTI_JURISDICTION_CLASSIFICATION=A_CONDITIONAL (fixtures Phase B pending approval)
+M2A_RUNTIME_IMPLEMENTED=NO
 DISCLAIMER=NO_WARRANTY_NOT_LEGAL_ADVICE
 ```
