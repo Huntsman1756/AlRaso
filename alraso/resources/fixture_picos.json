@@ -1,0 +1,2274 @@
+{
+ "$schema": "https://alraso.example/schemas/picos-phaseb-fixture-v1.json",
+ "expected": {
+  "P1_asturias_urriellu": "PERMITTED con condiciones (montaña, ≤3 noches, cota 2.400 m)",
+  "P2_cantabria_interior": "UNDETERMINED sin hechos (fail-closed); PERMITTED con hechos",
+  "P3_cyl_cain_valdeon": "UNDETERMINED sin hechos; PERMITTED con hechos",
+  "P6_bitemporal_gap": "UNDETERMINED (Cantabria sin PRUG vigente antes de 2026-08-24)",
+  "P7_outside": "NO_APPLICABLE_SCOPE (nunca PROHIBITED sectorial)",
+  "invariant": "PERMITTED jamás desde ausencia; cota_m faltante → UNDETERMINED"
+ },
+ "fixture_meta": {
+  "created": "2026-09-06",
+  "identity_evidence": "tooling/m2a_picos_discovery.evidence.json (gate A)",
+  "name": "PICOS_PHASEB_FIXTURE",
+  "purpose": "Phase B incremental: art. 51 común (3 decretos autonómicos) + jurisdicción por CCAA. Geométria mínima justificada (límite OAPN simplificado + intersección GISCO NUTS2). DEM (cota auto) y vectores IDE <1 km quedan B/C.",
+  "semantics": {
+   "boundary_policy": "InMemory raycast; NO fiable en bordes exactos (coordenada cerca de frontera CCAA → re-verificar IDE)",
+   "condition_facts": "actividad_montana_o_escalada, nights, cota_m son hechos aportados; faltan → fail-closed UNDETERMINED",
+   "not_encoded": "excepciones art.51 (pared, Vega La Sotin), tiendas por meteorología, acampada art.52, pernocta en vehículo",
+   "jurisdiction": "ámbito (park, CONTEXT_ONLY) ≠ jurisdicción (CCAA, REGULATORY); una norma por consulta"
+  }
+ },
+ "geometry": {
+  "park": [
+   [
+    [
+     43.315856,
+     -5.046664
+    ],
+    [
+     43.303178,
+     -5.030327
+    ],
+    [
+     43.296075,
+     -5.017383
+    ],
+    [
+     43.294331,
+     -5.000801
+    ],
+    [
+     43.289865,
+     -4.991356
+    ],
+    [
+     43.287984,
+     -4.977148
+    ],
+    [
+     43.279206,
+     -4.963089
+    ],
+    [
+     43.268809,
+     -4.928032
+    ],
+    [
+     43.269777,
+     -4.925599
+    ],
+    [
+     43.274436,
+     -4.927466
+    ],
+    [
+     43.276658,
+     -4.925997
+    ],
+    [
+     43.272014,
+     -4.91919
+    ],
+    [
+     43.268123,
+     -4.899372
+    ],
+    [
+     43.269183,
+     -4.894079
+    ],
+    [
+     43.266345,
+     -4.892075
+    ],
+    [
+     43.264419,
+     -4.877889
+    ],
+    [
+     43.270698,
+     -4.869411
+    ],
+    [
+     43.260066,
+     -4.830725
+    ],
+    [
+     43.262044,
+     -4.829714
+    ],
+    [
+     43.266854,
+     -4.810564
+    ],
+    [
+     43.270767,
+     -4.80668
+    ],
+    [
+     43.271875,
+     -4.777867
+    ],
+    [
+     43.266045,
+     -4.761775
+    ],
+    [
+     43.265264,
+     -4.750323
+    ],
+    [
+     43.259241,
+     -4.746951
+    ],
+    [
+     43.256816,
+     -4.730873
+    ],
+    [
+     43.262687,
+     -4.730764
+    ],
+    [
+     43.272529,
+     -4.737931
+    ],
+    [
+     43.278974,
+     -4.748664
+    ],
+    [
+     43.293938,
+     -4.756933
+    ],
+    [
+     43.29208,
+     -4.73717
+    ],
+    [
+     43.285928,
+     -4.712908
+    ],
+    [
+     43.291232,
+     -4.708854
+    ],
+    [
+     43.296502,
+     -4.711469
+    ],
+    [
+     43.301115,
+     -4.709693
+    ],
+    [
+     43.305832,
+     -4.711853
+    ],
+    [
+     43.308294,
+     -4.710041
+    ],
+    [
+     43.311191,
+     -4.713152
+    ],
+    [
+     43.313349,
+     -4.707067
+    ],
+    [
+     43.310748,
+     -4.707521
+    ],
+    [
+     43.312572,
+     -4.706059
+    ],
+    [
+     43.303764,
+     -4.700634
+    ],
+    [
+     43.301786,
+     -4.684531
+    ],
+    [
+     43.295109,
+     -4.675723
+    ],
+    [
+     43.299661,
+     -4.66218
+    ],
+    [
+     43.291386,
+     -4.640957
+    ],
+    [
+     43.28824,
+     -4.646338
+    ],
+    [
+     43.286044,
+     -4.644649
+    ],
+    [
+     43.282156,
+     -4.646918
+    ],
+    [
+     43.281291,
+     -4.656665
+    ],
+    [
+     43.274972,
+     -4.668048
+    ],
+    [
+     43.276733,
+     -4.660316
+    ],
+    [
+     43.273927,
+     -4.658896
+    ],
+    [
+     43.277497,
+     -4.659315
+    ],
+    [
+     43.280049,
+     -4.656826
+    ],
+    [
+     43.278672,
+     -4.633332
+    ],
+    [
+     43.274168,
+     -4.636989
+    ],
+    [
+     43.268468,
+     -4.634685
+    ],
+    [
+     43.267083,
+     -4.631567
+    ],
+    [
+     43.264484,
+     -4.63703
+    ],
+    [
+     43.261475,
+     -4.637159
+    ],
+    [
+     43.258077,
+     -4.641133
+    ],
+    [
+     43.252655,
+     -4.639881
+    ],
+    [
+     43.241057,
+     -4.654898
+    ],
+    [
+     43.235238,
+     -4.647716
+    ],
+    [
+     43.226225,
+     -4.644471
+    ],
+    [
+     43.221085,
+     -4.6385
+    ],
+    [
+     43.225419,
+     -4.634968
+    ],
+    [
+     43.227474,
+     -4.62579
+    ],
+    [
+     43.21519,
+     -4.61729
+    ],
+    [
+     43.211828,
+     -4.621576
+    ],
+    [
+     43.208632,
+     -4.634836
+    ],
+    [
+     43.202426,
+     -4.636269
+    ],
+    [
+     43.20164,
+     -4.648669
+    ],
+    [
+     43.194476,
+     -4.653196
+    ],
+    [
+     43.194901,
+     -4.66517
+    ],
+    [
+     43.180439,
+     -4.692792
+    ],
+    [
+     43.179429,
+     -4.701984
+    ],
+    [
+     43.177348,
+     -4.703339
+    ],
+    [
+     43.171686,
+     -4.698471
+    ],
+    [
+     43.166257,
+     -4.700334
+    ],
+    [
+     43.165927,
+     -4.707415
+    ],
+    [
+     43.170773,
+     -4.714282
+    ],
+    [
+     43.168115,
+     -4.721339
+    ],
+    [
+     43.169344,
+     -4.729499
+    ],
+    [
+     43.162896,
+     -4.733907
+    ],
+    [
+     43.151184,
+     -4.734017
+    ],
+    [
+     43.147639,
+     -4.737446
+    ],
+    [
+     43.147545,
+     -4.746334
+    ],
+    [
+     43.141628,
+     -4.771555
+    ],
+    [
+     43.137717,
+     -4.777758
+    ],
+    [
+     43.138094,
+     -4.782715
+    ],
+    [
+     43.129371,
+     -4.793971
+    ],
+    [
+     43.130895,
+     -4.807139
+    ],
+    [
+     43.128954,
+     -4.805909
+    ],
+    [
+     43.126792,
+     -4.807831
+    ],
+    [
+     43.126905,
+     -4.798207
+    ],
+    [
+     43.122318,
+     -4.791081
+    ],
+    [
+     43.126393,
+     -4.785011
+    ],
+    [
+     43.114088,
+     -4.771615
+    ],
+    [
+     43.111092,
+     -4.758743
+    ],
+    [
+     43.110306,
+     -4.736752
+    ],
+    [
+     43.109372,
+     -4.738643
+    ],
+    [
+     43.10646,
+     -4.736041
+    ],
+    [
+     43.10831,
+     -4.726888
+    ],
+    [
+     43.097718,
+     -4.72144
+    ],
+    [
+     43.092522,
+     -4.723838
+    ],
+    [
+     43.088593,
+     -4.732389
+    ],
+    [
+     43.081261,
+     -4.736691
+    ],
+    [
+     43.076227,
+     -4.748575
+    ],
+    [
+     43.074691,
+     -4.766839
+    ],
+    [
+     43.083798,
+     -4.784173
+    ],
+    [
+     43.09243,
+     -4.816637
+    ],
+    [
+     43.098838,
+     -4.821764
+    ],
+    [
+     43.102058,
+     -4.833414
+    ],
+    [
+     43.109098,
+     -4.835626
+    ],
+    [
+     43.116314,
+     -4.846145
+    ],
+    [
+     43.100911,
+     -4.854259
+    ],
+    [
+     43.090324,
+     -4.876215
+    ],
+    [
+     43.096922,
+     -4.879661
+    ],
+    [
+     43.099971,
+     -4.886415
+    ],
+    [
+     43.095754,
+     -4.894751
+    ],
+    [
+     43.096306,
+     -4.910288
+    ],
+    [
+     43.101395,
+     -4.927429
+    ],
+    [
+     43.097833,
+     -4.936767
+    ],
+    [
+     43.098144,
+     -4.950281
+    ],
+    [
+     43.091989,
+     -4.957384
+    ],
+    [
+     43.09434,
+     -4.972548
+    ],
+    [
+     43.092849,
+     -4.979664
+    ],
+    [
+     43.101676,
+     -4.986781
+    ],
+    [
+     43.104528,
+     -4.999359
+    ],
+    [
+     43.107671,
+     -5.001895
+    ],
+    [
+     43.100833,
+     -5.012842
+    ],
+    [
+     43.098607,
+     -5.026225
+    ],
+    [
+     43.09011,
+     -5.040234
+    ],
+    [
+     43.099992,
+     -5.063123
+    ],
+    [
+     43.093222,
+     -5.077456
+    ],
+    [
+     43.095352,
+     -5.085122
+    ],
+    [
+     43.099383,
+     -5.088269
+    ],
+    [
+     43.097201,
+     -5.102154
+    ],
+    [
+     43.102152,
+     -5.105273
+    ],
+    [
+     43.101847,
+     -5.101736
+    ],
+    [
+     43.107703,
+     -5.095651
+    ],
+    [
+     43.115837,
+     -5.09929
+    ],
+    [
+     43.123519,
+     -5.093895
+    ],
+    [
+     43.13229,
+     -5.09152
+    ],
+    [
+     43.142985,
+     -5.093901
+    ],
+    [
+     43.14746,
+     -5.08681
+    ],
+    [
+     43.153719,
+     -5.086486
+    ],
+    [
+     43.159792,
+     -5.079009
+    ],
+    [
+     43.165999,
+     -5.077611
+    ],
+    [
+     43.166896,
+     -5.075361
+    ],
+    [
+     43.173328,
+     -5.077916
+    ],
+    [
+     43.17895,
+     -5.076627
+    ],
+    [
+     43.174333,
+     -5.059471
+    ],
+    [
+     43.179637,
+     -5.054143
+    ],
+    [
+     43.188907,
+     -5.055915
+    ],
+    [
+     43.191734,
+     -5.05869
+    ],
+    [
+     43.197028,
+     -5.052477
+    ],
+    [
+     43.201569,
+     -5.054682
+    ],
+    [
+     43.206221,
+     -5.048894
+    ],
+    [
+     43.20859,
+     -5.05133
+    ],
+    [
+     43.213178,
+     -5.044464
+    ],
+    [
+     43.217574,
+     -5.04376
+    ],
+    [
+     43.227391,
+     -5.054311
+    ],
+    [
+     43.237938,
+     -5.051125
+    ],
+    [
+     43.251183,
+     -5.058924
+    ],
+    [
+     43.263864,
+     -5.084336
+    ],
+    [
+     43.268246,
+     -5.099079
+    ],
+    [
+     43.267838,
+     -5.108434
+    ],
+    [
+     43.284427,
+     -5.120656
+    ],
+    [
+     43.29442,
+     -5.106478
+    ],
+    [
+     43.297085,
+     -5.093002
+    ],
+    [
+     43.304776,
+     -5.083802
+    ],
+    [
+     43.307966,
+     -5.076581
+    ],
+    [
+     43.308072,
+     -5.067929
+    ],
+    [
+     43.314948,
+     -5.052616
+    ]
+   ]
+  ],
+  "es-as": [
+   [
+    [
+     43.315856,
+     -5.046664
+    ],
+    [
+     43.296075,
+     -5.017383
+    ],
+    [
+     43.287984,
+     -4.977148
+    ],
+    [
+     43.279206,
+     -4.963089
+    ],
+    [
+     43.268809,
+     -4.928032
+    ],
+    [
+     43.269777,
+     -4.925599
+    ],
+    [
+     43.276658,
+     -4.925997
+    ],
+    [
+     43.272014,
+     -4.91919
+    ],
+    [
+     43.269183,
+     -4.894079
+    ],
+    [
+     43.266345,
+     -4.892075
+    ],
+    [
+     43.264419,
+     -4.877889
+    ],
+    [
+     43.270698,
+     -4.869411
+    ],
+    [
+     43.260066,
+     -4.830725
+    ],
+    [
+     43.270767,
+     -4.80668
+    ],
+    [
+     43.271875,
+     -4.777867
+    ],
+    [
+     43.265264,
+     -4.750323
+    ],
+    [
+     43.259241,
+     -4.746951
+    ],
+    [
+     43.256816,
+     -4.730873
+    ],
+    [
+     43.257336,
+     -4.730945
+    ],
+    [
+     43.259337,
+     -4.730792
+    ],
+    [
+     43.261104,
+     -4.730078
+    ],
+    [
+     43.262687,
+     -4.730764
+    ],
+    [
+     43.272529,
+     -4.737931
+    ],
+    [
+     43.278974,
+     -4.748664
+    ],
+    [
+     43.293938,
+     -4.756933
+    ],
+    [
+     43.285928,
+     -4.712908
+    ],
+    [
+     43.291232,
+     -4.708854
+    ],
+    [
+     43.296502,
+     -4.711469
+    ],
+    [
+     43.308294,
+     -4.710041
+    ],
+    [
+     43.311191,
+     -4.713152
+    ],
+    [
+     43.313487,
+     -4.707694
+    ],
+    [
+     43.303764,
+     -4.700634
+    ],
+    [
+     43.301786,
+     -4.684531
+    ],
+    [
+     43.295109,
+     -4.675723
+    ],
+    [
+     43.299661,
+     -4.66218
+    ],
+    [
+     43.29161,
+     -4.641276
+    ],
+    [
+     43.28824,
+     -4.646338
+    ],
+    [
+     43.282156,
+     -4.646918
+    ],
+    [
+     43.281291,
+     -4.656665
+    ],
+    [
+     43.274972,
+     -4.668048
+    ],
+    [
+     43.276733,
+     -4.660316
+    ],
+    [
+     43.273927,
+     -4.658896
+    ],
+    [
+     43.280049,
+     -4.656826
+    ],
+    [
+     43.279792,
+     -4.636207
+    ],
+    [
+     43.278672,
+     -4.633332
+    ],
+    [
+     43.274168,
+     -4.636989
+    ],
+    [
+     43.267296,
+     -4.633255
+    ],
+    [
+     43.268002,
+     -4.648097
+    ],
+    [
+     43.264342,
+     -4.659584
+    ],
+    [
+     43.26765,
+     -4.676286
+    ],
+    [
+     43.265013,
+     -4.69255
+    ],
+    [
+     43.266868,
+     -4.706041
+    ],
+    [
+     43.260686,
+     -4.71306
+    ],
+    [
+     43.257336,
+     -4.730945
+    ],
+    [
+     43.240575,
+     -4.722601
+    ],
+    [
+     43.229726,
+     -4.721942
+    ],
+    [
+     43.223499,
+     -4.729619
+    ],
+    [
+     43.215895,
+     -4.728636
+    ],
+    [
+     43.207132,
+     -4.735891
+    ],
+    [
+     43.196943,
+     -4.736471
+    ],
+    [
+     43.194242,
+     -4.733498
+    ],
+    [
+     43.188734,
+     -4.735543
+    ],
+    [
+     43.184639,
+     -4.743898
+    ],
+    [
+     43.184299,
+     -4.75397
+    ],
+    [
+     43.19148,
+     -4.777781
+    ],
+    [
+     43.184525,
+     -4.792714
+    ],
+    [
+     43.182709,
+     -4.81562
+    ],
+    [
+     43.178559,
+     -4.822949
+    ],
+    [
+     43.18078,
+     -4.841023
+    ],
+    [
+     43.190069,
+     -4.840801
+    ],
+    [
+     43.194003,
+     -4.849727
+    ],
+    [
+     43.205484,
+     -4.859891
+    ],
+    [
+     43.217867,
+     -4.861456
+    ],
+    [
+     43.227012,
+     -4.870286
+    ],
+    [
+     43.23761,
+     -4.893513
+    ],
+    [
+     43.23786,
+     -4.908907
+    ],
+    [
+     43.227047,
+     -4.921034
+    ],
+    [
+     43.224766,
+     -4.942718
+    ],
+    [
+     43.214368,
+     -4.953593
+    ],
+    [
+     43.211403,
+     -4.963782
+    ],
+    [
+     43.202953,
+     -4.970762
+    ],
+    [
+     43.199035,
+     -4.981258
+    ],
+    [
+     43.185783,
+     -4.995379
+    ],
+    [
+     43.17026,
+     -4.997621
+    ],
+    [
+     43.17615,
+     -5.003975
+    ],
+    [
+     43.183052,
+     -5.021441
+    ],
+    [
+     43.184095,
+     -5.040975
+    ],
+    [
+     43.18143,
+     -5.053667
+    ],
+    [
+     43.191734,
+     -5.05869
+    ],
+    [
+     43.197028,
+     -5.052477
+    ],
+    [
+     43.201569,
+     -5.054682
+    ],
+    [
+     43.206221,
+     -5.048894
+    ],
+    [
+     43.20859,
+     -5.05133
+    ],
+    [
+     43.213178,
+     -5.044464
+    ],
+    [
+     43.217574,
+     -5.04376
+    ],
+    [
+     43.227391,
+     -5.054311
+    ],
+    [
+     43.234102,
+     -5.051383
+    ],
+    [
+     43.24214,
+     -5.052992
+    ],
+    [
+     43.255818,
+     -5.065741
+    ],
+    [
+     43.268246,
+     -5.099079
+    ],
+    [
+     43.267838,
+     -5.108434
+    ],
+    [
+     43.284427,
+     -5.120656
+    ],
+    [
+     43.29442,
+     -5.106478
+    ],
+    [
+     43.297085,
+     -5.093002
+    ],
+    [
+     43.304776,
+     -5.083802
+    ],
+    [
+     43.314948,
+     -5.052616
+    ]
+   ],
+   [
+    [
+     43.102152,
+     -5.105273
+    ],
+    [
+     43.102152,
+     -5.105273
+    ],
+    [
+     43.102151,
+     -5.105273
+    ]
+   ],
+   [
+    [
+     43.110245,
+     -5.097643
+    ],
+    [
+     43.115837,
+     -5.09929
+    ],
+    [
+     43.117806,
+     -5.09803
+    ],
+    [
+     43.116277,
+     -5.098754
+    ]
+   ],
+   [
+    [
+     43.117812,
+     -5.098028
+    ],
+    [
+     43.120821,
+     -5.09715
+    ],
+    [
+     43.12209,
+     -5.096003
+    ]
+   ],
+   [
+    [
+     43.130667,
+     -5.092177
+    ],
+    [
+     43.130215,
+     -5.092158
+    ],
+    [
+     43.12728,
+     -5.093547
+    ]
+   ],
+   [
+    [
+     43.139716,
+     -5.092769
+    ],
+    [
+     43.142985,
+     -5.093901
+    ],
+    [
+     43.144699,
+     -5.091792
+    ],
+    [
+     43.143525,
+     -5.092711
+    ]
+   ],
+   [
+    [
+     43.150371,
+     -5.087352
+    ],
+    [
+     43.157237,
+     -5.083976
+    ],
+    [
+     43.159138,
+     -5.080489
+    ]
+   ],
+   [
+    [
+     43.162096,
+     -5.078499
+    ],
+    [
+     43.165999,
+     -5.077611
+    ],
+    [
+     43.166473,
+     -5.076528
+    ]
+   ],
+   [
+    [
+     43.16784,
+     -5.075911
+    ],
+    [
+     43.168055,
+     -5.075992
+    ],
+    [
+     43.16847,
+     -5.075933
+    ]
+   ],
+   [
+    [
+     43.171716,
+     -5.07619
+    ],
+    [
+     43.173328,
+     -5.077916
+    ],
+    [
+     43.17895,
+     -5.076627
+    ],
+    [
+     43.175992,
+     -5.067735
+    ],
+    [
+     43.17762,
+     -5.07656
+    ]
+   ]
+  ],
+  "es-cb": [
+   [
+    [
+     43.264342,
+     -4.659584
+    ],
+    [
+     43.267083,
+     -4.631567
+    ],
+    [
+     43.258077,
+     -4.641133
+    ],
+    [
+     43.252655,
+     -4.639881
+    ],
+    [
+     43.241057,
+     -4.654898
+    ],
+    [
+     43.221085,
+     -4.6385
+    ],
+    [
+     43.225419,
+     -4.634968
+    ],
+    [
+     43.227474,
+     -4.62579
+    ],
+    [
+     43.21429,
+     -4.617499
+    ],
+    [
+     43.208632,
+     -4.634836
+    ],
+    [
+     43.202426,
+     -4.636269
+    ],
+    [
+     43.20164,
+     -4.648669
+    ],
+    [
+     43.194476,
+     -4.653196
+    ],
+    [
+     43.194901,
+     -4.66517
+    ],
+    [
+     43.180439,
+     -4.692792
+    ],
+    [
+     43.179429,
+     -4.701984
+    ],
+    [
+     43.177348,
+     -4.703339
+    ],
+    [
+     43.171686,
+     -4.698471
+    ],
+    [
+     43.166257,
+     -4.700334
+    ],
+    [
+     43.165927,
+     -4.707415
+    ],
+    [
+     43.170773,
+     -4.714282
+    ],
+    [
+     43.169344,
+     -4.729499
+    ],
+    [
+     43.162896,
+     -4.733907
+    ],
+    [
+     43.151184,
+     -4.734017
+    ],
+    [
+     43.147639,
+     -4.737446
+    ],
+    [
+     43.138094,
+     -4.782715
+    ],
+    [
+     43.129371,
+     -4.793971
+    ],
+    [
+     43.130895,
+     -4.807139
+    ],
+    [
+     43.126792,
+     -4.807831
+    ],
+    [
+     43.126905,
+     -4.798207
+    ],
+    [
+     43.122318,
+     -4.791081
+    ],
+    [
+     43.126393,
+     -4.785011
+    ],
+    [
+     43.114088,
+     -4.771615
+    ],
+    [
+     43.110306,
+     -4.736752
+    ],
+    [
+     43.109372,
+     -4.738643
+    ],
+    [
+     43.10646,
+     -4.736041
+    ],
+    [
+     43.10831,
+     -4.726888
+    ],
+    [
+     43.095404,
+     -4.722075
+    ],
+    [
+     43.088593,
+     -4.732389
+    ],
+    [
+     43.081261,
+     -4.736691
+    ],
+    [
+     43.075163,
+     -4.753335
+    ],
+    [
+     43.074691,
+     -4.766838
+    ],
+    [
+     43.083798,
+     -4.784173
+    ],
+    [
+     43.093116,
+     -4.81631
+    ],
+    [
+     43.098838,
+     -4.821764
+    ],
+    [
+     43.102629,
+     -4.833285
+    ],
+    [
+     43.115703,
+     -4.837119
+    ],
+    [
+     43.126123,
+     -4.850231
+    ],
+    [
+     43.133517,
+     -4.843315
+    ],
+    [
+     43.144875,
+     -4.843371
+    ],
+    [
+     43.148266,
+     -4.83863
+    ],
+    [
+     43.156935,
+     -4.835576
+    ],
+    [
+     43.167057,
+     -4.840272
+    ],
+    [
+     43.173254,
+     -4.850754
+    ],
+    [
+     43.18078,
+     -4.841023
+    ],
+    [
+     43.178559,
+     -4.822949
+    ],
+    [
+     43.182709,
+     -4.81562
+    ],
+    [
+     43.184525,
+     -4.792714
+    ],
+    [
+     43.19148,
+     -4.777781
+    ],
+    [
+     43.184299,
+     -4.75397
+    ],
+    [
+     43.184639,
+     -4.743898
+    ],
+    [
+     43.188734,
+     -4.735543
+    ],
+    [
+     43.194242,
+     -4.733498
+    ],
+    [
+     43.196943,
+     -4.736471
+    ],
+    [
+     43.207132,
+     -4.735891
+    ],
+    [
+     43.215895,
+     -4.728636
+    ],
+    [
+     43.223499,
+     -4.729619
+    ],
+    [
+     43.229726,
+     -4.721942
+    ],
+    [
+     43.240575,
+     -4.722601
+    ],
+    [
+     43.257336,
+     -4.730945
+    ],
+    [
+     43.260686,
+     -4.71306
+    ],
+    [
+     43.266868,
+     -4.706041
+    ],
+    [
+     43.265013,
+     -4.69255
+    ],
+    [
+     43.26765,
+     -4.676286
+    ]
+   ]
+  ],
+  "es-cl": [
+   [
+    [
+     43.074691,
+     -4.766838
+    ],
+    [
+     43.074797,
+     -4.767091
+    ],
+    [
+     43.074799,
+     -4.767094
+    ]
+   ],
+   [
+    [
+     43.085585,
+     -4.792669
+    ],
+    [
+     43.085803,
+     -4.793587
+    ],
+    [
+     43.085938,
+     -4.793762
+    ]
+   ],
+   [
+    [
+     43.087939,
+     -4.800047
+    ],
+    [
+     43.088258,
+     -4.803264
+    ],
+    [
+     43.090025,
+     -4.806599
+    ]
+   ],
+   [
+    [
+     43.092043,
+     -4.813318
+    ],
+    [
+     43.092567,
+     -4.816932
+    ],
+    [
+     43.094987,
+     -4.818094
+    ],
+    [
+     43.093116,
+     -4.81631
+    ]
+   ],
+   [
+    [
+     43.09737,
+     -4.820365
+    ],
+    [
+     43.097724,
+     -4.821461
+    ],
+    [
+     43.098419,
+     -4.821704
+    ]
+   ],
+   [
+    [
+     43.098899,
+     -4.823082
+    ],
+    [
+     43.101904,
+     -4.833215
+    ],
+    [
+     43.108343,
+     -4.835353
+    ],
+    [
+     43.102629,
+     -4.833285
+    ]
+   ],
+   [
+    [
+     43.10919,
+     -4.83576
+    ],
+    [
+     43.116314,
+     -4.846145
+    ],
+    [
+     43.100911,
+     -4.854259
+    ],
+    [
+     43.090324,
+     -4.876215
+    ],
+    [
+     43.096922,
+     -4.879661
+    ],
+    [
+     43.099971,
+     -4.886415
+    ],
+    [
+     43.095754,
+     -4.894751
+    ],
+    [
+     43.096306,
+     -4.910288
+    ],
+    [
+     43.101395,
+     -4.927429
+    ],
+    [
+     43.097833,
+     -4.936767
+    ],
+    [
+     43.098144,
+     -4.950281
+    ],
+    [
+     43.091989,
+     -4.957384
+    ],
+    [
+     43.092849,
+     -4.979664
+    ],
+    [
+     43.101676,
+     -4.986781
+    ],
+    [
+     43.107671,
+     -5.001895
+    ],
+    [
+     43.09011,
+     -5.040234
+    ],
+    [
+     43.099882,
+     -5.06221
+    ],
+    [
+     43.093222,
+     -5.077456
+    ],
+    [
+     43.099383,
+     -5.088269
+    ],
+    [
+     43.097201,
+     -5.102154
+    ],
+    [
+     43.102151,
+     -5.105273
+    ],
+    [
+     43.101847,
+     -5.101736
+    ],
+    [
+     43.107703,
+     -5.095651
+    ],
+    [
+     43.116277,
+     -5.098754
+    ],
+    [
+     43.13229,
+     -5.09152
+    ],
+    [
+     43.143525,
+     -5.092711
+    ],
+    [
+     43.14746,
+     -5.08681
+    ],
+    [
+     43.166896,
+     -5.075361
+    ],
+    [
+     43.17762,
+     -5.07656
+    ],
+    [
+     43.174333,
+     -5.059471
+    ],
+    [
+     43.181431,
+     -5.053667
+    ],
+    [
+     43.184095,
+     -5.040975
+    ],
+    [
+     43.183052,
+     -5.021441
+    ],
+    [
+     43.17615,
+     -5.003975
+    ],
+    [
+     43.17026,
+     -4.997621
+    ],
+    [
+     43.185783,
+     -4.995379
+    ],
+    [
+     43.199035,
+     -4.981258
+    ],
+    [
+     43.202953,
+     -4.970762
+    ],
+    [
+     43.211403,
+     -4.963782
+    ],
+    [
+     43.214368,
+     -4.953593
+    ],
+    [
+     43.224766,
+     -4.942718
+    ],
+    [
+     43.227047,
+     -4.921034
+    ],
+    [
+     43.23786,
+     -4.908907
+    ],
+    [
+     43.23761,
+     -4.893513
+    ],
+    [
+     43.227012,
+     -4.870286
+    ],
+    [
+     43.217867,
+     -4.861456
+    ],
+    [
+     43.205484,
+     -4.859891
+    ],
+    [
+     43.194003,
+     -4.849727
+    ],
+    [
+     43.190069,
+     -4.840801
+    ],
+    [
+     43.18078,
+     -4.841023
+    ],
+    [
+     43.173254,
+     -4.850754
+    ],
+    [
+     43.167057,
+     -4.840272
+    ],
+    [
+     43.156935,
+     -4.835576
+    ],
+    [
+     43.148266,
+     -4.83863
+    ],
+    [
+     43.144875,
+     -4.843371
+    ],
+    [
+     43.133517,
+     -4.843315
+    ],
+    [
+     43.126123,
+     -4.850231
+    ],
+    [
+     43.115703,
+     -4.837119
+    ]
+   ]
+  ]
+ },
+ "source_documents": [
+  {
+   "id": "sd-pnpe-as-decreto-21-2026",
+   "authority": "Principado de Asturias",
+   "jurisdiction": "es-as",
+   "canonical_url": "https://miprincipado.asturias.es/bopa",
+   "official_copy_url": "https://parquenacionalpicoseuropa.es/wp-content/uploads/2026/06/prug-pnpe-as-decreto-21_2026.pdf",
+   "official_copy_sha256": "a1e374e5dcc12c5de2de653abf1f4da2635c620a10ac17e4f43ffd709d5210bd",
+   "official_identifier": "BOPA 30/03/2026, Cód. 2026-02506",
+   "document_type": "PRUG_AUTONOMIC_DECREE",
+   "official_status": "VIGENTE",
+   "title": "Decreto PRUG PN Picos de Europa — ámbito Principado de Asturias (BOPA 30/03/2026, Cód. 2026-02506)"
+  },
+  {
+   "id": "sd-pnpe-cb-decreto-57-2026",
+   "authority": "Comunidad Autónoma de Cantabria",
+   "jurisdiction": "es-cb",
+   "canonical_url": "https://www.cantabria.es/web/boc",
+   "official_copy_url": "https://parquenacionalpicoseuropa.es/wp-content/uploads/2026/08/prug-pnpe-ca-decreto-57_2026.pdf",
+   "official_copy_sha256": "28ad80f99b44278153ee928e83efd27b8187049285891556db0e2381797c62c2",
+   "official_identifier": "BOC núm. 148, 04/08/2026",
+   "document_type": "PRUG_AUTONOMIC_DECREE",
+   "official_status": "VIGENTE",
+   "title": "Decreto PRUG PN Picos de Europa — ámbito Comunidad Autónoma de Cantabria (BOC núm. 148, 04/08/2026)"
+  },
+  {
+   "id": "sd-pnpe-cl-decreto-17-2025",
+   "authority": "Junta de Castilla y León",
+   "jurisdiction": "es-cl",
+   "canonical_url": "https://bocyl.jcyl.es/boletin.do?fechaBoletin=15/12/2025",
+   "official_copy_url": "https://parquenacionalpicoseuropa.es/wp-content/uploads/2026/06/prug-pnpe-cyl-decreto-17_2025.pdf",
+   "official_copy_sha256": "70b07b6da908c873dc3c3fc6ff7dfe8f984e55493b40b4a690de49bc9a4edbca",
+   "official_identifier": "BOCyL núm. 240, 15/12/2025",
+   "document_type": "PRUG_AUTONOMIC_DECREE",
+   "official_status": "VIGENTE",
+   "title": "Decreto PRUG PN Picos de Europa — ámbito Junta de Castilla y León (BOCyL núm. 240, 15/12/2025)"
+  }
+ ],
+ "legal_fragments": [
+  {
+   "id": "lf-pnpe-as-art51",
+   "source_document_id": "sd-pnpe-as-decreto-21-2026",
+   "exact_text_hint": "Art. 51 (común): el vivac/pernocta al raso solo se permite vinculado a actividades de montaña y escalada, por un máximo de 3 noches y siempre por encima de la cota 1.800 m. Excepciones (vivac en pared; invierno en Vega La Sotin) y tiendas por meteorología adversa no se codifican aquí.",
+   "locator": "art. 51 (verbatim en los tres decretos; diff de arts. 50-54 sin diferencias)",
+   "extracted_at": "2026-09-06",
+   "review_status": "VERIFIED"
+  },
+  {
+   "id": "lf-pnpe-cb-art51",
+   "source_document_id": "sd-pnpe-cb-decreto-57-2026",
+   "exact_text_hint": "Art. 51 (común): el vivac/pernocta al raso solo se permite vinculado a actividades de montaña y escalada, por un máximo de 3 noches y siempre por encima de la cota 1.800 m. Excepciones (vivac en pared; invierno en Vega La Sotin) y tiendas por meteorología adversa no se codifican aquí.",
+   "locator": "art. 51 (verbatim en los tres decretos; diff de arts. 50-54 sin diferencias)",
+   "extracted_at": "2026-09-06",
+   "review_status": "VERIFIED"
+  },
+  {
+   "id": "lf-pnpe-cl-art51",
+   "source_document_id": "sd-pnpe-cl-decreto-17-2025",
+   "exact_text_hint": "Art. 51 (común): el vivac/pernocta al raso solo se permite vinculado a actividades de montaña y escalada, por un máximo de 3 noches y siempre por encima de la cota 1.800 m. Excepciones (vivac en pared; invierno en Vega La Sotin) y tiendas por meteorología adversa no se codifican aquí.",
+   "locator": "art. 51 (verbatim en los tres decretos; diff de arts. 50-54 sin diferencias)",
+   "extracted_at": "2026-09-06",
+   "review_status": "VERIFIED"
+  }
+ ],
+ "spatial_scopes": [
+  {
+   "id": "ss-pnpe-limits",
+   "official_name": "Parque Nacional de los Picos de Europa",
+   "scope_type": "OTHER",
+   "relevance": "CONTEXT_ONLY",
+   "parent_scope": null,
+   "geometry_source": "OAPN WFS view_red_oapn_limite_pn (EPSG:25830→4326, simplificado; 66.032,4 ha vs 66.030 ha preámbulos, Δ0,004 %)",
+   "srid_native": 25830,
+   "review_status": "VERIFIED"
+  },
+  {
+   "id": "ss-pnpe-es-as",
+   "official_name": "Sector Principado de Asturias del PN Picos de Europa",
+   "scope_type": "OTHER",
+   "relevance": "REGULATORY",
+   "parent_scope": "ss-pnpe-limits",
+   "geometry_source": "GISCO NUTS2 es-as 01M 2024 intersección con el límite OAPN (simplificado; caveat: precisión frontera ±1 km, re-verificar IDE para <1 km)",
+   "srid_native": 4326,
+   "review_status": "VERIFIED"
+  },
+  {
+   "id": "ss-pnpe-es-cb",
+   "official_name": "Sector Comunidad Autónoma de Cantabria del PN Picos de Europa",
+   "scope_type": "OTHER",
+   "relevance": "REGULATORY",
+   "parent_scope": "ss-pnpe-limits",
+   "geometry_source": "GISCO NUTS2 es-cb 01M 2024 intersección con el límite OAPN (simplificado; caveat: precisión frontera ±1 km, re-verificar IDE para <1 km)",
+   "srid_native": 4326,
+   "review_status": "VERIFIED"
+  },
+  {
+   "id": "ss-pnpe-es-cl",
+   "official_name": "Sector Junta de Castilla y León del PN Picos de Europa",
+   "scope_type": "OTHER",
+   "relevance": "REGULATORY",
+   "parent_scope": "ss-pnpe-limits",
+   "geometry_source": "GISCO NUTS2 es-cl 01M 2024 intersección con el límite OAPN (simplificado; caveat: precisión frontera ±1 km, re-verificar IDE para <1 km)",
+   "srid_native": 4326,
+   "review_status": "VERIFIED"
+  }
+ ],
+ "legal_rule_versions": [
+  {
+   "rule_id": "alraso:es-as/pn-picos/pernocta#vivac-cota-1800",
+   "activity": "VIVAC_AL_RASO",
+   "spatial_scope_id": "ss-pnpe-es-as",
+   "effect": "PERMITTED",
+   "condition": {
+    "all": [
+     {
+      "field": "actividad_montana_o_escalada",
+      "op": "is_true"
+     },
+     {
+      "field": "nights",
+      "op": "lte",
+      "value": 3
+     },
+     {
+      "field": "cota_m",
+      "op": "gt",
+      "value": 1800
+     },
+     {
+      "field": "jurisdiction_boundary_safe",
+      "op": "is_true"
+     }
+    ]
+   },
+   "effective_from": "2026-04-19",
+   "effective_to": null,
+   "recorded_at": "2026-09-06",
+   "recorded_until": null,
+   "review_status": "VERIFIED",
+   "legal_review_complete": true,
+   "spatial_review_complete": true,
+   "evidence": [
+    "lf-pnpe-as-art51"
+   ],
+   "interpretation_note": "Lectura literal del art. 51 común (verificado verbatim en los tres decretos): PERMITTED solo si actividad de montaña/escalada Y ≤3 noches Y cota ESTRICTAMENTE > 1.800 m (art. 51 'por encima de la cota 1.800 m'; exactamente 1.800 m NO satisface). El hecho interno jurisdiction_boundary_safe lo calcula la app (guard de incertidumbre de frontera CCAA <1 km = BOUNDARY_EVIDENCE_INCOMPLETE); quien use el fixture sin ese hecho falla cerrado (ENGINE_MISSING_INPUT). Excepciones (pared; Vega La Sotin) y tiendas por meteorología adversa NO se codifican. La cota la aporta el hecho cota_m (auto-elevación vía DEM = C)."
+  },
+  {
+   "rule_id": "alraso:es-cb/pn-picos/pernocta#vivac-cota-1800",
+   "activity": "VIVAC_AL_RASO",
+   "spatial_scope_id": "ss-pnpe-es-cb",
+   "effect": "PERMITTED",
+   "condition": {
+    "all": [
+     {
+      "field": "actividad_montana_o_escalada",
+      "op": "is_true"
+     },
+     {
+      "field": "nights",
+      "op": "lte",
+      "value": 3
+     },
+     {
+      "field": "cota_m",
+      "op": "gt",
+      "value": 1800
+     },
+     {
+      "field": "jurisdiction_boundary_safe",
+      "op": "is_true"
+     }
+    ]
+   },
+   "effective_from": "2026-08-24",
+   "effective_to": null,
+   "recorded_at": "2026-09-06",
+   "recorded_until": null,
+   "review_status": "VERIFIED",
+   "legal_review_complete": true,
+   "spatial_review_complete": true,
+   "evidence": [
+    "lf-pnpe-cb-art51"
+   ],
+   "interpretation_note": "Lectura literal del art. 51 común (verificado verbatim en los tres decretos): PERMITTED solo si actividad de montaña/escalada Y ≤3 noches Y cota ESTRICTAMENTE > 1.800 m (art. 51 'por encima de la cota 1.800 m'; exactamente 1.800 m NO satisface). El hecho interno jurisdiction_boundary_safe lo calcula la app (guard de incertidumbre de frontera CCAA <1 km = BOUNDARY_EVIDENCE_INCOMPLETE); quien use el fixture sin ese hecho falla cerrado (ENGINE_MISSING_INPUT). Excepciones (pared; Vega La Sotin) y tiendas por meteorología adversa NO se codifican. La cota la aporta el hecho cota_m (auto-elevación vía DEM = C)."
+  },
+  {
+   "rule_id": "alraso:es-cl/pn-picos/pernocta#vivac-cota-1800",
+   "activity": "VIVAC_AL_RASO",
+   "spatial_scope_id": "ss-pnpe-es-cl",
+   "effect": "PERMITTED",
+   "condition": {
+    "all": [
+     {
+      "field": "actividad_montana_o_escalada",
+      "op": "is_true"
+     },
+     {
+      "field": "nights",
+      "op": "lte",
+      "value": 3
+     },
+     {
+      "field": "cota_m",
+      "op": "gt",
+      "value": 1800
+     },
+     {
+      "field": "jurisdiction_boundary_safe",
+      "op": "is_true"
+     }
+    ]
+   },
+   "effective_from": "2026-01-04",
+   "effective_to": null,
+   "recorded_at": "2026-09-06",
+   "recorded_until": null,
+   "review_status": "VERIFIED",
+   "legal_review_complete": true,
+   "spatial_review_complete": true,
+   "evidence": [
+    "lf-pnpe-cl-art51"
+   ],
+   "interpretation_note": "Lectura literal del art. 51 común (verificado verbatim en los tres decretos): PERMITTED solo si actividad de montaña/escalada Y ≤3 noches Y cota ESTRICTAMENTE > 1.800 m (art. 51 'por encima de la cota 1.800 m'; exactamente 1.800 m NO satisface). El hecho interno jurisdiction_boundary_safe lo calcula la app (guard de incertidumbre de frontera CCAA <1 km = BOUNDARY_EVIDENCE_INCOMPLETE); quien use el fixture sin ese hecho falla cerrado (ENGINE_MISSING_INPUT). Excepciones (pared; Vega La Sotin) y tiendas por meteorología adversa NO se codifican. La cota la aporta el hecho cota_m (auto-elevación vía DEM = C)."
+  }
+ ],
+ "probe_points": {
+  "P1_asturias_urriellu": {
+   "lon": -4.8686,
+   "lat": 43.2662,
+   "inside_park": true,
+   "ccaa": [
+    "ES12"
+   ],
+   "expect_ccaa_count": 1
+  },
+  "P2_cantabria_interior": {
+   "lon": -4.80299,
+   "lat": 43.17068,
+   "inside_park": true,
+   "ccaa": [
+    "ES13"
+   ],
+   "expect_ccaa_count": 1,
+   "note": "3 km al este de la línea ES13|ES41 (GISCO)"
+  },
+  "P3_cyl_cain_valdeon": {
+   "lon": -4.9381,
+   "lat": 43.1278,
+   "inside_park": true,
+   "ccaa": [
+    "ES41"
+   ],
+   "expect_ccaa_count": 1
+  },
+  "P4a_es13_300m": {
+   "lon": -4.72339,
+   "lat": 43.25005,
+   "inside_park": true,
+   "ccaa": [
+    "ES13"
+   ]
+  },
+  "P4b_es12_300m": {
+   "lon": -4.73033,
+   "lat": 43.24821,
+   "inside_park": true,
+   "ccaa": [
+    "ES12"
+   ]
+  },
+  "P4c_es13_1km": {
+   "lon": -4.71528,
+   "lat": 43.25221,
+   "inside_park": true,
+   "ccaa": [
+    "ES13"
+   ]
+  },
+  "P4d_es12_1km": {
+   "lon": -4.73843,
+   "lat": 43.24605,
+   "inside_park": true,
+   "ccaa": [
+    "ES12"
+   ]
+  },
+  "P5a_es13_300m": {
+   "lon": -4.83443,
+   "lat": 43.16286,
+   "inside_park": true,
+   "ccaa": [
+    "ES13"
+   ]
+  },
+  "P5b_es41_300m": {
+   "lon": -4.84142,
+   "lat": 43.16113,
+   "inside_park": true,
+   "ccaa": [
+    "ES41"
+   ]
+  },
+  "P5c_es13_1km": {
+   "lon": -4.82628,
+   "lat": 43.16489,
+   "inside_park": true,
+   "ccaa": [
+    "ES13"
+   ]
+  },
+  "P5d_es41_1km": {
+   "lon": -4.84957,
+   "lat": 43.1591,
+   "inside_park": true,
+   "ccaa": [
+    "ES41"
+   ]
+  },
+  "P6_bitemporal_gap": {
+   "lon": -4.80299,
+   "lat": 43.17068,
+   "inside_park": true,
+   "ccaa": [
+    "ES13"
+   ],
+   "as_of": "2026-08-01",
+   "expect": "UNDETERMINED (Cantabria sin PRUG vigente hasta 2026-08-24: cobertura jurisdiccional incompleta ⇒ INCOMPLETE_JURISDICTION_COVERAGE_NEVER_PERMITS)"
+  },
+  "P7_outside_cangas": {
+   "lon": -5.13,
+   "lat": 43.348,
+   "inside_park": false,
+   "ccaa": [
+    "ES12"
+   ],
+   "expect": "sin scope PN ⇒ NO_APPLICABLE_SCOPE (nunca PROHIBITED sectorial)"
+  }
+ },
+ "rule_relations": []
+}

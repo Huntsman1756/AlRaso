@@ -244,8 +244,11 @@ const FACT_LABELS = {
   nights: "número de noches",
   noches: "número de noches",
   cota_m: "altitud (m)",
-  actividad_montana_o_escalada: "actividad montana o escalada",
+  actividad_montana_o_escalada: "actividad de montaña o escalada",
 };
+// Hechos internos calculados por el servidor: nunca se muestran como input del
+// usuario ni como condición legible (p. ej. el guard de frontera CCAA).
+const INTERNAL_FACTS = new Set(["jurisdiction_boundary_safe"]);
 const OP_TEXT = {
   is_true: (l) => l,
   is_false: (l) => `${l} (no)`,
@@ -256,12 +259,14 @@ const OP_TEXT = {
   eq: (l, v) => `${l} = ${v}`,
 };
 function conditionText(c) {
-  const parts = ((c && c.ast && c.ast.all) || []).map((x) => {
-    const label = FACT_LABELS[x.field] || x.field;
-    const fn = OP_TEXT[x.op];
-    if (fn) return fn(label, x.value);
-    return x.value === undefined ? `${label}: ${x.op}` : `${label} ${x.op} ${x.value}`;
-  });
+  const parts = ((c && c.ast && c.ast.all) || [])
+    .filter((x) => !INTERNAL_FACTS.has(x.field))
+    .map((x) => {
+      const label = FACT_LABELS[x.field] || x.field;
+      const fn = OP_TEXT[x.op];
+      if (fn) return fn(label, x.value);
+      return x.value === undefined ? `${label}: ${x.op}` : `${label} ${x.op} ${x.value}`;
+    });
   const body = parts.join(" y ");
   if (c && c.holds === false) return `No se cumple: ${body || "—"}.`;
   return `Se cumplen las condiciones: ${body || "—"}.`;
@@ -374,23 +379,54 @@ function render(d) {
   $("warning").textContent = (d.determination.warnings || [])[0] || "";
 }
 
+const FACT_INPUTS = {
+  refuge_capacity_full: { kind: "checkbox", label: "el refugio está sin capacidad" },
+  actividad_montana_o_escalada: { kind: "checkbox", label: "Actividad de montaña o escalada" },
+  cota_m: {
+    kind: "number", label: "Altitud indicada por ti (m)", noDefault: true,
+    note: "La altitud ha sido indicada por el usuario; AlRaso todavía no la verifica automáticamente.",
+  },
+  nights: { kind: "number", label: "Número de noches" },
+};
+
 function renderFacts(d) {
   const box = $("factbox");
   const had = new Set([...box.querySelectorAll("[name]")].map((el) => el.name));
   const wanted = new Map();
   (d.conditions || []).forEach((c) => {
-    if (c && c.field) wanted.set(c.field, c);
+    if (c && c.field && !INTERNAL_FACTS.has(c.field)) wanted.set(c.field, c);
   });
-  ["refuge_capacity_full", "nights"].forEach((f) => wanted.set(f, { field: f }));
+  // Se ofrece el mínimo común (noches) y, según el ámbito, los hechos propios:
+  // Góriz -> refugio sin capacidad; Picos -> actividad de montaña/escalada + altitud.
+  const forced = ["nights"];
+  const gorizScope = (d.applicableScope || []).some((s) =>
+    String(s.scope_id || s.id || "").startsWith("ss-ordesa"));
+  const picosScope = (d.applicableScope || []).some((s) =>
+    String(s.scope_id || s.id || "").startsWith("ss-pnpe-es-"));
+  if (gorizScope) forced.push("refuge_capacity_full");
+  if (picosScope) forced.push("actividad_montana_o_escalada", "cota_m");
+  forced.forEach((f) => wanted.set(f, { field: f }));
+  // Limpia inputs que ya no aplican (p. ej. al pasar de Picos a Góriz).
+  const wantedNames = new Set(wanted.keys());
+  [...box.querySelectorAll("[name]")].forEach((el) => {
+    if (!wantedNames.has(el.name) && el.parentElement) el.parentElement.remove();
+  });
   [...wanted.keys()].forEach((f) => {
     if (had.has(f)) return;
-    if (f === "refuge_capacity_full") {
+    const spec = FACT_INPUTS[f] || { kind: "number", label: f };
+    if (spec.kind === "checkbox") {
       const label = document.createElement("label");
-      label.innerHTML = `<input type="checkbox" name="${f}"> el refugio está sin capacidad`;
+      label.innerHTML = `<input type="checkbox" name="${f}"> ${spec.label}`;
       box.appendChild(label);
     } else {
       const label = document.createElement("label");
-      label.innerHTML = `número de noches <input type="number" name="${f}" min="1" max="30" value="1" style="width:70px">`;
+      label.innerHTML = `${spec.label} <input type="number" name="${f}" min="0" style="width:80px">`;
+      if (spec.note) {
+        const note = document.createElement("span");
+        note.className = "fact-note";
+        note.textContent = spec.note;
+        label.appendChild(note);
+      }
       box.appendChild(label);
     }
     const el = box.querySelector(`[name="${f}"]`);

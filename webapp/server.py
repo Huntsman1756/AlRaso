@@ -202,7 +202,7 @@ def _strict_bool(v: str):
 
 
 def _coerce_fact(key: str, raw: str):
-    if key == "refuge_capacity_full":
+    if key in {"refuge_capacity_full", "actividad_montana_o_escalada"}:
         return _strict_bool(raw)
     if key in {"nights", "noches", "cota_m"}:
         try:
@@ -218,6 +218,24 @@ def _fixture_rings(fx: dict) -> list[list[tuple[float, float]]]:
             for ring in fx["geometry"]["rings_latlon"]]
 
 
+# Picos Phase B: el fixture tiene varios scopes, cada uno con su geometria bajo
+# "geometry[<clave>]". Mapea scope_id -> clave de geometria (unica por scope).
+_PICOS_GEOM_KEY = {
+    "ss-pnpe-limits": "park",
+    "ss-pnpe-es-as": "es-as",
+    "ss-pnpe-es-cb": "es-cb",
+    "ss-pnpe-es-cl": "es-cl",
+}
+
+
+def _picos_scope_rings(fx: dict, scope_id: str) -> list[list[tuple[float, float]]]:
+    key = _PICOS_GEOM_KEY.get(scope_id)
+    rings = fx.get("geometry", {}).get(key) if key else None
+    if not rings:
+        return []
+    return [[(float(lat), float(lon)) for lat, lon in ring] for ring in rings]
+
+
 class Service:
     """Fixtures and coverage are loaded once; the sqlite-backed resolver is
     per-thread (sqlite3 forbids cross-thread use; ThreadingHTTPServer would
@@ -226,9 +244,10 @@ class Service:
     def __init__(self) -> None:
         self.fx_goriz = _load_fixture("fixture_goriz.json")
         self.fx_ordesa = _load_fixture("fixture_ordesa.json")
+        self.fx_picos = _load_fixture("fixture_picos.json")
         self._local = threading.local()
         self.docs: dict[str, dict] = {}
-        for fx in (self.fx_ordesa, self.fx_goriz):
+        for fx in (self.fx_ordesa, self.fx_goriz, self.fx_picos):
             for d in fx.get("source_documents", []):
                 self.docs[d["id"]] = d
         self.coverage = json.loads((WEBAPP / "coverage.json").read_text(encoding="utf-8"))
@@ -262,10 +281,16 @@ class Service:
             store = BitemporalStore.connect(":memory:")
             ingest_corpus(store, self.fx_ordesa)
             ingest_corpus(store, self.fx_goriz)
+            ingest_corpus(store, self.fx_picos)
             provider = InMemorySpatialProvider()
             scope = self.fx_goriz["spatial_scopes"][0]
             provider.add_scope(scope["id"], scope["official_name"], scope["scope_type"],
                                _fixture_rings(self.fx_goriz))
+            # Picos: varios scopes (parque = contexto; CCAA = regulatorio) con geometria propia.
+            for sc in self.fx_picos["spatial_scopes"]:
+                rings = _picos_scope_rings(self.fx_picos, sc["id"])
+                if rings:
+                    provider.add_scope(sc["id"], sc["official_name"], sc["scope_type"], rings)
             resolver = Resolver(store, spatial=provider)
             self._local.resolver = resolver
         return resolver
@@ -292,15 +317,87 @@ class Service:
         return out
 
 
+INTERNAL_BOUNDARY_FACT = "jurisdiction_boundary_safe"
+_CCAA_SECTOR_KEY = {
+    "ss-pnpe-es-as": "es-as",
+    "ss-pnpe-es-cb": "es-cb",
+    "ss-pnpe-es-cl": "es-cl",
+}
+_BOUNDARY_UNCERTAINTY_M = 1000.0
+
+
+def _point_in_ring(lat: float, lon: float, ring: list[tuple[float, float]]) -> bool:
+    inside = False
+    n = len(ring)
+    j = n - 1
+    for i in range(n):
+        yi, xi = ring[i]
+        yj, xj = ring[j]
+        if ((yi > lat) != (yj > lat)) and (lon < (xj - xi) * (lat - yi) / (yj - yi) + xi):
+            inside = not inside
+        j = i
+    return inside
+
+
+def _seg_dist_m(lat, lon, a_lat, a_lon, b_lat, b_lon) -> float:
+    """Distancia (m) punto->segmento, proyección equirectangular local."""
+    R = 6371000.0
+    kx = math.cos(math.radians(lat)) * R
+    x, y = math.radians(lon) * kx, math.radians(lat) * R
+    x1, y1 = math.radians(a_lon) * kx, math.radians(a_lat) * R
+    x2, y2 = math.radians(b_lon) * kx, math.radians(b_lat) * R
+    dx, dy = x2 - x1, y2 - y1
+    if dx == dy == 0:
+        return math.hypot(x - x1, y - y1)
+    t = ((x - x1) * dx + (y - y1) * dy) / (dx * dx + dy * dy)
+    t = max(0.0, min(1.0, t))
+    return math.hypot(x - (x1 + t * dx), y - (y1 + t * dy))
+
+
+def jurisdiction_boundary_safe(svc: "Service", lat: float, lon: float) -> bool:
+    """Hecho INTERNO, calculado por la app (nunca aportable por query).
+
+    True si el punto NO está dentro de la franja de incertidumbre (<1 km)
+    respecto al borde de OTRO sector CCAA. Fail-closed: ante cualquier duda
+    (excepción, geometría ausente) -> False.
+    """
+    try:
+        geo = svc.fx_picos.get("geometry", {})
+        sectors = {sid: geo.get(key, []) for sid, key in _CCAA_SECTOR_KEY.items()}
+        containing = [sid for sid, rings in sectors.items()
+                      if any(_point_in_ring(lat, lon, r) for r in rings)]
+        if not containing:
+            return True  # fuera de todo sector CCAA -> sin conflicto de frontera
+        for sid in containing:
+            for other_sid, rings in sectors.items():
+                if other_sid == sid:
+                    continue
+                for ring in rings:
+                    n = len(ring)
+                    for i in range(n):
+                        a, b = ring[i], ring[(i + 1) % n]
+                        if _seg_dist_m(lat, lon, a[0], a[1], b[0], b[1]) < _BOUNDARY_UNCERTAINTY_M:
+                            return False
+        return True
+    except Exception:  # noqa: BLE001 - fail-closed, nunca un permiso por duda
+        return False
+
+
 def resolve_point(svc: Service, *, lat: float, lon: float, activity: str,
                   activity_date: str, knowledge_date: str, facts: dict) -> dict:
+    # Hecho INTERNO de seguridad de frontera: la app lo calcula y lo inyecta.
+    # Nunca se acepta por query; si la app no lo calcula, el resolver falla
+    # cerrado (ENGINE_MISSING_INPUT) -> un permiso no puede escapar al guard.
+    facts = dict(facts)
+    boundary_safe = jurisdiction_boundary_safe(svc, lat, lon)
+    facts[INTERNAL_BOUNDARY_FACT] = boundary_safe
     query = Query(activity=activity, activity_date=activity_date,
                   knowledge_date=knowledge_date, spatial_scope_id=None,
                   lat=lat, lon=lon, facts=facts)
     result = svc.resolver.resolve(query).to_dict()
     regions = svc.coverage_for_point(lat, lon)
     coverage_status = regions[0]["coverage"] if regions else "UNKNOWN"
-    return {
+    out = {
         "determination": {
             "legalStatus": result["legalStatus"],
             "knowledgeStatus": result["knowledgeStatus"],
@@ -319,6 +416,15 @@ def resolve_point(svc: Service, *, lat: float, lon: float, activity: str,
         "sources": svc.sources_for(result),
         "query": result["query"],
     }
+    if not boundary_safe:
+        # La frontera CCAA está en la franja de incertidumbre (<1 km): el
+        # PERMITTED no puede sostenerse sin re-verificación IDE.
+        out["determination"]["warnings"].append(
+            "Punto dentro de la zona de incertidumbre de frontera CCAA (<1 km): "
+            "BOUNDARY_EVIDENCE_INCOMPLETE. Se requiere re-verificación IDE.")
+        if "BOUNDARY_EVIDENCE_INCOMPLETE" not in out["determination"]["reasonCodes"]:
+            out["determination"]["reasonCodes"].append("BOUNDARY_EVIDENCE_INCOMPLETE")
+    return out
 
 
 def parse_resolve_params(params: dict) -> dict:
