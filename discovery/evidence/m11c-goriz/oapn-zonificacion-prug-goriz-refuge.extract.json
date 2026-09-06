@@ -1,0 +1,27 @@
+{
+ "feature_id": "ZonificacionPRUG:refugio-goriz",
+ "geometry_meta": {
+  "bbox": [
+   0.0148,
+   42.6632,
+   0.0152,
+   42.6634
+  ],
+  "coord_digest": "28b1ed1383865b07107a39f7d19a7e7bc375682c67f2d86a376a00fcd57cf45a",
+  "n_points": 14,
+  "parts": 1,
+  "type": "MultiPolygon"
+ },
+ "note": "full geometry NOT redistributed (reuse terms NOT_VERIFIED); properties + geometry metadata + digest only; re-fetchable from source_url",
+ "properties": {
+  "Nombre": "Refugio de Góriz",
+  "Nombre Parque": "Parque Nacional de Ordesa y Monte Perdido",
+  "Normativa": "Decreto 49/2015, de 8 de abril,(BOA 80, 29/04/2015)",
+  "Observaciones": "Uso público. Refugio. Sector Ordesa",
+  "Subzona PRUG": null,
+  "Superficie (ha)": "        0,040",
+  "Zona": "Zona de Uso Especial"
+ },
+ "retrieved_at": "2026-09-05",
+ "source_url": "https://sigred.oapn.es/geoserverOAPN/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=ZonificacionPRUG%3Aview_zon_zonificacion_prug&outputFormat=application/json&srsName=EPSG%3A4326"
+}

@@ -1,0 +1,28 @@
+{
+ "feature_id": "ENP101_025",
+ "geometry_meta": {
+  "bbox": [
+   747075.062,
+   4727824.9282,
+   747109.4823,
+   4727846.0798
+  ],
+  "coord_digest": "20d23dc327070a63dcce64d6bb1ce0e53d256935d67555db80fce93d5cdc8aa8",
+  "n_points": 14,
+  "parts": 1,
+  "type": "MultiPolygon"
+ },
+ "note": "full geometry NOT redistributed (reuse terms NOT_VERIFIED); properties + geometry metadata + digest only; re-fetchable from source_url",
+ "properties": {
+  "area": null,
+  "codeara": "ENP101",
+  "enpassociated": null,
+  "objectid": 363,
+  "planificationzone": null,
+  "zonecode": "ENP101_025",
+  "zonename": "Refugio de Góriz",
+  "zonetype": "PNac"
+ },
+ "retrieved_at": "2026-09-05",
+ "source_url": "https://icearagon.aragon.es/Visor2D?service=WFS&version=2.0.0&request=GetFeature&typeName=VISOR2D:ZENP&outputFormat=application/json&srsName=EPSG:25830&CQL_FILTER=zonecode%3D%27ENP101_025%27"
+}

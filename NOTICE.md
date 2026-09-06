@@ -60,6 +60,8 @@ geometría oficial es exactamente el alcance de **M1.1**.
 | Zonificación de espacios naturales protegidos (muestra de la descarga oficial RedNat ENP, 33 features) | Gobierno de Aragón / IDEAragon: `https://idearagon.aragon.es/datosdescarga/descarga.php?file=MA_MedioNatural/ProtectedSites/rednat_enp.json.zip` → muestra en `discovery/evidence/aragon-wfs-enp-zonificacion-muestra.geojson` (entidad `V112_RZ_ENPZonificacion`) | 2026-09-05 | `06b1dc6e4b8aece9b5bc456084a819c0…` (muestra recortada, hash propio) | `NOT_VERIFIED` |
 | Extracto del PRUG de Guadarrama y contexto de sentencias (texto) | BOCM / registro propio de evidencia | 2026-09-05 | `c267b53402f8b1480fc185c703a65b55…` y `eeec4af07231ace71e4e60ab7da1a8b0…` | ver sección 2 |
 
+| Extractos de evidencia Góriz (M1.1-C): properties + metadatos geométricos + digest de `ENP101_137`/`ENP101_025` (ICEAragon WFS) y de los features Góriz de `ZonificacionPRUG` (OAPN WFS); texto D 16/2022 (BOA); extracto de `pnomp.es/es/legislacion` | ICEAragon / OAPN-SIGRED / BOA / PNOMP, URLs canónicas fijadas en `tooling/m11c_goriz_scope.evidence.json` → `discovery/evidence/m11c-goriz/*.extract.*` | 2026-09-05 | por artefacto, en `tooling/m11c_goriz_scope.evidence.json` (`artifacts`) | `NOT_VERIFIED` — **no se redistribuyen geometrías completas**; única excepción mínima necesaria: anillo WGS84 de la ZUM (1,25 ha) en `alraso/resources/fixture_goriz.json` |
+
 Nota: OAPN no versiona sus descargas, por eso el hash por descarga es obligatorio
 en este proyecto. Si en el futuro se incorporan datasets de OSM, PMTiles,
 Refuges.info u otros, se añaden aquí con su licencia y atribución originales.

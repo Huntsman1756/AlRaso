@@ -1,0 +1,27 @@
+{
+ "feature_id": "ZonificacionPRUG:acampada-goriz",
+ "geometry_meta": {
+  "bbox": [
+   0.0149,
+   42.662,
+   0.0169,
+   42.6637
+  ],
+  "coord_digest": "8410a6b06e7edf9d7780b345f3e22efff9948803f708efab7348bdcb83fd536d",
+  "n_points": 92,
+  "parts": 2,
+  "type": "MultiPolygon"
+ },
+ "note": "full geometry NOT redistributed (reuse terms NOT_VERIFIED); properties + geometry metadata + digest only; re-fetchable from source_url",
+ "properties": {
+  "Nombre": "Zona de acampada adyacente al refugio de Góriz",
+  "Nombre Parque": "Parque Nacional de Ordesa y Monte Perdido",
+  "Normativa": "Decreto 49/2015, de 8 de abril,(BOA 80, 29/04/2015)",
+  "Observaciones": "Uso público. Área vivac. Sector Ordesa",
+  "Subzona PRUG": null,
+  "Superficie (ha)": "        1,251",
+  "Zona": "Zona de Uso Moderado"
+ },
+ "retrieved_at": "2026-09-05",
+ "source_url": "https://sigred.oapn.es/geoserverOAPN/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=ZonificacionPRUG%3Aview_zon_zonificacion_prug&outputFormat=application/json&srsName=EPSG%3A4326"
+}
