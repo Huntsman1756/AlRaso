@@ -7,3 +7,7 @@ build/
 *.egg-info/
 .venv*/
 opencode.json
+
+# LLM auxiliary tooling run log (safe metadata only, but never committed)
+tooling/llm/runs.jsonl
+*.env
