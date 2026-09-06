@@ -112,6 +112,11 @@ fuera → `UNDETERMINED`, nunca prohibición sectorial). Ver
 re-verificación en vivo con `tooling/m11c_goriz_identity.py --verify`. Ninguna
 consulta "fuera de Góriz" reabre la rama sectorial.
 
+Estado M1.1: `M1.1_GORIZ_REAL_WORLD=VALIDATED` ·
+`M1.1_ORDESA_SECTOR_SPATIAL=INCOMPLETE` · `FIRST_REAL_WORLD_E2E=PASS`. El objetivo
+de M1.1 se considera cumplido; siguiente frente: **M2-A Picos de Europa**
+(jurisdicciones autonómicas distintas dentro de un mismo parque).
+
 Versiones e identidades fijadas en `tooling/DEPENDENCIES.lock.json`
 (Axiom v0.2.2 commit `d142c64`, SHA-256 del binario; `rulespec/v1+m1r1`;
 `schema m1r2`; `resolver 0.2.1-hardening`).
