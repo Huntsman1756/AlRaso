@@ -1,0 +1,315 @@
+{
+ "schema": "alraso-m2a-picos-discovery-evidence/v1",
+ "milestone": "M2-A PICOS MULTI-JURISDICTION — Phase A discovery",
+ "baseline_source_main": "7650dace51f6c8c17fc43fcfb979ec5d0e57f43e",
+ "generated_at": "2026-09-06T06:13:19Z",
+ "data_policy": {
+  "rule": "reuse terms NOT_VERIFIED (NOTICE.md section 4): full official gazette PDFs and full vectors are NOT redistributed; committed artifacts hold canonical URLs, gazette identifiers, metadata, bboxes, normalized coordinate digests and verbatim text excerpts only",
+  "exception_minimal_extract": "park boundary WGS84 ring kept out of this discovery commit; minimal geometry will be justified in Phase B fixtures if needed"
+ },
+ "legal_documents": {
+  "Decreto_17_2025_CL": {
+   "authority": "Junta de Castilla y León",
+   "jurisdiction": "es-cl",
+   "official_identifier": "BOCyL núm. 240, 15/12/2025",
+   "canonical_gazette_url": "https://bocyl.jcyl.es/boletin.do?fechaBoletin=15/12/2025",
+   "official_copy_url": "https://parquenacionalpicoseuropa.es/wp-content/uploads/2026/06/prug-pnpe-cyl-decreto-17_2025.pdf",
+   "official_copy_sha256": "70b07b6da908c873dc3c3fc6ff7dfe8f984e55493b40b4a690de49bc9a4edbca",
+   "publication_date": "2025-12-15",
+   "effective_from": "2026-01-04",
+   "effective_to": null,
+   "effective_rule": "a los veinte días de su publicación en BOCyL (art. 59.4 PRUG: un año)",
+   "affected_activity": "pernocta/vivac/acampada en el interior del PN",
+   "geographic_scope_claim": "en el ámbito territorial de la Comunidad de Castilla y León",
+   "relation_to_prior_regime": "no mención textual al RD 384/2002 en el decreto; derogatoria genérica de normas autonómicas de igual o inferior rango que se opongan",
+   "evidence_locator": "extract: discovery/evidence/m2a-picos/cyl-17-2025-extract.txt",
+   "artifact": {
+    "path": "discovery/evidence/m2a-picos/cyl-17-2025-extract.txt",
+    "bytes": 3490,
+    "sha256": "a94dcc0653551933a078b35ddde18bc0c09fdd42d31dca6ff4492803f47b3890"
+   }
+  },
+  "Decreto_21_2026_AS": {
+   "authority": "Principado de Asturias",
+   "jurisdiction": "es-as",
+   "official_identifier": "BOPA 30/03/2026, Cód. 2026-02506",
+   "canonical_gazette_url": "https://miprincipado.asturias.es/bopa",
+   "note_gazette_date": "cabecera del PDF oficial: NUM. X DE 30-III-2026; INAP cita BOPA de 31/03/2026 — discrepancia registrada; se usa 30/03/2026 (cabecera) para effective_from",
+   "official_copy_url": "https://parquenacionalpicoseuropa.es/wp-content/uploads/2026/06/prug-pnpe-as-decreto-21_2026.pdf",
+   "official_copy_sha256": "a1e374e5dcc12c5de2de653abf1f4da2635c620a10ac17e4f43ffd709d5210bd",
+   "publication_date": "2026-03-30",
+   "effective_from": "2026-04-19",
+   "effective_to": null,
+   "effective_rule": "a los veinte días de su publicación en BOPA (art. 59.4 PRUG: tres años para 'Guía del PNPE')",
+   "affected_activity": "pernocta/vivac/acampada en el interior del PN",
+   "geographic_scope_claim": "en el ámbito territorial del Principado de Asturias",
+   "relation_to_prior_regime": "no mención textual al RD 384/2002; derogatoria genérica autonómica",
+   "evidence_locator": "extract: discovery/evidence/m2a-picos/as-21-2026-extract.txt",
+   "artifact": {
+    "path": "discovery/evidence/m2a-picos/as-21-2026-extract.txt",
+    "bytes": 3489,
+    "sha256": "6578d896347fb4ee8f9f1a3772a2ecb705dc5eafd8d95989920440fd60e8eb34"
+   }
+  },
+  "Decreto_57_2026_CB": {
+   "authority": "Comunidad Autónoma de Cantabria",
+   "jurisdiction": "es-cb",
+   "official_identifier": "BOC núm. 148, 04/08/2026",
+   "canonical_gazette_url": "https://www.cantabria.es/web/boc",
+   "official_copy_url": "https://parquenacionalpicoseuropa.es/wp-content/uploads/2026/08/prug-pnpe-ca-decreto-57_2026.pdf",
+   "official_copy_sha256": "28ad80f99b44278153ee928e83efd27b8187049285891556db0e2381797c62c2",
+   "publication_date": "2026-08-04",
+   "effective_from": "2026-08-24",
+   "effective_to": null,
+   "effective_rule": "a los veinte días de su publicación en BOC (art. 59.4 PRUG: un año)",
+   "affected_activity": "pernocta/vivac/acampada en el interior del PN",
+   "geographic_scope_claim": "en el ámbito territorial de la Comunidad Autónoma de Cantabria",
+   "relation_to_prior_regime": "no mención textual al RD 384/2002; derogatoria genérica autonómica",
+   "evidence_locator": "extract: discovery/evidence/m2a-picos/cb-57-2026-extract.txt",
+   "artifact": {
+    "path": "discovery/evidence/m2a-picos/cb-57-2026-extract.txt",
+    "bytes": 3492,
+    "sha256": "e67bd485f882b3ae2174648686b60e82dd162a62e9366e9a8b0c7a3c14b36e25"
+   }
+  }
+ },
+ "substantive_rule_common_art51": {
+  "summary": "vivac/pernocta al raso solo vinculada a actividades de montaña y escalada; max 3 noches; SIEMPRE por encima de cota 1.800 m (excepciones: vivac en pared; invierno en Vega La Sotin); tiendas SOLO por meteorología adversa/fuerza mayor y solo sobre 1.800 m en franja ocaso±1h; grupos >10 requieren autorización; prohibido cavar zanjas/parapetos",
+  "art52": "acampada solo en campings autorizados/campamentos autorizados; pernocta en vehículo/caravana prohibida fuera de núcleos",
+  "status": "común a los tres decretos (verificado en los tres extracts; diffs no detectados en arts 50-54)"
+ },
+ "state_framework_pointers": {
+  "Ley_16_1995_declaracion": "https://www.boe.es/buscar/act.php?id=BOE-A-1995-12915 (citada en los tres decretos; texto íntegro no revocado en esta fase)",
+  "Ley_30_2014_parques_nacionales": "marco estatal citado en los preámbulos (gestión por CCAA en sus ámbitos)",
+  "RD_384_2002_PRUG_anterior": {
+   "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2002-9576",
+   "facts": [
+    "disposición adicional única: vigencia 6 años",
+    "disposición final única ANULADA por STS 27/04/2005 (BOE-A-2005-9213)",
+    "los decretos de 2025/2026 NO lo mencionan ni lo derogan expresamente"
+   ],
+   "status": "LEGACY_STATUS_UNRESOLVED → para as_of anteriores a la fecha efectiva de la CCAA correspondiente el estado jurídico es DUDOSO: el resolver debe responder UNDETERMINED (fail-closed), nunca PERMITTED"
+  },
+  "convenio_interautonomico": "publicado en BOC/BOCyL/BOPA (lista de normativa del parque); texto no fijado en esta fase — DEFERRED"
+ },
+ "spatial": {
+  "park_oapn": {
+   "authority": "OAPN (Organismo Autónomo Parques Nacionales, MITECO)",
+   "wfs": "https://sigred.oapn.es/geoserverOAPN/ows",
+   "typeName": "LimitesParquesNacionalesZPP:view_red_oapn_limite_pn",
+   "feature_match": "Nombre == 'Parque Nacional de los Picos de Europa'",
+   "retrieved_at": "2026-09-06T06:13:19Z",
+   "crs": "EPSG:25830",
+   "n_points": 3519,
+   "bbox_wgs84": [
+    -5.120655772570752,
+    43.07460998897172,
+    -4.617289852235901,
+    43.31585563997958
+   ],
+   "coord_digest_25830_2dp": "486fb8cc285da01102c850f4f4dea424f07f3378e9a39420a0d7bc1c697e93bb",
+   "area_ha_computed": 66032.4,
+   "crosscheck_area_ha_sum_preambulos": 66030,
+   "crosscheck_delta_pct": 0.0036,
+   "properties_official": {
+    "Declaración": "Ley del 24 de julio de 1918",
+    "Reclasificación": "Ley 16/1995 de 30 de mayo",
+    "Ampliación": "Resolución de 04 de febrero de 2015"
+   },
+   "reuse_terms": "NOT_VERIFIED — full geometry NOT redistributed"
+  },
+  "ccaa_gisco_nuts2": {
+   "authority": "Eurostat GISCO (geografía estadística oficial de la UE; © EuroGeographics para límites administrativos)",
+   "url": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_01M_2024_4326_LEVL_2.geojson",
+   "file_sha256": "950cff8f464072712bf773470f5ecc96d088278d19a290c766099b9a122edd67",
+   "units": {
+    "ES12": "Principado de Asturias",
+    "ES13": "Cantabria",
+    "ES41": "Castilla y León"
+   },
+   "per_unit_digests": {
+    "ES41": {
+     "n_points": 2952,
+     "bbox_wgs84": [
+      -7.0771,
+      40.0833,
+      -1.7754,
+      43.2379
+     ],
+     "coord_digest_4dp": "bd108eaa5553b47c8089196dc5216eeedb76d50967d7efa0d48bfaff765332ff"
+    },
+    "ES12": {
+     "n_points": 865,
+     "bbox_wgs84": [
+      -7.1807,
+      42.883,
+      -4.5118,
+      43.6581
+     ],
+     "coord_digest_4dp": "e2023bcdd6b56541c6735639b0a44a909c2d2bea8d44475b6145d81325a20ac1"
+    },
+    "ES13": {
+     "n_points": 677,
+     "bbox_wgs84": [
+      -4.8508,
+      42.758,
+      -3.15,
+      43.5132
+     ],
+     "coord_digest_4dp": "1b0fc39e6e7068d824e46922e19a8ff7f0f21c2bbac2a1fd6e4484ba0dad8b57"
+    }
+   },
+   "role": "identificador de jurisdicción (punto→CCAA); NO es el límite legal estatal; resolución 01M ⇒ precisión de frontera ±~1 km",
+   "caveat_observed": "la estación superior de Fuente Dé cae en ES41 según GISCO-01M (zona de frontera): los puntos a <~1 km de frontera deben re-verificarse en Phase B con el IDE propio de cada CCAA; un punto EXACTAMENTE sobre frontera debe quedar UNDETERMINED (ambigüedad deliberada, fail-closed)",
+   "reuse_terms": "servicio público UE con aviso de copyright; términos no archivados en repo → NOT_VERIFIED, no se redistribuye el fichero"
+  },
+  "split_check_ha": {
+   "ES41": 23582.1,
+   "ES12": 27483.1,
+   "ES13": 14967.2
+  },
+  "split_expected_preambulo_ha": {
+   "ES12": 27477,
+   "ES13": 14973,
+   "ES41": 23580
+  },
+  "residue_inside_park_outside_all_ccaa_ha": 0.0
+ },
+ "probe_points": {
+  "P1_asturias_urriellu": {
+   "lon": -4.8686,
+   "lat": 43.2662,
+   "inside_park": true,
+   "ccaa": [
+    "ES12"
+   ],
+   "expect_ccaa_count": 1
+  },
+  "P2_cantabria_interior": {
+   "lon": -4.80299,
+   "lat": 43.17068,
+   "inside_park": true,
+   "ccaa": [
+    "ES13"
+   ],
+   "expect_ccaa_count": 1,
+   "note": "3 km al este de la línea ES13|ES41 (GISCO)"
+  },
+  "P3_cyl_cain_valdeon": {
+   "lon": -4.9381,
+   "lat": 43.1278,
+   "inside_park": true,
+   "ccaa": [
+    "ES41"
+   ],
+   "expect_ccaa_count": 1
+  },
+  "P4a_es13_300m": {
+   "lon": -4.72339,
+   "lat": 43.25005,
+   "inside_park": true,
+   "ccaa": [
+    "ES13"
+   ]
+  },
+  "P4b_es12_300m": {
+   "lon": -4.73033,
+   "lat": 43.24821,
+   "inside_park": true,
+   "ccaa": [
+    "ES12"
+   ]
+  },
+  "P4c_es13_1km": {
+   "lon": -4.71528,
+   "lat": 43.25221,
+   "inside_park": true,
+   "ccaa": [
+    "ES13"
+   ]
+  },
+  "P4d_es12_1km": {
+   "lon": -4.73843,
+   "lat": 43.24605,
+   "inside_park": true,
+   "ccaa": [
+    "ES12"
+   ]
+  },
+  "P5a_es13_300m": {
+   "lon": -4.83443,
+   "lat": 43.16286,
+   "inside_park": true,
+   "ccaa": [
+    "ES13"
+   ]
+  },
+  "P5b_es41_300m": {
+   "lon": -4.84142,
+   "lat": 43.16113,
+   "inside_park": true,
+   "ccaa": [
+    "ES41"
+   ]
+  },
+  "P5c_es13_1km": {
+   "lon": -4.82628,
+   "lat": 43.16489,
+   "inside_park": true,
+   "ccaa": [
+    "ES13"
+   ]
+  },
+  "P5d_es41_1km": {
+   "lon": -4.84957,
+   "lat": 43.1591,
+   "inside_park": true,
+   "ccaa": [
+    "ES41"
+   ]
+  },
+  "P6_bitemporal_gap": {
+   "lon": -4.80299,
+   "lat": 43.17068,
+   "inside_park": true,
+   "ccaa": [
+    "ES13"
+   ],
+   "as_of": "2026-08-01",
+   "expect": "UNDETERMINED (Cantabria sin PRUG vigente hasta 2026-08-24: cobertura jurisdiccional incompleta ⇒ INCOMPLETE_JURISDICTION_COVERAGE_NEVER_PERMITS)"
+  },
+  "P7_outside_cangas": {
+   "lon": -5.13,
+   "lat": 43.348,
+   "inside_park": false,
+   "ccaa": [
+    "ES12"
+   ],
+   "expect": "sin scope PN ⇒ NO_APPLICABLE_SCOPE (nunca PROHIBITED sectorial)"
+  }
+ },
+ "gate": {
+  "classification": "A",
+  "name": "MULTI_JURISDICTION_EVIDENCE_READY",
+  "basis": [
+   "tres normas autonómicas vigentes localizadas en sus diarios oficiales con fechas de publicación y entrada en vigor verificadas (2026-01-04 / 2026-04-19 / 2026-08-24)",
+   "texto material común arts. 50-54 verbatim en los tres diarios; ámbito territorial explícito por CCAA",
+   "geometría oficial del parque (OAPN) con cross-check de área 0.004% contra preámbulo oficial",
+   "split por CCAA dentro de ±0.05% de las hectáreas oficiales; residuo 0.00 ha; todo punto sondeado cae en exactamente una CCAA"
+  ],
+  "implementation_allowed_for_phaseB": "YES — con condiciones: (1) Phase B debe fijar vectores de frontera del IDE propio de cada CCAA para puntos a <1 km de frontera; (2) puntos exactly-on-boundary → UNDETERMINED; (3) as_of anteriores a la fecha efectiva de cada CCAA → UNDETERMINED (LEGACY_STATUS_UNRESOLVED); (4) sin precedencia Estado↔CCAA asumida: solo se modelan las 3 normas autonómicas vigentes sobre PN, ninguna regla estatal de uso se codifica sin relación jurídica probada"
+ },
+ "blockers_for_full_runtime": [
+  "vectores oficiales de límite interautonómico (IDEPA/SICTEX-IDERC/IDCyL) sin localizar en esta sesión → DEFERRED Phase B",
+  "relación jurídica RD 384/2002 ↔ decretos 2025/2026 no probada (no hay mención expresa) → cualquier consulta histórica (as_of < fecha efectiva) queda UNDETERMINED hasta cadena probada",
+  "condición 'cota 1.800 m' sin DEM oficial fijado todavía (necesario para el efecto PERMITTED) → DEFERRED Phase B",
+  "licencias/términos de reutilización de los PDFs de diario y del WFS OAPN sin verificación formal (como en M1.1) → solo extracts"
+ ],
+ "deferred": [
+  "convenio interautonómico (texto)",
+  "Ley 16/1995 texto íntegro fijado",
+  "zonificación oficial vectorial del nuevo PRUG (anexos cartográficos)",
+  "refugios-vivac ANEXO X",
+  "verificación ZPP (área peripheral) — fuera de alcance M2-A"
+ ]
+}
