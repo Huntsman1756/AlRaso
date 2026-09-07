@@ -650,6 +650,12 @@ def test_git_diff_vs_main_only_allowed_files():
         "tests/test_m2_webapp.py",
         "tests/test_dem_elevation.py",
         "tests/test_picos_fixture.py",
+        # M3 product MVP (feat/m3-product-mvp): product UI + tests added to the whitelist.
+        "webapp/static/app.js",
+        "webapp/static/index.html",
+        "webapp/static/style.css",
+        "webapp/static/store.js",
+        "tests/test_m3_product.py",
     }
     for f in changed:
         assert f in allowed, f"Unexpected file changed: {f}"

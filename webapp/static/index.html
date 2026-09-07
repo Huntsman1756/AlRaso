@@ -2,8 +2,9 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>AlRaso — ¿dormir al raso? Solo lo que podemos afirmar.</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⛰️</text></svg>">
 <link rel="stylesheet" href="/vendor/maplibre-gl.css">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -14,81 +15,176 @@
   <form id="searchform" role="search">
     <label class="sr-only" for="q">Buscar una zona conocida o coordenadas</label>
     <input id="q" type="text" list="places-list" autocomplete="off"
-           placeholder="Busca “Góriz” o escribe 42.6627, 0.0160">
+           placeholder="Busca "Góriz" o escribe 42.6627, 0.0160">
     <datalist id="places-list"></datalist>
     <button id="search-btn" type="submit">Buscar</button>
   </form>
 </header>
-<div id="layers">
-  <span class="layers-title">Capas</span>
-  <label><input type="checkbox" id="lg-refuge" checked> 🏠 Refugios</label>
-  <label><input type="checkbox" id="lg-shelter" checked> 🛖 Abrigos</label>
-  <label><input type="checkbox" id="lg-water" checked> 💧 Agua</label>
-  <label><input type="checkbox" id="lg-camping" checked> ⛺ Campings</label>
-  <label><input type="checkbox" id="lg-coverage" checked> 🗺️ Cobertura legal</label>
-</div>
-<p id="searchmsg" role="status" aria-live="polite"></p>
+<nav aria-label="Navegación principal">
+  <button data-tab="explore" aria-current="page">🧭 Explorar</button>
+  <button data-tab="saved">♥ Guardados</button>
+  <button data-tab="outings">🗺️ Salidas</button>
+  <button data-tab="profile">👤 Perfil</button>
+</nav>
 <main>
-  <div id="map"></div>
-  <aside id="card" aria-live="polite">
-    <div id="card-empty">
-      <h2>¿Dormir aquí? Te decimos qué sabemos</h2>
-      <p>Toca un punto del mapa, usa el botón «Usar el centro del mapa» o busca una zona arriba.
-         Si AlRaso no puede afirmar algo, lo dice: <b>«no lo podemos determinar» no es un permiso,
-         pero tampoco una prohibición</b>.</p>
-      <p class="legend">
-        <span class="chip ok">Cobertura completa</span> norma y geometría oficial verificadas<br>
-        <span class="chip warn">Cobertura parcial</span> normativa de la zona verificada, respuesta punto a punto sin cerrar<br>
-        <span class="chip unk">Sin información</span> sin corpus: no sabemos; eso no significa que esté prohibido<br>
-        <span class="chip poi">Puntos de interés</span> refugios, agua, abrigos, campings y espacios protegidos (OSM). Solo cartografía, no determinan legalidad.
-      </p>
+  <!-- ═══ EXPLORE VIEW ═══ -->
+  <section id="view-explore" class="view">
+    <p id="searchmsg" role="status" aria-live="polite"></p>
+    <div id="layers">
+      <span class="layers-title">Capas</span>
+      <label><input type="checkbox" id="lg-refuge" checked> 🏠 Refugios</label>
+      <label><input type="checkbox" id="lg-shelter" checked> 🛖 Abrigos</label>
+      <label><input type="checkbox" id="lg-water" checked> 💧 Agua</label>
+      <label><input type="checkbox" id="lg-camping" checked> ⛺ Campings</label>
+      <label><input type="checkbox" id="lg-coverage" checked> 🗺️ Cobertura legal</label>
     </div>
-    <div id="card-result" hidden>
-      <div id="coords"></div>
-      <section id="poi" hidden>
-        <div class="poi-head"><span id="poi-emoji"></span><span id="poi-name" class="poi-name"></span></div>
-        <div id="poi-meta" class="poi-meta"></div>
-        <p id="poi-note" class="poi-note"></p>
-        <p class="poi-sep">Este punto es solo una observación (OSM). Su existencia <b>no</b> implica ningún permiso.</p>
-        <details id="poi-srcbox"><summary>Fuente</summary><a id="poi-src" target="_blank" rel="noopener"></a></details>
-      </section>
-      <p id="headline" class="headline"></p>
-      <div class="badges">
-        <div><span class="badge-label">SITUACIÓN LEGAL</span><span id="legal" class="badge">—</span></div>
-        <div><span class="badge-label">ESTADO DE LA INFORMACIÓN</span><span id="knowledge" class="badge">—</span></div>
-        <div><span class="badge-label">COBERTURA</span><span id="coverage" class="badge">—</span></div>
+    <div class="explore-body">
+      <div id="map-container">
+        <div id="map"></div>
+        <button id="geo-btn" type="button" aria-label="Mi ubicación" title="Mi ubicación">📍 Mi ubicación</button>
       </div>
-      <button id="center-btn" type="button">Usar el centro del mapa</button>
-      <section><h3><label for="activity">Actividad</label></h3>
-        <select id="activity">
-          <option value="VIVAC_AL_RASO">Vivac al raso</option>
-          <option value="FUNDA_VIVAC">Funda vivac</option>
-          <option value="TIENDA_NOCTURNA">Tienda de campaña nocturna</option>
-          <option value="ACAMPADA">Acampada</option>
-          <option value="PERNOCTA_REFUGIO">Pernocta en refugio</option>
-        </select>
-        <label>Fecha de la actividad <input type="date" id="date"></label>
-        <p id="dem-info" class="dem-info" hidden></p>
-        <div id="factbox"></div>
-      </section>
-      <section id="condiciones"><h3>Condiciones evaluadas</h3><ul id="cond-list"></ul></section>
-      <section><h3>Por qué sabemos / por qué no</h3><p id="decision"></p></section>
-      <section id="zonas"><h3>Zonas de cobertura</h3><div id="region-list"></div></section>
-      <section><h3>Fuentes</h3><ul id="sources"></ul></section>
-      <details id="tech">
-        <summary>Detalle técnico (códigos)</summary>
-        <ul id="tech-codes"></ul>
-      </details>
-      <p id="warning" class="warning"></p>
+      <aside id="card" aria-live="polite">
+        <div id="card-empty">
+          <h2>¿Dormir aquí? Te decimos qué sabemos</h2>
+          <p>Toca un punto del mapa, usa el botón "Mi ubicación", pulsa "Usar el centro del mapa" o busca una zona arriba.
+             Si AlRaso no puede afirmar algo, lo dice: <b>«no lo podemos determinar» no es un permiso,
+             pero tampoco una prohibición</b>.</p>
+          <p class="legend">
+            <span class="chip ok">Cobertura completa</span> norma y geometría oficial verificadas<br>
+            <span class="chip warn">Cobertura parcial</span> normativa de la zona verificada, respuesta punto a punto sin cerrar<br>
+            <span class="chip unk">Sin información</span> sin corpus: no sabemos; eso no significa que esté prohibido<br>
+            <span class="chip poi">Puntos de interés</span> refugios, agua, abrigos, campings y espacios protegidos (OSM). Solo cartografía, no determinan legalidad.
+          </p>
+        </div>
+        <div id="card-result" hidden>
+          <!-- a) OUTDOOR INFO BLOCK -->
+          <div id="outdoor-info">
+            <section id="poi" hidden>
+              <div class="poi-head"><span id="poi-emoji"></span><span id="poi-name" class="poi-name"></span></div>
+              <div id="poi-meta" class="poi-meta"></div>
+              <p id="poi-note" class="poi-note"></p>
+              <p class="poi-sep">Este punto es solo una observación (OSM). Su existencia <b>no</b> implica ningún permiso.</p>
+              <details id="poi-srcbox"><summary>Fuente</summary><a id="poi-src" target="_blank" rel="noopener"></a></details>
+            </section>
+            <div id="coords"></div>
+            <p id="altitude-line" class="altitude-line" hidden></p>
+          </div>
+
+          <!-- b) LEGAL QUESTION SECTION -->
+          <section id="legal-section">
+            <h2 class="legal-heading">¿Puedo hacer vivac aquí?</h2>
+            <p id="legal-result" class="legal-result">
+              <span id="legal-emoji"></span> <span id="headline"></span>
+            </p>
+            <ul id="plain-conds" class="plain-conds" hidden></ul>
+            <div id="ui-knowledge" class="ui-knowledge" hidden></div>
+          </section>
+
+          <!-- c) ACTION BUTTONS -->
+          <div id="action-buttons">
+            <button id="save-btn" type="button" disabled>♡ Guardar</button>
+            <button id="plan-add-btn" type="button" disabled>Añadir a una salida</button>
+            <button id="center-btn" type="button">Usar el centro del mapa</button>
+          </div>
+
+          <!-- d) DETAILS BLOCK -->
+          <details id="detail-box"><summary>Fuentes y detalle</summary>
+            <section class="detail-section">
+              <h3><label for="activity">Actividad</label></h3>
+              <select id="activity">
+                <option value="VIVAC_AL_RASO">Vivac al raso</option>
+                <option value="FUNDA_VIVAC">Funda vivac</option>
+                <option value="TIENDA_NOCTURNA">Tienda de campaña nocturna</option>
+                <option value="ACAMPADA">Acampada</option>
+                <option value="PERNOCTA_REFUGIO">Pernocta en refugio</option>
+              </select>
+              <label>Fecha de la actividad <input type="date" id="date"></label>
+              <div id="factbox"></div>
+            </section>
+            <p id="dem-info" class="dem-info" hidden></p>
+            <section id="condiciones"><h3>Condiciones evaluadas</h3><ul id="cond-list"></ul></section>
+            <section><h3>Por qué sabemos / por qué no</h3><p id="decision"></p></section>
+            <section id="zonas"><h3>Zonas de cobertura</h3><div id="region-list"></div></section>
+            <section><h3>Fuentes</h3><ul id="sources"></ul></section>
+            <div class="badges">
+              <div><span class="badge-label">SITUACIÓN LEGAL</span><span id="legal" class="badge">—</span></div>
+              <div><span class="badge-label">ESTADO DE LA INFORMACIÓN</span><span id="knowledge" class="badge">—</span></div>
+              <div><span class="badge-label">COBERTURA</span><span id="coverage" class="badge">—</span></div>
+            </div>
+            <p id="warning" class="warning"></p>
+            <details id="tech">
+              <summary>Detalle técnico (códigos)</summary>
+              <ul id="tech-codes"></ul>
+            </details>
+          </details>
+        </div>
+      </aside>
     </div>
-  </aside>
+  </section>
+
+  <!-- ═══ SAVED VIEW ═══ -->
+  <section id="view-saved" class="view view-list" hidden>
+    <div class="list-header"><h2>Guardados</h2></div>
+    <div id="favorites-list"></div>
+  </section>
+
+  <!-- ═══ OUTINGS VIEW ═══ -->
+  <section id="view-outings" class="view view-list" hidden>
+    <div class="list-header">
+      <h2>Salidas</h2>
+      <button id="new-outing-btn" type="button">＋ Nueva salida</button>
+    </div>
+    <div id="outing-form" class="outing-form" hidden>
+      <h3>Crear salida</h3>
+      <label>Nombre <input type="text" id="outing-name" placeholder="Nombre de la salida"></label>
+      <label>Fecha <input type="date" id="outing-date"></label>
+      <label>Notas <input type="text" id="outing-notes" placeholder="Notas opcionales"></label>
+      <div class="outing-form-actions">
+        <button id="outing-confirm-btn" type="button">Crear</button>
+        <button id="outing-cancel-btn" type="button">Cancelar</button>
+      </div>
+    </div>
+    <div id="outings-list"></div>
+  </section>
+
+  <!-- ═══ PROFILE VIEW ═══ -->
+  <section id="view-profile" class="view view-list" hidden>
+    <div class="list-header"><h2>Perfil</h2></div>
+    <div class="profile-stats">
+      <h3>Mis estadísticas</h3>
+      <div class="stat-cards">
+        <div class="stat-card"><span class="stat-label">Lugares guardados</span><span id="stat-favorites" class="stat-value">0</span></div>
+        <div class="stat-card"><span class="stat-label">Salidas planificadas</span><span id="stat-planned" class="stat-value">0</span></div>
+        <div class="stat-card"><span class="stat-label">Salidas realizadas</span><span id="stat-completed" class="stat-value">0</span></div>
+      </div>
+    </div>
+  </section>
 </main>
-<script src="/vendor/maplibre-gl.js"></script>
-<script src="/app.js"></script>
+
+<!-- ═══ CHOOSER MODAL ═══ -->
+<div id="chooser-overlay" class="chooser-overlay" role="dialog" aria-modal="true" aria-label="Añadir a una salida" hidden>
+  <div class="chooser-dialog">
+    <button id="chooser-close" type="button" class="chooser-close-btn" aria-label="Cerrar">✕</button>
+    <h3>Añadir a una salida</h3>
+    <p id="chooser-no-point" hidden>No has seleccionado ningún punto. Toca el mapa primero.</p>
+    <div id="chooser-content">
+      <label>Elige una salida <select id="chooser-select"></select></label>
+      <div id="chooser-new" hidden>
+        <label>Nombre <input type="text" id="chooser-new-name" placeholder="Nombre de la nueva salida"></label>
+        <label>Fecha <input type="date" id="chooser-new-date"></label>
+      </div>
+      <button id="chooser-ok-btn" type="button">Añadir</button>
+    </div>
+  </div>
+</div>
+
 <footer>
   <span>Basemap: OpenFreeMap</span>
   <span>Datos de puntos de interés: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© contribuidores de OpenStreetMap (ODbL)</a></span>
   <span>AlRaso no ofrece asesoramiento jurídico. La capa legal procede de un corpus verificado; los POIs son solo cartografía.</span>
 </footer>
+<script src="/store.js"></script>
+<script src="/vendor/maplibre-gl.js"></script>
+<script src="/app.js"></script>
 </body>
 </html>
