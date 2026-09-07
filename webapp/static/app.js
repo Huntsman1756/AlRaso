@@ -321,6 +321,18 @@ function render(d) {
 
   renderFacts(d);
 
+  const demInfo = $("dem-info");
+  if (d.dem && typeof d.dem.value_m === "number") {
+    demInfo.hidden = false;
+    demInfo.innerHTML = `Altitud obtenida automáticamente: <b>${d.dem.value_m.toFixed(0)} m</b> · Fuente: ${esc(d.dem.source || "")}${d.dem.product ? ` (${esc(d.dem.product)})` : ""}` +
+      (d.cotaFactSource === "OFFICIAL_DEM" ? " · no hace falta que indiques la altitud" : "");
+    const cota = document.querySelector('[name=cota_m]');
+    if (cota && d.cotaFactSource === "OFFICIAL_DEM") cota.value = d.dem.value_m;
+  } else {
+    demInfo.hidden = true;
+    demInfo.innerHTML = "";
+  }
+
   const cl = $("cond-list");
   cl.innerHTML = "";
   (d.conditions || []).forEach((c) => {
@@ -367,6 +379,9 @@ function render(d) {
     `knowledgeStatus=${d.determination.knowledgeStatus}`,
     `coverage=${d.coverage.status}`,
     `decisionReason=${d.determination.decisionReason || "—"}`,
+    `cotaFactSource=${d.cotaFactSource || "NONE"}`,
+    ...(d.dem ? [`dem=${JSON.stringify(d.dem)}`] : []),
+    ...(d.userVsDem ? [`userVsDem=${JSON.stringify(d.userVsDem)}`] : []),
     ...(d.determination.reasonCodes || []),
     ...(d.conditions || []).map((c) => `condition=${JSON.stringify(c)}`),
   ];

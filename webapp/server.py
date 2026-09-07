@@ -34,6 +34,8 @@ from alraso.ingest.ordesa import ingest_corpus
 from alraso.resolver import Resolver
 from alraso.spatial import InMemorySpatialProvider
 
+import dem  # optional auto-elevation (extra alraso[dem]); fail-closed if absent
+
 WEBAPP = Path(__file__).resolve().parent
 STATIC = WEBAPP / "static"
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -354,6 +356,13 @@ def _seg_dist_m(lat, lon, a_lat, a_lon, b_lat, b_lon) -> float:
     return math.hypot(x - (x1 + t * dx), y - (y1 + t * dy))
 
 
+def _picos_sectors_containing(svc: "Service", lat: float, lon: float) -> list[str]:
+    geo = svc.fx_picos.get("geometry", {})
+    sectors = {sid: geo.get(key, []) for sid, key in _CCAA_SECTOR_KEY.items()}
+    return [sid for sid, rings in sectors.items()
+            if any(_point_in_ring(lat, lon, r) for r in rings)]
+
+
 def jurisdiction_boundary_safe(svc: "Service", lat: float, lon: float) -> bool:
     """Hecho INTERNO, calculado por la app (nunca aportable por query).
 
@@ -362,12 +371,11 @@ def jurisdiction_boundary_safe(svc: "Service", lat: float, lon: float) -> bool:
     (excepción, geometría ausente) -> False.
     """
     try:
-        geo = svc.fx_picos.get("geometry", {})
-        sectors = {sid: geo.get(key, []) for sid, key in _CCAA_SECTOR_KEY.items()}
-        containing = [sid for sid, rings in sectors.items()
-                      if any(_point_in_ring(lat, lon, r) for r in rings)]
+        containing = _picos_sectors_containing(svc, lat, lon)
         if not containing:
             return True  # fuera de todo sector CCAA -> sin conflicto de frontera
+        geo = svc.fx_picos.get("geometry", {})
+        sectors = {sid: geo.get(key, []) for sid, key in _CCAA_SECTOR_KEY.items()}
         for sid in containing:
             for other_sid, rings in sectors.items():
                 if other_sid == sid:
@@ -391,6 +399,30 @@ def resolve_point(svc: Service, *, lat: float, lon: float, activity: str,
     facts = dict(facts)
     boundary_safe = jurisdiction_boundary_safe(svc, lat, lon)
     facts[INTERNAL_BOUNDARY_FACT] = boundary_safe
+
+    # AUTO-ELEVATION (solo ámbito Picos): si el punto está en un sector CCAA de
+    # Picos, se intenta el DEM oficial. DEM produce un FACT_SOURCE (cota_m +
+    # provenance); NUNCA decide legalidad (el resolver evalúa cota_m > 1800).
+    # Política: DEM oficial tiene prioridad cuando está disponible; si difiere
+    # materialmente del valor del usuario, se muestra un warning.
+    user_cota = facts.get("cota_m")
+    dem_info = None
+    user_vs_dem = None
+    cota_fact_source = "USER" if user_cota is not None else "NONE"
+    if _picos_sectors_containing(svc, lat, lon):
+        try:
+            dem_info = dem.sample_elevation(lat, lon)
+        except dem.DemEvidenceIncomplete:
+            dem_info = None
+        if dem_info:
+            facts["cota_m"] = dem_info["value_m"]
+            cota_fact_source = "OFFICIAL_DEM"
+            if user_cota is not None:
+                diff = abs(float(user_cota) - float(dem_info["value_m"]))
+                user_vs_dem = {"USER_COTA_M": float(user_cota),
+                               "DEM_COTA_M": float(dem_info["value_m"]),
+                               "DIFF_M": round(diff, 1)}
+
     query = Query(activity=activity, activity_date=activity_date,
                   knowledge_date=knowledge_date, spatial_scope_id=None,
                   lat=lat, lon=lon, facts=facts)
@@ -415,6 +447,9 @@ def resolve_point(svc: Service, *, lat: float, lon: float, activity: str,
                                    "summary", "norms", "notes")} for r in regions]},
         "sources": svc.sources_for(result),
         "query": result["query"],
+        "cotaFactSource": cota_fact_source,
+        "dem": dem_info,
+        "userVsDem": user_vs_dem,
     }
     if not boundary_safe:
         # La frontera CCAA está en la franja de incertidumbre (<1 km): el
@@ -424,6 +459,11 @@ def resolve_point(svc: Service, *, lat: float, lon: float, activity: str,
             "BOUNDARY_EVIDENCE_INCOMPLETE. Se requiere re-verificación IDE.")
         if "BOUNDARY_EVIDENCE_INCOMPLETE" not in out["determination"]["reasonCodes"]:
             out["determination"]["reasonCodes"].append("BOUNDARY_EVIDENCE_INCOMPLETE")
+    if user_vs_dem and user_vs_dem["DIFF_M"] > 100:
+        out["determination"]["warnings"].append(
+            f"La altitud indicada por el usuario ({user_vs_dem['USER_COTA_M']} m) difiere "
+            f"materialmente del DEM oficial ({user_vs_dem['DEM_COTA_M']} m); se usa el DEM "
+            "oficial (COTA_FACT_SOURCE=OFFICIAL_DEM).")
     return out
 
 
