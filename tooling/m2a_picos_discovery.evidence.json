@@ -175,8 +175,8 @@
   },
   "residue_inside_park_outside_all_ccaa_ha": 0.0
  },
- "probe_points": {
-  "P1_asturias_urriellu": {
+"probe_points": {
+   "P1_asturias_interior": {
    "lon": -4.8686,
    "lat": 43.2662,
    "inside_park": true,

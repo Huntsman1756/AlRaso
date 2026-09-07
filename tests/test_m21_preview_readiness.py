@@ -46,7 +46,9 @@ def test_all_known_codes_have_plain_labels():
     unknown = server.ui_texto("SOMETHING_NEW", "CURRENT", "UNKNOWN", [])
     assert unknown["legal"] == "SOMETHING_NEW"
     assert unknown["headline"] == "SOMETHING_NEW"
-    assert unknown["knowledge"] == "Información normativa verificada para la fecha consultada"
+    # Si no hay corpus (UNKNOWN), la capa de presentación no puede leer el estado
+    # de la información como "verificada", aunque knowledgeStatus=CURRENT internamente.
+    assert unknown["knowledge"] == "No disponemos de información normativa para esta zona"
     assert "al dÍa".casefold() not in server.PLAIN_KNOWLEDGE["CURRENT"].casefold()
 
 

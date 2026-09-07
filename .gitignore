@@ -23,3 +23,13 @@ tooling/m2b_build/
 
 # Build output text (not committed)
 tooling/build_output.txt
+
+# Prepared DEM tile (auto-elevation); never commit the raster
+webapp/data/dem/
+# Orca kit: generated entries
+
+.orca-local/
+
+.orca-tools/
+
+.opencode/node_modules/

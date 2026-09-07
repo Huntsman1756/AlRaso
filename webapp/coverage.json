@@ -56,7 +56,7 @@
     [43.245, -5.120], [43.295, -5.050], [43.310, -4.920], [43.318, -4.800],
     [43.315, -4.720]
    ]]},
-   "summary": "Normativa localizada y verificada en los tres diarios oficiales (regla común art. 51: vivac de montaña solo sobre cota 1.800 m, máx. 3 noches): Castilla y León vigente desde 2026-01-04, Asturias desde 2026-04-19, Cantabria desde 2026-08-24. Las reglas AÚN NO están en el motor y falta DEM oficial para la cota: la determinación punto a punto es UNDETERMINED.",
+   "summary": "Regla común art. 51 (vivac de montaña solo sobre cota 1.800 m, máx. 3 noches) verificada verbatim en los tres decretos y AHORA EN EL MOTOR por CCAA (es-as/es-cb/es-cl), con jurisdicción determinada por intersección del límite OAPN con GISCO NUTS2. La determinación PERMITTED requiere los hechos actividad_montana_o_escalada, noches ≤3 y cota ≥1.800 m. AUTO-ELEVACIÓN vía DEM = C (bloqueado): la cota la aporta el usuario. Fronteras <1 km entre CCAA requieren re-verificación IDE (=B). Puntos sin hechos → UNDETERMINED (fail-closed).",
    "norms": [
     {"title": "Decreto 17/2025, de 11 de diciembre (BOCyL núm. 240, 15-12-2025) — ámbito Castilla y León", "canonical_url": "https://bocyl.jcyl.es/boletin.do?fechaBoletin=15/12/2025", "official_status": "VIGENTE desde 2026-01-04", "verified_at": "2026-09-06"},
     {"title": "Decreto 21/2026, de 16 de marzo (BOPA 30-03-2026, Cód. 2026-02506) — ámbito Asturias", "canonical_url": "https://miprincipado.asturias.es/bopa", "official_status": "VIGENTE desde 2026-04-19 (número de disposición por confirmar: cabecera 30/03 vs INAP 31/03)", "verified_at": "2026-09-06"},
@@ -64,8 +64,11 @@
    ],
    "notes": [
     "Evidencia completa: docs/ALRASO-M2A-PICOS-DISCOVERY.md y tooling/m2a_picos_discovery.evidence.json.",
+    "Fase B incremental: reglas art. 51 + jurisdicción por CCAA en el motor (fixture_picos.json); geometría mínima justificada (límite OAPN simplificado + intersección GISCO NUTS2).",
+    "DEM (auto-elevación cota) = C: PERMITTED de art. 51 exige cota_m aportada por el usuario; sin DEM oficial no se auto-completa.",
+    "Fronteras <1 km entre CCAA: re-verificación IDE pendiente (=B); puntos exactamente sobre frontera → UNDETERMINED.",
     "Histórico anterior a 2026: cadena jurídica RD 384/2002 no probada -> UNDETERMINED.",
-    "Puntos a <1 km de fronteras entre CCAA: sin verificación IDE -> sin afirmación."
+    "Puntos sin hechos (cota/noches/actividad) → UNDETERMINED, nunca PERMITTED (fail-closed)."
    ]
   }
  ]

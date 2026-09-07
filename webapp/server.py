@@ -114,7 +114,14 @@ def ui_texto(legal: str, knowledge: str, coverage: str, conditions: list) -> dic
         headline = "Solo con autorización previa"
     else:
         headline = legal
-    knowledge_plain = PLAIN_KNOWLEDGE.get(knowledge, knowledge)
+    # Capa de presentación contextualiza ambos ejes. Si no hay corpus (UNKNOWN),
+    # el eje de "estado de la información" no puede leerse como "verificada",
+    # aunque internamente knowledgeStatus=CURRENT venga del resolver. El código
+    # canónico (determination.knowledgeStatus) NO cambia; solo se ajusta el plain.
+    if coverage == "UNKNOWN":
+        knowledge_plain = "No disponemos de información normativa para esta zona"
+    else:
+        knowledge_plain = PLAIN_KNOWLEDGE.get(knowledge, knowledge)
     return {
         "headline": headline,
         "legal": PLAIN_LEGAL.get(legal, legal),
@@ -365,8 +372,7 @@ def jurisdiction_boundary_safe(svc: "Service", lat: float, lon: float) -> bool:
 
         containing = _picos_sectors_containing(svc, lat, lon)
         if not containing:
-            return True  # fuera de todo sector CCAA (dentro del parque pero
-                         # en un gap — el motor fallará cerrado por ENGINE_MISSING_INPUT)
+            return False  # dentro del parque pero en un gap (GAP)
 
         # Zona de incertidumbre precalculada (raycast)
         zone_rings = svc.fx_picos.get("geometry", {}).get("boundary_uncertainty")
@@ -378,9 +384,6 @@ def jurisdiction_boundary_safe(svc: "Service", lat: float, lon: float) -> bool:
             return False  # fall-closed: no puede decidir entre jurisdicciones
 
         return True  # exactamente 1 sector, fuera de la zona de incertidumbre
-    except Exception:  # noqa: BLE001 - fail-closed, nunca un permiso por duda
-        return False
-        return True
     except Exception:  # noqa: BLE001 - fail-closed, nunca un permiso por duda
         return False
 

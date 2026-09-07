@@ -25,7 +25,6 @@
   <label><input type="checkbox" id="lg-shelter" checked> 🛖 Abrigos</label>
   <label><input type="checkbox" id="lg-water" checked> 💧 Agua</label>
   <label><input type="checkbox" id="lg-camping" checked> ⛺ Campings</label>
-  <label><input type="checkbox" id="lg-protected" checked> 🌲 Referencias OSM: espacios protegidos</label>
   <label><input type="checkbox" id="lg-coverage" checked> 🗺️ Cobertura legal</label>
 </div>
 <p id="searchmsg" role="status" aria-live="polite"></p>
@@ -69,6 +68,7 @@
           <option value="PERNOCTA_REFUGIO">Pernocta en refugio</option>
         </select>
         <label>Fecha de la actividad <input type="date" id="date"></label>
+        <p id="dem-info" class="dem-info" hidden></p>
         <div id="factbox"></div>
       </section>
       <section id="condiciones"><h3>Condiciones evaluadas</h3><ul id="cond-list"></ul></section>

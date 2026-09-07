@@ -82,8 +82,14 @@ def test_parse_params_fail_closed_on_garbage():
         with pytest.raises(server.BadRequest):
             server.parse_resolve_params(bad)
     ok = server.parse_resolve_params({"lat": "1.5", "lon": "2.5", "nights": "3",
-                                      "refuge_capacity_full": "true"})
-    assert ok["facts"] == {"nights": 3, "refuge_capacity_full": True}
+                                      "refuge_capacity_full": "true",
+                                      "actividad_montana_o_escalada": "true",
+                                      "cota_m": "2400"})
+    assert ok["facts"] == {"nights": 3, "refuge_capacity_full": True,
+                           "actividad_montana_o_escalada": True, "cota_m": 2400}
+    with pytest.raises(server.BadRequest):
+        server.parse_resolve_params({"lat": "1.5", "lon": "2.5",
+                                     "actividad_montana_o_escalada": "1"})
 
 
 def test_bool_facts_accept_only_canonical_spellings():
@@ -285,12 +291,66 @@ def test_protected_area_is_osm_reference_not_legal_layer():
             assert "No determina el ámbito jurídico" in f["note"], f["id"]
             assert "prohibición automática" in f["note"], f["id"]
             assert f["source_ref"].startswith("relation/"), f["id"]
-    # La UI no debe presentar espacios protegidos junto a las capas legales.
-    html = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
-    assert "Referencias OSM: espacios protegidos" in html
+    # protected_area queda en provenance pero NO se renderiza ni es interactivo.
     js = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
-    assert "Referencia OSM: espacio natural protegido" in js
+    assert "poi-circles-protected_area" not in js, "no se renderiza como capa POI"
+    assert "lg-protected" not in js, "no hay toggle de espacios protegidos"
+    assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in js
+    html = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
+    assert "lg-protected" not in html, "no hay checkbox de espacios protegidos"
     assert "/api/coverage" in js and "/api/pois" in js
+
+
+def test_find_excludes_protected_area(svc):
+    # El espacio protegido no es un destino interactivo: no debe aparecer en la busqueda.
+    assert server.find_query(svc, "Parque Nacional de Ordesa")["kind"] == "none"
+    assert server.find_query(svc, "Parque Nacional de Picos")["kind"] == "none"
+
+
+def test_unknown_coverage_knowledge_copy(svc):
+    out = server.resolve_point(svc, lat=41.9, lon=-2.4, activity="VIVAC_AL_RASO",
+                               activity_date=TODAY, knowledge_date=TODAY, facts={})
+    assert out["coverage"]["status"] == "UNKNOWN"
+    assert out["determination"]["knowledgeStatus"] == "CURRENT"  # canonico intacto
+    assert out["ui"]["knowledge"] == "No disponemos de información normativa para esta zona"
+
+
+def test_picos_product_is_jurisdiction_aware(svc):
+    # P1 interior Asturias (es-as) con hechos -> PERMITTED por art. 51; cobertura PARTIAL (DEM=C).
+    out = server.resolve_point(svc, lat=43.2662, lon=-4.8686, activity="VIVAC_AL_RASO",
+                               activity_date=TODAY, knowledge_date=TODAY,
+                               facts={"actividad_montana_o_escalada": True,
+                                      "nights": 2, "cota_m": 2400})
+    assert out["determination"]["legalStatus"] == "PERMITTED"
+    assert out["coverage"]["status"] == "PARTIAL"
+    assert any(r["scope_id"] == "ss-pnpe-es-as" for r in out["applicableScope"])
+
+
+def test_picos_product_without_facts_never_permitted(svc):
+    out = server.resolve_point(svc, lat=43.2662, lon=-4.8686, activity="VIVAC_AL_RASO",
+                               activity_date=TODAY, knowledge_date=TODAY, facts={})
+    assert out["determination"]["legalStatus"] == "UNDETERMINED"
+    assert "ENGINE_MISSING_INPUT" in out["determination"]["reasonCodes"]
+
+
+def test_picos_boundary_guard_fails_closed(svc):
+    # P4a: 300 m de la frontera ES13|ES12. La app calcula boundary_safe=False
+    # (hecho interno) -> la regla no sostiene PERMITTED -> UNDETERMINED + motivo.
+    out = server.resolve_point(svc, lat=43.25005, lon=-4.72339, activity="VIVAC_AL_RASO",
+                               activity_date=TODAY, knowledge_date=TODAY,
+                               facts={"actividad_montana_o_escalada": True,
+                                      "nights": 2, "cota_m": 2400})
+    assert out["determination"]["legalStatus"] == "UNDETERMINED"
+    assert "BOUNDARY_EVIDENCE_INCOMPLETE" in out["determination"]["reasonCodes"]
+    assert any("BOUNDARY_EVIDENCE_INCOMPLETE" in w for w in out["determination"]["warnings"])
+
+
+def test_internal_fact_not_accept_from_query():
+    # El guard de frontera es un hecho interno calculado por la app: no puede
+    # falsearse desde la URL (no está en ALLOWED_FACT_KEYS).
+    params = server.parse_resolve_params({"lat": "43.2662", "lon": "-4.8686",
+                                          "jurisdiction_boundary_safe": "true"})
+    assert "jurisdiction_boundary_safe" not in params["facts"]
 
 
 def test_pois_do_not_change_resolution(svc):
