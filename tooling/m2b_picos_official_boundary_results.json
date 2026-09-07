@@ -1,0 +1,104 @@
+{
+  "HIGH_POINTS_TESTED": 769,
+  "TOTAL_IN_PARK_POINTS": 4584,
+  "OLD_BLOCKED (GISCO_GUARD)": 361,
+  "GISCO_GUARD_BLOCKED_TOTAL": 918,
+  "NEW_BLOCKED (OFFICIAL_GUARD_ZONE)": 110,
+  "NEW_SAFE": 4474,
+  "NEWLY_RESOLVABLE": 710,
+  "NEWLY_RESOLVABLE_PCT": 92.33,
+  "DISAGREEMENT_POINTS": 0,
+  "GAP_POINTS": 0,
+  "OVERLAP_POINTS": 0,
+  "TOPOLOGY_OVERLAP_M2": 0.0,
+  "TOPOLOGY_GAP_M2": 41.23,
+  "OFFICIAL_COVERAGE_PCT": 100.0,
+  "ASTURIAS": 241,
+  "CANTABRIA": 193,
+  "CASTILLA_Y_LEON": 276,
+  "matched_ccaa": {
+    "es-as": "Principado de Asturias",
+    "es-cb": "Cantabria",
+    "es-cl": "Castilla y León"
+  },
+  "match_method": "au:name exact",
+  "match_fallback_used": {
+    "es-as": false,
+    "es-cb": false,
+    "es-cl": false
+  },
+  "official_sectors_summary": {
+    "es-as": {
+      "n_rings": 15,
+      "n_points": 1101
+    },
+    "es-cb": {
+      "n_rings": 6,
+      "n_points": 840
+    },
+    "es-cl": {
+      "n_rings": 10,
+      "n_points": 603
+    }
+  },
+  "probe_results": {
+    "P1_asturias_interior": {
+      "lat": 43.2662,
+      "lon": -4.8686,
+      "inside_park": true,
+      "elev_m": 1510.0,
+      "description": "Asturias interior",
+      "gisco_jurisdiction": "es-as",
+      "official_jurisdiction": "es-as",
+      "in_uncertainty_zone": false,
+      "new_verdict": "PERMITTED_es-as"
+    },
+    "P2_cantabria_interior": {
+      "lat": 43.17068,
+      "lon": -4.80299,
+      "inside_park": true,
+      "elev_m": 1942.0,
+      "description": "Cantabria interior",
+      "gisco_jurisdiction": "es-cb",
+      "official_jurisdiction": "es-cb",
+      "in_uncertainty_zone": false,
+      "new_verdict": "PERMITTED_es-cb"
+    },
+    "P3_cyl_interior": {
+      "lat": 43.1278,
+      "lon": -4.9381,
+      "inside_park": true,
+      "elev_m": 1390.0,
+      "description": "Castilla y Leon interior",
+      "gisco_jurisdiction": "es-cl",
+      "official_jurisdiction": "es-cl",
+      "in_uncertainty_zone": false,
+      "new_verdict": "PERMITTED_es-cl"
+    },
+    "P4a_boundary": {
+      "lat": 43.25005,
+      "lon": -4.72339,
+      "inside_park": true,
+      "elev_m": 1166.0,
+      "description": "Near ES13|ES12 border",
+      "gisco_jurisdiction": "es-cb",
+      "official_jurisdiction": "es-cb",
+      "in_uncertainty_zone": false,
+      "new_verdict": "PERMITTED_es-cb"
+    },
+    "ORCH_HIGH_BOUNDARY_SAFE": {
+      "lat": 43.202151,
+      "lon": -4.836656,
+      "inside_park": true,
+      "elev_m": 2416.0,
+      "description": "High altitude boundary-safe point",
+      "gisco_jurisdiction": "es-as",
+      "official_jurisdiction": "es-as",
+      "in_uncertainty_zone": false,
+      "new_verdict": "PERMITTED_es-as"
+    }
+  },
+  "boundary_guard_m": 100,
+  "boundary_guard_basis": "VERIFIED_OFFICIAL_DOC",
+  "fixture_sha256": "97c90e9b3327cd1875bb59d66455903a26a2793526cc138d690dbca137d7d086"
+}

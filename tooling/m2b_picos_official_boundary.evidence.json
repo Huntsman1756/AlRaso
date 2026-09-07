@@ -1,0 +1,115 @@
+{
+  "source_authority": "IGN/CNIG",
+  "source_product": "BDDAE/INSPIRE (Límites municipales, provinciales y autonómicos)",
+  "canonical_page": "https://centrodedescargas.cnig.es/CentroDescargas/limites-municipales-provinciales-autonomicos",
+  "acquisition": "CNIG_ATOM_MANUAL_DURING_UPSTREAM_INCIDENT",
+  "source_filename": "lineas_limite_gml.zip",
+  "file_sha256": "5bd73c530af995c05da8d9ff4e3d293f62d0dc91c5e48ee773fe881716c108a6",
+  "inspire_dump_timestamp": "2026-08-10T13:04:13Z",
+  "crs": "EPSG:4258",
+  "license": "CC-BY-4.0 (Orden FOM/2807/2015 framework)",
+  "match_policy": "au:name_exact",
+  "fallback_match": "NONE",
+  "boundary_guard_m": 100,
+  "boundary_guard_basis": "VERIFIED_OFFICIAL_DOC",
+  "boundary_guard_source": "CNIG product page (canonical URL) — verbatim ~40 m uncertainty statement, scale 1:25000, worst case (provisional tramos)",
+  "boundary_guard_evidence": {
+    "quote": "Registro Central de Cartografía (RCC): actas de línea límite, resoluciones administrativas, sentencias judiciales. Algunos tramos de líneas pueden ser 'provisionales' al carecer de título jurídico que avale su geometría. Estas geometrías tienen una incertidumbre de unos 40 m, consecuencia de las precisiones de las mediciones de la época del levantamiento, trazados sobre el mapa y la posterior digitalización, con excepción de aquellas líneas en las que se han desarrollado una serie de trabajos técnicos y administrativos que han permitido la inscripción de una geometría más precisa.",
+    "url": "https://centrodedescargas.cnig.es/CentroDescargas/limites-municipales-provinciales-autonomicos",
+    "accessed_at": "2026-09-07",
+    "note": "captured 2026-09-07 during implementation; re-verify attempt logged"
+  },
+  "upstream_incident": {
+    "note": "WFS/S3 incident — RequestIds: NA3W99M2360E2BH4, G81RFSCTGT4ZTCE4, 4M4JJH4MJMCE4M4J, 4M4ZGV3HRTE80ZKR (provenance only, runtime does not depend on it)"
+  },
+  "crs_notes": "EPSG:4258 (ETRS89 geographic), GML posList axis order = lat,lon",
+  "extraction_params": {
+    "gml_files": [
+      "au_AdministrativeUnit_2ndOrder0.gml",
+      "au_AdministrativeBoundary_2ndOrder0.gml"
+    ],
+    "grid_step_deg": 0.004,
+    "dem_resolution_m": 25.0,
+    "bands_tested_m": [
+      50,
+      100,
+      250
+    ],
+    "gisco_guard_m": 1000
+  },
+  "license_statement": "reuse terms VERIFIED via IGN/CNIG CC-BY-4.0 licensing framework",
+  "matched_ccaa": {
+    "es-as": "Principado de Asturias",
+    "es-cb": "Cantabria",
+    "es-cl": "Castilla y León"
+  },
+  "match_fallback_used": {
+    "es-as": false,
+    "es-cb": false,
+    "es-cl": false
+  },
+  "tooling_artifact_digests": {
+    "fixture_picos_json": "97c90e9b3327cd1875bb59d66455903a26a2793526cc138d690dbca137d7d086",
+    "dem_tif": "e8bcad011706b67d866d7baff33b5385380d4e7f382c5e1aa637a2a3797feac7",
+    "zip_file": "5bd73c530af995c05da8d9ff4e3d293f62d0dc91c5e48ee773fe881716c108a6",
+    "script_py": "18ec2074001adc889d78c5c4853764082bc777aab6777d2f7678d159d93fdee3"
+  },
+  "probe_results": {
+    "P1_asturias_interior": {
+      "lat": 43.2662,
+      "lon": -4.8686,
+      "inside_park": true,
+      "elev_m": 1510.0,
+      "description": "Asturias interior",
+      "gisco_jurisdiction": "es-as",
+      "official_jurisdiction": "es-as",
+      "in_uncertainty_zone": false,
+      "new_verdict": "PERMITTED_es-as"
+    },
+    "P2_cantabria_interior": {
+      "lat": 43.17068,
+      "lon": -4.80299,
+      "inside_park": true,
+      "elev_m": 1942.0,
+      "description": "Cantabria interior",
+      "gisco_jurisdiction": "es-cb",
+      "official_jurisdiction": "es-cb",
+      "in_uncertainty_zone": false,
+      "new_verdict": "PERMITTED_es-cb"
+    },
+    "P3_cyl_interior": {
+      "lat": 43.1278,
+      "lon": -4.9381,
+      "inside_park": true,
+      "elev_m": 1390.0,
+      "description": "Castilla y Leon interior",
+      "gisco_jurisdiction": "es-cl",
+      "official_jurisdiction": "es-cl",
+      "in_uncertainty_zone": false,
+      "new_verdict": "PERMITTED_es-cl"
+    },
+    "P4a_boundary": {
+      "lat": 43.25005,
+      "lon": -4.72339,
+      "inside_park": true,
+      "elev_m": 1166.0,
+      "description": "Near ES13|ES12 border",
+      "gisco_jurisdiction": "es-cb",
+      "official_jurisdiction": "es-cb",
+      "in_uncertainty_zone": false,
+      "new_verdict": "PERMITTED_es-cb"
+    },
+    "ORCH_HIGH_BOUNDARY_SAFE": {
+      "lat": 43.202151,
+      "lon": -4.836656,
+      "inside_park": true,
+      "elev_m": 2416.0,
+      "description": "High altitude boundary-safe point",
+      "gisco_jurisdiction": "es-as",
+      "official_jurisdiction": "es-as",
+      "in_uncertainty_zone": false,
+      "new_verdict": "PERMITTED_es-as"
+    }
+  },
+  "tool_name": "m2b_picos_build_official_fixture.py"
+}

@@ -1,4 +1,4 @@
-"""M2 product vertical slice: map -> click -> resolver -> card. Stdlib only.
+﻿"""M2 product vertical slice: map -> click -> resolver -> card. Stdlib only.
 
 Run from a checkout:  python webapp/server.py [--host 127.0.0.1] [--port 8765]
 
@@ -33,6 +33,11 @@ from alraso.domain import Query
 from alraso.ingest.ordesa import ingest_corpus
 from alraso.resolver import Resolver
 from alraso.spatial import InMemorySpatialProvider
+
+try:
+    import dem  # optional auto-elevation (extra alraso[dem]); fail-closed if absent
+except ImportError:
+    dem = None  # type: ignore[assignment]
 
 WEBAPP = Path(__file__).resolve().parent
 STATIC = WEBAPP / "static"
@@ -109,10 +114,11 @@ def ui_texto(legal: str, knowledge: str, coverage: str, conditions: list) -> dic
         headline = "Solo con autorización previa"
     else:
         headline = legal
+    knowledge_plain = PLAIN_KNOWLEDGE.get(knowledge, knowledge)
     return {
         "headline": headline,
         "legal": PLAIN_LEGAL.get(legal, legal),
-        "knowledge": PLAIN_KNOWLEDGE.get(knowledge, knowledge),
+        "knowledge": knowledge_plain,
         "coverage": PLAIN_COVERAGE.get(coverage, coverage),
     }
 
@@ -155,8 +161,10 @@ def find_query(svc: "Service", text: str) -> dict:
     # Sin coincidencia en la lista curada, se consultan los POIs observacionales.
     # Son solo cartografia (OSM): su aparicion en la busqueda mueve el mapa pero
     # NUNCA suministra hechos al resolver. Se marca kind=poi + source para que la
-    # UI no los trate como un lugar curado.
-    poi_matches = [p for p in svc.pois if needle in _norm_name(p["name"])]
+    # UI no los trate como un lugar curado. protected_area NO se busca (no es un
+    # destino interactivo).
+    poi_matches = [p for p in svc.pois
+                   if p["category"] != "protected_area" and needle in _norm_name(p["name"])]
     if len(poi_matches) == 1:
         p = poi_matches[0]
         return {"kind": "poi", "source": p.get("source", "openstreetmap"),
@@ -192,7 +200,7 @@ def _strict_bool(v: str):
 
 
 def _coerce_fact(key: str, raw: str):
-    if key == "refuge_capacity_full":
+    if key in {"refuge_capacity_full", "actividad_montana_o_escalada"}:
         return _strict_bool(raw)
     if key in {"nights", "noches", "cota_m"}:
         try:
@@ -208,6 +216,24 @@ def _fixture_rings(fx: dict) -> list[list[tuple[float, float]]]:
             for ring in fx["geometry"]["rings_latlon"]]
 
 
+# Picos Phase B: el fixture tiene varios scopes, cada uno con su geometria bajo
+# "geometry[<clave>]". Mapea scope_id -> clave de geometria (unica por scope).
+_PICOS_GEOM_KEY = {
+    "ss-pnpe-limits": "park",
+    "ss-pnpe-es-as": "es-as",
+    "ss-pnpe-es-cb": "es-cb",
+    "ss-pnpe-es-cl": "es-cl",
+}
+
+
+def _picos_scope_rings(fx: dict, scope_id: str) -> list[list[tuple[float, float]]]:
+    key = _PICOS_GEOM_KEY.get(scope_id)
+    rings = fx.get("geometry", {}).get(key) if key else None
+    if not rings:
+        return []
+    return [[(float(lat), float(lon)) for lat, lon in ring] for ring in rings]
+
+
 class Service:
     """Fixtures and coverage are loaded once; the sqlite-backed resolver is
     per-thread (sqlite3 forbids cross-thread use; ThreadingHTTPServer would
@@ -216,9 +242,10 @@ class Service:
     def __init__(self) -> None:
         self.fx_goriz = _load_fixture("fixture_goriz.json")
         self.fx_ordesa = _load_fixture("fixture_ordesa.json")
+        self.fx_picos = _load_fixture("fixture_picos.json")
         self._local = threading.local()
         self.docs: dict[str, dict] = {}
-        for fx in (self.fx_ordesa, self.fx_goriz):
+        for fx in (self.fx_ordesa, self.fx_goriz, self.fx_picos):
             for d in fx.get("source_documents", []):
                 self.docs[d["id"]] = d
         self.coverage = json.loads((WEBAPP / "coverage.json").read_text(encoding="utf-8"))
@@ -228,10 +255,11 @@ class Service:
         pois_doc = json.loads((WEBAPP / "pois.json").read_text(encoding="utf-8"))
         # POIs se guardan completos (categoria, altitud, fuente, nota) para la capa
         # observacional. NUNCA entran en el resolver: son cartografia, no derecho.
+        # protected_area queda en el snapshot/provenance pero NO es interactivo.
         self.pois = list(pois_doc["features"])
         self.searchable = (self.places +
                            [{k: p[k] for k in ("id", "name", "lat", "lon", "note")}
-                            for p in self.pois])
+                            for p in self.pois if p["category"] != "protected_area"])
         self.cov_provider = InMemorySpatialProvider()
         self.regions_by_id: dict[str, dict] = {}
         for region in self.coverage["regions"]:
@@ -251,10 +279,16 @@ class Service:
             store = BitemporalStore.connect(":memory:")
             ingest_corpus(store, self.fx_ordesa)
             ingest_corpus(store, self.fx_goriz)
+            ingest_corpus(store, self.fx_picos)
             provider = InMemorySpatialProvider()
             scope = self.fx_goriz["spatial_scopes"][0]
             provider.add_scope(scope["id"], scope["official_name"], scope["scope_type"],
                                _fixture_rings(self.fx_goriz))
+            # Picos: varios scopes (parque = contexto; CCAA = regulatorio) con geometria propia.
+            for sc in self.fx_picos["spatial_scopes"]:
+                rings = _picos_scope_rings(self.fx_picos, sc["id"])
+                if rings:
+                    provider.add_scope(sc["id"], sc["official_name"], sc["scope_type"], rings)
             resolver = Resolver(store, spatial=provider)
             self._local.resolver = resolver
         return resolver
@@ -281,15 +315,118 @@ class Service:
         return out
 
 
+INTERNAL_BOUNDARY_FACT = "jurisdiction_boundary_safe"
+_CCAA_SECTOR_KEY = {
+    "ss-pnpe-es-as": "es-as",
+    "ss-pnpe-es-cb": "es-cb",
+    "ss-pnpe-es-cl": "es-cl",
+}
+
+
+def _point_in_ring(lat: float, lon: float, ring: list[tuple[float, float]]) -> bool:
+    inside = False
+    n = len(ring)
+    j = n - 1
+    for i in range(n):
+        yi, xi = ring[i]
+        yj, xj = ring[j]
+        if ((yi > lat) != (yj > lat)) and (lon < (xj - xi) * (lat - yi) / (yj - yi) + xi):
+            inside = not inside
+        j = i
+    return inside
+
+
+def _picos_sectors_containing(svc: "Service", lat: float, lon: float) -> list[str]:
+    geo = svc.fx_picos.get("geometry", {})
+    sectors = {sid: geo.get(key, []) for sid, key in _CCAA_SECTOR_KEY.items()}
+    return [sid for sid, rings in sectors.items()
+            if any(_point_in_ring(lat, lon, r) for r in rings)]
+
+
+def jurisdiction_boundary_safe(svc: "Service", lat: float, lon: float) -> bool:
+    """Hecho INTERNO, calculado por la app (nunca aportable por query).
+
+    Usa zonas precalculadas del fixture (raycast sobre anillos). Fail-closed:
+    ante cualquier duda (excepción, geometría ausente) -> False.
+
+    - fuera de parque: True (sin conflicto de frontera)
+    - dentro del parque, en zona de incertidumbre precomputada: False
+    - dentro del parque, fuera de la zona: True si un solo sector CCAA contiene
+      el punto; False si >=2 sectores (solapamiento)
+    - dentro del parque, en 0 sectores: False (GAP — el motor fallará cerrado)
+    """
+    try:
+        park_ring = svc.fx_picos.get("geometry", {}).get("park")
+        if not park_ring:
+            return False  # fixture incompleto
+        # Punto fuera del parque: no hay conflicto de frontera CCAA
+        if not any(_point_in_ring(lat, lon, r) for r in park_ring):
+            return True
+
+        containing = _picos_sectors_containing(svc, lat, lon)
+        if not containing:
+            return True  # fuera de todo sector CCAA (dentro del parque pero
+                         # en un gap — el motor fallará cerrado por ENGINE_MISSING_INPUT)
+
+        # Zona de incertidumbre precalculada (raycast)
+        zone_rings = svc.fx_picos.get("geometry", {}).get("boundary_uncertainty")
+        if zone_rings and any(_point_in_ring(lat, lon, r) for r in zone_rings):
+            return False  # dentro de la franja de incertidumbre oficial (100m)
+
+        # >=2 sectores: solapamiento no resuelto
+        if len(containing) >= 2:
+            return False  # fall-closed: no puede decidir entre jurisdicciones
+
+        return True  # exactamente 1 sector, fuera de la zona de incertidumbre
+    except Exception:  # noqa: BLE001 - fail-closed, nunca un permiso por duda
+        return False
+        return True
+    except Exception:  # noqa: BLE001 - fail-closed, nunca un permiso por duda
+        return False
+
+
 def resolve_point(svc: Service, *, lat: float, lon: float, activity: str,
                   activity_date: str, knowledge_date: str, facts: dict) -> dict:
+    # Hecho INTERNO de seguridad de frontera: la app lo calcula y lo inyecta.
+    # Nunca se acepta por query; si la app no lo calcula, el resolver falla
+    # cerrado (ENGINE_MISSING_INPUT) -> un permiso no puede escapar al guard.
+    facts = dict(facts)
+    boundary_safe = jurisdiction_boundary_safe(svc, lat, lon)
+    facts[INTERNAL_BOUNDARY_FACT] = boundary_safe
+
+    # AUTO-ELEVATION (solo ámbito Picos): si el punto está en un sector CCAA de
+    # Picos, se intenta el DEM oficial. DEM produce un FACT_SOURCE (cota_m +
+    # provenance); NUNCA decide legalidad (el resolver evalúa cota_m > 1800).
+    # Política: DEM oficial tiene prioridad cuando está disponible; si difiere
+    # materialmente del valor del usuario, se muestra un warning.
+    user_cota = facts.get("cota_m")
+    dem_info = None
+    user_vs_dem = None
+    cota_fact_source = "USER" if user_cota is not None else "NONE"
+    if _picos_sectors_containing(svc, lat, lon):
+        try:
+            if dem is not None:
+                dem_info = dem.sample_elevation(lat, lon)
+            else:
+                raise Exception("dem module not available")  # DEM_EVIDENCE_INCOMPLETE
+        except Exception:
+            dem_info = None
+        if dem_info:
+            facts["cota_m"] = dem_info["value_m"]
+            cota_fact_source = "OFFICIAL_DEM"
+            if user_cota is not None:
+                diff = abs(float(user_cota) - float(dem_info["value_m"]))
+                user_vs_dem = {"USER_COTA_M": float(user_cota),
+                               "DEM_COTA_M": float(dem_info["value_m"]),
+                               "DIFF_M": round(diff, 1)}
+
     query = Query(activity=activity, activity_date=activity_date,
                   knowledge_date=knowledge_date, spatial_scope_id=None,
                   lat=lat, lon=lon, facts=facts)
     result = svc.resolver.resolve(query).to_dict()
     regions = svc.coverage_for_point(lat, lon)
     coverage_status = regions[0]["coverage"] if regions else "UNKNOWN"
-    return {
+    out = {
         "determination": {
             "legalStatus": result["legalStatus"],
             "knowledgeStatus": result["knowledgeStatus"],
@@ -307,7 +444,24 @@ def resolve_point(svc: Service, *, lat: float, lon: float, activity: str,
                                    "summary", "norms", "notes")} for r in regions]},
         "sources": svc.sources_for(result),
         "query": result["query"],
+        "cotaFactSource": cota_fact_source,
+        "dem": dem_info,
+        "userVsDem": user_vs_dem,
     }
+    if not boundary_safe:
+        # La frontera CCAA está en la franja de incertidumbre (100 m): el
+        # PERMITTED no puede sostenerse sin re-verificación IDE.
+        out["determination"]["warnings"].append(
+            "Punto dentro de la zona de incertidumbre de frontera CCAA (100 m): "
+            "BOUNDARY_EVIDENCE_INCOMPLETE. Se requiere re-verificación IDE.")
+        if "BOUNDARY_EVIDENCE_INCOMPLETE" not in out["determination"]["reasonCodes"]:
+            out["determination"]["reasonCodes"].append("BOUNDARY_EVIDENCE_INCOMPLETE")
+    if user_vs_dem and user_vs_dem["DIFF_M"] > 100:
+        out["determination"]["warnings"].append(
+            f"La altitud indicada por el usuario ({user_vs_dem['USER_COTA_M']} m) difiere "
+            f"materialmente del DEM oficial ({user_vs_dem['DEM_COTA_M']} m); se usa el DEM "
+            "oficial (COTA_FACT_SOURCE=OFFICIAL_DEM).")
+    return out
 
 
 def parse_resolve_params(params: dict) -> dict:
