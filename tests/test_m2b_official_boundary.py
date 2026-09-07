@@ -586,7 +586,48 @@ class TestHFlipDisagreement:
             assert "dist_to_official_border_m" in pt
 
 
-# ── Git diff assertion (allowed files only) ────────────────────────────────
+# ── Digest coherence (structural guarantee) ──────────────────────────────
+
+
+def test_digest_coherence():
+    """SHA256 digests must be identical across fixture, evidence lock, and results.json.
+
+    This test makes digest staleness structurally impossible: if any file is
+    changed without updating its counterparts, this test fails.
+    """
+    fixture_bytes = FIXTURE.read_bytes()
+    actual_fixture_sha = hashlib.sha256(fixture_bytes).hexdigest()
+
+    with open(EVIDENCE_JSON, encoding="utf-8") as f:
+        evidence_data = json.load(f)
+    digests = evidence_data["tooling_artifact_digests"]
+
+    with open(RESULTS_JSON, encoding="utf-8") as f:
+        results_data = json.load(f)
+
+    # (a) fixture digest consistency: actual == evidence == results
+    assert digests["fixture_picos_json"] == actual_fixture_sha, (
+        f"Evidence fixture digest mismatch: evidence={digests['fixture_picos_json']}, "
+        f"actual={actual_fixture_sha}"
+    )
+    assert results_data["fixture_sha256"] == actual_fixture_sha, (
+        f"Results fixture_sha256 mismatch: results={results_data['fixture_sha256']}, "
+        f"actual={actual_fixture_sha}"
+    )
+
+    # (b) results_json digest consistency: actual == evidence
+    results_bytes = RESULTS_JSON.read_bytes()
+    actual_results_sha = hashlib.sha256(results_bytes).hexdigest()
+    assert digests["results_json"] == actual_results_sha, (
+        f"Evidence results_json digest mismatch: evidence={digests['results_json']}, "
+        f"actual={actual_results_sha}"
+    )
+
+    # (c) NOTICE.md contains the fixture digest string
+    notice_text = (ROOT / "NOTICE.md").read_text(encoding="utf-8")
+    assert actual_fixture_sha in notice_text, (
+        f"Fixture SHA {actual_fixture_sha} not found in NOTICE.md"
+    )
 
 
 def test_git_diff_vs_main_only_allowed_files():

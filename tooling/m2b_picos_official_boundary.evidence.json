@@ -49,10 +49,11 @@
     "es-cl": false
   },
   "tooling_artifact_digests": {
-    "fixture_picos_json": "9bcd2cbe62d1870d3863ad90cdc7f26272b5f21db10258992a87262f4b52a190",
+    "fixture_picos_json": "f3b8f5dcf527180b0bc31ba10ea488261d0ddb45bcd8b4310f5a6f6c49c82df7",
+    "results_json": "857aed43f6f7848233dded762a31eb91de6088db4e09ed3700313f5f165944c1",
     "dem_tif": "e8bcad011706b67d866d7baff33b5385380d4e7f382c5e1aa637a2a3797feac7",
     "zip_file": "5bd73c530af995c05da8d9ff4e3d293f62d0dc91c5e48ee773fe881716c108a6",
-    "script_py": "edca7c198887238500781479beb94c06a69915e644145446f15443e86f72cf9b"
+    "script_py": "1ee3fb11c0d941120a1c0aa715766dd38da138883f762cc38062e453102cb0bd"
   },
   "probe_results": {
     "P1_asturias_interior": {
