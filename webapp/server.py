@@ -1,4 +1,4 @@
-"""M2 product vertical slice: map -> click -> resolver -> card. Stdlib only.
+﻿"""M2 product vertical slice: map -> click -> resolver -> card. Stdlib only.
 
 Run from a checkout:  python webapp/server.py [--host 127.0.0.1] [--port 8765]
 
@@ -34,7 +34,10 @@ from alraso.ingest.ordesa import ingest_corpus
 from alraso.resolver import Resolver
 from alraso.spatial import InMemorySpatialProvider
 
-import dem  # optional auto-elevation (extra alraso[dem]); fail-closed if absent
+try:
+    import dem  # optional auto-elevation (extra alraso[dem]); fail-closed if absent
+except ImportError:
+    dem = None  # type: ignore[assignment]
 
 WEBAPP = Path(__file__).resolve().parent
 STATIC = WEBAPP / "static"
@@ -325,7 +328,6 @@ _CCAA_SECTOR_KEY = {
     "ss-pnpe-es-cb": "es-cb",
     "ss-pnpe-es-cl": "es-cl",
 }
-_BOUNDARY_UNCERTAINTY_M = 1000.0
 
 
 def _point_in_ring(lat: float, lon: float, ring: list[tuple[float, float]]) -> bool:
@@ -341,21 +343,6 @@ def _point_in_ring(lat: float, lon: float, ring: list[tuple[float, float]]) -> b
     return inside
 
 
-def _seg_dist_m(lat, lon, a_lat, a_lon, b_lat, b_lon) -> float:
-    """Distancia (m) punto->segmento, proyección equirectangular local."""
-    R = 6371000.0
-    kx = math.cos(math.radians(lat)) * R
-    x, y = math.radians(lon) * kx, math.radians(lat) * R
-    x1, y1 = math.radians(a_lon) * kx, math.radians(a_lat) * R
-    x2, y2 = math.radians(b_lon) * kx, math.radians(b_lat) * R
-    dx, dy = x2 - x1, y2 - y1
-    if dx == dy == 0:
-        return math.hypot(x - x1, y - y1)
-    t = ((x - x1) * dx + (y - y1) * dy) / (dx * dx + dy * dy)
-    t = max(0.0, min(1.0, t))
-    return math.hypot(x - (x1 + t * dx), y - (y1 + t * dy))
-
-
 def _picos_sectors_containing(svc: "Service", lat: float, lon: float) -> list[str]:
     geo = svc.fx_picos.get("geometry", {})
     sectors = {sid: geo.get(key, []) for sid, key in _CCAA_SECTOR_KEY.items()}
@@ -366,27 +353,37 @@ def _picos_sectors_containing(svc: "Service", lat: float, lon: float) -> list[st
 def jurisdiction_boundary_safe(svc: "Service", lat: float, lon: float) -> bool:
     """Hecho INTERNO, calculado por la app (nunca aportable por query).
 
-    True si el punto NO está dentro de la franja de incertidumbre (<1 km)
-    respecto al borde de OTRO sector CCAA. Fail-closed: ante cualquier duda
-    (excepción, geometría ausente) -> False.
+    Usa zonas precalculadas del fixture (raycast sobre anillos). Fail-closed:
+    ante cualquier duda (excepción, geometría ausente) -> False.
+
+    - fuera de parque: True (sin conflicto de frontera)
+    - dentro del parque, en zona de incertidumbre precomputada: False
+    - dentro del parque, fuera de la zona: True si un solo sector CCAA contiene
+      el punto; False si >=2 sectores (solapamiento)
+    - dentro del parque, en 0 sectores: False (GAP — el motor fallará cerrado)
     """
     try:
+        park_ring = svc.fx_picos.get("geometry", {}).get("park")
+        if not park_ring:
+            return False  # fixture incompleto
+        # Punto fuera del parque: no hay conflicto de frontera CCAA
+        if not any(_point_in_ring(lat, lon, r) for r in park_ring):
+            return True
+
         containing = _picos_sectors_containing(svc, lat, lon)
         if not containing:
-            return True  # fuera de todo sector CCAA -> sin conflicto de frontera
-        geo = svc.fx_picos.get("geometry", {})
-        sectors = {sid: geo.get(key, []) for sid, key in _CCAA_SECTOR_KEY.items()}
-        for sid in containing:
-            for other_sid, rings in sectors.items():
-                if other_sid == sid:
-                    continue
-                for ring in rings:
-                    n = len(ring)
-                    for i in range(n):
-                        a, b = ring[i], ring[(i + 1) % n]
-                        if _seg_dist_m(lat, lon, a[0], a[1], b[0], b[1]) < _BOUNDARY_UNCERTAINTY_M:
-                            return False
-        return True
+            return False  # dentro del parque pero en un gap (GAP)
+
+        # Zona de incertidumbre precalculada (raycast)
+        zone_rings = svc.fx_picos.get("geometry", {}).get("boundary_uncertainty")
+        if zone_rings and any(_point_in_ring(lat, lon, r) for r in zone_rings):
+            return False  # dentro de la franja de incertidumbre oficial (100m)
+
+        # >=2 sectores: solapamiento no resuelto
+        if len(containing) >= 2:
+            return False  # fall-closed: no puede decidir entre jurisdicciones
+
+        return True  # exactamente 1 sector, fuera de la zona de incertidumbre
     except Exception:  # noqa: BLE001 - fail-closed, nunca un permiso por duda
         return False
 
@@ -411,8 +408,11 @@ def resolve_point(svc: Service, *, lat: float, lon: float, activity: str,
     cota_fact_source = "USER" if user_cota is not None else "NONE"
     if _picos_sectors_containing(svc, lat, lon):
         try:
-            dem_info = dem.sample_elevation(lat, lon)
-        except dem.DemEvidenceIncomplete:
+            if dem is not None:
+                dem_info = dem.sample_elevation(lat, lon)
+            else:
+                raise Exception("dem module not available")  # DEM_EVIDENCE_INCOMPLETE
+        except Exception:
             dem_info = None
         if dem_info:
             facts["cota_m"] = dem_info["value_m"]
@@ -452,13 +452,36 @@ def resolve_point(svc: Service, *, lat: float, lon: float, activity: str,
         "userVsDem": user_vs_dem,
     }
     if not boundary_safe:
-        # La frontera CCAA está en la franja de incertidumbre (<1 km): el
-        # PERMITTED no puede sostenerse sin re-verificación IDE.
-        out["determination"]["warnings"].append(
-            "Punto dentro de la zona de incertidumbre de frontera CCAA (<1 km): "
-            "BOUNDARY_EVIDENCE_INCOMPLETE. Se requiere re-verificación IDE.")
-        if "BOUNDARY_EVIDENCE_INCOMPLETE" not in out["determination"]["reasonCodes"]:
-            out["determination"]["reasonCodes"].append("BOUNDARY_EVIDENCE_INCOMPLETE")
+        # Classify WHY the boundary guard failed and attach a distinct reason
+        # code + specific warning.  These are metadata-only; legalStatus
+        # remains engine-driven.
+        containing = _picos_sectors_containing(svc, lat, lon)
+        in_zone = False
+        zone_rings = svc.fx_picos.get("geometry", {}).get("boundary_uncertainty", [])
+        if zone_rings:
+            in_zone = any(_point_in_ring(lat, lon, zr) for zr in zone_rings)
+
+        if not containing:
+            # 0 sectors → GAP (dentro del parque pero sin jurisdicción)
+            out["determination"]["warnings"].append(
+                "Punto dentro del parque sin jurisdicción CCAA asignada: "
+                "BOUNDARY_GAP. Se requiere re-verificación IDE.")
+            if "BOUNDARY_GAP" not in out["determination"]["reasonCodes"]:
+                out["determination"]["reasonCodes"].append("BOUNDARY_GAP")
+        elif len(containing) >= 2:
+            # >=2 sectores → OVERLAP (solapamiento de jurisdicciones)
+            out["determination"]["warnings"].append(
+                "Punto en solapamiento de jurisdicciones CCAA ({}): "
+                "BOUNDARY_OVERLAP. Se requiere re-verificación IDE.".format(", ".join(containing)))
+            if "BOUNDARY_OVERLAP" not in out["determination"]["reasonCodes"]:
+                out["determination"]["reasonCodes"].append("BOUNDARY_OVERLAP")
+        elif in_zone:
+            # 1 sector pero en la zona de incertidumbre (100 m)
+            out["determination"]["warnings"].append(
+                "Punto dentro de la zona de incertidumbre de frontera CCAA (100 m): "
+                "BOUNDARY_EVIDENCE_INCOMPLETE. Se requiere re-verificación IDE.")
+            if "BOUNDARY_EVIDENCE_INCOMPLETE" not in out["determination"]["reasonCodes"]:
+                out["determination"]["reasonCodes"].append("BOUNDARY_EVIDENCE_INCOMPLETE")
     if user_vs_dem and user_vs_dem["DIFF_M"] > 100:
         out["determination"]["warnings"].append(
             f"La altitud indicada por el usuario ({user_vs_dem['USER_COTA_M']} m) difiere "

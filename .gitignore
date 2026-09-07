@@ -12,6 +12,23 @@ opencode.json
 tooling/llm/runs.jsonl
 *.env
 
+# BDDAE/INSPIRE GML dump (63 MB, large binary — not committed)
+docs/lineas_limite_gml.zip
+
+# GML extraction temp directory (not committed)
+tooling/_tmp_gml_extract/
+
+# Builder build output directory (not committed)
+tooling/m2b_build/
+
+# Build output text (not committed)
+tooling/build_output.txt
+
+# Gate comparison temp files (not committed)
+tooling/_tmp_gisco_baseline_fixture.json
+tooling/_tmp_gate_manifest.json
+tooling/_tmp_boundary_gate_comparison.json
+
 # Prepared DEM tile (auto-elevation); never commit the raster
 webapp/data/dem/
 # Orca kit: generated entries
@@ -21,4 +38,3 @@ webapp/data/dem/
 .orca-tools/
 
 .opencode/node_modules/
-
