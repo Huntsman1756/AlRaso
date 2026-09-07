@@ -271,7 +271,7 @@ def validate_tile(path: str, *, bbox: list[float], coverage_id: str = DEFAULT_CO
 
         p1 = None
         fx = load_fixture()
-        p1_pt = fx["probe_points"].get("P1_asturias_urriellu")
+        p1_pt = fx["probe_points"].get("P1_asturias_interior")
         if p1_pt:
             p1 = control.get(p1_pt["lon"])
 

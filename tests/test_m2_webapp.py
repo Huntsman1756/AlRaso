@@ -316,7 +316,7 @@ def test_unknown_coverage_knowledge_copy(svc):
 
 
 def test_picos_product_is_jurisdiction_aware(svc):
-    # P1 Urriellu (es-as) con hechos -> PERMITTED por art. 51; cobertura PARTIAL (DEM=C).
+    # P1 interior Asturias (es-as) con hechos -> PERMITTED por art. 51; cobertura PARTIAL (DEM=C).
     out = server.resolve_point(svc, lat=43.2662, lon=-4.8686, activity="VIVAC_AL_RASO",
                                activity_date=TODAY, knowledge_date=TODAY,
                                facts={"actividad_montana_o_escalada": True,

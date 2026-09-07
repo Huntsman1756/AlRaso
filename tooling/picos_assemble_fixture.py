@@ -108,7 +108,7 @@ spatial_scopes.insert(0, {
 fixture = {
     "$schema": "https://alraso.example/schemas/picos-phaseb-fixture-v1.json",
     "expected": {
-        "P1_asturias_urriellu": "PERMITTED con condiciones (montaña, ≤3 noches, cota 2.400 m)",
+        "P1_asturias_interior": "PERMITTED con condiciones (montaña, ≤3 noches, cota_m > 1.800 m)",
         "P2_cantabria_interior": "UNDETERMINED sin hechos (fail-closed); PERMITTED con hechos",
         "P3_cyl_cain_valdeon": "UNDETERMINED sin hechos; PERMITTED con hechos",
         "P6_bitemporal_gap": "UNDETERMINED (Cantabria sin PRUG vigente antes de 2026-08-24)",

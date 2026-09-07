@@ -53,7 +53,7 @@ Regla fail-closed: punto a <~1 km de una frontera CCAA ⇒ solo permisible con r
 
 | Caso | Punto | Esperado |
 |---|---|---|
-| P1 | Urriellu, asturiano | dentro+ES12 → norma es-as; cota 2.400 m ⇒ efecto por art. 51 (condiciones de hecho: actividad de montaña, noches ≤ 3) |
+| P1 | Interior de Asturias (probe; identidad del punto sin verificar — solo función: punto interior ES12) | dentro+ES12 → norma es-as; cota_m aportada como hecho (>1.800 m) ⇒ efecto por art. 51 (condiciones de hecho: actividad de montaña, noches ≤ 3) |
 | P2 | Macizo Oriental interior | dentro+ES13 → norma es-cb |
 | P3 | Caín de Valdeón | dentro+ES41 → norma es-cl |
 | P4×2 / P5×2 | pares a 300 m y 1 km a cada lado de las 2 fronteras internas dentro del parque | jurisdicciones distintas y mutuamente excluyentes; sin superposición ni vacío |
