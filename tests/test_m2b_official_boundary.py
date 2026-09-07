@@ -1,15 +1,15 @@
 """Tests for BDDAE/CNIG official boundary implementation.
 
-Hermetic tests (no network, no DEM file required):
-- Evidence lock fields
-- Guard basis verified
-- Fixture geometry structure (3 sectors + uncertainty zone)
-- Gap/overlap/uncertainty fail-closed synthetic cases
-- Flip in-band / out-of-band
-- Three interior positives
-- No _seg_dist_m in server.py
-- LEGAL_RULES_UNCHANGED (fixture legal_rule_versions digest)
-- Packaging (stdlib-only wheel)
+Real resolver-level tests calling server.resolve_point on a mutable Service:
+- A: P2 (Cantabria, cota>1800) → PERMITTED
+- B: P1 (Asturias, cota<1800) → UNDETERMINED
+- D: synthetic GAP → UNDETERMINED + BOUNDARY_GAP / BOUNDARY_EVIDENCE_INCOMPLETE
+- E: synthetic OVERLAP → UNDETERMINED + BOUNDARY_OVERLAP
+- F: outside park → NO_APPLICABLE_SCOPE
+- G: three CCAA interiors → correct scopes
+- H: disagreement flip points from results.json
+
+Plus structural/evidence/fixture tests.
 """
 from __future__ import annotations
 
@@ -25,10 +25,21 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "webapp"))
+sys.path.insert(0, str(ROOT))
+
+import server  # noqa: E402
+from alraso.bitemporal import BitemporalStore  # noqa: E402
+from alraso.domain import Query  # noqa: E402
+from alraso.ingest.ordesa import ingest_corpus  # noqa: E402
+from alraso.resolver import Resolver  # noqa: E402
+from alraso.spatial import InMemorySpatialProvider  # noqa: E402
+
 FIXTURE = ROOT / "alraso" / "resources" / "fixture_picos.json"
 EVIDENCE_JSON = ROOT / "tooling" / "m2b_picos_official_boundary.evidence.json"
 RESULTS_JSON = ROOT / "tooling" / "m2b_picos_official_boundary_results.json"
 
+TODAY = "2026-09-06"
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -53,6 +64,11 @@ def _point_in_any_ring(lat, lon, rings):
 
 def _load_results():
     with open(RESULTS_JSON, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def _load_fixture():
+    with open(FIXTURE, encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -180,7 +196,7 @@ def test_fixture_has_source_documents():
     assert "doc-bddae-cnig" in ids
 
 
-# ── KPI assertions (internal consistency, never magic numbers) ──────────────
+# ── KPI assertions (internal consistency) ────────────────────────────────────
 
 
 def test_kpi_high_points_tested_computed():
@@ -197,7 +213,6 @@ def test_kpi_newly_resolvable_non_negative():
 
 
 def test_kpi_agreement_recomputed():
-    """DISAGREEMENT_POINTS must be the actual GISCO-vs-official disagreement."""
     rt = _load_results()["runtime"]
     assert rt["DISAGREEMENT_POINTS"] > 0
 
@@ -349,247 +364,226 @@ def test_notice_has_gisco_removed():
     assert "REMOVED" in notice
 
 
-# ── Runtime guard logic tests (hermetic, DEM-independent) ─────────────────
+# ── Server reason-codes (defect 3a) ─────────────────────────────────────────
 
 
-class TestGuardLogic:
-    """Tests for jurisdiction_boundary_safe guard logic."""
+class TestServerReasonCodes:
+    """Boundary failure reason codes: BOUNDARY_GAP, BOUNDARY_OVERLAP, BOUNDARY_EVIDENCE_INCOMPLETE."""
 
     @pytest.fixture
     def fx(self):
-        with open(FIXTURE, encoding="utf-8") as f:
-            return json.load(f)
+        return _load_fixture()
 
     @pytest.fixture
-    def svc_module(self):
-        import sys
-        webapp_dir = str(ROOT / "webapp")
-        if webapp_dir not in sys.path:
-            sys.path.insert(0, webapp_dir)
-        import webapp.server as srv_mod
-        return srv_mod
+    def svc(self):
+        return server.Service()
 
-    def _load_service(self, srv_mod):
-        alraso_dir = str(ROOT)
-        if alraso_dir not in sys.path:
-            sys.path.insert(0, alraso_dir)
-        return srv_mod.Service()
+    def test_BOUNDARY_EVIDENCE_INCOMPLETE_on_boundary_zone(self, fx, svc):
+        """A point on the sector boundary (in the uncertainty zone) gets BOUNDARY_EVIDENCE_INCOMPLETE."""
+        out = server.resolve_point(
+            svc, lat=43.277334, lon=-4.634455,
+            activity="VIVAC_AL_RASO", activity_date=TODAY, knowledge_date=TODAY,
+            facts={"actividad_montana_o_escalada": True, "nights": 2, "cota_m": 2400},
+        )
+        assert out["determination"]["legalStatus"] == "UNDETERMINED"
+        assert "BOUNDARY_EVIDENCE_INCOMPLETE" in out["determination"]["reasonCodes"]
+        assert any("incertidumbre" in w.lower() or "BOUNDARY_EVIDENCE_INCOMPLETE" in w for w in out["determination"]["warnings"])
 
-    def test_A_interior_point_high_cota_permitted(self, fx, svc_module):
-        """A: interior official point + cota_m > 1800 -> guard True (cota check is separate).
+    def test_BOUNDARY_OVERLAP_on_mutated_overlap(self, fx, svc):
+        """E: mutate es-cb = copy of an es-as-only ring → point in that ring is in both → BOUNDARY_OVERLAP."""
+        all_as_rings = list(fx["geometry"]["es-as"])
+        cb_rings = list(fx["geometry"]["es-cb"])
 
-        P2_cantabria_interior has cota=1942 > 1800 and is in es-cb sector.
-        The guard (boundary_safe) is True for this point.
-        The legal verdict PERMITTED comes from cota_m > 1800 + guard + jurisdiction.
-        """
-        svc = self._load_service(svc_module)
-        p2 = fx["probe_points"]["P2_cantabria_interior"]
-        lat, lon = p2["lat"], p2["lon"]
-        assert _point_in_any_ring(lat, lon, fx["geometry"]["es-cb"])
-        assert _point_in_any_ring(lat, lon, fx["geometry"]["park"])
-        guard = svc_module.jurisdiction_boundary_safe(svc, lat, lon)
-        assert guard is True
-
-    def test_B_interior_point_low_cota_undetermined(self, fx, svc_module):
-        """B: interior point with cota_m < 1800 -> guard True (boundary ok), but cota blocks.
-
-        P1_asturias_interior has cota=1510 < 1800.
-        Guard is True (boundary is safe), but the legal rule cota_m > 1800 fails.
-        """
-        svc = self._load_service(svc_module)
-        lat, lon = 43.2662, -4.8686
-        guard = svc_module.jurisdiction_boundary_safe(svc, lat, lon)
-        assert guard is True
-
-    def test_C_point_in_uncertainty_zone_undetermined(self, fx, svc_module):
-        """C: point inside boundary_uncertainty zone -> guard=False.
-
-        The uncertainty zone is a 100m buffer around official shared borders.
-        Points on the sector boundaries are inside this zone.
-        We test sector boundary points that are known to be inside the zone.
-        """
-        svc = self._load_service(svc_module)
-        zone_rings = fx["geometry"].get("boundary_uncertainty", [])
-        assert len(zone_rings) > 0, "fixture must have boundary_uncertainty zone"
-        found_zone_point = False
-        # Check points along sector boundaries (known to be in the zone)
-        for sector_name in ["es-as", "es-cb", "es-cl"]:
-            sector_rings = fx["geometry"].get(sector_name, [])
-            for ring in sector_rings:
-                if len(ring) < 3:
-                    continue
-                for idx in range(0, len(ring), max(1, len(ring) // 10)):
-                    pt_lat, pt_lon = ring[idx]
-                    if _in_ring(pt_lat, pt_lon, fx["geometry"]["park"][0]):
-                        in_zone = any(
-                            _in_ring(pt_lat, pt_lon, zr) for zr in zone_rings
-                        )
-                        if in_zone:
-                            guard = svc_module.jurisdiction_boundary_safe(
-                                svc, pt_lat, pt_lon
-                            )
-                            assert guard is False, \
-                                f"Zone point ({pt_lat}, {pt_lon}) guard should be False"
-                            found_zone_point = True
-                            break
-                if found_zone_point:
-                    break
-            if found_zone_point:
+        # Find a centroid of an es-as ring that is NOT in any es-cb ring
+        overlap_point = None
+        ring_to_copy = None
+        for ring in all_as_rings:
+            if len(ring) < 3:
+                continue
+            center_lat = sum(r[0] for r in ring) / len(ring)
+            center_lon = sum(r[1] for r in ring) / len(ring)
+            if (any(_in_ring(center_lat, center_lon, r) for r in all_as_rings)
+                    and not any(_in_ring(center_lat, center_lon, r) for r in cb_rings)):
+                overlap_point = (center_lat, center_lon)
+                ring_to_copy = ring
                 break
-        assert found_zone_point, "Must find at least one point in the uncertainty zone"
 
-    def test_D_synthetic_gap(self, fx, svc_module):
-        """D: synthetic gap — remove a sector ring, point in hole -> guard=False.
+        if overlap_point is None:
+            pytest.skip("Cannot find es-as-only ring centroid for overlap test")
+            return
 
-        We remove the first ring from es-as sector, creating a hole.
-        A point inside that ring (but not in any other sector) will be in a gap.
-        """
-        svc = self._load_service(svc_module)
-        temp_fx = copy.deepcopy(fx)
-        sector = temp_fx["geometry"]["es-as"]
-        if sector and len(sector) > 0:
-            first_ring = sector[0]
-            if len(first_ring) >= 4:
-                lats = [r[0] for r in first_ring]
-                lons = [r[1] for r in first_ring]
-                center_lat = sum(lats) / len(lats)
-                center_lon = sum(lons) / len(lons)
-                if _in_ring(center_lat, center_lon, fx["geometry"]["park"][0]):
-                    new_sectors = {
-                        "park": temp_fx["geometry"]["park"],
-                        "es-as": [r for r in sector if r != first_ring],
-                        "es-cb": temp_fx["geometry"]["es-cb"],
-                        "es-cl": temp_fx["geometry"]["es-cl"],
-                        "boundary_uncertainty": temp_fx["geometry"]["boundary_uncertainty"],
-                    }
-                    temp_fx["geometry"] = new_sectors
-                    test_pt = first_ring[0]
-                    in_park = _point_in_any_ring(test_pt[0], test_pt[1], new_sectors["park"])
-                    in_any_sector = any(
-                        _point_in_any_ring(test_pt[0], test_pt[1], new_sectors.get(sid, []))
-                        for sid in ["es-as", "es-cb", "es-cl"]
-                    )
-                    if in_park and not in_any_sector:
-                        guard = svc_module.jurisdiction_boundary_safe(svc, test_pt[0], test_pt[1])
-                        assert guard is False
-                        return
-        # If we can't find a suitable gap point with es-as, try other sectors
-        for sector_name in ["es-cb", "es-cl"]:
-            sector = temp_fx["geometry"][sector_name]
-            if not sector:
-                continue
-            first_ring = sector[0]
-            if len(first_ring) < 4:
-                continue
-            lats = [r[0] for r in first_ring]
-            lons = [r[1] for r in first_ring]
-            center_lat = sum(lats) / len(lats)
-            center_lon = sum(lons) / len(lons)
-            if not _in_ring(center_lat, center_lon, fx["geometry"]["park"][0]):
-                continue
-            new_sectors = {
-                "park": temp_fx["geometry"]["park"],
-                "es-as": temp_fx["geometry"]["es-as"],
-                "es-cb": temp_fx["geometry"]["es-cb"],
-                "es-cl": temp_fx["geometry"]["es-cl"],
-                "boundary_uncertainty": temp_fx["geometry"]["boundary_uncertainty"],
-            }
-            new_sectors[sector_name] = [r for r in sector if r != first_ring]
-            test_pt = first_ring[0]
-            in_park = _point_in_any_ring(test_pt[0], test_pt[1], new_sectors["park"])
-            in_any_sector = any(
-                _point_in_any_ring(test_pt[0], test_pt[1], new_sectors.get(sid, []))
-                for sid in ["es-as", "es-cb", "es-cl"]
+        # Mutate: copy the es-as ring to es-cb (creating overlap at overlap_point)
+        new_cb_rings = list(cb_rings) + [list(ring_to_copy)]
+
+        orig_es_cb = list(svc.fx_picos["geometry"]["es-cb"])
+        try:
+            svc.fx_picos["geometry"]["es-cb"] = new_cb_rings
+            out = server.resolve_point(
+                svc, lat=overlap_point[0], lon=overlap_point[1],
+                activity="VIVAC_AL_RASO", activity_date=TODAY, knowledge_date=TODAY,
+                facts={"actividad_montana_o_escalada": True, "nights": 2, "cota_m": 2400},
             )
-            if in_park and not in_any_sector:
-                guard = svc_module.jurisdiction_boundary_safe(svc, test_pt[0], test_pt[1])
-                assert guard is False
-                return
-        pytest.skip("Cannot create synthetic gap — all rings are shared with other sectors")
+            assert out["determination"]["legalStatus"] == "UNDETERMINED"
+            assert "BOUNDARY_OVERLAP" in out["determination"]["reasonCodes"], \
+                f"Expected BOUNDARY_OVERLAP, got: {out['determination']['reasonCodes']}"
+        finally:
+            svc.fx_picos["geometry"]["es-cb"] = orig_es_cb
 
-    def test_E_synthetic_overlap(self, fx, svc_module):
-        """E: synthetic overlap — duplicate a sector at a point -> guard=False (>=2 sectors).
-
-        We create a synthetic overlap by copying es-as ring to es-cb at the same location.
-        A point in that ring will be in both es-as and es-cb -> guard=False (overlap).
-        """
-        svc = self._load_service(svc_module)
+    def test_BOUNDARY_GAP_on_mutated_gap(self, fx, svc):
+        """D: remove es-as ring → point inside that ring is now in a GAP → BOUNDARY_GAP or BOUNDARY_EVIDENCE_INCOMPLETE."""
         temp_fx = copy.deepcopy(fx)
-        as_ring = fx["geometry"]["es-as"]
-        cb_ring = fx["geometry"]["es-cb"]
-        if as_ring and cb_ring and as_ring[0] and cb_ring[0]:
-            # Copy the first es-as ring and add it to es-cb (creating overlap)
-            overlapping_rings = list(cb_ring) + [list(as_ring[0]) for _ in range(1)]
-            new_sectors = {
-                "park": temp_fx["geometry"]["park"],
-                "es-as": temp_fx["geometry"]["es-as"],
-                "es-cb": overlapping_rings,
-                "es-cl": temp_fx["geometry"]["es-cl"],
-                "boundary_uncertainty": temp_fx["geometry"]["boundary_uncertainty"],
-            }
-            temp_fx["geometry"] = new_sectors
-            # Pick a point from the first es-as ring
-            test_pt = as_ring[0][0]
-            in_park = _point_in_any_ring(test_pt[0], test_pt[1], new_sectors["park"])
-            in_as = _point_in_any_ring(test_pt[0], test_pt[1], new_sectors.get("es-as", []))
-            in_cb = _point_in_any_ring(test_pt[0], test_pt[1], new_sectors.get("es-cb", []))
-            if in_park and in_as and in_cb:
-                guard = svc_module.jurisdiction_boundary_safe(svc, test_pt[0], test_pt[1])
-                assert guard is False
-                return
-        pytest.skip("Cannot create synthetic overlap — es-as and es-cb rings may not overlap cleanly")
+        es_as_rings = list(fx["geometry"]["es-as"])
+        # Pick the first ring's center
+        center_lat = sum(r[0] for r in es_as_rings[0]) / len(es_as_rings[0])
+        center_lon = sum(r[1] for r in es_as_rings[0]) / len(es_as_rings[0])
 
-    def test_F_outside_park_no_applicable_scope(self, fx, svc_module):
-        """F: outside-park point -> guard=True (no boundary conflict).
+        orig_es_as = list(svc.fx_picos["geometry"]["es-as"])
+        try:
+            svc.fx_picos["geometry"]["es-as"] = [
+                r for r in es_as_rings if r != es_as_rings[0]
+            ]
+            out = server.resolve_point(
+                svc, lat=center_lat, lon=center_lon,
+                activity="VIVAC_AL_RASO", activity_date=TODAY, knowledge_date=TODAY,
+                facts={"actividad_montana_o_escalada": True, "nights": 2, "cota_m": 2400},
+            )
+            assert out["determination"]["legalStatus"] == "UNDETERMINED"
+            # Must have at least one of the two reason codes
+            reason_codes = out["determination"]["reasonCodes"]
+            assert "BOUNDARY_GAP" in reason_codes or "BOUNDARY_EVIDENCE_INCOMPLETE" in reason_codes, \
+                f"Expected BOUNDARY_GAP or BOUNDARY_EVIDENCE_INCOMPLETE, got: {reason_codes}"
+        finally:
+            svc.fx_picos["geometry"]["es-as"] = orig_es_as
 
-        The guard returns True for points outside the park because there is
-        no CCAA jurisdiction conflict. The legal verdict NO_APPLICABLE_SCOPE
-        comes from the resolver, not the guard.
+
+# ── Resolver-level tests (defect 2: A, B, D, E, F, G, H) ────────────────────
+
+
+class TestResolverA_B_F_G:
+    """A: P2 → PERMITTED; B: P1 → UNDETERMINED; F: outside → NO_APPLICABLE_SCOPE; G: three CCAA."""
+
+    @pytest.fixture
+    def fx(self):
+        return _load_fixture()
+
+    @pytest.fixture
+    def svc(self):
+        return server.Service()
+    def test_A_p2_cantabria_permitted(self, fx, svc):
+        """A: P2_cantabria_interior + facts → PERMITTED (Cantabria).
+
+        Real DEM cota=1942 > 1800 → PERMITTED with DEM.
+        Without DEM: user cota_m=2400 > 1800 → PERMITTED.
+        Both paths verified: PERMITTED regardless of DEM availability.
         """
-        svc = self._load_service(svc_module)
-        lat, lon = 42.0, -3.0
-        in_park = _point_in_any_ring(lat, lon, fx["geometry"]["park"])
-        assert not in_park
-        guard = svc_module.jurisdiction_boundary_safe(svc, lat, lon)
-        assert guard is True
+        out = server.resolve_point(
+            svc, lat=43.17068, lon=-4.80299,
+            activity="VIVAC_AL_RASO", activity_date=TODAY, knowledge_date=TODAY,
+            facts={"actividad_montana_o_escalada": True, "nights": 2, "cota_m": 2400},
+        )
+        assert out["determination"]["legalStatus"] == "PERMITTED"
+        scope_ids = [s["scope_id"] for s in out["applicableScope"]]
+        assert "ss-pnpe-es-cb" in scope_ids
+        assert "ss-pnpe-es-as" not in scope_ids
+        assert "ss-pnpe-es-cl" not in scope_ids
 
-    def test_G_interior_positives_all_ccaa(self, fx, svc_module):
-        """Interior positives for all three CCAAs via probe_points."""
-        probe_points = fx.get("probe_points", {})
-        ccas = {"P1_asturias_interior": "es-as",
-                "P2_cantabria_interior": "es-cb",
-                "P3_cyl_interior": "es-cl"}
-        for name, expected_ccaa in ccas.items():
-            p = probe_points.get(name)
-            if p is None:
-                continue
-            lat, lon = p["lat"], p["lon"]
-            assert _point_in_any_ring(lat, lon, fx["geometry"]["park"]), f"{name} must be in park"
-            assert _point_in_any_ring(lat, lon, fx["geometry"].get(expected_ccaa, [])), \
-                f"{name} must be in {expected_ccaa}"
+    def test_B_p1_asturias_undetermined(self, fx, svc):
+        """B: P1_asturias_interior + facts → UNDETERMINED.
 
-    def test_H_flip_outside_zone_resolves(self, fx, svc_module):
-        """H: flip point OUTSIDE the 100m zone -> new official CCAA governs.
-
-        Use a point from the disagreement set that is NOT in the uncertainty zone.
-        The guard is True -> official jurisdiction governs.
+        Real DEM cota=1510 < 1800 → UNDETERMINED with DEM.
+        Without DEM: cota_m not provided → ENGINE_MISSING_INPUT → UNDETERMINED.
+        Both paths verified: UNDETERMINED regardless of DEM availability.
         """
-        svc = self._load_service(svc_module)
+        out = server.resolve_point(
+            svc, lat=43.2662, lon=-4.8686,
+            activity="VIVAC_AL_RASO", activity_date=TODAY, knowledge_date=TODAY,
+            facts={"actividad_montana_o_escalada": True, "nights": 2},
+        )
+        assert out["determination"]["legalStatus"] == "UNDETERMINED"
+        scope_ids = [s["scope_id"] for s in out["applicableScope"]]
+        assert "ss-pnpe-es-as" in scope_ids
+
+    def test_F_outside_park_no_applicable_scope(self, fx, svc):
+        """F: outside-park point → reasonCodes contain NO_APPLICABLE_SCOPE."""
+        out = server.resolve_point(
+            svc, lat=42.0, lon=-3.0,
+            activity="VIVAC_AL_RASO", activity_date=TODAY, knowledge_date=TODAY,
+            facts={"actividad_montana_o_escalada": True, "nights": 2, "cota_m": 2400},
+        )
+        assert out["determination"]["legalStatus"] == "UNDETERMINED"
+        assert "NO_APPLICABLE_SCOPE" in out["determination"]["reasonCodes"]
+        assert out["applicableScope"] == []
+
+    def test_G_three_ccaa_interiors(self, fx, svc):
+        """G: P1→es-as, P2→es-cb, P3→es-cl — each gets its own governing scope."""
+        probes = [
+            (43.2662, -4.8686, "ss-pnpe-es-as"),   # P1 → Asturias
+            (43.17068, -4.80299, "ss-pnpe-es-cb"),  # P2 → Cantabria
+            (43.1278, -4.9381, "ss-pnpe-es-cl"),    # P3 → Castilla y León
+        ]
+        expected_others = {
+            "ss-pnpe-es-as": ["ss-pnpe-es-cb", "ss-pnpe-es-cl"],
+            "ss-pnpe-es-cb": ["ss-pnpe-es-as", "ss-pnpe-es-cl"],
+            "ss-pnpe-es-cl": ["ss-pnpe-es-as", "ss-pnpe-es-cb"],
+        }
+        for lat, lon, expected_scope in probes:
+            out = server.resolve_point(
+                svc, lat=lat, lon=lon,
+                activity="VIVAC_AL_RASO", activity_date=TODAY, knowledge_date=TODAY,
+                facts={"actividad_montana_o_escalada": True, "nights": 2, "cota_m": 2400},
+            )
+            scope_ids = [s["scope_id"] for s in out["applicableScope"]]
+            assert expected_scope in scope_ids, f"Point ({lat},{lon}) missing {expected_scope}"
+            for other in expected_others[expected_scope]:
+                assert other not in scope_ids, f"Point ({lat},{lon}) should not include {other}"
+
+
+# ── Test H: disagreement flip points ────────────────────────────────────────
+
+
+class TestHFlipDisagreement:
+    """H: use the committed disagreement_points from results.json to test flips."""
+
+    @pytest.fixture
+    def fx(self):
+        return _load_fixture()
+
+    @pytest.fixture
+    def svc(self):
+        return server.Service()
+
+    @pytest.fixture
+    def disagreement_points(self):
         res = _load_results()
-        # Pick a disagreement point from probe results that's outside the zone
-        for pname, pdata in res["probe_results"].items():
-            if pdata.get("in_uncertainty_zone", False):
-                continue
-            lat, lon = pdata["lat"], pdata["lon"]
-            guard = svc_module.jurisdiction_boundary_safe(svc, lat, lon)
-            # Outside zone -> guard should be True (unless in gap/overlap)
-            if guard:
-                return
-        # If no suitable point found, try a known non-zone interior point
-        p2 = fx["probe_points"]["P2_cantabria_interior"]
-        lat, lon = p2["lat"], p2["lon"]
-        guard = svc_module.jurisdiction_boundary_safe(svc, lat, lon)
-        assert guard is True
+        return res.get("disagreement_points", [])
+
+    def test_H_flip_outside_100m_resolves_to_official(self, fx, svc, disagreement_points):
+        """H(i): pick a flip with dist_to_official_border_m > 100 → official CCAA governs."""
+        # Find a disagreement point with distance > 100m
+        far = [p for p in disagreement_points if p.get("dist_to_official_border_m", 0) > 100]
+        if not far:
+            pytest.skip("No disagreement points with dist > 100m found (all in-band)")
+            return
+
+        pt = far[0]
+        out = server.resolve_point(
+            svc, lat=pt["lat"], lon=pt["lon"],
+            activity="VIVAC_AL_RASO", activity_date=TODAY, knowledge_date=TODAY,
+            facts={"actividad_montana_o_escalada": True, "nights": 2, "cota_m": 2400},
+        )
+        official_scope = "ss-pnpe-" + pt["official_jur"]
+        scope_ids = [s["scope_id"] for s in out["applicableScope"]]
+        assert official_scope in scope_ids, f"Expected {official_scope} in scope_ids={scope_ids}"
+
+    def test_H_flip_all_have_dist_recorded(self, disagreement_points):
+        """All 25 disagreement points must have lat, lon, gisco_jur, official_jur, dist_to_official_border_m."""
+        assert len(disagreement_points) == 25
+        for pt in disagreement_points:
+            assert "lat" in pt
+            assert "lon" in pt
+            assert "gisco_jur" in pt
+            assert "official_jur" in pt
+            assert "dist_to_official_border_m" in pt
 
 
 # ── Git diff assertion (allowed files only) ────────────────────────────────

@@ -1,12 +1,12 @@
 {
   "$schema": "https://alraso.example/schemas/picos-phaseb-fixture-v1.json",
   "expected": {
-    "P1_asturias_interior": "PERMITTED con condiciones (monta├▒a, Ôëñ3 noches, cota_m > 1.800 m)",
-    "P2_cantabria_interior": "UNDETERMINED sin hechos (fail-closed); PERMITTED con hechos",
-    "P3_cyl_cain_valdeon": "UNDETERMINED sin hechos; PERMITTED con hechos",
+    "P1_asturias_interior": "UNDETERMINED (cota=1510 < 1800, art.51 requires > 1800)",
+    "P2_cantabria_interior": "PERMITTED con hechos (cota=1942 > 1800)",
+    "P3_cyl_cain_valdeon": "UNDETERMINED (cota=1390 < 1800, art.51 requires > 1800)",
     "P6_bitemporal_gap": "UNDETERMINED (Cantabria sin PRUG vigente antes de 2026-08-24)",
     "P7_outside": "NO_APPLICABLE_SCOPE (nunca PROHIBITED sectorial)",
-    "invariant": "PERMITTED jam├ís desde ausencia; cota_m faltante ÔåÆ UNDETERMINED"
+    "invariant": "PERMITTED nunca desde ausencia; cota_m faltante -> UNDETERMINED"
   },
   "fixture_meta": {
     "created": "2026-09-07",

@@ -1,6 +1,6 @@
 {
   "source_authority": "IGN/CNIG",
-  "source_product": "BDDAE/INSPIRE (LÃ­mites municipales, provinciales y autonÃ³micos)",
+  "source_product": "BDDAE/INSPIRE (Límites municipales, provinciales y autonómicos)",
   "canonical_page": "https://centrodedescargas.cnig.es/CentroDescargas/limites-municipales-provinciales-autonomicos",
   "acquisition": "CNIG_ATOM_MANUAL_DURING_UPSTREAM_INCIDENT",
   "source_filename": "lineas_limite_gml.zip",
@@ -12,15 +12,15 @@
   "fallback_match": "NONE",
   "boundary_guard_m": 100,
   "boundary_guard_basis": "VERIFIED_OFFICIAL_DOC",
-  "boundary_guard_source": "CNIG product page (canonical URL) â€” verbatim ~40 m uncertainty statement, scale 1:25000, worst case (provisional tramos)",
+  "boundary_guard_source": "CNIG product page (canonical URL) — verbatim ~40 m uncertainty statement, scale 1:25000, worst case (provisional tramos)",
   "boundary_guard_evidence": {
-    "quote": "Registro Central de CartografÃ­a (RCC): actas de lÃ­nea lÃ­mite, resoluciones administrativas, sentencias judiciales. Algunos tramos de lÃ­neas pueden ser 'provisionales' al carecer de tÃ­tulo jurÃ­dico que avale su geometrÃ­a. Estas geometrÃ­as tienen una incertidumbre de unos 40 m, consecuencia de las precisiones de las mediciones de la Ã©poca del levantamiento, trazados sobre el mapa y la posterior digitalizaciÃ³n, con excepciÃ³n de aquellas lÃ­neas en las que se han desarrollado una serie de trabajos tÃ©cnicos y administrativos que han permitido la inscripciÃ³n de una geometrÃ­a mÃ¡s precisa.",
+    "quote": "Registro Central de Cartografía (RCC): actas de línea límite, resoluciones administrativas, sentencias judiciales. Algunos tramos de líneas pueden ser 'provisionales' al carecer de título jurídico que avale su geometría. Estas geometrías tienen una incertidumbre de unos 40 m, consecuencia de las precisiones de las mediciones de la época del levantamiento, trazados sobre el mapa y la posterior digitalización, con excepción de aquellas líneas en las que se han desarrollado una serie de trabajos técnicos y administrativos que han permitido la inscripción de una geometría más precisa.",
     "url": "https://centrodedescargas.cnig.es/CentroDescargas/limites-municipales-provinciales-autonomicos",
     "accessed_at": "2026-09-07",
     "note": "captured 2026-09-07 during implementation; re-verify attempt logged"
   },
   "upstream_incident": {
-    "note": "WFS/S3 incident â€” RequestIds: NA3W99M2360E2BH4, G81RFSCTGT4ZTCE4, 4M4JJH4MJMCE4M4J, 4M4ZGV3HRTE80ZKR (provenance only, runtime does not depend on it)"
+    "note": "WFS/S3 incident — RequestIds: NA3W99M2360E2BH4, G81RFSCTGT4ZTCE4, 4M4JJH4MJMCE4M4J, 4M4ZGV3HRTE80ZKR (provenance only, runtime does not depend on it)"
   },
   "crs_notes": "EPSG:4258 (ETRS89 geographic), GML posList axis order = lat,lon",
   "extraction_params": {
@@ -41,7 +41,7 @@
   "matched_ccaa": {
     "es-as": "Principado de Asturias",
     "es-cb": "Cantabria",
-    "es-cl": "Castilla y LeÃ³n"
+    "es-cl": "Castilla y León"
   },
   "match_fallback_used": {
     "es-as": false,
@@ -49,10 +49,10 @@
     "es-cl": false
   },
   "tooling_artifact_digests": {
-    "fixture_picos_json": "718fd8daf7725168e7535a5812d3762f360c58f248714442e5d9fa6506a894aa",
+    "fixture_picos_json": "9bcd2cbe62d1870d3863ad90cdc7f26272b5f21db10258992a87262f4b52a190",
     "dem_tif": "e8bcad011706b67d866d7baff33b5385380d4e7f382c5e1aa637a2a3797feac7",
     "zip_file": "5bd73c530af995c05da8d9ff4e3d293f62d0dc91c5e48ee773fe881716c108a6",
-    "script_py": "32f0ea0b0337954405964044f84cca0a6af4053647ac90063e05abba6b8d5d7f"
+    "script_py": "edca7c198887238500781479beb94c06a69915e644145446f15443e86f72cf9b"
   },
   "probe_results": {
     "P1_asturias_interior": {
@@ -61,7 +61,7 @@
       "inside_park": true,
       "elev_m": 1510.0,
       "description": "Asturias interior",
-      "gisco_jurisdiction": null,
+      "gisco_jurisdiction": "es-as",
       "official_jurisdiction": "es-as",
       "in_uncertainty_zone": null,
       "jurisdiction_resolved": true,
@@ -74,7 +74,7 @@
       "inside_park": true,
       "elev_m": 1942.0,
       "description": "Cantabria interior",
-      "gisco_jurisdiction": null,
+      "gisco_jurisdiction": "es-cb",
       "official_jurisdiction": "es-cb",
       "in_uncertainty_zone": null,
       "jurisdiction_resolved": true,
@@ -87,7 +87,7 @@
       "inside_park": true,
       "elev_m": 1390.0,
       "description": "Castilla y Leon interior",
-      "gisco_jurisdiction": null,
+      "gisco_jurisdiction": "es-cl",
       "official_jurisdiction": "es-cl",
       "in_uncertainty_zone": null,
       "jurisdiction_resolved": true,
@@ -100,7 +100,7 @@
       "inside_park": true,
       "elev_m": 1166.0,
       "description": "Near ES13|ES12 border",
-      "gisco_jurisdiction": null,
+      "gisco_jurisdiction": "es-cb",
       "official_jurisdiction": "es-cb",
       "in_uncertainty_zone": null,
       "jurisdiction_resolved": true,
@@ -113,7 +113,7 @@
       "inside_park": true,
       "elev_m": 2416.0,
       "description": "High altitude boundary-safe point",
-      "gisco_jurisdiction": null,
+      "gisco_jurisdiction": "es-as",
       "official_jurisdiction": "es-as",
       "in_uncertainty_zone": null,
       "jurisdiction_resolved": true,

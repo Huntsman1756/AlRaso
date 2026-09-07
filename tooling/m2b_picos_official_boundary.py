@@ -289,6 +289,20 @@ def main():
         gisco_sectors_25830[jur] = polys
         log(f"  {jur}: {len(polys)} ring(s), {sum(len(p.exterior.coords) - 1 for p in polys)} pts")
 
+    # ── Legacy GISCO 1000 m guard ────────────────────────────────────────
+    # For each GISCO sector, compute the union of ALL OTHER sectors' polygons.
+    # A point inside sector S is "GISCO-blocked" iff its distance to the
+    # boundary of the union of the other two sectors is < 1000 m (planar,
+    # EPSG:25830).  This is the OLD gate that the builder once measured
+    # as GISCO_GUARD_BLOCKED_HIGH/OLD_BLOCKED.
+    log("\n[3b] Legacy GISCO 1000 m guard (boundary-distance)")
+    gisco_sector_union_other = {}  # jur -> union_of_the_other_two
+    all_keys = list(gisco_sectors_25830.keys())
+    for i, jur_i in enumerate(all_keys):
+        others = [unary_union(gisco_sectors_25830[j]) for j in all_keys if j != jur_i]
+        gisco_sector_union_other[jur_i] = unary_union(others)
+    log("  Pre-computed 'other sectors' union for distance checks.")
+
     gisco_all_polys = []
     for polys in gisco_sectors_25830.values():
         gisco_all_polys.extend(polys)
@@ -738,44 +752,66 @@ def main():
             log(f"    cross_check={cross_ok}")
 
     # ── High-point classification ──────────────────────────────────────────
-    gisco_guard_blocked_high = 0
-    gisco_guard_blocked_total = 0
+    # LEGACY GISCO 1000m guard function (reimplements the OLD gate).
+    # A point inside GISCO sector S is blocked iff its distance to the
+    # boundary of ANY OTHER sector's polygon union is < 1000 m (planar).
+    def _legacy_gisco_blocked(lat, lon):
+        """Return True if the point is GISCO-blocked by the old 1000m guard."""
+        x, y = _T4326_25830.transform(lon, lat)
+        pt = Point(x, y)
+        g_jur = gisco_jur(lat, lon)
+        if g_jur is None:
+            return False  # not inside any GISCO sector -> not blocked by GISCO guard
+        # Distance to the boundary of the union of all OTHER GISCO sectors
+        other_boundary = gisco_sector_union_other[g_jur]
+        return pt.distance(other_boundary) < 1000.0
+
     off_b50, off_b100, off_b250 = 0, 0, 0
     new_50, new_100, new_250 = 0, 0, 0
+    gisco_guard_blocked_total = 0
     disagreement_count = 0
     still_ambiguous_100 = 0
     gap_points_official = 0
-    overlap_points_official = 0
+    disagreement_points_export = []  # for results.json "disagreement_points"
+    old_blocked = 0  # will hold GISCO_GUARD_BLOCKED_HIGH
 
+    # ── First pass: all in-park points (TOTAL count + disagreement) ──────
     for lat, lon in in_park:
-        # App guard verdict (authoritative GISCO baseline)
-        try:
-            app_guard = _app_server.jurisdiction_boundary_safe(svc, lat, lon)
-        except Exception:
-            app_guard = False  # fail-closed
-        gisco_blocked = not app_guard
+        gisco_blocked = _legacy_gisco_blocked(lat, lon)
         if gisco_blocked:
             gisco_guard_blocked_total += 1
 
         g_jur = gisco_jur(lat, lon)
         o_jur = official_jur(lat, lon)
 
-        # Count for gap/overlap
         if o_jur is None:
             gap_points_official += 1
         if g_jur and o_jur and g_jur != o_jur:
             disagreement_count += 1
+            # Capture disagreement point for export
+            x, y = _T4326_25830.transform(lon, lat)
+            pt_25830 = Point(x, y)
+            d_off = (off_ccaa_shared.distance(pt_25830)
+                     if off_ccaa_shared and not off_ccaa_shared.is_empty else 0.0)
+            disagreement_points_export.append({
+                "lat": round(lat, 6),
+                "lon": round(lon, 6),
+                "gisco_jur": g_jur,
+                "official_jur": o_jur,
+                "dist_to_official_border_m": round(d_off, 2),
+            })
 
-    # Re-iterate for HIGH points only
+    # ── Second pass: HIGH points only (BLOCKED_HIGH + NEWLY_RESOLVABLE) ─
+    gisco_guard_blocked_high = 0
+    old_blocked = 0
     for lat, lon, elev in high_pts:
-        # App guard verdict
-        try:
-            app_guard = _app_server.jurisdiction_boundary_safe(svc, lat, lon)
-        except Exception:
-            app_guard = False
-        gisco_blocked = not app_guard
+        gisco_blocked = _legacy_gisco_blocked(lat, lon)
         if gisco_blocked:
             gisco_guard_blocked_high += 1
+            old_blocked += 1
+
+        g_jur = gisco_jur(lat, lon)
+        o_jur = official_jur(lat, lon)
 
         x, y = _T4326_25830.transform(lon, lat)
         pt_25830 = Point(x, y)
@@ -794,12 +830,11 @@ def main():
         if o_b250:
             off_b250 += 1
 
-        # STILL_AMBIGUOUS: official border dist <= 100m among HIGH points
         if o_b100:
             still_ambiguous_100 += 1
 
-        # NEWLY_RESOLVABLE: app-guard-blocked HIGH points that are officially unblocked
-        # AND jurisdiction-determined at that band
+        # NEWLY_RESOLVABLE: GISCO-blocked HIGH points that are officially
+        # unblocked at that band AND have jurisdiction determined.
         if gisco_blocked:
             if not o_b50 and o_jur:
                 new_50 += 1
@@ -809,7 +844,7 @@ def main():
                 new_250 += 1
 
     # Official coverage (same as before)
-    overlap_points_official = 0  # already counted in disagreement if different
+    overlap_points_official = 0
 
     log(f"\n  GISCO_GUARD_BLOCKED_HIGH: {gisco_guard_blocked_high}")
     log(f"  GISCO_GUARD_BLOCKED_TOTAL: {gisco_guard_blocked_total}")
@@ -897,6 +932,7 @@ def main():
         "topology_overlap_details": overlap_details,
         "park_area_m2": round(park_geom_25830.area, 2),
         "official_coverage_pct": round(100*(1-gap_m2/park_geom_25830.area), 4) if park_geom_25830.area > 0 else 0,
+        "disagreement_points": disagreement_points_export,
     }
 
     results_json_str = json.dumps(results, ensure_ascii=False, indent=2)

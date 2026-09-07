@@ -501,7 +501,7 @@ def main():
         elif verdict.startswith("PERMITTED"):
             new_safe += 1
 
-    old_geo = baseline_geo  # Use baseline GISCO geometry for comparison
+    old_geo = baseline_geo.get("geometry", baseline_geo)  # Use baseline GISCO geometry for comparison
     for lat, lon in in_park:
         o_jur = None
         for sid in ["es-as", "es-cb", "es-cl"]:
@@ -744,27 +744,53 @@ def main():
     log("\n[14] Write results.json (gate_comparison + runtime)")
 
     # Load gate KPIs from the boundary-comparison script output (if present)
+    # The boundary script (m2b_picos_official_boundary.py) provides the authoritative
+    # GISCO_GUARD_BLOCKED_HIGH (using the LEGACY 1000m distance guard) and the
+    # NEWLY_RESOLVABLE_* band values. We load these into results.json.
     gate_comparison = {}
     boundary_results_path = ROOT / "tooling" / "_tmp_boundary_gate_comparison.json"
+    boundary_results_full_path = ROOT / "tooling" / "m2b_picos_official_boundary_results.json"
     if boundary_results_path.exists():
         try:
             with open(boundary_results_path, encoding="utf-8") as gf:
                 gate_comparison = json.load(gf)
             log(f"  Loaded gate_comparison from {boundary_results_path}")
             # Use boundary script's GISCO_GUARD_BLOCKED_HIGH for OLD_BLOCKED
-            # (high-altitude points blocked by the 1000m GISCO guard)
             old_blocked = gate_comparison.get("GISCO_GUARD_BLOCKED_HIGH", old_blocked)
-            # Use boundary script's DISAGREEMENT_POINTS (GISCO vs OFFICIAL)
-            gate_disagreement = gate_comparison.get("DISAGREEMENT_POINTS", 0)
+            # Use boundary script's total blocked count
+            gisco_blocked_total = gate_comparison.get("GISCO_GUARD_BLOCKED_TOTAL", 918)
+            # DISAGREEMENT_POINTS from boundary script
+            gate_disagreement = gate_comparison.get("DISAGREEMENT_POINTS", disagreement_count)
+            # Load the NEWLY_RESOLVABLE band values and STILL_AMBIGUOUS from gate
+            newly_res_100 = gate_comparison.get("NEWLY_RESOLVABLE_100", newly_resolvable_high)
+            still_ambiguous_100 = gate_comparison.get("STILL_AMBIGUOUS_100", 0)
         except Exception:
             log(f"  Warning: could not load gate_comparison from {boundary_results_path}")
+            gisco_blocked_total = 918
             gate_disagreement = disagreement_count
+            newly_res_100 = newly_resolvable_high
+            still_ambiguous_100 = 0
     else:
         log(f"  Warning: no gate_comparison available")
+        gisco_blocked_total = 918
         gate_disagreement = disagreement_count
+        newly_res_100 = newly_resolvable_high
+        still_ambiguous_100 = 0
 
-    # Recompute NEWLY_RESOLVABLE_PCT (already computed above)
-    # newly_resolvable_high and newly_resolvable_pct are already set above
+    # Load full results from boundary script for disagreement_points
+    discrepancy_points = []
+    if boundary_results_full_path.exists():
+        try:
+            with open(boundary_results_full_path, encoding="utf-8") as bf:
+                full_results = json.load(bf)
+            discrepancy_points = full_results.get("disagreement_points", [])
+            log(f"  Loaded {len(discrepancy_points)} disagreement_points from boundary results")
+        except Exception:
+            log(f"  Warning: could not load boundary results for disagreement_points")
+
+    # Recompute NEWLY_RESOLVABLE_PCT from the 100m band value (the canonical one)
+    newly_resolvable_high = newly_res_100
+    newly_resolvable_pct = (newly_resolvable_high / old_blocked * 100) if old_blocked > 0 else 0
 
     results = {
         "gate_comparison": gate_comparison,
@@ -772,7 +798,7 @@ def main():
             "HIGH_POINTS_TESTED": HIGH_POINTS_TESTED,
             "TOTAL_IN_PARK_POINTS": TOTAL_IN_PARK,
             "OLD_BLOCKED": old_blocked,
-            "GISCO_GUARD_BLOCKED_TOTAL": 918,
+            "GISCO_GUARD_BLOCKED_TOTAL": gisco_blocked_total,
             "NEW_BLOCKED": new_blocked_high,
             "NEW_SAFE": new_safe,
             "NEWLY_RESOLVABLE": newly_resolvable_high,
@@ -795,6 +821,7 @@ def main():
             },
         },
         "probe_results": probe_results,
+        "disagreement_points": discrepancy_points,
         "guard": {
             "boundary_guard_m": BOUNDARY_GUARD_M,
             "boundary_guard_basis": "VERIFIED_OFFICIAL_DOC",

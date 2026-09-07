@@ -1,15 +1,15 @@
 {
   "gate_comparison": {
     "HIGH_POINTS_TESTED": 769,
-    "GISCO_GUARD_BLOCKED_HIGH": 59,
-    "GISCO_GUARD_BLOCKED_TOTAL": 110,
+    "GISCO_GUARD_BLOCKED_HIGH": 361,
+    "GISCO_GUARD_BLOCKED_TOTAL": 916,
     "OFFICIAL_BOUNDARY_BLOCKED_50": 28,
     "OFFICIAL_BOUNDARY_BLOCKED_100": 60,
     "OFFICIAL_BOUNDARY_BLOCKED_250": 122,
     "STILL_AMBIGUOUS_100": 60,
-    "NEWLY_RESOLVABLE_50": 31,
-    "NEWLY_RESOLVABLE_100": 0,
-    "NEWLY_RESOLVABLE_250": 0,
+    "NEWLY_RESOLVABLE_50": 333,
+    "NEWLY_RESOLVABLE_100": 302,
+    "NEWLY_RESOLVABLE_250": 242,
     "DISAGREEMENT_POINTS": 25,
     "GAP_POINTS_OFFICIAL": 0,
     "MAX_BOUNDARY_SHIFT_M": 2499.68,
@@ -21,7 +21,7 @@
     "matched_ccaa": {
       "es-as": "Principado de Asturias",
       "es-cb": "Cantabria",
-      "es-cl": "Castilla y LeÃ³n"
+      "es-cl": "Castilla y León"
     },
     "match_method": "au:name text matching (gn:SpellingOfName/gn:text)",
     "match_fallback_used": {
@@ -47,12 +47,12 @@
   "runtime": {
     "HIGH_POINTS_TESTED": 769,
     "TOTAL_IN_PARK_POINTS": 4584,
-    "OLD_BLOCKED": 59,
-    "GISCO_GUARD_BLOCKED_TOTAL": 918,
+    "OLD_BLOCKED": 361,
+    "GISCO_GUARD_BLOCKED_TOTAL": 916,
     "NEW_BLOCKED": 59,
     "NEW_SAFE": 4474,
-    "NEWLY_RESOLVABLE": 0,
-    "NEWLY_RESOLVABLE_PCT": 0,
+    "NEWLY_RESOLVABLE": 302,
+    "NEWLY_RESOLVABLE_PCT": 83.66,
     "DISAGREEMENT_POINTS": 25,
     "GAP_POINTS": 0,
     "OVERLAP_POINTS": 0,
@@ -65,7 +65,7 @@
     "matched_ccaa": {
       "es-as": "Principado de Asturias",
       "es-cb": "Cantabria",
-      "es-cl": "Castilla y LeÃ³n"
+      "es-cl": "Castilla y León"
     },
     "match_method": "au:name exact",
     "match_fallback_used": {
@@ -95,7 +95,7 @@
       "inside_park": true,
       "elev_m": 1510.0,
       "description": "Asturias interior",
-      "gisco_jurisdiction": null,
+      "gisco_jurisdiction": "es-as",
       "official_jurisdiction": "es-as",
       "in_uncertainty_zone": null,
       "jurisdiction_resolved": true,
@@ -108,7 +108,7 @@
       "inside_park": true,
       "elev_m": 1942.0,
       "description": "Cantabria interior",
-      "gisco_jurisdiction": null,
+      "gisco_jurisdiction": "es-cb",
       "official_jurisdiction": "es-cb",
       "in_uncertainty_zone": null,
       "jurisdiction_resolved": true,
@@ -121,7 +121,7 @@
       "inside_park": true,
       "elev_m": 1390.0,
       "description": "Castilla y Leon interior",
-      "gisco_jurisdiction": null,
+      "gisco_jurisdiction": "es-cl",
       "official_jurisdiction": "es-cl",
       "in_uncertainty_zone": null,
       "jurisdiction_resolved": true,
@@ -134,7 +134,7 @@
       "inside_park": true,
       "elev_m": 1166.0,
       "description": "Near ES13|ES12 border",
-      "gisco_jurisdiction": null,
+      "gisco_jurisdiction": "es-cb",
       "official_jurisdiction": "es-cb",
       "in_uncertainty_zone": null,
       "jurisdiction_resolved": true,
@@ -147,7 +147,7 @@
       "inside_park": true,
       "elev_m": 2416.0,
       "description": "High altitude boundary-safe point",
-      "gisco_jurisdiction": null,
+      "gisco_jurisdiction": "es-as",
       "official_jurisdiction": "es-as",
       "in_uncertainty_zone": null,
       "jurisdiction_resolved": true,
@@ -155,9 +155,186 @@
       "verdict": "PERMITTED"
     }
   },
+  "disagreement_points": [
+    {
+      "lat": 43.154691,
+      "lon": -5.084656,
+      "gisco_jur": "es-as",
+      "official_jur": "es-cl",
+      "dist_to_official_border_m": 35.68
+    },
+    {
+      "lat": 43.174691,
+      "lon": -5.076656,
+      "gisco_jur": "es-as",
+      "official_jur": "es-cl",
+      "dist_to_official_border_m": 51.87
+    },
+    {
+      "lat": 43.182691,
+      "lon": -5.032656,
+      "gisco_jur": "es-cl",
+      "official_jur": "es-as",
+      "dist_to_official_border_m": 47.0
+    },
+    {
+      "lat": 43.182691,
+      "lon": -5.028656,
+      "gisco_jur": "es-cl",
+      "official_jur": "es-as",
+      "dist_to_official_border_m": 2.44
+    },
+    {
+      "lat": 43.178691,
+      "lon": -4.996656,
+      "gisco_jur": "es-as",
+      "official_jur": "es-cl",
+      "dist_to_official_border_m": 17.19
+    },
+    {
+      "lat": 43.214691,
+      "lon": -4.952656,
+      "gisco_jur": "es-cl",
+      "official_jur": "es-as",
+      "dist_to_official_border_m": 26.25
+    },
+    {
+      "lat": 43.226691,
+      "lon": -4.920656,
+      "gisco_jur": "es-cl",
+      "official_jur": "es-as",
+      "dist_to_official_border_m": 18.64
+    },
+    {
+      "lat": 43.234691,
+      "lon": -4.912656,
+      "gisco_jur": "es-as",
+      "official_jur": "es-cl",
+      "dist_to_official_border_m": 46.25
+    },
+    {
+      "lat": 43.206691,
+      "lon": -4.860656,
+      "gisco_jur": "es-cl",
+      "official_jur": "es-as",
+      "dist_to_official_border_m": 9.71
+    },
+    {
+      "lat": 43.210691,
+      "lon": -4.860656,
+      "gisco_jur": "es-cl",
+      "official_jur": "es-as",
+      "dist_to_official_border_m": 115.9
+    },
+    {
+      "lat": 43.214691,
+      "lon": -4.860656,
+      "gisco_jur": "es-as",
+      "official_jur": "es-cl",
+      "dist_to_official_border_m": 1.33
+    },
+    {
+      "lat": 43.202691,
+      "lon": -4.856656,
+      "gisco_jur": "es-as",
+      "official_jur": "es-cl",
+      "dist_to_official_border_m": 20.19
+    },
+    {
+      "lat": 43.178691,
+      "lon": -4.844656,
+      "gisco_jur": "es-cl",
+      "official_jur": "es-cb",
+      "dist_to_official_border_m": 61.56
+    },
+    {
+      "lat": 43.186691,
+      "lon": -4.840656,
+      "gisco_jur": "es-as",
+      "official_jur": "es-cl",
+      "dist_to_official_border_m": 23.51
+    },
+    {
+      "lat": 43.114691,
+      "lon": -4.836656,
+      "gisco_jur": "es-cb",
+      "official_jur": "es-cl",
+      "dist_to_official_border_m": 20.94
+    },
+    {
+      "lat": 43.178691,
+      "lon": -4.824656,
+      "gisco_jur": "es-cb",
+      "official_jur": "es-as",
+      "dist_to_official_border_m": 31.7
+    },
+    {
+      "lat": 43.182691,
+      "lon": -4.816656,
+      "gisco_jur": "es-as",
+      "official_jur": "es-cb",
+      "dist_to_official_border_m": 30.48
+    },
+    {
+      "lat": 43.182691,
+      "lon": -4.812656,
+      "gisco_jur": "es-cb",
+      "official_jur": "es-as",
+      "dist_to_official_border_m": 19.01
+    },
+    {
+      "lat": 43.182691,
+      "lon": -4.808656,
+      "gisco_jur": "es-cb",
+      "official_jur": "es-as",
+      "dist_to_official_border_m": 127.33
+    },
+    {
+      "lat": 43.182691,
+      "lon": -4.804656,
+      "gisco_jur": "es-cb",
+      "official_jur": "es-as",
+      "dist_to_official_border_m": 61.23
+    },
+    {
+      "lat": 43.186691,
+      "lon": -4.760656,
+      "gisco_jur": "es-as",
+      "official_jur": "es-cb",
+      "dist_to_official_border_m": 23.9
+    },
+    {
+      "lat": 43.198691,
+      "lon": -4.736656,
+      "gisco_jur": "es-as",
+      "official_jur": "es-cb",
+      "dist_to_official_border_m": 33.27
+    },
+    {
+      "lat": 43.218691,
+      "lon": -4.728656,
+      "gisco_jur": "es-cb",
+      "official_jur": "es-as",
+      "dist_to_official_border_m": 8.64
+    },
+    {
+      "lat": 43.250691,
+      "lon": -4.728656,
+      "gisco_jur": "es-as",
+      "official_jur": "es-cb",
+      "dist_to_official_border_m": 47.38
+    },
+    {
+      "lat": 43.274691,
+      "lon": -4.636656,
+      "gisco_jur": "es-as",
+      "official_jur": "es-cb",
+      "dist_to_official_border_m": 14.01
+    }
+  ],
   "guard": {
     "boundary_guard_m": 100,
     "boundary_guard_basis": "VERIFIED_OFFICIAL_DOC"
   },
-  "fixture_sha256": "718fd8daf7725168e7535a5812d3762f360c58f248714442e5d9fa6506a894aa"
+  "fixture_sha256": "9bcd2cbe62d1870d3863ad90cdc7f26272b5f21db10258992a87262f4b52a190"
 }

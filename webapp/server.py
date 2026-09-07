@@ -452,13 +452,36 @@ def resolve_point(svc: Service, *, lat: float, lon: float, activity: str,
         "userVsDem": user_vs_dem,
     }
     if not boundary_safe:
-        # La frontera CCAA está en la franja de incertidumbre (100 m): el
-        # PERMITTED no puede sostenerse sin re-verificación IDE.
-        out["determination"]["warnings"].append(
-            "Punto dentro de la zona de incertidumbre de frontera CCAA (100 m): "
-            "BOUNDARY_EVIDENCE_INCOMPLETE. Se requiere re-verificación IDE.")
-        if "BOUNDARY_EVIDENCE_INCOMPLETE" not in out["determination"]["reasonCodes"]:
-            out["determination"]["reasonCodes"].append("BOUNDARY_EVIDENCE_INCOMPLETE")
+        # Classify WHY the boundary guard failed and attach a distinct reason
+        # code + specific warning.  These are metadata-only; legalStatus
+        # remains engine-driven.
+        containing = _picos_sectors_containing(svc, lat, lon)
+        in_zone = False
+        zone_rings = svc.fx_picos.get("geometry", {}).get("boundary_uncertainty", [])
+        if zone_rings:
+            in_zone = any(_point_in_ring(lat, lon, zr) for zr in zone_rings)
+
+        if not containing:
+            # 0 sectors → GAP (dentro del parque pero sin jurisdicción)
+            out["determination"]["warnings"].append(
+                "Punto dentro del parque sin jurisdicción CCAA asignada: "
+                "BOUNDARY_GAP. Se requiere re-verificación IDE.")
+            if "BOUNDARY_GAP" not in out["determination"]["reasonCodes"]:
+                out["determination"]["reasonCodes"].append("BOUNDARY_GAP")
+        elif len(containing) >= 2:
+            # >=2 sectores → OVERLAP (solapamiento de jurisdicciones)
+            out["determination"]["warnings"].append(
+                "Punto en solapamiento de jurisdicciones CCAA ({}): "
+                "BOUNDARY_OVERLAP. Se requiere re-verificación IDE.".format(", ".join(containing)))
+            if "BOUNDARY_OVERLAP" not in out["determination"]["reasonCodes"]:
+                out["determination"]["reasonCodes"].append("BOUNDARY_OVERLAP")
+        elif in_zone:
+            # 1 sector pero en la zona de incertidumbre (100 m)
+            out["determination"]["warnings"].append(
+                "Punto dentro de la zona de incertidumbre de frontera CCAA (100 m): "
+                "BOUNDARY_EVIDENCE_INCOMPLETE. Se requiere re-verificación IDE.")
+            if "BOUNDARY_EVIDENCE_INCOMPLETE" not in out["determination"]["reasonCodes"]:
+                out["determination"]["reasonCodes"].append("BOUNDARY_EVIDENCE_INCOMPLETE")
     if user_vs_dem and user_vs_dem["DIFF_M"] > 100:
         out["determination"]["warnings"].append(
             f"La altitud indicada por el usuario ({user_vs_dem['USER_COTA_M']} m) difiere "
