@@ -85,7 +85,9 @@ def test_p2_p3_dem_auto_elevation_permitted(svc, monkeypatch, tmp_path):
 
 def test_p4_p5_boundary_undetermined_even_with_dem(svc, monkeypatch, tmp_path):
     _configure(monkeypatch, tmp_path, 2400.0)
-    for lat, lon in [(43.25005, -4.72339), (43.16286, -4.83443)]:
+    # Points on the es-as/es-cb shared border that are inside the uncertainty zone.
+    # These points have guard=False -> UNDETERMINED + BOUNDARY_EVIDENCE_INCOMPLETE.
+    for lat, lon in [(43.277334, -4.634455), (43.268966, -4.634891)]:
         out = _resolve(svc, lat, lon, BASE_FACTS)
         assert out["determination"]["legalStatus"] == "UNDETERMINED"
         assert "BOUNDARY_EVIDENCE_INCOMPLETE" in out["determination"]["reasonCodes"]

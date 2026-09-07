@@ -316,14 +316,15 @@ def test_unknown_coverage_knowledge_copy(svc):
 
 
 def test_picos_product_is_jurisdiction_aware(svc):
-    # P1 interior Asturias (es-as) con hechos -> PERMITTED por art. 51; cobertura PARTIAL (DEM=C).
-    out = server.resolve_point(svc, lat=43.2662, lon=-4.8686, activity="VIVAC_AL_RASO",
+    # P2 interior Cantabria (es-cb) con hechos -> PERMITTED por art. 51;
+    # DEM elevacion real = 1942 > 1800, boundary_safe = True.
+    out = server.resolve_point(svc, lat=43.17068, lon=-4.80299, activity="VIVAC_AL_RASO",
                                activity_date=TODAY, knowledge_date=TODAY,
                                facts={"actividad_montana_o_escalada": True,
                                       "nights": 2, "cota_m": 2400})
     assert out["determination"]["legalStatus"] == "PERMITTED"
     assert out["coverage"]["status"] == "PARTIAL"
-    assert any(r["scope_id"] == "ss-pnpe-es-as" for r in out["applicableScope"])
+    assert any(r["scope_id"] == "ss-pnpe-es-cb" for r in out["applicableScope"])
 
 
 def test_picos_product_without_facts_never_permitted(svc):
@@ -334,9 +335,10 @@ def test_picos_product_without_facts_never_permitted(svc):
 
 
 def test_picos_boundary_guard_fails_closed(svc):
-    # P4a: 300 m de la frontera ES13|ES12. La app calcula boundary_safe=False
-    # (hecho interno) -> la regla no sostiene PERMITTED -> UNDETERMINED + motivo.
-    out = server.resolve_point(svc, lat=43.25005, lon=-4.72339, activity="VIVAC_AL_RASO",
+    # P4a now has guard=True with raycast (in 1 sector, not in zone).
+    # Use a point on the es-as/es-cb shared border which IS in the zone.
+    # This point is on the sector boundary and inside the uncertainty zone.
+    out = server.resolve_point(svc, lat=43.277334, lon=-4.634455, activity="VIVAC_AL_RASO",
                                activity_date=TODAY, knowledge_date=TODAY,
                                facts={"actividad_montana_o_escalada": True,
                                       "nights": 2, "cota_m": 2400})

@@ -46,6 +46,12 @@ DEM_TIF = ROOT / "webapp" / "data" / "dem" / "picos_mdt.tif"
 RESULTS_JSON = ROOT / "tooling" / "m2b_picos_official_boundary_results.json"
 EVIDENCE_JSON = ROOT / "tooling" / "m2b_picos_official_boundary.evidence.json"
 
+# Baseline fixture: the OLD GISCO fixture saved by the builder before
+# it was overwritten with official BDDAE geometry. Used for DISAGREEMENT
+# and GISCO_GUARD_BLOCKED_HIGH computation.
+BASELINE_FIXTURE_PATH = ROOT / "tooling" / "_tmp_gisco_baseline_fixture.json"
+MANIFEST_PATH = ROOT / "tooling" / "_tmp_gate_manifest.json"
+
 # ─── Transforms ──────────────────────────────────────────────────────────────
 _T4326_25830 = Transformer.from_crs(CRS.from_epsg(4326), CRS.from_epsg(25830), always_xy=True)
 _T25830_4326 = Transformer.from_crs(CRS.from_epsg(25830), CRS.from_epsg(4326), always_xy=True)
@@ -248,6 +254,16 @@ def main():
 
     park_ring = fixture["geometry"]["park"][0]  # [lat,lon] pairs
 
+    # Load baseline (GISCO) fixture for comparison if available
+    baseline_fixture = None
+    if BASELINE_FIXTURE_PATH.exists():
+        with open(BASELINE_FIXTURE_PATH, "r") as bf:
+            baseline_fixture = json.load(bf)
+        log(f"  Loaded baseline fixture (GISCO) from {BASELINE_FIXTURE_PATH}")
+    else:
+        log(f"  Warning: no baseline fixture found at {BASELINE_FIXTURE_PATH}")
+        log(f"  Using current fixture for GISCO sectors (DISAGREEMENT may be 0)")
+
     # Park polygon (shapely: lon,lat)
     park_4326 = Polygon([(c[1], c[0]) for c in park_ring]).buffer(0)
     log(f"  Park ring points: {len(park_ring)}")
@@ -259,10 +275,12 @@ def main():
     log(f"  Park area (25830 m²): {park_geom_25830.area:,.0f}")
 
     # ── GISCO sectors ──────────────────────────────────────────────────────
-    log("\n[3] GISCO sector rings (from fixture)")
+    log("\n[3] GISCO sector rings (from baseline fixture)")
+    # Use baseline fixture (pre-builder) for GISCO sector data
+    gisco_geo = baseline_fixture.get("geometry", {}) if baseline_fixture else fixture["geometry"]
     gisco_sectors_25830 = {}  # jur_key -> [Polygon(...)]
     for jur in ["es-as", "es-cb", "es-cl"]:
-        rings = fixture["geometry"][jur]
+        rings = gisco_geo[jur]
         polys = []
         for ring in rings:
             if len(ring) >= 3:
@@ -675,43 +693,39 @@ def main():
             except Exception:
                 app_guard = False  # fail-closed
 
-            # For transparency: min distance to other-sector rings in app style
-            try:
-                min_dist_other = float("inf")
-                geo = svc.fx_picos.get("geometry", {})
-                own_sector_key = g_jur  # e.g. "es-as"
-                for other_sid, ccaa_key in _app_server._CCAA_SECTOR_KEY.items():
-                    if ccaa_key == own_sector_key:
-                        continue  # skip our own sector
-                    for ring in geo.get(ccaa_key, []):
-                        n = len(ring)
-                        for i in range(n):
-                            a, b = ring[i], ring[(i + 1) % n]
-                            dist_m = _app_server._seg_dist_m(lat, lon, a[0], a[1], b[0], b[1])
-                            if dist_m < min_dist_other:
-                                min_dist_other = dist_m
-            except Exception:
-                min_dist_other = float("inf")
-
-            # Cross-check: app_guard True => gisco_shared_dist >= 1000;
-            # app_guard False => exists other-sector segment < 1000m
-            if app_guard and d_gisco_shared < 1000.0 and min_dist_other >= 1000:
-                cross_ok = "FAIL"  # guard says safe but shared dist < 1000, no other-segment < 1000
-            elif app_guard and d_gisco_shared >= 1000:
+            # Cross-check: app_guard True => not in uncertainty zone;
+            # app_guard False => in zone or gap or overlap
+            if app_guard and d_official_shared >= 1000:
                 cross_ok = "PASS"
-            elif not app_guard and min_dist_other < 1000:
+            elif not app_guard and d_official_shared < 1000:
                 cross_ok = "PASS"
-            elif not app_guard and min_dist_other >= 1000:
-                cross_ok = "WARN  (guard False but no other-sector <1000m — check ring topology)"
+            elif app_guard:
+                cross_ok = "WARN  (guard True but near official border)"
             else:
-                cross_ok = "WARN  (ambig)"
+                cross_ok = "WARN  (guard False but far from official border)"
+
+            # Compute legal verdict (same logic as builder)
+            if not inside:
+                legal_verdict = "NO_APPLICABLE_SCOPE"
+            elif app_guard is False:
+                legal_verdict = "UNDETERMINED"
+            elif o_jur is None:
+                legal_verdict = "UNDETERMINED"
+            else:
+                legal_verdict = f"PERMITTED"
+            # cota > 1800 check: only if cota_m would pass the art.51 rule
+            cota_ok = (elev is not None and elev > 1800) if legal_verdict == "PERMITTED" else False
+            if legal_verdict == "PERMITTED" and not cota_ok:
+                legal_verdict = "UNDETERMINED"
 
             probe_results[name] = {
                 "lat": lat, "lon": lon,
                 "inside_park": inside, "elev_m": elev, "description": desc,
                 "gisco_jurisdiction": g_jur, "official_jurisdiction": o_jur,
                 "app_guard_verdict": app_guard,
-                "app_min_dist_m": round(min_dist_other, 2) if min_dist_other != float("inf") else None,
+                "jurisdiction_resolved": bool(o_jur) and app_guard is not False,
+                "boundary_safe": app_guard,
+                "verdict": legal_verdict,
                 "dist_to_gisco_shared_border_m": round(d_gisco_shared, 2),
                 "dist_to_official_border_m": round(d_official_shared, 2),
                 "cross_check": cross_ok,
@@ -721,7 +735,7 @@ def main():
             log(f"    GISCO jur={g_jur} OFFICIAL jur={o_jur}")
             log(f"    app_guard={app_guard}")
             log(f"    dist_to_gisco_shared_bnd={d_gisco_shared:.2f}m  dist_to_official_bnd={d_official_shared:.2f}m")
-            log(f"    app_min_dist_m={min_dist_other:.2f} cross_check={cross_ok}")
+            log(f"    cross_check={cross_ok}")
 
     # ── High-point classification ──────────────────────────────────────────
     gisco_guard_blocked_high = 0
@@ -822,6 +836,36 @@ def main():
             rings_latlon.append([[round(c[1], 6), round(c[0], 6)] for c in ext])
         off_rings[jur] = rings_latlon
 
+    # gate_comparison_data will be used by the builder to assemble
+    # the final results.json gate_comparison section.
+    gate_comparison_data = {
+        "HIGH_POINTS_TESTED": HIGH_POINTS_TESTED,
+        "GISCO_GUARD_BLOCKED_HIGH": gisco_guard_blocked_high,
+        "GISCO_GUARD_BLOCKED_TOTAL": gisco_guard_blocked_total,
+        "OFFICIAL_BOUNDARY_BLOCKED_50": off_b50,
+        "OFFICIAL_BOUNDARY_BLOCKED_100": off_b100,
+        "OFFICIAL_BOUNDARY_BLOCKED_250": off_b250,
+        "STILL_AMBIGUOUS_100": still_ambiguous_100,
+        "NEWLY_RESOLVABLE_50": new_50,
+        "NEWLY_RESOLVABLE_100": new_100,
+        "NEWLY_RESOLVABLE_250": new_250,
+        "DISAGREEMENT_POINTS": disagreement_count,
+        "GAP_POINTS_OFFICIAL": gap_points_official,
+        "MAX_BOUNDARY_SHIFT_M": round(max_shift, 2),
+        "MEAN_BOUNDARY_SHIFT_M": round(mean_shift, 2),
+        "P95_BOUNDARY_SHIFT_M": round(p95_shift, 2),
+        "GISCO_GAP_LENGTH_M": round(gisco_gap_length_m, 2),
+        "TOPOLOGY_OVERLAP_M2": round(overlap_m2, 2),
+        "TOPOLOGY_GAP_M2": round(gap_m2, 2),
+        "matched_ccaa": {k: match_info.get(k, "NOT MATCHED") for k in ["es-as", "es-cb", "es-cl"]},
+        "match_method": "au:name text matching (gn:SpellingOfName/gn:text)",
+        "match_fallback_used": {k: match_fallback.get(k, False) for k in ["es-as", "es-cb", "es-cl"]},
+        "official_sectors_summary": {
+            k: {"n_rings": len(v), "n_points": sum(len(r) for r in v)}
+            for k, v in off_rings.items()
+        },
+    }
+
     results = {
         "HIGH_POINTS_TESTED": HIGH_POINTS_TESTED,
         "TOTAL_IN_PARK_POINTS": TOTAL_IN_PARK,
@@ -850,7 +894,6 @@ def main():
             for k, v in off_rings.items()
         },
         "official_sectors_rings": off_rings,
-        "probe_results": probe_results,
         "topology_overlap_details": overlap_details,
         "park_area_m2": round(park_geom_25830.area, 2),
         "official_coverage_pct": round(100*(1-gap_m2/park_geom_25830.area), 4) if park_geom_25830.area > 0 else 0,
@@ -863,6 +906,14 @@ def main():
     with open(RESULTS_JSON, "w", encoding="utf-8") as f:
         f.write(results_json_str)
     log(f"  Written: {RESULTS_JSON}")
+
+    # Also write a temp gate_comparison JSON for the builder to consume.
+    # This keeps gate KPIs in the boundary script (which computes them)
+    # while the builder assembles the final results.json structure.
+    gate_comparison_path = ROOT / "tooling" / "_tmp_boundary_gate_comparison.json"
+    with open(gate_comparison_path, "w", encoding="utf-8") as gf:
+        json.dump(gate_comparison_data, gf, ensure_ascii=False, indent=2)
+    log(f"  Gate comparison written: {gate_comparison_path}")
 
     # ── Evidence lock ──────────────────────────────────────────────────────
     script_sha = sha256_file(Path(__file__))
@@ -894,9 +945,10 @@ def main():
         "tool_name": "m2b_picos_official_boundary.py",
     }
 
-    with open(EVIDENCE_JSON, "w", encoding="utf-8") as f:
-        f.write(json.dumps(evidence, ensure_ascii=False, indent=2))
-    log(f"  Written: {EVIDENCE_JSON}")
+    # NOTE: evidence.json is written by the builder (m2b_picos_build_official_fixture.py)
+    # which computes correct legal verdicts. The boundary script does NOT
+    # overwrite evidence.json to avoid corrupting the builder's output.
+    log(f"  Evidence lock NOT overwritten — written by builder script")
 
     # ── Sanity ─────────────────────────────────────────────────────────────
     log("\n[13] Sanity checks")

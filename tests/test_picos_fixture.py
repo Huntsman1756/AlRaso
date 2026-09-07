@@ -138,7 +138,8 @@ def test_fixture_has_three_verified_rules_and_sources(res):
     _r, fx = res
     assert len(fx["legal_rule_versions"]) == 3
     assert len(fx["spatial_scopes"]) == 4
-    assert len(fx["source_documents"]) == 3
+    # 3 decree source docs + 1 BDDAE source doc = 4 total
+    assert len(fx["source_documents"]) == 4
     for v in fx["legal_rule_versions"]:
         assert v["review_status"] == "VERIFIED"
         cond_fields = [c["field"] for c in v["condition"]["all"]]

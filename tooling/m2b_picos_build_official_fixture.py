@@ -40,6 +40,7 @@ GML_DIR = ROOT / "tooling" / "_tmp_gml_extract"
 DEM_TIF = ROOT / "webapp" / "data" / "dem" / "picos_mdt.tif"
 EVIDENCE_JSON = ROOT / "tooling" / "m2b_picos_official_boundary.evidence.json"
 RESULTS_JSON = ROOT / "tooling" / "m2b_picos_official_boundary_results.json"
+BASELINE_FIXTURE_PATH = ROOT / "tooling" / "_tmp_gisco_baseline_fixture.json"
 
 # ─── Transforms ──────────────────────────────────────────────────────────────
 _T4326_25830 = Transformer.from_crs(CRS.from_epsg(4326), CRS.from_epsg(25830), always_xy=True)
@@ -187,6 +188,21 @@ def main():
     log(f"  old fixture sha256: {fixture_sha_old}")
     log(f"  DEM sha256: {dem_sha}")
 
+    # ── 1b. Save baseline GISCO fixture for gate comparison ────────────
+    # The boundary script needs the OLD fixture to compute DISAGREEMENT_POINTS
+    # and GISCO_GUARD_BLOCKED_HIGH. We save it to a known temp path.
+    # Only save if the baseline doesn't already exist (to avoid overwriting
+    # a previously saved baseline from a prior builder run).
+    baseline_fixture_path = ROOT / "tooling" / "_tmp_gisco_baseline_fixture.json"
+    if not baseline_fixture_path.exists():
+        with open(FIXTURE, "r", encoding="utf-8-sig") as fin:
+            old_fixture_text = fin.read()
+        with open(baseline_fixture_path, "w", encoding="utf-8") as bout:
+            bout.write(old_fixture_text)
+        log(f"  Saved baseline fixture: {baseline_fixture_path}")
+    else:
+        log(f"  Baseline fixture already exists at {baseline_fixture_path}")
+
     # ── 2. Extract GML ────────────────────────────────────────────────────
     log("\n[2] Extract GML zip")
     GML_DIR.mkdir(parents=True, exist_ok=True)
@@ -197,7 +213,7 @@ def main():
 
     # ── 3. Load old fixture (preserve metadata) ───────────────────────────
     log("\n[3] Load old fixture (preserve metadata)")
-    with open(FIXTURE, "r", encoding="utf-8") as f:
+    with open(FIXTURE, "r", encoding="utf-8-sig") as f:
         old_fixture = json.load(f)
     park_ring = old_fixture["geometry"]["park"][0]
     log(f"  Park ring points: {len(park_ring)}")
@@ -206,6 +222,22 @@ def main():
     park_25830_coords = [_T4326_25830.transform(c[1], c[0]) for c in park_ring]
     park_geom_25830 = Polygon(park_25830_coords).buffer(0)
     log(f"  Park area (25830 m2): {park_geom_25830.area:,.0f}")
+
+    # ── 3b. Load baseline (GISCO) fixture for OLD_BLOCKED computation ────
+    # The old fixture (old_fixture) is what we're about to replace with
+    # official sectors. But after [12] it will be the new official one.
+    # For OLD_BLOCKED and DISAGREEMENT, we need the pre-official GISCO layout.
+    # If the baseline was already saved by a prior builder run, reuse it.
+    # Otherwise, old_fixture IS the baseline (first run).
+    baseline_geo = None
+    if BASELINE_FIXTURE_PATH.exists():
+        with open(BASELINE_FIXTURE_PATH, encoding="utf-8") as bf:
+            baseline_geo = json.load(bf)
+        log(f"  Using baseline fixture (GISCO) from {BASELINE_FIXTURE_PATH}")
+    else:
+        # First run: old_fixture is the current (pre-official) fixture
+        baseline_geo = old_fixture.get("geometry", {})
+        log(f"  Using current fixture geometry as baseline (first run)")
 
     # ── 4. Parse GML ──────────────────────────────────────────────────────
     log("\n[4] Parse official GML")
@@ -413,6 +445,25 @@ def main():
         for ring in uncertainty_zone_rings:
             if _point_in_ring(lat, lon, ring):
                 return True
+        return None
+
+    def _old_gisco_guard_blocked(lat, lon):
+        """Approximate: a point is GISCO-blocked if it's in a gap or overlap
+        under the old GISCO sector layout. For simplicity we use: in park but
+        not in any old sector ring = blocked (gap)."""
+        if not any(_point_in_ring(lat, lon, r)
+                   for r in baseline_geo.get("park", [])):
+            return False
+        in_old_sector = False
+        for sid in ["es-as", "es-cb", "es-cl"]:
+            for ring in baseline_geo.get(sid, []):
+                if _point_in_ring(lat, lon, ring):
+                    in_old_sector = True
+                    break
+            if in_old_sector:
+                break
+        if not in_old_sector:
+            return True  # gap
         return False
 
     def new_jurisdiction_verdict(lat, lon):
@@ -450,7 +501,7 @@ def main():
         elif verdict.startswith("PERMITTED"):
             new_safe += 1
 
-    old_geo = old_fixture.get("geometry", {})
+    old_geo = baseline_geo  # Use baseline GISCO geometry for comparison
     for lat, lon in in_park:
         o_jur = None
         for sid in ["es-as", "es-cb", "es-cl"]:
@@ -464,12 +515,27 @@ def main():
         if o_jur and n_jur and o_jur != n_jur:
             disagreement_count += 1
 
-    newly_resolvable = 0
+    # OLD_BLOCKED: count of high-altitude points blocked by the old GISCO guard.
+    # We approximate this by counting in-park points that are in a gap or overlap
+    # under the old GISCO sector layout. The boundary script's GISCO_GUARD_BLOCKED_HIGH
+    # provides the authoritative count for high-altitude only.
+    old_blocked = 0
     for lat, lon, elev in high_pts:
-        verdict = new_jurisdiction_verdict(lat, lon)
-        if verdict.startswith("PERMITTED"):
-            newly_resolvable += 1
-    newly_resolvable_pct = (newly_resolvable / HIGH_POINTS_TESTED * 100) if HIGH_POINTS_TESTED > 0 else 0
+        if _old_gisco_guard_blocked(lat, lon):
+            old_blocked += 1
+
+    # NEW_BLOCKED_HIGH: high-altitude points blocked by the official zone
+    new_blocked_high = 0
+    for lat, lon, elev in high_pts:
+        if in_uncertainty_zone_fn(lat, lon):
+            new_blocked_high += 1
+        elif official_jur_fn(lat, lon) is None:
+            new_blocked_high += 1
+
+    # NEWLY_RESOLVABLE: of the old blocked points, how many are now resolved.
+    # = old_blocked - new_blocked_high (points that were blocked but are now safe)
+    newly_resolvable_high = old_blocked - new_blocked_high if old_blocked > new_blocked_high else 0
+    newly_resolvable_pct = (newly_resolvable_high / old_blocked * 100) if old_blocked > 0 else 0
 
     as_count = cb_count = cl_count = 0
     for lat, lon, elev in high_pts:
@@ -482,10 +548,10 @@ def main():
             cl_count += 1
 
     log(f"  NEW_SAFE: {new_safe}")
-    log(f"  NEW_BLOCKED (ZONE): {new_zone}")
+    log(f"  NEW_BLOCKED_HIGH (ZONE): {new_blocked_high}")
     log(f"  NEW_GAP: {new_gap}")
     log(f"  NEW_OVERLAP: {new_overlap}")
-    log(f"  NEWLY_RESOLVABLE: {newly_resolvable} ({newly_resolvable_pct:.1f}%)")
+    log(f"  NEWLY_RESOLVABLE_HIGH: {newly_resolvable_high} ({newly_resolvable_pct:.1f}%)")
     log(f"  DISAGREEMENT_POINTS: {disagreement_count}")
     log(f"  GAP_POINTS_OFFICIAL: {gap_points_official}")
     log(f"  ASTURIAS: {as_count}, CANTABRIA: {cb_count}, CASTILLA_Y_LEON: {cl_count}")
@@ -522,11 +588,23 @@ def main():
                         break
                 if old_jur:
                     break
+            # Compute legal verdict: cota_m > 1800 required for PERMITTED
+            cota_ok = (elev is not None and elev > 1800) if verdict == "PERMITTED" or verdict.startswith("PERMITTED_") else False
+            legal_verdict = verdict
+            if cota_ok and (verdict == "PERMITTED" or verdict.startswith("PERMITTED_")):
+                # Strip CCAA suffix for clean legal verdict
+                legal_verdict = "PERMITTED" if legal_verdict.startswith("PERMITTED_") else legal_verdict
+            elif cota_ok is False:
+                legal_verdict = "UNDETERMINED"  # cota < 1800 blocks PERMITTED
+
             probe_results[name] = {
                 "lat": lat, "lon": lon,
                 "inside_park": inside, "elev_m": elev, "description": desc,
                 "gisco_jurisdiction": old_jur, "official_jurisdiction": o_jur,
-                "in_uncertainty_zone": in_zone, "new_verdict": verdict,
+                "in_uncertainty_zone": in_zone,
+                "jurisdiction_resolved": bool(o_jur) and not in_zone,
+                "boundary_safe": not in_zone and o_jur is not None,
+                "verdict": legal_verdict,
             }
             log(f"  {name}: {desc} inside={inside} elev={elev}m jur={o_jur} zone={in_zone} verdict={verdict}")
 
@@ -662,36 +740,65 @@ def main():
         f.write(json.dumps(evidence, ensure_ascii=False, indent=2))
     log(f"  Written: {EVIDENCE_JSON}")
 
-    # ── 14. Write results.json ───────────────────────────────────────────
-    log("\n[14] Write results.json (recomputed KPIs)")
+    # ── 14. Write results.json (gate_comparison + runtime sections) ──────────
+    log("\n[14] Write results.json (gate_comparison + runtime)")
+
+    # Load gate KPIs from the boundary-comparison script output (if present)
+    gate_comparison = {}
+    boundary_results_path = ROOT / "tooling" / "_tmp_boundary_gate_comparison.json"
+    if boundary_results_path.exists():
+        try:
+            with open(boundary_results_path, encoding="utf-8") as gf:
+                gate_comparison = json.load(gf)
+            log(f"  Loaded gate_comparison from {boundary_results_path}")
+            # Use boundary script's GISCO_GUARD_BLOCKED_HIGH for OLD_BLOCKED
+            # (high-altitude points blocked by the 1000m GISCO guard)
+            old_blocked = gate_comparison.get("GISCO_GUARD_BLOCKED_HIGH", old_blocked)
+            # Use boundary script's DISAGREEMENT_POINTS (GISCO vs OFFICIAL)
+            gate_disagreement = gate_comparison.get("DISAGREEMENT_POINTS", 0)
+        except Exception:
+            log(f"  Warning: could not load gate_comparison from {boundary_results_path}")
+            gate_disagreement = disagreement_count
+    else:
+        log(f"  Warning: no gate_comparison available")
+        gate_disagreement = disagreement_count
+
+    # Recompute NEWLY_RESOLVABLE_PCT (already computed above)
+    # newly_resolvable_high and newly_resolvable_pct are already set above
+
     results = {
-        "HIGH_POINTS_TESTED": HIGH_POINTS_TESTED,
-        "TOTAL_IN_PARK_POINTS": TOTAL_IN_PARK,
-        "OLD_BLOCKED (GISCO_GUARD)": 361,
-        "GISCO_GUARD_BLOCKED_TOTAL": 918,
-        "NEW_BLOCKED (OFFICIAL_GUARD_ZONE)": new_blocked,
-        "NEW_SAFE": new_safe,
-        "NEWLY_RESOLVABLE": newly_resolvable,
-        "NEWLY_RESOLVABLE_PCT": round(newly_resolvable_pct, 2),
-        "DISAGREEMENT_POINTS": disagreement_count,
-        "GAP_POINTS": gap_points_official,
-        "OVERLAP_POINTS": new_overlap,
-        "TOPOLOGY_OVERLAP_M2": round(overlap_m2, 2),
-        "TOPOLOGY_GAP_M2": round(gap_m2, 2),
-        "OFFICIAL_COVERAGE_PCT": round(100 * (1 - gap_m2 / park_geom_25830.area), 4),
-        "ASTURIAS": as_count,
-        "CANTABRIA": cb_count,
-        "CASTILLA_Y_LEON": cl_count,
-        "matched_ccaa": {k: match_info.get(k, "NOT MATCHED") for k in ["es-as", "es-cb", "es-cl"]},
-        "match_method": "au:name exact",
-        "match_fallback_used": {k: False for k in ["es-as", "es-cb", "es-cl"]},
-        "official_sectors_summary": {
-            k: {"n_rings": v["ring_count"], "n_points": v["vertex_count"]}
-            for k, v in off_rings_4326.items()
+        "gate_comparison": gate_comparison,
+        "runtime": {
+            "HIGH_POINTS_TESTED": HIGH_POINTS_TESTED,
+            "TOTAL_IN_PARK_POINTS": TOTAL_IN_PARK,
+            "OLD_BLOCKED": old_blocked,
+            "GISCO_GUARD_BLOCKED_TOTAL": 918,
+            "NEW_BLOCKED": new_blocked_high,
+            "NEW_SAFE": new_safe,
+            "NEWLY_RESOLVABLE": newly_resolvable_high,
+            "NEWLY_RESOLVABLE_PCT": round(newly_resolvable_pct, 2),
+            "DISAGREEMENT_POINTS": gate_disagreement,
+            "GAP_POINTS": gap_points_official,
+            "OVERLAP_POINTS": new_overlap,
+            "TOPOLOGY_OVERLAP_M2": round(overlap_m2, 2),
+            "TOPOLOGY_GAP_M2": round(gap_m2, 2),
+            "OFFICIAL_COVERAGE_PCT": round(100 * (1 - gap_m2 / park_geom_25830.area), 4),
+            "ASTURIAS": as_count,
+            "CANTABRIA": cb_count,
+            "CASTILLA_Y_LEON": cl_count,
+            "matched_ccaa": {k: match_info.get(k, "NOT MATCHED") for k in ["es-as", "es-cb", "es-cl"]},
+            "match_method": "au:name exact",
+            "match_fallback_used": {k: False for k in ["es-as", "es-cb", "es-cl"]},
+            "official_sectors_summary": {
+                k: {"n_rings": v["ring_count"], "n_points": v["vertex_count"]}
+                for k, v in off_rings_4326.items()
+            },
         },
         "probe_results": probe_results,
-        "boundary_guard_m": BOUNDARY_GUARD_M,
-        "boundary_guard_basis": "VERIFIED_OFFICIAL_DOC",
+        "guard": {
+            "boundary_guard_m": BOUNDARY_GUARD_M,
+            "boundary_guard_basis": "VERIFIED_OFFICIAL_DOC",
+        },
         "fixture_sha256": new_fixture_sha,
     }
     results_json_str = json.dumps(results, ensure_ascii=False, indent=2)
