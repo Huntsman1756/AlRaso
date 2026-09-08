@@ -24,7 +24,7 @@ input malformado produce `UNDETERMINED` normalizado, jamás un traceback.
 | Capacidad | Estatus | Verificación |
 |---|---|---|
 | Almacén bitemporal SQLite append-only + triggers + FK | **IMPLEMENTED / VALIDATED** | `tests/test_storage_integrity.py` |
-| Motor propio (pure-Python, sin deps) | **IMPLEMENTED / VALIDATED** | suite hermetica (570 passed; paquete stdlib-only, ver nota de perfiles abajo) |
+| Motor propio (pure-Python, sin deps) | **IMPLEMENTED / VALIDATED** | suite hermetica (574 passed; paquete stdlib-only, ver nota de perfiles abajo) |
 | Contrato de motor (capabilities, identidad, invariante PERMITTED) | **IMPLEMENTED / VALIDATED** | `tests/test_engine_contract.py`, `tests/test_invariants.py` |
 | Precedencia bitemporal (grounded, ciclos→conflicto) | **IMPLEMENTED / VALIDATED** | `tests/test_precedence.py` |
 | Composición multi-ámbito con orden canónico | **IMPLEMENTED / VALIDATED** | `tests/test_spatial_composition.py` |
@@ -76,7 +76,7 @@ python -m alraso replay  --db ordesa.db --new-knowledge 2028-01-01             #
 ## Verificación
 
 ```powershell
-python -m pytest -q                                   # 570 passed, 8 skipped (sin red ni motor externo)
+python -m pytest -q                                   # 574 passed, 8 skipped (sin red ni motor externo)
 powershell -File tooling/clean_wheel.ps1              # gate de instalacion limpia (F09 + H1-H4)
 powershell -File discovery/spikes/m1-axiom-integration/run-docker.ps1  # + Axiom real: 281
 ```
@@ -86,7 +86,7 @@ es cierto para el **paquete**):
 
 | Perfil | Instalado | Resultado |
 |---|---|---|
-| `audit` (el de la auditoría) | `pytest` + extra opcional `alraso[axiom]` (PyYAML), **sin** binario Axiom | 570 passed, 8 skipped (5 piden binario Axiom; 3, rasterio opcional) |
+| `audit` (el de la auditoría) | `pytest` + extra opcional `alraso[axiom]` (PyYAML), **sin** binario Axiom | 574 passed, 8 skipped (5 piden binario Axiom; 3, rasterio opcional) |
 | `stdlib-only` | sólo `pytest` | el módulo de proyección RuleSpec se salta entero con motivo explícito (números de referencia: CI) |
 
 CI ejecuta ambos perfiles en Python 3.11 y 3.12, más el gate de wheel limpio en

@@ -18,6 +18,7 @@ import json
 import hashlib
 import math
 import re
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -589,12 +590,25 @@ class TestHFlipDisagreement:
 # ── Digest coherence (structural guarantee) ──────────────────────────────
 
 
-def git_diff_changed_files(base: str = "origin/main", runner=None):
+
+def test_workflow_pins_event_aware_scope_base():
+    wf = (ROOT / ".github" / "workflows" / "gates.yml").read_text(encoding="utf-8")
+    assert "ALRASO_SCOPE_BASE" in wf
+    assert "github.event.pull_request.base.sha" in wf
+    assert "github.event.before" in wf
+
+
+def git_diff_changed_files(base: str | None = None, runner=None):
     """Changed files vs base. FAIL-CLOSED: if git itself fails (shallow
     checkout without origin/main, bad revision) or reports an empty diff,
     that is a failure of the CHECK — never read as 'nothing unexpected'.
     A hygiene gate that can silently pass on a broken diff is worse than
-    no gate."""
+    no gate.
+
+    base resolves from ALRASO_SCOPE_BASE env var (event-aware: pull_request
+    -> base.sha, push main -> event.before; local default origin/main).
+    """
+    base = base or os.environ.get("ALRASO_SCOPE_BASE", "origin/main")
     runner = runner or subprocess.run
     result = runner(["git", "diff", "--name-only", base],
                     capture_output=True, text=True, cwd=str(ROOT))
@@ -626,6 +640,30 @@ def test_scope_gate_fails_loudly_on_empty_diff():
         stderr = ""
     with pytest.raises(AssertionError, match="empty diff"):
         git_diff_changed_files(runner=lambda *a, **k: _Empty())
+
+
+
+def test_scope_gate_uses_event_provided_base(monkeypatch):
+    seen = {}
+
+    class _Ok:
+        returncode = 0
+        stderr = ""
+
+        def __init__(self, stdout):
+            self.stdout = stdout
+
+    def _runner(argv, **kwargs):
+        seen["argv"] = argv
+        return _Ok("somefile.py\n")
+
+    monkeypatch.setenv("ALRASO_SCOPE_BASE", "abc123")
+    assert git_diff_changed_files(runner=_runner) == {"somefile.py"}
+    assert seen["argv"] == ["git", "diff", "--name-only", "abc123"]
+
+    monkeypatch.delenv("ALRASO_SCOPE_BASE", raising=False)
+    git_diff_changed_files(runner=_runner)
+    assert seen["argv"] == ["git", "diff", "--name-only", "origin/main"]
 
 
 def test_digest_coherence():
