@@ -325,14 +325,13 @@ function renderPoi(p) {
     }
   });
 
-  // Close when clicking on the map or outside the panel/button
-  document.addEventListener("click", function handler(ev) {
-    if (ev.target === map.getCanvas() ||
-        (ev.target.closest && !ev.target.closest("#layers-panel") && !ev.target.closest("#layers-btn"))) {
-      // Check if the click is outside both the panel and the button
-      if (!ev.target.closest("#layers-panel") && !ev.target.closest("#layers-btn")) {
-        panel.setAttribute("hidden", "");
-      }
+  // Cierra el panel al hacer clic fuera (sin tocar el mapa: map puede ser
+  // null durante el arranque, y el canvas queda cubierto por closest()).
+  document.addEventListener("click", function (ev) {
+    if (ev.target.closest &&
+        !ev.target.closest("#layers-panel") &&
+        !ev.target.closest("#layers-btn")) {
+      panel.setAttribute("hidden", "");
     }
   });
 })();

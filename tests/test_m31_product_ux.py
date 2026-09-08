@@ -69,6 +69,11 @@ class TestU1LayersFloatingControl:
         """Panel includes the note about POIs being cartography only."""
         assert "no determinan legalidad" in HTML or "no determinan legalidad" in JS.lower() or "cartografía" in HTML.lower()
 
+    def test_layers_outside_click_listener_never_dereferences_map(self):
+        """El panel de capas se cierra con closest() puro: map es null hasta que
+        /api/config resuelve, asi que el listener global no puede llamar a map.*."""
+        assert "map.getCanvas" not in JS
+
 
 # ══════════════════════════════════════════════
 # U2 — SINGLE TOP BAR
