@@ -38,3 +38,21 @@ webapp/data/dem/
 .orca-tools/
 
 .opencode/node_modules/
+
+# ── Sesión local / tooling personal (no es parte del repo público) ──
+.opencode/
+opencode.jsonc
+deno.json
+orca.toml
+scripts/orca-local.ps1
+uv.lock
+
+# ── Trabajo local sin publicar (M2.2 preview deploy) ──
+deploy/
+docs/ALRASO-M2.2-VPS-PREVIEW.md
+.env.example
+
+# ── Research de parque nuevo congelado (M3a, local only) ──
+discovery/evidence/m3a-*/
+tooling/m3a_*
+tooling/_*.py

@@ -776,6 +776,16 @@ def test_git_diff_vs_main_only_allowed_files():
         "tooling/m2b_picos_official_boundary.evidence.json",
         "tooling/m2b_picos_official_boundary_results.json",
         "tooling/smoke_installed.py",
+        # chore/repo-public-hygiene: public-repo presentation, internal docs, community files
+        "CONTRIBUTING.md",
+        "SECURITY.md",
+        "docs/ALRASO-M1-REMEDIATION.md",
+        "docs/internal/README.md",
+        "docs/internal/ALRASO-F2-CLOSURE.md",
+        "docs/internal/MILESTONE-1.md",
+        "docs/internal/VIVAC-TECHNICAL-DISCOVERY.md",
+        "tests/test_repo_hygiene.py",
+        ".gitignore",
     }
     for f in changed:
         assert f in allowed, f"Unexpected file changed: {f}"
