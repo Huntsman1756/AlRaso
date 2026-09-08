@@ -666,6 +666,17 @@ def test_scope_gate_uses_event_provided_base(monkeypatch):
     assert seen["argv"] == ["git", "diff", "--name-only", "origin/main"]
 
 
+def test_scope_gate_consumes_event_aware_base():
+    """The REAL gate must consume ALRASO_SCOPE_BASE: it must call the
+    helper WITHOUT a hardcoded base, or the event-aware plumbing
+    (pull_request -> base.sha, push main -> event.before) is dead code
+    and post-merge push CI breaks again."""
+    import inspect
+    src = inspect.getsource(test_git_diff_vs_main_only_allowed_files)
+    assert "git_diff_changed_files()" in src
+    assert 'git_diff_changed_files("origin/main")' not in src
+
+
 def test_digest_coherence():
     """SHA256 digests must be identical across fixture, evidence lock, and results.json.
 
@@ -708,7 +719,7 @@ def test_digest_coherence():
 
 
 def test_git_diff_vs_main_only_allowed_files():
-    changed = git_diff_changed_files("origin/main")
+    changed = git_diff_changed_files()
     allowed = {
         "tooling/m2b_picos_official_boundary.py",
         "tooling/m2b_picos_build_official_fixture.py",
