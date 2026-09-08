@@ -336,5 +336,6 @@
     "boundary_guard_m": 100,
     "boundary_guard_basis": "VERIFIED_OFFICIAL_DOC"
   },
-  "fixture_sha256": "f3b8f5dcf527180b0bc31ba10ea488261d0ddb45bcd8b4310f5a6f6c49c82df7"
+  "fixture_sha256": "47acbd3d1181cc19070424ea00d891c576b5fb85a8b40d1887133a7420edaa57",
+  "fixture_sha256_refresh": "2026-09-08 — NORM_VALIDITY microfix: provision_ref/validity_from/to added to fragments; normative_basis on rules"
 }

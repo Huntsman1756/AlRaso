@@ -98,10 +98,16 @@ def test_duplicate_ingest_rejected_without_partial_state():
     after = s.conn.execute("SELECT COUNT(*) FROM legal_rule_version").fetchone()[0]
     assert after == before      # explicit rejection, no ambiguity
     r = Resolver(s)
-    res = r.resolve(Query(activity="VIVAC_AL_RASO", activity_date="2021-07-15",
-                          knowledge_date="2023-06-15",
-                          spatial_scope_id="ss-ordesa-sector-ordesa"))
-    assert res.legal_status is LegalStatus.PERMITTED  # corpus still usable
+    # 2021: expired normative basis -> UNDETERMINED; 2023: valid basis -> PROHIBITED
+    res2021 = r.resolve(Query(activity="VIVAC_AL_RASO", activity_date="2021-07-15",
+                              knowledge_date="2023-06-15",
+                              spatial_scope_id="ss-ordesa-sector-ordesa"))
+    assert res2021.legal_status is LegalStatus.UNDETERMINED
+    assert "NORMATIVE_BASIS_OUTSIDE_VALIDITY" in res2021.reason_codes
+    res2023 = r.resolve(Query(activity="VIVAC_AL_RASO", activity_date="2023-06-15",
+                              knowledge_date="2023-06-15",
+                              spatial_scope_id="ss-ordesa-sector-ordesa"))
+    assert res2023.legal_status is LegalStatus.PROHIBITED  # corpus still usable at 2023
 
 
 def test_transaction_nesting_joins_outer():

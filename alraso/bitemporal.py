@@ -49,7 +49,7 @@ from __future__ import annotations
 import json
 import sqlite3
 from contextlib import contextmanager
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date
 from typing import Any, Iterator
 
@@ -109,6 +109,9 @@ class VersionRow:
     # False = explicitly pending (can never carry publishable effect);
     # True = complete.
     spatial_review_complete: bool | None = None
+    # JSON list of fragment ids that are the normative (validity-gated) basis
+    # of this rule version; subset of evidence.
+    normative_basis: list[str] = field(default_factory=list)
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -198,7 +201,8 @@ def version_material_signature(v: VersionRow) -> str:
     descriptions (a data-quality smell, flagged but not a legal conflict);
     two that differ are an unresolvable ambiguity."""
     return json.dumps({"effect": v.effect, "condition": v.condition,
-                       "evidence": sorted(v.evidence)}, sort_keys=True)
+                        "evidence": sorted(v.evidence),
+                        "normative_basis": sorted(v.normative_basis)}, sort_keys=True)
 
 
 def relation_material_signature(r: RelationVersionRow) -> str:
@@ -212,7 +216,8 @@ def relation_material_signature(r: RelationVersionRow) -> str:
 _COLUMNS = (
     "seq, rule_id, activity, spatial_scope_id, effect, condition, effective_from, "
     "effective_to, recorded_at, recorded_until, evidence, interpretation_note, "
-    "review_status, legal_review_complete, spatial_review_complete, evidence_required"
+    "review_status, legal_review_complete, spatial_review_complete, evidence_required, "
+    "normative_basis"
 )
 
 _R_COLUMNS = (
@@ -245,12 +250,30 @@ class BitemporalStore:
     def _migrate_add_columns(self) -> None:
         """Additive-only migration for databases written by an earlier M1
         schema. Never rewrites or removes data (append-only preserved)."""
-        cols = {r["name"] for r in
-                self.conn.execute("PRAGMA table_info(spatial_scope)").fetchall()}
-        if "relevance" not in cols:
+        ss_cols = {r["name"] for r in
+                   self.conn.execute("PRAGMA table_info(spatial_scope)").fetchall()}
+        if "relevance" not in ss_cols:
             self.conn.execute(
                 "ALTER TABLE spatial_scope ADD COLUMN relevance TEXT NOT NULL "
                 "DEFAULT 'REGULATORY'")
+        lf_cols = {r["name"] for r in
+                   self.conn.execute("PRAGMA table_info(legal_fragment)").fetchall()}
+        if "provision_ref" not in lf_cols:
+            self.conn.execute(
+                "ALTER TABLE legal_fragment ADD COLUMN provision_ref TEXT")
+        if "validity_from" not in lf_cols:
+            self.conn.execute(
+                "ALTER TABLE legal_fragment ADD COLUMN validity_from TEXT")
+        if "validity_to" not in lf_cols:
+            self.conn.execute(
+                "ALTER TABLE legal_fragment ADD COLUMN validity_to TEXT")
+        r_cols = {r["name"] for r in
+                  self.conn.execute("PRAGMA table_info(legal_rule_version)").fetchall()}
+        if "normative_basis" not in r_cols:
+            self.conn.execute(
+                "ALTER TABLE legal_rule_version ADD COLUMN normative_basis "
+                "TEXT NOT NULL DEFAULT '[]'")
+        if lf_cols or r_cols or ss_cols:
             self.conn.commit()
 
     def verify_integrity(self) -> None:
@@ -401,11 +424,25 @@ class BitemporalStore:
         review_status = d.get("review_status", "REVIEW_REQUIRED")
         if not isinstance(review_status, str) or not review_status:
             raise InvalidRule("legal_fragment review_status must be a non-empty string")
+        provision_ref = d.get("provision_ref")
+        if provision_ref is not None and not isinstance(provision_ref, str):
+            raise InvalidRule("legal_fragment provision_ref must be a string or null")
+        validity_from = d.get("validity_from")
+        validity_to = d.get("validity_to")
+        if validity_from is not None:
+            validity_from = parse_date_strict(validity_from, field="validity_from").isoformat()
+        if validity_to is not None:
+            validity_to = parse_date_strict(validity_to, field="validity_to").isoformat()
+        if validity_from is not None and validity_to is not None:
+            if validity_to < validity_from:
+                raise InvalidRule("validity_to precedes validity_from")
         self.conn.execute(
             "INSERT INTO legal_fragment (id,source_document_id,locator,exact_text_hint,"
-            "extracted_at,review_status) VALUES (?,?,?,?,?,?)",
+            "extracted_at,review_status,provision_ref,validity_from,validity_to) VALUES "
+            "(?,?,?,?,?,?,?,?,?)",
             (d["id"], d["source_document_id"], d["locator"], d.get("exact_text_hint"),
-             d.get("extracted_at"), review_status),
+             d.get("extracted_at"), review_status,
+             provision_ref if provision_ref else None, validity_from, validity_to),
         )
         self._finish()
 
@@ -461,19 +498,28 @@ class BitemporalStore:
         src = d.get("spatial_review_complete", None)
         spatial_review_complete = None if src is None else parse_bool_strict(
             src, field="spatial_review_complete")
+        normative_basis = d.get("normative_basis", [])
+        if not isinstance(normative_basis, list):
+            raise InvalidRule("normative_basis must be a list of fragment ids")
+        # normative_basis must be a subset of evidence
+        if not set(normative_basis).issubset(set(evidence)):
+            raise InvalidRule(
+                f"normative_basis must be a subset of evidence: "
+                f"normative_basis={sorted(normative_basis)}, evidence={sorted(evidence)}")
         self.conn.execute(
             "INSERT INTO legal_rule_version (rule_id,activity,spatial_scope_id,effect,condition,"
             "effective_from,effective_to,recorded_at,recorded_until,evidence,"
             "interpretation_note,review_status,legal_review_complete,spatial_review_complete,"
-            "evidence_required) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            "evidence_required,normative_basis) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
             (d["rule_id"], d["activity"], d["spatial_scope_id"], d["effect"],
              json.dumps(condition) if condition is not None else None,
              d["effective_from"], d.get("effective_to"), d["recorded_at"],
              d.get("recorded_until"), json.dumps(evidence),
              d.get("interpretation_note"), review_status,
              int(legal_review_complete),
-              None if spatial_review_complete is None else int(spatial_review_complete),
-              int(evidence_required)),
+             None if spatial_review_complete is None else int(spatial_review_complete),
+             int(evidence_required),
+             json.dumps(normative_basis)),
         )
         self._versions_dirty = True
         self._finish()
@@ -531,6 +577,8 @@ class BitemporalStore:
 
     def _row_to_version(self, r: sqlite3.Row) -> VersionRow:
         cond = json.loads(r["condition"]) if r["condition"] else None
+        nb_raw = dict(r).get("normative_basis")  # convert to dict for safe .get()
+        nb = json.loads(nb_raw) if nb_raw else []
         return VersionRow(
             seq=r["seq"], rule_id=r["rule_id"], activity=r["activity"],
             spatial_scope_id=r["spatial_scope_id"], effect=r["effect"], condition=cond,
@@ -542,6 +590,7 @@ class BitemporalStore:
             evidence_required=bool(r["evidence_required"]),
             spatial_review_complete=(None if r["spatial_review_complete"] is None
                                      else bool(r["spatial_review_complete"])),
+            normative_basis=list(nb),
         )
 
     @staticmethod
@@ -636,6 +685,7 @@ class BitemporalStore:
         qmarks = ",".join("?" * len(ids))
         cur = self.conn.execute(
             f"SELECT f.id,f.locator,f.exact_text_hint,f.review_status,f.source_document_id,"
+            f"f.provision_ref,f.validity_from,f.validity_to,"
             f"d.authority,d.title,d.canonical_url "
             f"FROM legal_fragment f JOIN source_document d ON d.id=f.source_document_id "
             f"WHERE f.id IN ({qmarks})",
@@ -719,3 +769,69 @@ class BitemporalStore:
                 d[key] = json.loads(d[key])
             out.append(d)
         return sorted(out, key=lambda r: r["seq"])
+
+    def rule_intervals_outside_normative_basis(self) -> list[dict[str, Any]]:
+        """Structural diagnostic: flag current-belief versions whose validity window
+        does NOT intersect the window implied by their normative_basis fragments.
+
+        This is RULE_INTERVAL_CHECK = DIAGNOSTIC_REPORTED_NOT_ENFORCED: the runtime
+        enforcement happens via is_rule_version_eligible (ACTIVITY_DATE_RUNTIME_GATE),
+        but this method surfaces structural corpus defects in append-only historical
+        data without blocking loads.
+
+        Returns list of {rule_id, seq, effective_from, effective_to, basis_windows}.
+        """
+        rows = self.conn.execute(
+            "SELECT seq, rule_id, effective_from, effective_to, normative_basis "
+            "FROM legal_rule_version WHERE recorded_until IS NULL").fetchall()
+        if not rows:
+            return []
+        # Build a lookup of fragment validity by id
+        all_frag_ids = set()
+        for r in rows:
+            nb = json.loads(r["normative_basis"]) if r["normative_basis"] else []
+            all_frag_ids.update(nb)
+        frag_map: dict[str, dict[str, Any]] = {}
+        if all_frag_ids:
+            qmarks = ",".join("?" * len(all_frag_ids))
+            cur = self.conn.execute(
+                f"SELECT id, validity_from, validity_to FROM legal_fragment "
+                f"WHERE id IN ({qmarks})", list(all_frag_ids))
+            for fr in cur:
+                frag_map[fr["id"]] = {"validity_from": fr["validity_from"],
+                                       "validity_to": fr["validity_to"]}
+        result: list[dict[str, Any]] = []
+        for r in rows:
+            nb = json.loads(r["normative_basis"]) if r["normative_basis"] else []
+            if not nb:
+                continue
+            # Compute intersection window of basis fragments
+            basis_max_from = None
+            basis_min_to = None
+            all_resolved = True
+            for fid in nb:
+                fr = frag_map.get(fid)
+                if fr is None or fr["validity_from"] is None:
+                    all_resolved = False
+                    break
+                vf = fr["validity_from"]
+                vt = fr["validity_to"]
+                if basis_max_from is None or vf > basis_max_from:
+                    basis_max_from = vf
+                if vt is not None:
+                    if basis_min_to is None or vt < basis_min_to:
+                        basis_min_to = vt
+            if not all_resolved or basis_max_from is None:
+                continue
+            # Check if rule interval [effective_from, effective_to] intersects basis window
+            rule_end = r["effective_to"] if r["effective_to"] else "\uffff"
+            basis_end = basis_min_to if basis_min_to else "\uffff"
+            intersects = r["effective_from"] <= basis_end and basis_max_from <= rule_end
+            if not intersects:
+                result.append({
+                    "rule_id": r["rule_id"], "seq": r["seq"],
+                    "effective_from": r["effective_from"],
+                    "effective_to": r["effective_to"],
+                    "basis_windows": [[basis_max_from, basis_min_to]],
+                })
+        return result

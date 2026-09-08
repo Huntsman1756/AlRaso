@@ -32,10 +32,11 @@
    "sha256": "6035bd5e59e6521623b13b907fe784f4f4ed47c0e867a98abe3c039853ecc601"
   },
   "runtime_fixture": {
-   "bytes": 11405,
-   "path": "alraso/resources/fixture_goriz.json",
-   "sha256": "af7c859ccee5fddd5fd3bb9fcb055b17a38937edd5465704fe710a007e923427"
-  }
+    "bytes": 13398,
+    "path": "alraso/resources/fixture_goriz.json",
+    "sha256": "43b09395fb0864f6165d638d89d8904072961c2a2089aa887a68aec4fe23539f",
+    "corpus_correction_note": "fixture actualizada 2026-09-08 (corrección NORM_VALIDITY: normative_basis + ventana de cupo Goriz); identidad geométrica (IoU/Hausdorff) sin cambios"
+   }
  },
  "boundary_semantics": {
   "border_vertex_shapely": {

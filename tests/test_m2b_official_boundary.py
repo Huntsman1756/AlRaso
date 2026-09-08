@@ -1,12 +1,12 @@
 """Tests for BDDAE/CNIG official boundary implementation.
 
 Real resolver-level tests calling server.resolve_point on a mutable Service:
-- A: P2 (Cantabria, cota>1800) → PERMITTED
-- B: P1 (Asturias, cota<1800) → UNDETERMINED
-- D: synthetic GAP → UNDETERMINED + BOUNDARY_GAP / BOUNDARY_EVIDENCE_INCOMPLETE
-- E: synthetic OVERLAP → UNDETERMINED + BOUNDARY_OVERLAP
-- F: outside park → NO_APPLICABLE_SCOPE
-- G: three CCAA interiors → correct scopes
+- A: P2 (Cantabria, cota>1800) Ã¢â€ â€™ PERMITTED
+- B: P1 (Asturias, cota<1800) Ã¢â€ â€™ UNDETERMINED
+- D: synthetic GAP Ã¢â€ â€™ UNDETERMINED + BOUNDARY_GAP / BOUNDARY_EVIDENCE_INCOMPLETE
+- E: synthetic OVERLAP Ã¢â€ â€™ UNDETERMINED + BOUNDARY_OVERLAP
+- F: outside park Ã¢â€ â€™ NO_APPLICABLE_SCOPE
+- G: three CCAA interiors Ã¢â€ â€™ correct scopes
 - H: disagreement flip points from results.json
 
 Plus structural/evidence/fixture tests.
@@ -41,7 +41,7 @@ RESULTS_JSON = ROOT / "tooling" / "m2b_picos_official_boundary_results.json"
 
 TODAY = "2026-09-06"
 
-# ── Helpers ──────────────────────────────────────────────────────────────────
+# Ã¢â€â‚¬Ã¢â€â‚¬ Helpers Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 
 def _in_ring(lat, lon, ring):
@@ -72,7 +72,7 @@ def _load_fixture():
         return json.load(f)
 
 
-# ── Evidence lock assertions ─────────────────────────────────────────────────
+# Ã¢â€â‚¬Ã¢â€â‚¬ Evidence lock assertions Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 
 def test_evidence_has_source_authority():
@@ -146,7 +146,7 @@ def test_evidence_has_upstream_incident():
     assert "WFS/S3 incident" in ev["upstream_incident"]["note"]
 
 
-# ── Fixture geometry assertions ──────────────────────────────────────────────
+# Ã¢â€â‚¬Ã¢â€â‚¬ Fixture geometry assertions Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 
 def test_fixture_has_three_sectors():
@@ -196,7 +196,7 @@ def test_fixture_has_source_documents():
     assert "doc-bddae-cnig" in ids
 
 
-# ── KPI assertions (internal consistency) ────────────────────────────────────
+# Ã¢â€â‚¬Ã¢â€â‚¬ KPI assertions (internal consistency) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 
 def test_kpi_high_points_tested_computed():
@@ -261,7 +261,7 @@ def test_kpi_topology_gap_preserved():
     assert gate["TOPOLOGY_OVERLAP_M2"] == 0.0
 
 
-# ── Server code assertions ──────────────────────────────────────────────────
+# Ã¢â€â‚¬Ã¢â€â‚¬ Server code assertions Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 
 def test_no_seg_dist_m_in_server():
@@ -274,7 +274,7 @@ def test_no_boundary_uncertainty_m_constant():
     assert "_BOUNDARY_UNCERTAINTY_M" not in server_py
 
 
-# ── Legal rules unchanged ──────────────────────────────────────────────────
+# Ã¢â€â‚¬Ã¢â€â‚¬ Legal rules unchanged Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 
 def test_legal_rule_versions_digest_unchanged():
@@ -285,7 +285,7 @@ def test_legal_rule_versions_digest_unchanged():
         assert r["review_status"] == "VERIFIED"
 
 
-# ── Packaging assertions ───────────────────────────────────────────────────
+# Ã¢â€â‚¬Ã¢â€â‚¬ Packaging assertions Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 
 def test_pyproject_core_deps_empty():
@@ -299,7 +299,7 @@ def test_pyproject_has_tooling_extra():
     assert "shapely" in pyproject
 
 
-# ── Fixture size check ─────────────────────────────────────────────────────
+# Ã¢â€â‚¬Ã¢â€â‚¬ Fixture size check Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 
 def test_fixture_size_reasonable():
@@ -307,11 +307,11 @@ def test_fixture_size_reasonable():
     assert size < 1_500_000
 
 
-# ── Probe points verification (legal verdicts) ───────────────────────────
+# Ã¢â€â‚¬Ã¢â€â‚¬ Probe points verification (legal verdicts) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 
 def test_probe_p1_asturias_interior():
-    """P1 (Asturias interior) — interior, cota=1510 < 1800 -> UNDETERMINED."""
+    """P1 (Asturias interior) Ã¢â‚¬â€ interior, cota=1510 < 1800 -> UNDETERMINED."""
     res = _load_results()
     p1 = res["probe_results"]["P1_asturias_interior"]
     assert p1["lat"] == 43.2662
@@ -322,7 +322,7 @@ def test_probe_p1_asturias_interior():
 
 
 def test_probe_p2_cantabria_interior():
-    """P2 (Cantabria interior) — interior, cota=1942 > 1800 -> PERMITTED."""
+    """P2 (Cantabria interior) Ã¢â‚¬â€ interior, cota=1942 > 1800 -> PERMITTED."""
     res = _load_results()
     p2 = res["probe_results"]["P2_cantabria_interior"]
     assert p2["lat"] == 43.17068
@@ -333,7 +333,7 @@ def test_probe_p2_cantabria_interior():
 
 
 def test_probe_p3_cyl_interior():
-    """P3 (Cyl interior) — interior, cota=1390 < 1800 -> UNDETERMINED."""
+    """P3 (Cyl interior) Ã¢â‚¬â€ interior, cota=1390 < 1800 -> UNDETERMINED."""
     res = _load_results()
     p3 = res["probe_results"]["P3_cyl_interior"]
     assert p3["inside_park"] is True
@@ -341,7 +341,7 @@ def test_probe_p3_cyl_interior():
     assert p3["verdict"] == "UNDETERMINED"
 
 
-# ── NOTICE.md assertions ───────────────────────────────────────────────────
+# Ã¢â€â‚¬Ã¢â€â‚¬ NOTICE.md assertions Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 
 def test_notice_has_bddae_row():
@@ -364,7 +364,7 @@ def test_notice_has_gisco_removed():
     assert "REMOVED" in notice
 
 
-# ── Server reason-codes (defect 3a) ─────────────────────────────────────────
+# Ã¢â€â‚¬Ã¢â€â‚¬ Server reason-codes (defect 3a) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 
 class TestServerReasonCodes:
@@ -390,7 +390,7 @@ class TestServerReasonCodes:
         assert any("incertidumbre" in w.lower() or "BOUNDARY_EVIDENCE_INCOMPLETE" in w for w in out["determination"]["warnings"])
 
     def test_BOUNDARY_OVERLAP_on_mutated_overlap(self, fx, svc):
-        """E: mutate es-cb = copy of an es-as-only ring → point in that ring is in both → BOUNDARY_OVERLAP."""
+        """E: mutate es-cb = copy of an es-as-only ring Ã¢â€ â€™ point in that ring is in both Ã¢â€ â€™ BOUNDARY_OVERLAP."""
         all_as_rings = list(fx["geometry"]["es-as"])
         cb_rings = list(fx["geometry"]["es-cb"])
 
@@ -430,7 +430,7 @@ class TestServerReasonCodes:
             svc.fx_picos["geometry"]["es-cb"] = orig_es_cb
 
     def test_BOUNDARY_GAP_on_mutated_gap(self, fx, svc):
-        """D: remove es-as ring → point inside that ring is now in a GAP → BOUNDARY_GAP or BOUNDARY_EVIDENCE_INCOMPLETE."""
+        """D: remove es-as ring Ã¢â€ â€™ point inside that ring is now in a GAP Ã¢â€ â€™ BOUNDARY_GAP or BOUNDARY_EVIDENCE_INCOMPLETE."""
         temp_fx = copy.deepcopy(fx)
         es_as_rings = list(fx["geometry"]["es-as"])
         # Pick the first ring's center
@@ -456,11 +456,11 @@ class TestServerReasonCodes:
             svc.fx_picos["geometry"]["es-as"] = orig_es_as
 
 
-# ── Resolver-level tests (defect 2: A, B, D, E, F, G, H) ────────────────────
+# Ã¢â€â‚¬Ã¢â€â‚¬ Resolver-level tests (defect 2: A, B, D, E, F, G, H) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 
 class TestResolverA_B_F_G:
-    """A: P2 → PERMITTED; B: P1 → UNDETERMINED; F: outside → NO_APPLICABLE_SCOPE; G: three CCAA."""
+    """A: P2 Ã¢â€ â€™ PERMITTED; B: P1 Ã¢â€ â€™ UNDETERMINED; F: outside Ã¢â€ â€™ NO_APPLICABLE_SCOPE; G: three CCAA."""
 
     @pytest.fixture
     def fx(self):
@@ -470,10 +470,10 @@ class TestResolverA_B_F_G:
     def svc(self):
         return server.Service()
     def test_A_p2_cantabria_permitted(self, fx, svc):
-        """A: P2_cantabria_interior + facts → PERMITTED (Cantabria).
+        """A: P2_cantabria_interior + facts Ã¢â€ â€™ PERMITTED (Cantabria).
 
-        Real DEM cota=1942 > 1800 → PERMITTED with DEM.
-        Without DEM: user cota_m=2400 > 1800 → PERMITTED.
+        Real DEM cota=1942 > 1800 Ã¢â€ â€™ PERMITTED with DEM.
+        Without DEM: user cota_m=2400 > 1800 Ã¢â€ â€™ PERMITTED.
         Both paths verified: PERMITTED regardless of DEM availability.
         """
         out = server.resolve_point(
@@ -488,10 +488,10 @@ class TestResolverA_B_F_G:
         assert "ss-pnpe-es-cl" not in scope_ids
 
     def test_B_p1_asturias_undetermined(self, fx, svc):
-        """B: P1_asturias_interior + facts → UNDETERMINED.
+        """B: P1_asturias_interior + facts Ã¢â€ â€™ UNDETERMINED.
 
-        Real DEM cota=1510 < 1800 → UNDETERMINED with DEM.
-        Without DEM: cota_m not provided → ENGINE_MISSING_INPUT → UNDETERMINED.
+        Real DEM cota=1510 < 1800 Ã¢â€ â€™ UNDETERMINED with DEM.
+        Without DEM: cota_m not provided Ã¢â€ â€™ ENGINE_MISSING_INPUT Ã¢â€ â€™ UNDETERMINED.
         Both paths verified: UNDETERMINED regardless of DEM availability.
         """
         out = server.resolve_point(
@@ -504,7 +504,7 @@ class TestResolverA_B_F_G:
         assert "ss-pnpe-es-as" in scope_ids
 
     def test_F_outside_park_no_applicable_scope(self, fx, svc):
-        """F: outside-park point → reasonCodes contain NO_APPLICABLE_SCOPE."""
+        """F: outside-park point Ã¢â€ â€™ reasonCodes contain NO_APPLICABLE_SCOPE."""
         out = server.resolve_point(
             svc, lat=42.0, lon=-3.0,
             activity="VIVAC_AL_RASO", activity_date=TODAY, knowledge_date=TODAY,
@@ -515,11 +515,11 @@ class TestResolverA_B_F_G:
         assert out["applicableScope"] == []
 
     def test_G_three_ccaa_interiors(self, fx, svc):
-        """G: P1→es-as, P2→es-cb, P3→es-cl — each gets its own governing scope."""
+        """G: P1Ã¢â€ â€™es-as, P2Ã¢â€ â€™es-cb, P3Ã¢â€ â€™es-cl Ã¢â‚¬â€ each gets its own governing scope."""
         probes = [
-            (43.2662, -4.8686, "ss-pnpe-es-as"),   # P1 → Asturias
-            (43.17068, -4.80299, "ss-pnpe-es-cb"),  # P2 → Cantabria
-            (43.1278, -4.9381, "ss-pnpe-es-cl"),    # P3 → Castilla y León
+            (43.2662, -4.8686, "ss-pnpe-es-as"),   # P1 Ã¢â€ â€™ Asturias
+            (43.17068, -4.80299, "ss-pnpe-es-cb"),  # P2 Ã¢â€ â€™ Cantabria
+            (43.1278, -4.9381, "ss-pnpe-es-cl"),    # P3 Ã¢â€ â€™ Castilla y LeÃƒÂ³n
         ]
         expected_others = {
             "ss-pnpe-es-as": ["ss-pnpe-es-cb", "ss-pnpe-es-cl"],
@@ -538,7 +538,7 @@ class TestResolverA_B_F_G:
                 assert other not in scope_ids, f"Point ({lat},{lon}) should not include {other}"
 
 
-# ── Test H: disagreement flip points ────────────────────────────────────────
+# Ã¢â€â‚¬Ã¢â€â‚¬ Test H: disagreement flip points Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 
 class TestHFlipDisagreement:
@@ -558,7 +558,7 @@ class TestHFlipDisagreement:
         return res.get("disagreement_points", [])
 
     def test_H_flip_outside_100m_resolves_to_official(self, fx, svc, disagreement_points):
-        """H(i): pick a flip with dist_to_official_border_m > 100 → official CCAA governs."""
+        """H(i): pick a flip with dist_to_official_border_m > 100 Ã¢â€ â€™ official CCAA governs."""
         # Find a disagreement point with distance > 100m
         far = [p for p in disagreement_points if p.get("dist_to_official_border_m", 0) > 100]
         if not far:
@@ -586,7 +586,7 @@ class TestHFlipDisagreement:
             assert "dist_to_official_border_m" in pt
 
 
-# ── Digest coherence (structural guarantee) ──────────────────────────────
+# Ã¢â€â‚¬Ã¢â€â‚¬ Digest coherence (structural guarantee) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 
 def test_digest_coherence():
@@ -658,6 +658,36 @@ def test_git_diff_vs_main_only_allowed_files():
         "tests/test_m3_product.py",
         # M3.1 Product UX (feat/m3.1-product-ux): pure product UI changes.
         "tests/test_m31_product_ux.py",
+        # fix/legal-validity-ordesa: NORM_VALIDITY_COVERAGE microfix (normative basis + gate + corpus correction)
+        "README.md",
+        "alraso/schema.py",
+        "alraso/bitemporal.py",
+        "alraso/eligibility.py",
+        "alraso/errors.py",
+        "alraso/resolver.py",
+        "alraso/cli.py",
+        "alraso/resources/fixture_ordesa.json",
+        "alraso/resources/fixture_goriz.json",
+        "alraso/resources/fixture_picos.json",
+        "tests/conftest.py",
+        "tests/test_eligibility.py",
+        "tests/test_failclosed.py",
+        "tests/test_hardening.py",
+        "tests/test_replay.py",
+        "tests/test_resolver_ordesa.py",
+        "tests/test_storage_integrity.py",
+        "tests/test_m2b_official_boundary.py",
+        "tests/test_m11c_goriz_evidence.py",
+        "tests/test_normative_validity.py",
+        "tests/test_legal_assurance_doc.py",
+        "tests/test_axiom_adapter.py",
+        "tooling/m11c_goriz_scope.evidence.json",
+        "tooling/m2b_picos_official_boundary.evidence.json",
+        "tooling/m2b_picos_official_boundary_results.json",
+        "tooling/smoke_installed.py",
+        "discovery/spikes/m1-axiom-integration/axiom_integration.py",
+        "docs/LEGAL-ASSURANCE-MODEL.md",
+        "docs/OSS-FIRST-ROADMAP.md",
     }
     for f in changed:
         assert f in allowed, f"Unexpected file changed: {f}"

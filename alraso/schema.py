@@ -95,7 +95,10 @@ CREATE TABLE __INE__ legal_fragment (
   locator            TEXT __NN__,
   exact_text_hint    TEXT,
   extracted_at       TEXT,
-  review_status      TEXT
+  review_status      TEXT,
+  provision_ref      TEXT,
+  validity_from      TEXT,
+  validity_to        TEXT
 );
 
 CREATE TABLE __INE__ spatial_scope (
@@ -126,7 +129,8 @@ CREATE TABLE __INE__ legal_rule_version (
   review_status     TEXT __NN__ DEFAULT 'REVIEW_REQUIRED',
   legal_review_complete INTEGER __NN__ DEFAULT 0,
   spatial_review_complete INTEGER,
-  evidence_required INTEGER __NN__ DEFAULT 1
+  evidence_required INTEGER __NN__ DEFAULT 1,
+  normative_basis   TEXT __NN__ DEFAULT '[]'
 );
 CREATE INDEX __INE__ lrv_lookup
   ON legal_rule_version (activity, spatial_scope_id, effective_from, recorded_at);
@@ -223,7 +227,10 @@ CREATE TABLE __INE__ legal_fragment (
   locator            text __NN__,
   exact_text_hint    text,
   extracted_at       date,
-  review_status      text
+  review_status      text,
+  provision_ref      text,
+  validity_from      date,
+  validity_to        date
 );
 
 CREATE TABLE __INE__ spatial_scope (
@@ -256,7 +263,8 @@ CREATE TABLE __INE__ legal_rule_version (
   review_status       text __NN__ DEFAULT 'REVIEW_REQUIRED',
   legal_review_complete boolean __NN__ DEFAULT false,
   spatial_review_complete boolean,
-  evidence_required   boolean __NN__ DEFAULT true
+  evidence_required   boolean __NN__ DEFAULT true,
+  normative_basis     jsonb __NN__ DEFAULT '[]'
 );
 CREATE INDEX __INE__ lrv_lookup
   ON legal_rule_version (activity, spatial_scope_id, effective_from, recorded_at);

@@ -17232,26 +17232,35 @@
     {
       "id": "lf-pnpe-as-art51",
       "source_document_id": "sd-pnpe-as-decreto-21-2026",
-      "exact_text_hint": "Art. 51 (com├║n): el vivac/pernocta al raso solo se permite vinculado a actividades de monta├▒a y escalada, por un m├íximo de 3 noches y siempre por encima de la cota 1.800 m. Excepciones (vivac en pared; invierno en Vega La Sotin) y tiendas por meteorolog├¡a adversa no se codifican aqu├¡.",
+      "exact_text_hint": "Art. 51 (común): el vivac/pernocta al raso solo se permite vinculado a actividades de montaña y escalada, por un máximo de 3 noches y siempre por encima de la cota 1.800 m. Excepciones (vivac en pared; invierno en Vega La Sotin) y tiendas por meteorología adversa no se codifican aquí.",
       "locator": "art. 51 (verbatim en los tres decretos; diff de arts. 50-54 sin diferencias)",
       "extracted_at": "2026-09-06",
-      "review_status": "VERIFIED"
+      "review_status": "VERIFIED",
+      "provision_ref": "art. 51",
+      "validity_from": "2026-04-19",
+      "validity_to": null
     },
     {
       "id": "lf-pnpe-cb-art51",
       "source_document_id": "sd-pnpe-cb-decreto-57-2026",
-      "exact_text_hint": "Art. 51 (com├║n): el vivac/pernocta al raso solo se permite vinculado a actividades de monta├▒a y escalada, por un m├íximo de 3 noches y siempre por encima de la cota 1.800 m. Excepciones (vivac en pared; invierno en Vega La Sotin) y tiendas por meteorolog├¡a adversa no se codifican aqu├¡.",
+      "exact_text_hint": "Art. 51 (común): el vivac/pernocta al raso solo se permite vinculado a actividades de montaña y escalada, por un máximo de 3 noches y siempre por encima de la cota 1.800 m. Excepciones (vivac en pared; invierno en Vega La Sotin) y tiendas por meteorología adversa no se codifican aquí.",
       "locator": "art. 51 (verbatim en los tres decretos; diff de arts. 50-54 sin diferencias)",
       "extracted_at": "2026-09-06",
-      "review_status": "VERIFIED"
+      "review_status": "VERIFIED",
+      "provision_ref": "art. 51",
+      "validity_from": "2026-08-24",
+      "validity_to": null
     },
     {
       "id": "lf-pnpe-cl-art51",
       "source_document_id": "sd-pnpe-cl-decreto-17-2025",
-      "exact_text_hint": "Art. 51 (com├║n): el vivac/pernocta al raso solo se permite vinculado a actividades de monta├▒a y escalada, por un m├íximo de 3 noches y siempre por encima de la cota 1.800 m. Excepciones (vivac en pared; invierno en Vega La Sotin) y tiendas por meteorolog├¡a adversa no se codifican aqu├¡.",
+      "exact_text_hint": "Art. 51 (común): el vivac/pernocta al raso solo se permite vinculado a actividades de montaña y escalada, por un máximo de 3 noches y siempre por encima de la cota 1.800 m. Excepciones (vivac en pared; invierno en Vega La Sotin) y tiendas por meteorología adversa no se codifican aquí.",
       "locator": "art. 51 (verbatim en los tres decretos; diff de arts. 50-54 sin diferencias)",
       "extracted_at": "2026-09-06",
-      "review_status": "VERIFIED"
+      "review_status": "VERIFIED",
+      "provision_ref": "art. 51",
+      "validity_from": "2026-01-04",
+      "validity_to": null
     }
   ],
   "spatial_scopes": [
@@ -17334,7 +17343,10 @@
       "evidence": [
         "lf-pnpe-as-art51"
       ],
-      "interpretation_note": "Lectura literal del art. 51 com├║n (verificado verbatim en los tres decretos): PERMITTED solo si actividad de monta├▒a/escalada Y Ôëñ3 noches Y cota ESTRICTAMENTE > 1.800 m (art. 51 'por encima de la cota 1.800 m'; exactamente 1.800 m NO satisface). El hecho interno jurisdiction_boundary_safe lo calcula la app (guard de incertidumbre de frontera CCAA <1 km = BOUNDARY_EVIDENCE_INCOMPLETE); quien use el fixture sin ese hecho falla cerrado (ENGINE_MISSING_INPUT). Excepciones (pared; Vega La Sotin) y tiendas por meteorolog├¡a adversa NO se codifican. La cota la aporta el hecho cota_m (auto-elevaci├│n v├¡a DEM = C)."
+      "interpretation_note": "Lectura literal del art. 51 com├║n (verificado verbatim en los tres decretos): PERMITTED solo si actividad de monta├▒a/escalada Y Ôëñ3 noches Y cota ESTRICTAMENTE > 1.800 m (art. 51 'por encima de la cota 1.800 m'; exactamente 1.800 m NO satisface). El hecho interno jurisdiction_boundary_safe lo calcula la app (guard de incertidumbre de frontera CCAA <1 km = BOUNDARY_EVIDENCE_INCOMPLETE); quien use el fixture sin ese hecho falla cerrado (ENGINE_MISSING_INPUT). Excepciones (pared; Vega La Sotin) y tiendas por meteorolog├¡a adversa NO se codifican. La cota la aporta el hecho cota_m (auto-elevaci├│n v├¡a DEM = C).",
+      "normative_basis": [
+        "lf-pnpe-as-art51"
+      ]
     },
     {
       "rule_id": "alraso:es-cb/pn-picos/pernocta#vivac-cota-1800",
@@ -17373,7 +17385,10 @@
       "evidence": [
         "lf-pnpe-cb-art51"
       ],
-      "interpretation_note": "Lectura literal del art. 51 com├║n (verificado verbatim en los tres decretos): PERMITTED solo si actividad de monta├▒a/escalada Y Ôëñ3 noches Y cota ESTRICTAMENTE > 1.800 m (art. 51 'por encima de la cota 1.800 m'; exactamente 1.800 m NO satisface). El hecho interno jurisdiction_boundary_safe lo calcula la app (guard de incertidumbre de frontera CCAA <1 km = BOUNDARY_EVIDENCE_INCOMPLETE); quien use el fixture sin ese hecho falla cerrado (ENGINE_MISSING_INPUT). Excepciones (pared; Vega La Sotin) y tiendas por meteorolog├¡a adversa NO se codifican. La cota la aporta el hecho cota_m (auto-elevaci├│n v├¡a DEM = C)."
+      "interpretation_note": "Lectura literal del art. 51 com├║n (verificado verbatim en los tres decretos): PERMITTED solo si actividad de monta├▒a/escalada Y Ôëñ3 noches Y cota ESTRICTAMENTE > 1.800 m (art. 51 'por encima de la cota 1.800 m'; exactamente 1.800 m NO satisface). El hecho interno jurisdiction_boundary_safe lo calcula la app (guard de incertidumbre de frontera CCAA <1 km = BOUNDARY_EVIDENCE_INCOMPLETE); quien use el fixture sin ese hecho falla cerrado (ENGINE_MISSING_INPUT). Excepciones (pared; Vega La Sotin) y tiendas por meteorolog├¡a adversa NO se codifican. La cota la aporta el hecho cota_m (auto-elevaci├│n v├¡a DEM = C).",
+      "normative_basis": [
+        "lf-pnpe-cb-art51"
+      ]
     },
     {
       "rule_id": "alraso:es-cl/pn-picos/pernocta#vivac-cota-1800",
@@ -17412,7 +17427,10 @@
       "evidence": [
         "lf-pnpe-cl-art51"
       ],
-      "interpretation_note": "Lectura literal del art. 51 com├║n (verificado verbatim en los tres decretos): PERMITTED solo si actividad de monta├▒a/escalada Y Ôëñ3 noches Y cota ESTRICTAMENTE > 1.800 m (art. 51 'por encima de la cota 1.800 m'; exactamente 1.800 m NO satisface). El hecho interno jurisdiction_boundary_safe lo calcula la app (guard de incertidumbre de frontera CCAA <1 km = BOUNDARY_EVIDENCE_INCOMPLETE); quien use el fixture sin ese hecho falla cerrado (ENGINE_MISSING_INPUT). Excepciones (pared; Vega La Sotin) y tiendas por meteorolog├¡a adversa NO se codifican. La cota la aporta el hecho cota_m (auto-elevaci├│n v├¡a DEM = C)."
+      "interpretation_note": "Lectura literal del art. 51 com├║n (verificado verbatim en los tres decretos): PERMITTED solo si actividad de monta├▒a/escalada Y Ôëñ3 noches Y cota ESTRICTAMENTE > 1.800 m (art. 51 'por encima de la cota 1.800 m'; exactamente 1.800 m NO satisface). El hecho interno jurisdiction_boundary_safe lo calcula la app (guard de incertidumbre de frontera CCAA <1 km = BOUNDARY_EVIDENCE_INCOMPLETE); quien use el fixture sin ese hecho falla cerrado (ENGINE_MISSING_INPUT). Excepciones (pared; Vega La Sotin) y tiendas por meteorolog├¡a adversa NO se codifican. La cota la aporta el hecho cota_m (auto-elevaci├│n v├¡a DEM = C).",
+      "normative_basis": [
+        "lf-pnpe-cl-art51"
+      ]
     }
   ],
   "probe_points": {
