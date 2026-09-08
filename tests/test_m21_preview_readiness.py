@@ -111,6 +111,21 @@ def test_places_are_curated_and_obey_m2_invariants(svc):
             "ningun lugar conocido puede dar PERMITTED sin hechos: invariante M2")
 
 
+def test_verified_coverage_copy_does_not_claim_complete():
+    """VERIFIED means norma+geometría verified, NOT a closed legal answer:
+    Góriz is VERIFIED yet resolves UNDETERMINED while its rule is not
+    publishable (regression for the post-#20 semantics)."""
+    assert "completa" not in server.PLAIN_COVERAGE["VERIFIED"].lower()
+
+
+def test_html_legend_does_not_call_verified_coverage_complete():
+    html = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
+    assert "Cobertura completa" not in html
+    assert "Cobertura verificada" in html
+    assert "faltan reglas publicables" in html
+
+
+
 def test_frontend_markup_keeps_accessibility_and_plain_layer_hooks():
     html = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
     for hook in ('role="search"', 'id="q"', 'list="places-list"', 'aria-live="polite"',
