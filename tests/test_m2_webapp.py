@@ -138,7 +138,7 @@ def test_http_layer_rejects_unknown_paths_and_serves_api(monkeypatch):
 
 def test_map_style_url_defaults_to_openfreemap_without_key(monkeypatch):
     monkeypatch.delenv("ALRASO_MAP_STYLE_URL", raising=False)
-    assert server.map_style_url() == "https://tiles.openfreemap.org/styles/liberty"
+    assert server.map_style_url() == "https://tiles.openfreemap.org/styles/positron"
 
 
 def test_map_style_url_is_configurable_by_env(monkeypatch):

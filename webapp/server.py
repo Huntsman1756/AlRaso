@@ -74,7 +74,7 @@ PLAIN_COVERAGE = {
 # frontend la consume antes de crear el mapa. Rollback real: cambiar el env y
 # reiniciar. Sin claves: OpenFreeMap no las necesita. No se hardcodea el
 # proveedor en el frontend.
-DEFAULT_MAP_STYLE_URL = "https://tiles.openfreemap.org/styles/liberty"
+DEFAULT_MAP_STYLE_URL = "https://tiles.openfreemap.org/styles/positron"
 
 
 def map_style_url() -> str:
