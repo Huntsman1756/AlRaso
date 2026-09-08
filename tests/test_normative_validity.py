@@ -78,7 +78,11 @@ class TestOrdesaInstance:
 
 
 class TestGorizInstance:
-    """Real Góriz fixture: UNDETERMINED without facts."""
+    """Real Góriz fixture: UNDETERMINED without facts; UNDETERMINED with caller-supplied live facts.
+    
+    GORIZ_LIVE_TRIGGER_PUBLICATION_BLOCKED=REVIEW_REQUIRED: the rule stays in corpus but is NOT
+    publishable while the live-state trigger (refuge capacity) is unverifiable.
+    """
 
     def _resolver(self):
         return Resolver(_load_fixture("goriz"))
@@ -95,23 +99,53 @@ class TestGorizInstance:
                                facts={"nights": 2}))
         assert res2.legal_status is LegalStatus.UNDETERMINED
 
-    def test_goriz_temporal_quota_2023(self):
+    def test_GORIZ_CALLER_SUPPLIED_LIVE_FACT_NEVER_PERMITTED(self):
+        """The caller-supplied live fact (refuge_capacity_full=True) NEVER unblocks PERMITTED."""
         r = self._resolver()
-        res = r.resolve(Query(activity="VIVAC_AL_RASO", activity_date="2023-12-31",
+        res = r.resolve(Query(activity="VIVAC_AL_RASO", activity_date="2026-01-15",
                                knowledge_date="2026-09-06",
                                spatial_scope_id="ss-ordesa-goriz-zum",
                                facts={"refuge_capacity_full": True, "nights": 2}))
-        assert res.legal_status is LegalStatus.PERMITTED
-        assert res.rule_versions[0]["effective_to"] == "2023-12-31"
+        assert res.legal_status is LegalStatus.UNDETERMINED
+        assert res.knowledge_status is KnowledgeStatus.INCOMPLETE
+        elig = next(t for t in res.precedence_trace if t["stage"] == "eligibility")
+        excluded_seqs = {e["seq"] for e in elig["excluded"]}
+        # At 2026-01-15 only seq 2 is active (seq 1 effective_to=2023-12-31)
+        assert 2 in excluded_seqs
+        # Check the exclusion reason contains REVIEW_NOT_PUBLISHABLE
+        excluded_reasons = [r for e in elig["excluded"] for r in e["reasons"]]
+        assert any("REVIEW_NOT_PUBLISHABLE:REVIEW_REQUIRED" in r for r in excluded_reasons)
 
-    def test_goriz_temporal_quota_2024(self):
-        r = self._resolver()
-        res = r.resolve(Query(activity="VIVAC_AL_RASO", activity_date="2024-01-01",
-                               knowledge_date="2026-09-06",
-                               spatial_scope_id="ss-ordesa-goriz-zum",
-                               facts={"refuge_capacity_full": True, "nights": 2}))
-        assert res.legal_status is LegalStatus.PERMITTED
-        assert res.rule_versions[0]["effective_from"] == "2024-01-01"
+    def test_goriz_quota_temporal_windows_documented(self):
+        """GORIZ_QUOTA_TEMPORAL_WINDOWS=DOCUMENTED: windows are in rule-version validity;
+        GORIZ_QUOTA_ENFORCEMENT=NOT_IMPLEMENTED: the engine does not evaluate the quota."""
+        from alraso.bitemporal import BitemporalStore
+        from alraso.ingest.ordesa import ingest_corpus
+        from importlib import resources
+        import json
+        fx = json.loads(resources.files("alraso.resources").joinpath("fixture_goriz.json").read_text(encoding="utf-8"))
+        s = BitemporalStore.connect(":memory:")
+        ingest_corpus(s, fx)
+        # At 2023-12-31: covering row is seq 1 (effective_from 2022-02-09, effective_to 2023-12-31)
+        sel1 = s.select("VIVAC_AL_RASO", "ss-ordesa-goriz-zum", "2023-12-31", "2026-09-06")
+        assert len(sel1.covering) == 1
+        c1 = sel1.covering[0]
+        assert c1.seq == 1
+        assert c1.effective_from == "2022-02-09"
+        assert c1.effective_to == "2023-12-31"
+        # At 2024-01-01: covering row is seq 2 (effective_from 2024-01-01, effective_to None)
+        sel2 = s.select("VIVAC_AL_RASO", "ss-ordesa-goriz-zum", "2024-01-01", "2026-09-06")
+        assert len(sel2.covering) == 1
+        c2 = sel2.covering[0]
+        assert c2.seq == 2
+        assert c2.effective_from == "2024-01-01"
+        assert c2.effective_to is None
+        # Both selected rows are NOT eligible for publication (REVIEW_REQUIRED)
+        from alraso.eligibility import is_rule_version_eligible
+        r1_reasons = is_rule_version_eligible(c1, s)
+        r2_reasons = is_rule_version_eligible(c2, s)
+        assert any("REVIEW_NOT_PUBLISHABLE" in r for r in r1_reasons)
+        assert any("REVIEW_NOT_PUBLISHABLE" in r for r in r2_reasons)
 
 
 # ---- Class-level (synthetic stores) ----------------------------------------

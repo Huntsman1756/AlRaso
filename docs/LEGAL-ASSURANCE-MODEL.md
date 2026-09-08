@@ -96,6 +96,11 @@ AlRaso no afirma corrección jurídica absoluta. Aporta una **garantía estratif
 
 ## Góriz: condiciones normativas vs. estado operativo
 
+GORIZ_LIVE_TRIGGER_PUBLICATION_BLOCKED=REVIEW_REQUIRED: la regla de Góriz permanece en corpus pero NO
+publicable mientras el trigger vivo (aforo completo del refugio) no sea verificable. Sin hechos O con
+hecho aportado por el caller -> UNDETERMINED (nunca PERMITTED). Re-publicación futura exige fuente
+verificada de estado vivo/reserva (no se construye ahora).
+
 ### Condiciones normativas (NORMATIVA)
 - `refuge_capacity_full`: condición normativa (trigger legal del texto: "en los casos de aforo completo del refugio").
 - `nights`: condición normativa (PRUG: "la pernocta no excederá de tres noches").
@@ -108,6 +113,10 @@ AlRaso no afirma corrección jurídica absoluta. Aporta una **garantía estratif
 - El estado vivo no se persiste como autoridad legal.
 
 ### Cotas temporales codificadas
+GORIZ_QUOTA_TEMPORAL_WINDOWS=DOCUMENTED — las ventanas de cupo están documentadas en los valid
+windows de las rule-version (effective_to para 90 personas, effective_to=None para 50).
+GORIZ_QUOTA_ENFORCEMENT=NOT_IMPLEMENTED — el motor no evalúa el cupo; las rule-versions
+cubren el período, la evaluación del cupo es capa operativa/viva no legal.
 - Cupo de 90 personas: ventana `effective_from=2022-02-09, effective_to=2023-12-31`.
 - Cupo de 50 personas: ventana `effective_from=2024-01-01, effective_to=null`.
 - El cupo mismo **no se codifica como hecho** (capa operativa/viva).

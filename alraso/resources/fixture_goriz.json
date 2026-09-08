@@ -1,10 +1,11 @@
 {
  "$schema": "https://alraso.example/schemas/goriz-realworld-fixture-v1.json",
- "expected": {
-  "inside_with_conditions": {
-   "knowledge": "CURRENT",
-   "legal": "PERMITTED"
-  },
+"expected": {
+   "inside_with_conditions": {
+    "knowledge": "INCOMPLETE",
+    "legal": "UNDETERMINED",
+    "note": "regla no publicable mientras el trigger vivo no sea verificable; el hecho aportado por el caller NO desbloquea PERMITTED"
+   },
   "inside_without_conditions": {
    "knowledge": "INCOMPLETE",
    "legal": "UNDETERMINED",
@@ -23,7 +24,7 @@
 "semantics": {
     "boundary_policy": "PostGIS target uses ST_Intersects (boundary-insclusive); InMemory raycast MUST NOT be relied on for exact edges (see spatial.py)",
     "condition_facts": "refuge_capacity_full (legal trigger: 'en los casos de aforo completo del refugio') and nights (PRUG 'la pernocta no excedera de tres noches') are caller-supplied; missing facts fail closed to UNDETERMINED",
-    "normative_vs_live": "refuge_capacity_full = condición NORMATIVA (trigger legal del texto) cuyo VALOR es estado vivo no verificable por AlRaso; nights = condición normativa aportada; cupo/reserva/disponibilidad/avisos = LIVE_OPERATIONAL_STATE, nunca legalidad; política: sin el hecho obligatorio -> UNDETERMINED (nunca PERMITTED), y el estado vivo no se persiste como autoridad legal",
+    "normative_vs_live": "refuge_capacity_full = condición NORMATIVA (trigger legal del texto) cuyo VALOR es estado vivo no verificable por AlRaso; nights = condición normativa aportada; cupo/reserva/disponibilidad/avisos = LIVE_OPERATIONAL_STATE, nunca legalidad; política: regla NO publicable (REVIEW_REQUIRED) mientras el trigger vivo no sea verificable; caller-supplied hechos nunca desbloquean PERMITTED -> siempre UNDETERMINED; re-publicación futura exige fuente verificada de estado vivo/reserva; sin hechos O con hecho aportado por el caller -> UNDETERMINED (nunca PERMITTED), y el estado vivo no se persiste como autoridad legal",
     "not_encoded": "cupo de 50 personas y disponibilidad/reserva = OPERATIONAL/LIVE layer (reservas de la plataforma OAPN); never treated as legality here",
     "provider_rings": "[[lat, lon], ...] WGS84; each ring = independent polygon part (InMemorySpatialProvider)"
    }
@@ -458,11 +459,11 @@
      "lf-oapn-zum-attributes",
      "lf-pnomp-legislacion-no-later"
     ],
-    "interpretation_note": "Lectura literal del art. unico D 16/2022: en la Zona de Uso Moderado de Goriz la pernocta (vivac/acampada nocturna) queda permitida 'en los casos de aforo completo del refugio' y 'no excedera de tres noches'. Cupo de 90 personas hasta el 31-12-2023; el cupo no se codifica como hecho (capa operativa/viva). A partir del 01-01-2024 cupo reducido a 50 personas; el cupo no se codifica como hecho (capa operativa/viva). Fuera de este ambito la pregunta sector Ordesa sigue UNDETERMINED (geometria sectorial inexistente - M1.1/M1.1-B).",
-    "legal_review_complete": true,
-    "recorded_at": "2026-09-05",
-    "recorded_until": null,
-    "review_status": "VERIFIED",
+"interpretation_note": "Lectura literal del art. unico D 16/2022: en la Zona de Uso Moderado de Goriz la pernocta (vivac/acampada nocturna) queda permitida 'en los casos de aforo completo del refugio' y 'no excedera de tres noches'. Cupo de 90 personas hasta el 31-12-2023; el cupo no se codifica como hecho (capa operativa/viva). A partir del 01-01-2024 cupo reducido a 50 personas; el cupo no se codifica como hecho (capa operativa/viva). Fuera de este ambito la pregunta sector Ordesa sigue UNDETERMINED (geometria sectorial inexistente - M1.1/M1.1-B). Publicación BLOQUEADA 2026-09-08 (GORIZ_LIVE_TRIGGER_PUBLICATION_BLOCKED=REVIEW_REQUIRED): el trigger normativo (aforo completo del refugio) es estado vivo que AlRaso no puede verificar; la regla permanece NO publicable y ni sin hechos ni con refuge_capacity_full aportado por el caller se publica PERMITTED (siempre UNDETERMINED). Re-publicación futura exige una fuente verificada de estado vivo/reserva.",
+     "legal_review_complete": true,
+     "recorded_at": "2026-09-05",
+     "recorded_until": null,
+     "review_status": "REVIEW_REQUIRED",
     "rule_id": "alraso:es-ar/pn-ordesa/pernocta#vivac-zona-goriz-zum",
     "spatial_review_complete": true,
     "spatial_scope_id": "ss-ordesa-goriz-zum",
@@ -491,11 +492,11 @@
      "lf-oapn-zum-attributes",
      "lf-pnomp-legislacion-no-later"
     ],
-    "interpretation_note": "Lectura literal del art. unico D 16/2022: en la Zona de Uso Moderado de Goriz la pernocta (vivac/acampada nocturna) queda permitida 'en los casos de aforo completo del refugio' y 'no excedera de tres noches'. A partir del 01-01-2024 cupo reducido a 50 personas; el cupo no se codifica como hecho (capa operativa/viva). Fuera de este ambito la pregunta sector Ordesa sigue UNDETERMINED (geometria sectorial inexistente - M1.1/M1.1-B).",
-    "legal_review_complete": true,
-    "recorded_at": "2026-09-05",
-    "recorded_until": null,
-    "review_status": "VERIFIED",
+"interpretation_note": "Lectura literal del art. unico D 16/2022: en la Zona de Uso Moderado de Goriz la pernocta (vivac/acampada nocturna) queda permitida 'en los casos de aforo completo del refugio' y 'no excedera de tres noches'. A partir del 01-01-2024 cupo reducido a 50 personas; el cupo no se codifica como hecho (capa operativa/viva). Fuera de este ambito la pregunta sector Ordesa sigue UNDETERMINED (geometria sectorial inexistente - M1.1/M1.1-B). Publicación BLOQUEADA 2026-09-08 (GORIZ_LIVE_TRIGGER_PUBLICATION_BLOCKED=REVIEW_REQUIRED): el trigger normativo (aforo completo del refugio) es estado vivo que AlRaso no puede verificar; la regla permanece NO publicable y ni sin hechos ni con refuge_capacity_full aportado por el caller se publica PERMITTED (siempre UNDETERMINED). Re-publicación futura exige una fuente verificada de estado vivo/reserva.",
+     "legal_review_complete": true,
+     "recorded_at": "2026-09-05",
+     "recorded_until": null,
+     "review_status": "REVIEW_REQUIRED",
     "rule_id": "alraso:es-ar/pn-ordesa/pernocta#vivac-zona-goriz-zum",
     "spatial_review_complete": true,
     "spatial_scope_id": "ss-ordesa-goriz-zum",

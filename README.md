@@ -107,8 +107,9 @@ La rama **Góriz** de M1.1 (M1.1-C) sí cerró en **`OFFICIAL_SCOPE_LINK_PROVEN`
 queda identity-probada entre el WFS oficial de OAPN (registro estatal que cita el
 `Decreto 49/2015` en el propio feature) y el WFS de ICEAragon (`ENP101_137`): IoU
 `0.999844`, Hausdorff `0,005 m`. Es el primer ámbito con geometría oficial que
-resuelve de extremo a extremo (dentro + condiciones → `PERMITTED`; sin condiciones o
-fuera → `UNDETERMINED`, nunca prohibición sectorial). Ver
+resuelve de extremo a extremo (dentro → `UNDETERMINED` mientras el trigger normativo
+(aforo del refugio) sea estado vivo no verificable — la regla está en corpus pero NO
+publicable (REVIEW_REQUIRED); nunca prohibición sectorial). Ver
 `docs/ALRASO-M11C-GORIZ-SCOPE.md`, `tooling/m11c_goriz_scope.evidence.json` y
 re-verificación en vivo con `tooling/m11c_goriz_identity.py --verify`. Ninguna
 consulta "fuera de Góriz" reabre la rama sectorial.
@@ -130,7 +131,7 @@ por CCAA de Picos están ya en el runtime (Phase B, fixture empaquetado).
 **M2 — Product vertical slice (actual):** `python webapp/server.py` abre un mapa
 (MapLibre vendorizado, cero dependencias nuevas) donde un clic resuelve por el
 motor real y muestra `LEGAL / KNOWLEDGE / COVERAGE` + condiciones + fuentes +
-"por qué sabemos / por qué no". Cobertura visible: `VERIFIED` (Góriz), `PARTIAL`
+"por qué sabemos / por qué no". Cobertura visible: `VERIFIED` (Góriz: geometría y norma verificadas; determinación bloqueada por trigger vivo no verificable → UNDETERMINED), `PARTIAL`
 (Ordesa sin geometría de sectores; Picos con regla art. 51 por CCAA y DEM fail-closed pero frontera <1 km sin re-verificar IDE y excepciones sin codificar), `UNKNOWN` (resto).
 Los contornos `esquematico` del mapa son informativos y jamás pueden producir
 `PERMITTED`. Ver `docs/ALRASO-M2-PRODUCT-SLICE.md` (incluye el presupuesto de

@@ -30,10 +30,12 @@ def _resolve(svc, lat, lon, facts=None, activity="VIVAC_AL_RASO"):
 def test_plain_labels_never_remove_canonical_codes(svc):
     out = _resolve(svc, 42.6627475, 0.0159801,
                    facts={"refuge_capacity_full": True, "nights": 2})
-    assert out["determination"]["legalStatus"] == "PERMITTED"
-    assert out["ui"]["legal"] == "Permitido según la normativa verificada"
-    assert out["ui"]["headline"].startswith("Permitido según la normativa verificada")
-    assert "condiciones" in out["ui"]["headline"]
+    # GORIZ_LIVE_TRIGGER_PUBLICATION_BLOCKED: caller-supplied live fact -> UNDETERMINED
+    assert out["determination"]["legalStatus"] == "UNDETERMINED"
+    assert out["ui"]["legal"] == server.PLAIN_LEGAL["UNDETERMINED"]
+    assert "No es un permiso, pero tampoco una prohibición" in out["ui"]["headline"]
+    # The canonical code UNDETERMINED remains visible in the determination payload
+    assert out["determination"]["legalStatus"] == "UNDETERMINED"
 
 
 def test_all_known_codes_have_plain_labels():
