@@ -16,7 +16,7 @@ adapter = AxiomCliAdapter(BIN, ROOT, ROOT + "/cache")
 SCOPE = "ss-ordesa-sector-ordesa"
 ok = True
 seen_hashes = {}
-for act_date, label, want in [("2021-07-15", "pre-override", "PERMITTED"),
+for act_date, label, want in [("2021-07-15", "pre-override", "UNDETERMINED"),
                               ("2023-06-15", "post-override", "PROHIBITED")]:
     sel = store.select("VIVAC_AL_RASO", SCOPE, act_date, "2023-06-15")
     mid, yaml_text, _ = generate_rulespec(sel.covering)

@@ -45,12 +45,14 @@ def test_axiom_agrees_with_wrapper_selection_on_ordesa(tmp_path):
     r = axiom_resolver(tmp_path)
     pre = r.resolve(q("2021-07-15"))
     post = r.resolve(q("2023-06-15"))
-    assert pre.legal_status is LegalStatus.PERMITTED
+    # 2021: RD 409/1995 normative basis expired 30-04-2015 -> UNDETERMINED
+    assert pre.legal_status is LegalStatus.UNDETERMINED
+    assert "NORMATIVE_BASIS_OUTSIDE_VALIDITY" in pre.reason_codes
     assert post.legal_status is LegalStatus.PROHIBITED
-    evals = [t for t in pre.to_dict()["precedenceTrace"] if t["stage"] == "engine_eval"]
+    evals = [t for t in post.to_dict()["precedenceTrace"] if t["stage"] == "engine_eval"]
     assert evals and evals[0]["engine"] == "axiom-cli"
     # identity preserved on the real engine path
-    assert pre.basis["rule_seqs"]
+    assert post.basis["rule_seqs"]
 
 
 def test_axiom_refuses_conditional_rules_end_to_end(tmp_path):

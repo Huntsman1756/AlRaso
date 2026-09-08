@@ -7,7 +7,9 @@ the built artifact behaves, not that the working tree works.
     python tooling/smoke_installed.py        # exit 0 = all smokes passed
 
 Covered:
-  - packaged fixture resolves the canonical Ordesa pair (PERMITTED / PROHIBITED)
+  - packaged fixture resolves the canonical Ordesa pair (UNDETERMINED / PROHIBITED)
+    (2021: UNDETERMINED tras corrección de base normativa RD 409/1995;
+     2023: PROHIBITED con D 16/2022)
   - F01: an unreviewed rule cannot permit
   - H1: overlapping visible lineages of one rule_id are refused
   - H2: evidence with unverified provenance cannot back a permit
@@ -38,7 +40,9 @@ def store_with_scope(fragment_status: str = "VERIFIED") -> BitemporalStore:
     store.add_spatial_scope({"id": "s", "scope_type": "OTHER", "official_name": "S"})
     store.add_source_document(DOC)
     store.add_legal_fragment({"id": "lf", "source_document_id": "sd", "locator": "art. 1",
-                              "review_status": fragment_status})
+                              "review_status": fragment_status,
+                              "provision_ref": "art. 1", "validity_from": "1900-01-01",
+                              "validity_to": None})
     return store
 
 
@@ -48,7 +52,8 @@ def add_rule(store: BitemporalStore, rid: str, effect: str, *, ef: str = "2020-0
                             "spatial_scope_id": "s", "effect": effect,
                             "effective_from": ef, "recorded_at": "2020-06-01",
                             "review_status": review, "legal_review_complete": True,
-                            "evidence": list(evidence)})
+                            "evidence": list(evidence),
+                            "normative_basis": list(evidence)})
 
 
 def packaged_fixture_resolves() -> None:
@@ -61,9 +66,10 @@ def packaged_fixture_resolves() -> None:
     post = r.resolve(Query(activity="VIVAC_AL_RASO", activity_date="2023-06-15",
                            knowledge_date="2023-06-15",
                            spatial_scope_id="ss-ordesa-sector-ordesa"))
-    assert pre.legal_status is LegalStatus.PERMITTED, pre.legal_status
+    assert pre.legal_status is LegalStatus.UNDETERMINED, pre.legal_status
+    assert "NORMATIVE_BASIS_OUTSIDE_VALIDITY" in pre.reason_codes, pre.reason_codes
     assert post.legal_status is LegalStatus.PROHIBITED, post.legal_status
-    print("OK fixture: 2021 PERMITTED / 2023 PROHIBITED")
+    print("OK fixture: 2021 UNDETERMINED / 2023 PROHIBITED (NORM_VALIDITY microfix 2026-09-08)")
 
 
 def unreviewed_rule_cannot_permit() -> None:
@@ -99,7 +105,9 @@ def uncovered_regulatory_jurisdiction_is_not_permission() -> None:
     store = BitemporalStore.connect(":memory:")
     store.add_source_document(DOC)
     store.add_legal_fragment({"id": "lf", "source_document_id": "sd", "locator": "art. 1",
-                              "review_status": "VERIFIED"})
+                              "review_status": "VERIFIED",
+                              "provision_ref": "art. 1", "validity_from": "1900-01-01",
+                              "validity_to": None})
     for sid in ("s", "s2"):
         store.add_spatial_scope({"id": sid, "scope_type": "OTHER", "official_name": sid,
                                  "geometry_source": "sd", "review_status": "VERIFIED"})
@@ -107,7 +115,8 @@ def uncovered_regulatory_jurisdiction_is_not_permission() -> None:
                             "spatial_scope_id": "s", "effect": "PERMITTED",
                             "effective_from": "2020-01-01", "recorded_at": "2020-06-01",
                             "review_status": "VERIFIED", "legal_review_complete": True,
-                            "spatial_review_complete": True, "evidence": ["lf"]})
+                            "spatial_review_complete": True, "evidence": ["lf"],
+                            "normative_basis": ["lf"]})
     prov = InMemorySpatialProvider()
     prov.add_scope("s", "s", "OTHER", [[(0.0, 0.0), (0.0, 1.0), (1.0, 1.0), (1.0, 0.0)]])
     prov.add_scope("s2", "s2", "OTHER", [[(0.5, 0.5), (0.5, 1.5), (1.5, 1.5), (1.5, 0.5)]])

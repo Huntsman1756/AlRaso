@@ -3,7 +3,11 @@ to the lock) and the first REAL-WORLD scope resolves end-to-end offline.
 
 These tests read committed evidence only and drive the in-memory resolver with
 the official geometry. They NEVER touch the network (live re-check is the
-manual tool tooling/m11c_goriz_identity.py)."""
+manual tool tooling/m11c_goriz_identity.py).
+
+GORIZ_LIVE_TRIGGER_PUBLICATION_BLOCKED=REVIEW_REQUIRED: the rule is in corpus but
+NOT publishable while the live-state trigger (refuge capacity) is unverifiable.
+"""
 from __future__ import annotations
 
 import hashlib
@@ -161,17 +165,21 @@ def test_data_policy_is_locked_and_documented(lock):
 
 # ---------- real-world end-to-end ----------
 
-def test_realworld_case_inside_with_conditions_resolves_permitted():
+def test_realworld_case_inside_with_caller_supplied_live_fact_is_never_permitted():
     r = _store_and_resolver()
     lat, lon = _fixture()["probe_points"]["inside_wgs84"]
     res = r.resolve(Query(activity="VIVAC_AL_RASO", activity_date="2026-08-15",
                           knowledge_date="2026-09-05", lat=lat, lon=lon,
                           facts={"refuge_capacity_full": True, "nights": 2}))
-    assert res.legal_status.value == "PERMITTED"
-    assert res.knowledge_status.value == "CURRENT"
+    # GORIZ_LIVE_TRIGGER_PUBLICATION_BLOCKED: caller-supplied live fact NEVER unblocks PERMITTED
+    assert res.legal_status.value == "UNDETERMINED"
+    assert res.knowledge_status.value == "INCOMPLETE"
     assert [s["scope_id"] for s in res.applicable_scope] == ["ss-ordesa-goriz-zum"]
-    assert res.evidence and "sd-d16-boa-pdf" in res.basis["source_document_ids"]
     assert any("reservas" in w for w in res.warnings)  # standing operational warning
+    # Eligibility trace: excluded with REVIEW_NOT_PUBLISHABLE
+    elig = next(t for t in res.precedence_trace if t["stage"] == "eligibility")
+    excluded_reasons = [r for e in elig["excluded"] for r in e["reasons"]]
+    assert any("REVIEW_NOT_PUBLISHABLE:REVIEW_REQUIRED" in r for r in excluded_reasons)
 
 
 @pytest.mark.parametrize("facts", [

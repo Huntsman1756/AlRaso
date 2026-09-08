@@ -57,7 +57,8 @@ def test_missing_evidence_cannot_permit():
     assert res.knowledge_status is KnowledgeStatus.INCOMPLETE
     # H2/D3: absent evidence is reported as non-publishable evidence, not just
     # as a generic coverage hole.
-    assert res.reason_codes == ["NO_PUBLISHABLE_RULE_COVERAGE", "EVIDENCE_NOT_PUBLISHABLE"]
+    assert res.reason_codes == ["NO_PUBLISHABLE_RULE_COVERAGE", "EVIDENCE_NOT_PUBLISHABLE",
+                                "NORMATIVE_BASIS_MISSING"]
     elig = next(t for t in res.precedence_trace if t["stage"] == "eligibility")
     assert any("EVIDENCE_MISSING" in r for e in elig["excluded"] for r in e["reasons"])
 
@@ -71,10 +72,15 @@ def test_unresolvable_evidence_ref_cannot_permit():
             "spatial_scope_id": S, "effect": "PERMITTED",
             "effective_from": "2020-01-01", "recorded_at": "2020-06-01",
             "review_status": "VERIFIED", "legal_review_complete": True,
-            "evidence": ["lf-does-not-exist"]})
+            "evidence": ["lf-does-not-exist"], "normative_basis": ["lf-does-not-exist"]})
     res = resolver_with(setup).resolve(q())
     assert res.legal_status is LegalStatus.UNDETERMINED
-    assert res.reason_codes == ["NO_PUBLISHABLE_RULE_COVERAGE", "EVIDENCE_NOT_PUBLISHABLE"]
+    # First rule has evidence=None -> NORMATIVE_BASIS_MISSING; second has dangling ref
+    # -> EVIDENCE_NOT_PUBLISHABLE (unresolvable evidence) + NORMATIVE_PRECEPT_MISSING
+    assert "NO_PUBLISHABLE_RULE_COVERAGE" in res.reason_codes
+    assert "EVIDENCE_NOT_PUBLISHABLE" in res.reason_codes
+    assert "NORMATIVE_BASIS_MISSING" in res.reason_codes
+    assert "NORMATIVE_PRECEPT_MISSING" in res.reason_codes
 
 
 def test_evidence_cannot_be_orphaned_under_a_determination():

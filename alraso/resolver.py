@@ -78,6 +78,10 @@ from alraso.errors import (
     REASON_OVERLAPPING_VERSIONS,
     REASON_TEMPORAL_GAP,
     REASON_UNRESOLVED_CONFLICT,
+    REASON_NORM_BASIS_MISSING,
+    REASON_NORM_VALIDITY_UNKNOWN,
+    REASON_NORM_BASIS_OUTSIDE,
+    REASON_NORM_PRECEPT_MISSING,
 )
 from alraso.precedence import (
     Judgment,
@@ -233,7 +237,7 @@ class Resolver:
         eligible: list[VersionRow] = []
         excluded: list[dict[str, Any]] = []
         for v in covering:
-            reasons = is_rule_version_eligible(v, self.store)
+            reasons = is_rule_version_eligible(v, self.store, activity_date=query.activity_date)
             if reasons:
                 excluded.append({"rule_id": v.rule_id, "seq": v.seq, "reasons": reasons})
             else:
@@ -248,9 +252,21 @@ class Resolver:
             codes = [REASON_NO_ELIGIBLE_RULE]
             if all(any(r.startswith("EVIDENCE_") for r in e["reasons"]) for e in excluded):
                 codes.append(REASON_EVIDENCE_NOT_PUBLISHABLE)
+            # Hoist NORM_VALIDITY_* codes if any exclusion reason starts with them
+            norm_codes: list[str] = []
+            for code, prefix in [
+                (REASON_NORM_BASIS_MISSING, "NORMATIVE_BASIS_MISSING"),
+                (REASON_NORM_VALIDITY_UNKNOWN, "NORMATIVE_VALIDITY_UNKNOWN"),
+                (REASON_NORM_BASIS_OUTSIDE, "NORMATIVE_BASIS_OUTSIDE_VALIDITY"),
+                (REASON_NORM_PRECEPT_MISSING, "NORMATIVE_PRECEPT_MISSING"),
+            ]:
+                if any(r.startswith(prefix) for e in excluded for r in e["reasons"]):
+                    if code not in norm_codes:
+                        norm_codes.append(code)
+            codes.extend(norm_codes)
             return self._fail(query, reason=codes[0],
                               message=("ninguna regla aplicable es publicable "
-                                       "(revision/evidencia incompletas)"),
+                                       "(revision/evidencia/invalidez normativa incompletas)"),
                               record=record, scopes=hits,
                               knowledge=KnowledgeStatus.INCOMPLETE, extra_codes=codes[1:],
                               trace=trace)
@@ -522,7 +538,7 @@ class Resolver:
         for p in participating:
             if p.seq not in eligible_by_seq:
                 v.append(f"participante no elegible seq {p.seq}")
-            elif is_rule_version_eligible(p, self.store):
+            elif is_rule_version_eligible(p, self.store, activity_date=query.activity_date):
                 v.append(f"participante perdio elegibilidad seq {p.seq}")
         # H1/D2: an ambiguous canonical version forbids any affirmative answer
         if any(not g["material_identical"]

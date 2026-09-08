@@ -322,10 +322,16 @@ def test_legacy_database_gains_relevance_without_losing_rows(tmp_path):
     scope(s, S)
     rule(s, "alraso:es:t/h1#mig", S, "PERMITTED")
     s.conn.execute("ALTER TABLE spatial_scope DROP COLUMN relevance")
+    s.conn.execute("ALTER TABLE legal_rule_version DROP COLUMN normative_basis")
     s.conn.commit()
     s.conn.close()
 
     s2 = BitemporalStore.connect(path)          # additive migration on connect
     assert s2.get_scope(S)["relevance"] == "REGULATORY"
     assert s2.conn.execute("SELECT COUNT(*) FROM legal_rule_version").fetchone()[0] == 1
-    assert Resolver(s2).resolve(q()).legal_status is LegalStatus.PERMITTED
+    # Legacy rules without normative_basis are excluded (NORMATIVE_BASIS_MISSING);
+    # the migration adds the column but the original row has no data.
+    r = Resolver(s2)
+    res = r.resolve(q())
+    assert res.legal_status is LegalStatus.UNDETERMINED
+    assert "NORMATIVE_BASIS_MISSING" in res.reason_codes

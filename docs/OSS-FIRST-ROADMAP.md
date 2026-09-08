@@ -138,3 +138,12 @@ OSS_REUSE_GATE=YES (per front)
 BUILD_FROM_SCRATCH_DEFAULT=NO
 PREVIEW_DEPLOY=READY_PENDING_HOST (host mínimo documentado; no desplegado)
 ```
+
+## Backlog (estado 2026-09-08)
+
+**NOW:** corrección de corrección jurídica (NORM_VALIDITY microfix — este PR: `normative_basis`, `provision_ref`, `validity_from/to` en fragmentos, gate de elegibilidad, corrección corpus Ordesa 2021).
+**NEXT PRODUCT:** PWA/offline shell (service worker, cache estratéxico, sync con backend).
+**WHEN OFFLINE/AUTONOMY MATTERS:** PMTiles / Protomaps (basemap offline autosoberano; ya no es bloqueante de M2.1).
+**WHEN LEGAL COVERAGE EXPANDS:** legalize-es / legalize-pipeline y OWSLib (OWSLib: ADAPT solo cuando se toque descubrimiento OGC; sin refactor preventivo).
+**EXPERIMENTAL ENGINE ASSURANCE:** Catala (solo test diferencial de motor; NUNCA validación de premisa legal).
+**REFERENCE / REJECT:** OpenFisca como núcleo de producción, `temporal_tables`/`pg_bitemporal` como sustituto del almacén normativo, WDPA como autoridad legal de espacios protegidos.

@@ -18,10 +18,14 @@ A version is eligible iff ALL hold:
      EVERY evidence reference resolves to a legal_fragment whose
      source_document exists (no dangling citations).
   5b. EVERY cited fragment is itself publishable (H2/D3,
-     alraso.bitemporal.PUBLISHABLE_FRAGMENT_STATUSES): the rule's own review
-     state can never launder a citation that has not been checked against its
-     source document.
+      alraso.bitemporal.PUBLISHABLE_FRAGMENT_STATUSES): the rule's own review
+      state can never launder a citation that has not been checked against its
+      source document.
   6. the version's condition AST is structurally valid.
+  7. NORM_VALIDITY_COVERAGE / PRECEPT_LEVEL_NORMATIVE_BASIS: if normative_basis
+      is non-empty, every basis fragment must have a provision_ref and
+      validity_from; if activity_date is provided, it must fall within the
+      intersection of the basis fragments' validity windows.
 
 Geometry precision itself is policed separately: the PERMITTED invariant
 gate in the resolver additionally refuses a coordinate-resolved PERMITTED
@@ -30,8 +34,15 @@ Temporal visibility/applicability is owned by BitemporalStore.select.
 
 Failure mode at the resolver: ineligible versions are excluded and the result
 degrades to UNDETERMINED (+INCOMPLETE) with precise reason codes — NEVER to
-PROHIBITED (absence of publishable law is not prohibition) and NEVER to
-PERMITTED.
+PROHIBITED (absence of known law is not prohibition) and NEVER to PERMITTED.
+
+APPLICABLE_DOCUMENT != APPLICABLE_PRECEPT: a document's existence is not
+equivalent to a valid, current precept. The gate operates on the normative
+fragment/redaction; document status alone never makes a rule eligible.
+
+NORM_VALIDITY_COVERAGE applies equally to PERMITTED, PROHIBITED,
+AUTHORIZATION_REQUIRED; evidence NOT in normative_basis never requires
+validity fields.
 """
 
 from __future__ import annotations
@@ -44,8 +55,19 @@ if TYPE_CHECKING:
     from alraso.bitemporal import BitemporalStore
 
 
-def is_rule_version_eligible(version: VersionRow, store: "BitemporalStore") -> list[str]:
-    """Return the list of ineligibility reasons ([] == eligible)."""
+def is_rule_version_eligible(
+    version: VersionRow,
+    store: "BitemporalStore",
+    *,
+    activity_date: str | None = None,
+) -> list[str]:
+    """Return the list of ineligibility reasons ([] == eligible).
+
+    ``activity_date`` is always passed by the resolver (runtime enforcement of
+    the validity interval).  When activity_date is None structural checks
+    (provision_ref, validity_from presence) still run; interval coverage is
+    skipped — the resolver is the only caller and always passes it.
+    """
     reasons: list[str] = []
 
     if version.review_status not in PUBLISHABLE_REVIEW_STATUSES:
@@ -76,5 +98,24 @@ def is_rule_version_eligible(version: VersionRow, store: "BitemporalStore") -> l
             validate_condition(version.condition)
         except InvalidCondition as e:
             reasons.append(f"CONDITION_INVALID:{e}")
+
+    # NORM_VALIDITY_COVERAGE / PRECEPT_LEVEL_NORMATIVE_BASIS checks
+    if not version.normative_basis:
+        reasons.append("NORMATIVE_BASIS_MISSING")
+    else:
+        frag_map = {f["id"]: f for f in store.get_fragments(version.normative_basis)}
+        for fid in version.normative_basis:
+            frag = frag_map.get(fid)
+            if frag is None:
+                reasons.append(f"NORMATIVE_PRECEPT_MISSING:{fid}")
+            elif not frag.get("provision_ref"):
+                reasons.append(f"NORMATIVE_PRECEPT_MISSING:{fid}")
+            elif frag.get("validity_from") is None:
+                reasons.append(f"NORMATIVE_VALIDITY_UNKNOWN:{fid}")
+            elif activity_date is not None:
+                vf = frag["validity_from"]
+                vt = frag.get("validity_to")
+                if activity_date < vf or (vt is not None and activity_date > vt):
+                    reasons.append(f"NORMATIVE_BASIS_OUTSIDE_VALIDITY:{fid}")
 
     return reasons

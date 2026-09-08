@@ -23,10 +23,14 @@ def test_ordesa_vivac_2021_permitted_and_2023_prohibited():
     r = resolver()
     a = r.resolve(q("2021-07-15"))
     b = r.resolve(q("2023-06-15"))
-    assert a.legal_status.value == "PERMITTED"
+    # 2021: RD 409/1995 base normativa agotada 30-04-2015 -> UNDETERMINED
+    assert a.legal_status.value == "UNDETERMINED"
+    assert a.knowledge_status.value == "INCOMPLETE"
+    assert "NO_PUBLISHABLE_RULE_COVERAGE" in a.reason_codes
+    assert "NORMATIVE_BASIS_OUTSIDE_VALIDITY" in a.reason_codes
     assert b.legal_status.value == "PROHIBITED"
-    # material identity of the winners
-    assert a.basis["rule_seqs"] == [2] and b.basis["rule_seqs"] == [3]
+    # material identity of the 2023 winner
+    assert b.basis["rule_seqs"] == [3]
 
 
 def test_contract_fields_populated():
@@ -53,11 +57,26 @@ def test_contract_fields_populated():
 
 
 def test_pre_override_version_carries_both_sources_of_the_transition():
+    # The 2021 version is excluded due to expired normative basis;
+    # the 2023 version has both evidence refs. Check the 2023 evidence.
     r = resolver()
-    res = r.resolve(q("2021-07-15")).to_dict()
-    assert res["ruleVersions"][0]["effective_to"] == "2022-02-08"
-    frag_ids = {e["id"] for e in res["evidence"]}
-    assert {"lf-rd409-anexo1-da", "lf-d16-2022-pernocta"} <= frag_ids
+    res_2023 = r.resolve(q("2023-06-15")).to_dict()
+    frag_ids_2023 = {e["id"] for e in res_2023["evidence"]}
+    assert "lf-d16-2022-pernocta" in frag_ids_2023
+    assert "lf-pnomp-pernocta-operativa" in frag_ids_2023
+    # Auditability: the closed PERMITTED lineage (selected at 2021 before correction)
+    # still carries its evidence + normative_basis in the store.
+    rows = r.store.conn.execute(
+        "SELECT evidence, normative_basis FROM legal_rule_version "
+        "WHERE rule_id=? AND effective_from='2020-01-01' AND effective_to='2022-02-08'",
+        ("alraso:es-ar/pn-ordesa/pernocta#vivac-sector-ordesa",)).fetchall()
+    assert len(rows) == 1
+    import json
+    ev = json.loads(rows[0]["evidence"])
+    nb = json.loads(rows[0]["normative_basis"])
+    assert "lf-rd409-anexo1-da" in ev
+    assert "lf-d16-2022-pernocta" in ev
+    assert nb == ["lf-rd409-anexo1-da"]
 
 
 def test_override_relation_registered_and_human_verified():
@@ -79,7 +98,7 @@ def test_eligibility_gate_visible_in_trace_and_excludes_nothing_here():
     r = resolver()
     res = r.resolve(q("2023-06-15"))
     elig = next(t for t in res.precedence_trace if t["stage"] == "eligibility")
-    assert elig["excluded"] == []           # Ordesa corpus is fully publishable
+    assert elig["excluded"] == []           # Ordesa corpus is fully publishable at 2023
     assert elig["eligible"] == [3]
 
 
@@ -90,3 +109,16 @@ def test_full_fixture_answers_prohibited_at_future_knowledge():
     r = resolver()
     res = r.resolve(q("2023-06-15", knowledge="2028-01-01"))
     assert res.legal_status.value == "PROHIBITED"
+
+
+def test_2021_ordesa_excluded_with_normative_basis_outside_validity():
+    """2021: all ORDESA rules excluded by expired normative basis."""
+    r = resolver()
+    res = r.resolve(q("2021-07-15"))
+    assert res.knowledge_status.value == "INCOMPLETE"
+    elig = next(t for t in res.precedence_trace if t["stage"] == "eligibility")
+    assert elig["excluded"]
+    # All covering rows excluded with NORMATIVE_BASIS_OUTSIDE_VALIDITY
+    assert not elig["eligible"]
+    for e in elig["excluded"]:
+        assert any("NORMATIVE_BASIS_OUTSIDE_VALIDITY" in r for r in e["reasons"])

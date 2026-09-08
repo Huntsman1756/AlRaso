@@ -2,8 +2,10 @@
 
 Examples:
   python -m alraso load-ordesa --db ordesa.db
-  python -m alraso resolve --db ordesa.db --activity VIVAC_AL_RASO \
-      --scope ss-ordesa-sector-ordesa --date 2021-07-15 --knowledge 2023-06-15
+  python -m alraso resolve --db ordesa.db --activity VIVAC_AL_RASO \\
+      --scope ss-ordesa-sector-ordesa --date 2021-07-15 --knowledge 2023-06-15   # UNDETERMINED (base normativa RD 409/1995 agotada 30-04-2015 — corrección NORM_VALIDITY 2026-09-08)
+  python -m alraso resolve --db ordesa.db --activity VIVAC_AL_RASO \\
+      --scope ss-ordesa-sector-ordesa --date 2023-06-15 --knowledge 2023-06-15   # PROHIBITED (D 16/2022)
   python -m alraso replay  --db ordesa.db --new-knowledge 2028-01-01
 
 Fact values are parsed STRICTLY (F06): canonical "true"/"false", integer,

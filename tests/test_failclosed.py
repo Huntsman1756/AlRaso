@@ -44,12 +44,29 @@ def test_missing_fact_on_conditional_rule_fails_closed():
     base = dict(activity="ACAMPADA", activity_date="2021-07-15",
                 knowledge_date="2023-06-15", spatial_scope_id=SECTOR)
     missing = r.resolve(Query(**base, facts={}))
+    # 2021 ACAMPADA excluded by expired normative basis (RD 409/1995)
     assert missing.legal_status is LegalStatus.UNDETERMINED
     assert missing.knowledge_status.value == "INCOMPLETE"
-    above = r.resolve(Query(**base, facts={"altitude_m": 2200}))
-    assert above.legal_status is LegalStatus.PERMITTED
-    below = r.resolve(Query(**base, facts={"altitude_m": 1500}))
-    assert below.legal_status is LegalStatus.UNDETERMINED
+    # Verify the reason codes include the normative basis issue
+    assert "NORMATIVE_BASIS_OUTSIDE_VALIDITY" in missing.reason_codes
+
+    # Synthetic rule with valid normative basis to test fact-missing path
+    from conftest import new_store, scope, rule
+    s = new_store()
+    scope(s, "s-synth")
+    rule(s, "alraso:es:t/synth#cond", "s-synth", "PERMITTED",
+         activity="ACAMPADA", ef="2020-01-01",
+         condition={"field": "altitude_m", "op": "gte", "value": 2100})
+    r2 = Resolver(s)
+    base2 = dict(activity="ACAMPADA", activity_date="2021-07-15",
+                 knowledge_date="2023-06-15", spatial_scope_id="s-synth")
+    missing2 = r2.resolve(Query(**base2, facts={}))
+    assert missing2.legal_status is LegalStatus.UNDETERMINED
+    assert missing2.knowledge_status.value == "INCOMPLETE"
+    above2 = r2.resolve(Query(**base2, facts={"altitude_m": 2200}))
+    assert above2.legal_status is LegalStatus.PERMITTED
+    below2 = r2.resolve(Query(**base2, facts={"altitude_m": 1500}))
+    assert below2.legal_status is LegalStatus.UNDETERMINED
 
 
 def test_conflicting_rules_without_verified_override_are_conflict():
@@ -107,6 +124,9 @@ def test_spatial_point_resolution_composes_all_scopes_and_fails_outside():
 def test_coordinate_permitted_over_unreviewed_geometry_is_impossible():
     # The Ordesa scopes carry SPATIAL_REVIEW_PENDING_GEOMETRY: a PERMITTED
     # derived from coordinates must be refused (restrictive answers pass).
+    # At 2021 the Ordesa rules are excluded by expired normative basis, so
+    # the result is UNDETERMINED + NORMATIVE_BASIS_OUTSIDE_VALIDITY (not
+    # the invariant violation that would apply if the rules were eligible).
     s = BitemporalStore.connect(":memory:")
     load_ordesa(s)
     prov = InMemorySpatialProvider()
@@ -116,7 +136,7 @@ def test_coordinate_permitted_over_unreviewed_geometry_is_impossible():
     res = r.resolve(Query(activity="VIVAC_AL_RASO", activity_date="2021-07-15",
                           knowledge_date="2023-06-15", lat=42.65, lon=0.0))
     assert res.legal_status is LegalStatus.UNDETERMINED
-    assert res.reason_codes == ["PERMITTED_INVARIANT_VIOLATION"]
+    assert "NORMATIVE_BASIS_OUTSIDE_VALIDITY" in res.reason_codes
 
 
 def test_unexpected_engine_failure_never_permitted():
@@ -138,7 +158,8 @@ def test_unexpected_engine_failure_never_permitted():
     s = BitemporalStore.connect(":memory:")
     load_ordesa(s)
     r = Resolver(s, engine=Boom())
-    res = r.resolve(Query(activity="VIVAC_AL_RASO", activity_date="2021-07-15",
+    # 2023 query: rules are eligible (PROHIBITED with valid basis)
+    res = r.resolve(Query(activity="VIVAC_AL_RASO", activity_date="2023-06-15",
                           knowledge_date="2023-06-15", spatial_scope_id=SECTOR))
     assert res.legal_status is LegalStatus.UNDETERMINED
     assert res.reason_codes == ["UNEXPECTED_FAILURE"]

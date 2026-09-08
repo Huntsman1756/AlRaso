@@ -29,17 +29,19 @@ def _resolve(svc, lat, lon, facts=None, activity="VIVAC_AL_RASO"):
                                 facts=facts or {})
 
 
-def test_goriz_inside_with_conditions_permitted(svc):
+def test_goriz_inside_with_caller_supplied_live_fact_never_permitted(svc):
     out = _resolve(svc, *GORIZ_INSIDE, facts={"refuge_capacity_full": True, "nights": 2})
-    assert out["determination"]["legalStatus"] == "PERMITTED"
+    # GORIZ_LIVE_TRIGGER_PUBLICATION_BLOCKED: caller-supplied live fact NEVER unblocks PERMITTED
+    assert out["determination"]["legalStatus"] == "UNDETERMINED"
     assert out["coverage"]["status"] == "VERIFIED"
-    assert out["sources"], "a PERMITTED must show its official sources"
+    assert "NO_PUBLISHABLE_RULE_COVERAGE" in out["determination"]["reasonCodes"]
 
 
 def test_goriz_inside_without_facts_never_permitted(svc):
     out = _resolve(svc, *GORIZ_INSIDE)
+    # GORIZ_LIVE_TRIGGER_PUBLICATION_BLOCKED: rule not publishable regardless of facts
     assert out["determination"]["legalStatus"] == "UNDETERMINED"
-    assert "ENGINE_MISSING_INPUT" in out["determination"]["reasonCodes"]
+    assert "NO_PUBLISHABLE_RULE_COVERAGE" in out["determination"]["reasonCodes"]
 
 
 def test_picos_and_ordesa_schematic_are_partial_never_permitted(svc):
@@ -362,6 +364,7 @@ def test_pois_do_not_change_resolution(svc):
     out = server.resolve_point(svc, lat=poi["lat"], lon=poi["lon"], activity="VIVAC_AL_RASO",
                                activity_date=TODAY, knowledge_date=TODAY,
                                facts={"refuge_capacity_full": True, "nights": 2})
-    assert out["determination"]["legalStatus"] == "PERMITTED"
+    # GORIZ_LIVE_TRIGGER_PUBLICATION_BLOCKED: PERMITTED is never minted even with caller facts
+    assert out["determination"]["legalStatus"] == "UNDETERMINED"
     assert out["coverage"]["status"] == "VERIFIED"
     assert "poi-goriz" not in json.dumps(out), "POIs nunca aparecen en la determinacion"

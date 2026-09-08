@@ -18,6 +18,7 @@ import json
 import hashlib
 import math
 import re
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -589,6 +590,93 @@ class TestHFlipDisagreement:
 # ── Digest coherence (structural guarantee) ──────────────────────────────
 
 
+
+def test_workflow_pins_event_aware_scope_base():
+    wf = (ROOT / ".github" / "workflows" / "gates.yml").read_text(encoding="utf-8")
+    assert "ALRASO_SCOPE_BASE" in wf
+    assert "github.event.pull_request.base.sha" in wf
+    assert "github.event.before" in wf
+
+
+def git_diff_changed_files(base: str | None = None, runner=None):
+    """Changed files vs base. FAIL-CLOSED: if git itself fails (shallow
+    checkout without origin/main, bad revision) or reports an empty diff,
+    that is a failure of the CHECK — never read as 'nothing unexpected'.
+    A hygiene gate that can silently pass on a broken diff is worse than
+    no gate.
+
+    base resolves from ALRASO_SCOPE_BASE env var (event-aware: pull_request
+    -> base.sha, push main -> event.before; local default origin/main).
+    """
+    base = base or os.environ.get("ALRASO_SCOPE_BASE", "origin/main")
+    runner = runner or subprocess.run
+    result = runner(["git", "diff", "--name-only", base],
+                    capture_output=True, text=True, cwd=str(ROOT))
+    if result.returncode != 0:
+        raise AssertionError(
+            f"git diff {base} failed (rc={result.returncode}): "
+            f"{(result.stderr or '').strip()[:300]}")
+    changed = set(result.stdout.strip().split("\n")) - {""}
+    if not changed:
+        raise AssertionError(
+            f"git diff {base} produced no changed files: refusing to "
+            "validate an empty diff (suspect shallow checkout or wrong base)")
+    return changed
+
+
+def test_scope_gate_fails_loudly_when_git_diff_fails():
+    class _Fail:
+        returncode = 128
+        stdout = ""
+        stderr = "fatal: ambiguous argument 'origin/main': unknown revision"
+    with pytest.raises(AssertionError, match="failed"):
+        git_diff_changed_files(runner=lambda *a, **k: _Fail())
+
+
+def test_scope_gate_fails_loudly_on_empty_diff():
+    class _Empty:
+        returncode = 0
+        stdout = ""
+        stderr = ""
+    with pytest.raises(AssertionError, match="empty diff"):
+        git_diff_changed_files(runner=lambda *a, **k: _Empty())
+
+
+
+def test_scope_gate_uses_event_provided_base(monkeypatch):
+    seen = {}
+
+    class _Ok:
+        returncode = 0
+        stderr = ""
+
+        def __init__(self, stdout):
+            self.stdout = stdout
+
+    def _runner(argv, **kwargs):
+        seen["argv"] = argv
+        return _Ok("somefile.py\n")
+
+    monkeypatch.setenv("ALRASO_SCOPE_BASE", "abc123")
+    assert git_diff_changed_files(runner=_runner) == {"somefile.py"}
+    assert seen["argv"] == ["git", "diff", "--name-only", "abc123"]
+
+    monkeypatch.delenv("ALRASO_SCOPE_BASE", raising=False)
+    git_diff_changed_files(runner=_runner)
+    assert seen["argv"] == ["git", "diff", "--name-only", "origin/main"]
+
+
+def test_scope_gate_consumes_event_aware_base():
+    """The REAL gate must consume ALRASO_SCOPE_BASE: it must call the
+    helper WITHOUT a hardcoded base, or the event-aware plumbing
+    (pull_request -> base.sha, push main -> event.before) is dead code
+    and post-merge push CI breaks again."""
+    import inspect
+    src = inspect.getsource(test_git_diff_vs_main_only_allowed_files)
+    assert "git_diff_changed_files()" in src
+    assert 'git_diff_changed_files("origin/main")' not in src
+
+
 def test_digest_coherence():
     """SHA256 digests must be identical across fixture, evidence lock, and results.json.
 
@@ -631,11 +719,7 @@ def test_digest_coherence():
 
 
 def test_git_diff_vs_main_only_allowed_files():
-    result = subprocess.run(
-        ["git", "diff", "--name-only", "origin/main"],
-        capture_output=True, text=True, cwd=str(ROOT)
-    )
-    changed = set(result.stdout.strip().split("\n")) - {""}
+    changed = git_diff_changed_files()
     allowed = {
         "tooling/m2b_picos_official_boundary.py",
         "tooling/m2b_picos_build_official_fixture.py",
@@ -658,6 +742,40 @@ def test_git_diff_vs_main_only_allowed_files():
         "tests/test_m3_product.py",
         # M3.1 Product UX (feat/m3.1-product-ux): pure product UI changes.
         "tests/test_m31_product_ux.py",
+        # fix/legal-validity-ordesa: NORM_VALIDITY_COVERAGE microfix (normative basis + gate + corpus correction + Goriz publication block)
+        "README.md",
+        "NOTICE.md",
+        "alraso/bitemporal.py",
+        "alraso/cli.py",
+        "alraso/eligibility.py",
+        "alraso/errors.py",
+        "alraso/resolver.py",
+        "alraso/schema.py",
+        ".github/workflows/gates.yml",
+        "alraso/resources/fixture_goriz.json",
+        "alraso/resources/fixture_ordesa.json",
+        "alraso/resources/fixture_picos.json",
+        "discovery/spikes/m1-axiom-integration/axiom_integration.py",
+        "docs/LEGAL-ASSURANCE-MODEL.md",
+        "docs/OSS-FIRST-ROADMAP.md",
+        "tests/conftest.py",
+        "tests/test_axiom_adapter.py",
+        "tests/test_eligibility.py",
+        "tests/test_failclosed.py",
+        "tests/test_hardening.py",
+        "tests/test_m21_preview_readiness.py",
+        "tests/test_m2b_official_boundary.py",
+        "tests/test_m2_webapp.py",
+        "tests/test_m11c_goriz_evidence.py",
+        "tests/test_normative_validity.py",
+        "tests/test_legal_assurance_doc.py",
+        "tests/test_replay.py",
+        "tests/test_resolver_ordesa.py",
+        "tests/test_storage_integrity.py",
+        "tooling/m11c_goriz_scope.evidence.json",
+        "tooling/m2b_picos_official_boundary.evidence.json",
+        "tooling/m2b_picos_official_boundary_results.json",
+        "tooling/smoke_installed.py",
     }
     for f in changed:
         assert f in allowed, f"Unexpected file changed: {f}"

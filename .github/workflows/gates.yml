@@ -28,8 +28,12 @@ jobs:
         # "stdlib-only" = proves the core really has no dependency: the RuleSpec
         # projection module skips itself, with a stated reason.
         profile: ["audit", "stdlib-only"]
+    env:
+      ALRASO_SCOPE_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}

@@ -13,7 +13,7 @@ determinación: `legalStatus ∈ {PERMITTED, AUTHORIZATION_REQUIRED, PROHIBITED,
 UNDETERMINED}` + `knowledgeStatus ∈ {CURRENT, INCOMPLETE, STALE, CONFLICTING}` +
 ámbitos aplicables, versiones de regla, evidencia, trazas y warnings.
 `PERMITTED` solo es publicable si una versión de regla **elegible** (revisión
-legal y espacial completas, evidencia resolvable **y con procedencia verificada**)
+legal y espacial completas, evidencia resolvable **y con procedencia verificada**, base normativa explícita (precepto + redacción + ventana de validez, `normative_basis` ⊆ evidencia) que cubra `activity_date`)
 lo afirma de forma trazable, ningún ámbito **REGULATORY** aplicable queda sin
 cobertura, y ninguna versión simultáneamente visible de la misma regla está en
 desacuerdo; nunca se infiere desde la ausencia de información (fail-closed). Un
@@ -24,7 +24,7 @@ input malformado produce `UNDETERMINED` normalizado, jamás un traceback.
 | Capacidad | Estatus | Verificación |
 |---|---|---|
 | Almacén bitemporal SQLite append-only + triggers + FK | **IMPLEMENTED / VALIDATED** | `tests/test_storage_integrity.py` |
-| Motor propio (pure-Python, sin deps) | **IMPLEMENTED / VALIDATED** | suite hermetica (276 passed; paquete stdlib-only, ver nota de perfiles abajo) |
+| Motor propio (pure-Python, sin deps) | **IMPLEMENTED / VALIDATED** | suite hermetica (574 passed; paquete stdlib-only, ver nota de perfiles abajo) |
 | Contrato de motor (capabilities, identidad, invariante PERMITTED) | **IMPLEMENTED / VALIDATED** | `tests/test_engine_contract.py`, `tests/test_invariants.py` |
 | Precedencia bitemporal (grounded, ciclos→conflicto) | **IMPLEMENTED / VALIDATED** | `tests/test_precedence.py` |
 | Composición multi-ámbito con orden canónico | **IMPLEMENTED / VALIDATED** | `tests/test_spatial_composition.py` |
@@ -36,6 +36,7 @@ input malformado produce `UNDETERMINED` normalizado, jamás un traceback.
 | Relación de ámbito `REGULATORY`/`CONTEXT_ONLY` (H3) | **IMPLEMENTED / VALIDATED** — default `REGULATORY`, nunca inferido; permiso bloqueado si falta cobertura regulatoria | `tests/test_hardening.py`, safety smoke del clean wheel |
 | Entradas malformadas (H4) | **IMPLEMENTED / VALIDATED** — 12 variantes (`facts="nope"`, `[]`, `7`, `None`, NaN…) → `UNDETERMINED` + registro JSON-estricto | `tests/test_hardening.py` |
 | Identidad de caché Axiom incluye SHA-256 del binario (H5) | **IMPLEMENTED / VALIDATED** — sin identidad verificable no se reutiliza caché | `tests/test_axiom_scoping.py` |
+| Cobertura de validez normativa (NORM_VALIDITY_COVERAGE) | **IMPLEMENTED / VALIDATED** — toda versión exige base normativa (precepto + redacción + validez) que cubra `activity_date`; sin ella, fail-closed a `UNDETERMINED` | `tests/test_normative_validity.py` |
 | PostgreSQL / PostGIS como almacén normativo | **NOT_IMPLEMENTED** (`POSTGRES_NORMATIVE_STORE_STATUS`) | DDL de referencia solo; sin verificación |
 | Geometría oficial con polyfill real | **DEFERRED** (M2) | fixture declara `SPATIAL_REVIEW_PENDING_GEOMETRY` |
 
@@ -66,7 +67,7 @@ alraso/
 python -m pip install .                 # núcleo sin dependencias
 python -m alraso load-ordesa --db ordesa.db
 python -m alraso resolve --db ordesa.db --activity VIVAC_AL_RASO `
-    --scope ss-ordesa-sector-ordesa --date 2021-07-15 --knowledge 2023-06-15   # PERMITTED
+    --scope ss-ordesa-sector-ordesa --date 2021-07-15 --knowledge 2023-06-15   # UNDETERMINED (base normativa RD 409/1995 agotada 30-04-2015 — corrección NORM_VALIDITY 2026-09-08)
 python -m alraso resolve --db ordesa.db --activity VIVAC_AL_RASO `
     --scope ss-ordesa-sector-ordesa --date 2023-06-15 --knowledge 2023-06-15   # PROHIBITED (D 16/2022)
 python -m alraso replay  --db ordesa.db --new-knowledge 2028-01-01             # determinaciones STALE
@@ -75,7 +76,7 @@ python -m alraso replay  --db ordesa.db --new-knowledge 2028-01-01             #
 ## Verificación
 
 ```powershell
-python -m pytest -q                                   # 276 hermeticos (sin red ni motor externo)
+python -m pytest -q                                   # 574 passed, 8 skipped (sin red ni motor externo)
 powershell -File tooling/clean_wheel.ps1              # gate de instalacion limpia (F09 + H1-H4)
 powershell -File discovery/spikes/m1-axiom-integration/run-docker.ps1  # + Axiom real: 281
 ```
@@ -85,8 +86,8 @@ es cierto para el **paquete**):
 
 | Perfil | Instalado | Resultado |
 |---|---|---|
-| `audit` (el de la auditoría) | `pytest` + extra opcional `alraso[axiom]` (PyYAML), **sin** binario Axiom | 276 passed, 5 skipped (los 5 piden binario Axiom) |
-| `stdlib-only` | sólo `pytest` | 256 passed, 6 skipped — el módulo de proyección RuleSpec se salta entero con motivo explícito |
+| `audit` (el de la auditoría) | `pytest` + extra opcional `alraso[axiom]` (PyYAML), **sin** binario Axiom | 574 passed, 8 skipped (5 piden binario Axiom; 3, rasterio opcional) |
+| `stdlib-only` | sólo `pytest` | el módulo de proyección RuleSpec se salta entero con motivo explícito (números de referencia: CI) |
 
 CI ejecuta ambos perfiles en Python 3.11 y 3.12, más el gate de wheel limpio en
 Linux y el script local `tooling/clean_wheel.ps1` en Windows (`.github/workflows/gates.yml`).
@@ -106,8 +107,9 @@ La rama **Góriz** de M1.1 (M1.1-C) sí cerró en **`OFFICIAL_SCOPE_LINK_PROVEN`
 queda identity-probada entre el WFS oficial de OAPN (registro estatal que cita el
 `Decreto 49/2015` en el propio feature) y el WFS de ICEAragon (`ENP101_137`): IoU
 `0.999844`, Hausdorff `0,005 m`. Es el primer ámbito con geometría oficial que
-resuelve de extremo a extremo (dentro + condiciones → `PERMITTED`; sin condiciones o
-fuera → `UNDETERMINED`, nunca prohibición sectorial). Ver
+resuelve de extremo a extremo (dentro → `UNDETERMINED` mientras el trigger normativo
+(aforo del refugio) sea estado vivo no verificable — la regla está en corpus pero NO
+publicable (REVIEW_REQUIRED); nunca prohibición sectorial). Ver
 `docs/ALRASO-M11C-GORIZ-SCOPE.md`, `tooling/m11c_goriz_scope.evidence.json` y
 re-verificación en vivo con `tooling/m11c_goriz_identity.py --verify`. Ninguna
 consulta "fuera de Góriz" reabre la rama sectorial.
@@ -123,15 +125,14 @@ de Picos se aprueba por tres decretos autonómicos en vigor simultáneo desde 20
 solo >cota 1.800 m, máx. 3 noches). Evidencia y digests en
 `tooling/m2a_picos_discovery.evidence.json`, matriz jurisdicción×norma×geometría en
 `docs/ALRASO-M2A-PICOS-DISCOVERY.md`, re-verificación en vivo con
-`tooling/m2a_picos_verify.py` (sin red ⇒ `INCONCLUSIVE`, nunca OK falso). Ninguna regla
-de Picos está en el runtime: la implementación Phase B requiere aprobar antes los
-fixtures del documento.
+`tooling/m2a_picos_verify.py` (sin red ⇒ `INCONCLUSIVE`, nunca OK falso). Las reglas art. 51
+por CCAA de Picos están ya en el runtime (Phase B, fixture empaquetado).
 
 **M2 — Product vertical slice (actual):** `python webapp/server.py` abre un mapa
 (MapLibre vendorizado, cero dependencias nuevas) donde un clic resuelve por el
 motor real y muestra `LEGAL / KNOWLEDGE / COVERAGE` + condiciones + fuentes +
-"por qué sabemos / por qué no". Cobertura visible: `VERIFIED` (Góriz), `PARTIAL`
-(Ordesa sin geometría de sectores; Picos sin motor ni DEM), `UNKNOWN` (resto).
+"por qué sabemos / por qué no". Cobertura visible: `VERIFIED` (Góriz: geometría y norma verificadas; determinación bloqueada por trigger vivo no verificable → UNDETERMINED), `PARTIAL`
+(Ordesa sin geometría de sectores; Picos con regla art. 51 por CCAA y DEM fail-closed pero frontera <1 km sin re-verificar IDE y excepciones sin codificar), `UNKNOWN` (resto).
 Los contornos `esquematico` del mapa son informativos y jamás pueden producir
 `PERMITTED`. Ver `docs/ALRASO-M2-PRODUCT-SLICE.md` (incluye el presupuesto de
 investigación por zona: 2–4 h y clasificación A/B/C).
@@ -140,8 +141,9 @@ investigación por zona: 2–4 h y clasificación A/B/C).
 llano (titular + «no es un permiso, pero tampoco una prohibición» cuando
 `UNDETERMINED`), hay búsqueda por coordenadas o zona conocida (`/api/find`,
 `webapp/places.json`) y a11y básica (foco, labels, `aria-live`, táctil ≥44 px).
-Los códigos canónicos se conservan en «Detalle técnico». Despliegue público
-**bloqueado** hasta sustituir `tile.openstreetmap.org`. Ver
+Los códigos canónicos se conservan en «Detalle técnico». El basemap por defecto es
+OpenFreeMap/Positron (configurable vía `ALRASO_MAP_STYLE_URL`, ya fijado por tests): el
+despliegue público NO está bloqueado por tiles de OSM. Ver
 `docs/ALRASO-M2.1-PREVIEW-READINESS.md` (checklist de revisión humana incluida).
 
 Versiones e identidades fijadas en `tooling/DEPENDENCIES.lock.json`

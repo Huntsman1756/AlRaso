@@ -31,11 +31,12 @@
    "path": "discovery/evidence/m11c-goriz/pnomp-legislacion-extract.txt",
    "sha256": "6035bd5e59e6521623b13b907fe784f4f4ed47c0e867a98abe3c039853ecc601"
   },
-  "runtime_fixture": {
-   "bytes": 11405,
-   "path": "alraso/resources/fixture_goriz.json",
-   "sha256": "af7c859ccee5fddd5fd3bb9fcb055b17a38937edd5465704fe710a007e923427"
-  }
+"runtime_fixture": {
+     "bytes": 14624,
+     "path": "alraso/resources/fixture_goriz.json",
+     "sha256": "0c693dd7d2fc5d1399a89b23b87a0a6e9bedaf44c6ab37644beb113f6b02c57e",
+     "corpus_correction_note": "fixture actualizada 2026-09-08 (corrección NORM_VALIDITY: normative_basis + ventana de cupo Goriz); identidad geométrica (IoU/Hausdorff) sin cambios; 2026-09-08 segunda corrección: regla Goriz NO publicable (REVIEW_REQUIRED) mientras el trigger vivo no sea verificable"
+    }
  },
  "boundary_semantics": {
   "border_vertex_shapely": {

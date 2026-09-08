@@ -6,7 +6,7 @@ from __future__ import annotations
 import pytest
 
 from alraso.bitemporal import BitemporalStore
-from alraso.domain import LegalStatus, Query
+from alraso.domain import KnowledgeStatus, LegalStatus, Query
 from alraso.ingest.ordesa import load_ordesa
 from alraso.resolver import Resolver
 from alraso.spatial import InMemorySpatialProvider
@@ -14,6 +14,10 @@ from conftest import new_store, relation, rule, scope
 
 SECTOR = "ss-ordesa-sector-ordesa"
 RULE = "alraso:es-ar/pn-ordesa/pernocta#vivac-sector-ordesa"
+# Synthetic fragment for replay/drift tests: covers the test window so the
+# normative validity gate does NOT interfere (the real Ordesa fragment is
+# expired 2015-04-30).
+LF_SYNTHETIC = "lf-synth-valid"
 
 
 def build_unaware_store() -> BitemporalStore:
@@ -24,7 +28,13 @@ def build_unaware_store() -> BitemporalStore:
     for d in fx["source_documents"]:
         s.add_source_document(d)
     for f in fx["legal_fragments"]:
-        s.add_legal_fragment(f)
+        if f["id"] == "lf-rd409-anexo1-da":
+            # Replace with synthetic validity-covering fragment for replay tests
+            s.add_legal_fragment({**f, "id": LF_SYNTHETIC, "validity_from": "1990-01-01",
+                                  "validity_to": "2030-12-31",
+                                  "provision_ref": f.get("provision_ref", "art. test")})
+        else:
+            s.add_legal_fragment(f)
     for sc in fx["spatial_scopes"]:
         s.add_spatial_scope(sc)
     s.add_rule_version({
@@ -32,7 +42,7 @@ def build_unaware_store() -> BitemporalStore:
         "effect": "PERMITTED", "effective_from": "2020-01-01", "effective_to": None,
         "recorded_at": "2020-06-01", "review_status": "VERIFIED",
         "legal_review_complete": True, "spatial_review_complete": True,
-        "evidence": ["lf-rd409-anexo1-da"]})
+        "evidence": [LF_SYNTHETIC], "normative_basis": [LF_SYNTHETIC]})
     return s
 
 
@@ -42,12 +52,12 @@ def late_discover(s: BitemporalStore) -> None:
                         "effective_to": "2022-02-08", "recorded_at": "2027-05-10",
                         "review_status": "VERIFIED", "legal_review_complete": True,
                         "spatial_review_complete": True,
-                        "evidence": ["lf-rd409-anexo1-da"]})
+                        "evidence": [LF_SYNTHETIC], "normative_basis": [LF_SYNTHETIC]})
     s.add_rule_version({"rule_id": RULE, "activity": "VIVAC_AL_RASO", "spatial_scope_id": SECTOR,
                         "effect": "PROHIBITED", "effective_from": "2022-02-09",
                         "recorded_at": "2027-05-10", "review_status": "VERIFIED",
                         "legal_review_complete": True, "spatial_review_complete": True,
-                        "evidence": ["lf-d16-2022-pernocta"]})
+                        "evidence": ["lf-d16-2022-pernocta"], "normative_basis": ["lf-d16-2022-pernocta"]})
 
 
 def test_replay_preserves_facts_and_is_stable():
@@ -88,6 +98,8 @@ def test_replay_preserves_coordinates_and_is_stable():
 
 
 def test_replay_detects_late_discovery_drift():
+    # The synthetic fragment lf-synth-valid covers 1990-2030, so the 2023 query
+    # stays PERMITTED (testing the replay mechanism, not the Ordesa corpus defect).
     s = build_unaware_store()
     r = Resolver(s)
     before = r.resolve(Query(activity="VIVAC_AL_RASO", activity_date="2023-06-15",
@@ -114,7 +126,8 @@ def test_replay_basis_change_same_effect_is_classified_not_stale():
                         "effective_from": "2020-01-01", "effective_to": "2022-02-08",
                         "recorded_at": "2027-05-10", "review_status": "VERIFIED",
                         "legal_review_complete": True, "spatial_review_complete": True,
-                        "evidence": ["lf-rd409-anexo1-da", "lf-d16-2022-pernocta"]})
+                        "evidence": [LF_SYNTHETIC, "lf-d16-2022-pernocta"],
+                        "normative_basis": [LF_SYNTHETIC]})
     out = r.replay("2028-01-01")
     drifts = out[0]["drift"]
     assert "LEGAL_STATUS_CHANGED" not in drifts
@@ -186,9 +199,16 @@ def test_ordesa_fixture_expected_replay_semantics():
     s = new_store()
     load_ordesa(s)
     r = Resolver(s)
+    # 2021: RD 409/1995 normative basis expired 30-04-2015 -> UNDETERMINED
     res = r.resolve(Query(activity="VIVAC_AL_RASO", activity_date="2021-07-15",
                           knowledge_date="2023-06-15", spatial_scope_id=SECTOR),
                     record=True)
-    assert res.legal_status is LegalStatus.PERMITTED
-    out = r.replay("2023-06-15")
-    assert out[0]["stale"] is False
+    assert res.legal_status is LegalStatus.UNDETERMINED
+    assert res.knowledge_status is KnowledgeStatus.INCOMPLETE
+    assert "NORMATIVE_BASIS_OUTSIDE_VALIDITY" in res.reason_codes
+    # 2023: PROHIBITED, no drift from 2023->2023
+    r2 = Resolver(s)
+    r2.resolve(Query(activity="VIVAC_AL_RASO", activity_date="2023-06-15",
+                     knowledge_date="2023-06-15", spatial_scope_id=SECTOR), record=True)
+    out = r2.replay("2023-06-15")
+    assert all(o["stale"] is False for o in out)
