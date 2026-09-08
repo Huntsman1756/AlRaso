@@ -63,7 +63,7 @@ PLAIN_KNOWLEDGE = {
     "CONFLICTING": "Fuentes normativas en conflicto",
 }
 PLAIN_COVERAGE = {
-    "VERIFIED": "Cobertura completa para este punto",
+    "VERIFIED": "Norma y geometría verificadas para este punto",
     "PARTIAL": "Cobertura parcial: normativa de la zona verificada, respuesta punto a punto sin cerrar",
     "UNKNOWN": "Sin información en esta zona",
 }

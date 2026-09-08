@@ -786,6 +786,12 @@ def test_git_diff_vs_main_only_allowed_files():
         "docs/internal/VIVAC-TECHNICAL-DISCOVERY.md",
         "tests/test_repo_hygiene.py",
         ".gitignore",
+        # fix/coverage-copy-consistency: presentation-layer copy/data consistency (coverage.json + places.json)
+        "webapp/coverage.json",
+        "webapp/places.json",
+        "webapp/server.py",
+        "webapp/static/index.html",
+        "tests/test_m21_preview_readiness.py",
     }
     for f in changed:
         assert f in allowed, f"Unexpected file changed: {f}"
