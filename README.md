@@ -103,7 +103,7 @@ Perfiles de la suite:
 
 el número crece con cada hito; CI es la referencia.
 
-CI ejecuta 7 gates (`.github/workflows/gates.yml`): 4 herméticos (py3.11/3.12 × audit/stdlib-only) + 2 clean-wheel (linux+windows) + 1 DEM auto-elevación; Axiom = workflow manual aparte, no bloqueante (`axiom-integration.yml`): prueba comportamiento contra el motor real, nunca paridad.
+CI ejecuta 7 gates y 1 job de lint (pre-commit: JSON/esquemas/EOF/whitespace + actionlint + lychee no bloqueante).
 
 ## Registro interno
 

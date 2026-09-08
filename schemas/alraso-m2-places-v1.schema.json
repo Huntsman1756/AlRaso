@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "alraso-m2-places-v1",
+  "title": "AlRaso M2 Places",
+  "description": "Schema for AlRaso M2 places.json — a curated list of known places for searching without coordinates.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "policy",
+    "places"
+  ],
+  "properties": {
+    "policy": {
+      "type": "string"
+    },
+    "places": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "id",
+          "name",
+          "lat",
+          "lon",
+          "note"
+        ],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "lat": { "type": "number" },
+          "lon": { "type": "number" },
+          "note": { "type": "string" }
+        }
+      }
+    }
+  }
+}

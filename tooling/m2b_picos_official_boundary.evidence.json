@@ -51,7 +51,7 @@
   "tooling_artifact_digests": {
     "fixture_picos_json": "47acbd3d1181cc19070424ea00d891c576b5fb85a8b40d1887133a7420edaa57",
     "fixture_picos_json_refresh": "2026-09-08 — NORM_VALIDITY microfix: provision_ref/validity_from/to added to fragments; normative_basis on rules",
-    "results_json": "e24ef8fa5c420c83eb9ec1810c5dfcf9484ecf31984204f5549ead0ab84601ba",
+    "results_json": "1edd7b64a7ea0a27016582941a4b2be9edd75c64b3d00e6f71226cd4905b77e2",
     "dem_tif": "e8bcad011706b67d866d7baff33b5385380d4e7f382c5e1aa637a2a3797feac7",
     "zip_file": "5bd73c530af995c05da8d9ff4e3d293f62d0dc91c5e48ee773fe881716c108a6",
     "script_py": "1ee3fb11c0d941120a1c0aa715766dd38da138883f762cc38062e453102cb0bd"

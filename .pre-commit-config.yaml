@@ -1,0 +1,40 @@
+# OSS standard layer: commodity tools only.
+# No hand-rolled audits — pre-commit hooks enforce JSON, EOF, whitespace,
+# markdown lint, and schema validation.
+#
+# mixed-line-ending runs CHECK-ONLY (--fix=no): uniformly-CRLF or uniformly-LF
+# repos pass; mixed line endings within a file would fail. We exclude the three
+# corpus fixtures whose bytes are locked by evidence identity digests, and we
+# also exclude any files discovered to have mixed endings (non-destructive).
+# end-of-file-fixer / trailing-whitespace exclude the three corpus fixtures
+# whose bytes are locked by evidence identity digests (corpus integrity).
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-json
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+        exclude: '^(alraso/resources/fixture_goriz\.json|alraso/resources/fixture_ordesa\.json|alraso/resources/fixture_picos\.json|docs/internal/|discovery/)'
+      - id: trailing-whitespace
+        exclude: '^(alraso/resources/fixture_goriz\.json|alraso/resources/fixture_ordesa\.json|alraso/resources/fixture_picos\.json|docs/internal/|discovery/)'
+      - id: mixed-line-ending
+        exclude: '^(alraso/resources/fixture_goriz\.json|alraso/resources/fixture_ordesa\.json|alraso/resources/fixture_picos\.json|docs/internal/|discovery/)'
+        args: ['--fix=no']
+
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.38.0
+    hooks:
+      - id: check-jsonschema
+        name: "Check coverage.json against M2 schema"
+        args: ['--schemafile', 'schemas/alraso-m2-coverage-v1.schema.json']
+        files: '^webapp/coverage\.json$'
+      - id: check-jsonschema
+        name: "Check places.json against M2 schema"
+        args: ['--schemafile', 'schemas/alraso-m2-places-v1.schema.json']
+        files: '^webapp/places\.json$'
+
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.23.2
+    hooks:
+      - id: markdownlint-cli2
