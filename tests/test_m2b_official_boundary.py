@@ -656,6 +656,8 @@ def test_git_diff_vs_main_only_allowed_files():
         "webapp/static/style.css",
         "webapp/static/store.js",
         "tests/test_m3_product.py",
+        # M3.1 Product UX (feat/m3.1-product-ux): pure product UI changes.
+        "tests/test_m31_product_ux.py",
     }
     for f in changed:
         assert f in allowed, f"Unexpected file changed: {f}"

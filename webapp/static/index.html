@@ -12,6 +12,12 @@
 <header>
   <div class="brand">AlRaso</div>
   <p class="tagline">Te mostramos exactamente qué podemos afirmar, con qué fuente y qué no podemos determinar.</p>
+  <nav aria-label="Navegación principal">
+    <button data-tab="explore" aria-current="page">🧭 Explorar</button>
+    <button data-tab="saved">♥ Guardados</button>
+    <button data-tab="outings">🗺️ Salidas</button>
+    <button data-tab="profile">👤 Perfil</button>
+  </nav>
   <form id="searchform" role="search">
     <label class="sr-only" for="q">Buscar una zona conocida o coordenadas</label>
     <input id="q" type="text" list="places-list" autocomplete="off"
@@ -20,41 +26,38 @@
     <button id="search-btn" type="submit">Buscar</button>
   </form>
 </header>
-<nav aria-label="Navegación principal">
-  <button data-tab="explore" aria-current="page">🧭 Explorar</button>
-  <button data-tab="saved">♥ Guardados</button>
-  <button data-tab="outings">🗺️ Salidas</button>
-  <button data-tab="profile">👤 Perfil</button>
-</nav>
 <main>
   <!-- ═══ EXPLORE VIEW ═══ -->
   <section id="view-explore" class="view">
-    <p id="searchmsg" role="status" aria-live="polite"></p>
-    <div id="layers">
-      <span class="layers-title">Capas</span>
-      <label><input type="checkbox" id="lg-refuge" checked> 🏠 Refugios</label>
-      <label><input type="checkbox" id="lg-shelter" checked> 🛖 Abrigos</label>
-      <label><input type="checkbox" id="lg-water" checked> 💧 Agua</label>
-      <label><input type="checkbox" id="lg-camping" checked> ⛺ Campings</label>
-      <label><input type="checkbox" id="lg-coverage" checked> 🗺️ Cobertura legal</label>
-    </div>
     <div class="explore-body">
       <div id="map-container">
         <div id="map"></div>
         <button id="geo-btn" type="button" aria-label="Mi ubicación" title="Mi ubicación">📍 Mi ubicación</button>
-      </div>
-      <aside id="card" aria-live="polite">
-        <div id="card-empty">
-          <h2>¿Dormir aquí? Te decimos qué sabemos</h2>
-          <p>Toca un punto del mapa, usa el botón "Mi ubicación", pulsa "Usar el centro del mapa" o busca una zona arriba.
-             Si AlRaso no puede afirmar algo, lo dice: <b>«no lo podemos determinar» no es un permiso,
-             pero tampoco una prohibición</b>.</p>
-          <p class="legend">
+        <button id="layers-btn" type="button" aria-label="Capas del mapa">🗺 Capas</button>
+        <div id="layers-panel" class="layers-panel" hidden>
+          <div class="layers-title">Capas</div>
+          <label><input type="checkbox" id="lg-refuge" checked> 🏠 Refugios</label>
+          <label><input type="checkbox" id="lg-shelter" checked> 🛖 Abrigos</label>
+          <label><input type="checkbox" id="lg-water" checked> 💧 Agua</label>
+          <label><input type="checkbox" id="lg-camping" checked> ⛺ Campings</label>
+          <label><input type="checkbox" id="lg-coverage" checked> 🗺️ Cobertura legal</label>
+          <div class="legend">
             <span class="chip ok">Cobertura completa</span> norma y geometría oficial verificadas<br>
             <span class="chip warn">Cobertura parcial</span> normativa de la zona verificada, respuesta punto a punto sin cerrar<br>
             <span class="chip unk">Sin información</span> sin corpus: no sabemos; eso no significa que esté prohibido<br>
             <span class="chip poi">Puntos de interés</span> refugios, agua, abrigos, campings y espacios protegidos (OSM). Solo cartografía, no determinan legalidad.
-          </p>
+          </div>
+          <p class="layers-note">Los POIs son solo cartografía (OSM); no determinan legalidad.</p>
+        </div>
+        <p id="searchmsg" role="status" aria-live="polite" class="searchmsg-pill"></p>
+      </div>
+      <aside id="card" aria-live="polite">
+        <div id="card-empty">
+          <h2>Empieza por una zona verificada</h2>
+          <p>AlRaso te muestra qué podemos afirmar sobre si puedes dormir al raso en cualquier zona. Si AlRaso no puede afirmar algo, lo dice: «no lo podemos determinar» no es un permiso, pero tampoco una prohibición.</p>
+          <div id="explore-cta">
+            <!-- populated dynamically by app.js from /api/places -->
+          </div>
         </div>
         <div id="card-result" hidden>
           <!-- a) OUTDOOR INFO BLOCK -->
@@ -84,11 +87,13 @@
           <div id="action-buttons">
             <button id="save-btn" type="button" disabled>♡ Guardar</button>
             <button id="plan-add-btn" type="button" disabled>Añadir a una salida</button>
-            <button id="center-btn" type="button">Usar el centro del mapa</button>
           </div>
 
           <!-- d) DETAILS BLOCK -->
           <details id="detail-box"><summary>Fuentes y detalle</summary>
+            <div class="detail-tools">
+              <button id="center-btn" type="button">Usar el centro del mapa</button>
+            </div>
             <section class="detail-section">
               <h3><label for="activity">Actividad</label></h3>
               <select id="activity">
