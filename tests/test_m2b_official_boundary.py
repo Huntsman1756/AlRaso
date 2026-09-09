@@ -818,6 +818,12 @@ def test_git_diff_vs_main_only_allowed_files():
         "webapp/static/app.js",
         "webapp/static/style.css",
         "tests/test_m2b_official_boundary.py",
+        # feat/m6-weather-conditions: Open-Meteo observational context in the card
+        "tests/test_m6_weather.py",
+        "webapp/static/index.html",
+        "webapp/static/app.js",
+        "webapp/static/style.css",
+        "tests/test_m2b_official_boundary.py",
     }
     for f in changed:
         assert f in allowed, f"Unexpected file changed: {f}"

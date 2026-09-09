@@ -265,6 +265,15 @@ footer { display:flex; flex-wrap:wrap; gap:6px 18px; padding:6px 16px; border-to
 .conn-banner.offline { background:#92400e; }
 .conn-banner.api-down { background:#7f1d1d; }
 
+/* ── M6: WEATHER CONDITIONS (Open-Meteo, observational context only) ── */
+.weather-block { margin:10px 0 16px; padding:10px 12px; border:1px solid var(--line); border-radius:8px; background:#141a20; font-size:13px; }
+.weather-block p { margin:4px 0; }
+.weather-head { font-weight:700; display:flex; flex-wrap:wrap; gap:4px; align-items:baseline; justify-content:space-between; }
+.weather-src { font-size:11px; font-weight:400; color:var(--muted); }
+.weather-src a { color:var(--accent); }
+.weather-sub { margin-top:8px; font-size:11px; text-transform:uppercase; letter-spacing:.7px; color:var(--muted); font-weight:700; }
+.weather-unavailable, .weather-loading { color:var(--muted); }
+
 /* ── REDUCED MOTION ── */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
