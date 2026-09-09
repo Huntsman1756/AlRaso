@@ -621,9 +621,10 @@ class TestM4ProductUsability:
         # Touch targets must be >=44px. #sheet-handle is more specific than
         # the generic `button { min-height:44px }` rule, so its own rule
         # must carry the 44px min-height (a 40px value would win).
-        m = re.search(r"#sheet-handle \{[^}]*\}", CSS)
-        assert m, "missing #sheet-handle rule"
-        assert "min-height:44px" in m.group(0)
+        rules = re.findall(r"#sheet-handle \{[^}]*\}", CSS)
+        assert rules, "missing #sheet-handle rules"
+        assert any("min-height:44px" in r for r in rules), \
+            "the interactive #sheet-handle rule must set min-height:44px"
         assert "min-height:40px" not in CSS
         # The closed-state strip exposes exactly the handle: 44px strip.
         assert "calc(100% - 44px)" in CSS
