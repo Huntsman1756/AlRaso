@@ -97,7 +97,10 @@ class TestServiceWorkerStrategies:
         assert "tiles.openfreemap.org" not in SW
         assert "openfreemap.org" in SW  # host classification only
         assert "new Request(" not in SW
-        assert "prefetch" not in SW.lower()
+        # "prefetch" may appear in explanatory comments, never in executable code
+        code_only = "\n".join(l for l in SW.splitlines()
+                              if not l.strip().startswith("//"))
+        assert "prefetch" not in code_only.lower()
 
     def test_explicit_bounded_caches(self):
         assert "MAX_MAP_CACHE_ENTRIES = 600" in SW

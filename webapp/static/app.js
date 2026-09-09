@@ -1349,7 +1349,7 @@ void boot();
 // Two different failures must never be conflated:
 //   - no internet/map tiles (remote cartography unreachable)
 //   - local legal server down (no NEW determination can be computed: fail-closed)
-// The probe uses the existing /api/config endpoint; no /api/health is added.
+// The probe reuses the existing /api/config endpoint; no extra health route is added.
 // ─────────────────────────────────────────────
 (function initPwa() {
   var banner = $("conn-banner");
