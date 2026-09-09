@@ -53,6 +53,7 @@ function mapResourceKind(url) {
 }
 
 function trimCache(cacheName, max) {
+  if (!max) return Promise.resolve(); // shell SWR passes null: never trim
   return caches.open(cacheName).then(function (cache) {
     return cache.keys().then(function (keys) {
       var excess = keys.length - max;
@@ -64,20 +65,24 @@ function trimCache(cacheName, max) {
 }
 
 function staleWhileRevalidate(ev, cacheName, max) {
-  return caches.open(cacheName).then(function (cache) {
-    return cache.match(ev.request).then(function (hit) {
-      var network = fetch(ev.request).then(function (res) {
-        if (res && res.ok) {
-          return Promise.all([
-            cache.put(ev.request, res.clone()),
-            max ? trimCache(cacheName, max) : Promise.resolve()
-          ]).then(function () { return res; });
-        }
-        return res;
-      }).catch(function () { return null; });
-      if (hit) return hit; // serve the stored copy now, refresh in background
-      return network.then(function (res) { return res || Response.error(); });
+  // The refresh promise is created synchronously and bound to the event
+  // lifetime (workbox StaleWhileRevalidate registers fetchAndCache via
+  // handler.waitUntil): storage mutations must survive the response being
+  // delivered, or "what you visited stays offline" becomes intermittent.
+  var update = caches.open(cacheName).then(function (cache) {
+    return fetch(ev.request).then(function (res) {
+      if (!res || !res.ok) return res;
+      return cache.put(ev.request, res.clone())
+        .then(function () { return trimCache(cacheName, max); })
+        .then(function () { return res; });
     });
+  });
+  ev.waitUntil(update.catch(function () {}));
+  return caches.open(cacheName).then(function (cache) {
+    return cache.match(ev.request);
+  }).then(function (hit) {
+    if (hit) return hit;
+    return update.then(function (res) { return res || Response.error(); });
   });
 }
 
@@ -85,12 +90,13 @@ function cacheFirst(ev, cacheName, max) {
   return caches.open(cacheName).then(function (cache) {
     return cache.match(ev.request).then(function (hit) {
       if (hit) return hit;
+      // On a miss the returned promise must not resolve until the storage
+      // mutation (put + trim) has completed: respondWith covers its lifetime.
       return fetch(ev.request).then(function (res) {
-        if (res && res.ok) {
-          cache.put(ev.request, res.clone())
-            .then(function () { return trimCache(cacheName, max); });
-        }
-        return res;
+        if (!res || !res.ok) return res;
+        return cache.put(ev.request, res.clone())
+          .then(function () { return trimCache(cacheName, max); })
+          .then(function () { return res; });
       });
     });
   });

@@ -107,6 +107,16 @@ class TestServiceWorkerStrategies:
         assert "MAX_MAP_UI_ENTRIES = 400" in SW
         assert "function trimCache" in SW
 
+    def test_trim_cache_never_runs_without_cap(self):
+        # Regression: SWR for the shell passes max=null; a missing guard
+        # would make `keys.length - null === keys.length` and wipe the
+        # whole shell cache on every refresh (caught by the CDP gate).
+        start = SW.find("function trimCache")
+        end = SW.find("function staleWhileRevalidate")
+        body = SW[start:end]
+        assert "if (!max) return Promise.resolve();" in body
+        assert body.index("if (!max)") < body.index("caches.open")
+
     def test_versioned_caches_and_purge_on_activate(self):
         for name in ("alraso-shell-v1", "alraso-map-ui-v1", "alraso-map-tiles-v1"):
             assert name in SW
@@ -116,6 +126,29 @@ class TestServiceWorkerStrategies:
         assert "function cacheFirst" in SW
         assert "function staleWhileRevalidate" in SW
         assert "mapResourceKind" in SW
+
+    def test_swr_binds_refresh_to_event_lifetime(self):
+        # P1 fix: storage mutations must be bound to the FetchEvent lifetime
+        # (workbox StaleWhileRevalidate registers fetchAndCache via waitUntil).
+        assert "ev.waitUntil(update.catch(function () {}));" in SW
+        start = SW.find("function staleWhileRevalidate")
+        end = SW.find("function cacheFirst")
+        body = SW[start:end]
+        assert "ev.waitUntil" in body
+        assert body.index("ev.waitUntil") < body.index("return caches.open(cacheName)")
+
+    def test_cachefirst_chains_storage_before_resolving(self):
+        # P1 fix: on a miss, cache.put + trim must be part of the promise
+        # that resolves the Response (covered by respondWith), never an
+        # orphaned fire-and-forget statement.
+        start = SW.find("function cacheFirst")
+        end = SW.find('self.addEventListener("fetch"')
+        assert start != -1 and end != -1 and start < end
+        body = SW[start:end]
+        assert "return cache.put(ev.request, res.clone())" in body
+        put_lines = [l for l in body.splitlines() if "cache.put(ev.request" in l]
+        assert put_lines and all("return" in l for l in put_lines), \
+            "every cache.put in cacheFirst must be chained into the returned promise"
 
 
 # ─────────────────────────────────────────────
