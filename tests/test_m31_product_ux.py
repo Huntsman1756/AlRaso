@@ -616,3 +616,14 @@ class TestM4ProductUsability:
         assert "place.note" in JS
         assert "extremo a extremo" not in JS
         assert "todavía no la verifica" not in JS
+
+    def test_p1_5_sheet_handle_meets_44px_target(self):
+        # Touch targets must be >=44px. #sheet-handle is more specific than
+        # the generic `button { min-height:44px }` rule, so its own rule
+        # must carry the 44px min-height (a 40px value would win).
+        m = re.search(r"#sheet-handle \{[^}]*\}", CSS)
+        assert m, "missing #sheet-handle rule"
+        assert "min-height:44px" in m.group(0)
+        assert "min-height:40px" not in CSS
+        # The closed-state strip exposes exactly the handle: 44px strip.
+        assert "calc(100% - 44px)" in CSS
