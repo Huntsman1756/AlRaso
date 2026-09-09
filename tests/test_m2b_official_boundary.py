@@ -806,6 +806,18 @@ def test_git_diff_vs_main_only_allowed_files():
         "webapp/static/vendor/maplibre-gl.css",
         # chore/oss-standard-layer (mechanical: JSON decode fix - BOM + garbage appended data removed)
         "discovery/spikes/spike-a-axiom/spike-a-res-case2_bivouac_above_threshold.json",
+
+        # feat/m5-offline-pwa: installable shell + offline resilience of visited resources
+        "webapp/static/sw.js",
+        "webapp/static/manifest.webmanifest",
+        "webapp/static/icon-192.png",
+        "webapp/static/icon-512.png",
+        "tests/test_m5_offline_pwa.py",
+        "webapp/server.py",
+        "webapp/static/index.html",
+        "webapp/static/app.js",
+        "webapp/static/style.css",
+        "tests/test_m2b_official_boundary.py",
     }
     for f in changed:
         assert f in allowed, f"Unexpected file changed: {f}"
