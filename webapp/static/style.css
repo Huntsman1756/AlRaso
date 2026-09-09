@@ -61,7 +61,8 @@ main { flex:1 1 auto; min-height:0; display:flex; }
 #searchmsg:empty { display:none; }
 
 /* ── EXPLORE CTA (U8) ── */
-.explore-cta { position:absolute; bottom:12px; left:50%; transform:translateX(-50%); z-index:15; display:flex; gap:8px; flex-wrap:wrap; justify-content:center; max-width:90vw; }
+/* EXPLORE CTA (U8) — positioned by ID (the div has no class; M4 regression fix) */
+#explore-cta { position:absolute; bottom:12px; left:50%; transform:translateX(-50%); z-index:15; display:flex; gap:8px; flex-wrap:wrap; justify-content:center; max-width:90vw; }
 .cta-btn { display:flex; flex-direction:column; align-items:flex-start; background:rgba(26,32,39,0.95); border:1px solid var(--line); border-radius:10px; padding:10px 14px; cursor:pointer; text-align:left; max-width:220px; min-width:0; transition:border-color .15s; }
 .cta-btn:hover { border-color:var(--accent); }
 .cta-label { font-size:13px; font-weight:700; color:var(--text); }
@@ -207,10 +208,10 @@ footer { display:flex; flex-wrap:wrap; gap:6px 18px; padding:6px 16px; border-to
     max-height:min(78dvh, calc(100dvh - 100px - 56px - env(safe-area-inset-bottom) - 12px));
     transform:translateY(105%); transition:transform .25s ease; will-change:transform;
   }
-  /* Sheet states (R2): closed (default) / peek / full */
+  /* Sheet states (R2): closed (handle strip stays reachable) / peek / full */
   #card.sheet-peek { transform:translateY(calc(100% - 176px)); }
   #card.sheet-full { transform:translateY(0); }
-  #card.sheet-closed { transform:translateY(105%); }
+  #card.sheet-closed { transform:translateY(calc(100% - 44px)); }
 
   /* Sheet handle: tap toggles peek/full; drag is progressive enhancement */
   #sheet-handle { display:flex; justify-content:center; align-items:center; width:100%; background:none; border:none; border-radius:0; padding:8px 0 4px; min-height:40px; cursor:grab; touch-action:none; }
@@ -220,8 +221,8 @@ footer { display:flex; flex-wrap:wrap; gap:6px 18px; padding:6px 16px; border-to
   #searchmsg { top:auto; bottom:calc(56px + env(safe-area-inset-bottom) + 12px); z-index:900; }
 
   /* Onboarding CTA strip above the nav; hidden once a place is selected */
-  .explore-cta { bottom:calc(56px + env(safe-area-inset-bottom) + 12px); z-index:15; }
-  body.has-selection .explore-cta { display:none; }
+  #explore-cta { bottom:calc(56px + env(safe-area-inset-bottom) + 12px); z-index:15; }
+  body.has-selection #explore-cta { display:none; }
 
   /* Nav → bottom bar */
   nav {

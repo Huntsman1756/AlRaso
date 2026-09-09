@@ -590,3 +590,29 @@ class TestM4ProductUsability:
         # No dependency added to the static layer.
         for banned in ("react", "vue", "svelte", "leaflet", "hammer", "gesture"):
             assert banned not in JS.lower(), banned
+
+    # ── P1 regressions found in the adversarial review of PR #23 ──
+
+    def test_p1_1_css_targets_explore_cta_by_id(self):
+        # The CTA div has id="explore-cta" and no class; CSS must use the ID
+        # (matters more now that M4 relocates it into #map-container).
+        assert "#explore-cta" in CSS
+        assert ".explore-cta" not in CSS
+
+    def test_p1_2_escape_closes_exactly_one_level(self):
+        # Dropdown Escape must stop propagation AND the sheet coordinator
+        # must honour defaultPrevented: one keypress, one level.
+        assert "ev.stopPropagation(); close();" in JS
+        assert 'ev.key !== "Escape" || ev.defaultPrevented' in JS
+
+    def test_p1_3_closed_state_tap_reachable(self):
+        # closed keeps a visible handle strip and the handle cycles all
+        # three states, so closing/reopening never requires a drag.
+        assert "calc(100% - 44px)" in CSS
+        assert "SHEET_STATES[(i + 1) % SHEET_STATES.length]" in JS
+
+    def test_p1_4_cta_notes_come_from_places_data(self):
+        # No hardcoded zone claims in JS: the note is place.note from /api/places.
+        assert "place.note" in JS
+        assert "extremo a extremo" not in JS
+        assert "todavía no la verifica" not in JS

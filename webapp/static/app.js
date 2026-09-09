@@ -299,7 +299,9 @@ function openSheetForSelection() {
   if (!card || !handle) return;
 
   handle.addEventListener("click", function () {
-    setSheetState(sheetState === "full" ? "peek" : "full");
+    // Explicit cycle: closed -> peek -> full -> closed (drag never required)
+    var i = SHEET_STATES.indexOf(sheetState);
+    setSheetState(SHEET_STATES[(i + 1) % SHEET_STATES.length]);
   });
 
   // OPTIONAL drag: simple vertical delta with fixed snap thresholds.
@@ -315,7 +317,7 @@ function openSheetForSelection() {
     if (dragStartY === null) return;
     dragDelta = ev.clientY - dragStartY;
     var base = sheetState === "full" ? 0
-      : sheetState === "peek" ? card.offsetHeight - 176 : card.offsetHeight;
+      : sheetState === "peek" ? card.offsetHeight - 176 : card.offsetHeight - 44;
     card.style.transform = "translateY(" + Math.max(0, base + dragDelta) + "px)";
   });
   function endDrag() {
@@ -335,7 +337,7 @@ function openSheetForSelection() {
 
   // Escape closes things one level at a time: dropdown -> layers panel -> sheet
   document.addEventListener("keydown", function (ev) {
-    if (ev.key !== "Escape") return;
+    if (ev.key !== "Escape" || ev.defaultPrevented) return;
     var suggest = $("suggest");
     if (suggest && !suggest.hidden) return; // dropdown owns this Escape
     var layersPanel = $("layers-panel");
@@ -431,10 +433,11 @@ function openSheetForSelection() {
   var cta = $("explore-cta");
   if (!cta) return;
 
+  // Notes come from /api/places (single source of truth) — no stale claims here
   var zones = [
-    { id: "cares-picos", label: "⛰ Picos de Europa · Cares", note: "Zona con normativa verificada en Picos de Europa" },
-    { id: "refugio-goriz", label: "🏔 Refugio de Góriz", note: "Primera zona verificada de extremo a extremo (Ordesa)" },
-    { id: "pradera-ordesa", label: "🌲 Pradera de Ordesa", note: "Normativa de la zona verificada; comprobación punto a punto sin cerrar" },
+    { id: "cares-picos", label: "⛰ Picos de Europa · Cares" },
+    { id: "refugio-goriz", label: "🏔 Refugio de Góriz" },
+    { id: "pradera-ordesa", label: "🌲 Pradera de Ordesa" },
   ];
 
   // Fetch /api/places to use real data (no new endpoint)
@@ -450,11 +453,12 @@ function openSheetForSelection() {
       cta.innerHTML = "";
       zones.forEach(function (z) {
         var place = placeMap[z.id];
+        var note = place && place.note ? place.note : "";
         var btn = document.createElement("button");
         btn.type = "button";
         btn.className = "cta-btn";
         btn.innerHTML = '<span class="cta-label">' + z.label + '</span>' +
-          '<span class="cta-note">' + z.note + '</span>';
+          (note ? '<span class="cta-note">' + esc(note) + '</span>' : '');
         btn.setAttribute("aria-label", "Explorar " + z.label);
         btn.addEventListener("click", function () {
           if (place) {
@@ -745,7 +749,7 @@ $("center-btn").addEventListener("click", function () {
       }
       // Enter sin opcion activa: submit normal (busqueda manual o coordenadas)
     } else if (ev.key === "Escape") {
-      if (!box.hidden) { ev.preventDefault(); close(); }
+      if (!box.hidden) { ev.preventDefault(); ev.stopPropagation(); close(); }
     }
   });
   document.addEventListener("click", function (ev) {
@@ -1081,7 +1085,7 @@ const FACT_INPUTS = {
   actividad_montana_o_escalada: { kind: "checkbox", label: "Actividad de montaña o escalada" },
   cota_m: {
     kind: "number", label: "Altitud indicada por ti (m)", noDefault: true,
-    note: "La altitud ha sido indicada por el usuario; AlRaso todavía no la verifica automáticamente.",
+    note: "La altitud se obtiene automáticamente del DEM oficial cuando hay cobertura; indícala sólo si quieres aportar un valor concreto.",
   },
   nights: { kind: "number", label: "Número de noches" },
 };
