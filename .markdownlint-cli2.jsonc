@@ -1,0 +1,43 @@
+{
+  // MD013 line-length: docs contain legal/technical text exceeding 80 chars; do not break sentences.
+  // MD033 inline HTML: legal citations use HTML formatting legitimately.
+  // MD041 first-line-heading: LICENSE has no heading (it's a legal text, not markdown).
+  // MD024 siblings_only: some docs reuse section headings across files.
+  // MD036 no-emphasis-as-heading: technical docs use emphasis for inline terms, not headings.
+  // MD040 fenced-code-language: shell commands and data samples don't need explicit language tags.
+  // MD004 ul-style: mixed list styles reflect content history.
+  // MD022 blanks-around-headings: compact sectioning is intentional in technical docs.
+  // MD031 blanks-around-fences: code blocks adjacent to text are intentional.
+  // MD032 blanks-around-lists: list placement is intentional in legal/technical docs.
+  // MD034 bare-url: real URLs in docs (e.g. http://127.0.0.1:8765).
+  // MD058 blanks-around-tables: compact tables are intentional.
+  // MD060 table-column-style: compact pipe tables are the chosen style.
+  "config": {
+    "MD013": false,
+    "MD033": false,
+    "MD041": false,
+    "MD024": {
+      "siblings_only": true
+    },
+    "MD036": false,
+    "MD040": false,
+    "MD004": false,
+    "MD022": false,
+    "MD031": false,
+    "MD032": false,
+    "MD034": false,
+    "MD058": false,
+    "MD060": false
+  },
+  "globs": [
+    "README.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "NOTICE.md",
+    "LICENSE",
+    "docs/**/*.md"
+  ],
+  "ignores": [
+    "docs/internal/**"
+  ]
+}

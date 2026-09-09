@@ -79,7 +79,7 @@ class TestOrdesaInstance:
 
 class TestGorizInstance:
     """Real Góriz fixture: UNDETERMINED without facts; UNDETERMINED with caller-supplied live facts.
-    
+
     GORIZ_LIVE_TRIGGER_PUBLICATION_BLOCKED=REVIEW_REQUIRED: the rule stays in corpus but is NOT
     publishable while the live-state trigger (refuge capacity) is unverifiable.
     """

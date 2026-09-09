@@ -1,0 +1,47 @@
+# OSS standard layer: lint job. Runs alongside the 7 gates (non-blocking).
+# pre-commit: JSON/schemas/EOF/whitespace + actionlint (blocking) + lychee (non-blocking).
+
+name: lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pre-commit
+        run: python -m pip install pre-commit
+
+      - name: Run pre-commit (JSON, schemas, EOF, whitespace, markdownlint)
+        run: pre-commit run --all-files
+
+      - name: Run actionlint
+        uses: rhysd/actionlint@v1.7.9
+
+      - name: Run lychee (non-blocking link check)
+        uses: lycheeverse/lychee-action@v2.9.0
+        with:
+          args: >-
+            --no-progress
+            --exclude '^(mailto:)'
+            README.md
+            CONTRIBUTING.md
+            SECURITY.md
+            docs/LEGAL-ASSURANCE-MODEL.md
+            docs/OSS-FIRST-ROADMAP.md
+        continue-on-error: true

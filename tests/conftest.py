@@ -79,7 +79,7 @@ def rule(s: BitemporalStore, rule_id: str, scope_id: str, effect: str, *,
          norm_basis: tuple[str, ...] | None = None,  # sentinel: use evidence; pass () for empty
          ) -> None:
     """Fully eligible rule by default (review + evidence resolvable + normative basis).
-    
+
     By default fragments get provision_ref and validity_from so they pass normative
     validity checks, and the version gets normative_basis equal to its evidence list.
     Pass norm_basis=() explicitly to test the NORMATIVE_BASIS_MISSING path.

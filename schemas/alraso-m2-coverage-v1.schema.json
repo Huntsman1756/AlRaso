@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "alraso-m2-coverage-v1",
+  "title": "AlRaso M2 Coverage",
+  "description": "Schema for AlRaso M2 coverage.json — describes regulatory coverage, regions and example points.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "policy",
+    "coverage_status_legend",
+    "example_points",
+    "regions"
+  ],
+  "properties": {
+    "policy": {
+      "type": "string"
+    },
+    "coverage_status_legend": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "example_points": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "number" },
+        "minItems": 2,
+        "maxItems": 2
+      }
+    },
+    "regions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "id",
+          "name",
+          "coverage",
+          "boundary",
+          "summary",
+          "norms",
+          "notes"
+        ],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "coverage": { "type": "string" },
+          "boundary": { "type": "string" },
+          "verified_at": { "type": "string" },
+          "geometry": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "summary": { "type": "string" },
+          "norms": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true,
+              "required": ["title", "canonical_url", "official_status", "verified_at"],
+              "properties": {
+                "title": { "type": "string" },
+                "canonical_url": { "type": "string", "format": "uri" },
+                "official_status": { "type": "string" },
+                "verified_at": { "type": "string" }
+              }
+            }
+          },
+          "notes": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

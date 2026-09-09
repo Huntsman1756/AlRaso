@@ -792,6 +792,20 @@ def test_git_diff_vs_main_only_allowed_files():
         "webapp/server.py",
         "webapp/static/index.html",
         "tests/test_m21_preview_readiness.py",
+        # chore/oss-standard-layer: OSS standard layer (pre-commit, jsonschema, markdownlint, lint workflow)
+        ".pre-commit-config.yaml",
+        ".markdownlint-cli2.jsonc",
+        "schemas/alraso-m2-coverage-v1.schema.json",
+        "schemas/alraso-m2-places-v1.schema.json",
+        ".github/workflows/lint.yml",
+        # chore/oss-standard-layer (mechanical: EOF/whitespace fixes by pre-commit on non-excluded files)
+        "tooling/m2a_picos_discovery.evidence.json",
+        "tooling/m2b_picos_official_boundary_results.json",
+        # chore/oss-standard-layer (mechanical: EOF fix by pre-commit)
+        "tests/test_invariants.py",
+        "webapp/static/vendor/maplibre-gl.css",
+        # chore/oss-standard-layer (mechanical: JSON decode fix - BOM + garbage appended data removed)
+        "discovery/spikes/spike-a-axiom/spike-a-res-case2_bivouac_above_threshold.json",
     }
     for f in changed:
         assert f in allowed, f"Unexpected file changed: {f}"
