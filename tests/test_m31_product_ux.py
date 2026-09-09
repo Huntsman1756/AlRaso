@@ -177,14 +177,17 @@ class TestU3PoiIcons:
 class TestU4SoftenCoverageBasemap:
     """Coverage softened; basemap switched to positron."""
 
-    def test_fill_opacity_0_1(self):
-        assert '"fill-opacity": 0.1' in JS
+    def test_fill_opacity_0_06(self):
+        # M4 R6: coverage visually quieter (was 0.1 in M3.1)
+        assert '"fill-opacity": 0.06' in JS
 
-    def test_line_opacity_oficial_0_55(self):
-        assert '"line-opacity": 0.55' in JS
+    def test_line_opacity_oficial_0_4(self):
+        # M4 R6: coverage visually quieter (was 0.55 in M3.1)
+        assert '"line-opacity": 0.4' in JS
 
-    def test_line_opacity_esquematico_0_45(self):
-        assert '"line-opacity": 0.45' in JS
+    def test_line_opacity_esquematico_0_35(self):
+        # M4 R6: coverage visually quieter (was 0.45 in M3.1)
+        assert '"line-opacity": 0.35' in JS
 
     def test_app_js_uses_positron(self):
         assert "positron" in JS
@@ -225,15 +228,18 @@ class TestU5PlaceCard:
         # The coords line should reference ACT_LABELS
         assert "ACT_LABELS[" in JS
 
-    def test_legal_result_font_size_22(self):
-        # .legal-result should have font-size 22px
-        assert "font-size:22px" in CSS
+    def test_place_name_larger_than_legal_result(self):
+        # M4 R4: the place name must dominate the card, legal answer stays
+        # clear but visually subordinate (23px place vs 19px legal).
+        assert "font-size:23px" in CSS
+        assert "font-size:19px" in CSS
 
     def test_legal_result_padding(self):
-        assert "padding:14px 16px" in CSS or "padding:14px" in CSS
+        assert "padding:12px 14px" in CSS or "padding:12px" in CSS
 
-    def test_legal_emoji_font_size_26(self):
-        assert "font-size:26px" in CSS
+    def test_legal_emoji_font_size_22(self):
+        # M4 R4: emoji reduced with the legal block (was 26px in M3.1)
+        assert "font-size:22px" in CSS
 
 
 # ══════════════════════════════════════════════
@@ -328,8 +334,12 @@ class TestU7Typography:
     def test_position_fixed_preserved(self):
         assert "position:fixed" in CSS
 
-    def test_52vh_preserved(self):
-        assert "52vh" in CSS
+    def test_mobile_sheet_states_in_css(self):
+        # M4 R2: the 52vh stacked map was replaced by full-viewport map +
+        # bottom sheet with closed/peek/full states.
+        assert "sheet-peek" in CSS
+        assert "sheet-full" in CSS
+        assert "sheet-closed" in CSS
 
     def test_prefers_reduced_motion_preserved(self):
         assert "prefers-reduced-motion" in CSS
@@ -393,8 +403,11 @@ class TestHooksSurvive:
     def test_id_q(self):
         assert 'id="q"' in HTML
 
-    def test_list_places_list(self):
-        assert 'list="places-list"' in HTML
+    def test_suggest_dropdown_hooks(self):
+        # M4 R3: datalist replaced by an accessible suggestion dropdown.
+        assert 'id="suggest"' in HTML
+        assert 'role="listbox"' in HTML
+        assert 'aria-controls="suggest"' in HTML
 
     def test_aria_live_polite(self):
         assert 'aria-live="polite"' in HTML
@@ -489,7 +502,129 @@ class TestHooksSurvive:
         assert 'id="stat-completed"' in HTML
 
     def test_m2_gate_frontend_markup(self):
-        for hook in ('role="search"', 'id="q"', 'list="places-list"', 'aria-live="polite"',
+        for hook in ('role="search"', 'id="q"', 'role="listbox"', 'aria-live="polite"',
                       'id="headline"', 'id="center-btn"', 'id="tech-codes"',
                       'for="activity"'):
             assert hook in HTML, f"Missing hook: {hook}"
+
+    def test_sheet_handle_hooks(self):
+        # M4 R2: handle/button navigation between sheet states is required.
+        assert 'id="sheet-handle"' in HTML
+        assert "setSheetState" in JS
+        assert "openSheetForSelection" in JS
+        assert "map.resize()" in JS
+
+    def test_snackbar_above_bottom_nav(self):
+        # M4 R5: feedback pill moves above the bottom nav on mobile.
+        assert "#searchmsg" in CSS
+
+    def test_sticky_actions_inside_sheet(self):
+        # M4 R5: save/plan buttons sticky; never hidden below the nav.
+        assert "position:sticky" in CSS
+        assert "bottom:calc(56px" in CSS
+
+    def test_cta_hidden_after_selection(self):
+        # M4 product check: onboarding CTA must not compete with the ficha.
+        assert "has-selection" in CSS
+        assert "has-selection" in JS
+
+    def test_escape_coordinator_order(self):
+        # M4 product check: Escape closes dropdown -> layers -> sheet step down.
+        assert 'ev.key !== "Escape"' in JS
+
+    def test_poi_separation_copy_unchanged(self):
+        # La copia real lleva <b>no</b> implica ningún permiso (etiqueta en medio)
+        assert "implica ningún permiso" in HTML
+
+
+class TestM4ProductUsability:
+    """M4 PRODUCT-FIRST: usability checks for the mobile-first UI.
+    These encode the 5 product verifications agreed for M4 (static subset;
+    the visual gate is manual at 390x844 / 360x800 / 1440x900)."""
+
+    def test_r1_bottom_nav_is_fixed_on_mobile(self):
+        assert "position:fixed" in CSS
+        assert "bottom:0" in CSS
+
+    def test_r1_safe_area_inset(self):
+        assert "env(safe-area-inset-bottom)" in CSS
+
+    def test_r2_sheet_states_complete(self):
+        for state in ("sheet-closed", "sheet-peek", "sheet-full"):
+            assert f".{state}" in CSS or f'"{state}"' in JS
+
+    def test_r2_tap_navigation_required_and_drag_optional(self):
+        # Required: handle click toggles states
+        assert 'handle.addEventListener("click"' in JS
+        # Optional: plain Pointer Events drag, no library, no inertia
+        assert "pointerdown" in JS and "pointerup" in JS
+        assert "requestAnimationFrame" not in JS.split("endDrag")[1][:400]
+
+    def test_r3_dropdown_sources_only_api_places(self):
+        start = JS.find("function initSuggest")
+        end = JS.find('$("searchform").addEventListener("submit"')
+        assert start != -1 and end != -1 and start < end
+        block = JS[start:end]
+        assert "/api/places" in block
+        assert "/api/find" not in block, "dropdown must not add a search source"
+
+    def test_r3_selection_calls_selectpoint(self):
+        assert "selectPoint(p.lat, p.lon, p.name, true)" in JS
+
+    def test_r5_actions_sticky_above_nav(self):
+        assert "position:sticky" in CSS
+
+    def test_keyboard_not_covered(self):
+        # Sheet max-height leaves the header (search input) visible.
+        assert "max-height:min(78dvh" in CSS
+
+    def test_resize_on_sheet_layout_change(self):
+        assert "map.resize()" in JS
+
+    def test_r6_coverage_quieter_but_labeled(self):
+        # Never color alone: legend keeps textual chips in the layers panel.
+        assert "Cobertura verificada" in HTML
+        assert '"fill-opacity": 0.06' in JS
+
+    def test_r8_no_new_framework(self):
+        # No dependency added to the static layer.
+        for banned in ("react", "vue", "svelte", "leaflet", "hammer", "gesture"):
+            assert banned not in JS.lower(), banned
+
+    # ── P1 regressions found in the adversarial review of PR #23 ──
+
+    def test_p1_1_css_targets_explore_cta_by_id(self):
+        # The CTA div has id="explore-cta" and no class; CSS must use the ID
+        # (matters more now that M4 relocates it into #map-container).
+        assert "#explore-cta" in CSS
+        assert ".explore-cta" not in CSS
+
+    def test_p1_2_escape_closes_exactly_one_level(self):
+        # Dropdown Escape must stop propagation AND the sheet coordinator
+        # must honour defaultPrevented: one keypress, one level.
+        assert "ev.stopPropagation(); close();" in JS
+        assert 'ev.key !== "Escape" || ev.defaultPrevented' in JS
+
+    def test_p1_3_closed_state_tap_reachable(self):
+        # closed keeps a visible handle strip and the handle cycles all
+        # three states, so closing/reopening never requires a drag.
+        assert "calc(100% - 44px)" in CSS
+        assert "SHEET_STATES[(i + 1) % SHEET_STATES.length]" in JS
+
+    def test_p1_4_cta_notes_come_from_places_data(self):
+        # No hardcoded zone claims in JS: the note is place.note from /api/places.
+        assert "place.note" in JS
+        assert "extremo a extremo" not in JS
+        assert "todavía no la verifica" not in JS
+
+    def test_p1_5_sheet_handle_meets_44px_target(self):
+        # Touch targets must be >=44px. #sheet-handle is more specific than
+        # the generic `button { min-height:44px }` rule, so its own rule
+        # must carry the 44px min-height (a 40px value would win).
+        rules = re.findall(r"#sheet-handle \{[^}]*\}", CSS)
+        assert rules, "missing #sheet-handle rules"
+        assert any("min-height:44px" in r for r in rules), \
+            "the interactive #sheet-handle rule must set min-height:44px"
+        assert "min-height:40px" not in CSS
+        # The closed-state strip exposes exactly the handle: 44px strip.
+        assert "calc(100% - 44px)" in CSS

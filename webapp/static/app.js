@@ -102,19 +102,19 @@ async function boot() {
         id: "cov-fill", type: "fill", source: "coverage",
         paint: {
           "fill-color": ["match", ["get", "coverage"], "VERIFIED", "#22c55e", "PARTIAL", "#f59e0b", "#94a3b8"],
-          "fill-opacity": 0.1,
+          "fill-opacity": 0.06,
         },
       });
       const covColor = ["match", ["get", "coverage"], "VERIFIED", "#22c55e", "PARTIAL", "#f59e0b", "#94a3b8"];
       map.addLayer({
         id: "cov-line", type: "line", source: "coverage",
         filter: ["==", ["get", "boundary"], "oficial"],
-        paint: { "line-color": covColor, "line-width": 1.0, "line-opacity": 0.55 },
+        paint: { "line-color": covColor, "line-width": 1.0, "line-opacity": 0.4 },
       });
       map.addLayer({
         id: "cov-line-esquematico", type: "line", source: "coverage",
         filter: ["==", ["get", "boundary"], "esquematico"],
-        paint: { "line-color": covColor, "line-width": 0.9, "line-opacity": 0.45, "line-dasharray": [3, 3] },
+        paint: { "line-color": covColor, "line-width": 0.9, "line-opacity": 0.35, "line-dasharray": [3, 3] },
       });
       await loadPois();
       map.fitBounds([[-5.35, 42.45], [0.25, 43.4]], { padding: 30 });
@@ -266,6 +266,96 @@ function renderPoi(p) {
 }
 
 // ─────────────────────────────────────────────
+// BOTTOM SHEET (R2, mobile <=820px) — states: closed / peek / full
+// Tap/handle navigation is the REQUIRED path; a minimal Pointer Events
+// drag is a progressive enhancement. No physics, no inertia, no library.
+// ─────────────────────────────────────────────
+var SHEET_STATES = ["closed", "peek", "full"];
+var sheetState = "closed";
+
+function isMobileLayout() {
+  return window.matchMedia("(max-width: 820px)").matches;
+}
+
+function setSheetState(next) {
+  if (!isMobileLayout() || SHEET_STATES.indexOf(next) === -1) return;
+  sheetState = next;
+  var card = $("card");
+  SHEET_STATES.forEach(function (s) { card.classList.toggle("sheet-" + s, s === next); });
+  var handle = $("sheet-handle");
+  if (handle) handle.setAttribute("aria-expanded", next === "full" ? "true" : "false");
+  // MapLibre may need a resize pass after the layout settles (grey/misaligned canvas guard)
+  if (map) setTimeout(function () { map.resize(); }, 60);
+}
+
+function openSheetForSelection() {
+  if (!isMobileLayout()) return;
+  if (sheetState === "closed") setSheetState("peek");
+}
+
+(function initSheet() {
+  var card = $("card");
+  var handle = $("sheet-handle");
+  if (!card || !handle) return;
+
+  handle.addEventListener("click", function () {
+    // Explicit cycle: closed -> peek -> full -> closed (drag never required)
+    var i = SHEET_STATES.indexOf(sheetState);
+    setSheetState(SHEET_STATES[(i + 1) % SHEET_STATES.length]);
+  });
+
+  // OPTIONAL drag: simple vertical delta with fixed snap thresholds.
+  var dragStartY = null, dragDelta = 0;
+  handle.addEventListener("pointerdown", function (ev) {
+    if (!isMobileLayout()) return;
+    dragStartY = ev.clientY;
+    dragDelta = 0;
+    card.style.transition = "none";
+    handle.setPointerCapture(ev.pointerId);
+  });
+  handle.addEventListener("pointermove", function (ev) {
+    if (dragStartY === null) return;
+    dragDelta = ev.clientY - dragStartY;
+    var base = sheetState === "full" ? 0
+      : sheetState === "peek" ? card.offsetHeight - 176 : card.offsetHeight - 44;
+    card.style.transform = "translateY(" + Math.max(0, base + dragDelta) + "px)";
+  });
+  function endDrag() {
+    if (dragStartY === null) return;
+    card.style.transition = "";
+    card.style.transform = "";
+    dragStartY = null;
+    var order = { closed: 0, peek: 1, full: 2 };
+    var i = order[sheetState];
+    if (dragDelta > 60 && i > 0) setSheetState(SHEET_STATES[i - 1]);
+    else if (dragDelta < -60 && i < SHEET_STATES.length - 1) setSheetState(SHEET_STATES[i + 1]);
+    else setSheetState(sheetState); // snap back
+    dragDelta = 0;
+  }
+  handle.addEventListener("pointerup", endDrag);
+  handle.addEventListener("pointercancel", endDrag);
+
+  // Escape closes things one level at a time: dropdown -> layers panel -> sheet
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key !== "Escape" || ev.defaultPrevented) return;
+    var suggest = $("suggest");
+    if (suggest && !suggest.hidden) return; // dropdown owns this Escape
+    var layersPanel = $("layers-panel");
+    if (layersPanel && !layersPanel.hasAttribute("hidden")) return; // layers owns this Escape
+    if (!isMobileLayout()) return;
+    if (sheetState === "full") setSheetState("peek");
+    else if (sheetState === "peek") setSheetState("closed");
+  });
+})();
+
+// Onboarding CTA: on mobile it floats over the map (the sheet would cover it)
+(function relocateExploreCta() {
+  var cta = $("explore-cta");
+  if (!cta || !isMobileLayout()) return;
+  $("map-container").appendChild(cta);
+})();
+
+// ─────────────────────────────────────────────
 // GEOLocation
 // ─────────────────────────────────────────────
 (function initGeo() {
@@ -343,10 +433,11 @@ function renderPoi(p) {
   var cta = $("explore-cta");
   if (!cta) return;
 
+  // Notes come from /api/places (single source of truth) — no stale claims here
   var zones = [
-    { id: "cares-picos", label: "⛰ Picos de Europa · Cares", note: "Zona con normativa verificada en Picos de Europa" },
-    { id: "refugio-goriz", label: "🏔 Refugio de Góriz", note: "Primera zona verificada de extremo a extremo (Ordesa)" },
-    { id: "pradera-ordesa", label: "🌲 Pradera de Ordesa", note: "Normativa de la zona verificada; comprobación punto a punto sin cerrar" },
+    { id: "cares-picos", label: "⛰ Picos de Europa · Cares" },
+    { id: "refugio-goriz", label: "🏔 Refugio de Góriz" },
+    { id: "pradera-ordesa", label: "🌲 Pradera de Ordesa" },
   ];
 
   // Fetch /api/places to use real data (no new endpoint)
@@ -362,11 +453,12 @@ function renderPoi(p) {
       cta.innerHTML = "";
       zones.forEach(function (z) {
         var place = placeMap[z.id];
+        var note = place && place.note ? place.note : "";
         var btn = document.createElement("button");
         btn.type = "button";
         btn.className = "cta-btn";
         btn.innerHTML = '<span class="cta-label">' + z.label + '</span>' +
-          '<span class="cta-note">' + z.note + '</span>';
+          (note ? '<span class="cta-note">' + esc(note) + '</span>' : '');
         btn.setAttribute("aria-label", "Explorar " + z.label);
         btn.addEventListener("click", function () {
           if (place) {
@@ -412,6 +504,8 @@ function selectPoint(lat, lon, name, fly) {
   }
   if (!name) { $("poi").hidden = true; state.poiCategory = null; state.poiAlt = null; }
   $("searchmsg").textContent = name ? `Zona seleccionada: ${name}` : "";
+  document.body.classList.toggle("has-selection", state.lat !== null);
+  openSheetForSelection();
   refresh();
 }
 
@@ -580,20 +674,87 @@ $("center-btn").addEventListener("click", function () {
 // ─────────────────────────────────────────────
 // SEARCH
 // ─────────────────────────────────────────────
-(function () {
-  var dl = $("places-list");
+// ─────────────────────────────────────────────
+// SUGGEST DROPDOWN (R3) — replaces datalist; source: existing /api/places ONLY
+// Selection = one tap; manual/coordinates search keeps working via submit.
+// ─────────────────────────────────────────────
+(function initSuggest() {
+  var input = $("q");
+  var box = $("suggest");
+  if (!input || !box) return;
+  var places = [];
+  var matches = [];
+  var active = -1;
+
   fetch("/api/places")
     .then(function (r) { return r.json(); })
-    .then(function (data) {
-      dl.innerHTML = "";
-      (data.places || []).forEach(function (p) {
-        var opt = document.createElement("option");
-        opt.value = p.name;
-        opt.label = p.note || p.name;
-        dl.appendChild(opt);
+    .then(function (data) { places = (data.places || []).slice(); })
+    .catch(function (e) { console.error("places", e); });
+
+  function close() {
+    box.hidden = true;
+    box.innerHTML = "";
+    active = -1;
+    input.setAttribute("aria-expanded", "false");
+    input.removeAttribute("aria-activedescendant");
+  }
+  function render(q) {
+    var ql = q.trim().toLowerCase();
+    matches = places.filter(function (p) {
+      return !ql || p.name.toLowerCase().indexOf(ql) !== -1 || (p.note || "").toLowerCase().indexOf(ql) !== -1;
+    });
+    box.innerHTML = "";
+    active = -1;
+    matches.forEach(function (p, i) {
+      var opt = document.createElement("button");
+      opt.type = "button";
+      opt.className = "suggest-opt";
+      opt.id = "suggest-opt-" + i;
+      opt.setAttribute("role", "option");
+      opt.setAttribute("aria-selected", "false");
+      opt.innerHTML = '<span class="suggest-name">' + esc(p.name) + '</span>' +
+        (p.note ? '<span class="suggest-note">' + esc(p.note) + '</span>' : '');
+      opt.addEventListener("click", function () { choose(p); });
+      box.appendChild(opt);
+    });
+  }
+  function open() {
+    render(input.value);
+    if (!matches.length) { close(); return; }
+    box.hidden = false;
+    input.setAttribute("aria-expanded", "true");
+  }
+  function choose(p) {
+    input.value = p.name;
+    close();
+    selectPoint(p.lat, p.lon, p.name, true);
+  }
+  input.addEventListener("focus", open);
+  input.addEventListener("input", open);
+  input.addEventListener("keydown", function (ev) {
+    var opts = box.querySelectorAll(".suggest-opt");
+    if (ev.key === "ArrowDown" || ev.key === "ArrowUp") {
+      if (box.hidden || !opts.length) return;
+      ev.preventDefault();
+      var dir = ev.key === "ArrowDown" ? 1 : -1;
+      active = (active + dir + opts.length) % opts.length;
+      Array.prototype.forEach.call(opts, function (o, i) {
+        o.setAttribute("aria-selected", i === active ? "true" : "false");
       });
-    })
-    .catch(function (e) { console.error(e); });
+      input.setAttribute("aria-activedescendant", opts[active].id);
+    } else if (ev.key === "Enter") {
+      if (!box.hidden && active >= 0 && matches[active]) {
+        ev.preventDefault();
+        choose(matches[active]);
+      }
+      // Enter sin opcion activa: submit normal (busqueda manual o coordenadas)
+    } else if (ev.key === "Escape") {
+      if (!box.hidden) { ev.preventDefault(); ev.stopPropagation(); close(); }
+    }
+  });
+  document.addEventListener("click", function (ev) {
+    if (ev.target.closest && !ev.target.closest("#searchform")) close();
+  });
 })();
 
 $("searchform").addEventListener("submit", async function (ev) {
@@ -924,7 +1085,7 @@ const FACT_INPUTS = {
   actividad_montana_o_escalada: { kind: "checkbox", label: "Actividad de montaña o escalada" },
   cota_m: {
     kind: "number", label: "Altitud indicada por ti (m)", noDefault: true,
-    note: "La altitud ha sido indicada por el usuario; AlRaso todavía no la verifica automáticamente.",
+    note: "La altitud se obtiene automáticamente del DEM oficial cuando hay cobertura; indícala sólo si quieres aportar un valor concreto.",
   },
   nights: { kind: "number", label: "Número de noches" },
 };

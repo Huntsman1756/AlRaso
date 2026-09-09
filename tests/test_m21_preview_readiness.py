@@ -128,7 +128,7 @@ def test_html_legend_does_not_call_verified_coverage_complete():
 
 def test_frontend_markup_keeps_accessibility_and_plain_layer_hooks():
     html = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
-    for hook in ('role="search"', 'id="q"', 'list="places-list"', 'aria-live="polite"',
+    for hook in ('role="search"', 'id="q"', 'role="listbox"', 'aria-live="polite"',
                  'id="headline"', 'id="center-btn"', 'id="tech-codes"',
                  'for="activity"', "no es un permiso,", "Detalle técnico"):
         assert hook in html, hook
