@@ -1,0 +1,75 @@
+{
+  "schema": "alraso-m7-r0-results-v1",
+  "protocol": "M7 protocol-v1",
+  "round": "R0",
+  "status": "TEMPLATE_PRE_RESULTS",
+  "immutability": {
+    "rule": "R0 es evidencia inmutable de linea base. Nunca se sobrescribe. Los parches van en R1/R2.",
+    "max_remediation_rounds": 2,
+    "executed_at": null
+  },
+  "reviewer": {
+    "REVIEWER_STATUS": "PENDING",
+    "qualification_verified": "PENDING",
+    "independence_verified": "PENDING",
+    "conflict_of_interest_checked": "PENDING",
+    "estimated_effort_accepted": "PENDING",
+    "blind_review_protocol_accepted": "PENDING",
+    "adjudication_annotation_right_accepted": "PENDING"
+  },
+  "protocol_sha256_at_run": null,
+  "cases": [
+    {
+      "case_id": "M7-R0-C01",
+      "engine": {
+        "legal_status": "PENDING",
+        "reason_codes": "PENDING",
+        "scope_ids": "PENDING",
+        "warnings_count": "PENDING",
+        "captured_at": null,
+        "note": "Se registra el resultado del motor TAL CUAL; los campos se rellenan en ejecucion, nunca en esta plantilla."
+      },
+      "reviewer": {
+        "status": "PENDING",
+        "provision": "PENDING",
+        "applicable_wording_ref": "PENDING",
+        "validity_reasoning_ref": "PENDING",
+        "missing_fact": "PENDING"
+      },
+      "comparison": {
+        "disagreement_category": "PENDING",
+        "counts_for_legal_agreement": "PENDING",
+        "fail_closed_factual_same_missing_fact": "PENDING"
+      },
+      "adjudication": {
+        "author_classification": "PENDING",
+        "root_cause": "PENDING",
+        "taxonomy": "PENDING",
+        "reviewer_annotation": "PENDING",
+        "annotation_published_intact": "PENDING",
+        "final_status": "PENDING"
+      }
+    }
+  ],
+  "metrics": {
+    "note": "Reportar R0, R1 y R2 por separado. NO hay titular agregado de accuracy.",
+    "R0": {
+      "false_permission_count": null,
+      "critical_scope_overreach_count": null,
+      "major_disagreement_count": null,
+      "major_scope_disagreement_count": null,
+      "conservative_false_negative_count": null,
+      "exact_agreement_count": null,
+      "fail_closed_factual_agreement_count": null,
+      "agreement_by_legal_status": {},
+      "agreement_by_normative_stratum": {}
+    },
+    "R1": null,
+    "R2": null
+  },
+  "holdout": {
+    "executed": false,
+    "outcome": null,
+    "note": "El holdout se ejecuta al final, segun holdout-manifest-v1.json; su resultado no genera reclamacion de accuracy positiva."
+  }
+}

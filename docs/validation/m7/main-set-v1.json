@@ -1,0 +1,471 @@
+{
+  "schema": "alraso-m7-main-set-v1",
+  "protocol": "M7 protocol-v1",
+  "status": "CANDIDATE_PRE_FREEZE",
+  "pre_registered_at": "2026-09-09",
+  "blindness": {
+    "reviewer_neutral_inputs_only": true,
+    "contains_expected_engine_result": false,
+    "contains_engine_trace": false,
+    "contains_encoded_rule_interpretation": false,
+    "contains_expected_reviewer_result": false,
+    "contains_alraso_hints": false
+  },
+  "scope": {
+    "zone": "Parque Nacional de los Picos de Europa",
+    "primary_activity": "VIVAC_AL_RASO",
+    "main_set_n": 24,
+    "holdout_n": 4,
+    "total_planned_n": 28,
+    "enum_balancing": "FORBIDDEN",
+    "note": "Los estados legales deben surgir naturalmente de los estratos normativos; si un estado no ocurre, STATUS = N/A para ese estado."
+  },
+  "shared_references": {
+    "primary_sources": {
+      "ref-bocyl-d17-2025": {
+        "authority": "Junta de Castilla y Leon",
+        "identifier": "BOCyL num. 240, 15/12/2025 - Decreto 17/2025 (PRUG PNPE, ambito CyL)",
+        "canonical_gazette_url": "https://bocyl.jcyl.es/boletin.do?fechaBoletin=15/12/2025",
+        "official_copy_url": "https://parquenacionalpicoseuropa.es/wp-content/uploads/2026/06/prug-pnpe-cyl-decreto-17_2025.pdf",
+        "official_copy_sha256": "70b07b6da908c873dc3c3fc6ff7dfe8f984e55493b40b4a690de49bc9a4edbca",
+        "publication_date": "2025-12-15",
+        "effective_from": "2026-01-04"
+      },
+      "ref-bopa-d21-2026": {
+        "authority": "Principado de Asturias",
+        "identifier": "BOPA 30/03/2026, Cod. 2026-02506 - Decreto 21/2026 (PRUG PNPE, ambito Asturias)",
+        "canonical_gazette_url": "https://miprincipado.asturias.es/bopa",
+        "official_copy_url": "https://parquenacionalpicoseuropa.es/wp-content/uploads/2026/06/prug-pnpe-as-decreto-21_2026.pdf",
+        "official_copy_sha256": "a1e374e5dcc12c5de2de653abf1f4da2635c620a10ac17e4f43ffd709d5210bd",
+        "publication_date": "2026-03-30",
+        "effective_from": "2026-04-19"
+      },
+      "ref-boc-d57-2026": {
+        "authority": "Comunidad Autonoma de Cantabria",
+        "identifier": "BOC num. 148, 04/08/2026 - Decreto 57/2026 (PRUG PNPE, ambito Cantabria)",
+        "canonical_gazette_url": "https://www.cantabria.es/web/boc",
+        "official_copy_url": "https://parquenacionalpicoseuropa.es/wp-content/uploads/2026/08/prug-pnpe-ca-decreto-57_2026.pdf",
+        "official_copy_sha256": "28ad80f99b44278153ee928e83efd27b8187049285891556db0e2381797c62c2",
+        "publication_date": "2026-08-04",
+        "effective_from": "2026-08-24"
+      },
+      "ref-ley-16-1995": {
+        "authority": "Estado",
+        "identifier": "Ley 16/1995, de 30 de mayo, de los Parques Nacionales",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1995-12915",
+        "note": "Marco estatal declarativo; texto integro consultable en BOE."
+      },
+      "ref-rd-384-2002": {
+        "authority": "Estado",
+        "identifier": "Real Decreto 384/2002 (PRUG anterior del PNPE)",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2002-9576",
+        "note": "Regimen anterior; su relacion con los decretos 2025/2026 no esta probada en la evidencia registrada. Referencia para investigar el regimen previo a las entradas en vigor; no inferir su aplicacion."
+      }
+    },
+    "spatial_sources": {
+      "ref-cnig-bddae": {
+        "authority": "IGN/CNIG",
+        "product": "BDDAE/INSPIRE - Limites municipales, provinciales y autonomicos (linea limite autonomica)",
+        "url": "https://centrodedescargas.cnig.es/CentroDescargas/limites-municipales-provinciales-autonomicos",
+        "note": "Incertidumbre oficial de la linea ~40 m; bandas a <=100 m de la linea son de jurisdiccion no fiablemente determinable."
+      },
+      "ref-oapn-limite-pn": {
+        "authority": "OAPN (MITECO)",
+        "product": "Limite oficial del Parque Nacional de los Picos de Europa",
+        "url": "https://sigred.oapn.es/geoserverOAPN/ows",
+        "note": "WFS LimitesParquesNacionalesZPP:view_red_oapn_limite_pn"
+      },
+      "ref-ign-mdt25": {
+        "authority": "IGN/CNIG",
+        "product": "MDT25 (Modelo Digital del Terreno / MDE, malla 25 m)",
+        "url": "https://servicios.idee.es/wcs-inspire/mdt",
+        "note": "Cobertura Elevacion25830_25 via WCS 2.0.1 (EPSG:25830). Reuse terms VERIFIED, CC BY 4.0 (NOTICE.md seccion 4). Elevaciones oficiales del terreno."
+      }
+    }
+  },
+  "neutral_question": "Segun las fuentes oficiales vigentes a la fecha indicada, esta permitido el vivac/pernocta al raso descrito en las condiciones indicadas? Indica el estado legal con el precepto exacto que lo sostiene y un razonamiento breve.",
+  "cases": [
+    {
+      "case_id": "M7-R0-C01",
+      "normative_stratum_ids": ["S1", "P-51.1"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": { "lat": 43.202151, "lon": -4.836656 },
+      "factual_location": "Macizo occidental del Parque Nacional, vertiente asturiana, zona alta lejos de cualquier limite.",
+      "known_facts": {
+        "activity_description": "Travesia de montana de dos dias por el macizo occidental; vivac de una noche.",
+        "nights": 1,
+        "elevation": { "m": 2416, "source": "IGN MDT25 (elevacion oficial del punto)" }
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"]
+    },
+    {
+      "case_id": "M7-R0-C02",
+      "normative_stratum_ids": ["S2", "P-51.1"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": { "lat": 43.17068, "lon": -4.80299 },
+      "factual_location": "Macizo de los Urrieles, vertiente cantabra, interior del Parque Nacional, lejos de cualquier limite.",
+      "known_facts": {
+        "activity_description": "Ascension de escalada de dos dias; vivac de dos noches en placa alta durante la travesia de cumbres.",
+        "nights": 2,
+        "elevation": { "m": 1942, "source": "IGN MDT25 (elevacion oficial del punto)" }
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"]
+    },
+    {
+      "case_id": "M7-R0-C03",
+      "normative_stratum_ids": ["S3", "P-51.1"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": { "lat": 43.0095347, "lon": -4.7170215 },
+      "factual_location": "Alto de Fuentes Carrionas, vertiente leonesa del Parque Nacional, lejos de cualquier limite.",
+      "known_facts": {
+        "activity_description": "Travesia de montana por la divisoria; vivac de dos noches junto a la majada.",
+        "nights": 2,
+        "elevation": { "m": 1950, "source": "altimetro del grupo" }
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn"]
+    },
+    {
+      "case_id": "M7-R0-C04",
+      "normative_stratum_ids": ["S1", "P-51.1", "C-ALT"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": { "lat": 43.2662, "lon": -4.8686 },
+      "factual_location": "Ladera del macizo occidental, vertiente asturiana, interior del Parque Nacional, lejos de cualquier limite.",
+      "known_facts": {
+        "activity_description": "Ascension de montana; vivac de una noche en la ladera durante la aproximacion.",
+        "nights": 1,
+        "elevation": { "m": 1510, "source": "IGN MDT25 (elevacion oficial del punto)" }
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"]
+    },
+    {
+      "case_id": "M7-R0-C05",
+      "normative_stratum_ids": ["S3", "P-51.1", "C-ALT"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": { "lat": 43.1278, "lon": -4.9381 },
+      "factual_location": "Valle interior del Parque Nacional, vertiente leonesa, lejos de cualquier limite.",
+      "known_facts": {
+        "activity_description": "Travesia de montana; vivac de una noche en el valle durante la marcha de aproximacion.",
+        "nights": 1,
+        "elevation": { "m": 1390, "source": "IGN MDT25 (elevacion oficial del punto)" }
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"]
+    },
+    {
+      "case_id": "M7-R0-C06",
+      "normative_stratum_ids": ["S2", "P-51-GROUP"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": { "lat": 43.17068, "lon": -4.80299 },
+      "factual_location": "Macizo de los Urrieles, vertiente cantabra, interior del Parque Nacional, lejos de cualquier limite.",
+      "known_facts": {
+        "activity_description": "Travesia de montana en grupo; vivac de una noche del grupo completo.",
+        "nights": 1,
+        "elevation": { "m": 1942, "source": "IGN MDT25 (elevacion oficial del punto)" },
+        "group_size": 12
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"]
+    },
+    {
+      "case_id": "M7-R0-C07",
+      "normative_stratum_ids": ["S1", "P-51-PROHIB"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": { "lat": 43.202151, "lon": -4.836656 },
+      "factual_location": "Macizo occidental, vertiente asturiana, interior del Parque Nacional.",
+      "known_facts": {
+        "activity_description": "Travesia de montana; para protegerse del viento el grupo excava una zanja de un palmo en el terreno y levanta un murete de piedras alrededor del vivac de una noche.",
+        "nights": 1,
+        "elevation": { "m": 2416, "source": "IGN MDT25 (elevacion oficial del punto)" },
+        "site_modification": "zanja excavada y parapeto de piedras en el punto de vivac"
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"]
+    },
+    {
+      "case_id": "M7-R0-C08",
+      "normative_stratum_ids": ["S1", "P-51.1", "C-ALT-BOUNDARY"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": null,
+      "factual_location": "Ladera alta del macizo occidental del Parque Nacional, territorio del Principado de Asturias (verificado por el grupo en cartografia oficial). Posicion exacta no registrada.",
+      "known_facts": {
+        "activity_description": "Ascension de montana; vivac de una noche en la ladera.",
+        "nights": 1,
+        "elevation": { "m": 1800, "source": "altimetro calibrado del grupo (cota exacta medida, sin margen)" },
+        "jurisdiction_stipulated": "interior del Parque Nacional, Principado de Asturias"
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": [],
+      "neutral_notes": "Caso interpretativo deliberado: el hecho relevante es cota = 1800 m exactos frente a la redaccion 'por encima de la cota 1.800 m'."
+    },
+    {
+      "case_id": "M7-R0-C09",
+      "normative_stratum_ids": ["S3", "P-51.1", "C-NIGHTS"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": { "lat": 43.0209738, "lon": -4.7873935 },
+      "factual_location": "Zona alta del macizo central-oriental, vertiente leonesa, interior del Parque Nacional, lejos de cualquier limite.",
+      "known_facts": {
+        "activity_description": "Travesia de montana de cuatro dias con tres vivacs consecutivos (uno por noche).",
+        "nights": 3,
+        "elevation": { "m": 1850, "source": "altimetro del grupo" }
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn"]
+    },
+    {
+      "case_id": "M7-R0-C10",
+      "normative_stratum_ids": ["S2", "P-51.1", "C-NIGHTS"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": { "lat": 43.17068, "lon": -4.80299 },
+      "factual_location": "Macizo de los Urrieles, vertiente cantabra, interior del Parque Nacional, lejos de cualquier limite.",
+      "known_facts": {
+        "activity_description": "Recorrido de montana de cinco dias con cuatro vivacs consecutivos (uno por noche).",
+        "nights": 4,
+        "elevation": { "m": 1942, "source": "IGN MDT25 (elevacion oficial del punto)" }
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"]
+    },
+    {
+      "case_id": "M7-R0-C11",
+      "normative_stratum_ids": ["S1", "P-51.1-EXC-PARED"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": null,
+      "factual_location": "Pared del Picu Urriellu (macizo de los Urrieles), interior del Parque Nacional, territorio del Principado de Asturias (verificado por el grupo en cartografia oficial). Posicion exacta no registrada.",
+      "known_facts": {
+        "activity_description": "Ascension en pared de gran verticalidad a lo largo de dos dias; el segundo vivac se hace colgado en la propia pared (duerme en portaledges suspendidos en la via).",
+        "nights": 2,
+        "elevation": { "m": null, "source": "cota aportada por el grupo: inferior a 1800 m (aprox. 1600 m, altimetro)", "exact": false },
+        "jurisdiction_stipulated": "interior del Parque Nacional, Principado de Asturias",
+        "wall_bivouac": "el vivac tiene lugar sobre la pared, suspendido en la via de escalada"
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": []
+    },
+    {
+      "case_id": "M7-R0-C12",
+      "normative_stratum_ids": ["S1", "P-51.1-EXC-PARED"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": null,
+      "factual_location": "Pradera al pie de la pared del Picu Urriellu (macizo de los Urrieles), interior del Parque Nacional, territorio del Principado de Asturias (verificado por el grupo en cartografia oficial). Posicion exacta no registrada.",
+      "known_facts": {
+        "activity_description": "Escalada en el Picu Urriellu; el grupo duerme en el suelo, en la pradera situada al pie del paredon (no sobre la pared), antes de la ascension del dia siguiente.",
+        "nights": 1,
+        "elevation": { "m": null, "source": "cota aportada por el grupo: aproximadamente 1350 m, altimetro", "exact": false },
+        "jurisdiction_stipulated": "interior del Parque Nacional, Principado de Asturias",
+        "wall_bivouac": "el vivac tiene lugar en el suelo, al pie de la pared, no sobre ella"
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": []
+    },
+    {
+      "case_id": "M7-R0-C13",
+      "normative_stratum_ids": ["S-UNKNOWN", "P-51.1-EXC-SOTIN"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-12-19",
+      "coordinates": null,
+      "factual_location": "Vega La Sotin, en el entorno de la escalada en el Friero, interior del Parque Nacional. CCAA y posicion exactas no registradas.",
+      "known_facts": {
+        "activity_description": "Escalada en el Friero con equipo de invierno (crampones y piolets); vivac de una noche en la Vega La Sotin durante la aproximacion invernal.",
+        "nights": 1,
+        "elevation": { "m": null, "source": "cota aportada por el grupo: aproximadamente 1600 m, altimetro (inferior a 1800 m)", "exact": false }
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": [],
+      "neutral_notes": "Posicion y CCAA no registradas; el revisor debe establecer el ambito jurisdiccional con fuentes oficiales si le resulta posible."
+    },
+    {
+      "case_id": "M7-R0-C14",
+      "normative_stratum_ids": ["S-UNKNOWN", "P-51.1-EXC-SOTIN"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": null,
+      "factual_location": "Vega La Sotin, en el entorno de la escalada en el Friero, interior del Parque Nacional. CCAA y posicion exactas no registradas.",
+      "known_facts": {
+        "activity_description": "Escalada en el Friero en fecha de verano; vivac de una noche en la Vega La Sotin durante la aproximacion.",
+        "nights": 1,
+        "elevation": { "m": null, "source": "cota aportada por el grupo: aproximadamente 1600 m, altimetro (inferior a 1800 m)", "exact": false }
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": [],
+      "neutral_notes": "Posicion y CCAA no registradas; el revisor debe establecer el ambito jurisdiccional con fuentes oficiales si le resulta posible."
+    },
+    {
+      "case_id": "M7-R0-C15",
+      "normative_stratum_ids": ["S2", "P-51.2"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": { "lat": 43.17068, "lon": -4.80299 },
+      "factual_location": "Macizo de los Urrieles, vertiente cantabra, interior del Parque Nacional, lejos de cualquier limite.",
+      "known_facts": {
+        "activity_description": "Travesia de montana; ante el pronostico de tormenta severa para esa noche, el grupo pernocta en tienda de campana instalada a las 22:00 y la desmonta a las 07:00.",
+        "nights": 1,
+        "elevation": { "m": 1942, "source": "IGN MDT25 (elevacion oficial del punto)" },
+        "weather_context": "pronostico de tormenta severa emitido el dia anterior (el hecho meteorologico real de esa noche no consta)",
+        "tent_times": "instalada ~1 h despues del ocaso; desmontada antes del orto"
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"]
+    },
+    {
+      "case_id": "M7-R0-C16",
+      "normative_stratum_ids": ["S1", "P-51.2"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-13",
+      "coordinates": { "lat": 43.202151, "lon": -4.836656 },
+      "factual_location": "Macizo occidental, vertiente asturiana, interior del Parque Nacional.",
+      "known_facts": {
+        "activity_description": "Travesia de montana interrumpida: un integrante sufre una lesion (esguince grave) y el descenso esa noche es imposible; el grupo instala una tienda de campana para la noche y evacua al amanecer.",
+        "nights": 1,
+        "elevation": { "m": 2416, "source": "IGN MDT25 (elevacion oficial del punto)" },
+        "force_majeure_context": "accidente declarado por el grupo; el hecho (peligro cierto e imposibilidad de descenso) no consta en ningun registro oficial"
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"]
+    },
+    {
+      "case_id": "M7-R0-C17",
+      "normative_stratum_ids": ["S-UNKNOWN", "P-51.1", "C-ACT"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": { "lat": 43.1770935, "lon": -4.7657068 },
+      "factual_location": "Pastos de altura del Parque Nacional, junto a un refugio ganadero, lejos de cualquier limite.",
+      "known_facts": {
+        "activity_description": "Pastor en trashumancia con rebano ovinos; pernocta al raso de dos noches junto a su ganado durante el pastoreo estival.",
+        "nights": 2,
+        "elevation": { "m": 1950, "source": "altimetro del pastor" },
+        "activity_link": "pastoreo y trashumancia ganadera (no montana ni escalada)"
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn"]
+    },
+    {
+      "case_id": "M7-R0-C18",
+      "normative_stratum_ids": ["S3", "P-51.1", "C-TEMP"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2025-12-20",
+      "coordinates": { "lat": 43.0095347, "lon": -4.7170215 },
+      "factual_location": "Alto de Fuentes Carrionas, vertiente leonesa del Parque Nacional.",
+      "known_facts": {
+        "activity_description": "Travesia de montana; vivac de una noche.",
+        "nights": 1,
+        "elevation": { "m": 1950, "source": "altimetro del grupo" }
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995", "ref-rd-384-2002"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn"],
+      "neutral_notes": "La actividad es anterior a la entrada en vigor del Decreto 17/2025; el regimen aplicable en esa fecha debe establecerse con fuentes oficiales."
+    },
+    {
+      "case_id": "M7-R0-C19",
+      "normative_stratum_ids": ["S1", "P-51.1", "C-TEMP"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-04-10",
+      "coordinates": { "lat": 43.202151, "lon": -4.836656 },
+      "factual_location": "Macizo occidental, vertiente asturiana, interior del Parque Nacional.",
+      "known_facts": {
+        "activity_description": "Travesia de montana; vivac de una noche.",
+        "nights": 1,
+        "elevation": { "m": 2416, "source": "IGN MDT25 (elevacion oficial del punto)" }
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995", "ref-rd-384-2002"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"],
+      "neutral_notes": "La actividad es anterior a la entrada en vigor del Decreto 21/2026; el regimen aplicable en esa fecha debe establecerse con fuentes oficiales."
+    },
+    {
+      "case_id": "M7-R0-C20",
+      "normative_stratum_ids": ["S-UNKNOWN", "C-GEO-INBAND"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": { "lat": 43.182691, "lon": -5.028656 },
+      "factual_location": "Interior del Parque Nacional, en la inmediacion de la linea limite autonomica.",
+      "known_facts": {
+        "activity_description": "Travesia de montana; vivac de una noche.",
+        "nights": 1,
+        "elevation": { "m": 2050, "source": "altimetro del grupo" },
+        "boundary_proximity": "punto a 2.4 m de la linea limite autonomica oficial (BDDAE/INSPIRE)"
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn"],
+      "neutral_notes": "La distancia a la linea limite autonomica oficial es inferior al ancho de banda de incertidumbre registrado (guard de 100 m sobre una incertidumbre oficial ~40 m)."
+    },
+    {
+      "case_id": "M7-R0-C21",
+      "normative_stratum_ids": ["S-UNKNOWN", "C-GEO-RESOLVED"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": { "lat": 43.210691, "lon": -4.860656 },
+      "factual_location": "Interior del Parque Nacional, proximo a la linea limite autonomica pero a distancia verificable.",
+      "known_facts": {
+        "activity_description": "Travesia de montana; vivac de una noche.",
+        "nights": 1,
+        "elevation": { "m": 2050, "source": "altimetro del grupo" },
+        "boundary_proximity": "punto a 115.9 m de la linea limite autonomica oficial (BDDAE/INSPIRE)"
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn"],
+      "neutral_notes": "La distancia a la linea limite autonomica oficial excede el guard de 100 m registrado."
+    },
+    {
+      "case_id": "M7-R0-C22",
+      "normative_stratum_ids": ["O1-FUERA-PN"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": { "lat": 43.1213124, "lon": -4.5682027 },
+      "factual_location": "Valle de Liebana (Cantabria), junto a Potes, en el exterior del macizo.",
+      "known_facts": {
+        "activity_description": "Etapa de travesia de montana; vivac de una noche en un prado del valle.",
+        "nights": 1,
+        "elevation": { "m": 500, "source": "aproximada, altimetro del grupo" }
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn"]
+    },
+    {
+      "case_id": "M7-R0-C23",
+      "normative_stratum_ids": ["O1-FUERA-PN"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": { "lat": 43.348, "lon": -5.13 },
+      "factual_location": "Vega del rio Sella en Cangas de Onis (Asturias), en el exterior del macizo.",
+      "known_facts": {
+        "activity_description": "Etapa de travesia de montana; vivac de una noche en la vega junto al rio.",
+        "nights": 1,
+        "elevation": { "m": 80, "source": "aproximada, altimetro del grupo" }
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn"]
+    },
+    {
+      "case_id": "M7-R0-C24",
+      "normative_stratum_ids": ["S3", "P-51.1", "C-ALT-MISSING"],
+      "activity": "VIVAC_AL_RASO",
+      "activity_date": "2026-09-12",
+      "coordinates": null,
+      "factual_location": "Vega de Liordes, macizo central del Parque Nacional, vertiente leonesa (verificado por el grupo en cartografia oficial).",
+      "known_facts": {
+        "activity_description": "Travesia de montana; vivac de dos noches en la vega.",
+        "nights": 2,
+        "elevation": { "m": null, "source": "sin dato: el grupo no dispone de altimetro y no consulto elevaciones oficiales", "exact": false },
+        "position_precision": "aproximada, +-500 m; sin coordenadas registradas",
+        "jurisdiction_stipulated": "interior del Parque Nacional, Castilla y Leon"
+      },
+      "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
+      "spatial_evidence_references": []
+    }
+  ]
+}

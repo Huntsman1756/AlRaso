@@ -1,0 +1,36 @@
+{
+  "schema": "alraso-m7-holdout-manifest-v1",
+  "protocol": "M7 protocol-v1",
+  "status": "PENDING",
+  "role": "TRIPWIRE_ONLY",
+  "HOLDOUT_N": 4,
+  "custody": {
+    "HOLDOUT_CUSTODIAN": "PENDING",
+    "custodian_profile": "revisor independiente o custodio humano neutral",
+    "selection_rule": "El custodio selecciona y sella 4 casos desde el marco normativo pre-registrado (normative-case-frame-v1.md). El autor de la muestra NO selecciona y NO expone los casos del holdout.",
+    "author_access": "FORBIDDEN hasta la ejecucion del tripwire"
+  },
+  "commitment": {
+    "HOLDOUT_COMMITMENT_SHA256": "PENDING",
+    "SEALED_AT": null,
+    "note": "El compromiso SHA-256 se rellena SOLO cuando exista un sellado real por parte de un custodio real. Un placeholder NO cuenta."
+  },
+  "pool_strata_suggested": [
+    "S2 + P-51.1 + C-TEMP (vivac es-cb pre-vigencia 2026-08-15)",
+    "P-51.1 + C-NIGHTS (noches NO aportadas; NIGHTS-MISSING)",
+    "C-GEO-INBAND (punto distinto en banda de incertidumbre)",
+    "O1-FUERA-PN (vivac exterior en otro punto fuera del PN)"
+  ],
+  "tripwire_semantics": {
+    "HOLDOUT_PASS": "sin reclamacion adicional de accuracy; NO '4/4 demuestra validez'",
+    "HOLDOUT_CRITICAL_FALSE_PERMISSION": "M7_FAIL; el holdout no puede reutilizarse",
+    "HOLDOUT_CRITICAL_SCOPE_OVERREACH": "M7_FAIL; el holdout no puede reutilizarse",
+    "HOLDOUT_OTHER_MATERIAL_STRONG_DISAGREEMENT": "M7_INCONCLUSIVE, salvo que aplique otra condicion FAIL pre-registrada",
+    "HOLDOUT_CONSERVATIVE_FALSE_NEGATIVE": "se registra; NO transforma el holdout en evidencia positiva"
+  },
+  "storage_rule": "Los contenidos secretos del holdout NO se almacenan en el repositorio publico antes de que el tripwire deba ejecutarse.",
+  "limitations": [
+    "The SHA-256 commitment demonstrates non-substitution after commitment. It does NOT prove independent sample design and does NOT prove that the author was ignorant of the normative strata.",
+    "El hashing NO crea ceguera del autor ni independencia de diseno; solo impide la sustitucion tras el compromiso."
+  ]
+}

@@ -824,6 +824,18 @@ def test_git_diff_vs_main_only_allowed_files():
         "webapp/static/app.js",
         "webapp/static/style.css",
         "tests/test_m2b_official_boundary.py",
+        # docs(m7): preregister independent legal validation protocol (candidate artifacts)
+        "docs/validation/m7/protocol-v1.md",
+        "docs/validation/m7/normative-case-frame-v1.md",
+        "docs/validation/m7/sample-generation-v1.md",
+        "docs/validation/m7/main-set-v1.json",
+        "docs/validation/m7/holdout-manifest-v1.json",
+        "docs/validation/m7/reviewer-instructions-v1.md",
+        "docs/validation/m7/reviewer-attestation-public.template.md",
+        "docs/validation/m7/r0-results.template.json",
+        "docs/validation/m7/validation-report-v1.template.md",
+        "docs/validation/m7/protocol-deviations.md",
+        "docs/validation/m7/README.md",
     }
     for f in changed:
         assert f in allowed, f"Unexpected file changed: {f}"
