@@ -280,7 +280,7 @@ def test_responsive_and_a11y_basics():
     assert "position:fixed" in css
     assert "min-height:44px" in css
     assert "prefers-reduced-motion" in css
-    assert "52vh" in css
+    assert "sheet-peek" in css  # M4: bottom sheet replaces the 52vh stacked map
 
     html = _read("webapp/static/index.html")
     assert "Navegación principal" in html or "Navegaci" in html
@@ -362,7 +362,7 @@ def test_m2_gate_provider_decoupled():
 
 def test_m2_gate_frontend_markup():
     html = _read("webapp/static/index.html")
-    for hook in ('role="search"', 'id="q"', 'list="places-list"', 'aria-live="polite"',
+    for hook in ('role="search"', 'id="q"', 'role="listbox"', 'aria-live="polite"',
                   'id="headline"', 'id="center-btn"', 'id="tech-codes"',
                   'for="activity"', "no es un permiso,", "Detalle técnico"):
         assert hook in html, f"Missing hook: {hook}"
