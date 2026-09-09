@@ -25,10 +25,17 @@ Evidencia espacial oficial referenciable (para el revisor):
 
 - Límites autonómicos: IGN/CNIG BDDAE/INSPIRE — `https://centrodedescargas.cnig.es/CentroDescargas/limites-municipales-provinciales-autonomicos` (línea límite autonómica; sha256 del zip registrado en `tooling/m2b_picos_official_boundary.evidence.json`).
 - Límite del Parque Nacional: OAPN WFS — `https://sigred.oapn.es/geoserverOAPN/ows` (`LimitesParquesNacionalesZPP:view_red_oapn_limite_pn`).
-- Elevaciones: IGN MDT05 (portal oficial `centrodedescargas.cnig.es`).
+- Elevaciones: IGN/CNIG **MDT25** via WCS 2.0.1 `https://servicios.idee.es/wcs-inspire/mdt`, cobertura `Elevacion25830_25` (EPSG:25830, malla 25 m; reuse terms VERIFIED, CC BY 4.0 — ver NOTICE.md sección 4). Las elevaciones citadas en los casos (p. ej. 2416/1942/1510/1390 m) son mediciones registradas en el repositorio sobre este servicio.
 - URLs de los diarios oficiales: BOCyL `https://bocyl.jcyl.es/boletin.do?fechaBoletin=15/12/2025`; BOPA `https://miprincipado.asturias.es/bopa`; BOC `https://www.cantabria.es/web/boc`.
 
 Nota: los PDFs oficiales completos NO se redistribuyen (términos de reutilización NOT_VERIFIED; ver NOTICE.md). El revisor los obtiene de los portales oficiales citados.
+
+### 1.1 Verificación primaria ampliada (2026-09-09)
+
+- Se descargó la copia oficial registrada del Decreto 21/2026 (`official_copy_url`, BOPA 30/03/2026, Cód. 2026-02506) y se verificó **byte-idéntica** al candado de evidencia: sha256 `a1e374e5dcc12c5de2de653abf1f4da2635c620a10ac17e4f43ffd709d5210bd` (55.813.114 bytes, 433 páginas).
+- El texto íntegro del art. 51 se extrajo de esa copia verificada (página PDF 38/433, pág. 34 del boletín), con las mismas convenciones de extracción registradas (texto plegado: sin tildes, espacios colapsados). Con ello, P-51-GROUP (art. 51.3.a) y P-51-PROHIB (art. 51.3.b) pasan a tener soporte primario completo.
+- Identidad inter-decretos del bloque común (arts. 50–54): registrada en `tooling/m2a_picos_discovery.evidence.json` ("diffs no detectados en arts 50-54"); el revisor verifica de todos modos el diario oficial de la CCAA aplicable en cada caso.
+- Corrección de provenance de elevaciones: el servicio DEM verificado del repositorio es **MDT25** (`Elevacion25830_25`); no existe registro MDT05 en el corpus. Las etiquetas MDT05 anteriores en este marco eran un error de referencia y han sido corregidas.
 
 ## 2. Estratos de régimen (CCAA)
 
@@ -84,16 +91,25 @@ Texto registrado (extracto, texto plegado):
 - Razón factual: el disparador ("condiciones meteorológicas adversas o de fuerza mayor") es un ESTADO VIVO OPERATIVO no demostrable de forma reproducible desde datos codificados; la franja de instalación (ocaso/orto) depende de hechos horarios no registrados. Disciplina preservada (ver `docs/LEGAL-ASSURANCE-MODEL.md`, NORMATIVA vs `LIVE_OPERATIONAL_STATE`): este disparador NO se convierte en un booleano controlado por el caller que desbloquee un PERMITTED; no se usa para construir una conclusión PERMITTED fuerte. Resultados conservadores (`UNDETERMINED_FACTUAL`) son legítimos aquí.
 - Fuente: art. 51.2 (S1/S2/S3).
 
-### P-51-GROUP — Requisito de autorización por tamaño de grupo
+### P-51-GROUP — Autorización expresa para grupos organizados (ID de estrato estable; precepto exacto: art. 51.3.a)
 
-- Clasificación: `IN_SCOPE_RESOLVABLE` con reserva.
-- Soporte: el candado `tooling/m2a_picos_discovery.evidence.json` registra, para el bloque común de arts. 50–54 verificado en los tres extractos, que "grupos >10 requieren autorización". EL APARTADO VERBATIM NO ESTÁ incluido en los extractos registrados → el revisor DEBE verificar el precepto exacto y el umbral contra el diario oficial correspondiente antes de apoyar una conclusión en él. El marco NO fija el umbral numérico.
-- Fuente: art. 51 (apartado de grupos), S1/S2/S3 (a verificar por el revisor).
+Texto verbatim verificado (extracto, texto plegado, copia byte-verificada — ver §1.1):
 
-### P-51-PROHIB — Prohibición de zanjas/parapetos en el vivac
+> "3. En todo caso se exigira el cumplimiento de las siguientes condiciones: a) No se permitira, salvo autorizacion expresa, el vivac de grupos organizados con mas de 10 componentes"
 
-- Clasificación: `IN_SCOPE_RESOLVABLE` con reserva (mismo régimen que P-51-GROUP: existencia registrada por el candado de evidencia; redacción verbatim pendiente de verificación del revisor contra el diario oficial).
-- Fuente: art. 51 (apartado de prohibiciones), S1/S2/S3 (a verificar por el revisor).
+- Clasificación: `IN_SCOPE_RESOLVABLE`
+- Soporte primario completo: precepto exacto (art. 51.3.a), umbral exacto ("más de 10 componentes") y cualificador ("grupos organizados") verificados contra el PDF oficial byte-verificado. El cualificador "organizados" es materia interpretativa del revisor; el marco NO prejuzga su alcance. `AUTHORIZATION_REQUIRED`-capable por el texto "salvo autorización expresa".
+- Fuente: art. 51.3.a (S1/S2/S3; identidad inter-decretos del bloque común arts. 50–54 según candado de evidencia registrado).
+
+### P-51-PROHIB — Prohibición de zanjas de drenaje y parapetos (ID de estrato estable; precepto exacto: art. 51.3.b)
+
+Texto verbatim verificado (extracto, texto plegado, copia byte-verificada — ver §1.1):
+
+> "b) Se prohibe la apertura de zanjas de drenaje y la acumulacion de piedras y/o elementos vegetales a modo de parapeto."
+
+- Clasificación: `IN_SCOPE_RESOLVABLE`
+- Soporte primario completo: prohibición expresa en el art. 51.3.b; `PROHIBITED`-capable.
+- Fuente: art. 51.3.b (S1/S2/S3).
 
 ### P-52 — Acampada / pernocta en vehículos (precepto adyacente)
 
@@ -111,7 +127,7 @@ Texto registrado (extracto, texto plegado):
 |---|---|---|---|
 | `C-ACT` | Vínculo con actividad de montaña y escalada (presente/ausente en los hechos) | `IN_SCOPE_RESOLVABLE` | art. 51.1: "vinculada a las actividades de montaña y escalada"; hecho aportado por el caso |
 | `C-NIGHTS` | Límite "hasta un máximo de 3 noches" | `IN_SCOPE_RESOLVABLE` | art. 51.1; sonda de frontera: exactamente 3 vs 4 noches |
-| `C-ALT` | Requisito "siempre por encima de la cota 1.800 m" (satisfecho/incumplido) | `IN_SCOPE_RESOLVABLE` | art. 51.1; hechos: cota registrada (IGN MDT05) o aportada |
+| `C-ALT` | Requisito "siempre por encima de la cota 1.800 m" (satisfecho/incumplido) | `IN_SCOPE_RESOLVABLE` | art. 51.1; hechos: cota registrada (IGN/CNIG MDT25) o aportada |
 | `C-ALT-BOUNDARY` | Semántica del umbral en cota EXACTAMENTE 1.800 m ("por encima": ¿exclusivo?) | `IN_SCOPE_RESOLVABLE` (sonda interpretativa) | art. 51.1; caso diseñado sin coordenadas y con cota medida como hecho |
 | `C-GEO-RESOLVED` | Jurisdicción CCAA determinable oficialmente (punto a >100 m de la línea límite autonómica) | `IN_SCOPE_RESOLVABLE` | BDDAE/INSPIRE; guard 100 m; incertidumbre oficial ~40 m (`tooling/m2b_picos_official_boundary.evidence.json`) |
 | `C-GEO-INBAND` | Punto DENTRO de la banda de incertidumbre (≤100 m de la línea límite autonómica) | `IN_SCOPE_BUT_FACTUALLY_UNVERIFIABLE` | a esa proximidad la jurisdicción no es fiablemente determinable (guard 100 m sobre incertidumbre oficial ~40 m); resultado conservador legítimo |
@@ -122,8 +138,7 @@ Texto registrado (extracto, texto plegado):
 ## 5. Registro de UNRESOLVED_FRAME_ITEM (publicado antes del freeze)
 
 1. **Régimen aplicable ANTES de las entradas en vigor (2025-12-15/2026-04-19/2026-08-24).** El candado de descubrimiento registra el PRUG anterior (RD 384/2002, `https://www.boe.es/buscar/act.php?id=BOE-A-2002-9576`) con estado `LEGACY_STATUS_UNRESOLVED`: los decretos 2025/2026 NO lo mencionan ni lo derogan expresamente y su relación jurídica no está probada en la evidencia registrada. El marco NO infiere qué regla regía el vivac antes de cada entrada en vigor. El revisor puede investigarlo con fuentes primarias (BOE); si no puede, `UNDETERMINED_LEGAL`. En ningún caso un caso pre-vigencia puede producir PERMITTED fuerte sobre el RD 384/2002 dentro de este marco.
-2. **Redacción verbatim de P-51-GROUP y P-51-PROHIB.** Existencia registrada por el candado de evidencia (bloque común arts. 50–54), pero el texto de esos apartados no está en los extractos registrados. Se exige verificación del revisor contra el diario oficial. El marco NO fija umbral numérico ni redacción.
-3. **Localización oficial de la Vega La Sotín / el Friero y definición de "época invernal".** Sin evidencia espacial oficial registrada para el topónimo y sin definición temporal en el precepto (ver P-51.1-EXC-SOTIN).
+2. **Localización oficial de la Vega La Sotín / el Friero y definición de "época invernal".** Sin evidencia espacial oficial registrada para el topónimo y sin definición temporal en el precepto (ver P-51.1-EXC-SOTIN).
 
 Estos ítems NO se cierran por inferencia. Se presentan al revisor como espacios abiertos y se publican aquí antes del freeze.
 
@@ -153,11 +168,11 @@ Ningún estado se fuerza: si un estado no aparece en los 24 casos del main set n
 
 | Caso | Estratos | Resumen neutral |
 |---|---|---|
-| C01 | S1, P-51.1 | vivac es-as, cota 2416 m (MDT05), 1 noche, montaña |
-| C02 | S2, P-51.1 | vivac es-cb, cota 1942 m (MDT05), 2 noches, escalada |
+| C01 | S1, P-51.1 | vivac es-as, cota 2416 m (MDT25), 1 noche, montaña |
+| C02 | S2, P-51.1 | vivac es-cb, cota 1942 m (MDT25), 2 noches, escalada |
 | C03 | S3, P-51.1 | vivac es-cl, cota aportada ~1950 m, 2 noches, montaña |
-| C04 | S1, P-51.1, C-ALT | vivac es-as interior, cota 1510 m (MDT05), 1 noche |
-| C05 | S3, P-51.1, C-ALT | vivac es-cl interior, cota 1390 m (MDT05), 1 noche |
+| C04 | S1, P-51.1, C-ALT | vivac es-as interior, cota 1510 m (MDT25), 1 noche |
+| C05 | S3, P-51.1, C-ALT | vivac es-cl interior, cota 1390 m (MDT25), 1 noche |
 | C06 | S2, P-51-GROUP | vivac es-cb, cota 1942 m, grupo de 12 personas, 1 noche |
 | C07 | S1, P-51-PROHIB | vivac es-as, cota 2416 m, con zanja/parapeto excavado |
 | C08 | S1, P-51.1, C-ALT-BOUNDARY | cota exactamente 1800 m medida, sin coordenadas |

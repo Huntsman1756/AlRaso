@@ -75,11 +75,11 @@
         "url": "https://sigred.oapn.es/geoserverOAPN/ows",
         "note": "WFS LimitesParquesNacionalesZPP:view_red_oapn_limite_pn"
       },
-      "ref-ign-mdt05": {
-        "authority": "IGN",
-        "product": "MDT05 (modelo digital de elevaciones, 5 m)",
-        "url": "https://centrodedescargas.cnig.es",
-        "note": "Elevaciones oficiales del terreno."
+      "ref-ign-mdt25": {
+        "authority": "IGN/CNIG",
+        "product": "MDT25 (Modelo Digital del Terreno / MDE, malla 25 m)",
+        "url": "https://servicios.idee.es/wcs-inspire/mdt",
+        "note": "Cobertura Elevacion25830_25 via WCS 2.0.1 (EPSG:25830). Reuse terms VERIFIED, CC BY 4.0 (NOTICE.md seccion 4). Elevaciones oficiales del terreno."
       }
     }
   },
@@ -95,10 +95,10 @@
       "known_facts": {
         "activity_description": "Travesia de montana de dos dias por el macizo occidental; vivac de una noche.",
         "nights": 1,
-        "elevation": { "m": 2416, "source": "IGN MDT05 (elevacion oficial del punto)" }
+        "elevation": { "m": 2416, "source": "IGN MDT25 (elevacion oficial del punto)" }
       },
       "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
-      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt05"]
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"]
     },
     {
       "case_id": "M7-R0-C02",
@@ -110,10 +110,10 @@
       "known_facts": {
         "activity_description": "Ascension de escalada de dos dias; vivac de dos noches en placa alta durante la travesia de cumbres.",
         "nights": 2,
-        "elevation": { "m": 1942, "source": "IGN MDT05 (elevacion oficial del punto)" }
+        "elevation": { "m": 1942, "source": "IGN MDT25 (elevacion oficial del punto)" }
       },
       "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
-      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt05"]
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"]
     },
     {
       "case_id": "M7-R0-C03",
@@ -140,10 +140,10 @@
       "known_facts": {
         "activity_description": "Ascension de montana; vivac de una noche en la ladera durante la aproximacion.",
         "nights": 1,
-        "elevation": { "m": 1510, "source": "IGN MDT05 (elevacion oficial del punto)" }
+        "elevation": { "m": 1510, "source": "IGN MDT25 (elevacion oficial del punto)" }
       },
       "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
-      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt05"]
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"]
     },
     {
       "case_id": "M7-R0-C05",
@@ -155,10 +155,10 @@
       "known_facts": {
         "activity_description": "Travesia de montana; vivac de una noche en el valle durante la marcha de aproximacion.",
         "nights": 1,
-        "elevation": { "m": 1390, "source": "IGN MDT05 (elevacion oficial del punto)" }
+        "elevation": { "m": 1390, "source": "IGN MDT25 (elevacion oficial del punto)" }
       },
       "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
-      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt05"]
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"]
     },
     {
       "case_id": "M7-R0-C06",
@@ -170,11 +170,11 @@
       "known_facts": {
         "activity_description": "Travesia de montana en grupo; vivac de una noche del grupo completo.",
         "nights": 1,
-        "elevation": { "m": 1942, "source": "IGN MDT05 (elevacion oficial del punto)" },
+        "elevation": { "m": 1942, "source": "IGN MDT25 (elevacion oficial del punto)" },
         "group_size": 12
       },
       "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
-      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt05"]
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"]
     },
     {
       "case_id": "M7-R0-C07",
@@ -186,11 +186,11 @@
       "known_facts": {
         "activity_description": "Travesia de montana; para protegerse del viento el grupo excava una zanja de un palmo en el terreno y levanta un murete de piedras alrededor del vivac de una noche.",
         "nights": 1,
-        "elevation": { "m": 2416, "source": "IGN MDT05 (elevacion oficial del punto)" },
+        "elevation": { "m": 2416, "source": "IGN MDT25 (elevacion oficial del punto)" },
         "site_modification": "zanja excavada y parapeto de piedras en el punto de vivac"
       },
       "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
-      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt05"]
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"]
     },
     {
       "case_id": "M7-R0-C08",
@@ -234,10 +234,10 @@
       "known_facts": {
         "activity_description": "Recorrido de montana de cinco dias con cuatro vivacs consecutivos (uno por noche).",
         "nights": 4,
-        "elevation": { "m": 1942, "source": "IGN MDT05 (elevacion oficial del punto)" }
+        "elevation": { "m": 1942, "source": "IGN MDT25 (elevacion oficial del punto)" }
       },
       "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
-      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt05"]
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"]
     },
     {
       "case_id": "M7-R0-C11",
@@ -315,12 +315,12 @@
       "known_facts": {
         "activity_description": "Travesia de montana; ante el pronostico de tormenta severa para esa noche, el grupo pernocta en tienda de campana instalada a las 22:00 y la desmonta a las 07:00.",
         "nights": 1,
-        "elevation": { "m": 1942, "source": "IGN MDT05 (elevacion oficial del punto)" },
+        "elevation": { "m": 1942, "source": "IGN MDT25 (elevacion oficial del punto)" },
         "weather_context": "pronostico de tormenta severa emitido el dia anterior (el hecho meteorologico real de esa noche no consta)",
         "tent_times": "instalada ~1 h despues del ocaso; desmontada antes del orto"
       },
       "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
-      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt05"]
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"]
     },
     {
       "case_id": "M7-R0-C16",
@@ -332,11 +332,11 @@
       "known_facts": {
         "activity_description": "Travesia de montana interrumpida: un integrante sufre una lesion (esguince grave) y el descenso esa noche es imposible; el grupo instala una tienda de campana para la noche y evacua al amanecer.",
         "nights": 1,
-        "elevation": { "m": 2416, "source": "IGN MDT05 (elevacion oficial del punto)" },
+        "elevation": { "m": 2416, "source": "IGN MDT25 (elevacion oficial del punto)" },
         "force_majeure_context": "accidente declarado por el grupo; el hecho (peligro cierto e imposibilidad de descenso) no consta en ningun registro oficial"
       },
       "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995"],
-      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt05"]
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"]
     },
     {
       "case_id": "M7-R0-C17",
@@ -380,10 +380,10 @@
       "known_facts": {
         "activity_description": "Travesia de montana; vivac de una noche.",
         "nights": 1,
-        "elevation": { "m": 2416, "source": "IGN MDT05 (elevacion oficial del punto)" }
+        "elevation": { "m": 2416, "source": "IGN MDT25 (elevacion oficial del punto)" }
       },
       "primary_source_references": ["ref-bocyl-d17-2025", "ref-bopa-d21-2026", "ref-boc-d57-2026", "ref-ley-16-1995", "ref-rd-384-2002"],
-      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt05"],
+      "spatial_evidence_references": ["ref-cnig-bddae", "ref-oapn-limite-pn", "ref-ign-mdt25"],
       "neutral_notes": "La actividad es anterior a la entrada en vigor del Decreto 21/2026; el regimen aplicable en esa fecha debe establecerse con fuentes oficiales."
     },
     {

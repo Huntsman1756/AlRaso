@@ -16,7 +16,7 @@ Para cada caso:
 - `activity_date`;
 - hechos conocidos (noches, cota si existe, tamaño de grupo, contexto declarado);
 - una pregunta jurídica neutral;
-- referencias a fuentes primarias oficiales: BOCyL, BOPA, BOC, BOE, y evidencia espacial oficial necesaria (IGN/CNIG BDDAE/INSPIRE para límites autonómicos, OAPN para el límite del parque, IGN MDT05 para elevaciones).
+- referencias a fuentes primarias oficiales: BOCyL, BOPA, BOC, BOE, y evidencia espacial oficial necesaria (IGN/CNIG BDDAE/INSPIRE para límites autonómicos, OAPN para el límite del parque, IGN/CNIG MDT25 para elevaciones).
 
 Los PDFs de los diarios oficiales NO se redistribuyen: usted los obtiene en los portales oficiales citados (BOCyL, BOPA, BOC, BOE).
 

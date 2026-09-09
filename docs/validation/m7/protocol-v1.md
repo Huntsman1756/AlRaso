@@ -1,7 +1,7 @@
 # Protocolo M7 — Piloto de validación jurídica independiente (v1)
 
 - Estado: `M7_PROTOCOL_STATUS = CANDIDATE_READY_FOR_HUMAN_FREEZE_INPUT`
-- `M7_PROTOCOL_FREEZE = NO` (hasta que se cumplan las 16 condiciones de la sección 16)
+- `M7_PROTOCOL_FREEZE = NO` (hasta que se cumplan las 14 condiciones de la sección 16)
 - `LEGAL = FROZEN` — este protocolo NO toca el corpus, el resolver ni ninguna regla legal
 - Alcance de este documento: metodología pre-registrada ANTES de ejecutar R0 y antes de cualquier remediación legal
 
@@ -118,7 +118,7 @@ Aproximadamente **6–10 horas cualificadas para 28 casos**. Es solo una estimac
 
 NO se usa el wording débil "qualified review" a secas. La plantilla pública de attestation no contiene PII innecesaria (`reviewer-attestation-public.template.md`).
 
-Mientras el revisor exista y acepte:
+Hasta que exista un revisor y haya aceptado:
 
 ```text
 REVIEWER_STATUS = PENDING

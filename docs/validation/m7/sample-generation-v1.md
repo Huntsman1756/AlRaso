@@ -24,7 +24,7 @@ SAMPLE_AUTHOR_KNEW_ENGINE_OUTPUTS = YES
 
 1. Se enumeran los estratos normativos del marco (`normative-case-frame-v1.md`): regímenes (S1–S3), preceptos (P-*), condiciones (C-*), excepciones, umbrales, temporalidad y ámbito.
 2. Cada estrato genera familias de casos según su estructura legal (regla base satisfecha/incumplida por cada predicado; fronteras de umbral; excepciones con predicado presente/ausente; disparador vivo no reproducible; jurisdicción resuelta/in-banda; pre-vigencia por CCAA; fuera de ámbito).
-3. Los hechos de cada caso (fechas, noches, cotas, posiciones, tamaño de grupo) se fijan desde datos registrados en la evidencia oficial del repositorio (coordenadas sondeadas y POIs registrados, elevaciones IGN MDT05 registradas) o como hechos estipulados neutrales del caso.
+3. Los hechos de cada caso (fechas, noches, cotas, posiciones, tamaño de grupo) se fijan desde datos registrados en la evidencia oficial del repositorio (coordenadas sondeadas y POIs registrados, elevaciones IGN/CNIG MDT25 registradas) o como hechos estipulados neutrales del caso.
 4. **Prohibido**: ajustar, añadir o descartar un caso para provocar o evitar un resultado del motor o del revisor. Los estados emergen; no se equilibran.
 
 ## 3. Procedencia de coordenadas y datos factuales (main set)

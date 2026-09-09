@@ -69,7 +69,7 @@ Sesgo residual declarado y mitigaciones: [resumen de sample-generation-v1.md sec
 
 ## 7. Autoridad de fuentes
 
-- Fuentes primarias oficiales (BOCyL, BOPA, BOC, BOE; IGN/CNIG BDDAE/INSPIRE; OAPN; IGN MDT05): autoridad.
+- Fuentes primarias oficiales (BOCyL, BOPA, BOC, BOE; IGN/CNIG BDDAE/INSPIRE; OAPN; IGN/CNIG MDT25): autoridad.
 - Materiales secundarios/consolidados: solo ayudas de descubrimiento, etiquetadas como tales.
 
 ## 8. Estratos normativos cubiertos
