@@ -8,7 +8,7 @@
 
 AlRaso es una webapp con mapa interactivo ([MapLibre](https://maplibre.org/)) donde cada punto del mapa devuelve una **determinación jurídica-geoespacial**: una actividad (p. ej. `VIVAC_AL_RASO`) en un lugar concreto se resuelve contra el corpus normativo vigente y el resultado es `PERMITTED`, `PROHIBITED`, `AUTHORIZATION_REQUIRED` o `UNDETERMINED`, siempre acompañado de evidencia, trazas y warnings.
 
-El mapa muestra POIs de OpenStreetMap (refugios, agua, abrigos, campings, espacios protegidos) como contexto; cada POI tiene una ficha de lugar con la respuesta legal principal en lenguaje llano, condiciones aplicables, fuentes y explicación. Los usuarios pueden guardar favoritos y salidas con persistencia local del navegador, activar "Mi ubicación" y usar la app en modo responsive.
+El mapa muestra POIs de OpenStreetMap (refugios, agua, abrigos, campings, espacios protegidos) como contexto; cada POI tiene una ficha de lugar con la respuesta legal principal en lenguaje llano, condiciones aplicables, fuentes y explicación. Los usuarios pueden guardar favoritos y salidas con persistencia local del navegador, activar "Mi ubicación" y usar la app en modo responsive. La app es instalable como PWA con resiliencia offline de los recursos ya visitados (M5); las condiciones meteorológicas mostradas (M6) son contexto observacional y **no** constituyen evidencia jurídica.
 
 El **motor jurídico** es una capa bitemporal fail-closed que solo publica `PERMITTED` cuando una versión de regla elegible (revisión legal y espacial completas, evidencia resolvable con procedencia verificada y **base normativa explícita (`normative_basis` ⊆ evidencia: precepto + redacción + ventana de validez que cubra `activity_date`)**) lo afirma de forma trazable, ningún ámbito REGULATORY aplicable queda sin cobertura, y ninguna versión simultáneamente visible de la misma regla está en desacuerdo. **Jamás infiere permisos de la ausencia de datos.** Una entrada malformada produce `UNDETERMINED` normalizado, nunca un traceback.
 
@@ -40,7 +40,7 @@ python -m alraso replay  --db ordesa.db --new-knowledge 2028-01-01             #
 | Zona | Estado | Detalle |
 |---|---|---|
 | Góriz (ZUM, PN Ordesa) | VERIFIED (geometría) / RULE BLOCKED | geometría oficial identity-proven (IoU `0.999844`, Hausdorff `0,005 m`); regla NO publicable (trigger vivo no verificable) → determinación UNDETERMINED |
-| Picos de Europa | PARTIAL | 3 decretos autonómicos (BOCyL D 17/2025, BOPA D 21/2026, BOC D 57/2026) con regla art. 51 por CCAA; fixtures Phase B cargados; frontera CCAA por IGN/CNIG BDDAE/INSPIRE con guard de 100 m (incertidumbre oficial ~40 m); GISCO retirado del runtime; PARTIAL: excepciones del art. 51 no codificadas (vivac en pared, invierno en Vega La Sotin, tiendas por meteorología adversa) |
+| Picos de Europa | PARTIAL | 3 decretos autonómicos (BOCyL D 17/2025, BOPA D 21/2026, BOC D 57/2026) con regla art. 51 por CCAA; fixtures Phase B cargados; frontera CCAA por IGN/CNIG BDDAE/INSPIRE con guard de 100 m (incertidumbre oficial ~40 m); GISCO retirado del runtime; PARTIAL: excepciones del art. 51 no codificadas (vivac en pared, invierno en Vega La Sotin, tiendas por meteorología adversa). Existen casos interiores que actualmente resuelven PERMITTED bajo los hechos codificados —por ejemplo un caso interior de Cantabria por encima de 1800 m—, pero la cobertura global permanece PARTIAL porque existen excepciones del art. 51 todavía no modeladas |
 | Ordesa (resto) | PARTIAL | fixture M1 cargado, geometría de sectores pendiente (SPATIAL_REVIEW_PENDING_GEOMETRY) |
 | Resto del mapa | UNKNOWN | "no sabemos; eso no es una prohibición" |
 
@@ -50,13 +50,15 @@ python -m alraso replay  --db ordesa.db --new-knowledge 2028-01-01             #
   (review_status=REVIEW_REQUIRED) mientras el trigger vivo (aforo del refugio) no sea verificable
 - `GÓRIZ_USER_RESULT=UNDETERMINED` — con o sin hechos aportados por el caller, nunca PERMITTED
 
-**No implementado / diferido** (NO son carencias de diseño, son próximos hitos):
+**Estado de capacidades complementarias** (NO son carencias de diseño; los diferidos son próximos hitos):
 
 | Capacidad | Estatus |
 |---|---|
 | PostgreSQL / PostGIS como almacén normativo | `NOT_IMPLEMENTED` (DDL de referencia en `schema.py`, sin verificación funcional) |
 | Axiom adapter | `EXPERIMENTAL_ADAPTER` — solo reglas simples sin condición; `AXIOM_PARITY=NOT_PROVEN` |
-| Routing / GPX / offline | `DEFERRED` (no existe) |
+| PWA instalable + resiliencia offline de recursos ya visitados | `IMPLEMENTADO` (M5) |
+| Preparación/descarga de área offline | `DEFERRED` (bloqueado por permiso del proveedor de tiles o estrategia self-host/PMTiles) |
+| Routing / GPX | `DEFERRED` (no existe) |
 
 ## Arquitectura
 
@@ -91,17 +93,17 @@ webapp/
 
 ```powershell
 python -m pytest -q
-# 580 passed / 8 skipped hoy; la suite es hermética (sin red ni motor externo)
+# la suite es hermética (sin red ni motor externo); el recuento crece con cada hito
 ```
 
 Perfiles de la suite:
 
 | Perfil | Instalado | Resultado |
 |---|---|---|
-| `audit` (auditoría) | `pytest` + extra opcional `alraso[axiom]` (PyYAML), **sin** binario Axiom | 580 passed, 8 skipped |
+| `audit` (auditoría) | `pytest` + extra opcional `alraso[axiom]` (PyYAML), **sin** binario Axiom | ver CI (GitHub Actions) |
 | `stdlib-only` | solo `pytest` | un subconjunto corre; el resto se salta con motivo explícito (los números exactos son los de CI) |
 
-el número crece con cada hito; CI es la referencia.
+La suite crece con cada hito; GitHub Actions/CI es la fuente de verdad para el recuento actual.
 
 CI ejecuta 7 gates y 1 job de lint (pre-commit: JSON/esquemas/EOF/whitespace + actionlint + lychee no bloqueante).
 
