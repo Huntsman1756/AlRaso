@@ -260,6 +260,11 @@ footer { display:flex; flex-wrap:wrap; gap:6px 18px; padding:6px 16px; border-to
   .chooser-dialog { max-width:100%; border-radius:16px 16px 0 0; }
 }
 
+/* ── M5: CONNECTIVITY BANNER (two signals, never conflated) ── */
+.conn-banner { position:fixed; top:0; left:0; right:0; z-index:950; padding:8px 14px; font-size:13px; text-align:center; color:#fff; }
+.conn-banner.offline { background:#92400e; }
+.conn-banner.api-down { background:#7f1d1d; }
+
 /* ── REDUCED MOTION ── */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
