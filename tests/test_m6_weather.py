@@ -125,6 +125,80 @@ class TestChronologicalPeriods:
         assert "wind_speed_10m_max" not in current_slice
 
 
+# ─────────────────────────────────────────────
+# P1 REGRESSIONS — review 2026-09-09 (HEAD b62ff4b)
+# ─────────────────────────────────────────────
+
+class TestP1_1_HoyOnlyCurrentLocalDay:
+    """Fixture A: today modest, tomorrow/day-after deliberately larger.
+
+    'Hoy' must consume ONLY the daily index of the current local day:
+    aggregating the whole daily.* arrays would present tomorrow's extremes
+    as today's."""
+
+    def _hoy_slice(self):
+        start = APP.find("var daily = data.daily")
+        end = APP.find("var periods = computeWeatherPeriods", start)
+        assert 0 < start < end
+        return APP[start:end]
+
+    def test_current_local_day_located_by_index(self):
+        slice_ = self._hoy_slice()
+        # index lookup over daily.time, keyed by the location's local date
+        # (utc_offset_seconds), never the browser timezone
+        assert "(daily.time || []).indexOf(localNow(data).slice(0, 10))" in slice_
+
+    def test_no_whole_array_daily_aggregation(self):
+        slice_ = self._hoy_slice()
+        for banned in ("minOf(daily.", "maxOf(daily."):
+            assert banned not in slice_, \
+                f"{banned} aggregates the 3 forecast days into 'Hoy'"
+
+    def test_daily_arrays_indexed_by_current_day(self):
+        slice_ = self._hoy_slice()
+        for arr in ("temperature_2m_min", "temperature_2m_max",
+                    "precipitation_probability_max"):
+            assert f"(daily.{arr} || [])[di]" in slice_, arr
+
+    def test_absent_day_is_honest_dash_not_neighbour_values(self):
+        # di < 0 (current day missing from daily.time) must yield null -> "–",
+        # never a neighbouring day's values
+        slice_ = self._hoy_slice()
+        assert slice_.count("di >= 0 ?") == 3
+
+
+class TestP1_2_CurrentSlotExcludesPastHours:
+    """Fixture B: an already-elapsed hour with high rain/wind, future hours
+    low. The current slot must never absorb past hours: at 17:30 the 12-18
+    bucket may only contain hours after 17:30 (before the fix, the whole
+    12:00-16:00 range leaked into 'Próximas 24 h')."""
+
+    def _periods_body(self):
+        start = APP.find("function computeWeatherPeriods(")
+        return APP[start:APP.find("\nfunction ", start + 10)]
+
+    def test_past_hour_guard_present(self):
+        assert "if (t <= nowLocal) continue;" in self._periods_body()
+
+    def test_guard_runs_before_hour_accumulation(self):
+        body = self._periods_body()
+        guard = body.find("if (t <= nowLocal) continue;")
+        acc = body.find("buckets[key].temps.push")
+        assert 0 <= guard < acc, "past-hour guard must run before accumulation"
+
+    def test_bucket_created_only_from_surviving_hours(self):
+        # the guard 'continue's per hour, before the bucket key exists: an
+        # hour whose slot is current-but-past can never open a bucket
+        body = self._periods_body()
+        guard = body.find("if (t <= nowLocal) continue;")
+        key = body.find("var key = bDate")
+        assert 0 <= guard < key
+
+    def test_elapsed_bucket_skip_kept(self):
+        # fully elapsed buckets are still skipped wholesale
+        assert "if (bEnd <= nowLocal) continue;" in self._periods_body()
+
+
 class TestServiceWorkerUntouched:
     def test_sw_has_no_open_meteo_rule(self):
         assert "open-meteo" not in SW, \

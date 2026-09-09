@@ -1475,6 +1475,12 @@ function prevDayStr(dateStr) {
   var d = new Date(dateStr + "T00:00Z"); d.setUTCDate(d.getUTCDate() - 1);
   return d.toISOString().slice(0, 10);
 }
+// Current local instant at the location ("YYYY-MM-DDTHH:MM"), string-based
+// on utc_offset_seconds - never the browser clock.
+function localNow(data) {
+  var off = (data.utc_offset_seconds || 0) * 1000;
+  return new Date(Date.now() + off).toISOString().slice(0, 16);
+}
 
 // Three following chronological LOCAL periods (06-12, 12-18, 18-06),
 // skipping elapsed ones; day shown when the date changes. All time math is
@@ -1483,8 +1489,7 @@ function computeWeatherPeriods(data) {
   var hourly = data.hourly || {};
   var times = hourly.time || [];
   if (!times.length) return [];
-  var off = (data.utc_offset_seconds || 0) * 1000;
-  var nowLocal = new Date(Date.now() + off).toISOString().slice(0, 16);
+  var nowLocal = localNow(data);
   var buckets = {}, order = [];
   for (var i = 0; i < times.length; i++) {
     var t = times[i];
@@ -1499,6 +1504,7 @@ function computeWeatherPeriods(data) {
     } else {
       bDate = prevDayStr(date); bIdx = 2; bStart = bDate + "T18:00"; bEnd = date + "T06:00";
     }
+    if (t <= nowLocal) continue; // past hour: must never enter the current slot
     if (bEnd <= nowLocal) continue; // fully elapsed: skip
     var key = bDate + "#" + bIdx;
     if (!buckets[key]) {
@@ -1551,11 +1557,17 @@ function renderWeather(block, lat, lon, data) {
   block.appendChild(now);
 
   var daily = data.daily || {};
+  // "Hoy" consumes ONLY the daily index of the current local day: aggregating
+  // the whole daily.* arrays would present tomorrow's extremes as today's.
+  var di = (daily.time || []).indexOf(localNow(data).slice(0, 10));
+  var dailyMin = di >= 0 ? (daily.temperature_2m_min || [])[di] : null;
+  var dailyMax = di >= 0 ? (daily.temperature_2m_max || [])[di] : null;
+  var dailyProb = di >= 0 ? (daily.precipitation_probability_max || [])[di] : null;
   var today = document.createElement("p");
   today.className = "weather-line";
-  today.textContent = "Hoy: " + fmtTemp(minOf(daily.temperature_2m_min)) +
-    " / " + fmtTemp(maxOf(daily.temperature_2m_max)) +
-    " · lluvia " + fmtProb(maxOf(daily.precipitation_probability_max));
+  today.textContent = "Hoy: " + fmtTemp(dailyMin) +
+    " / " + fmtTemp(dailyMax) +
+    " · lluvia " + fmtProb(dailyProb);
   block.appendChild(today);
 
   var periods = computeWeatherPeriods(data);
