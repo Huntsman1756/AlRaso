@@ -593,6 +593,7 @@ function openChooser() {
         sel.appendChild(opt);
       });
       sel.style.display = "";
+      sel.parentElement.style.display = "";
       // Initialize visibility from current select value (default is "__new__")
       if (sel.value === "__new__") {
         $("chooser-new").hidden = false;

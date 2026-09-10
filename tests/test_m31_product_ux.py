@@ -628,3 +628,34 @@ class TestM4ProductUsability:
         assert "min-height:40px" not in CSS
         # The closed-state strip exposes exactly the handle: 44px strip.
         assert "calc(100% - 44px)" in CSS
+
+    def test_p1_5_chooser_reopens_existing_outings_dropdown(self):
+        # Reproduced P1: the no-outings branch hides the "Elige una salida"
+        # <label> with sel.parentElement.style.display = "none". The outings-exist
+        # branch must restore that parent label, or a second open (once planned
+        # outings exist) renders the dropdown invisible and a place can never be
+        # added to an EXISTING outing through the UI.
+        start = JS.find("function openChooser")
+        end = JS.find("function closeChooser")
+        assert start != -1 and end != -1 and start < end
+        block = JS[start:end]
+
+        # The parent-hide must live ONLY in the outings.length === 0 branch.
+        guard = block.find("if (outings.length === 0)")
+        else_at = block.find("} else {", guard)
+        assert guard != -1 and else_at != -1 and guard < else_at
+        no_outings_branch = block[guard:else_at]
+        outings_exist_branch = block[else_at:]
+        assert 'sel.parentElement.style.display = "none"' in no_outings_branch
+        assert 'sel.parentElement.style.display = "none"' not in outings_exist_branch
+        assert block.count('sel.parentElement.style.display = "none"') == 1
+
+        # The outings-exist branch restores the parent label right after the
+        # select itself, so reopening after creating the first outing works.
+        lines = [ln.strip() for ln in outings_exist_branch.splitlines()]
+        idxs = [i for i, ln in enumerate(lines) if ln == 'sel.style.display = "";']
+        assert idxs, "outings-exist branch must reset sel.style.display"
+        for i in idxs:
+            assert i + 1 < len(lines), "nothing follows the sel.style.display reset"
+            assert lines[i + 1] == 'sel.parentElement.style.display = "";', \
+                "outings-exist branch must also restore the parent <label> visibility"
