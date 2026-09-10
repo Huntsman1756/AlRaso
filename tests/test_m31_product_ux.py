@@ -659,3 +659,25 @@ class TestM4ProductUsability:
             assert i + 1 < len(lines), "nothing follows the sel.style.display reset"
             assert lines[i + 1] == 'sel.parentElement.style.display = "";', \
                 "outings-exist branch must also restore the parent <label> visibility"
+
+    def test_p1_6_resolve_stale_response_guard(self):
+        # Reproduced P1: rapid fact changes fire overlapping /api/resolve fetches.
+        # Without a monotonic request-generation guard the LAST-ARRIVING response
+        # wins the render even when it does NOT match the current form state, so an
+        # earlier facts-incomplete response could overwrite PERMITTED with
+        # UNDETERMINED. refresh() must mirror the established loadWeather guard.
+        assert "var resolveRequestId = 0;" in JS
+
+        start = JS.find("async function refresh")
+        end = JS.find('$("date").valueAsDate', start)
+        assert start != -1 and end != -1 and start < end
+        block = JS[start:end]
+
+        # The generation is bumped and captured before the fetch is issued...
+        assert "resolveRequestId += 1;" in block
+        assert "var myId = resolveRequestId;" in block
+        # ...and a stale response is discarded BEFORE the card renders.
+        guard = block.find("if (myId !== resolveRequestId) return;")
+        render_at = block.find("render(d);")
+        assert guard != -1 and render_at != -1 and guard < render_at, \
+            "refresh() must discard stale resolve responses before rendering"
