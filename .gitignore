@@ -31,11 +31,6 @@ tooling/_tmp_boundary_gate_comparison.json
 
 # Prepared DEM tile (auto-elevation); never commit the raster
 webapp/data/dem/
-# Orca kit: generated entries
-
-.orca-local/
-
-.orca-tools/
 
 .opencode/node_modules/
 
