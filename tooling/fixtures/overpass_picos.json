@@ -1,0 +1,566 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-09-11T05:52:57Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 695488238,
+  "lat": 43.0845286,
+  "lon": -4.8271952,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Cabaña"
+  }
+},
+{
+  "type": "node",
+  "id": 695871037,
+  "lat": 43.1073147,
+  "lon": -4.9407882,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Chozo de Cable",
+    "shelter_type": "basic_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 695872076,
+  "lat": 43.1133684,
+  "lon": -4.9179513,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Chozo de Montó",
+    "shelter_type": "basic_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 697284669,
+  "lat": 43.0880772,
+  "lon": -4.9730446,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Invernal"
+  }
+},
+{
+  "type": "node",
+  "id": 698512560,
+  "lat": 43.1210560,
+  "lon": -5.0652046,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Invernal"
+  }
+},
+{
+  "type": "node",
+  "id": 698796073,
+  "lat": 43.0433693,
+  "lon": -5.0539045,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Cabaña"
+  }
+},
+{
+  "type": "node",
+  "id": 698806323,
+  "lat": 43.0699550,
+  "lon": -5.0870206,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Cabaña",
+    "shelter_type": "basic_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 698806677,
+  "lat": 43.0916486,
+  "lon": -5.0902791,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Cabaña"
+  }
+},
+{
+  "type": "node",
+  "id": 699803617,
+  "lat": 43.0740271,
+  "lon": -5.1518589,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Cabaña"
+  }
+},
+{
+  "type": "node",
+  "id": 719578294,
+  "lat": 43.2101940,
+  "lon": -4.9322766,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Invernales de Mesones",
+    "tourism": "wilderness_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 719609088,
+  "lat": 43.1633991,
+  "lon": -4.9246625,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Chozo de Pantivalles",
+    "shelter_type": "basic_hut",
+    "tourism": "wilderness_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 2679070133,
+  "lat": 43.0582235,
+  "lon": -4.7926045,
+  "tags": {
+    "name": "Chozo pastores",
+    "tourism": "wilderness_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 3999381008,
+  "lat": 43.0209738,
+  "lon": -4.7873935,
+  "tags": {
+    "name": "Casa del Pleito",
+    "tourism": "alpine_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 3999393377,
+  "lat": 43.0270564,
+  "lon": -4.8089209,
+  "tags": {
+    "name": "Refugio del Pico de la Calar",
+    "tourism": "alpine_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 4297151948,
+  "lat": 43.1374945,
+  "lon": -4.4895629,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Choza de Pando"
+  }
+},
+{
+  "type": "node",
+  "id": 4548821411,
+  "lat": 43.0252773,
+  "lon": -5.2117498,
+  "tags": {
+    "amenity": "shelter"
+  }
+},
+{
+  "type": "node",
+  "id": 5632372722,
+  "lat": 43.2441413,
+  "lon": -4.8893746,
+  "tags": {
+    "amenity": "shelter",
+    "shelter_type": "basic_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 5901631394,
+  "lat": 43.2536043,
+  "lon": -4.8488112,
+  "tags": {
+    "amenity": "shelter",
+    "shelter_type": "basic_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 7001365157,
+  "lat": 43.2938655,
+  "lon": -4.8343585,
+  "tags": {
+    "amenity": "shelter",
+    "bench": "yes",
+    "bin": "no",
+    "source": "survey",
+    "survey:date": "2022-08-13"
+  }
+},
+{
+  "type": "node",
+  "id": 7242685582,
+  "lat": 43.1297521,
+  "lon": -4.8069462,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Refugio Pidio",
+    "shelter_type": "basic_hut",
+    "source": "Instituto Geográfico Nacional"
+  }
+},
+{
+  "type": "node",
+  "id": 7412170470,
+  "lat": 43.0078494,
+  "lon": -5.1138014,
+  "tags": {
+    "tourism": "wilderness_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 7651799342,
+  "lat": 43.0700595,
+  "lon": -5.2099282,
+  "tags": {
+    "tourism": "wilderness_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 8485266422,
+  "lat": 43.2357658,
+  "lon": -4.5792830,
+  "tags": {
+    "amenity": "shelter",
+    "description": "Refugio de pescadores"
+  }
+},
+{
+  "type": "node",
+  "id": 9632907518,
+  "lat": 43.0147438,
+  "lon": -4.7307303,
+  "tags": {
+    "amenity": "shelter",
+    "bench": "no",
+    "bin": "no",
+    "name": "Vivac",
+    "shelter_type": "rock_shelter"
+  }
+},
+{
+  "type": "node",
+  "id": 10742987405,
+  "lat": 43.2212762,
+  "lon": -5.1544709,
+  "tags": {
+    "amenity": "shelter"
+  }
+},
+{
+  "type": "node",
+  "id": 11111120231,
+  "lat": 43.1507328,
+  "lon": -4.9853787,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Chozo de Dobres"
+  }
+},
+{
+  "type": "node",
+  "id": 11132722102,
+  "lat": 43.0468656,
+  "lon": -4.6568394,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Cobertizo",
+    "opening_hours": "24/7"
+  }
+},
+{
+  "type": "node",
+  "id": 11850733088,
+  "lat": 43.1796294,
+  "lon": -4.7999169,
+  "tags": {
+    "amenity": "shelter"
+  }
+},
+{
+  "type": "node",
+  "id": 12120014839,
+  "lat": 43.2133752,
+  "lon": -4.9820776,
+  "tags": {
+    "capacity:tents": "4",
+    "tents": "yes",
+    "tourism": "camp_site"
+  }
+},
+{
+  "type": "node",
+  "id": 12120629509,
+  "lat": 43.1762640,
+  "lon": -4.8349088,
+  "tags": {
+    "capacity:tents": "3",
+    "tents": "yes",
+    "tourism": "camp_site"
+  }
+},
+{
+  "type": "node",
+  "id": 12120629510,
+  "lat": 43.1803559,
+  "lon": -4.8337600,
+  "tags": {
+    "backcountry": "yes",
+    "capacity:tents": "1",
+    "tents": "yes",
+    "tourism": "camp_site"
+  }
+},
+{
+  "type": "node",
+  "id": 12156350440,
+  "lat": 43.0053864,
+  "lon": -4.5965796,
+  "tags": {
+    "access": "private",
+    "name": "Chozo de Tañuga",
+    "tourism": "wilderness_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 12156350441,
+  "lat": 43.0056688,
+  "lon": -4.6067045,
+  "tags": {
+    "name": "Casa de Cortés",
+    "tourism": "wilderness_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 12156350442,
+  "lat": 43.0098935,
+  "lon": -4.6138209,
+  "tags": {
+    "access": "private",
+    "name": "Refugio Arroyo de Lezna",
+    "tourism": "wilderness_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 12240970132,
+  "lat": 43.2549847,
+  "lon": -4.6394936,
+  "tags": {
+    "amenity": "shelter",
+    "shelter_type": "basic_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 12250949993,
+  "lat": 43.0095347,
+  "lon": -4.7170215,
+  "tags": {
+    "fireplace": "yes",
+    "name": "Refugio de Majada de Fuentes Carrionas",
+    "tourism": "wilderness_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 12779055201,
+  "lat": 43.3286081,
+  "lon": -4.9038527,
+  "tags": {
+    "amenity": "shelter"
+  }
+},
+{
+  "type": "node",
+  "id": 13123005301,
+  "lat": 43.1770935,
+  "lon": -4.7657068,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Refugio para ganaderos",
+    "name:en": "Shepherd's shelter"
+  }
+},
+{
+  "type": "node",
+  "id": 13430465102,
+  "lat": 43.0997881,
+  "lon": -4.4362248,
+  "tags": {
+    "amenity": "shelter"
+  }
+},
+{
+  "type": "node",
+  "id": 13430465103,
+  "lat": 43.0847697,
+  "lon": -4.4602046,
+  "tags": {
+    "amenity": "shelter"
+  }
+},
+{
+  "type": "node",
+  "id": 13430465105,
+  "lat": 43.0759717,
+  "lon": -4.5086769,
+  "tags": {
+    "amenity": "shelter"
+  }
+},
+{
+  "type": "node",
+  "id": 13476352007,
+  "lat": 43.1235501,
+  "lon": -4.8669662,
+  "tags": {
+    "amenity": "shelter"
+  }
+},
+{
+  "type": "node",
+  "id": 13655073752,
+  "lat": 43.2538222,
+  "lon": -4.8377216,
+  "tags": {
+    "amenity": "shelter",
+    "shelter_type": "weather_shelter"
+  }
+},
+{
+  "type": "node",
+  "id": 13860537212,
+  "lat": 43.3950298,
+  "lon": -4.7722065,
+  "tags": {
+    "addr:postcode": "33509",
+    "addr:street": "Cuesta del caballo",
+    "name": "Serendipia",
+    "opening_hours": "24/7",
+    "tourism": "camp_site"
+  }
+},
+{
+  "type": "node",
+  "id": 14014082102,
+  "lat": 43.1213124,
+  "lon": -4.5682027,
+  "tags": {
+    "addr:postcode": "39571",
+    "addr:street": "Puente Asnil",
+    "check_date": "2026-07-14",
+    "contact:facebook": "Campingdeliebana",
+    "contact:instagram": "campingliebana",
+    "email": "info@campingliebana.es",
+    "internet_access": "wlan",
+    "name": "Camping Liébana",
+    "phone": "+34 634 49 50 42",
+    "tourism": "camp_site",
+    "website": "https://www.campingliebana.es"
+  }
+},
+{
+  "type": "node",
+  "id": 14098978663,
+  "lat": 43.2431136,
+  "lon": -4.9233702,
+  "tags": {
+    "tourism": "camp_site"
+  }
+},
+{
+  "type": "node",
+  "id": 14121221672,
+  "lat": 43.2135643,
+  "lon": -4.8129620,
+  "tags": {
+    "backcountry": "yes",
+    "name": "Emergency tent place",
+    "tourism": "camp_site"
+  }
+},
+{
+  "type": "node",
+  "id": 14121221681,
+  "lat": 43.1949458,
+  "lon": -4.8279550,
+  "tags": {
+    "backcountry": "yes",
+    "name": "Emergency spot for 1 tent",
+    "tourism": "camp_site"
+  }
+},
+{
+  "type": "node",
+  "id": 14121221682,
+  "lat": 43.1805020,
+  "lon": -4.8327663,
+  "tags": {
+    "backcountry": "yes",
+    "capacity:caravans": "1",
+    "tents": "yes",
+    "tourism": "camp_site"
+  }
+},
+{
+  "type": "node",
+  "id": 14121221683,
+  "lat": 43.1801370,
+  "lon": -4.8338236,
+  "tags": {
+    "backcountry": "yes",
+    "capacity:tents": "1",
+    "tents": "yes",
+    "tourism": "camp_site"
+  }
+},
+{
+  "type": "node",
+  "id": 14121221684,
+  "lat": 43.1805438,
+  "lon": -4.8355521,
+  "tags": {
+    "backcountry": "yes",
+    "capacity:tents": "1",
+    "tents": "yes",
+    "tourism": "camp_site"
+  }
+},
+{
+  "type": "node",
+  "id": 14121221686,
+  "lat": 43.1776021,
+  "lon": -4.8336227,
+  "tags": {
+    "backcountry": "yes",
+    "capacity:tents": "2",
+    "tents": "yes",
+    "tourism": "camp_site"
+  }
+}
+
+  ]
+}

@@ -1,0 +1,36 @@
+[
+  {
+    "id": "poi-pn-ordesa",
+    "name": "Parque Nacional de Ordesa y Monte Perdido",
+    "category": "protected_area",
+    "lat": 42.6096173,
+    "lon": 0.0229996,
+    "alt_m": null,
+    "source": "openstreetmap",
+    "source_label": "OSM",
+    "source_ref": "relation/10036292",
+    "source_license": "ODbL-1.0",
+    "snapshot_date": "2026-09-11",
+    "attribution": "© OpenStreetMap contributors",
+    "osm_url": "https://www.openstreetmap.org/relation/10036292",
+    "note": "Referencia cartográfica de OpenStreetMap (centroide de la relación). No determina el ámbito jurídico utilizado por AlRaso: que exista un espacio protegido no significa prohibición automática.",
+    "region": "ordesa"
+  },
+  {
+    "id": "poi-pn-picos",
+    "name": "Parque Nacional de Picos de Europa",
+    "category": "protected_area",
+    "lat": 43.1951272,
+    "lon": -4.8682636,
+    "alt_m": null,
+    "source": "openstreetmap",
+    "source_label": "OSM",
+    "source_ref": "relation/2401595",
+    "source_license": "ODbL-1.0",
+    "snapshot_date": "2026-09-11",
+    "attribution": "© OpenStreetMap contributors",
+    "osm_url": "https://www.openstreetmap.org/relation/2401595",
+    "note": "Referencia cartográfica de OpenStreetMap (centroide de la relación). No determina el ámbito jurídico utilizado por AlRaso: que exista un espacio protegido no significa prohibición automática.",
+    "region": "picos"
+  }
+]

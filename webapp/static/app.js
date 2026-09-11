@@ -255,11 +255,26 @@ function renderPoi(p) {
   if (p.source_label) parts.push(`fuente: ${p.source_label}`);
   $("poi-meta").textContent = parts.join(" · ");
   $("poi-note").textContent = p.note || "";
-  const box = $("poi-srcbox"), link = $("poi-src");
-  if (p.osm_url) {
-    link.href = p.osm_url; link.textContent = p.osm_url; box.style.display = "";
-  } else {
-    box.style.display = "none";
+  // CTA: wire the legal button with POI coordinates only.
+  const ctaBtn = $("poi-legal-btn");
+  if (ctaBtn) {
+    ctaBtn.disabled = false;
+    ctaBtn.setAttribute("data-lat", String(p.lat));
+    ctaBtn.setAttribute("data-lon", String(p.lon));
+  }
+  // Provenance disclosure: source label, snapshot date, attribution (and OSM URL if available).
+  const box = $("poi-srcbox"), details = $("poi-src-details");
+  if (details) {
+    let html = "";
+    if (p.osm_url) {
+      html += `<div><a href="${esc(p.osm_url)}" target="_blank" rel="noopener">${esc(p.osm_url)}</a></div>`;
+    }
+    if (p.source_label) html += `<div><span class="src-label">Fuente: </span>${esc(p.source_label)}</div>`;
+    if (p.snapshot_date) html += `<div><span class="src-label">Fecha de instantánea: </span>${esc(p.snapshot_date)}</div>`;
+    if (p.attribution) html += `<div><span class="src-label">Atribución: </span>${esc(p.attribution)}</div>`;
+    if (p.source_license) html += `<div><span class="src-label">Licencia: </span>${esc(p.source_license)}</div>`;
+    details.innerHTML = html;
+    box.style.display = "";
   }
   state.poiCategory = p.category;
   state.poiAlt = p.alt_m || null;
@@ -673,6 +688,19 @@ $("center-btn").addEventListener("click", function () {
 });
 
 // ─────────────────────────────────────────────
+// POI LEGAL CTA — reuse existing selectPoint/refresh (coordinates only)
+// ─────────────────────────────────────────────
+var poiLegalBtn = $("poi-legal-btn");
+if (poiLegalBtn) {
+  poiLegalBtn.addEventListener("click", function () {
+    var lat = parseFloat(poiLegalBtn.getAttribute("data-lat"));
+    var lon = parseFloat(poiLegalBtn.getAttribute("data-lon"));
+    if (isNaN(lat) || isNaN(lon)) return;
+    selectPoint(lat, lon, state.selectedName, true);
+  });
+}
+
+// ─────────────────────────────────────────────
 // SEARCH
 // ─────────────────────────────────────────────
 // ─────────────────────────────────────────────
@@ -923,14 +951,11 @@ function render(d) {
   var actLabel = ACT_LABELS[d.query.activity] || d.query.activity;
   $("coords").textContent = state.lat.toFixed(5) + ", " + state.lon.toFixed(5) + " · " + actLabel + " · " + d.query.activity_date;
 
-  // Altitude: prefer dem.value_m, fall back to poi alt
+  // Altitude: only from dem.value_m (POI altitude stays in the POI card only).
   var altLine = $("altitude-line");
   if (d.dem && typeof d.dem.value_m === "number") {
     altLine.hidden = false;
     altLine.textContent = "Altitud: " + d.dem.value_m + " m · Fuente: " + esc(d.dem.source || "");
-  } else if (state.poiAlt != null) {
-    altLine.hidden = false;
-    altLine.textContent = "Altitud: " + state.poiAlt + " m (observación OSM)";
   } else {
     altLine.hidden = true;
     altLine.textContent = "";

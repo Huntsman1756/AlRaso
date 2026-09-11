@@ -1,0 +1,1317 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-09-11T05:52:57Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 295783147,
+  "lat": 42.8388545,
+  "lon": 0.1436533,
+  "tags": {
+    "access": "yes",
+    "backcountry": "yes",
+    "camp_site": "basic",
+    "caravans": "no",
+    "description": "Chiens, feux, déchets interdits",
+    "dog": "no",
+    "fee": "no",
+    "name": "Zone de Bivouac d'Aubert",
+    "opening_hours": "Mo-Su 19:00-09:00",
+    "static_caravans": "no",
+    "tents": "yes",
+    "tourism": "camp_site",
+    "website": "https://www.pyrenees-parcnational.fr/fr/des-decouvertes/sejourner-dans-le-parc-national/ou-dormir-en-montagne/bivouac"
+  }
+},
+{
+  "type": "node",
+  "id": 420330037,
+  "lat": 42.5740470,
+  "lon": 0.0167926,
+  "tags": {
+    "amenity": "drinking_water",
+    "fee": "no",
+    "fountain": "water_tap",
+    "opening_hours": "24/7",
+    "panoramax": "9eb9c711-6723-4b9b-9b17-3b37252ded9b"
+  }
+},
+{
+  "type": "node",
+  "id": 537786947,
+  "lat": 42.6278618,
+  "lon": -0.1100975,
+  "tags": {
+    "amenity": "drinking_water",
+    "check_date": "2022-07-25",
+    "fountain": "bubbler"
+  }
+},
+{
+  "type": "node",
+  "id": 633499249,
+  "lat": 42.8519137,
+  "lon": -0.1472555,
+  "tags": {
+    "ele": "1522",
+    "email": "contact@chaletduclot.fr",
+    "name": "Chalet du Clot",
+    "phone": "+33 9 70 02 39 32",
+    "ref:FR:pyrenees_refuges": "877",
+    "ref:refuges.info": "11008",
+    "tourism": "alpine_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 652132460,
+  "lat": 42.7486060,
+  "lon": -0.1526307,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Cabaña de Cerbillonar",
+    "ref:FR:pyrenees_refuges": "1272",
+    "tourism": "wilderness_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 660613459,
+  "lat": 42.6537896,
+  "lon": -0.1023532,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Caseta de Icona"
+  }
+},
+{
+  "type": "node",
+  "id": 779905117,
+  "lat": 42.7208091,
+  "lon": 0.1983573,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 892108411,
+  "lat": 42.6534440,
+  "lon": -0.0832357,
+  "tags": {
+    "amenity": "shelter",
+    "ele": "1250",
+    "name": "Refugio de Turieto",
+    "shelter_type": "weather_shelter"
+  }
+},
+{
+  "type": "node",
+  "id": 892500489,
+  "lat": 42.6766002,
+  "lon": 0.1180504,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 892738761,
+  "lat": 42.7507943,
+  "lon": 0.0874456,
+  "tags": {
+    "addr:city": "Gèdre, Gavarnie-Gèdre",
+    "addr:postcode": "65120",
+    "addr:street": "Hameau d'Héas",
+    "email": "contact@aubergedelamunia.com",
+    "fee": "no",
+    "name": "Auberge de la Munia",
+    "phone": "+33 5 62 92 48 39",
+    "reservation": "recommended",
+    "tourism": "alpine_hut",
+    "website": "https://aubergedelamunia.com/",
+    "wheelchair": "limited"
+  }
+},
+{
+  "type": "node",
+  "id": 963808654,
+  "lat": 42.7620857,
+  "lon": 0.0778499,
+  "tags": {
+    "amenity": "shelter",
+    "ele": "2031",
+    "name": "Cabane de Camplong"
+  }
+},
+{
+  "type": "node",
+  "id": 963808817,
+  "lat": 42.8876019,
+  "lon": -0.0915748,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Cabane du Lisey - Cauterets",
+    "note": "206"
+  }
+},
+{
+  "type": "node",
+  "id": 963809902,
+  "lat": 42.8468820,
+  "lon": -0.0960230,
+  "tags": {
+    "name": "Cabane Fruitiere - cauterets",
+    "note": "453",
+    "tourism": "wilderness_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 963809915,
+  "lat": 42.8336950,
+  "lon": -0.2565750,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Toue Casterie - val d azun",
+    "note": "330"
+  }
+},
+{
+  "type": "node",
+  "id": 963809956,
+  "lat": 42.8365380,
+  "lon": -0.0292936,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Cabane d Estarous",
+    "ref:FR:pyrenees_refuges": "134",
+    "shelter_type": "basic_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 963810439,
+  "lat": 42.7890641,
+  "lon": -0.2211425,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Refugio de Bachimaña Alto",
+    "name:ca": "Refugi de Bachimaña Alt",
+    "name:es": "Refugio de Bachimaña Alto",
+    "note": "874",
+    "wikidata": "Q38577472",
+    "wikipedia": "ca:Refugi de Bachimaña Alt"
+  }
+},
+{
+  "type": "node",
+  "id": 963810562,
+  "lat": 42.7859046,
+  "lon": 0.1447315,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Cabane de Moune",
+    "note": "730",
+    "ref:refuges.info": "8212"
+  }
+},
+{
+  "type": "node",
+  "id": 963810696,
+  "lat": 42.7356770,
+  "lon": 0.1132060,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Cabane des Aires",
+    "note": "456"
+  }
+},
+{
+  "type": "node",
+  "id": 963811050,
+  "lat": 42.8656720,
+  "lon": -0.2846398,
+  "tags": {
+    "amenity": "shelter",
+    "ele": "988",
+    "name": "Toue de Larribet",
+    "ref:FR:pyrenees_refuges": "988",
+    "ref:refuges.info": "8104",
+    "shelter_type": "basic_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 963811337,
+  "lat": 42.8376766,
+  "lon": -0.2968949,
+  "tags": {
+    "amenity": "shelter",
+    "ele": "2680",
+    "name": "Cueva André Michaud",
+    "name:es": "Cueva André Michaud",
+    "name:fr": "Abri André Michaud",
+    "note": "224",
+    "ref:refuges.info": "8374"
+  }
+},
+{
+  "type": "node",
+  "id": 963812350,
+  "lat": 42.8687472,
+  "lon": -0.2664677,
+  "tags": {
+    "amenity": "shelter",
+    "ele": "1570",
+    "name": "Toue de Doumblas",
+    "ref:FR:pyrenees_refuges": "112",
+    "ref:refuges.info": "8103",
+    "shelter_type": "lean_to"
+  }
+},
+{
+  "type": "node",
+  "id": 963812486,
+  "lat": 42.8395705,
+  "lon": -0.0323221,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Cabane EDF de Badet",
+    "ref:FR:pyrenees_refuges": "1140",
+    "shelter_type": "basic_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 1103735422,
+  "lat": 42.7022571,
+  "lon": -0.0843931,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Cabaña de eléctricas"
+  }
+},
+{
+  "type": "node",
+  "id": 1103753935,
+  "lat": 42.6715827,
+  "lon": -0.0450560,
+  "tags": {
+    "amenity": "shelter",
+    "capacity": "4",
+    "shelter_type": "basic_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 1119386537,
+  "lat": 42.6395185,
+  "lon": -0.0321092,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 1141437874,
+  "lat": 42.8196267,
+  "lon": 0.1895414,
+  "tags": {
+    "access": "private",
+    "name": "Cabane d'Artigusse",
+    "ref:FR:pyrenees_refuges": "34",
+    "tourism": "wilderness_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 1141437893,
+  "lat": 42.8817103,
+  "lon": 0.1365676,
+  "tags": {
+    "amenity": "shelter",
+    "capacity": "2",
+    "description": "2013-06 : Abri extrêment simple dont les murs sont constitués de rochers, en parfaite harmonie avec son environnement, dans un chaos rocheux.",
+    "ele": "2000",
+    "fireplace": "no",
+    "name": "Cabane de la Pègue",
+    "ref:FR:pyrenees_refuges": "246",
+    "ref:refuges.info": "3530",
+    "shelter_type": "basic_hut",
+    "stove": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 1141437896,
+  "lat": 42.8666477,
+  "lon": 0.1889100,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Cabane de Port Bielh",
+    "note": "74"
+  }
+},
+{
+  "type": "node",
+  "id": 1141437931,
+  "lat": 42.8262549,
+  "lon": 0.1691922,
+  "tags": {
+    "capacity": "80",
+    "ele": "1870",
+    "email": "contact@chalet-hotel-oredon.fr",
+    "name": "Chalet - Hôtel Orédon",
+    "phone": "+33 6 38 25 96 42",
+    "ref:FR:pyrenees_refuges": "952",
+    "ref:refuges.info": "3539",
+    "tourism": "alpine_hut",
+    "website": "https://refuge-pyrenees-oredon.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 1141437950,
+  "lat": 42.8772192,
+  "lon": 0.1126951,
+  "tags": {
+    "capacity": "4",
+    "name": "Cabane dets Coubous",
+    "ref:FR:pyrenees_refuges": "108",
+    "ref:refuges.info": "8388",
+    "shelter_type": "basic_hut",
+    "tourism": "wilderness_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 1325473129,
+  "lat": 42.6144334,
+  "lon": -0.1528486,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 1325511015,
+  "lat": 42.6361780,
+  "lon": -0.0257259,
+  "tags": {
+    "amenity": "shelter"
+  }
+},
+{
+  "type": "node",
+  "id": 1325511052,
+  "lat": 42.6376789,
+  "lon": -0.0024273,
+  "tags": {
+    "access": "yes",
+    "amenity": "drinking_water",
+    "wheelchair": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 1325707845,
+  "lat": 42.7008873,
+  "lon": -0.1202606,
+  "tags": {
+    "amenity": "drinking_water",
+    "mapillary": "139907778579601",
+    "name": "Fuente de la Femalla"
+  }
+},
+{
+  "type": "node",
+  "id": 1325801391,
+  "lat": 42.5697102,
+  "lon": 0.0239439,
+  "tags": {
+    "amenity": "drinking_water",
+    "name": "Fuen Canarellas"
+  }
+},
+{
+  "type": "node",
+  "id": 1336146682,
+  "lat": 42.5844267,
+  "lon": 0.1701355,
+  "tags": {
+    "tourism": "camp_site"
+  }
+},
+{
+  "type": "node",
+  "id": 1338243352,
+  "lat": 42.5790003,
+  "lon": 0.1803584,
+  "tags": {
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 1338275644,
+  "lat": 42.6661332,
+  "lon": 0.1036693,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 1338275665,
+  "lat": 42.6854822,
+  "lon": 0.0792100,
+  "tags": {
+    "drinking_water": "yes",
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 1338275676,
+  "lat": 42.6818355,
+  "lon": 0.0697598,
+  "tags": {
+    "drinking_water": "yes",
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 1522029510,
+  "lat": 42.5843829,
+  "lon": 0.0409025,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Cabana de Piedra"
+  }
+},
+{
+  "type": "node",
+  "id": 1522029599,
+  "lat": 42.5805821,
+  "lon": 0.0204471,
+  "tags": {
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 1746698468,
+  "lat": 42.7686039,
+  "lon": 0.1358295,
+  "tags": {
+    "amenity": "shelter"
+  }
+},
+{
+  "type": "node",
+  "id": 1769543349,
+  "lat": 42.8573377,
+  "lon": -0.2621014,
+  "tags": {
+    "amenity": "shelter",
+    "bench": "yes",
+    "capacity": "4",
+    "ele": "1752",
+    "locked": "no",
+    "name": "Toue de Labassa",
+    "ref:FR:pyrenees_refuges": "329",
+    "ref:refuges.info": "8106",
+    "shelter_type": "basic_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 1853099566,
+  "lat": 42.7618419,
+  "lon": -0.2198788,
+  "tags": {
+    "amenity": "shelter",
+    "description": "Caseta de obras 2024: With roof, without door nor windows"
+  }
+},
+{
+  "type": "node",
+  "id": 1901187366,
+  "lat": 42.7584661,
+  "lon": 0.0978487,
+  "tags": {
+    "name": "Oratoire de la Sainte-Famille",
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 2056554923,
+  "lat": 42.8849166,
+  "lon": -0.1112182,
+  "tags": {
+    "amenity": "drinking_water",
+    "check_date": "2024-03-09",
+    "fountain": "drinking"
+  }
+},
+{
+  "type": "node",
+  "id": 2097348773,
+  "lat": 42.5172079,
+  "lon": -0.2759032,
+  "tags": {
+    "designation": "Fuente de Santa Orosia",
+    "name": "Fuente de Santa Orosia",
+    "natural": "spring",
+    "source": "local_knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 2112920092,
+  "lat": 42.8412353,
+  "lon": 0.0195938,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Cabane de Bachebirou",
+    "ref:FR:pyrenees_refuges": "42",
+    "ref:refuges.info": "6245",
+    "shelter_type": "basic_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 2122386974,
+  "lat": 42.8322888,
+  "lon": 0.1734518,
+  "tags": {
+    "name": "Fontaine de l'Ermite",
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 2653960674,
+  "lat": 42.8889856,
+  "lon": -0.1142238,
+  "tags": {
+    "amenity": "drinking_water",
+    "check_date": "2022-12-07",
+    "man_made": "water_tap",
+    "source": "survey2014"
+  }
+},
+{
+  "type": "node",
+  "id": 2997681685,
+  "lat": 42.6167986,
+  "lon": 0.0461392,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Mallata Candon"
+  }
+},
+{
+  "type": "node",
+  "id": 2997681718,
+  "lat": 42.6149373,
+  "lon": 0.0335278,
+  "tags": {
+    "amenity": "shelter"
+  }
+},
+{
+  "type": "node",
+  "id": 2997742656,
+  "lat": 42.6164970,
+  "lon": 0.0216181,
+  "tags": {
+    "amenity": "shelter"
+  }
+},
+{
+  "type": "node",
+  "id": 3021881864,
+  "lat": 42.6109873,
+  "lon": -0.1415981,
+  "tags": {
+    "amenity": "drinking_water",
+    "source": "survey"
+  }
+},
+{
+  "type": "node",
+  "id": 3041561553,
+  "lat": 42.5957935,
+  "lon": 0.1295496,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 3052198929,
+  "lat": 42.6090193,
+  "lon": 0.0587690,
+  "tags": {
+    "amenity": "drinking_water",
+    "name": "Abrevadero"
+  }
+},
+{
+  "type": "node",
+  "id": 3608999482,
+  "lat": 42.7197843,
+  "lon": 0.0000534,
+  "tags": {
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 3622028293,
+  "lat": 42.7293607,
+  "lon": 0.0492705,
+  "tags": {
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 3658637187,
+  "lat": 42.7746377,
+  "lon": -0.1222532,
+  "tags": {
+    "amenity": "drinking_water",
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 3717039406,
+  "lat": 42.6002842,
+  "lon": -0.2890375,
+  "tags": {
+    "amenity": "drinking_water",
+    "check_date": "2025-07-30",
+    "man_made": "water_tap"
+  }
+},
+{
+  "type": "node",
+  "id": 3725124353,
+  "lat": 42.5970220,
+  "lon": -0.2960749,
+  "tags": {
+    "amenity": "drinking_water",
+    "name": "Fuente Pastiecho",
+    "source": "survey",
+    "start_date": "1995"
+  }
+},
+{
+  "type": "node",
+  "id": 3763876478,
+  "lat": 42.6730851,
+  "lon": -0.1733270,
+  "tags": {
+    "name": "Fuen d'o Carduso",
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 3816313684,
+  "lat": 42.5955114,
+  "lon": 0.0142190,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 3839746280,
+  "lat": 42.5988449,
+  "lon": 0.1457198,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 4004226223,
+  "lat": 42.7237045,
+  "lon": -0.2850115,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 4004226224,
+  "lat": 42.7236924,
+  "lon": -0.2864915,
+  "tags": {
+    "amenity": "drinking_water",
+    "check_date": "2025-05-05",
+    "man_made": "water_tap",
+    "name": "Fuente de la Cruz"
+  }
+},
+{
+  "type": "node",
+  "id": 4004244195,
+  "lat": 42.7243826,
+  "lon": -0.2837042,
+  "tags": {
+    "amenity": "drinking_water",
+    "check_date": "2024-05-14"
+  }
+},
+{
+  "type": "node",
+  "id": 4213648990,
+  "lat": 42.5062281,
+  "lon": -0.1283371,
+  "tags": {
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 4219290402,
+  "lat": 42.7240418,
+  "lon": -0.2834991,
+  "tags": {
+    "addr:city": "Panticosa",
+    "addr:postcode": "22661",
+    "addr:street": "Calle San Miguel",
+    "amenity": "drinking_water",
+    "name": "Fuente Iglesia"
+  }
+},
+{
+  "type": "node",
+  "id": 4230580020,
+  "lat": 42.5961271,
+  "lon": 0.0067190,
+  "tags": {
+    "name": "Fuente de la Sarteneta",
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 4230580021,
+  "lat": 42.6047159,
+  "lon": 0.0077655,
+  "tags": {
+    "name": "Fuente del Cuello",
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 4230955837,
+  "lat": 42.6474066,
+  "lon": 0.0598169,
+  "tags": {
+    "name": "Fuen Blanca",
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 4230962101,
+  "lat": 42.6268796,
+  "lon": 0.0598405,
+  "tags": {
+    "name": "Fuente de Foratiello o de Escuaín",
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 4230974876,
+  "lat": 42.6076706,
+  "lon": 0.0556078,
+  "tags": {
+    "name": "Fuente de Malla Basa",
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 4323318212,
+  "lat": 42.7645878,
+  "lon": 0.0498200,
+  "tags": {
+    "name": "bivouac",
+    "tourism": "camp_site"
+  }
+},
+{
+  "type": "node",
+  "id": 4372659804,
+  "lat": 42.6848117,
+  "lon": 0.0816076,
+  "tags": {
+    "drinking_water": "yes",
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 4375796911,
+  "lat": 42.6846788,
+  "lon": -0.0807689,
+  "tags": {
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 4397708980,
+  "lat": 42.8203676,
+  "lon": 0.0102085,
+  "tags": {
+    "amenity": "drinking_water",
+    "check_date": "2026-08-21",
+    "man_made": "water_tap"
+  }
+},
+{
+  "type": "node",
+  "id": 4426663042,
+  "lat": 42.7338631,
+  "lon": 0.1734751,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Abri de Port Vieux de Bielsa",
+    "ref:refuges.info": "8211"
+  }
+},
+{
+  "type": "node",
+  "id": 4504402467,
+  "lat": 42.7198119,
+  "lon": -0.2988503,
+  "tags": {
+    "amenity": "drinking_water",
+    "check_date": "2025-05-11",
+    "fountain": "bubbler"
+  }
+},
+{
+  "type": "node",
+  "id": 4533626093,
+  "lat": 42.7193373,
+  "lon": -0.2999292,
+  "tags": {
+    "amenity": "drinking_water",
+    "name": "Fuente Pozaleras",
+    "name:es": "Fuente Pozaleras"
+  }
+},
+{
+  "type": "node",
+  "id": 4644971510,
+  "lat": 42.6422604,
+  "lon": -0.2680681,
+  "tags": {
+    "bin": "no",
+    "name": "Refugio Los Sarrios",
+    "shelter_type": "weather_shelter",
+    "tourism": "wilderness_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 4648604918,
+  "lat": 42.8385853,
+  "lon": 0.0245315,
+  "tags": {
+    "amenity": "shelter",
+    "shelter_type": "basic_hut"
+  }
+},
+{
+  "type": "node",
+  "id": 4704545714,
+  "lat": 42.7192176,
+  "lon": -0.1361488,
+  "tags": {
+    "amenity": "shelter",
+    "name": "Refugio de Azurillo"
+  }
+},
+{
+  "type": "node",
+  "id": 4705874961,
+  "lat": 42.8518506,
+  "lon": -0.2978195,
+  "tags": {
+    "camp_site": "basic",
+    "description": "bivouac",
+    "name": "Bivouac",
+    "tourism": "camp_site"
+  }
+},
+{
+  "type": "node",
+  "id": 4779545976,
+  "lat": 42.8734827,
+  "lon": -0.0023970,
+  "tags": {
+    "amenity": "drinking_water",
+    "description": "Tap on East side of Tourist information office."
+  }
+},
+{
+  "type": "node",
+  "id": 4799007234,
+  "lat": 42.7835565,
+  "lon": 0.1589048,
+  "tags": {
+    "alt_name": "Salle hors-sac",
+    "amenity": "shelter",
+    "shelter_type": "picnic_shelter"
+  }
+},
+{
+  "type": "node",
+  "id": 4883777734,
+  "lat": 42.7232004,
+  "lon": -0.2892670,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 4897619487,
+  "lat": 42.7206019,
+  "lon": -0.2810543,
+  "tags": {
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 5026436822,
+  "lat": 42.8629357,
+  "lon": -0.0103579,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 5030594055,
+  "lat": 42.8275798,
+  "lon": 0.1689595,
+  "tags": {
+    "camp_site": "basic",
+    "description": "Chiens, feux, déchets interdits",
+    "name": "Zone de Bivouac du Lac d'Orédon",
+    "opening_hours": "Mo-Su 19:00-09:00",
+    "tourism": "camp_site"
+  }
+},
+{
+  "type": "node",
+  "id": 5030594056,
+  "lat": 42.8388486,
+  "lon": 0.1989112,
+  "tags": {
+    "camp_site": "basic",
+    "name": "Aire de bivouac de la Lude",
+    "tourism": "camp_site"
+  }
+},
+{
+  "type": "node",
+  "id": 5058855374,
+  "lat": 42.6270056,
+  "lon": -0.1120512,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 5058855700,
+  "lat": 42.6660014,
+  "lon": 0.0814052,
+  "tags": {
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 5076968801,
+  "lat": 42.5592596,
+  "lon": -0.2871085,
+  "tags": {
+    "name": "Fuente Berrina",
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 5077998602,
+  "lat": 42.5255403,
+  "lon": -0.2790470,
+  "tags": {
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 5077998603,
+  "lat": 42.5244761,
+  "lon": -0.2796068,
+  "tags": {
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 5078360069,
+  "lat": 42.6451581,
+  "lon": -0.1073224,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 5078360070,
+  "lat": 42.6488259,
+  "lon": -0.1366333,
+  "tags": {
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 5078360071,
+  "lat": 42.6509692,
+  "lon": -0.1357553,
+  "tags": {
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 5078634501,
+  "lat": 42.5082214,
+  "lon": -0.1786727,
+  "tags": {
+    "name": "Fuente Rematrices",
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 5110858023,
+  "lat": 42.7278313,
+  "lon": -0.2698180,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 5117018544,
+  "lat": 42.5475313,
+  "lon": 0.1323743,
+  "tags": {
+    "amenity": "drinking_water",
+    "drinking_water": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5124132133,
+  "lat": 42.5743232,
+  "lon": 0.1818758,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 5185591408,
+  "lat": 42.7205161,
+  "lon": -0.0173325,
+  "tags": {
+    "name": "Source de Coule La Nau",
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 5298446114,
+  "lat": 42.8393233,
+  "lon": 0.0809719,
+  "tags": {
+    "drinking_water": "yes",
+    "natural": "spring",
+    "note": "Take the water to the origin of the waterway, between the bryophytes"
+  }
+},
+{
+  "type": "node",
+  "id": 5371172589,
+  "lat": 42.7229804,
+  "lon": 0.0382510,
+  "tags": {
+    "name": "Source de Les Tantes",
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 5481266086,
+  "lat": 42.8273977,
+  "lon": 0.1816544,
+  "tags": {
+    "drinking_water:signed": "no",
+    "name": "Hount du Cap D'Estoudou",
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 5794095976,
+  "lat": 42.6865806,
+  "lon": 0.0650776,
+  "tags": {
+    "natural": "spring"
+  }
+},
+{
+  "type": "node",
+  "id": 5794466684,
+  "lat": 42.8957485,
+  "lon": -0.1095436,
+  "tags": {
+    "caravans": "no",
+    "drinking_water": "yes",
+    "name": "Le Cluquet",
+    "power_supply": "yes",
+    "shower": "yes",
+    "tents": "yes",
+    "toilets": "yes",
+    "tourism": "camp_site"
+  }
+},
+{
+  "type": "node",
+  "id": 5808372206,
+  "lat": 42.7092798,
+  "lon": -0.2838068,
+  "tags": {
+    "amenity": "drinking_water",
+    "ele": "1500"
+  }
+},
+{
+  "type": "node",
+  "id": 5809511379,
+  "lat": 42.7080638,
+  "lon": -0.2879653,
+  "tags": {
+    "amenity": "shelter",
+    "ele": "1500",
+    "name": "Cabaña Yanel"
+  }
+},
+{
+  "type": "node",
+  "id": 5812140270,
+  "lat": 42.8751787,
+  "lon": 0.0064106,
+  "tags": {
+    "amenity": "drinking_water",
+    "source": "Spotted while hiking GR10"
+  }
+},
+{
+  "type": "node",
+  "id": 5812150988,
+  "lat": 42.8561264,
+  "lon": -0.0123491,
+  "tags": {
+    "amenity": "drinking_water",
+    "source": "Spotted while hiking GR10"
+  }
+},
+{
+  "type": "node",
+  "id": 5812159446,
+  "lat": 42.8374325,
+  "lon": -0.0044367,
+  "tags": {
+    "amenity": "drinking_water",
+    "source": "Spotted while hiking GR10"
+  }
+},
+{
+  "type": "node",
+  "id": 5812164481,
+  "lat": 42.8864723,
+  "lon": -0.1106726,
+  "tags": {
+    "amenity": "drinking_water",
+    "check_date": "2026-01-08",
+    "natural": "spring",
+    "source": "Spotted while hiking GR10"
+  }
+},
+{
+  "type": "node",
+  "id": 5828036525,
+  "lat": 42.6190393,
+  "lon": -0.2513172,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 5835706070,
+  "lat": 42.8729968,
+  "lon": -0.0035619,
+  "tags": {
+    "amenity": "drinking_water",
+    "indoor": "no",
+    "man_made": "water_well",
+    "pump": "manual"
+  }
+},
+{
+  "type": "node",
+  "id": 5857271078,
+  "lat": 42.8734154,
+  "lon": -0.0028364,
+  "tags": {
+    "amenity": "drinking_water",
+    "check_date": "2026-05-03",
+    "man_made": "water_tap",
+    "wheelchair": "limited",
+    "wheelchair:description": "[En: In a corner, angle may be difficult.]"
+  }
+}
+
+  ]
+}
