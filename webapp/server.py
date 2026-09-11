@@ -179,6 +179,9 @@ def find_query(svc: "Service", text: str) -> dict:
                 "lat": p["lat"], "lon": p["lon"], "alt_m": p.get("alt_m"),
                 "source_label": p.get("source_label", "OSM"),
                 "source_ref": p.get("source_ref", ""),
+                "snapshot_date": p.get("snapshot_date", ""),
+                "attribution": p.get("attribution", ""),
+                "source_license": p.get("source_license", ""),
                 "osm_url": p.get("osm_url", ""), "note": p.get("note", "")}
     if len(poi_matches) > 1:
         return {"kind": "ambiguous",
@@ -550,6 +553,9 @@ def pois_geojson(svc: Service) -> dict:
                 "region": p.get("region", ""),
                 "source_label": p.get("source_label", "OSM"),
                 "source_ref": p.get("source_ref", ""),
+                "snapshot_date": p.get("snapshot_date", ""),
+                "attribution": p.get("attribution", ""),
+                "source_license": p.get("source_license", ""),
                 "osm_url": p.get("osm_url", ""), "note": p.get("note", ""),
             },
         })

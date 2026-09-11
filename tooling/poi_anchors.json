@@ -1,0 +1,19 @@
+[
+  {
+    "id": "poi-goriz",
+    "name": "Refugio de Góriz",
+    "category": "refuge",
+    "lat": 42.662747,
+    "lon": 0.015980,
+    "alt_m": 2190,
+    "source": "alraso",
+    "source_label": "Proyecto AlRaso (punto de control)",
+    "source_ref": "alraso_anchor",
+    "source_license": "ODbL-1.0",
+    "snapshot_date": "2026-09-11",
+    "attribution": "© OpenStreetMap contributors",
+    "osm_url": "",
+    "note": "Ancla del proyecto, no del snapshot OSM: punto de control verificado (ZUM Góriz). Su legalidad la decide el resolver.",
+    "region": "ordesa"
+  }
+]

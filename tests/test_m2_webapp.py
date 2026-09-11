@@ -15,7 +15,7 @@ sys.path.insert(0, str(ROOT / "webapp"))
 import server  # noqa: E402
 
 GORIZ_INSIDE = (42.6627475, 0.0159801)
-TODAY = "2026-09-06"
+TODAY = "2026-09-11"
 
 
 @pytest.fixture(scope="module")
@@ -160,7 +160,7 @@ def test_frontend_provider_is_decoupled_not_hardcoded():
     assert "/api/config" in js, "the map style must come from server config"
 
 
-POI_CATS = {"refuge", "shelter", "water", "camping", "protected_area"}
+POI_CATS = {"refuge", "shelter", "water", "camping"}
 
 
 def test_pois_geojson_is_wellformed_and_categorized(svc):
@@ -226,7 +226,8 @@ def test_poi_search_returns_poi_kind_not_place(svc):
     out = server.find_query(svc, "Turieto")
     assert out["kind"] == "poi"
     assert out["source"] == "openstreetmap"
-    assert out["category"] == "refuge"
+    # Turieto is amenity=shelter in OSM → shelter category.
+    assert out["category"] == "shelter"
     assert out["name"] == "Refugio de Turieto"
     # La busqueda puede mover el mapa, pero nunca suministra hechos al resolver.
     for key in ("facts", "nights", "refuge_capacity_full"):
@@ -245,7 +246,7 @@ def test_poi_provenance_is_reproducible():
     doc = json.loads((ROOT / "webapp" / "pois.json").read_text(encoding="utf-8"))
     m = doc["metadata"]
     assert m["snapshot"] is True and m["may_be_stale"] is True
-    assert m["retrieved_at"] == "2026-09-06"
+    assert m["retrieved_at"] == "2026-09-11"
     assert m["source"] == "OpenStreetMap"
     assert "overpass-api.de" in m["overpass_endpoint"]
     for key in ("query_ordesa", "query_picos", "query_protected_ordesa", "query_protected_picos"):

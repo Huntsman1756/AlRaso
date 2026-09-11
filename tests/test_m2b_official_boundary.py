@@ -729,6 +729,7 @@ def test_git_diff_vs_main_only_allowed_files():
         "webapp/server.py",
         "NOTICE.md",
         "pyproject.toml",
+        ".gitattributes",
         ".gitignore",
         "tests/test_m2b_official_boundary.py",
         "tests/test_m2_webapp.py",
@@ -836,6 +837,16 @@ def test_git_diff_vs_main_only_allowed_files():
         "docs/validation/m7/validation-report-v1.template.md",
         "docs/validation/m7/protocol-deviations.md",
         "docs/validation/m7/README.md",
+        # M8 (feat/m8-outdoor-point-pois): deterministic POI builder + fixtures + data.
+        "tests/test_m8_poi_data.py",
+        # M8 POI product: CTA, provenance disclosure, POI-alt guard.
+        "tests/test_m8_poi_product.py",
+        "tooling/m8_poi_build.py",
+        "tooling/poi_anchors.json",
+        "tooling/poi_dormant_protected_area.json",
+        "tooling/fixtures/overpass_ordesa.json",
+        "tooling/fixtures/overpass_picos.json",
+        "webapp/pois.json",
     }
     for f in changed:
         assert f in allowed, f"Unexpected file changed: {f}"
