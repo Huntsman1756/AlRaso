@@ -3,8 +3,10 @@ name: m9-p0-remediation
 on:
   pull_request:
     paths:
+      # This gate validates the dedicated historical hotfix. Generic app.js
+      # changes, including later M9 product work, must not enter its exact-
+      # two-file scope check.
       - 'qa/browser/tests/p0-remediation.spec.mjs'
-      - 'webapp/static/app.js'
 
 permissions:
   contents: read
