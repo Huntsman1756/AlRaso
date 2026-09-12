@@ -16,6 +16,10 @@ import {
   visible
 } from './shared.mjs';
 
+function folded(value) {
+  return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
+
 export const S01_BOOT_EMPTY = {
   id: 'S01_BOOT_EMPTY',
   async run({ page, recorder }) {
@@ -34,6 +38,8 @@ export const S02_SEARCH_KNOWN_PLACE = {
     await boot(page);
     const complete = await observedStep(recorder, 'known-place-search-completes', async () => {
       await searchPlace(page, CANONICAL.goriz.query);
+      check(recorder, 'known-actions-visible-before-detail', await visible(page, '#action-buttons'));
+      check(recorder, 'known-detail-collapsed-by-default', !(await page.locator('#detail-box').evaluate((element) => element.open)));
       await openLegalDetail(page);
       return true;
     });
@@ -42,6 +48,10 @@ export const S02_SEARCH_KNOWN_PLACE = {
     const state = await recordLegalState(page, recorder, 'known-place');
     check(recorder, 'known-place-query-retained', (await page.locator('#q').inputValue()) === CANONICAL.goriz.query);
     check(recorder, 'known-place-coordinates-visible', (await text(page, '#coords')).includes('42.66275'));
+    const placeHeading = await text(page, '#place-heading');
+    check(recorder, 'known-place-heading-primary', folded(placeHeading).includes('goriz'), { actual: placeHeading });
+    check(recorder, 'known-place-heading-visible', await visible(page, '#place-heading'));
+    check(recorder, 'known-place-legal-section-visible', await visible(page, '#legal-section'));
     check(recorder, 'known-place-result-legal-visible', state.headline.length > 0);
   }
 };
@@ -67,7 +77,13 @@ export const S03_COORDS_UNKNOWN = {
     check(recorder, 'unknown-legal-status', state.technical === 'UNDETERMINED', { actual: state.technical });
     check(recorder, 'unknown-coverage-status', state.coverage === 'UNKNOWN', { actual: state.coverage });
     check(recorder, 'unknown-copy-compact', (await text(page, '#answer-explanation')).length > 0);
+    check(recorder, 'unknown-place-heading-primary', (await text(page, '#place-heading')) === 'Punto seleccionado');
+    check(recorder, 'unknown-copy-not-permission', folded(await text(page, '#answer-explanation')).includes('no significa que este prohibido'));
     check(recorder, 'unknown-technical-coverage', technicalText.includes('coverage=UNKNOWN'));
+    const why = page.locator('#why-disclosure');
+    await why.locator(':scope > summary').click();
+    check(recorder, 'unknown-why-disclosure-opens', await why.evaluate((element) => element.open));
+    await why.locator(':scope > summary').click();
     recorder.setField('unknown', { legal_status: state.technical, coverage: state.coverage });
   }
 };
@@ -106,6 +122,8 @@ export const S04_PICOS_PERMITTED = {
     });
     check(recorder, 'picos-permitted-headline', state.headline.includes('Permitido'), { actual: state.headline });
     check(recorder, 'picos-permitted-technical-status', state.technical === 'PERMITTED', { actual: state.technical });
+    check(recorder, 'picos-place-heading-primary', (await text(page, '#place-heading')) === 'Punto seleccionado');
+    check(recorder, 'picos-legal-section-visible', await visible(page, '#legal-section'));
     check(recorder, 'picos-activity-fact', activity === 'VIVAC_AL_RASO');
     check(recorder, 'picos-mountain-fact', mountain);
     check(recorder, 'picos-nights-fact', nights === String(CANONICAL.picosFacts.nights));

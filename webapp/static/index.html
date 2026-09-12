@@ -15,10 +15,10 @@
   <div class="brand">AlRaso</div>
   <p class="tagline">Te mostramos exactamente qué podemos afirmar, con qué fuente y qué no podemos determinar.</p>
   <nav aria-label="Navegación principal">
-    <button data-tab="explore" aria-current="page">🧭 Explorar</button>
-    <button data-tab="saved">♥ Guardados</button>
-    <button data-tab="outings">🗺️ Salidas</button>
-    <button data-tab="profile">👤 Perfil</button>
+    <button data-tab="explore" aria-current="page"><svg class="ui-icon" data-icon="map-pin" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0"></path></svg><span>Explorar</span></button>
+    <button data-tab="saved"><svg class="ui-icon" data-icon="bookmark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4"></path></svg><span>Guardados</span></button>
+    <button data-tab="outings"><svg class="ui-icon" data-icon="route" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path><path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4"></path><path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5"></path></svg><span>Salidas</span></button>
+    <button data-tab="profile"><span>Perfil</span></button>
   </nav>
   <form id="searchform" role="search">
     <label class="sr-only" for="q">Buscar una zona conocida o coordenadas</label>
@@ -36,8 +36,8 @@
     <div class="explore-body">
       <div id="map-container">
         <div id="map"></div>
-        <button id="geo-btn" type="button" aria-label="Mi ubicación" title="Mi ubicación">📍 Mi ubicación</button>
-        <button id="layers-btn" type="button" aria-label="Capas del mapa">🗺 Capas</button>
+        <button id="geo-btn" type="button" aria-label="Mi ubicación" title="Mi ubicación"><svg class="ui-icon" data-icon="current-location" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 12a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path><path d="M4 12a8 8 0 1 0 16 0a8 8 0 0 0 -16 0"></path><path d="M12 2l0 2"></path><path d="M12 20l0 2"></path><path d="M20 12l2 0"></path><path d="M2 12l2 0"></path></svg><span>Mi ubicación</span></button>
+        <button id="layers-btn" type="button" aria-label="Capas del mapa"><svg class="ui-icon" data-icon="layers-subtract" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 6a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2l0 -8"></path><path d="M16 16v2a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2v-8a2 2 0 0 1 2 -2h2"></path></svg><span>Capas</span></button>
         <div id="layers-panel" class="layers-panel" hidden>
           <div class="layers-title">Capas</div>
           <label><input type="checkbox" id="lg-refuge" checked> 🏠 Refugios</label>
@@ -58,7 +58,7 @@
         <p id="searchmsg" role="status" aria-live="polite" class="searchmsg-pill"></p>
       </div>
       <aside id="card" aria-live="polite">
-        <button id="sheet-handle" type="button" aria-label="Desplegar o recoger la ficha" aria-expanded="false"><span class="handle-bar" aria-hidden="true"></span></button>
+        <button id="sheet-handle" type="button" aria-label="Desplegar o recoger la ficha" aria-controls="card-result" aria-expanded="false"><span class="handle-bar" aria-hidden="true"></span></button>
         <div id="card-empty">
           <h2>Empieza por una zona verificada</h2>
           <p>AlRaso te muestra qué podemos afirmar sobre si puedes dormir al raso en cualquier zona. Si AlRaso no puede afirmar algo, lo dice: «no lo podemos determinar» no es un permiso, pero tampoco una prohibición.</p>
@@ -67,28 +67,30 @@
           </div>
         </div>
         <div id="card-result" hidden>
-          <!-- a) OUTDOOR INFO BLOCK -->
+          <!-- a) PLACE IDENTITY: location context remains primary; OSM stays contextual -->
           <div id="outdoor-info">
-            <section id="poi" hidden>
-              <div class="poi-head"><span id="poi-emoji"></span><span id="poi-name" class="poi-name"></span></div>
-              <div id="poi-meta" class="poi-meta"></div>
-              <p id="poi-note" class="poi-note"></p>
-              <div id="poi-cta"><button id="poi-legal-btn" type="button" class="cta-legal" disabled>Consultar aquí el estatus legal</button></div>
-              <p class="poi-sep">Este punto es solo una observación (OSM). Su existencia <b>no</b> implica ningún permiso.</p>
-              <details id="poi-srcbox"><summary>Fuente y procedencia</summary><div id="poi-src-details"></div></details>
-            </section>
-            <section id="pa-card" hidden>
-              <div class="poi-head"><span id="pa-emoji">🌲</span><span id="pa-name" class="poi-name"></span></div>
-              <div id="pa-meta" class="poi-meta"></div>
-              <p class="pa-disclaimer">Informativo — no es una determinación legal.</p>
-              <p id="pa-note" class="poi-note"></p>
-              <div id="pa-cta"><button id="pa-legal-btn" type="button" class="cta-legal" disabled>Consultar aquí el estatus legal</button></div>
-              <p class="poi-sep">Este espacio protegido es referencia cartográfica (OSM). Su existencia <b>no</b> implica ningún permiso.</p>
-              <details id="pa-srcbox"><summary>Fuente y procedencia</summary><div id="pa-src-details"></div></details>
-            </section>
-            <div id="coords"></div>
-            <p id="altitude-line" class="altitude-line" hidden></p>
-            <div id="weather-block" class="weather-block" hidden></div>
+            <div id="place-identity" class="place-identity">
+              <h2 id="place-heading" class="place-heading" hidden></h2>
+              <section id="poi" hidden>
+                <div class="poi-head"><span id="poi-emoji"></span><span id="poi-name" class="poi-name"></span></div>
+                <div id="poi-meta" class="poi-meta"></div>
+                <p id="poi-note" class="poi-note"></p>
+                <div id="poi-cta"><button id="poi-legal-btn" type="button" class="cta-legal" disabled>Consultar aquí el estatus legal</button></div>
+                <p class="poi-sep">Este punto es solo una observación (OSM). Su existencia <b>no</b> implica ningún permiso.</p>
+                <details id="poi-srcbox"><summary>Fuente y procedencia</summary><div id="poi-src-details"></div></details>
+              </section>
+              <section id="pa-card" hidden>
+                <div class="poi-head"><span id="pa-emoji">🌲</span><span id="pa-name" class="poi-name"></span></div>
+                <div id="pa-meta" class="poi-meta"></div>
+                <p class="pa-disclaimer">Informativo — no es una determinación legal.</p>
+                <p id="pa-note" class="poi-note"></p>
+                <div id="pa-cta"><button id="pa-legal-btn" type="button" class="cta-legal" disabled>Consultar aquí el estatus legal</button></div>
+                <p class="poi-sep">Este espacio protegido es referencia cartográfica (OSM). Su existencia <b>no</b> implica ningún permiso.</p>
+                <details id="pa-srcbox"><summary>Fuente y procedencia</summary><div id="pa-src-details"></div></details>
+              </section>
+              <div id="coords"></div>
+              <p id="altitude-line" class="altitude-line" hidden></p>
+            </div>
           </div>
 
           <!-- b) LEGAL QUESTION SECTION -->
@@ -105,20 +107,26 @@
             <ul id="plain-conds" class="plain-conds" hidden></ul>
           </section>
 
-          <section id="place-context" class="place-context" hidden>
-            <h3>Contexto del lugar</h3>
-            <div><span id="place-context-kind" class="place-context-kind"></span>: <strong id="place-context-value"></strong></div>
-            <p id="place-context-note" class="place-context-note"></p>
-          </section>
+          <!-- c) WEATHER CONTEXT: now first, forecast is progressively disclosed -->
+          <div id="weather-block" class="weather-block" hidden></div>
 
           <!-- c) ACTION BUTTONS -->
           <div id="action-buttons">
-            <button id="save-btn" type="button" disabled>♡ Guardar</button>
-            <button id="plan-add-btn" type="button" disabled>Añadir a una salida</button>
+            <button id="save-btn" type="button" disabled><svg class="ui-icon" data-icon="bookmark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4"></path></svg><span class="button-label">Guardar</span></button>
+            <button id="plan-add-btn" type="button" disabled><svg class="ui-icon" data-icon="route" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path><path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4"></path><path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5"></path></svg><span class="button-label">Añadir a una salida</span></button>
           </div>
 
           <!-- d) DETAILS BLOCK -->
-          <details id="detail-box"><summary>Consultar detalle</summary>
+          <details id="detail-box"><summary>Ver fuentes y detalle</summary>
+            <details id="place-context-disclosure" class="secondary-disclosure" hidden>
+              <summary>Contexto del lugar</summary>
+              <section id="place-context" class="place-context" hidden>
+                <div><span id="place-context-kind" class="place-context-kind"></span>: <strong id="place-context-value"></strong></div>
+                <p id="place-context-note" class="place-context-note"></p>
+              </section>
+            </details>
+            <details id="query-disclosure" class="secondary-disclosure">
+              <summary>Ajustar la consulta</summary>
             <div class="detail-tools">
               <button id="center-btn" type="button">Usar el centro del mapa</button>
             </div>
@@ -137,7 +145,13 @@
               <p id="dem-info" class="dem-info" hidden></p>
             </section>
             <section id="condiciones" class="detail-section"><h3>Condiciones evaluadas</h3><ul id="cond-list"></ul></section>
-            <section class="detail-section"><h3>Por qué damos esta respuesta</h3><p id="decision"></p></section>
+            </details>
+            <details id="why-disclosure" class="secondary-disclosure">
+              <summary>Por qué damos esta respuesta</summary>
+              <section class="detail-section"><p id="decision"></p></section>
+            </details>
+            <details id="sources-disclosure" class="secondary-disclosure">
+              <summary>Normas y fuentes</summary>
             <section class="detail-section">
               <h3>Cobertura y fuentes</h3>
               <p id="corpus-status" class="detail-status"></p>
@@ -146,8 +160,9 @@
               <ul id="sources"></ul>
               <p id="warning" class="warning"></p>
             </section>
+            </details>
             <details id="tech">
-              <summary>Detalle técnico (códigos)</summary>
+              <summary>Detalle técnico</summary>
               <div class="badges">
                 <div><span class="badge-label">SITUACIÓN LEGAL</span><span id="legal" class="badge">—</span></div>
                 <div><span class="badge-label">ESTADO DE LA INFORMACIÓN</span><span id="knowledge" class="badge">—</span></div>
@@ -203,7 +218,7 @@
 <!-- ═══ CHOOSER MODAL ═══ -->
 <div id="chooser-overlay" class="chooser-overlay" role="dialog" aria-modal="true" aria-label="Añadir a una salida" hidden>
   <div class="chooser-dialog">
-    <button id="chooser-close" type="button" class="chooser-close-btn" aria-label="Cerrar">✕</button>
+    <button id="chooser-close" type="button" class="chooser-close-btn" aria-label="Cerrar"><svg class="ui-icon" data-icon="x" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 6l-12 12"></path><path d="M6 6l12 12"></path></svg></button>
     <h3>Añadir a una salida</h3>
     <p id="chooser-no-point" hidden>No has seleccionado ningún punto. Toca el mapa primero.</p>
     <div id="chooser-content">

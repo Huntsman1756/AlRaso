@@ -1,0 +1,200 @@
+{
+  "product_commit": "1d81d1ad23b0bc2a2675e2ca3088b518cecee9ea",
+  "qa_harness_commit": "1d81d1ad23b0bc2a2675e2ca3088b518cecee9ea",
+  "generated_at": "2026-09-12T18:05:52.505Z",
+  "baseline_now": "2026-09-12T07:20:00+02:00",
+  "node_version": "v24.19.0",
+  "python_version": "Python 3.11.15",
+  "playwright_version": "1.63.0",
+  "chromium_version": "153.0.8010.12",
+  "platform": {
+    "os": "win32",
+    "arch": "x64"
+  },
+  "dem": {
+    "available": false,
+    "rasterio_installed": false,
+    "tile_present": false,
+    "metadata_present": false
+  },
+  "locale": "es-ES",
+  "timezone": "Europe/Madrid",
+  "device_scale_factor": 1,
+  "viewports": [
+    {
+      "id": "desktop-1440x900",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "id": "mobile-390x844",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "id": "mobile-360x800",
+      "width": 360,
+      "height": 800
+    }
+  ],
+  "full_browser_run": {
+    "tests": 42,
+    "scenario_status": "PASS",
+    "execution_status": "OK",
+    "unexpected_network_failures": 0,
+    "assertion_failures": 0,
+    "expected_console_faults": [
+      "S09_WEATHER_UNAVAILABLE",
+      "S13_OFFLINE_VISITED",
+      "S14_LEGAL_SERVER_DOWN"
+    ]
+  },
+  "scenarios": [
+    "S02_SEARCH_KNOWN_PLACE",
+    "S03_COORDS_UNKNOWN",
+    "S04_PICOS_PERMITTED",
+    "S05_POI_NAMED",
+    "S06_POI_UNNAMED",
+    "S07_PROTECTED_AREA",
+    "S08_WEATHER_AVAILABLE",
+    "S09_WEATHER_UNAVAILABLE",
+    "S12_MOBILE_SHEET",
+    "S14_LEGAL_SERVER_DOWN"
+  ],
+  "volatile_fields": [
+    "weather.temperature",
+    "weather.observed_at",
+    "weather.http_status",
+    "external_observation.status",
+    "external_observation.response_observed",
+    "external_observation.response_http_status",
+    "external_observation.external_latency_ms"
+  ],
+  "reproducibility_excluded_fields": [
+    "weather.ui_structure_valid",
+    "external_observation.ui_structure_valid",
+    "external_observation.attribution_visible"
+  ],
+  "evidence": [
+    {
+      "path": "desktop-1440x900/S02_SEARCH_KNOWN_PLACE.png",
+      "sha256": "5e5a170c2b7a7fbe9e6b306cb7729aa2b43e2f9b7162c19e5d1afa3cab5b04d5"
+    },
+    {
+      "path": "desktop-1440x900/S03_COORDS_UNKNOWN.png",
+      "sha256": "b8565fd0f6d292578cf1c7c766c57a5f1bee37ed439d2eade652fbd42a7ca09c"
+    },
+    {
+      "path": "desktop-1440x900/S04_PICOS_PERMITTED.png",
+      "sha256": "06a42a20014300bcce31a9933a842667f050130ecad8866dc29f1a62e31cede0"
+    },
+    {
+      "path": "desktop-1440x900/S05_POI_NAMED.png",
+      "sha256": "d6cf70045014e8585c14329b6423a023ed176ccccbc8234f73b6711b1c42aa99"
+    },
+    {
+      "path": "desktop-1440x900/S06_POI_UNNAMED.png",
+      "sha256": "df297676010f67b71a7e288dfa6c5fcd23a6a06b4c5b5dc2ab8ce6a48a18c29f"
+    },
+    {
+      "path": "desktop-1440x900/S07_PROTECTED_AREA.png",
+      "sha256": "adf1eabdd01a44e06b8ce4b0585838b61af5b7f5e688ba677c056970346d5b46"
+    },
+    {
+      "path": "desktop-1440x900/S08_WEATHER_AVAILABLE.png",
+      "sha256": "08a7e07e18d6d4d3c8115d4154e3664156d0e9b96b90690454eaad61ad76ebb0"
+    },
+    {
+      "path": "desktop-1440x900/S09_WEATHER_UNAVAILABLE.png",
+      "sha256": "6655b8b58bf1985e846811d2563d5012122e79cd69aa8f31150e3950a177054b"
+    },
+    {
+      "path": "desktop-1440x900/S12_MOBILE_SHEET.png",
+      "sha256": "ae56310e180b550874108b24309d88c43055cd2797d64474e0fbaf057af2ba29"
+    },
+    {
+      "path": "desktop-1440x900/S14_LEGAL_SERVER_DOWN.png",
+      "sha256": "97b28add6cd07d148b1cdeb3439b461ec5d493506f95515a6234656139cdd842"
+    },
+    {
+      "path": "mobile-360x800/S02_SEARCH_KNOWN_PLACE.png",
+      "sha256": "779344c2ba7659f7ad48a7d765c4084efd861145d36709f7dfc93d30f04d68c1"
+    },
+    {
+      "path": "mobile-360x800/S03_COORDS_UNKNOWN.png",
+      "sha256": "aa47afa6645db2ef6b8bea8ce78dccd28a2dc226a5d3506295db41b4e9599bb4"
+    },
+    {
+      "path": "mobile-360x800/S04_PICOS_PERMITTED.png",
+      "sha256": "d97def30b98bb9f437c534062555068047639d269c921ed76bdb6f29fdc3c990"
+    },
+    {
+      "path": "mobile-360x800/S05_POI_NAMED.png",
+      "sha256": "0d549c43322f8a3a60a9367e7c6f0ed41255d1203e2f9363165df8842a6939fe"
+    },
+    {
+      "path": "mobile-360x800/S06_POI_UNNAMED.png",
+      "sha256": "7fc11b15f15c5398bbb83bb853644478f1d79a4b2f6b81729b3d2eca5868a169"
+    },
+    {
+      "path": "mobile-360x800/S07_PROTECTED_AREA.png",
+      "sha256": "ebed16ccbdbe5e7f9b707fc789786c0c04b14d8e84a91811057b4a6cbc40167b"
+    },
+    {
+      "path": "mobile-360x800/S08_WEATHER_AVAILABLE.png",
+      "sha256": "a7732476f16634ba4e10c37067a0b9903683b4225f6bab2ebcc00ac5e2e1d906"
+    },
+    {
+      "path": "mobile-360x800/S09_WEATHER_UNAVAILABLE.png",
+      "sha256": "5c34fcf4449f8e9d5c4dbf3c358a42fc3a6fc2ec2e4174b5c360c39889387199"
+    },
+    {
+      "path": "mobile-360x800/S12_MOBILE_SHEET.png",
+      "sha256": "37c95b69db1184c53b24cec6f33e9185e34bcdab9e74a8dbe7c4694eee3b057e"
+    },
+    {
+      "path": "mobile-360x800/S14_LEGAL_SERVER_DOWN.png",
+      "sha256": "763a0d59792230470870e3e78785e4b033c5ba701799b6a34f0b85a68ac479af"
+    },
+    {
+      "path": "mobile-390x844/S02_SEARCH_KNOWN_PLACE.png",
+      "sha256": "1e16ba2d8f2eebf35ad6af4ce2f7db2c49fc8cf6ee08023668e33f13c863fb5f"
+    },
+    {
+      "path": "mobile-390x844/S03_COORDS_UNKNOWN.png",
+      "sha256": "844fd28a030e83c55c757e8933a80cd1dae363cc10dfdac5075c6aebaafa60b3"
+    },
+    {
+      "path": "mobile-390x844/S04_PICOS_PERMITTED.png",
+      "sha256": "448f07357d773e26f2b3e69f8c567eb8922f56dc44cad50fd1e2df7b4f3842ab"
+    },
+    {
+      "path": "mobile-390x844/S05_POI_NAMED.png",
+      "sha256": "a8a2de38b78c212acb1d4dd34287de07d66936209557c5ba0e5eefadb543e2e9"
+    },
+    {
+      "path": "mobile-390x844/S06_POI_UNNAMED.png",
+      "sha256": "978467bdf2ad102d6f783d84dc0d426b6b96fc420330df4f0f114fd9c8099201"
+    },
+    {
+      "path": "mobile-390x844/S07_PROTECTED_AREA.png",
+      "sha256": "0fe0b99edeb240a7d8d6a8c7fa655c5f6df117b126eb50542890fdf8bd2739b8"
+    },
+    {
+      "path": "mobile-390x844/S08_WEATHER_AVAILABLE.png",
+      "sha256": "a8eacde7819b9e8603d82fbb7acb3ac6717fb2f4270981ffab911f0e07fca2ca"
+    },
+    {
+      "path": "mobile-390x844/S09_WEATHER_UNAVAILABLE.png",
+      "sha256": "a818abd9ee4949269a1efbb3649216128fc77674db6a1f207bfcbd44c5b88292"
+    },
+    {
+      "path": "mobile-390x844/S12_MOBILE_SHEET.png",
+      "sha256": "b5579c21f4bf6b38fd9669b307be295cdc0cc5cfe6e40244491c9ab231a7556d"
+    },
+    {
+      "path": "mobile-390x844/S14_LEGAL_SERVER_DOWN.png",
+      "sha256": "15b6c1abfa5824e99d963f5cef768fa9ab171921081cb2bfb82ac35cd052688b"
+    }
+  ]
+}

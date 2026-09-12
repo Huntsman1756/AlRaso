@@ -231,7 +231,7 @@ def test_m82_primary_answer_is_compact_and_detail_is_progressive_disclosure():
     assert 'id="answer-explanation"' in INDEX_HTML
     assert 'id="conditions-summary"' in INDEX_HTML
     assert 'id="place-context"' in INDEX_HTML
-    assert '<details id="detail-box"><summary>Consultar detalle</summary>' in INDEX_HTML
+    assert '<details id="detail-box"><summary>Ver fuentes y detalle</summary>' in INDEX_HTML
     assert 'id="ui-knowledge"' not in INDEX_HTML
 
     tech_at = INDEX_HTML.index('id="tech"')
@@ -244,7 +244,9 @@ def test_m82_primary_answer_is_compact_and_detail_is_progressive_disclosure():
 def test_m82_unknown_answer_copy_is_single_and_user_facing():
     assert 'UNDETERMINED: "No lo podemos determinar"' in APP_JS
     assert "Aún no tenemos normativa verificada para este punto." in APP_JS
-    assert 'return "Zona todavía no cubierta.";' in APP_JS
+    assert 'return "Aún no tenemos normativa verificada para este punto.";' in APP_JS
+    assert "NO_APPLICABLE_SCOPE" in APP_JS
+    assert "NO_PUBLISHABLE_RULE_COVERAGE" in APP_JS
     assert '"Cobertura normativa del punto: ninguna"' in APP_JS
     assert 'No hay fuentes normativas vinculadas a este punto.' in APP_JS
 

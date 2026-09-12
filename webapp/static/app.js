@@ -374,6 +374,7 @@ function renderPoi(p) {
   state.poiCategory = p.category;
   state.poiAlt = p.alt_m || null;
   state.cartographicContext = null;
+  renderPlaceHeading();
   renderPlaceContext({});
 }
 
@@ -411,6 +412,7 @@ function renderPa(p) {
     name: p.name || "Espacio protegido",
     note: "Información cartográfica; no determina la legalidad.",
   };
+  renderPlaceHeading();
   renderPlaceContext({});
 }
 
@@ -432,7 +434,10 @@ function setSheetState(next) {
   var card = $("card");
   SHEET_STATES.forEach(function (s) { card.classList.toggle("sheet-" + s, s === next); });
   var handle = $("sheet-handle");
-  if (handle) handle.setAttribute("aria-expanded", next === "full" ? "true" : "false");
+  if (handle) {
+    handle.setAttribute("aria-expanded", next === "closed" ? "false" : "true");
+    handle.setAttribute("aria-label", next === "full" ? "Recoger la ficha" : "Desplegar la ficha");
+  }
   // MapLibre may need a resize pass after the layout settles (grey/misaligned canvas guard)
   if (map) setTimeout(function () { map.resize(); }, 60);
 }
@@ -465,8 +470,9 @@ function openSheetForSelection() {
   handle.addEventListener("pointermove", function (ev) {
     if (dragStartY === null) return;
     dragDelta = ev.clientY - dragStartY;
+    var sheetPeekHeight = parseFloat(getComputedStyle(card).getPropertyValue("--sheet-peek-height")) || 440;
     var base = sheetState === "full" ? 0
-      : sheetState === "peek" ? card.offsetHeight - 176 : card.offsetHeight - 44;
+      : sheetState === "peek" ? card.offsetHeight - sheetPeekHeight : card.offsetHeight - 44;
     card.style.transform = "translateY(" + Math.max(0, base + dragDelta) + "px)";
   });
   function endDrag() {
@@ -492,8 +498,10 @@ function openSheetForSelection() {
     var layersPanel = $("layers-panel");
     if (layersPanel && !layersPanel.hasAttribute("hidden")) return; // layers owns this Escape
     if (!isMobileLayout()) return;
+    var focusInsideSheet = document.activeElement && card.contains(document.activeElement);
     if (sheetState === "full") setSheetState("peek");
     else if (sheetState === "peek") setSheetState("closed");
+    if (focusInsideSheet) handle.focus({ preventScroll: true });
   });
 })();
 
@@ -649,7 +657,19 @@ function selectPoint(lat, lon, name, fly, preserveContext) {
     } else {
       state.marker.setLngLat(ll);
     }
-    if (fly) map.flyTo({ center: ll, zoom: Math.max(map.getZoom(), 10) });
+    if (fly) {
+      var camera = { center: ll, zoom: Math.max(map.getZoom(), 10) };
+      if (isMobileLayout()) {
+        var sheet = $("card");
+        var peekHeight = sheet
+          ? parseFloat(getComputedStyle(sheet).getPropertyValue("--sheet-peek-height"))
+          : 0;
+        if (Number.isFinite(peekHeight) && peekHeight > 0) {
+          camera.padding = { top: 0, right: 0, bottom: peekHeight, left: 0 };
+        }
+      }
+      map.flyTo(camera);
+    }
   }
   // A fresh coordinate/name selection replaces any contextual card from a
   // previous POI or protected-area click. The specialized renderers show the
@@ -663,6 +683,8 @@ function selectPoint(lat, lon, name, fly, preserveContext) {
     state.cartographicContext = null;
     var contextBox = $("place-context");
     if (contextBox) contextBox.hidden = true;
+    var contextDisclosure = $("place-context-disclosure");
+    if (contextDisclosure) contextDisclosure.hidden = true;
     var paLegalBtn = $("pa-legal-btn");
     if (paLegalBtn) {
       paLegalBtn.disabled = true;
@@ -670,7 +692,10 @@ function selectPoint(lat, lon, name, fly, preserveContext) {
       paLegalBtn.removeAttribute("data-lon");
     }
   }
-  $("searchmsg").textContent = name ? `Zona seleccionada: ${name}` : "";
+  // The selected place is already the primary heading; avoid a redundant
+  // map toast covering the mobile sheet. Error/save feedback still uses this
+  // live region elsewhere.
+  $("searchmsg").textContent = "";
   document.body.classList.toggle("has-selection", state.lat !== null);
   openSheetForSelection();
   loadWeather(lat, lon);
@@ -693,12 +718,15 @@ function updateSaveButton() {
   var hasPoint = state.lat !== null;
   saveBtn.disabled = !hasPoint;
   planBtn.disabled = !hasPoint;
+  var saveLabel = saveBtn.querySelector(".button-label");
   if (!hasPoint) {
-    saveBtn.textContent = "♡ Guardar";
+    if (saveLabel) saveLabel.textContent = "Guardar";
+    else saveBtn.textContent = "Guardar";
     return;
   }
   var fav = AlRasoStore.findFavoriteByPoint(state.lat, state.lon);
-  saveBtn.textContent = fav ? "♥ Guardado" : "♡ Guardar";
+  if (saveLabel) saveLabel.textContent = fav ? "Guardado" : "Guardar";
+  else saveBtn.textContent = fav ? "Guardado" : "Guardar";
 }
 
 $("save-btn").addEventListener("click", function () {
@@ -949,6 +977,7 @@ if (paLegalBtn) {
   document.addEventListener("click", function (ev) {
     if (ev.target.closest && !ev.target.closest("#searchform")) close();
   });
+  $("searchform").addEventListener("submit", close);
 })();
 
 $("searchform").addEventListener("submit", async function (ev) {
@@ -1001,9 +1030,11 @@ function resetLegalResultForPending() {
     var date = $("date").value || new Date().toISOString().slice(0, 10);
     $("coords").textContent = state.lat.toFixed(5) + ", " + state.lon.toFixed(5) + " · " + actLabel + " · " + date;
   }
+  renderPlaceHeading();
   $("legal-emoji").textContent = "";
   $("headline").textContent = "Consultando…";
   $("answer-explanation").textContent = "Verificando la normativa para este punto.";
+  $("legal-result").className = "legal-result legal-status--undetermined";
   $("legal-result").style.borderLeftColor = "#93a1b0";
   $("plain-conds").innerHTML = "";
   $("plain-conds").hidden = true;
@@ -1132,17 +1163,33 @@ function primaryLegalLabel(d) {
   return PRIMARY_LEGAL_LABELS[legal] || ((d.ui || {}).legal || legal);
 }
 
+function undeterminedExplanation(d) {
+  var coverage = (d.coverage || {}).status;
+  var notPermission = "Esto no significa que esté prohibido ni que esté permitido.";
+  if (hasReason(d, "NO_PUBLISHABLE_RULE_COVERAGE")) {
+    return "La zona está delimitada, pero falta una condición verificable para aplicar una regla concreta. " + notPermission;
+  }
+  if (hasReason(d, "NO_APPLICABLE_SCOPE")) {
+    if (coverage === "PARTIAL") {
+      return "Tenemos normativa de la zona, pero la comprobación espacial de este punto no está cerrada. " + notPermission;
+    }
+    if (coverage === "UNKNOWN") {
+      return "No tenemos una zona normativa verificada para este punto. " + notPermission;
+    }
+  }
+  if (coverage === "UNKNOWN") {
+    return "Aún no tenemos normativa verificada para este punto. " + notPermission;
+  }
+  if (coverage === "PARTIAL") {
+    return "La cobertura normativa de esta zona todavía no permite resolver este punto. " + notPermission;
+  }
+  return "Faltan datos para completar esta consulta. " + notPermission;
+}
+
 function answerExplanation(d) {
   var legal = d.determination.legalStatus;
-  var coverage = (d.coverage || {}).status;
   if (legal === "UNDETERMINED") {
-    if (coverage === "UNKNOWN") {
-      return "Aún no tenemos normativa verificada para este punto. Esto no significa que esté prohibido ni que esté permitido.";
-    }
-    if (coverage === "PARTIAL") {
-      return "La cobertura normativa de esta zona todavía no permite resolver este punto. Esto no significa que esté prohibido ni que esté permitido.";
-    }
-    return "Faltan datos para completar esta consulta. Esto no significa que esté prohibido ni que esté permitido.";
+    return undeterminedExplanation(d);
   }
   if (legal === "PERMITTED") return "La normativa verificada permite esta actividad.";
   if (legal === "PROHIBITED") return "La normativa verificada prohíbe esta actividad.";
@@ -1184,21 +1231,39 @@ function normalizePlaceContext(candidate) {
 function renderPlaceContext(d) {
   var box = $("place-context");
   if (!box) return;
+  var disclosure = $("place-context-disclosure");
   var raw = d.cartographicContext || d.cartographic_context || d.placeContext ||
     d.place_context || d.protectedArea || d.protected_area ||
     ((d.coverage || {}).context) || state.cartographicContext;
   var context = normalizePlaceContext(Array.isArray(raw) ? raw[0] : raw);
   if (!context) {
     box.hidden = true;
+    if (disclosure) disclosure.hidden = true;
     $("place-context-value").textContent = "";
     $("place-context-note").textContent = "";
     return;
   }
   box.hidden = false;
+  if (disclosure) disclosure.hidden = false;
   $("place-context-kind").textContent = context.kind;
   $("place-context-value").textContent = context.name;
   $("place-context-note").textContent = context.note;
 }
+
+function renderPlaceHeading() {
+  var heading = $("place-heading");
+  if (!heading) return;
+  var hasCartographicCard =
+    ($("poi") && !$("poi").hidden) || ($("pa-card") && !$("pa-card").hidden);
+  if (hasCartographicCard) {
+    heading.hidden = true;
+    heading.textContent = "";
+    return;
+  }
+  heading.textContent = state.selectedName || "Punto seleccionado";
+  heading.hidden = false;
+}
+
 function whyText(d) {
   var legal = d.determination.legalStatus;
   var act = ACT_LABELS[d.query.activity] || d.query.activity;
@@ -1209,8 +1274,14 @@ function whyText(d) {
       ((d.conditions || []).length ? ", siempre que se cumplan las condiciones indicadas." : ".");
   if (legal === "PROHIBITED") return 'La normativa verificada prohíbe ' + act + zone + '.';
   if (legal === "AUTHORIZATION_REQUIRED") return 'Para ' + act + zone + ' hace falta una autorización previa según la normativa verificada.';
-  if (hasReason(d, "NO_APPLICABLE_SCOPE")) return "Ninguna norma estudiada alcanza este punto.";
-  if ((d.coverage || {}).status === "UNKNOWN") return "Zona todavía no cubierta.";
+  if (hasReason(d, "NO_PUBLISHABLE_RULE_COVERAGE")) return "La zona está delimitada, pero falta una condición verificable para aplicar una regla concreta.";
+  if (hasReason(d, "NO_APPLICABLE_SCOPE") && (d.coverage || {}).status === "PARTIAL") {
+    return "Tenemos normativa de la zona, pero la comprobación espacial de este punto no está cerrada.";
+  }
+  if (hasReason(d, "NO_APPLICABLE_SCOPE") && (d.coverage || {}).status === "UNKNOWN") {
+    return "No tenemos una zona normativa verificada para este punto.";
+  }
+  if ((d.coverage || {}).status === "UNKNOWN") return "Aún no tenemos normativa verificada para este punto.";
   if ((d.coverage || {}).status === "PARTIAL") return "La cobertura de esta zona todavía no permite resolver este punto.";
   return "Faltan datos en la consulta para completar la evaluación.";
 }
@@ -1255,6 +1326,7 @@ function render(d) {
   // Coords — use ACT_LABELS for Spanish label (U5)
   var actLabel = ACT_LABELS[d.query.activity] || d.query.activity;
   $("coords").textContent = state.lat.toFixed(5) + ", " + state.lon.toFixed(5) + " · " + actLabel + " · " + d.query.activity_date;
+  renderPlaceHeading();
 
   // Altitude: only from dem.value_m (POI altitude stays in the POI card only).
   var altLine = $("altitude-line");
@@ -1273,6 +1345,13 @@ function render(d) {
   $("headline").textContent = primaryLegalLabel(d);
   $("answer-explanation").textContent = answerExplanation(d);
   var resultEl = $("legal-result");
+  var statusClass = {
+    PERMITTED: "permitted",
+    PROHIBITED: "prohibited",
+    AUTHORIZATION_REQUIRED: "authorization",
+    UNDETERMINED: "undetermined",
+  }[legalStatus] || "undetermined";
+  resultEl.className = "legal-result legal-status--" + statusClass;
   resultEl.style.borderLeftColor = LEGAL_BORDER_COLOR[legalStatus] || "#999";
 
   // Plain-language conditions (bullets)
@@ -1772,7 +1851,7 @@ function loadWeather(lat, lon) {
       block.innerHTML = "";
       var p = document.createElement("p");
       p.className = "weather-unavailable";
-      p.textContent = "Sin conexión: no hay datos meteorológicos disponibles.";
+      p.textContent = "No hay datos meteorológicos disponibles ahora.";
       block.appendChild(p);
     });
 }
@@ -1870,7 +1949,7 @@ function renderWeather(block, lat, lon, data) {
 
   var head = document.createElement("p");
   head.className = "weather-head";
-  head.innerHTML = 'Condiciones <span class="weather-src">Tiempo: ' +
+  head.innerHTML = '<span class="weather-title"><svg class="ui-icon weather-icon" data-icon="cloud" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.657 18c-2.572 0 -4.657 -2.007 -4.657 -4.483c0 -2.475 2.085 -4.482 4.657 -4.482c.393 -1.762 1.794 -3.2 3.675 -3.773c1.88 -.572 3.956 -.193 5.444 1c1.488 1.19 2.162 3.007 1.77 4.769h.99c1.913 0 3.464 1.56 3.464 3.486c0 1.927 -1.551 3.487 -3.465 3.487h-11.878"></path></svg><span>Condiciones</span></span><span class="weather-src">Tiempo: ' +
     '<a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>' +
     ' (CC BY 4.0)</span>';
   block.appendChild(head);
@@ -1897,17 +1976,28 @@ function renderWeather(block, lat, lon, data) {
     " · lluvia " + fmtProb(dailyProb);
   block.appendChild(today);
 
+  var forecast = document.createElement("details");
+  forecast.id = "weather-forecast";
+  forecast.className = "weather-forecast";
+  var summary = document.createElement("summary");
+  summary.className = "weather-sub";
+  summary.textContent = "Próximas 24 h";
+  forecast.appendChild(summary);
+  block.appendChild(forecast);
+
   var periods = computeWeatherPeriods(data);
-  if (!periods.length) return;
-  var title = document.createElement("p");
-  title.className = "weather-sub";
-  title.textContent = "Próximas 24 h";
-  block.appendChild(title);
+  if (!periods.length) {
+    var empty = document.createElement("p");
+    empty.className = "weather-line weather-period";
+    empty.textContent = "No hay franjas de previsión disponibles.";
+    forecast.appendChild(empty);
+    return;
+  }
   periods.forEach(function (p) {
     var row = document.createElement("p");
     row.className = "weather-line weather-period";
     row.textContent = p.label + ": " + p.temp + " · lluvia " + p.rain +
       " · viento " + p.wind;
-    block.appendChild(row);
+    forecast.appendChild(row);
   });
 }

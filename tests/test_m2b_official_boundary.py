@@ -858,6 +858,20 @@ def test_git_diff_vs_main_only_allowed_files():
         "tooling/pa_ordesa_overpass.json",
         "tooling/pa_picos_overpass.json",
         "webapp/protected_areas.json",
+        # M9.1 product + visual system hardening: vanilla UI, tests, and
+        # the explicitly vendored Tabler icon subset.
+        "docs/superpowers/specs/2026-09-12-m9.1-product-visual-hardening-design.md",
+        "docs/superpowers/plans/2026-09-12-m9.1-product-visual-hardening.md",
+        "tests/test_m91_product_visual.py",
+        "webapp/static/icons/NOTICE-TABLER.txt",
+        "webapp/static/icons/outline/bookmark.svg",
+        "webapp/static/icons/outline/chevron-down.svg",
+        "webapp/static/icons/outline/cloud.svg",
+        "webapp/static/icons/outline/current-location.svg",
+        "webapp/static/icons/outline/layers-subtract.svg",
+        "webapp/static/icons/outline/map-pin.svg",
+        "webapp/static/icons/outline/route.svg",
+        "webapp/static/icons/outline/x.svg",
     }
     for f in changed:
         m9_allowed = (

@@ -56,10 +56,33 @@ export const S12_MOBILE_SHEET = {
 
     const card = page.locator('#card');
     check(recorder, 'mobile-sheet-starts-peek', (await card.getAttribute('class')).includes('sheet-peek'));
-    await page.locator('#sheet-handle').click();
+    const handle = page.locator('#sheet-handle');
+    check(recorder, 'mobile-sheet-controls-result', (await handle.getAttribute('aria-controls')) === 'card-result');
+    const peekPrimaryVisible = await page.evaluate(() => {
+      const selectors = ['#place-heading', '#legal-section', '#weather-block', '#action-buttons'];
+      return selectors.every((selector) => {
+        const element = document.querySelector(selector);
+        if (!element || element.hidden) return false;
+        const rect = element.getBoundingClientRect();
+        return rect.top >= 0 && rect.bottom <= window.innerHeight;
+      });
+    });
+    check(recorder, 'mobile-sheet-peek-primary-content-visible', peekPrimaryVisible);
+    check(recorder, 'mobile-sheet-no-horizontal-overflow', await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1));
+
+    await handle.focus();
+    await page.keyboard.press('Enter');
     check(recorder, 'mobile-sheet-reaches-full', (await card.getAttribute('class')).includes('sheet-full'));
-    await page.locator('#sheet-handle').click();
+    check(recorder, 'mobile-sheet-expanded-aria-syncs', (await handle.getAttribute('aria-expanded')) === 'true');
+    await page.keyboard.press('Escape');
+    check(recorder, 'mobile-sheet-escape-returns-peek', (await card.getAttribute('class')).includes('sheet-peek'));
+    check(recorder, 'mobile-sheet-escape-keeps-focus', await page.evaluate(() => document.activeElement?.id === 'sheet-handle'));
+    await page.keyboard.press('Escape');
     check(recorder, 'mobile-sheet-reaches-closed', (await card.getAttribute('class')).includes('sheet-closed'));
+    check(recorder, 'mobile-sheet-collapsed-aria-syncs', (await handle.getAttribute('aria-expanded')) === 'false');
+    await handle.click();
+    await page.waitForTimeout(350);
+    check(recorder, 'mobile-sheet-reopens-to-peek', (await card.getAttribute('class')).includes('sheet-peek'));
     const box = await page.locator('#map').boundingBox();
     check(recorder, 'mobile-sheet-map-remains-sized', Boolean(box && box.width > 0 && box.height > 0), { actual: box });
   }
