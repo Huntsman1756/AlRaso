@@ -203,6 +203,20 @@ def test_layer_panel_note_mentions_pa_context():
     assert "contexto" in INDEX_HTML.lower() or "cartográfica" in INDEX_HTML or "cartographic" in INDEX_HTML.lower()
 
 
+def test_pa_disclaimer_is_explicitly_non_legal():
+    """The visible PA copy must explicitly distinguish information from legal determination."""
+    assert "Informativo — no es una determinación legal." in INDEX_HTML
+    assert "informativa — no es una determinación legal." in INDEX_HTML
+
+
+def test_pa_geometry_payload_is_validated_before_map_source():
+    """Malformed PA geometry must be skipped before MapLibre receives it."""
+    guard = APP_JS[APP_JS.find("function validPaFeatureCollection"):APP_JS.find("function bindLayerToggles")]
+    assert "validPaGeometry" in guard
+    assert "invalid geometry payload; layer skipped" in guard
+    assert guard.index("validPaFeatureCollection(fc)") < guard.index('map.addSource("protected-areas"')
+
+
 def test_pa_card_hidden_by_default():
     """The PA card is hidden by default (same pattern as POI card)."""
     assert 'id="pa-card" hidden' in INDEX_HTML or 'id="pa-card" hidden=""' in INDEX_HTML

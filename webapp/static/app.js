@@ -228,10 +228,41 @@ PA_FILL_COLOR: "fill" color constant for protected-area polygons.
 */
 const PA_FILL_COLOR = "#0d9488";
 
+function validPaPosition(position) {
+  return Array.isArray(position) && position.length >= 2 &&
+    Number.isFinite(position[0]) && Number.isFinite(position[1]) &&
+    position[0] >= -180 && position[0] <= 180 &&
+    position[1] >= -90 && position[1] <= 90;
+}
+
+function validPaRing(ring) {
+  return Array.isArray(ring) && ring.length >= 4 && ring.every(validPaPosition) &&
+    ring[0][0] === ring[ring.length - 1][0] &&
+    ring[0][1] === ring[ring.length - 1][1];
+}
+
+function validPaGeometry(geometry) {
+  if (!geometry || (geometry.type !== "Polygon" && geometry.type !== "MultiPolygon")) return false;
+  if (geometry.type === "Polygon") return Array.isArray(geometry.coordinates) && geometry.coordinates.length > 0 && geometry.coordinates.every(validPaRing);
+  return Array.isArray(geometry.coordinates) && geometry.coordinates.length > 0 && geometry.coordinates.every(
+    (polygon) => Array.isArray(polygon) && polygon.length > 0 && polygon.every(validPaRing));
+}
+
+function validPaFeatureCollection(fc) {
+  return !!fc && fc.type === "FeatureCollection" && Array.isArray(fc.features) &&
+    fc.features.every((feature) => feature && feature.type === "Feature" && validPaGeometry(feature.geometry));
+}
+
 async function loadProtectedAreas() {
   var fc;
   try { fc = await (await fetch("/api/protected-areas")).json(); }
   catch (e) { console.error("protected-areas", e); return; }
+  // A failed or malformed geometry is a missing context layer, never a reason
+  // to invent a polygon or let MapLibre break the rest of the map.
+  if (!validPaFeatureCollection(fc)) {
+    console.warn("protected-areas: invalid geometry payload; layer skipped");
+    return;
+  }
   map.addSource("protected-areas", { type: "geojson", data: fc });
   map.addLayer({
     id: "pa-fill", type: "fill", source: "protected-areas",
