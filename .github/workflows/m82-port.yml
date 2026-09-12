@@ -1,0 +1,405 @@
+name: m82-semantic-port
+
+on:
+  push:
+    branches: [feat/m8.2-product-answer-compaction]
+
+permissions:
+  contents: write
+
+jobs:
+  port:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/m8.2-product-answer-compaction
+          fetch-depth: 0
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Apply M8.2 semantic port
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_once(text, old, new, label):
+              if old not in text:
+                  raise SystemExit(f'MISSING PATCH ANCHOR: {label}')
+              if text.count(old) != 1:
+                  raise SystemExit(f'NON-UNIQUE PATCH ANCHOR ({text.count(old)}): {label}')
+              return text.replace(old, new, 1)
+
+          def replace_after(text, anchor, old, new, label):
+              pos = text.find(anchor)
+              if pos < 0:
+                  raise SystemExit(f'MISSING FUNCTION ANCHOR: {label}')
+              tail = text[pos:]
+              if old not in tail:
+                  raise SystemExit(f'MISSING PATCH ANCHOR AFTER {anchor}: {label}')
+              tail = tail.replace(old, new, 1)
+              return text[:pos] + tail
+
+          app_path = Path('webapp/static/app.js')
+          app = app_path.read_text(encoding='utf-8')
+
+          app = replace_once(
+              app,
+              'const state = { lat: null, lon: null, marker: null, poiCategory: null, poiAlt: null, selectedName: null };',
+              'const state = {\n  lat: null, lon: null, marker: null, poiCategory: null, poiAlt: null,\n  selectedName: null, cartographicContext: null,\n};',
+              'state cartographic context',
+          )
+
+          app = replace_after(
+              app,
+              'function renderPoi(p) {',
+              '  state.poiCategory = p.category;\n  state.poiAlt = p.alt_m || null;\n}',
+              '  state.poiCategory = p.category;\n  state.poiAlt = p.alt_m || null;\n  state.cartographicContext = null;\n  renderPlaceContext({});\n}',
+              'regular POI clears cartographic context',
+          )
+
+          app = replace_after(
+              app,
+              'function renderPa(p) {',
+              '    details.innerHTML = html;\n    box.style.display = "";\n  }\n}',
+              '    details.innerHTML = html;\n    box.style.display = "";\n  }\n  state.cartographicContext = {\n    kind: "Espacio protegido",\n    name: p.name || "Espacio protegido",\n    note: "Información cartográfica; no determina la legalidad.",\n  };\n  renderPlaceContext({});\n}',
+              'protected area exposes informational context',
+          )
+
+          app = replace_after(
+              app,
+              'function selectPoint(lat, lon, name, fly, preserveContext) {',
+              '    state.poiCategory = null;\n    state.poiAlt = null;\n    var paLegalBtn = $("pa-legal-btn");',
+              '    state.poiCategory = null;\n    state.poiAlt = null;\n    state.cartographicContext = null;\n    var contextBox = $("place-context");\n    if (contextBox) contextBox.hidden = true;\n    var paLegalBtn = $("pa-legal-btn");',
+              'fresh selection clears context',
+          )
+
+          helpers = r'''
+const PRIMARY_LEGAL_LABELS = {
+  PERMITTED: "Permitido",
+  PROHIBITED: "Prohibido",
+  AUTHORIZATION_REQUIRED: "Solo con autorización previa",
+  UNDETERMINED: "No lo podemos determinar",
+};
+
+const CORPUS_STATUS_LABELS = {
+  CURRENT: "vigente según los datos disponibles",
+  INCOMPLETE: "incompleto según los datos disponibles",
+  CONFLICTING: "con fuentes en conflicto",
+};
+
+function hasReason(d, code) {
+  return ((d.determination && d.determination.reasonCodes) || []).indexOf(code) !== -1;
+}
+
+function primaryLegalLabel(d) {
+  var legal = d.determination.legalStatus;
+  return PRIMARY_LEGAL_LABELS[legal] || ((d.ui || {}).legal || legal);
+}
+
+function answerExplanation(d) {
+  var legal = d.determination.legalStatus;
+  var coverage = (d.coverage || {}).status;
+  if (legal === "UNDETERMINED") {
+    if (coverage === "UNKNOWN") {
+      return "Aún no tenemos normativa verificada para este punto. Esto no significa que esté prohibido ni que esté permitido.";
+    }
+    if (coverage === "PARTIAL") {
+      return "La cobertura normativa de esta zona todavía no permite resolver este punto. Esto no significa que esté prohibido ni que esté permitido.";
+    }
+    return "Faltan datos para completar esta consulta. Esto no significa que esté prohibido ni que esté permitido.";
+  }
+  if (legal === "PERMITTED") return "La normativa verificada permite esta actividad.";
+  if (legal === "PROHIBITED") return "La normativa verificada prohíbe esta actividad.";
+  if (legal === "AUTHORIZATION_REQUIRED") return "Esta actividad requiere una autorización previa.";
+  return "No podemos mostrar una conclusión para este estado.";
+}
+
+function corpusStatusText(d) {
+  var knowledge = d.determination.knowledgeStatus;
+  return "Estado del corpus consultado: " +
+    (CORPUS_STATUS_LABELS[knowledge] || knowledge || "no disponible");
+}
+
+function coverageStatusText(d) {
+  var coverage = (d.coverage || {}).status;
+  if (coverage === "UNKNOWN") return "Cobertura normativa del punto: ninguna";
+  if (coverage === "PARTIAL") return "Cobertura normativa del punto: parcial";
+  if (coverage === "VERIFIED") return "Cobertura normativa del punto: geometría y norma verificadas";
+  return "Cobertura normativa del punto: " + (coverage || "no disponible");
+}
+
+function normalizePlaceContext(candidate) {
+  if (!candidate) return null;
+  var raw = candidate.properties || candidate;
+  if (typeof raw === "string") return { kind: "Espacio protegido", name: raw };
+  var name = raw.name || raw.official_name || raw.label || raw.title;
+  if (!name) return null;
+  var category = String(raw.category || raw.kind || raw.context_type || "").toLowerCase();
+  var kind = category.indexOf("protected") !== -1 || category.indexOf("proteg") !== -1
+    ? "Espacio protegido"
+    : (raw.kind_label || raw.context_label || "Contexto cartográfico");
+  return {
+    kind: kind,
+    name: name,
+    note: raw.note || raw.disclaimer || "Información cartográfica; no determina la legalidad.",
+  };
+}
+
+function renderPlaceContext(d) {
+  var box = $("place-context");
+  if (!box) return;
+  var raw = d.cartographicContext || d.cartographic_context || d.placeContext ||
+    d.place_context || d.protectedArea || d.protected_area ||
+    ((d.coverage || {}).context) || state.cartographicContext;
+  var context = normalizePlaceContext(Array.isArray(raw) ? raw[0] : raw);
+  if (!context) {
+    box.hidden = true;
+    $("place-context-value").textContent = "";
+    $("place-context-note").textContent = "";
+    return;
+  }
+  box.hidden = false;
+  $("place-context-kind").textContent = context.kind;
+  $("place-context-value").textContent = context.name;
+  $("place-context-note").textContent = context.note;
+}
+'''.strip('\n')
+
+          app = replace_once(
+              app,
+              '};\nfunction whyText(d) {',
+              '};\n\n' + helpers + '\nfunction whyText(d) {',
+              'insert compact answer helpers',
+          )
+
+          app = replace_once(
+              app,
+              '  if (d.coverage.status === "UNKNOWN")\n    return "Ninguna norma del corpus de AlRaso llega a este punto, así que no podemos afirmar ni permiso ni prohibición. Los códigos canónicos de esta comprobación están en «Detalle técnico».";\n  if (d.coverage.status === "PARTIAL")\n    return "Conocemos la normativa de esta zona, pero la comprobación punto a punto no está cerrada: para este punto concreto no afirmamos ni permiso ni prohibición.";\n  return "Faltan datos por confirmar (mira las condiciones de arriba): sin ellos AlRaso no afirma ni permiso ni prohibición.";',
+              '  if (hasReason(d, "NO_APPLICABLE_SCOPE")) return "Ninguna norma estudiada alcanza este punto.";\n  if ((d.coverage || {}).status === "UNKNOWN") return "Zona todavía no cubierta.";\n  if ((d.coverage || {}).status === "PARTIAL") return "La cobertura de esta zona todavía no permite resolver este punto.";\n  return "Faltan datos en la consulta para completar la evaluación.";',
+              'compact why text',
+          )
+
+          app = replace_once(
+              app,
+              '  $("headline").textContent = ui.headline || d.determination.legalStatus;\n  var resultEl = $("legal-result");',
+              '  $("headline").textContent = primaryLegalLabel(d);\n  $("answer-explanation").textContent = answerExplanation(d);\n  var resultEl = $("legal-result");',
+              'primary legal answer',
+          )
+
+          app = replace_once(
+              app,
+              '  badge($("legal"), d.determination.legalStatus, ui.legal || d.determination.legalStatus);\n  badge($("knowledge"), d.determination.knowledgeStatus, ui.knowledge || d.determination.knowledgeStatus);\n  badge($("coverage"), d.coverage.status, ui.coverage || d.coverage.status);\n\n',
+              '',
+              'remove primary badges',
+          )
+
+          app = replace_once(
+              app,
+              '  // ui.knowledge explanation when UNDETERMINED\n  var uiKnow = $("ui-knowledge");\n  if (legalStatus === "UNDETERMINED" && ui.knowledge) {\n    uiKnow.hidden = false;\n    uiKnow.textContent = ui.knowledge;\n  } else {\n    uiKnow.hidden = true;\n    uiKnow.textContent = "";\n  }\n',
+              '  var conditionsSummary = $("conditions-summary");\n  if (conditionsSummary) conditionsSummary.hidden = !(legalStatus !== "UNDETERMINED" && conds.length > 0);\n  renderPlaceContext(d);\n',
+              'replace duplicated knowledge with progressive context',
+          )
+
+          app = replace_once(
+              app,
+              '  $("decision").textContent = whyText(d);\n\n  var zones = $("region-list");',
+              '  $("decision").textContent = whyText(d);\n  $("corpus-status").textContent = corpusStatusText(d);\n  $("coverage-status").textContent = coverageStatusText(d);\n\n  var zones = $("region-list");',
+              'detail statuses',
+          )
+
+          app = replace_once(
+              app,
+              '    zones.innerHTML = \'<div class="region">Ninguna región cubierta contiene este punto.<br><span class="meta">AlRaso no tiene corpus aquí y por eso no puede afirmar nada: ni permiso ni prohibición.</span></div>\';',
+              '    zones.innerHTML = \'<div class="region region-empty">Zona todavía no cubierta</div>\';',
+              'compact empty coverage',
+          )
+
+          app = replace_once(
+              app,
+              '(r.coverage === "VERIFIED" ? "completa" : "parcial")',
+              '(r.coverage === "VERIFIED" ? "verificada" : "parcial")',
+              'verified chip copy',
+          )
+
+          app = replace_once(
+              app,
+              '  if (!(d.sources || []).length) src.innerHTML = "<li>Sin fuentes: ninguna norma verificada cubre este punto. Eso no es una prohibición.</li>";',
+              '  if (!(d.sources || []).length) src.innerHTML = "<li>No hay fuentes normativas vinculadas a este punto.</li>";',
+              'compact source absence',
+          )
+
+          app = replace_once(
+              app,
+              '  $("warning").textContent = (d.determination.warnings || [])[0] || "";\n}',
+              '  badge($("legal"), d.determination.legalStatus, d.determination.legalStatus);\n  badge($("knowledge"), d.determination.knowledgeStatus, d.determination.knowledgeStatus);\n  badge($("coverage"), d.coverage.status, d.coverage.status);\n\n  $("warning").textContent = (d.determination.warnings || [])[0] || "";\n}',
+              'technical badges only',
+          )
+
+          app_path.write_text(app, encoding='utf-8', newline='\n')
+
+          index_path = Path('webapp/static/index.html')
+          index = index_path.read_text(encoding='utf-8')
+
+          old_legal = '''          <!-- b) LEGAL QUESTION SECTION -->
+          <section id="legal-section">
+            <h2 class="legal-heading">¿Puedo hacer vivac aquí?</h2>
+            <p id="legal-result" class="legal-result">
+              <span id="legal-emoji"></span> <span id="headline"></span>
+            </p>
+            <ul id="plain-conds" class="plain-conds" hidden></ul>
+            <div id="ui-knowledge" class="ui-knowledge" hidden></div>
+          </section>
+
+          <!-- c) ACTION BUTTONS -->'''
+          new_legal = '''          <!-- b) LEGAL QUESTION SECTION -->
+          <section id="legal-section">
+            <h2 class="legal-heading">¿Puedo hacer vivac aquí?</h2>
+            <p id="legal-result" class="legal-result">
+              <span id="legal-emoji"></span> <span id="headline"></span>
+            </p>
+            <p id="answer-explanation" class="answer-explanation"></p>
+          </section>
+
+          <section id="conditions-summary" class="primary-section" hidden>
+            <h3>Condiciones</h3>
+            <ul id="plain-conds" class="plain-conds" hidden></ul>
+          </section>
+
+          <section id="place-context" class="place-context" hidden>
+            <h3>Contexto del lugar</h3>
+            <div><span id="place-context-kind" class="place-context-kind"></span>: <strong id="place-context-value"></strong></div>
+            <p id="place-context-note" class="place-context-note"></p>
+          </section>
+
+          <!-- c) ACTION BUTTONS -->'''
+          index = replace_once(index, old_legal, new_legal, 'primary legal HTML')
+
+          old_details = '''          <!-- d) DETAILS BLOCK -->
+          <details id="detail-box"><summary>Fuentes y detalle</summary>
+            <div class="detail-tools">
+              <button id="center-btn" type="button">Usar el centro del mapa</button>
+            </div>
+            <section class="detail-section">
+              <h3><label for="activity">Actividad</label></h3>
+              <select id="activity">
+                <option value="VIVAC_AL_RASO">Vivac al raso</option>
+                <option value="FUNDA_VIVAC">Funda vivac</option>
+                <option value="TIENDA_NOCTURNA">Tienda de campaña nocturna</option>
+                <option value="ACAMPADA">Acampada</option>
+                <option value="PERNOCTA_REFUGIO">Pernocta en refugio</option>
+              </select>
+              <label>Fecha de la actividad <input type="date" id="date"></label>
+              <div id="factbox"></div>
+            </section>
+            <p id="dem-info" class="dem-info" hidden></p>
+            <section id="condiciones"><h3>Condiciones evaluadas</h3><ul id="cond-list"></ul></section>
+            <section><h3>Por qué sabemos / por qué no</h3><p id="decision"></p></section>
+            <section id="zonas"><h3>Zonas de cobertura</h3><div id="region-list"></div></section>
+            <section><h3>Fuentes</h3><ul id="sources"></ul></section>
+            <div class="badges">
+              <div><span class="badge-label">SITUACIÓN LEGAL</span><span id="legal" class="badge">—</span></div>
+              <div><span class="badge-label">ESTADO DE LA INFORMACIÓN</span><span id="knowledge" class="badge">—</span></div>
+              <div><span class="badge-label">COBERTURA</span><span id="coverage" class="badge">—</span></div>
+            </div>
+            <p id="warning" class="warning"></p>
+            <details id="tech">
+              <summary>Detalle técnico (códigos)</summary>
+              <ul id="tech-codes"></ul>
+            </details>
+          </details>'''
+          new_details = '''          <!-- d) DETAILS BLOCK -->
+          <details id="detail-box"><summary>Consultar detalle</summary>
+            <div class="detail-tools">
+              <button id="center-btn" type="button">Usar el centro del mapa</button>
+            </div>
+            <section class="detail-section">
+              <h3>Datos de la consulta</h3>
+              <label for="activity">Actividad</label>
+              <select id="activity">
+                <option value="VIVAC_AL_RASO">Vivac al raso</option>
+                <option value="FUNDA_VIVAC">Funda vivac</option>
+                <option value="TIENDA_NOCTURNA">Tienda de campaña nocturna</option>
+                <option value="ACAMPADA">Acampada</option>
+                <option value="PERNOCTA_REFUGIO">Pernocta en refugio</option>
+              </select>
+              <label>Fecha de la actividad <input type="date" id="date"></label>
+              <div id="factbox"></div>
+              <p id="dem-info" class="dem-info" hidden></p>
+            </section>
+            <section id="condiciones" class="detail-section"><h3>Condiciones evaluadas</h3><ul id="cond-list"></ul></section>
+            <section class="detail-section"><h3>Por qué damos esta respuesta</h3><p id="decision"></p></section>
+            <section class="detail-section">
+              <h3>Cobertura y fuentes</h3>
+              <p id="corpus-status" class="detail-status"></p>
+              <p id="coverage-status" class="detail-status"></p>
+              <div id="zonas"><div id="region-list"></div></div>
+              <ul id="sources"></ul>
+              <p id="warning" class="warning"></p>
+            </section>
+            <details id="tech">
+              <summary>Detalle técnico (códigos)</summary>
+              <div class="badges">
+                <div><span class="badge-label">SITUACIÓN LEGAL</span><span id="legal" class="badge">—</span></div>
+                <div><span class="badge-label">ESTADO DE LA INFORMACIÓN</span><span id="knowledge" class="badge">—</span></div>
+                <div><span class="badge-label">COBERTURA</span><span id="coverage" class="badge">—</span></div>
+              </div>
+              <ul id="tech-codes"></ul>
+            </details>
+          </details>'''
+          index = replace_once(index, old_details, new_details, 'progressive detail HTML')
+          index_path.write_text(index, encoding='utf-8', newline='\n')
+
+          css_path = Path('webapp/static/style.css')
+          css = css_path.read_text(encoding='utf-8')
+          marker = '/* ── M8.2: COMPACT PRODUCT ANSWER ── */'
+          if marker in css:
+              raise SystemExit('M8.2 CSS marker already exists unexpectedly')
+          css += r'''
+
+/* ── M8.2: COMPACT PRODUCT ANSWER ── */
+.answer-explanation { margin:4px 0 0; font-size:14px; line-height:1.45; color:var(--muted); }
+.primary-section { margin:14px 0; }
+.primary-section > h3, .place-context > h3 { margin:0 0 7px; font-size:14px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }
+.place-context { margin:14px 0; padding:9px 11px; border:1px solid var(--line); border-left:3px solid #0d9488; border-radius:7px; background:#141a20; font-size:13px; }
+.place-context-kind { color:var(--muted); }
+.place-context-note { margin:5px 0 0; color:var(--muted); font-size:12px; }
+.detail-section { padding:10px 0; border-bottom:1px solid var(--line); }
+.detail-section:last-of-type { border-bottom:0; }
+.detail-status { margin:4px 0; color:var(--muted); font-size:13px; }
+.region-empty { color:var(--muted); }
+#detail-box > summary { font-weight:700; }
+#tech { margin-top:10px; }
+#tech .badges { margin:10px 0; }
+.weather-block { margin:8px 0 10px; padding:8px 10px; }
+.weather-line { margin:2px 0; line-height:1.35; }
+#warning:empty { display:none; }
+'''
+          css_path.write_text(css, encoding='utf-8', newline='\n')
+          PY
+
+      - name: Verify targeted regressions
+        shell: bash
+        run: |
+          python -m pip install --quiet 'pytest>=8'
+          node --check webapp/static/app.js
+          python -m pytest -q \
+            tests/test_m8_poi_product.py \
+            tests/test_m6_weather.py \
+            tests/test_m81_protected_area_app.py
+
+      - name: Commit semantic port and remove temporary workflow
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/m82-port.yml
+          git add webapp/static/app.js webapp/static/index.html webapp/static/style.css tests/test_m8_poi_product.py
+          git diff --cached --check
+          git commit -m 'feat(m8.2): compact product answer on current main'
+          git push origin HEAD:feat/m8.2-product-answer-compaction
