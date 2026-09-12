@@ -657,7 +657,19 @@ function selectPoint(lat, lon, name, fly, preserveContext) {
     } else {
       state.marker.setLngLat(ll);
     }
-    if (fly) map.flyTo({ center: ll, zoom: Math.max(map.getZoom(), 10) });
+    if (fly) {
+      var camera = { center: ll, zoom: Math.max(map.getZoom(), 10) };
+      if (isMobileLayout()) {
+        var sheet = $("card");
+        var peekHeight = sheet
+          ? parseFloat(getComputedStyle(sheet).getPropertyValue("--sheet-peek-height"))
+          : 0;
+        if (Number.isFinite(peekHeight) && peekHeight > 0) {
+          camera.padding = { top: 0, right: 0, bottom: peekHeight, left: 0 };
+        }
+      }
+      map.flyTo(camera);
+    }
   }
   // A fresh coordinate/name selection replaces any contextual card from a
   // previous POI or protected-area click. The specialized renderers show the
