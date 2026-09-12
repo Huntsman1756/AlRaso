@@ -80,3 +80,9 @@ def test_m91_place_heading_is_rendered_from_existing_selection_state():
     assert "function renderPlaceHeading()" in APP
     assert "state.selectedName" in APP
     assert "renderPlaceHeading();" in APP
+
+
+def test_m91_weather_forecast_is_a_native_disclosure():
+    assert 'className = "weather-forecast"' in APP
+    assert 'textContent = "Próximas 24 h"' in APP
+    assert "forecast.appendChild(summary)" in APP

@@ -1946,17 +1946,28 @@ function renderWeather(block, lat, lon, data) {
     " · lluvia " + fmtProb(dailyProb);
   block.appendChild(today);
 
+  var forecast = document.createElement("details");
+  forecast.id = "weather-forecast";
+  forecast.className = "weather-forecast";
+  var summary = document.createElement("summary");
+  summary.className = "weather-sub";
+  summary.textContent = "Próximas 24 h";
+  forecast.appendChild(summary);
+  block.appendChild(forecast);
+
   var periods = computeWeatherPeriods(data);
-  if (!periods.length) return;
-  var title = document.createElement("p");
-  title.className = "weather-sub";
-  title.textContent = "Próximas 24 h";
-  block.appendChild(title);
+  if (!periods.length) {
+    var empty = document.createElement("p");
+    empty.className = "weather-line weather-period";
+    empty.textContent = "No hay franjas de previsión disponibles.";
+    forecast.appendChild(empty);
+    return;
+  }
   periods.forEach(function (p) {
     var row = document.createElement("p");
     row.className = "weather-line weather-period";
     row.textContent = p.label + ": " + p.temp + " · lluvia " + p.rain +
       " · viento " + p.wind;
-    block.appendChild(row);
+    forecast.appendChild(row);
   });
 }

@@ -46,6 +46,15 @@ export const S08_WEATHER_AVAILABLE = {
     const weatherHead = await visible(page, '#weather-block .weather-head');
     const weatherText = await text(page, '#weather-block');
     const weatherUiValid = weatherVisible && weatherHead && weatherText.includes('Open-Meteo');
+    const forecast = page.locator('#weather-forecast');
+    const forecastExists = await forecast.count() === 1;
+    const forecastClosed = forecastExists && !(await forecast.evaluate((element) => element.open));
+    check(recorder, 'weather-forecast-collapsed-by-default', forecastClosed);
+    if (forecastExists) {
+      await forecast.locator(':scope > summary').click();
+      check(recorder, 'weather-forecast-expands', await forecast.evaluate((element) => element.open));
+      await forecast.locator(':scope > summary').click();
+    }
     const canonicalCoordinates = matchesCanonicalWeatherCoordinates(requestUrl, CANONICAL.cares);
     const externalObservation = {
       provider: 'open-meteo',

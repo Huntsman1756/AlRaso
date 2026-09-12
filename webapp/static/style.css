@@ -325,6 +325,10 @@ footer { display:flex; flex-wrap:wrap; gap:6px 18px; padding:6px 16px; border-to
 .weather-src a { color:var(--accent); }
 .weather-sub { margin-top:8px; font-size:11px; text-transform:uppercase; letter-spacing:.7px; color:var(--muted); font-weight:700; }
 .weather-unavailable, .weather-loading { color:var(--muted); }
+.weather-forecast { margin-top:8px; border-top:1px solid var(--line); padding-top:6px; }
+.weather-forecast > summary { cursor:pointer; list-style-position:outside; min-height:30px; padding:4px 0; }
+.weather-forecast > summary:focus-visible { outline-offset:3px; }
+.weather-forecast[open] > summary { margin-bottom:5px; }
 
 /* ── REDUCED MOTION ── */
 @media (prefers-reduced-motion: reduce) {
