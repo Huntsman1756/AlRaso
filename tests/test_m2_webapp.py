@@ -191,7 +191,7 @@ def test_poi_has_provenance(svc):
         assert props["source"] in ("openstreetmap", "alraso"), props["id"]
         assert props["source_label"], props["id"]
         assert props["region"] in ("ordesa", "picos"), props["id"]
-        assert props["name"], props["id"]
+        assert props["name"] is None or (isinstance(props["name"], str) and props["name"].strip()), props["id"]
         if props["source"] == "openstreetmap":
             assert props["source_ref"], props["id"]
             assert props["osm_url"], props["id"]
@@ -232,6 +232,13 @@ def test_poi_search_returns_poi_kind_not_place(svc):
     # La busqueda puede mover el mapa, pero nunca suministra hechos al resolver.
     for key in ("facts", "nights", "refuge_capacity_full"):
         assert key not in out
+
+
+def test_unnamed_poi_is_not_searchable_as_a_technical_name(svc):
+    unnamed = next(p for p in svc.pois if p["name"] is None)
+    out = server.find_query(svc, unnamed["source_ref"])
+    assert out["kind"] == "none"
+    assert unnamed["id"] not in {p["id"] for p in svc.searchable}
 
 
 def test_curated_search_takes_precedence_over_poi(svc):

@@ -55,7 +55,7 @@
     {
       "id": "node/12120014839",
       "category": "camping",
-      "name": "POI camping node/12120014839",
+      "name": null,
       "lat": 43.213375,
       "lon": -4.982078,
       "source": "openstreetmap",
@@ -72,7 +72,7 @@
     {
       "id": "node/12120629509",
       "category": "camping",
-      "name": "POI camping node/12120629509",
+      "name": null,
       "lat": 43.176264,
       "lon": -4.834909,
       "source": "openstreetmap",
@@ -89,7 +89,7 @@
     {
       "id": "node/12120629510",
       "category": "camping",
-      "name": "POI camping node/12120629510",
+      "name": null,
       "lat": 43.180356,
       "lon": -4.83376,
       "source": "openstreetmap",
@@ -106,7 +106,7 @@
     {
       "id": "node/1336146682",
       "category": "camping",
-      "name": "POI camping node/1336146682",
+      "name": null,
       "lat": 42.584427,
       "lon": 0.170135,
       "source": "openstreetmap",
@@ -157,7 +157,7 @@
     {
       "id": "node/14098978663",
       "category": "camping",
-      "name": "POI camping node/14098978663",
+      "name": null,
       "lat": 43.243114,
       "lon": -4.92337,
       "source": "openstreetmap",
@@ -208,7 +208,7 @@
     {
       "id": "node/14121221682",
       "category": "camping",
-      "name": "POI camping node/14121221682",
+      "name": null,
       "lat": 43.180502,
       "lon": -4.832766,
       "source": "openstreetmap",
@@ -225,7 +225,7 @@
     {
       "id": "node/14121221683",
       "category": "camping",
-      "name": "POI camping node/14121221683",
+      "name": null,
       "lat": 43.180137,
       "lon": -4.833824,
       "source": "openstreetmap",
@@ -242,7 +242,7 @@
     {
       "id": "node/14121221684",
       "category": "camping",
-      "name": "POI camping node/14121221684",
+      "name": null,
       "lat": 43.180544,
       "lon": -4.835552,
       "source": "openstreetmap",
@@ -259,7 +259,7 @@
     {
       "id": "node/14121221686",
       "category": "camping",
-      "name": "POI camping node/14121221686",
+      "name": null,
       "lat": 43.177602,
       "lon": -4.833623,
       "source": "openstreetmap",
@@ -582,7 +582,7 @@
     {
       "id": "node/7412170470",
       "category": "refuge",
-      "name": "POI refuge node/7412170470",
+      "name": null,
       "lat": 43.007849,
       "lon": -5.113801,
       "source": "openstreetmap",
@@ -599,7 +599,7 @@
     {
       "id": "node/7651799342",
       "category": "refuge",
-      "name": "POI refuge node/7651799342",
+      "name": null,
       "lat": 43.070059,
       "lon": -5.209928,
       "source": "openstreetmap",
@@ -667,7 +667,7 @@
     {
       "id": "node/10742987405",
       "category": "shelter",
-      "name": "POI shelter node/10742987405",
+      "name": null,
       "lat": 43.221276,
       "lon": -5.154471,
       "source": "openstreetmap",
@@ -701,7 +701,7 @@
     {
       "id": "node/1103753935",
       "category": "shelter",
-      "name": "POI shelter node/1103753935",
+      "name": null,
       "lat": 42.671583,
       "lon": -0.045056,
       "source": "openstreetmap",
@@ -786,7 +786,7 @@
     {
       "id": "node/11850733088",
       "category": "shelter",
-      "name": "POI shelter node/11850733088",
+      "name": null,
       "lat": 43.179629,
       "lon": -4.799917,
       "source": "openstreetmap",
@@ -803,7 +803,7 @@
     {
       "id": "node/12240970132",
       "category": "shelter",
-      "name": "POI shelter node/12240970132",
+      "name": null,
       "lat": 43.254985,
       "lon": -4.639494,
       "source": "openstreetmap",
@@ -820,7 +820,7 @@
     {
       "id": "node/12779055201",
       "category": "shelter",
-      "name": "POI shelter node/12779055201",
+      "name": null,
       "lat": 43.328608,
       "lon": -4.903853,
       "source": "openstreetmap",
@@ -854,7 +854,7 @@
     {
       "id": "node/1325511015",
       "category": "shelter",
-      "name": "POI shelter node/1325511015",
+      "name": null,
       "lat": 42.636178,
       "lon": -0.025726,
       "source": "openstreetmap",
@@ -871,7 +871,7 @@
     {
       "id": "node/13430465102",
       "category": "shelter",
-      "name": "POI shelter node/13430465102",
+      "name": null,
       "lat": 43.099788,
       "lon": -4.436225,
       "source": "openstreetmap",
@@ -888,7 +888,7 @@
     {
       "id": "node/13430465103",
       "category": "shelter",
-      "name": "POI shelter node/13430465103",
+      "name": null,
       "lat": 43.08477,
       "lon": -4.460205,
       "source": "openstreetmap",
@@ -905,7 +905,7 @@
     {
       "id": "node/13430465105",
       "category": "shelter",
-      "name": "POI shelter node/13430465105",
+      "name": null,
       "lat": 43.075972,
       "lon": -4.508677,
       "source": "openstreetmap",
@@ -922,7 +922,7 @@
     {
       "id": "node/13476352007",
       "category": "shelter",
-      "name": "POI shelter node/13476352007",
+      "name": null,
       "lat": 43.12355,
       "lon": -4.866966,
       "source": "openstreetmap",
@@ -939,7 +939,7 @@
     {
       "id": "node/13655073752",
       "category": "shelter",
-      "name": "POI shelter node/13655073752",
+      "name": null,
       "lat": 43.253822,
       "lon": -4.837722,
       "source": "openstreetmap",
@@ -973,7 +973,7 @@
     {
       "id": "node/1746698468",
       "category": "shelter",
-      "name": "POI shelter node/1746698468",
+      "name": null,
       "lat": 42.768604,
       "lon": 0.135829,
       "source": "openstreetmap",
@@ -1007,7 +1007,7 @@
     {
       "id": "node/1853099566",
       "category": "shelter",
-      "name": "POI shelter node/1853099566",
+      "name": null,
       "lat": 42.761842,
       "lon": -0.219879,
       "source": "openstreetmap",
@@ -1058,7 +1058,7 @@
     {
       "id": "node/2997681718",
       "category": "shelter",
-      "name": "POI shelter node/2997681718",
+      "name": null,
       "lat": 42.614937,
       "lon": 0.033528,
       "source": "openstreetmap",
@@ -1075,7 +1075,7 @@
     {
       "id": "node/2997742656",
       "category": "shelter",
-      "name": "POI shelter node/2997742656",
+      "name": null,
       "lat": 42.616497,
       "lon": 0.021618,
       "source": "openstreetmap",
@@ -1126,7 +1126,7 @@
     {
       "id": "node/4548821411",
       "category": "shelter",
-      "name": "POI shelter node/4548821411",
+      "name": null,
       "lat": 43.025277,
       "lon": -5.21175,
       "source": "openstreetmap",
@@ -1143,7 +1143,7 @@
     {
       "id": "node/4648604918",
       "category": "shelter",
-      "name": "POI shelter node/4648604918",
+      "name": null,
       "lat": 42.838585,
       "lon": 0.024532,
       "source": "openstreetmap",
@@ -1177,7 +1177,7 @@
     {
       "id": "node/4799007234",
       "category": "shelter",
-      "name": "POI shelter node/4799007234",
+      "name": null,
       "lat": 42.783557,
       "lon": 0.158905,
       "source": "openstreetmap",
@@ -1194,7 +1194,7 @@
     {
       "id": "node/5632372722",
       "category": "shelter",
-      "name": "POI shelter node/5632372722",
+      "name": null,
       "lat": 43.244141,
       "lon": -4.889375,
       "source": "openstreetmap",
@@ -1228,7 +1228,7 @@
     {
       "id": "node/5901631394",
       "category": "shelter",
-      "name": "POI shelter node/5901631394",
+      "name": null,
       "lat": 43.253604,
       "lon": -4.848811,
       "source": "openstreetmap",
@@ -1432,7 +1432,7 @@
     {
       "id": "node/7001365157",
       "category": "shelter",
-      "name": "POI shelter node/7001365157",
+      "name": null,
       "lat": 43.293866,
       "lon": -4.834358,
       "source": "openstreetmap",
@@ -1500,7 +1500,7 @@
     {
       "id": "node/8485266422",
       "category": "shelter",
-      "name": "POI shelter node/8485266422",
+      "name": null,
       "lat": 43.235766,
       "lon": -4.579283,
       "source": "openstreetmap",
@@ -1738,7 +1738,7 @@
     {
       "id": "node/1119386537",
       "category": "water",
-      "name": "POI water node/1119386537",
+      "name": null,
       "lat": 42.639519,
       "lon": -0.032109,
       "source": "openstreetmap",
@@ -1755,7 +1755,7 @@
     {
       "id": "node/1325473129",
       "category": "water",
-      "name": "POI water node/1325473129",
+      "name": null,
       "lat": 42.614433,
       "lon": -0.152849,
       "source": "openstreetmap",
@@ -1772,7 +1772,7 @@
     {
       "id": "node/1325511052",
       "category": "water",
-      "name": "POI water node/1325511052",
+      "name": null,
       "lat": 42.637679,
       "lon": -0.002427,
       "source": "openstreetmap",
@@ -1823,7 +1823,7 @@
     {
       "id": "node/1338243352",
       "category": "water",
-      "name": "POI water node/1338243352",
+      "name": null,
       "lat": 42.579,
       "lon": 0.180358,
       "source": "openstreetmap",
@@ -1840,7 +1840,7 @@
     {
       "id": "node/1338275644",
       "category": "water",
-      "name": "POI water node/1338275644",
+      "name": null,
       "lat": 42.666133,
       "lon": 0.103669,
       "source": "openstreetmap",
@@ -1857,7 +1857,7 @@
     {
       "id": "node/1338275665",
       "category": "water",
-      "name": "POI water node/1338275665",
+      "name": null,
       "lat": 42.685482,
       "lon": 0.07921,
       "source": "openstreetmap",
@@ -1874,7 +1874,7 @@
     {
       "id": "node/1338275676",
       "category": "water",
-      "name": "POI water node/1338275676",
+      "name": null,
       "lat": 42.681835,
       "lon": 0.06976,
       "source": "openstreetmap",
@@ -1891,7 +1891,7 @@
     {
       "id": "node/1522029599",
       "category": "water",
-      "name": "POI water node/1522029599",
+      "name": null,
       "lat": 42.580582,
       "lon": 0.020447,
       "source": "openstreetmap",
@@ -1925,7 +1925,7 @@
     {
       "id": "node/2056554923",
       "category": "water",
-      "name": "POI water node/2056554923",
+      "name": null,
       "lat": 42.884917,
       "lon": -0.111218,
       "source": "openstreetmap",
@@ -1976,7 +1976,7 @@
     {
       "id": "node/2653960674",
       "category": "water",
-      "name": "POI water node/2653960674",
+      "name": null,
       "lat": 42.888986,
       "lon": -0.114224,
       "source": "openstreetmap",
@@ -1993,7 +1993,7 @@
     {
       "id": "node/3021881864",
       "category": "water",
-      "name": "POI water node/3021881864",
+      "name": null,
       "lat": 42.610987,
       "lon": -0.141598,
       "source": "openstreetmap",
@@ -2010,7 +2010,7 @@
     {
       "id": "node/3041561553",
       "category": "water",
-      "name": "POI water node/3041561553",
+      "name": null,
       "lat": 42.595793,
       "lon": 0.12955,
       "source": "openstreetmap",
@@ -2044,7 +2044,7 @@
     {
       "id": "node/3608999482",
       "category": "water",
-      "name": "POI water node/3608999482",
+      "name": null,
       "lat": 42.719784,
       "lon": 5.3e-05,
       "source": "openstreetmap",
@@ -2061,7 +2061,7 @@
     {
       "id": "node/3622028293",
       "category": "water",
-      "name": "POI water node/3622028293",
+      "name": null,
       "lat": 42.729361,
       "lon": 0.049271,
       "source": "openstreetmap",
@@ -2078,7 +2078,7 @@
     {
       "id": "node/3658637187",
       "category": "water",
-      "name": "POI water node/3658637187",
+      "name": null,
       "lat": 42.774638,
       "lon": -0.122253,
       "source": "openstreetmap",
@@ -2095,7 +2095,7 @@
     {
       "id": "node/3717039406",
       "category": "water",
-      "name": "POI water node/3717039406",
+      "name": null,
       "lat": 42.600284,
       "lon": -0.289038,
       "source": "openstreetmap",
@@ -2146,7 +2146,7 @@
     {
       "id": "node/3816313684",
       "category": "water",
-      "name": "POI water node/3816313684",
+      "name": null,
       "lat": 42.595511,
       "lon": 0.014219,
       "source": "openstreetmap",
@@ -2163,7 +2163,7 @@
     {
       "id": "node/3839746280",
       "category": "water",
-      "name": "POI water node/3839746280",
+      "name": null,
       "lat": 42.598845,
       "lon": 0.14572,
       "source": "openstreetmap",
@@ -2180,7 +2180,7 @@
     {
       "id": "node/4004226223",
       "category": "water",
-      "name": "POI water node/4004226223",
+      "name": null,
       "lat": 42.723704,
       "lon": -0.285011,
       "source": "openstreetmap",
@@ -2214,7 +2214,7 @@
     {
       "id": "node/4004244195",
       "category": "water",
-      "name": "POI water node/4004244195",
+      "name": null,
       "lat": 42.724383,
       "lon": -0.283704,
       "source": "openstreetmap",
@@ -2231,7 +2231,7 @@
     {
       "id": "node/420330037",
       "category": "water",
-      "name": "POI water node/420330037",
+      "name": null,
       "lat": 42.574047,
       "lon": 0.016793,
       "source": "openstreetmap",
@@ -2248,7 +2248,7 @@
     {
       "id": "node/4213648990",
       "category": "water",
-      "name": "POI water node/4213648990",
+      "name": null,
       "lat": 42.506228,
       "lon": -0.128337,
       "source": "openstreetmap",
@@ -2367,7 +2367,7 @@
     {
       "id": "node/4372659804",
       "category": "water",
-      "name": "POI water node/4372659804",
+      "name": null,
       "lat": 42.684812,
       "lon": 0.081608,
       "source": "openstreetmap",
@@ -2384,7 +2384,7 @@
     {
       "id": "node/4375796911",
       "category": "water",
-      "name": "POI water node/4375796911",
+      "name": null,
       "lat": 42.684679,
       "lon": -0.080769,
       "source": "openstreetmap",
@@ -2401,7 +2401,7 @@
     {
       "id": "node/4397708980",
       "category": "water",
-      "name": "POI water node/4397708980",
+      "name": null,
       "lat": 42.820368,
       "lon": 0.010209,
       "source": "openstreetmap",
@@ -2418,7 +2418,7 @@
     {
       "id": "node/4504402467",
       "category": "water",
-      "name": "POI water node/4504402467",
+      "name": null,
       "lat": 42.719812,
       "lon": -0.29885,
       "source": "openstreetmap",
@@ -2452,7 +2452,7 @@
     {
       "id": "node/4779545976",
       "category": "water",
-      "name": "POI water node/4779545976",
+      "name": null,
       "lat": 42.873483,
       "lon": -0.002397,
       "source": "openstreetmap",
@@ -2469,7 +2469,7 @@
     {
       "id": "node/4883777734",
       "category": "water",
-      "name": "POI water node/4883777734",
+      "name": null,
       "lat": 42.7232,
       "lon": -0.289267,
       "source": "openstreetmap",
@@ -2486,7 +2486,7 @@
     {
       "id": "node/4897619487",
       "category": "water",
-      "name": "POI water node/4897619487",
+      "name": null,
       "lat": 42.720602,
       "lon": -0.281054,
       "source": "openstreetmap",
@@ -2503,7 +2503,7 @@
     {
       "id": "node/5026436822",
       "category": "water",
-      "name": "POI water node/5026436822",
+      "name": null,
       "lat": 42.862936,
       "lon": -0.010358,
       "source": "openstreetmap",
@@ -2520,7 +2520,7 @@
     {
       "id": "node/5058855374",
       "category": "water",
-      "name": "POI water node/5058855374",
+      "name": null,
       "lat": 42.627006,
       "lon": -0.112051,
       "source": "openstreetmap",
@@ -2537,7 +2537,7 @@
     {
       "id": "node/5058855700",
       "category": "water",
-      "name": "POI water node/5058855700",
+      "name": null,
       "lat": 42.666001,
       "lon": 0.081405,
       "source": "openstreetmap",
@@ -2571,7 +2571,7 @@
     {
       "id": "node/5077998602",
       "category": "water",
-      "name": "POI water node/5077998602",
+      "name": null,
       "lat": 42.52554,
       "lon": -0.279047,
       "source": "openstreetmap",
@@ -2588,7 +2588,7 @@
     {
       "id": "node/5077998603",
       "category": "water",
-      "name": "POI water node/5077998603",
+      "name": null,
       "lat": 42.524476,
       "lon": -0.279607,
       "source": "openstreetmap",
@@ -2605,7 +2605,7 @@
     {
       "id": "node/5078360069",
       "category": "water",
-      "name": "POI water node/5078360069",
+      "name": null,
       "lat": 42.645158,
       "lon": -0.107322,
       "source": "openstreetmap",
@@ -2622,7 +2622,7 @@
     {
       "id": "node/5078360070",
       "category": "water",
-      "name": "POI water node/5078360070",
+      "name": null,
       "lat": 42.648826,
       "lon": -0.136633,
       "source": "openstreetmap",
@@ -2639,7 +2639,7 @@
     {
       "id": "node/5078360071",
       "category": "water",
-      "name": "POI water node/5078360071",
+      "name": null,
       "lat": 42.650969,
       "lon": -0.135755,
       "source": "openstreetmap",
@@ -2673,7 +2673,7 @@
     {
       "id": "node/5110858023",
       "category": "water",
-      "name": "POI water node/5110858023",
+      "name": null,
       "lat": 42.727831,
       "lon": -0.269818,
       "source": "openstreetmap",
@@ -2690,7 +2690,7 @@
     {
       "id": "node/5117018544",
       "category": "water",
-      "name": "POI water node/5117018544",
+      "name": null,
       "lat": 42.547531,
       "lon": 0.132374,
       "source": "openstreetmap",
@@ -2707,7 +2707,7 @@
     {
       "id": "node/5124132133",
       "category": "water",
-      "name": "POI water node/5124132133",
+      "name": null,
       "lat": 42.574323,
       "lon": 0.181876,
       "source": "openstreetmap",
@@ -2741,7 +2741,7 @@
     {
       "id": "node/5298446114",
       "category": "water",
-      "name": "POI water node/5298446114",
+      "name": null,
       "lat": 42.839323,
       "lon": 0.080972,
       "source": "openstreetmap",
@@ -2775,7 +2775,7 @@
     {
       "id": "node/537786947",
       "category": "water",
-      "name": "POI water node/537786947",
+      "name": null,
       "lat": 42.627862,
       "lon": -0.110098,
       "source": "openstreetmap",
@@ -2809,7 +2809,7 @@
     {
       "id": "node/5794095976",
       "category": "water",
-      "name": "POI water node/5794095976",
+      "name": null,
       "lat": 42.686581,
       "lon": 0.065078,
       "source": "openstreetmap",
@@ -2826,7 +2826,7 @@
     {
       "id": "node/5808372206",
       "category": "water",
-      "name": "POI water node/5808372206",
+      "name": null,
       "lat": 42.70928,
       "lon": -0.283807,
       "source": "openstreetmap",
@@ -2843,7 +2843,7 @@
     {
       "id": "node/5812140270",
       "category": "water",
-      "name": "POI water node/5812140270",
+      "name": null,
       "lat": 42.875179,
       "lon": 0.006411,
       "source": "openstreetmap",
@@ -2860,7 +2860,7 @@
     {
       "id": "node/5812150988",
       "category": "water",
-      "name": "POI water node/5812150988",
+      "name": null,
       "lat": 42.856126,
       "lon": -0.012349,
       "source": "openstreetmap",
@@ -2877,7 +2877,7 @@
     {
       "id": "node/5812159446",
       "category": "water",
-      "name": "POI water node/5812159446",
+      "name": null,
       "lat": 42.837432,
       "lon": -0.004437,
       "source": "openstreetmap",
@@ -2894,7 +2894,7 @@
     {
       "id": "node/5812164481",
       "category": "water",
-      "name": "POI water node/5812164481",
+      "name": null,
       "lat": 42.886472,
       "lon": -0.110673,
       "source": "openstreetmap",
@@ -2911,7 +2911,7 @@
     {
       "id": "node/5828036525",
       "category": "water",
-      "name": "POI water node/5828036525",
+      "name": null,
       "lat": 42.619039,
       "lon": -0.251317,
       "source": "openstreetmap",
@@ -2928,7 +2928,7 @@
     {
       "id": "node/5835706070",
       "category": "water",
-      "name": "POI water node/5835706070",
+      "name": null,
       "lat": 42.872997,
       "lon": -0.003562,
       "source": "openstreetmap",
@@ -2945,7 +2945,7 @@
     {
       "id": "node/5857271078",
       "category": "water",
-      "name": "POI water node/5857271078",
+      "name": null,
       "lat": 42.873415,
       "lon": -0.002836,
       "source": "openstreetmap",
@@ -2962,7 +2962,7 @@
     {
       "id": "node/779905117",
       "category": "water",
-      "name": "POI water node/779905117",
+      "name": null,
       "lat": 42.720809,
       "lon": 0.198357,
       "source": "openstreetmap",
@@ -2979,7 +2979,7 @@
     {
       "id": "node/892500489",
       "category": "water",
-      "name": "POI water node/892500489",
+      "name": null,
       "lat": 42.6766,
       "lon": 0.11805,
       "source": "openstreetmap",

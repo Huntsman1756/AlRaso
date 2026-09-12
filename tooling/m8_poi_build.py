@@ -42,12 +42,32 @@ CAMPING_DISCLAIMER = (
     "La existencia en OSM NO significa autorizacion legal."
 )
 
+# ``name`` is the product display name.  Keep this list deliberately narrow:
+# operator, description and ref describe or identify an object, but they are
+# not names and must never become a user-facing label by accident.
+DISPLAY_NAME_KEYS = ("name", "name:es", "official_name", "short_name")
+
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
 
 def _get_tag(element: dict, key: str) -> str | None:
     tags = element.get("tags") or {}
     return tags.get(key)
+
+
+def _resolve_display_name(tags: dict) -> str | None:
+    """Return the first real OSM name, or ``None`` when the object is unnamed.
+
+    The returned value is intentionally nullable.  An OSM object id is source
+    provenance, not a product name, so there is no technical fallback here.
+    """
+    for key in DISPLAY_NAME_KEYS:
+        value = tags.get(key)
+        if isinstance(value, str):
+            value = value.strip()
+            if value:
+                return value
+    return None
 
 
 def _coords(element: dict) -> tuple[float, float] | None:
@@ -149,13 +169,15 @@ def build(args: argparse.Namespace) -> dict:
                 continue
 
             tags = elem.get("tags") or {}
-            name = tags.get("name", "")
+            name = _resolve_display_name(tags)
 
             # Build feature
             feat: dict = OrderedDict()
             feat["id"] = eid
             feat["category"] = cat
-            feat["name"] = name if name else f"POI {cat} {eid}"
+            # ``name`` is the nullable display_name contract.  Never expose
+            # the OSM id as a synthetic product label.
+            feat["name"] = name
             feat["lat"] = lat
             feat["lon"] = lon
             feat["source"] = "openstreetmap"

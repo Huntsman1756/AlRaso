@@ -8,10 +8,10 @@ let poiClickGuard = 0;
 const FALLBACK_STYLE_URL = "https://tiles.openfreemap.org/styles/positron";
 
 const POI_CATS = {
-  refuge: { emoji: "🏠", label: "Refugio", color: "#b45309" },
-  shelter: { emoji: "🛖", label: "Abrigo / cabaña", color: "#f97316" },
-  water: { emoji: "💧", label: "Agua", color: "#0ea5e9" },
-  camping: { emoji: "⛺", label: "Camping / bivouac", color: "#16a34a" },
+  refuge: { emoji: "🏠", label: "Refugio", anonymousLabel: "Refugio", color: "#b45309" },
+  shelter: { emoji: "🛖", label: "Abrigo / cabaña", anonymousLabel: "Abrigo", color: "#f97316" },
+  water: { emoji: "💧", label: "Agua", anonymousLabel: "Agua", color: "#0ea5e9" },
+  camping: { emoji: "⛺", label: "Camping / bivouac", anonymousLabel: "Camping", color: "#16a34a" },
   protected_area: { emoji: "🌲", label: "Referencia OSM: espacio natural protegido", color: "#0d9488" },
 };
 // protected_area queda en el snapshot (provenance) pero NO se renderiza ni es
@@ -204,7 +204,10 @@ async function loadPois() {
     if (cat !== "water") {
       map.addLayer({
         id: "poi-labels-" + cat, type: "symbol", source: "pois",
-        filter: ["==", ["get", "category"], cat],
+        // Unnamed POIs remain icon-only.  ``name`` is the nullable
+        // display_name field; source_ref must never become a map label.
+        filter: ["all", ["==", ["get", "category"], cat],
+                 ["!=", ["get", "name"], null]],
         minzoom: 9,
         layout: { "text-field": ["get", "name"], "text-size": 11,
                   "text-offset": [0, 1.1], "text-anchor": "top",
@@ -299,10 +302,11 @@ function onPaClick(e) {
 
 function renderPoi(p) {
   const cat = POI_CATS[p.category] || { emoji: "📍", label: p.category };
+  const displayName = typeof p.name === "string" && p.name.trim() ? p.name.trim() : null;
   $("poi").hidden = false;
   $("pa-card").hidden = true;
   $("poi-emoji").textContent = cat.emoji;
-  $("poi-name").textContent = p.name;
+  $("poi-name").textContent = displayName || (cat.anonymousLabel || cat.label) + " sin nombre";
   const parts = [cat.label];
   if (p.alt_m) parts.push(`${p.alt_m} m`);
   if (p.source_label) parts.push(`fuente: ${p.source_label}`);
@@ -323,6 +327,10 @@ function renderPoi(p) {
       html += `<div><a href="${esc(p.osm_url)}" target="_blank" rel="noopener">${esc(p.osm_url)}</a></div>`;
     }
     if (p.source_label) html += `<div><span class="src-label">Fuente: </span>${esc(p.source_label)}</div>`;
+    if (p.source_ref) {
+      const refLabel = p.source === "openstreetmap" ? "Objeto OSM" : "Referencia";
+      html += `<div><span class="src-label">${refLabel}: </span>${esc(p.source_ref)}</div>`;
+    }
     if (p.snapshot_date) html += `<div><span class="src-label">Fecha de instantánea: </span>${esc(p.snapshot_date)}</div>`;
     if (p.attribution) html += `<div><span class="src-label">Atribución: </span>${esc(p.attribution)}</div>`;
     if (p.source_license) html += `<div><span class="src-label">Licencia: </span>${esc(p.source_license)}</div>`;

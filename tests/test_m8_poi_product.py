@@ -143,6 +143,24 @@ def test_source_disclosure_fields():
         "renderPoi must write snapshot_date to src-details"
     assert "attribution" in render_poi_body, \
         "renderPoi must write attribution to src-details"
+    assert "source_ref" in render_poi_body, \
+        "renderPoi must keep the object reference in provenance"
+    assert "Objeto OSM" in render_poi_body, \
+        "OSM object reference must be presented as provenance, not as a name"
+
+
+def test_unnamed_pois_are_icon_only_and_get_a_card_label():
+    """A missing display name hides map text but remains understandable in the card."""
+    labels_start = APP_JS.find('id: "poi-labels-"')
+    labels_end = APP_JS.find("bindLayerToggles();", labels_start)
+    labels_block = APP_JS[labels_start:labels_end]
+    assert '["!=", ["get", "name"], null]' in labels_block
+    assert "anonymousLabel" in APP_JS
+    render_start = APP_JS.find("function renderPoi")
+    render_end = APP_JS.find("\nfunction ", render_start + 1)
+    render_block = APP_JS[render_start:render_end]
+    assert "sin nombre" in render_block
+    assert "p.name" in render_block
 
 
 # ── 5. No protected_area UI ────────────────────────────────────────────────

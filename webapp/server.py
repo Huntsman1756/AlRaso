@@ -130,7 +130,9 @@ def ui_texto(legal: str, knowledge: str, coverage: str, conditions: list) -> dic
     }
 
 
-def _norm_name(s: str) -> str:
+def _norm_name(s: str | None) -> str:
+    if not isinstance(s, str):
+        return ""
     decomposed = unicodedata.normalize("NFD", s.casefold())
     return "".join(c for c in decomposed if not unicodedata.combining(c))
 
@@ -171,7 +173,9 @@ def find_query(svc: "Service", text: str) -> dict:
     # UI no los trate como un lugar curado. protected_area NO se busca (no es un
     # destino interactivo).
     poi_matches = [p for p in svc.pois
-                   if p["category"] != "protected_area" and needle in _norm_name(p["name"])]
+                   if p["category"] != "protected_area"
+                   and p.get("name")
+                   and needle in _norm_name(p["name"])]
     if len(poi_matches) == 1:
         p = poi_matches[0]
         return {"kind": "poi", "source": p.get("source", "openstreetmap"),
@@ -274,9 +278,13 @@ class Service:
             self.protected_areas = json.loads(pa_path.read_text(encoding="utf-8"))
         else:
             self.protected_areas = {"metadata": {}, "features": []}
+        # The suggestion UI expects a real string name.  Unnamed POIs remain
+        # available in /api/pois for map clicks, but must not enter search or
+        # autocomplete as a technical id (or as a null value).
         self.searchable = (self.places +
                            [{k: p[k] for k in ("id", "name", "lat", "lon", "note")}
-                            for p in self.pois if p["category"] != "protected_area"])
+                            for p in self.pois
+                            if p["category"] != "protected_area" and p.get("name")])
         self.cov_provider = InMemorySpatialProvider()
         self.regions_by_id: dict[str, dict] = {}
         for region in self.coverage["regions"]:
