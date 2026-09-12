@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { normalizeResult } from '../../helpers/normalize.mjs';
+import { normalizeResult, reproducibilityContract } from '../../helpers/normalize.mjs';
 
 test('weather volatile values do not participate in reproducibility comparison', () => {
   const a = normalizeResult({
@@ -39,4 +39,31 @@ test('timing and generation fields are removed without changing assertions', () 
     assertions: { passed: 2, failed: 0 },
     network: { status: 200 }
   });
+});
+
+test('reproducibility contract ignores transport inventory but keeps stable outcomes', () => {
+  const a = reproducibilityContract({
+    scenario: 'S01_BOOT_EMPTY',
+    scenario_status: 'PASS',
+    expected_faults: [],
+    network: {
+      requests: [{ url: 'https://tiles.example/a', duration_ms: 4 }],
+      failed_requests: [],
+      unexpected_failures: []
+    },
+    evidence: { screenshot: 'one.png' }
+  });
+  const b = reproducibilityContract({
+    scenario: 'S01_BOOT_EMPTY',
+    scenario_status: 'PASS',
+    expected_faults: [],
+    network: {
+      requests: [{ url: 'https://tiles.example/b', duration_ms: 9 }],
+      failed_requests: [{ url: 'https://tiles.example/c' }],
+      unexpected_failures: []
+    },
+    evidence: { screenshot: 'two.png' }
+  });
+
+  assert.deepEqual(a, b);
 });

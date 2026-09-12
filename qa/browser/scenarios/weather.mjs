@@ -41,7 +41,9 @@ export const S08_WEATHER_AVAILABLE = {
       http_status: observed?.http_status ?? null,
       ui_structure_valid: weatherVisible && weatherHead && weatherText.includes('Open-Meteo')
     });
-    check(recorder, 'weather-response-observed', Boolean(response), { actual: observed });
+    check(recorder, 'weather-response-observed', Boolean(response), {
+      actual: { http_status: observed?.http_status ?? null }
+    });
     check(recorder, 'weather-http-success', observed?.http_status === 200, { actual: observed?.http_status });
     check(recorder, 'weather-ui-structure-valid', weatherVisible && weatherHead && weatherText.includes('Open-Meteo'));
     const legal = await recordLegalState(page, recorder, 'weather-available-legal');
@@ -81,4 +83,3 @@ export const S09_WEATHER_UNAVAILABLE = {
     check(recorder, 'weather-abort-observed', failed.some((request) => request.expected && request.expected_fault === 'weather_unavailable'));
   }
 };
-

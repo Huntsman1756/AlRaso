@@ -27,3 +27,25 @@ function sanitize(value, path = []) {
 export function normalizeResult(result) {
   return sanitize(result);
 }
+
+// Reproducibility compares the stable scenario contract, not transport
+// inventories or generated artifact locations. Those details remain in the
+// raw evidence for diagnosis and performance analysis.
+export function reproducibilityContract(result) {
+  const normalized = normalizeResult(result);
+  const {
+    evidence,
+    metrics,
+    network,
+    fatal_error,
+    console,
+    unexpected_console_errors,
+    console_warnings,
+    ...stable
+  } = normalized;
+
+  stable.network = {
+    unexpected_failures: normalized.network?.unexpected_failures || []
+  };
+  return stable;
+}
