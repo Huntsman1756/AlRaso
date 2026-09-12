@@ -52,6 +52,12 @@ deploy/
 docs/ALRASO-M2.2-VPS-PREVIEW.md
 .env.example
 
+# M9 browser QA — generated, non-canonical execution artifacts
+qa/browser/node_modules/
+qa/browser/test-results/
+qa/browser/playwright-report/
+qa/browser/.m9-runs/
+
 # ── Research de parque nuevo congelado (M3a, local only) ──
 discovery/evidence/m3a-*/
 tooling/m3a_*

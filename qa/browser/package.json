@@ -1,0 +1,20 @@
+{
+  "name": "alraso-m9-browser-baseline",
+  "version": "0.0.0-private",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "24.19.0"
+  },
+  "scripts": {
+    "unit": "node --test tests/unit/*.test.mjs",
+    "baseline:once": "playwright test tests/baseline.spec.mjs",
+    "baseline:twice": "node scripts/run-twice.mjs",
+    "baseline:compare": "node scripts/compare-runs.mjs",
+    "baseline:manifest": "node scripts/build-manifest.mjs",
+    "baseline:analyze": "node scripts/analyze-repo.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
+  }
+}
