@@ -93,12 +93,15 @@ export function observePage(page, { expectedAbortMatchers = [] } = {}) {
   page.on('requestfailed', (request) => {
     const record = requestRecords.get(request);
     const rule = expectedRules.find((candidate) => matches(candidate.matcher, request));
+    const failureText = request.failure()?.errorText || null;
+    const browserCancelled = failureText === 'net::ERR_ABORTED';
     const failure = {
       url: request.url(),
       method: request.method(),
       resource_type: request.resourceType(),
-      failure_text: request.failure()?.errorText || null,
-      expected: Boolean(rule),
+      failure_text: failureText,
+      expected: Boolean(rule) || browserCancelled,
+      browser_cancelled: browserCancelled,
       expected_fault: rule?.name || null
     };
     failedRequests.push(failure);

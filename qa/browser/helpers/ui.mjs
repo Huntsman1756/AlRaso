@@ -71,7 +71,20 @@ export async function waitForLegalHeadline(page) {
   );
 }
 
+export async function expandSheetFull(page) {
+  const handle = page.locator('#sheet-handle');
+  if (await handle.isVisible().catch(() => false)) {
+    const card = page.locator('#card');
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      const classes = await card.getAttribute('class');
+      if (classes?.includes('sheet-full')) break;
+      await handle.click();
+    }
+  }
+}
+
 export async function openLegalDetail(page) {
+  await expandSheetFull(page);
   const detail = page.locator('#detail-box');
   if (!(await detail.evaluate((element) => element.open))) {
     await detail.locator(':scope > summary').click();
@@ -133,6 +146,7 @@ export async function mapClickLngLat(page, lon, lat) {
 }
 
 export async function saveFavorite(page) {
+  await expandSheetFull(page);
   const save = page.locator('#save-btn');
   await save.click();
   await page.waitForFunction(
@@ -153,6 +167,7 @@ export async function openOutings(page) {
 }
 
 export async function createOutingFromSelectedPoint(page, { name, date, notes = '' }) {
+  await expandSheetFull(page);
   await page.locator('#plan-add-btn').click();
   const overlay = page.locator('#chooser-overlay');
   await overlay.waitFor({ state: 'visible', timeout: DEFAULT_TIMEOUT });
@@ -167,6 +182,7 @@ export async function createOutingFromSelectedPoint(page, { name, date, notes = 
 }
 
 export async function addSelectedPointToExistingOuting(page, { name, date }) {
+  await expandSheetFull(page);
   await page.locator('#plan-add-btn').click();
   const overlay = page.locator('#chooser-overlay');
   await overlay.waitFor({ state: 'visible', timeout: DEFAULT_TIMEOUT });
