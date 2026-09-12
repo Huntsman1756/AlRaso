@@ -962,6 +962,7 @@ if (paLegalBtn) {
   document.addEventListener("click", function (ev) {
     if (ev.target.closest && !ev.target.closest("#searchform")) close();
   });
+  $("searchform").addEventListener("submit", close);
 })();
 
 $("searchform").addEventListener("submit", async function (ev) {
