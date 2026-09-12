@@ -1,0 +1,45 @@
+name: m82-stale-test-fix
+
+on:
+  push:
+    branches:
+      - feat/m8.2-product-answer-compaction
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/m8.2-product-answer-compaction
+          fetch-depth: 0
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Update stale M3/M3.1 assertions
+        run: python tooling/m82_stale_test_fix.py
+
+      - name: Verify affected tests
+        run: |
+          python -m pip install --quiet 'pytest>=8'
+          python -m pytest -q \
+            tests/test_m3_product.py \
+            tests/test_m31_product_ux.py \
+            tests/test_m8_poi_product.py
+
+      - name: Commit fix and remove temporary helpers
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/m82-stale-test-fix.yml tooling/m82_stale_test_fix.py
+          git add tests/test_m3_product.py tests/test_m31_product_ux.py
+          git diff --cached --check
+          git commit -m 'test(m8.2): update stale detail copy assertions'
+          git push origin HEAD:feat/m8.2-product-answer-compaction
