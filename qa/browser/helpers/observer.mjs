@@ -83,10 +83,13 @@ export function observePage(page, { expectedAbortMatchers = [] } = {}) {
       record.status = response.status();
       record.duration_ms = Math.max(0, Math.round(nowMs() - record.started_at_ms));
     }
+    const contentLength = Number(response.headers()['content-length']);
     responses.push({
       url: response.url(),
       status: response.status(),
-      resource_type: request.resourceType()
+      resource_type: request.resourceType(),
+      duration_ms: record?.duration_ms ?? null,
+      transferred_bytes: Number.isFinite(contentLength) ? contentLength : null
     });
   });
 
