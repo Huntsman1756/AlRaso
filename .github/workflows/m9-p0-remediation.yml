@@ -1,0 +1,107 @@
+name: m9-p0-remediation
+
+on:
+  pull_request:
+    paths:
+      - 'qa/browser/tests/p0-remediation.spec.mjs'
+      - 'webapp/static/app.js'
+
+permissions:
+  contents: read
+
+jobs:
+  remediation:
+    name: P0 remediation browser gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      BASE_REF: ${{ github.event.pull_request.base.ref }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: verify PR scope and preserve historical finding
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ "${BASE_REF}" != "main" ]]; then
+            echo "CI scope error: expected base main, got ${BASE_REF}"
+            exit 1
+          fi
+
+          expected=$(printf '%s\n' \
+            'qa/browser/tests/p0-remediation.spec.mjs' \
+            'webapp/static/app.js' | sort)
+          actual=$(git diff --name-only "${BASE_SHA}...${HEAD_SHA}" | sort)
+          if [[ "${actual}" != "${expected}" ]]; then
+            echo 'CI scope error: effective PR diff is not exactly the approved two-file hotfix.'
+            printf 'Expected:\n%s\n' "${expected}"
+            printf 'Actual:\n%s\n' "${actual}"
+            exit 1
+          fi
+
+          if ! git diff --quiet "${BASE_SHA}...${HEAD_SHA}" -- docs/m9/evidence/baseline/findings.json; then
+            echo 'Historical M9.0 findings.json must remain untouched.'
+            exit 1
+          fi
+
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path('docs/m9/evidence/baseline/findings.json')
+          findings = json.loads(path.read_text(encoding='utf-8'))
+          blocking = [finding for finding in findings if finding.get('blocking_p0') is True]
+          if len(blocking) != 3:
+              raise SystemExit(f'Expected BASELINE_BLOCKING_P0=3, got {len(blocking)}')
+          if any(finding.get('scenario') != 'S14_LEGAL_SERVER_DOWN' for finding in blocking):
+              raise SystemExit('Historical blocking P0 findings must remain S14 findings')
+          print(f'BASELINE_BLOCKING_P0={len(blocking)}')
+          PY
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.10'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: qa/browser/package-lock.json
+
+      - name: install pinned QA harness
+        working-directory: qa/browser
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+          node --version
+          npx playwright --version
+
+      - name: check hotfix syntax and whitespace
+        run: |
+          git diff --check "${BASE_SHA}...${HEAD_SHA}"
+          node --check webapp/static/app.js
+
+      - name: unit test harness
+        working-directory: qa/browser
+        run: npm run unit
+
+      - name: focused browser remediation (three viewports)
+        working-directory: qa/browser
+        env:
+          M9_RUN_DIR: .m9-runs/p0-${{ github.run_id }}
+        run: npx playwright test tests/p0-remediation.spec.mjs
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m9-p0-remediation-${{ github.sha }}
+          path: qa/browser/.m9-runs/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14

@@ -862,6 +862,7 @@ def test_git_diff_vs_main_only_allowed_files():
     for f in changed:
         m9_allowed = (
             f == ".github/workflows/m9-baseline.yml"
+            or f == ".github/workflows/m9-p0-remediation.yml"
             or f.startswith("docs/m9/")
             or f.startswith("qa/browser/")
         )
