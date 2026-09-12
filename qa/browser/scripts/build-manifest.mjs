@@ -75,7 +75,7 @@ function buildManifest() {
     path: relative,
     sha256: sha256File(path.join(evidenceRoot, relative))
   }));
-  const qaHarnessCommit = execFileSync('git', ['rev-parse', 'HEAD'], {
+  const qaHarnessCommit = process.env.M9_HARNESS_SHA || execFileSync('git', ['rev-parse', 'HEAD'], {
     cwd: repositoryRoot,
     encoding: 'utf8'
   }).trim();
