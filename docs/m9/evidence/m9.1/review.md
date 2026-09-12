@@ -1,7 +1,7 @@
 # M9.1 visual and adversarial review
 
-Fecha: 2026-09-12  
-Implementación revisada: `1d81d1ad23b0bc2a2675e2ca3088b518cecee9ea`  
+Fecha: 2026-09-12
+Implementación revisada: `1d81d1ad23b0bc2a2675e2ca3088b518cecee9ea`
 Base: `da0a129089c2a37636c5d02c00783925231192e1`
 
 ## Evidencia revisada
@@ -45,4 +45,3 @@ No se identificó ningún hallazgo P0 o P1 reproducible. No se abre remediation 
 - `npm run unit` en `qa/browser`: 24/24 PASS.
 - `PYTHONPATH=. python -m pytest -q`: 755 PASS, 8 skips esperados por dependencias/entorno ausentes.
 - Runner browser final: 42/42 PASS.
-
