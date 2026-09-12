@@ -241,7 +241,7 @@ class TestScope:
         paths = re.findall(r'path == "([^"]+)"', PY)
         api = {p for p in paths if p.startswith("/api/")}
         allowed = {"/api/resolve", "/api/pois", "/api/find",
-                   "/api/coverage", "/api/config", "/api/places"}
+                   "/api/coverage", "/api/config", "/api/places", "/api/protected-areas"}
         assert api == allowed
 
     def test_resolver_never_consumes_weather(self):

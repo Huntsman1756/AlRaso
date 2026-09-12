@@ -117,6 +117,7 @@ async function boot() {
         paint: { "line-color": covColor, "line-width": 0.9, "line-opacity": 0.35, "line-dasharray": [3, 3] },
       });
       await loadPois();
+      await loadProtectedAreas();
       map.fitBounds([[-5.35, 42.45], [0.25, 43.4]], { padding: 30 });
     } catch (e) { console.error(e); }
   });
@@ -217,12 +218,42 @@ async function loadPois() {
   bindLayerToggles();
 }
 
+/*
+PA_FILL_COLOR: "fill" color constant for protected-area polygons.
+  Mapped from a documented constant so the visual can be reviewed/changed in one place.
+  Value chosen: low-opacity teal, consistent with cartographic context (not legal coverage).
+*/
+const PA_FILL_COLOR = "#0d9488";
+
+async function loadProtectedAreas() {
+  var fc;
+  try { fc = await (await fetch("/api/protected-areas")).json(); }
+  catch (e) { console.error("protected-areas", e); return; }
+  map.addSource("protected-areas", { type: "geojson", data: fc });
+  map.addLayer({
+    id: "pa-fill", type: "fill", source: "protected-areas",
+    paint: { "fill-color": PA_FILL_COLOR, "fill-opacity": 0.12 },
+  });
+  map.addLayer({
+    id: "pa-line", type: "line", source: "protected-areas",
+    paint: { "line-color": "#0d9488", "line-width": 1.5, "line-opacity": 0.5 },
+  });
+  map.on("click", "pa-fill", function (e) { onPaClick(e); });
+  map.on("click", "pa-line", function (e) { onPaClick(e); });
+  // Cursor change on hover
+  map.on("mouseenter", "pa-fill", function () { map.getCanvas().style.cursor = "pointer"; });
+  map.on("mouseleave", "pa-fill", function () { map.getCanvas().style.cursor = ""; });
+  map.on("mouseenter", "pa-line", function () { map.getCanvas().style.cursor = "pointer"; });
+  map.on("mouseleave", "pa-line", function () { map.getCanvas().style.cursor = ""; });
+}
+
 function bindLayerToggles() {
   const groups = {
     "lg-refuge": ["poi-icons-refuge", "poi-labels-refuge"],
     "lg-shelter": ["poi-icons-shelter", "poi-labels-shelter"],
     "lg-water": ["poi-icons-water"],
     "lg-camping": ["poi-icons-camping", "poi-labels-camping"],
+    "lg-protected": ["pa-fill", "pa-line"],
     "lg-coverage": ["cov-fill", "cov-line", "cov-line-esquematico"],
   };
   Object.keys(groups).forEach((boxId) => {
@@ -245,9 +276,29 @@ function onPoiClick(e) {
   renderPoi(p);
 }
 
+function onPaClick(e) {
+  const f = e.features && e.features[0];
+  if (!f) return;
+  const p = f.properties;
+  poiClickGuard = Date.now();
+  // Use the exact clicked coordinates for the CTA (coords-only invariant).
+  var clickedLat = e.lngLat.lat;
+  var clickedLon = e.lngLat.lng;
+  selectPoint(clickedLat, clickedLon, null, false);
+  // Wire CTA with clicked coordinates only — no name, no facts.
+  var ctaBtn = $("pa-legal-btn");
+  if (ctaBtn) {
+    ctaBtn.disabled = false;
+    ctaBtn.setAttribute("data-lat", String(clickedLat));
+    ctaBtn.setAttribute("data-lon", String(clickedLon));
+  }
+  renderPa(p);
+}
+
 function renderPoi(p) {
   const cat = POI_CATS[p.category] || { emoji: "📍", label: p.category };
   $("poi").hidden = false;
+  $("pa-card").hidden = true;
   $("poi-emoji").textContent = cat.emoji;
   $("poi-name").textContent = p.name;
   const parts = [cat.label];
@@ -278,6 +329,37 @@ function renderPoi(p) {
   }
   state.poiCategory = p.category;
   state.poiAlt = p.alt_m || null;
+}
+
+function renderPa(p) {
+  $("poi").hidden = true;
+  $("pa-card").hidden = false;
+  $("pa-name").textContent = p.name || "";
+  var metaParts = [];
+  if (p.region) metaParts.push(p.region);
+  metaParts.push("referencia OSM · no ámbito legal");
+  $("pa-meta").textContent = metaParts.join(" · ");
+  $("pa-note").textContent = p.note || "";
+  // CTA: coords only from clicked point — data-lat and data-lon set by onPaClick.
+  // The button is wired in onPaClick before renderPa is called.
+  var ctaBtn = $("pa-legal-btn");
+  if (ctaBtn) {
+    ctaBtn.disabled = false;
+  }
+  // Provenance disclosure
+  var box = $("pa-srcbox"), details = $("pa-src-details");
+  if (details) {
+    let html = "";
+    if (p.osm_url) {
+      html += `<div><a href="${esc(p.osm_url)}" target="_blank" rel="noopener">${esc(p.osm_url)}</a></div>`;
+    }
+    if (p.source_label) html += `<div><span class="src-label">Fuente: </span>${esc(p.source_label)}</div>`;
+    if (p.snapshot_date) html += `<div><span class="src-label">Fecha de instantánea: </span>${esc(p.snapshot_date)}</div>`;
+    if (p.attribution) html += `<div><span class="src-label">Atribución: </span>${esc(p.attribution)}</div>`;
+    if (p.source_license) html += `<div><span class="src-label">Licencia: </span>${esc(p.source_license)}</div>`;
+    details.innerHTML = html;
+    box.style.display = "";
+  }
 }
 
 // ─────────────────────────────────────────────
@@ -695,6 +777,18 @@ if (poiLegalBtn) {
   poiLegalBtn.addEventListener("click", function () {
     var lat = parseFloat(poiLegalBtn.getAttribute("data-lat"));
     var lon = parseFloat(poiLegalBtn.getAttribute("data-lon"));
+    if (isNaN(lat) || isNaN(lon)) return;
+    selectPoint(lat, lon, state.selectedName, true);
+  });
+}
+
+// PA LEGAL CTA — same coords-only pattern (no name/fact injection)
+// ─────────────────────────────────────────────
+var paLegalBtn = $("pa-legal-btn");
+if (paLegalBtn) {
+  paLegalBtn.addEventListener("click", function () {
+    var lat = parseFloat(paLegalBtn.getAttribute("data-lat"));
+    var lon = parseFloat(paLegalBtn.getAttribute("data-lon"));
     if (isNaN(lat) || isNaN(lon)) return;
     selectPoint(lat, lon, state.selectedName, true);
   });

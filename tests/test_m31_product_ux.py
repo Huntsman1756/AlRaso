@@ -70,9 +70,38 @@ class TestU1LayersFloatingControl:
         assert "no determinan legalidad" in HTML or "no determinan legalidad" in JS.lower() or "cartografía" in HTML.lower()
 
     def test_layers_outside_click_listener_never_dereferences_map(self):
-        """El panel de capas se cierra con closest() puro: map es null hasta que
-        /api/config resuelve, asi que el listener global no puede llamar a map.*."""
-        assert "map.getCanvas" not in JS
+        """global outside-click listener must not dereference map;
+        map.getCanvas is allowed ONLY in the PA layer cursor handlers
+        (all 4 occurrences: lines 240-243 inside loadProtectedAreas)."""
+        # Locate the global outside-click listener block (document.addEventListener("click"…)
+        # that closes the layers panel via closest()).
+        click_line_idx = JS.find('document.addEventListener("click"')
+        assert click_line_idx != -1, "document-level click listener for layers-panel must exist"
+        # Extract from the "addEventListener" registration to the closing ); of the call.
+        paren_start = JS.index("(", click_line_idx)
+        depth = 0
+        i = paren_start
+        while i < len(JS):
+            ch = JS[i]
+            if ch == "(": depth += 1
+            elif ch == ")":
+                depth -= 1
+                if depth == 0:
+                    listener_code = JS[click_line_idx:i+1]
+                    break
+            i += 1
+        else:
+            pytest.fail("could not find closing paren of click listener")
+        # The listener must NOT contain any map. dereference.
+        assert "map." not in listener_code, (
+            "outside-click listener must not dereference map; "
+            f"found: {listener_code}"
+        )
+        # Additionally verify: exactly 4 map.getCanvas in app.js, all inside loadProtectedAreas.
+        total_getCanvas = JS.count("map.getCanvas")
+        assert total_getCanvas == 4, (
+            f"Expected exactly 4 map.getCanvas calls (all inside loadProtectedAreas), got {total_getCanvas}"
+        )
 
 
 # ══════════════════════════════════════════════
@@ -202,7 +231,7 @@ class TestU4SoftenCoverageBasemap:
     def test_no_new_api_routes(self):
         paths = re.findall(r'path == "([^"]+)"', PY)
         api_paths = [p for p in paths if p.startswith("/api/")]
-        allowed_api_paths = {"/api/resolve", "/api/pois", "/api/find", "/api/coverage", "/api/config", "/api/places"}
+        allowed_api_paths = {"/api/resolve", "/api/pois", "/api/find", "/api/coverage", "/api/config", "/api/places", "/api/protected-areas"}
         assert set(api_paths) == allowed_api_paths, f"Unexpected API routes: {set(api_paths) - allowed_api_paths}"
 
     def test_api_config_still_fetched(self):
@@ -441,7 +470,8 @@ class TestHooksSurvive:
         assert "tile.openstreetmap.org" not in JS
 
     def test_no_lg_protected(self):
-        assert "lg-protected" not in HTML
+        # M8.1: #lg-protected was added for the PA cartographic context layer.
+        assert "lg-protected" in HTML, "M8.1: #lg-protected toggle must exist"
 
     def test_legal_emoji_map(self):
         assert chr(0x2705) in JS  # ✅
@@ -476,7 +506,7 @@ class TestHooksSurvive:
     def test_no_new_api_endpoints_in_server(self):
         paths = re.findall(r'path == "([^"]+)"', PY)
         api_paths = [p for p in paths if p.startswith("/api/")]
-        allowed_api_paths = {"/api/resolve", "/api/pois", "/api/find", "/api/coverage", "/api/config", "/api/places"}
+        allowed_api_paths = {"/api/resolve", "/api/pois", "/api/find", "/api/coverage", "/api/config", "/api/places", "/api/protected-areas"}
         assert set(api_paths) == allowed_api_paths
 
     def test_disclaimer_sentence_survives(self):

@@ -294,14 +294,16 @@ def test_protected_area_is_osm_reference_not_legal_layer():
             assert "No determina el ámbito jurídico" in f["note"], f["id"]
             assert "prohibición automática" in f["note"], f["id"]
             assert f["source_ref"].startswith("relation/"), f["id"]
-    # protected_area queda en provenance pero NO se renderiza ni es interactivo.
+    # protected_area: no se renderiza como capa POI (POI_ORDER no la incluye),
+    # pero SÍ hay un toggle #lg-protected y una capa de contexto visual (pa-fill/pa-line).
     js = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
     assert "poi-circles-protected_area" not in js, "no se renderiza como capa POI"
-    assert "lg-protected" not in js, "no hay toggle de espacios protegidos"
+    assert "lg-protected" in js, "hay toggle de áreas protegidas (contexto visual)"
+    assert "pa-fill" in js and "pa-line" in js, "capas de contexto visual OSM"
     assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in js
     html = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
-    assert "lg-protected" not in html, "no hay checkbox de espacios protegidos"
-    assert "/api/coverage" in js and "/api/pois" in js
+    assert "lg-protected" in html, "hay checkbox de áreas protegidas (contexto visual)"
+    assert "/api/coverage" in js and "/api/pois" in js and "/api/protected-areas" in js
 
 
 def test_find_excludes_protected_area(svc):

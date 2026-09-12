@@ -267,6 +267,13 @@ class Service:
         # observacional. NUNCA entran en el resolver: son cartografia, no derecho.
         # protected_area queda en el snapshot/provenance pero NO es interactivo.
         self.pois = list(pois_doc["features"])
+        # Protected-areas layer: cartographic context from OSM (Polygon/MultiPolygon).
+        # NOT a legal scope, NOT a resolver input, NOT a POI symbol.
+        pa_path = WEBAPP / "protected_areas.json"
+        if pa_path.is_file():
+            self.protected_areas = json.loads(pa_path.read_text(encoding="utf-8"))
+        else:
+            self.protected_areas = {"metadata": {}, "features": []}
         self.searchable = (self.places +
                            [{k: p[k] for k in ("id", "name", "lat", "lon", "note")}
                             for p in self.pois if p["category"] != "protected_area"])
@@ -562,6 +569,30 @@ def pois_geojson(svc: Service) -> dict:
     return {"type": "FeatureCollection", "features": features}
 
 
+def protected_areas_geojson(svc: Service) -> dict:
+    """Capa de AREAS PROTEGIDAS: contexto visual OSM (Polygon/MultiPolygon).
+    NO es ambito legal, NO entra al resolver, NO es POI interactivo."""
+    features = []
+    for f in svc.protected_areas.get("features", []):
+        if f.get("type") != "Feature":
+            continue
+        # Start from the feature's properties dict (which has the real values),
+        # then overlay top-level keys for backwards compatibility.
+        props = dict(f.get("properties", {}))
+        for k in ("id", "name", "category", "region", "source", "source_label",
+                  "source_ref", "snapshot_date", "attribution", "source_license",
+                  "osm_url", "note"):
+            top_val = f.get(k)
+            if top_val and k not in props:
+                props[k] = top_val
+        features.append({
+            "type": "Feature",
+            "geometry": f.get("geometry"),
+            "properties": props,
+        })
+    return {"type": "FeatureCollection", "features": features}
+
+
 STATIC_FILES = {
     "/": ("index.html", "text/html; charset=utf-8"),
     "/index.html": ("index.html", "text/html; charset=utf-8"),
@@ -608,6 +639,8 @@ def make_handler(svc: Service):
                     self._json(HTTPStatus.OK, {"places": svc.searchable})
                 elif path == "/api/pois":
                     self._json(HTTPStatus.OK, pois_geojson(svc))
+                elif path == "/api/protected-areas":
+                    self._json(HTTPStatus.OK, protected_areas_geojson(svc))
                 elif path == "/api/find":
                     params = urllib.parse.parse_qs(parsed.query)
                     q = params.get("q", [""])[-1]

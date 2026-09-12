@@ -82,6 +82,7 @@ main { flex:1 1 auto; min-height:0; display:flex; }
 .poi-note { font-size:12px; color:var(--muted); margin:4px 0; }
 .poi-sep { font-size:12px; color:var(--muted); border-left:3px solid var(--line); padding-left:8px; margin:8px 0; }
 #poi { border:1px solid var(--line); border-radius:8px; padding:10px 12px; margin-bottom:14px; background:#141a20; }
+#pa-card { border:1px solid var(--line); border-radius:8px; padding:10px 12px; margin-bottom:14px; background:#141a20; border-left:3px solid #0d9488; }
 #poi-cta { margin:8px 0; }
 .cta-legal { display:block; width:100%; background:#0d3320; border:1px solid #155d40; color:#4ade80; border-radius:8px; padding:10px 14px; font-size:14px; font-weight:700; cursor:pointer; text-align:center; transition:border-color .15s, color .15s; }
 .cta-legal:hover { border-color:#4ade80; color:#86efac; }
@@ -138,7 +139,7 @@ label { display:block; font-size:13px; color:var(--muted); }
 a { color:#7fb3ff; text-decoration:none; word-break:break-all; }
 .warning { font-size:11px; color:var(--muted); border-top:1px dashed var(--line); padding-top:8px; }
 .legend { font-size:12px; color:var(--muted); } .chip { font-weight:700; }
-.chip.poi { color:#2dd4bf; }
+.chip.poi { color:#2dd4bf; } .chip.pa { color:#0d9488; }
 #cond-list .ok { color:#4ade80; } #cond-list .fail { color:#fbbf24; }
 .fact-note { display:block; font-size:11px; color:var(--muted); margin:2px 0 4px; }
 .dem-info { font-size:12px; color:var(--text); background:#141a20; border:1px solid var(--line); border-radius:8px; padding:7px 9px; margin:6px 0; }
