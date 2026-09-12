@@ -47,7 +47,10 @@ jobs:
       - name: run suite
         run: |
           set +e                      # capture pytest's own status, then show the log
-          python -m pytest -q -rs > pytest.log 2>&1
+          # M8.1 builder determinism needs the optional geospatial tooling extra
+          # (Shapely + pyproj). Keep hermetic/audit profiles dependency-pure and
+          # exercise that one test in the existing DEM/geospatial gate below.
+          python -m pytest -q -rs -k "not test_check_mode_determinism" > pytest.log 2>&1
           status=$?
           cat pytest.log
           exit $status
@@ -90,13 +93,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: install project with the optional dem extra
+      - name: install project with optional geospatial extras
         run: |
           python -m pip install --upgrade pip "pytest>=8"
-          python -m pip install --quiet ".[dem]"
-      - name: run dem elevation + fail-closed tests
+          python -m pip install --quiet ".[dem,tooling]"
+      - name: run dem elevation + fail-closed + M8.1 builder determinism
         run: |
-          python -m pytest -q tests/test_dem_elevation.py tests/test_dem_failclosed.py tests/test_dem_prep.py
+          python -m pytest -q \
+            tests/test_dem_elevation.py \
+            tests/test_dem_failclosed.py \
+            tests/test_dem_prep.py \
+            tests/test_m81_protected_area_data.py::test_check_mode_determinism
 
   clean-wheel:
     name: clean wheel + installed smoke (linux)
