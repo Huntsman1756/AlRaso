@@ -165,18 +165,6 @@ main { flex:1 1 auto; min-height:0; display:flex; }
 .secondary-disclosure > summary { cursor:pointer; min-height:44px; padding:10px 0; font-size:14px; font-weight:650; color:var(--text); }
 .secondary-disclosure[open] > summary { color:var(--accent); }
 .secondary-disclosure > summary:focus-visible { outline-offset:3px; }
-#detail-box > summary,
-.secondary-disclosure > summary,
-.weather-forecast > summary { list-style:none; display:flex; align-items:center; justify-content:space-between; gap:8px; }
-#detail-box > summary::-webkit-details-marker,
-.secondary-disclosure > summary::-webkit-details-marker,
-.weather-forecast > summary::-webkit-details-marker { display:none; }
-#detail-box > summary::after,
-.secondary-disclosure > summary::after,
-.weather-forecast > summary::after { content:""; width:18px; height:18px; flex:0 0 18px; background:currentColor; mask:url("/icons/outline/chevron-down.svg") center / contain no-repeat; -webkit-mask:url("/icons/outline/chevron-down.svg") center / contain no-repeat; transition:transform .15s ease; }
-#detail-box[open] > summary::after,
-.secondary-disclosure[open] > summary::after,
-.weather-forecast[open] > summary::after { transform:rotate(180deg); }
 .detail-section { margin:12px 0; }
 
 /* Tools row inside detail box (U6) */

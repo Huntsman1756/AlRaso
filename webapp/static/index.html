@@ -15,9 +15,9 @@
   <div class="brand">AlRaso</div>
   <p class="tagline">Te mostramos exactamente qué podemos afirmar, con qué fuente y qué no podemos determinar.</p>
   <nav aria-label="Navegación principal">
-    <button data-tab="explore" aria-current="page"><img class="ui-icon" src="/icons/outline/map-pin.svg" alt="" aria-hidden="true"><span>Explorar</span></button>
-    <button data-tab="saved"><img class="ui-icon" src="/icons/outline/bookmark.svg" alt="" aria-hidden="true"><span>Guardados</span></button>
-    <button data-tab="outings"><img class="ui-icon" src="/icons/outline/route.svg" alt="" aria-hidden="true"><span>Salidas</span></button>
+    <button data-tab="explore" aria-current="page"><svg class="ui-icon" data-icon="map-pin" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0"></path></svg><span>Explorar</span></button>
+    <button data-tab="saved"><svg class="ui-icon" data-icon="bookmark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4"></path></svg><span>Guardados</span></button>
+    <button data-tab="outings"><svg class="ui-icon" data-icon="route" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path><path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4"></path><path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5"></path></svg><span>Salidas</span></button>
     <button data-tab="profile"><span>Perfil</span></button>
   </nav>
   <form id="searchform" role="search">
@@ -36,8 +36,8 @@
     <div class="explore-body">
       <div id="map-container">
         <div id="map"></div>
-        <button id="geo-btn" type="button" aria-label="Mi ubicación" title="Mi ubicación"><img class="ui-icon" src="/icons/outline/current-location.svg" alt="" aria-hidden="true"><span>Mi ubicación</span></button>
-        <button id="layers-btn" type="button" aria-label="Capas del mapa"><img class="ui-icon" src="/icons/outline/layers-subtract.svg" alt="" aria-hidden="true"><span>Capas</span></button>
+        <button id="geo-btn" type="button" aria-label="Mi ubicación" title="Mi ubicación"><svg class="ui-icon" data-icon="current-location" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 12a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path><path d="M4 12a8 8 0 1 0 16 0a8 8 0 0 0 -16 0"></path><path d="M12 2l0 2"></path><path d="M12 20l0 2"></path><path d="M20 12l2 0"></path><path d="M2 12l2 0"></path></svg><span>Mi ubicación</span></button>
+        <button id="layers-btn" type="button" aria-label="Capas del mapa"><svg class="ui-icon" data-icon="layers-subtract" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 6a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2l0 -8"></path><path d="M16 16v2a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2v-8a2 2 0 0 1 2 -2h2"></path></svg><span>Capas</span></button>
         <div id="layers-panel" class="layers-panel" hidden>
           <div class="layers-title">Capas</div>
           <label><input type="checkbox" id="lg-refuge" checked> 🏠 Refugios</label>
@@ -112,8 +112,8 @@
 
           <!-- c) ACTION BUTTONS -->
           <div id="action-buttons">
-            <button id="save-btn" type="button" disabled><img class="ui-icon" src="/icons/outline/bookmark.svg" alt="" aria-hidden="true"><span class="button-label">Guardar</span></button>
-            <button id="plan-add-btn" type="button" disabled><img class="ui-icon" src="/icons/outline/route.svg" alt="" aria-hidden="true"><span class="button-label">Añadir a una salida</span></button>
+            <button id="save-btn" type="button" disabled><svg class="ui-icon" data-icon="bookmark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4"></path></svg><span class="button-label">Guardar</span></button>
+            <button id="plan-add-btn" type="button" disabled><svg class="ui-icon" data-icon="route" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path><path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4"></path><path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5"></path></svg><span class="button-label">Añadir a una salida</span></button>
           </div>
 
           <!-- d) DETAILS BLOCK -->
@@ -218,7 +218,7 @@
 <!-- ═══ CHOOSER MODAL ═══ -->
 <div id="chooser-overlay" class="chooser-overlay" role="dialog" aria-modal="true" aria-label="Añadir a una salida" hidden>
   <div class="chooser-dialog">
-    <button id="chooser-close" type="button" class="chooser-close-btn" aria-label="Cerrar"><img class="ui-icon" src="/icons/outline/x.svg" alt="" aria-hidden="true"></button>
+    <button id="chooser-close" type="button" class="chooser-close-btn" aria-label="Cerrar"><svg class="ui-icon" data-icon="x" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 6l-12 12"></path><path d="M6 6l12 12"></path></svg></button>
     <h3>Añadir a una salida</h3>
     <p id="chooser-no-point" hidden>No has seleccionado ningún punto. Toca el mapa primero.</p>
     <div id="chooser-content">

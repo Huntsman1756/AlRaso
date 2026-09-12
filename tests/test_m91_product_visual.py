@@ -134,17 +134,17 @@ def test_m91_tabler_subset_is_vendored_without_runtime_dependency():
 
 
 def test_m91_control_icons_keep_visible_labels_and_no_icon_only_meaning():
-    for path in (
-        "/icons/outline/map-pin.svg",
-        "/icons/outline/layers-subtract.svg",
-        "/icons/outline/current-location.svg",
-        "/icons/outline/bookmark.svg",
-        "/icons/outline/route.svg",
-        "/icons/outline/x.svg",
+    for icon in (
+        "map-pin",
+        "layers-subtract",
+        "current-location",
+        "bookmark",
+        "route",
+        "x",
     ):
-        assert path in HTML
+        assert f'data-icon="{icon}"' in HTML
     assert ">Explorar<" in HTML
     assert ">Guardados<" in HTML
     assert ">Salidas<" in HTML
     assert "aria-hidden=\"true\"" in HTML
-    assert "/icons/outline/cloud.svg" in APP
+    assert 'data-icon="cloud"' in APP
