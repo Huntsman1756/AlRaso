@@ -1,6 +1,9 @@
 "use strict";
 const $ = (id) => document.getElementById(id);
-const state = { lat: null, lon: null, marker: null, poiCategory: null, poiAlt: null, selectedName: null };
+const state = {
+  lat: null, lon: null, marker: null, poiCategory: null, poiAlt: null,
+  selectedName: null, cartographicContext: null,
+};
 let poiClickGuard = 0;
 
 // Proveedor de basemap NO hardcodeado: se pide a /api/config (el server lee
@@ -263,6 +266,14 @@ function renderPoi(p) {
   }
   state.poiCategory = p.category;
   state.poiAlt = p.alt_m || null;
+  if (p.category === "protected_area") {
+    state.cartographicContext = {
+      kind: "Espacio protegido",
+      name: p.name,
+      note: "Información cartográfica; no determina la legalidad.",
+    };
+    renderPlaceContext({});
+  }
 }
 
 // ─────────────────────────────────────────────
@@ -503,9 +514,13 @@ function selectPoint(lat, lon, name, fly) {
     if (fly) map.flyTo({ center: ll, zoom: Math.max(map.getZoom(), 10) });
   }
   if (!name) { $("poi").hidden = true; state.poiCategory = null; state.poiAlt = null; }
+  state.cartographicContext = null;
+  var contextBox = $("place-context");
+  if (contextBox) contextBox.hidden = true;
   $("searchmsg").textContent = name ? `Zona seleccionada: ${name}` : "";
   document.body.classList.toggle("has-selection", state.lat !== null);
   openSheetForSelection();
+  loadWeather(lat, lon);
   refresh();
 }
 
@@ -864,6 +879,107 @@ const ACT_LABELS = {
   ACAMPADA: "acampar",
   PERNOCTA_REFUGIO: "pernoctar en refugio",
 };
+
+const PRIMARY_LEGAL_LABELS = {
+  PERMITTED: "Permitido",
+  PROHIBITED: "Prohibido",
+  AUTHORIZATION_REQUIRED: "Solo con autorización previa",
+  UNDETERMINED: "No lo podemos determinar",
+};
+
+const CORPUS_STATUS_LABELS = {
+  CURRENT: "vigente según los datos disponibles",
+  INCOMPLETE: "incompleto según los datos disponibles",
+  CONFLICTING: "con fuentes en conflicto",
+};
+
+function hasReason(d, code) {
+  return ((d.determination && d.determination.reasonCodes) || []).indexOf(code) !== -1;
+}
+
+function primaryLegalLabel(d) {
+  var legal = d.determination.legalStatus;
+  return PRIMARY_LEGAL_LABELS[legal] || ((d.ui || {}).legal || legal);
+}
+
+function answerExplanation(d) {
+  var legal = d.determination.legalStatus;
+  var coverage = (d.coverage || {}).status;
+  if (legal === "UNDETERMINED") {
+    if (coverage === "UNKNOWN") {
+      return "Aún no tenemos normativa verificada para este punto. Esto no significa que esté prohibido ni que esté permitido.";
+    }
+    if (coverage === "PARTIAL") {
+      return "La cobertura normativa de esta zona todavía no permite resolver este punto. Esto no significa que esté prohibido ni que esté permitido.";
+    }
+    return "Faltan datos para completar esta consulta. Esto no significa que esté prohibido ni que esté permitido.";
+  }
+  if (legal === "PERMITTED") return "La normativa verificada permite esta actividad.";
+  if (legal === "PROHIBITED") return "La normativa verificada prohíbe esta actividad.";
+  if (legal === "AUTHORIZATION_REQUIRED") return "Esta actividad requiere una autorización previa.";
+  return "No podemos mostrar una conclusión para este estado.";
+}
+
+function corpusStatusText(d) {
+  var knowledge = d.determination.knowledgeStatus;
+  return "Estado del corpus consultado: " +
+    (CORPUS_STATUS_LABELS[knowledge] || knowledge || "no disponible");
+}
+
+function coverageStatusText(d) {
+  var coverage = (d.coverage || {}).status;
+  if (coverage === "UNKNOWN") return "Cobertura normativa del punto: ninguna";
+  if (coverage === "PARTIAL") return "Cobertura normativa del punto: parcial";
+  if (coverage === "VERIFIED") return "Cobertura normativa del punto: geometría y norma verificadas";
+  return "Cobertura normativa del punto: " + (coverage || "no disponible");
+}
+
+function syncPrimaryConditions() {
+  var section = $("conditions-summary");
+  if (!section) return;
+  var weather = $("weather-block");
+  var legal = $("plain-conds");
+  var hasWeather = !!(weather && !weather.hidden && weather.textContent.trim());
+  var hasLegal = !!(legal && !legal.hidden && legal.children.length);
+  section.hidden = !(hasWeather || hasLegal);
+}
+
+function normalizePlaceContext(candidate) {
+  if (!candidate) return null;
+  var raw = candidate.properties || candidate;
+  if (typeof raw === "string") return { kind: "Espacio protegido", name: raw };
+  var name = raw.name || raw.official_name || raw.label || raw.title;
+  if (!name) return null;
+  var category = String(raw.category || raw.kind || raw.context_type || "").toLowerCase();
+  var kind = category.indexOf("protected") !== -1 || category.indexOf("proteg") !== -1
+    ? "Espacio protegido"
+    : (raw.kind_label || raw.context_label || "Contexto cartográfico");
+  return {
+    kind: kind,
+    name: name,
+    note: raw.note || raw.disclaimer || "Información cartográfica; no determina la legalidad.",
+  };
+}
+
+function renderPlaceContext(d) {
+  var box = $("place-context");
+  if (!box) return;
+  var raw = d.cartographicContext || d.cartographic_context || d.placeContext ||
+    d.place_context || d.protectedArea || d.protected_area ||
+    ((d.coverage || {}).context) || state.cartographicContext;
+  var context = normalizePlaceContext(Array.isArray(raw) ? raw[0] : raw);
+  if (!context) {
+    box.hidden = true;
+    $("place-context-value").textContent = "";
+    $("place-context-note").textContent = "";
+    return;
+  }
+  box.hidden = false;
+  $("place-context-kind").textContent = context.kind;
+  $("place-context-value").textContent = context.name;
+  $("place-context-note").textContent = context.note;
+}
+
 function whyText(d) {
   var legal = d.determination.legalStatus;
   var act = ACT_LABELS[d.query.activity] || d.query.activity;
@@ -874,11 +990,10 @@ function whyText(d) {
       ((d.conditions || []).length ? ", siempre que se cumplan las condiciones indicadas." : ".");
   if (legal === "PROHIBITED") return 'La normativa verificada prohíbe ' + act + zone + '.';
   if (legal === "AUTHORIZATION_REQUIRED") return 'Para ' + act + zone + ' hace falta una autorización previa según la normativa verificada.';
-  if (d.coverage.status === "UNKNOWN")
-    return "Ninguna norma del corpus de AlRaso llega a este punto, así que no podemos afirmar ni permiso ni prohibición. Los códigos canónicos de esta comprobación están en «Detalle técnico».";
-  if (d.coverage.status === "PARTIAL")
-    return "Conocemos la normativa de esta zona, pero la comprobación punto a punto no está cerrada: para este punto concreto no afirmamos ni permiso ni prohibición.";
-  return "Faltan datos por confirmar (mira las condiciones de arriba): sin ellos AlRaso no afirma ni permiso ni prohibición.";
+  if (hasReason(d, "NO_APPLICABLE_SCOPE")) return "Ninguna norma estudiada alcanza este punto.";
+  if ((d.coverage || {}).status === "UNKNOWN") return "Zona todavía no cubierta.";
+  if ((d.coverage || {}).status === "PARTIAL") return "La cobertura de esta zona todavía no permite resolver este punto.";
+  return "Faltan datos en la consulta para completar la evaluación.";
 }
 
 function badge(el, value, plain) {
@@ -915,8 +1030,6 @@ function render(d) {
   $("card-empty").hidden = true;
   $("card-result").hidden = false;
 
-  var ui = d.ui || {};
-
   // ── outdoor info block ──
   // Coords — use ACT_LABELS for Spanish label (U5)
   var actLabel = ACT_LABELS[d.query.activity] || d.query.activity;
@@ -939,15 +1052,12 @@ function render(d) {
   var legalStatus = d.determination.legalStatus;
   var emoji = LEGAL_EMOJI[legalStatus] || "";
   $("legal-emoji").textContent = emoji;
-  $("headline").textContent = ui.headline || d.determination.legalStatus;
+  $("headline").textContent = primaryLegalLabel(d);
+  $("answer-explanation").textContent = answerExplanation(d);
   var resultEl = $("legal-result");
   resultEl.style.borderLeftColor = LEGAL_BORDER_COLOR[legalStatus] || "#999";
 
-  badge($("legal"), d.determination.legalStatus, ui.legal || d.determination.legalStatus);
-  badge($("knowledge"), d.determination.knowledgeStatus, ui.knowledge || d.determination.knowledgeStatus);
-  badge($("coverage"), d.coverage.status, ui.coverage || d.coverage.status);
-
-  // Plain-language conditions (bullets)
+  // Plain-language conditions are useful only when the answer is affirmative.
   var plainConds = $("plain-conds");
   plainConds.innerHTML = "";
   var conds = d.conditions || [];
@@ -962,16 +1072,8 @@ function render(d) {
   } else {
     plainConds.hidden = true;
   }
-
-  // ui.knowledge explanation when UNDETERMINED
-  var uiKnow = $("ui-knowledge");
-  if (legalStatus === "UNDETERMINED" && ui.knowledge) {
-    uiKnow.hidden = false;
-    uiKnow.textContent = ui.knowledge;
-  } else {
-    uiKnow.hidden = true;
-    uiKnow.textContent = "";
-  }
+  syncPrimaryConditions();
+  renderPlaceContext(d);
 
   // ── detail box (technical) ──
   renderFacts(d);
@@ -998,11 +1100,13 @@ function render(d) {
   $("condiciones").style.display = (d.conditions || []).length ? "" : "none";
 
   $("decision").textContent = whyText(d);
+  $("corpus-status").textContent = corpusStatusText(d);
+  $("coverage-status").textContent = coverageStatusText(d);
 
   var zones = $("region-list");
   zones.innerHTML = "";
   if (!(d.coverage.regions || []).length) {
-    zones.innerHTML = '<div class="region">Ninguna región cubierta contiene este punto.<br><span class="meta">AlRaso no tiene corpus aquí y por eso no puede afirmar nada: ni permiso ni prohibición.</span></div>';
+    zones.innerHTML = '<div class="region region-empty">Zona todavía no cubierta</div>';
   }
   (d.coverage.regions || []).forEach(function (r) {
     var div = document.createElement("div");
@@ -1012,7 +1116,7 @@ function render(d) {
     }).join("");
     var notes = (r.notes || []).map(function (n) { return '<li>' + esc(n) + '</li>'; }).join("");
     div.innerHTML =
-      '<div class="rhead"><span>' + esc(r.name) + '</span><span class="chip ' + (r.coverage === "VERIFIED" ? "ok" : "warn") + '">' + (r.coverage === "VERIFIED" ? "completa" : "parcial") + '</span></div>' +
+      '<div class="rhead"><span>' + esc(r.name) + '</span><span class="chip ' + (r.coverage === "VERIFIED" ? "ok" : "warn") + '">' + (r.coverage === "VERIFIED" ? "verificada" : "parcial") + '</span></div>' +
       '<div class="meta">verificado ' + esc(r.verified_at) + ' · límite ' + (r.boundary === "oficial" ? 'OFICIAL (geometría del motor)' : 'ESQUEMÁTICO (informativo, sin valor legal)') + '</div>' +
       '<p>' + esc(r.summary) + '</p>' +
       '<details><summary>normas y fuentes de la zona</summary><ul>' + norms + '</ul>' + (notes ? '<ul>' + notes + '</ul>' : '') + '</details>';
@@ -1026,7 +1130,7 @@ function render(d) {
     li.innerHTML = esc(s.title) + (s.canonical_url ? ' — <a target="_blank" rel="noopener" href="' + esc(s.canonical_url) + '">documento</a>' : '') + (s.official_status ? ' <i>(' + esc(s.official_status) + ')</i>' : '');
     src.appendChild(li);
   });
-  if (!(d.sources || []).length) src.innerHTML = "<li>Sin fuentes: ninguna norma verificada cubre este punto. Eso no es una prohibición.</li>";
+  if (!(d.sources || []).length) src.innerHTML = "<li>No hay fuentes normativas vinculadas a este punto.</li>";
 
   var tech = $("tech-codes");
   tech.innerHTML = "";
@@ -1046,6 +1150,10 @@ function render(d) {
     li.textContent = rc;
     tech.appendChild(li);
   });
+
+  badge($("legal"), d.determination.legalStatus, d.determination.legalStatus);
+  badge($("knowledge"), d.determination.knowledgeStatus, d.determination.knowledgeStatus);
+  badge($("coverage"), d.coverage.status, d.coverage.status);
 
   $("warning").textContent = (d.determination.warnings || [])[0] || "";
 }
@@ -1338,6 +1446,235 @@ function updateStats() {
 
 // Initial stats load
 updateStats();
+
+// ─────────────────────────────────────────────
+// M6: WEATHER CONDITIONS (observational context only)
+// The weather request is deliberately separate from /api/resolve: it never
+// enters the resolver, is fetched once per selected point, and is never cached.
+// ─────────────────────────────────────────────
+var weatherRequestId = 0;
+var weatherAbort = null;
+
+function loadWeather(lat, lon) {
+  var block = $("weather-block");
+  if (!block) return;
+  if (lat === null || lat === undefined || lon === null || lon === undefined) {
+    block.hidden = true;
+    block.innerHTML = "";
+    syncPrimaryConditions();
+    return;
+  }
+
+  weatherRequestId += 1;
+  var myId = weatherRequestId;
+  if (weatherAbort) {
+    try { weatherAbort.abort(); } catch (e) { /* already aborted */ }
+  }
+  weatherAbort = typeof AbortController !== "undefined" ? new AbortController() : null;
+
+  // Remove the previous point's values before requesting the new point.
+  block.hidden = false;
+  block.removeAttribute("data-lat");
+  block.removeAttribute("data-lon");
+  block.innerHTML = "";
+  var loading = document.createElement("p");
+  loading.className = "weather-loading";
+  loading.textContent = "Cargando condiciones…";
+  block.appendChild(loading);
+  syncPrimaryConditions();
+
+  // Weather precision is intentionally coarser than legal resolution (~100 m).
+  var url = "https://api.open-meteo.com/v1/forecast" +
+    "?latitude=" + Number(lat.toFixed(3)) +
+    "&longitude=" + Number(lon.toFixed(3)) +
+    "&current=temperature_2m,wind_speed_10m,wind_gusts_10m" +
+    "&hourly=temperature_2m,precipitation_probability,wind_speed_10m,wind_gusts_10m" +
+    "&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max" +
+    "&timezone=auto&forecast_days=3&wind_speed_unit=kmh";
+  fetch(url, { cache: "no-store", signal: weatherAbort ? weatherAbort.signal : undefined })
+    .then(function (r) {
+      if (!r.ok) throw new Error("weather_http_" + r.status);
+      return r.json();
+    })
+    .then(function (data) {
+      if (myId !== weatherRequestId) { /* stale response: discarded */ return; }
+      renderWeather(block, lat, lon, data);
+    })
+    .catch(function () {
+      if (myId !== weatherRequestId) { /* stale response: discarded */ return; }
+      block.innerHTML = "";
+      var p = document.createElement("p");
+      p.className = "weather-unavailable";
+      p.textContent = "Sin conexión: no hay datos meteorológicos disponibles.";
+      block.appendChild(p);
+      syncPrimaryConditions();
+    });
+}
+
+function fmtTemp(v) {
+  return (v === null || v === undefined) ? "–" : Math.round(v) + "°";
+}
+
+function fmtKmh(v) {
+  return (v === null || v === undefined) ? "–" : Math.round(v) + " km/h";
+}
+
+function fmtProb(v) {
+  return (v === null || v === undefined) ? "–" : v + "%";
+}
+
+function minOf(arr) {
+  var a = (arr || []).filter(function (v) { return v !== null && v !== undefined; });
+  return a.length ? Math.min.apply(null, a) : null;
+}
+
+function maxOf(arr) {
+  var a = (arr || []).filter(function (v) { return v !== null && v !== undefined; });
+  return a.length ? Math.max.apply(null, a) : null;
+}
+
+function nextDayStr(dateStr) {
+  var d = new Date(dateStr + "T00:00Z");
+  d.setUTCDate(d.getUTCDate() + 1);
+  return d.toISOString().slice(0, 10);
+}
+
+function prevDayStr(dateStr) {
+  var d = new Date(dateStr + "T00:00Z");
+  d.setUTCDate(d.getUTCDate() - 1);
+  return d.toISOString().slice(0, 10);
+}
+
+// Use the location's local time from the provider, never the browser timezone.
+function localNow(data) {
+  var off = (data.utc_offset_seconds || 0) * 1000;
+  return new Date(Date.now() + off).toISOString().slice(0, 16);
+}
+
+function currentHourlyIndex(data) {
+  var times = ((data.hourly || {}).time || []);
+  var now = localNow(data);
+  for (var i = 0; i < times.length; i++) {
+    if (times[i] >= now) return i;
+  }
+  return times.length ? times.length - 1 : -1;
+}
+
+// Three following chronological local periods (06–12, 12–18, 18–06).
+// Elapsed hours never contribute to the current period.
+function computeWeatherPeriods(data) {
+  var hourly = data.hourly || {};
+  var times = hourly.time || [];
+  if (!times.length) return [];
+  var nowLocal = localNow(data);
+  var buckets = {}, order = [];
+  for (var i = 0; i < times.length; i++) {
+    var t = times[i];
+    var date = t.slice(0, 10), hh = Number(t.slice(11, 13));
+    var bDate, bIdx, bEnd;
+    if (hh >= 6 && hh < 12) {
+      bDate = date; bIdx = 0; bEnd = date + "T12:00";
+    } else if (hh >= 12 && hh < 18) {
+      bDate = date; bIdx = 1; bEnd = date + "T18:00";
+    } else if (hh >= 18) {
+      bDate = date; bIdx = 2; bEnd = nextDayStr(date) + "T06:00";
+    } else {
+      bDate = prevDayStr(date); bIdx = 2; bEnd = date + "T06:00";
+    }
+    if (t <= nowLocal) continue;
+    if (bEnd <= nowLocal) continue;
+    var key = bDate + "#" + bIdx;
+    if (!buckets[key]) {
+      buckets[key] = { bDate: bDate, bIdx: bIdx, temps: [], rain: [], wind: [], gust: [] };
+      order.push(key);
+    }
+    buckets[key].temps.push(hourly.temperature_2m ? hourly.temperature_2m[i] : null);
+    buckets[key].rain.push(hourly.precipitation_probability ? hourly.precipitation_probability[i] : null);
+    buckets[key].wind.push(hourly.wind_speed_10m ? hourly.wind_speed_10m[i] : null);
+    buckets[key].gust.push(hourly.wind_gusts_10m ? hourly.wind_gusts_10m[i] : null);
+  }
+  order.sort();
+  var today = nowLocal.slice(0, 10);
+  var tomorrow = nextDayStr(today);
+  return order.slice(0, 3).map(function (key) {
+    var b = buckets[key];
+    var base = ["por la mañana", "por la tarde", "por la noche"][b.bIdx];
+    var label;
+    if (b.bDate === today) label = (b.bIdx === 2 ? "Esta " : "") + base;
+    else if (b.bDate === tomorrow) label = "Mañana " + base;
+    else label = b.bDate.slice(5).replace("-", "/") + " " + base;
+    return {
+      label: label,
+      temp: fmtTemp(minOf(b.temps)) + "–" + fmtTemp(maxOf(b.temps)),
+      rain: fmtProb(maxOf(b.rain)),
+      wind: fmtKmh(maxOf(b.wind)),
+      gust: fmtKmh(maxOf(b.gust)),
+    };
+  });
+}
+
+function weatherRow(label, value, extraClass) {
+  var row = document.createElement("div");
+  row.className = "weather-row" + (extraClass ? " " + extraClass : "");
+  var labelEl = document.createElement("span");
+  labelEl.className = "weather-label";
+  labelEl.textContent = label;
+  var valueEl = document.createElement("span");
+  valueEl.className = "weather-value";
+  valueEl.textContent = value;
+  row.appendChild(labelEl);
+  row.appendChild(valueEl);
+  return row;
+}
+
+function renderWeather(block, lat, lon, data) {
+  block.innerHTML = "";
+  block.setAttribute("data-lat", lat.toFixed(3));
+  block.setAttribute("data-lon", lon.toFixed(3));
+
+  var grid = document.createElement("div");
+  grid.className = "weather-grid";
+  var cur = data.current || {};
+  var hourly = data.hourly || {};
+  var hi = currentHourlyIndex(data);
+  var currentRain = hi >= 0 && hourly.precipitation_probability
+    ? hourly.precipitation_probability[hi] : null;
+  grid.appendChild(weatherRow("Ahora", fmtTemp(cur.temperature_2m) +
+    " · " + fmtProb(currentRain) + " · viento " + fmtKmh(cur.wind_speed_10m) +
+    " · rachas " + fmtKmh(cur.wind_gusts_10m)));
+
+  var daily = data.daily || {};
+  // "Hoy" uses only the current local day's index, never the whole forecast.
+  var di = (daily.time || []).indexOf(localNow(data).slice(0, 10));
+  var dailyMin = di >= 0 ? (daily.temperature_2m_min || [])[di] : null;
+  var dailyMax = di >= 0 ? (daily.temperature_2m_max || [])[di] : null;
+  var dailyProb = di >= 0 ? (daily.precipitation_probability_max || [])[di] : null;
+  grid.appendChild(weatherRow("Hoy", fmtTemp(dailyMin) + "–" + fmtTemp(dailyMax) +
+    " · lluvia " + fmtProb(dailyProb)));
+
+  var periods = computeWeatherPeriods(data);
+  if (periods.length) {
+    var periodGroup = document.createElement("div");
+    periodGroup.className = "weather-periods";
+    var periodTitle = document.createElement("p");
+    periodTitle.className = "weather-sub";
+    periodTitle.textContent = "Próximas horas";
+    periodGroup.appendChild(periodTitle);
+    periods.forEach(function (p) {
+      periodGroup.appendChild(weatherRow(p.label,
+        p.temp + " · lluvia " + p.rain + " · rachas " + p.gust,
+        "weather-period"));
+    });
+    grid.appendChild(periodGroup);
+  }
+  block.appendChild(grid);
+
+  var source = document.createElement("p");
+  source.className = "weather-source";
+  source.innerHTML = 'Fuente meteorológica: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> (CC BY 4.0)';
+  block.appendChild(source);
+  syncPrimaryConditions();
+}
 
 // ─────────────────────────────────────────────
 // BOOT
