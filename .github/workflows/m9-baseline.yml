@@ -1,14 +1,8 @@
 name: m9-browser-baseline
 
 on:
-  pull_request:
-    paths:
-      - 'qa/browser/**'
-      - 'webapp/**'
-      - 'alraso/**'
-      - 'docs/m9/**'
-      - '.github/workflows/m9-baseline.yml'
-      - '.gitignore'
+  # M9.0 is a historical baseline for PRODUCT_COMMIT, not a regression gate
+  # for subsequent product changes. Run it explicitly against the frozen tree.
   workflow_dispatch:
 
 permissions:
