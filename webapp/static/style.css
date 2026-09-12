@@ -287,6 +287,8 @@ footer { display:flex; flex-wrap:wrap; gap:6px 18px; padding:6px 16px; border-to
   /* Sheet handle: tap toggles peek/full; drag is progressive enhancement */
   #sheet-handle { display:flex; justify-content:center; align-items:center; width:100%; background:none; border:none; border-radius:0; padding:8px 0 4px; min-height:44px; cursor:grab; touch-action:none; }
   #sheet-handle .handle-bar { width:44px; height:5px; border-radius:3px; background:var(--line); pointer-events:none; }
+  /* Layer controls remain reachable while the result sheet is peeking. */
+  #layers-panel { z-index:700; }
 
   /* R5: snackbar feedback above the bottom nav, above the sheet */
   #searchmsg { top:auto; bottom:calc(56px + env(safe-area-inset-bottom) + 12px); z-index:900; }
