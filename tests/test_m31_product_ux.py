@@ -520,7 +520,7 @@ class TestHooksSurvive:
         assert "Añadir a una salida" in HTML
 
     def test_sources_detail_text(self):
-        assert "Fuentes y detalle" in HTML
+        assert "Consultar detalle" in HTML
 
     def test_empty_states_survive(self):
         assert "Todavía no has guardado ningún sitio." in JS

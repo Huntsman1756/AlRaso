@@ -1,6 +1,9 @@
 "use strict";
 const $ = (id) => document.getElementById(id);
-const state = { lat: null, lon: null, marker: null, poiCategory: null, poiAlt: null, selectedName: null };
+const state = {
+  lat: null, lon: null, marker: null, poiCategory: null, poiAlt: null,
+  selectedName: null, cartographicContext: null,
+};
 let poiClickGuard = 0;
 
 // Proveedor de basemap NO hardcodeado: se pide a /api/config (el server lee
@@ -370,6 +373,8 @@ function renderPoi(p) {
   }
   state.poiCategory = p.category;
   state.poiAlt = p.alt_m || null;
+  state.cartographicContext = null;
+  renderPlaceContext({});
 }
 
 function renderPa(p) {
@@ -401,6 +406,12 @@ function renderPa(p) {
     details.innerHTML = html;
     box.style.display = "";
   }
+  state.cartographicContext = {
+    kind: "Espacio protegido",
+    name: p.name || "Espacio protegido",
+    note: "Información cartográfica; no determina la legalidad.",
+  };
+  renderPlaceContext({});
 }
 
 // ─────────────────────────────────────────────
@@ -649,6 +660,9 @@ function selectPoint(lat, lon, name, fly, preserveContext) {
     $("pa-card").hidden = true;
     state.poiCategory = null;
     state.poiAlt = null;
+    state.cartographicContext = null;
+    var contextBox = $("place-context");
+    if (contextBox) contextBox.hidden = true;
     var paLegalBtn = $("pa-legal-btn");
     if (paLegalBtn) {
       paLegalBtn.disabled = true;
@@ -1049,6 +1063,96 @@ const ACT_LABELS = {
   ACAMPADA: "acampar",
   PERNOCTA_REFUGIO: "pernoctar en refugio",
 };
+
+const PRIMARY_LEGAL_LABELS = {
+  PERMITTED: "Permitido",
+  PROHIBITED: "Prohibido",
+  AUTHORIZATION_REQUIRED: "Solo con autorización previa",
+  UNDETERMINED: "No lo podemos determinar",
+};
+
+const CORPUS_STATUS_LABELS = {
+  CURRENT: "vigente según los datos disponibles",
+  INCOMPLETE: "incompleto según los datos disponibles",
+  CONFLICTING: "con fuentes en conflicto",
+};
+
+function hasReason(d, code) {
+  return ((d.determination && d.determination.reasonCodes) || []).indexOf(code) !== -1;
+}
+
+function primaryLegalLabel(d) {
+  var legal = d.determination.legalStatus;
+  return PRIMARY_LEGAL_LABELS[legal] || ((d.ui || {}).legal || legal);
+}
+
+function answerExplanation(d) {
+  var legal = d.determination.legalStatus;
+  var coverage = (d.coverage || {}).status;
+  if (legal === "UNDETERMINED") {
+    if (coverage === "UNKNOWN") {
+      return "Aún no tenemos normativa verificada para este punto. Esto no significa que esté prohibido ni que esté permitido.";
+    }
+    if (coverage === "PARTIAL") {
+      return "La cobertura normativa de esta zona todavía no permite resolver este punto. Esto no significa que esté prohibido ni que esté permitido.";
+    }
+    return "Faltan datos para completar esta consulta. Esto no significa que esté prohibido ni que esté permitido.";
+  }
+  if (legal === "PERMITTED") return "La normativa verificada permite esta actividad.";
+  if (legal === "PROHIBITED") return "La normativa verificada prohíbe esta actividad.";
+  if (legal === "AUTHORIZATION_REQUIRED") return "Esta actividad requiere una autorización previa.";
+  return "No podemos mostrar una conclusión para este estado.";
+}
+
+function corpusStatusText(d) {
+  var knowledge = d.determination.knowledgeStatus;
+  return "Estado del corpus consultado: " +
+    (CORPUS_STATUS_LABELS[knowledge] || knowledge || "no disponible");
+}
+
+function coverageStatusText(d) {
+  var coverage = (d.coverage || {}).status;
+  if (coverage === "UNKNOWN") return "Cobertura normativa del punto: ninguna";
+  if (coverage === "PARTIAL") return "Cobertura normativa del punto: parcial";
+  if (coverage === "VERIFIED") return "Cobertura normativa del punto: geometría y norma verificadas";
+  return "Cobertura normativa del punto: " + (coverage || "no disponible");
+}
+
+function normalizePlaceContext(candidate) {
+  if (!candidate) return null;
+  var raw = candidate.properties || candidate;
+  if (typeof raw === "string") return { kind: "Espacio protegido", name: raw };
+  var name = raw.name || raw.official_name || raw.label || raw.title;
+  if (!name) return null;
+  var category = String(raw.category || raw.kind || raw.context_type || "").toLowerCase();
+  var kind = category.indexOf("protected") !== -1 || category.indexOf("proteg") !== -1
+    ? "Espacio protegido"
+    : (raw.kind_label || raw.context_label || "Contexto cartográfico");
+  return {
+    kind: kind,
+    name: name,
+    note: raw.note || raw.disclaimer || "Información cartográfica; no determina la legalidad.",
+  };
+}
+
+function renderPlaceContext(d) {
+  var box = $("place-context");
+  if (!box) return;
+  var raw = d.cartographicContext || d.cartographic_context || d.placeContext ||
+    d.place_context || d.protectedArea || d.protected_area ||
+    ((d.coverage || {}).context) || state.cartographicContext;
+  var context = normalizePlaceContext(Array.isArray(raw) ? raw[0] : raw);
+  if (!context) {
+    box.hidden = true;
+    $("place-context-value").textContent = "";
+    $("place-context-note").textContent = "";
+    return;
+  }
+  box.hidden = false;
+  $("place-context-kind").textContent = context.kind;
+  $("place-context-value").textContent = context.name;
+  $("place-context-note").textContent = context.note;
+}
 function whyText(d) {
   var legal = d.determination.legalStatus;
   var act = ACT_LABELS[d.query.activity] || d.query.activity;
@@ -1059,11 +1163,10 @@ function whyText(d) {
       ((d.conditions || []).length ? ", siempre que se cumplan las condiciones indicadas." : ".");
   if (legal === "PROHIBITED") return 'La normativa verificada prohíbe ' + act + zone + '.';
   if (legal === "AUTHORIZATION_REQUIRED") return 'Para ' + act + zone + ' hace falta una autorización previa según la normativa verificada.';
-  if (d.coverage.status === "UNKNOWN")
-    return "Ninguna norma del corpus de AlRaso llega a este punto, así que no podemos afirmar ni permiso ni prohibición. Los códigos canónicos de esta comprobación están en «Detalle técnico».";
-  if (d.coverage.status === "PARTIAL")
-    return "Conocemos la normativa de esta zona, pero la comprobación punto a punto no está cerrada: para este punto concreto no afirmamos ni permiso ni prohibición.";
-  return "Faltan datos por confirmar (mira las condiciones de arriba): sin ellos AlRaso no afirma ni permiso ni prohibición.";
+  if (hasReason(d, "NO_APPLICABLE_SCOPE")) return "Ninguna norma estudiada alcanza este punto.";
+  if ((d.coverage || {}).status === "UNKNOWN") return "Zona todavía no cubierta.";
+  if ((d.coverage || {}).status === "PARTIAL") return "La cobertura de esta zona todavía no permite resolver este punto.";
+  return "Faltan datos en la consulta para completar la evaluación.";
 }
 
 function badge(el, value, plain) {
@@ -1121,13 +1224,10 @@ function render(d) {
   var legalStatus = d.determination.legalStatus;
   var emoji = LEGAL_EMOJI[legalStatus] || "";
   $("legal-emoji").textContent = emoji;
-  $("headline").textContent = ui.headline || d.determination.legalStatus;
+  $("headline").textContent = primaryLegalLabel(d);
+  $("answer-explanation").textContent = answerExplanation(d);
   var resultEl = $("legal-result");
   resultEl.style.borderLeftColor = LEGAL_BORDER_COLOR[legalStatus] || "#999";
-
-  badge($("legal"), d.determination.legalStatus, ui.legal || d.determination.legalStatus);
-  badge($("knowledge"), d.determination.knowledgeStatus, ui.knowledge || d.determination.knowledgeStatus);
-  badge($("coverage"), d.coverage.status, ui.coverage || d.coverage.status);
 
   // Plain-language conditions (bullets)
   var plainConds = $("plain-conds");
@@ -1145,15 +1245,9 @@ function render(d) {
     plainConds.hidden = true;
   }
 
-  // ui.knowledge explanation when UNDETERMINED
-  var uiKnow = $("ui-knowledge");
-  if (legalStatus === "UNDETERMINED" && ui.knowledge) {
-    uiKnow.hidden = false;
-    uiKnow.textContent = ui.knowledge;
-  } else {
-    uiKnow.hidden = true;
-    uiKnow.textContent = "";
-  }
+  var conditionsSummary = $("conditions-summary");
+  if (conditionsSummary) conditionsSummary.hidden = !(legalStatus !== "UNDETERMINED" && conds.length > 0);
+  renderPlaceContext(d);
 
   // ── detail box (technical) ──
   renderFacts(d);
@@ -1180,11 +1274,13 @@ function render(d) {
   $("condiciones").style.display = (d.conditions || []).length ? "" : "none";
 
   $("decision").textContent = whyText(d);
+  $("corpus-status").textContent = corpusStatusText(d);
+  $("coverage-status").textContent = coverageStatusText(d);
 
   var zones = $("region-list");
   zones.innerHTML = "";
   if (!(d.coverage.regions || []).length) {
-    zones.innerHTML = '<div class="region">Ninguna región cubierta contiene este punto.<br><span class="meta">AlRaso no tiene corpus aquí y por eso no puede afirmar nada: ni permiso ni prohibición.</span></div>';
+    zones.innerHTML = '<div class="region region-empty">Zona todavía no cubierta</div>';
   }
   (d.coverage.regions || []).forEach(function (r) {
     var div = document.createElement("div");
@@ -1194,7 +1290,7 @@ function render(d) {
     }).join("");
     var notes = (r.notes || []).map(function (n) { return '<li>' + esc(n) + '</li>'; }).join("");
     div.innerHTML =
-      '<div class="rhead"><span>' + esc(r.name) + '</span><span class="chip ' + (r.coverage === "VERIFIED" ? "ok" : "warn") + '">' + (r.coverage === "VERIFIED" ? "completa" : "parcial") + '</span></div>' +
+      '<div class="rhead"><span>' + esc(r.name) + '</span><span class="chip ' + (r.coverage === "VERIFIED" ? "ok" : "warn") + '">' + (r.coverage === "VERIFIED" ? "verificada" : "parcial") + '</span></div>' +
       '<div class="meta">verificado ' + esc(r.verified_at) + ' · límite ' + (r.boundary === "oficial" ? 'OFICIAL (geometría del motor)' : 'ESQUEMÁTICO (informativo, sin valor legal)') + '</div>' +
       '<p>' + esc(r.summary) + '</p>' +
       '<details><summary>normas y fuentes de la zona</summary><ul>' + norms + '</ul>' + (notes ? '<ul>' + notes + '</ul>' : '') + '</details>';
@@ -1208,7 +1304,7 @@ function render(d) {
     li.innerHTML = esc(s.title) + (s.canonical_url ? ' — <a target="_blank" rel="noopener" href="' + esc(s.canonical_url) + '">documento</a>' : '') + (s.official_status ? ' <i>(' + esc(s.official_status) + ')</i>' : '');
     src.appendChild(li);
   });
-  if (!(d.sources || []).length) src.innerHTML = "<li>Sin fuentes: ninguna norma verificada cubre este punto. Eso no es una prohibición.</li>";
+  if (!(d.sources || []).length) src.innerHTML = "<li>No hay fuentes normativas vinculadas a este punto.</li>";
 
   var tech = $("tech-codes");
   tech.innerHTML = "";
@@ -1228,6 +1324,10 @@ function render(d) {
     li.textContent = rc;
     tech.appendChild(li);
   });
+
+  badge($("legal"), d.determination.legalStatus, d.determination.legalStatus);
+  badge($("knowledge"), d.determination.knowledgeStatus, d.determination.knowledgeStatus);
+  badge($("coverage"), d.coverage.status, d.coverage.status);
 
   $("warning").textContent = (d.determination.warnings || [])[0] || "";
 }

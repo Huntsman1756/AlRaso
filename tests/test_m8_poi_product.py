@@ -223,3 +223,45 @@ def test_poi_src_disclosure_css():
     """Provenance disclosure has its own CSS rules."""
     assert ".poi-src-details" in STYLE_CSS, \
         "style.css must define .poi-src-details"
+
+
+# ── M8.2 compact product answer ─────────────────────────────────────────────
+
+def test_m82_primary_answer_is_compact_and_detail_is_progressive_disclosure():
+    assert 'id="answer-explanation"' in INDEX_HTML
+    assert 'id="conditions-summary"' in INDEX_HTML
+    assert 'id="place-context"' in INDEX_HTML
+    assert '<details id="detail-box"><summary>Consultar detalle</summary>' in INDEX_HTML
+    assert 'id="ui-knowledge"' not in INDEX_HTML
+
+    tech_at = INDEX_HTML.index('id="tech"')
+    badges_at = INDEX_HTML.index('class="badges"')
+    codes_at = INDEX_HTML.index('id="tech-codes"')
+    assert tech_at < badges_at < codes_at, \
+        "Internal status badges must live inside technical detail"
+
+
+def test_m82_unknown_answer_copy_is_single_and_user_facing():
+    assert 'UNDETERMINED: "No lo podemos determinar"' in APP_JS
+    assert "Aún no tenemos normativa verificada para este punto." in APP_JS
+    assert 'return "Zona todavía no cubierta.";' in APP_JS
+    assert '"Cobertura normativa del punto: ninguna"' in APP_JS
+    assert 'No hay fuentes normativas vinculadas a este punto.' in APP_JS
+
+    assert "Ninguna norma del corpus de AlRaso llega a este punto" not in APP_JS
+    assert "AlRaso no tiene corpus aquí y por eso no puede afirmar nada" not in APP_JS
+
+
+def test_m82_port_does_not_restore_poi_altitude_as_legal_altitude():
+    start = APP_JS.find("function render(d)")
+    assert start != -1
+    end = APP_JS.find("\nfunction ", start + 1)
+    render = APP_JS[start:] if end == -1 else APP_JS[start:end]
+    assert "state.poiAlt" not in render
+    assert "d.dem" in render
+
+
+def test_m82_m6_and_m81_plumbing_remain_single_instance():
+    assert APP_JS.count("function loadWeather(") == 1
+    assert APP_JS.count("async function loadProtectedAreas(") == 1
+    assert 'fetch("/api/protected-areas")' in APP_JS

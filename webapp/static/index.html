@@ -97,8 +97,18 @@
             <p id="legal-result" class="legal-result">
               <span id="legal-emoji"></span> <span id="headline"></span>
             </p>
+            <p id="answer-explanation" class="answer-explanation"></p>
+          </section>
+
+          <section id="conditions-summary" class="primary-section" hidden>
+            <h3>Condiciones</h3>
             <ul id="plain-conds" class="plain-conds" hidden></ul>
-            <div id="ui-knowledge" class="ui-knowledge" hidden></div>
+          </section>
+
+          <section id="place-context" class="place-context" hidden>
+            <h3>Contexto del lugar</h3>
+            <div><span id="place-context-kind" class="place-context-kind"></span>: <strong id="place-context-value"></strong></div>
+            <p id="place-context-note" class="place-context-note"></p>
           </section>
 
           <!-- c) ACTION BUTTONS -->
@@ -108,12 +118,13 @@
           </div>
 
           <!-- d) DETAILS BLOCK -->
-          <details id="detail-box"><summary>Fuentes y detalle</summary>
+          <details id="detail-box"><summary>Consultar detalle</summary>
             <div class="detail-tools">
               <button id="center-btn" type="button">Usar el centro del mapa</button>
             </div>
             <section class="detail-section">
-              <h3><label for="activity">Actividad</label></h3>
+              <h3>Datos de la consulta</h3>
+              <label for="activity">Actividad</label>
               <select id="activity">
                 <option value="VIVAC_AL_RASO">Vivac al raso</option>
                 <option value="FUNDA_VIVAC">Funda vivac</option>
@@ -123,20 +134,25 @@
               </select>
               <label>Fecha de la actividad <input type="date" id="date"></label>
               <div id="factbox"></div>
+              <p id="dem-info" class="dem-info" hidden></p>
             </section>
-            <p id="dem-info" class="dem-info" hidden></p>
-            <section id="condiciones"><h3>Condiciones evaluadas</h3><ul id="cond-list"></ul></section>
-            <section><h3>Por qué sabemos / por qué no</h3><p id="decision"></p></section>
-            <section id="zonas"><h3>Zonas de cobertura</h3><div id="region-list"></div></section>
-            <section><h3>Fuentes</h3><ul id="sources"></ul></section>
-            <div class="badges">
-              <div><span class="badge-label">SITUACIÓN LEGAL</span><span id="legal" class="badge">—</span></div>
-              <div><span class="badge-label">ESTADO DE LA INFORMACIÓN</span><span id="knowledge" class="badge">—</span></div>
-              <div><span class="badge-label">COBERTURA</span><span id="coverage" class="badge">—</span></div>
-            </div>
-            <p id="warning" class="warning"></p>
+            <section id="condiciones" class="detail-section"><h3>Condiciones evaluadas</h3><ul id="cond-list"></ul></section>
+            <section class="detail-section"><h3>Por qué damos esta respuesta</h3><p id="decision"></p></section>
+            <section class="detail-section">
+              <h3>Cobertura y fuentes</h3>
+              <p id="corpus-status" class="detail-status"></p>
+              <p id="coverage-status" class="detail-status"></p>
+              <div id="zonas"><div id="region-list"></div></div>
+              <ul id="sources"></ul>
+              <p id="warning" class="warning"></p>
+            </section>
             <details id="tech">
               <summary>Detalle técnico (códigos)</summary>
+              <div class="badges">
+                <div><span class="badge-label">SITUACIÓN LEGAL</span><span id="legal" class="badge">—</span></div>
+                <div><span class="badge-label">ESTADO DE LA INFORMACIÓN</span><span id="knowledge" class="badge">—</span></div>
+                <div><span class="badge-label">COBERTURA</span><span id="coverage" class="badge">—</span></div>
+              </div>
               <ul id="tech-codes"></ul>
             </details>
           </details>
