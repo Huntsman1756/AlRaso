@@ -1,6 +1,8 @@
 # M9.0 — Baseline de producto
 
-Estado de cierre: `M9.0 BASELINE COMPLETE`
+Estado de cierre local: `M9.0 BASELINE COMPLETE`
+
+Publicación CI: pendiente de ejecutar en GitHub; el workflow está committeado, pero esta sesión no hace push.
 
 Decisión de programa: `M9 PROGRAM BLOCKED` por tres reproducciones del mismo P0 de integridad legal en S14. M9.0 queda cerrado como baseline; no se ha aplicado ningún fix de producto.
 
