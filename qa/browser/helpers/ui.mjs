@@ -94,6 +94,10 @@ export async function openLegalDetail(page) {
     undefined,
     { timeout: DEFAULT_TIMEOUT }
   );
+  const query = page.locator('#query-disclosure');
+  if (await query.count() && !(await query.evaluate((element) => element.open))) {
+    await query.locator(':scope > summary').click();
+  }
 }
 
 async function setNumberFact(page, name, value) {
