@@ -153,6 +153,20 @@ def test_metadata_stubs_now_real():
         assert int(val, 16) != 0, f"{key} is all zeros"
 
 
+def test_provenance_digests_match_stored_inputs_and_builders():
+    """Derived metadata must identify the exact bytes stored in the repo."""
+    doc = json.loads(PA_JSON.read_text(encoding="utf-8"))
+    digests = doc["metadata"]["source_digests"]
+    assert digests["ordesa_overpass_response_sha256"] == _sha256(ORDESA_FIXTURE)
+    assert digests["picos_overpass_response_sha256"] == _sha256(PICOS_FIXTURE)
+    assert doc["metadata"]["builder_self_sha256"] == _sha256(BUILD_PY)
+
+    crosscheck = json.loads(CROSSCHECK_JSON.read_text(encoding="utf-8"))
+    assert crosscheck["script_sha256"] == _sha256(
+        TOOLS / "m81_official_crosscheck.py"
+    )
+
+
 def test_official_crosscheck_block_present():
     """Metadata must have an official_crosscheck block with redistribution=NO."""
     doc = json.loads(PA_JSON.read_text(encoding="utf-8"))
@@ -209,6 +223,9 @@ def test_schema_registered_in_precommit():
     precommit = (ROOT / ".pre-commit-config.yaml").read_text(encoding="utf-8")
     assert "protected_areas" in precommit, (
         "protected_areas.json not registered in .pre-commit-config.yaml"
+    )
+    assert "schemas/alraso-m2-protected-areas-v1.schema.json" in precommit, (
+        "protected_areas.json must use the dedicated M8.1 schema"
     )
 
 

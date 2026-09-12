@@ -1,6 +1,6 @@
 {
   "script": "m81_official_crosscheck.py",
-  "script_sha256": "2adddbfb1d404b9e344312e4a82dedf09a806bb7ce329e894e82f99ed02be01d",
+  "script_sha256": "f527c658c8ba3fb49df11d923d4d65549e06c1cf5d6b1e1327e051994c7e8a44",
   "retrieved_at": "2026-09-11T19:30:04.347804+00:00",
   "official_source_url": "https://sigred.oapn.es/geoserverOAPN/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=LimitesParquesNacionalesZPP%3Aview_red_oapn_limite_pn&outputFormat=application/json",
   "official_redistribution": "NO (digest-only)",

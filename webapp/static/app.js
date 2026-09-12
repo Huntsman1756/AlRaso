@@ -232,10 +232,12 @@ async function loadProtectedAreas() {
   map.addSource("protected-areas", { type: "geojson", data: fc });
   map.addLayer({
     id: "pa-fill", type: "fill", source: "protected-areas",
+    layout: { visibility: $("lg-protected").checked ? "visible" : "none" },
     paint: { "fill-color": PA_FILL_COLOR, "fill-opacity": 0.12 },
   });
   map.addLayer({
     id: "pa-line", type: "line", source: "protected-areas",
+    layout: { visibility: $("lg-protected").checked ? "visible" : "none" },
     paint: { "line-color": "#0d9488", "line-width": 1.5, "line-opacity": 0.5 },
   });
   map.on("click", "pa-fill", function (e) { onPaClick(e); });
@@ -585,7 +587,7 @@ function openSheetForSelection() {
 // ─────────────────────────────────────────────
 // SELECT POINT & FRESH RESOLVE
 // ─────────────────────────────────────────────
-function selectPoint(lat, lon, name, fly) {
+function selectPoint(lat, lon, name, fly, preserveContext) {
   if (fly === undefined) fly = true;
   state.lat = lat;
   state.lon = lon;
@@ -599,7 +601,22 @@ function selectPoint(lat, lon, name, fly) {
     }
     if (fly) map.flyTo({ center: ll, zoom: Math.max(map.getZoom(), 10) });
   }
-  if (!name) { $("poi").hidden = true; state.poiCategory = null; state.poiAlt = null; }
+  // A fresh coordinate/name selection replaces any contextual card from a
+  // previous POI or protected-area click. The specialized renderers show the
+  // relevant card again after this reset. Legal CTAs opt into preserving the
+  // card that the user is using while the resolver refreshes below it.
+  if (!preserveContext) {
+    $("poi").hidden = true;
+    $("pa-card").hidden = true;
+    state.poiCategory = null;
+    state.poiAlt = null;
+    var paLegalBtn = $("pa-legal-btn");
+    if (paLegalBtn) {
+      paLegalBtn.disabled = true;
+      paLegalBtn.removeAttribute("data-lat");
+      paLegalBtn.removeAttribute("data-lon");
+    }
+  }
   $("searchmsg").textContent = name ? `Zona seleccionada: ${name}` : "";
   document.body.classList.toggle("has-selection", state.lat !== null);
   openSheetForSelection();
@@ -779,7 +796,7 @@ if (poiLegalBtn) {
     var lat = parseFloat(poiLegalBtn.getAttribute("data-lat"));
     var lon = parseFloat(poiLegalBtn.getAttribute("data-lon"));
     if (isNaN(lat) || isNaN(lon)) return;
-    selectPoint(lat, lon, state.selectedName, true);
+    selectPoint(lat, lon, state.selectedName, true, true);
   });
 }
 
@@ -791,7 +808,7 @@ if (paLegalBtn) {
     var lat = parseFloat(paLegalBtn.getAttribute("data-lat"));
     var lon = parseFloat(paLegalBtn.getAttribute("data-lon"));
     if (isNaN(lat) || isNaN(lon)) return;
-    selectPoint(lat, lon, state.selectedName, true);
+    selectPoint(lat, lon, null, true, true);
   });
 }
 

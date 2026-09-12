@@ -847,6 +847,17 @@ def test_git_diff_vs_main_only_allowed_files():
         "tooling/fixtures/overpass_ordesa.json",
         "tooling/fixtures/overpass_picos.json",
         "webapp/pois.json",
+        # M8.1: protected-area context layer, deterministic builder and
+        # digest-only official cross-check artifacts.
+        "schemas/alraso-m2-protected-areas-v1.schema.json",
+        "tests/test_m81_protected_area_app.py",
+        "tests/test_m81_protected_area_data.py",
+        "tooling/m81_official_crosscheck.py",
+        "tooling/m81_official_crosscheck_results.json",
+        "tooling/m81_protected_area_build.py",
+        "tooling/pa_ordesa_overpass.json",
+        "tooling/pa_picos_overpass.json",
+        "webapp/protected_areas.json",
     }
     for f in changed:
         assert f in allowed, f"Unexpected file changed: {f}"

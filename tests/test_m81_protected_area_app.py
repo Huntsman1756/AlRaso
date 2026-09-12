@@ -225,6 +225,21 @@ def test_pa_click_handler_sets_coords_on_cta():
     assert "e.lngLat.lng" in rest or "clickedLon" in rest, "onPaClick must use clicked longitude"
 
 
+def test_new_selection_clears_previous_pa_context_and_name():
+    """A normal point selection must not leave a stale PA card or CTA name."""
+    select_idx = APP_JS.find("function selectPoint")
+    assert select_idx >= 0, "selectPoint must exist"
+    select_block = APP_JS[select_idx:APP_JS.find("// ─", select_idx + 1)]
+    assert '$("pa-card").hidden = true;' in select_block
+    assert 'paLegalBtn.removeAttribute("data-lat")' in select_block
+    assert 'paLegalBtn.removeAttribute("data-lon")' in select_block
+
+    pa_cta_idx = APP_JS.rfind('var paLegalBtn = $("pa-legal-btn");')
+    assert pa_cta_idx >= 0
+    pa_cta_block = APP_JS[pa_cta_idx:APP_JS.find("// ─", pa_cta_idx + 1)]
+    assert "selectPoint(lat, lon, null, true, true)" in pa_cta_block
+
+
 # ── 6. JS syntax gate ───────────────────────────────────────────────────────
 
 def test_js_syntax_check():
