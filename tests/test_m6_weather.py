@@ -217,7 +217,7 @@ class TestHonestStates:
         assert 'block.removeAttribute("data-lat")' in APP
 
     def test_no_connection_copy_exact(self):
-        assert "Sin conexión: no hay datos meteorológicos disponibles." in APP
+        assert "No hay datos meteorológicos disponibles ahora." in APP
 
     def test_stale_response_discarded(self):
         assert "stale response: discarded" in APP

@@ -1835,7 +1835,7 @@ function loadWeather(lat, lon) {
       block.innerHTML = "";
       var p = document.createElement("p");
       p.className = "weather-unavailable";
-      p.textContent = "Sin conexión: no hay datos meteorológicos disponibles.";
+      p.textContent = "No hay datos meteorológicos disponibles ahora.";
       block.appendChild(p);
     });
 }

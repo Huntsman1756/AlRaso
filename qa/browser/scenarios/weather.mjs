@@ -108,7 +108,7 @@ export const S09_WEATHER_UNAVAILABLE = {
       else throw error;
     });
     const weatherText = await text(page, '#weather-block');
-    check(recorder, 'weather-unavailable-copy-visible', weatherText.includes('Sin conexión'));
+    check(recorder, 'weather-unavailable-copy-visible', weatherText.includes('No hay datos meteorológicos disponibles ahora.'));
     const legal = await recordLegalState(page, recorder, 'weather-unavailable-legal');
     check(recorder, 'weather-unavailable-legal-continues', legal.headline.length > 0);
     const failed = observer.snapshot().network.failed_requests.filter((request) => isWeatherUrl(request.url));
@@ -117,7 +117,7 @@ export const S09_WEATHER_UNAVAILABLE = {
       temperature: null,
       request_url: failed[0]?.url || null,
       http_status: null,
-      ui_structure_valid: weatherText.includes('Sin conexión')
+      ui_structure_valid: weatherText.includes('No hay datos meteorológicos disponibles ahora.')
     });
     check(recorder, 'weather-abort-observed', failed.some((request) => request.expected && request.expected_fault === 'weather_unavailable'));
   }
