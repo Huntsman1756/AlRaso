@@ -144,6 +144,7 @@ export const S07_PROTECTED_AREA = {
     check(recorder, 'protected-area-non-legal-disclaimer', note === 'Referencia cartográfica de OpenStreetMap para contexto visual; el límite mostrado NO es la delimitación legal oficial; no determina el ámbito jurídico de AlRaso.', { actual: note });
     check(recorder, 'protected-area-cta-enabled', !(await button.isDisabled()));
     check(recorder, 'protected-area-cta-coordinates-only', Number.isFinite(dataLat) && Number.isFinite(dataLon));
+    check(recorder, 'protected-area-context-secondary', (await text(page, '#pa-meta')).toLowerCase().includes('osm'));
     recorder.setField('protected_area_cta', { data_lat: dataLat, data_lon: dataLon, name_attribute: await button.getAttribute('data-name') });
 
     const ctaResolve = await observedStep(recorder, 'protected-area-cta-resolves-coordinates', async () => {
@@ -158,5 +159,6 @@ export const S07_PROTECTED_AREA = {
     }
     await openLegalDetail(page).catch(() => {});
     await recordLegalState(page, recorder, 'protected-area-cta-result');
+    check(recorder, 'protected-area-legal-section-visible', await visible(page, '#legal-section'));
   }
 };

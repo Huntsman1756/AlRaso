@@ -374,6 +374,7 @@ function renderPoi(p) {
   state.poiCategory = p.category;
   state.poiAlt = p.alt_m || null;
   state.cartographicContext = null;
+  renderPlaceHeading();
   renderPlaceContext({});
 }
 
@@ -411,6 +412,7 @@ function renderPa(p) {
     name: p.name || "Espacio protegido",
     note: "Información cartográfica; no determina la legalidad.",
   };
+  renderPlaceHeading();
   renderPlaceContext({});
 }
 
@@ -1001,9 +1003,11 @@ function resetLegalResultForPending() {
     var date = $("date").value || new Date().toISOString().slice(0, 10);
     $("coords").textContent = state.lat.toFixed(5) + ", " + state.lon.toFixed(5) + " · " + actLabel + " · " + date;
   }
+  renderPlaceHeading();
   $("legal-emoji").textContent = "";
   $("headline").textContent = "Consultando…";
   $("answer-explanation").textContent = "Verificando la normativa para este punto.";
+  $("legal-result").className = "legal-result legal-status--undetermined";
   $("legal-result").style.borderLeftColor = "#93a1b0";
   $("plain-conds").innerHTML = "";
   $("plain-conds").hidden = true;
@@ -1132,17 +1136,33 @@ function primaryLegalLabel(d) {
   return PRIMARY_LEGAL_LABELS[legal] || ((d.ui || {}).legal || legal);
 }
 
+function undeterminedExplanation(d) {
+  var coverage = (d.coverage || {}).status;
+  var notPermission = "Esto no significa que esté prohibido ni que esté permitido.";
+  if (hasReason(d, "NO_PUBLISHABLE_RULE_COVERAGE")) {
+    return "La zona está delimitada, pero falta una condición verificable para aplicar una regla concreta. " + notPermission;
+  }
+  if (hasReason(d, "NO_APPLICABLE_SCOPE")) {
+    if (coverage === "PARTIAL") {
+      return "Tenemos normativa de la zona, pero la comprobación espacial de este punto no está cerrada. " + notPermission;
+    }
+    if (coverage === "UNKNOWN") {
+      return "No tenemos una zona normativa verificada para este punto. " + notPermission;
+    }
+  }
+  if (coverage === "UNKNOWN") {
+    return "Aún no tenemos normativa verificada para este punto. " + notPermission;
+  }
+  if (coverage === "PARTIAL") {
+    return "La cobertura normativa de esta zona todavía no permite resolver este punto. " + notPermission;
+  }
+  return "Faltan datos para completar esta consulta. " + notPermission;
+}
+
 function answerExplanation(d) {
   var legal = d.determination.legalStatus;
-  var coverage = (d.coverage || {}).status;
   if (legal === "UNDETERMINED") {
-    if (coverage === "UNKNOWN") {
-      return "Aún no tenemos normativa verificada para este punto. Esto no significa que esté prohibido ni que esté permitido.";
-    }
-    if (coverage === "PARTIAL") {
-      return "La cobertura normativa de esta zona todavía no permite resolver este punto. Esto no significa que esté prohibido ni que esté permitido.";
-    }
-    return "Faltan datos para completar esta consulta. Esto no significa que esté prohibido ni que esté permitido.";
+    return undeterminedExplanation(d);
   }
   if (legal === "PERMITTED") return "La normativa verificada permite esta actividad.";
   if (legal === "PROHIBITED") return "La normativa verificada prohíbe esta actividad.";
@@ -1199,6 +1219,21 @@ function renderPlaceContext(d) {
   $("place-context-value").textContent = context.name;
   $("place-context-note").textContent = context.note;
 }
+
+function renderPlaceHeading() {
+  var heading = $("place-heading");
+  if (!heading) return;
+  var hasCartographicCard =
+    ($("poi") && !$("poi").hidden) || ($("pa-card") && !$("pa-card").hidden);
+  if (hasCartographicCard) {
+    heading.hidden = true;
+    heading.textContent = "";
+    return;
+  }
+  heading.textContent = state.selectedName || "Punto seleccionado";
+  heading.hidden = false;
+}
+
 function whyText(d) {
   var legal = d.determination.legalStatus;
   var act = ACT_LABELS[d.query.activity] || d.query.activity;
@@ -1209,8 +1244,14 @@ function whyText(d) {
       ((d.conditions || []).length ? ", siempre que se cumplan las condiciones indicadas." : ".");
   if (legal === "PROHIBITED") return 'La normativa verificada prohíbe ' + act + zone + '.';
   if (legal === "AUTHORIZATION_REQUIRED") return 'Para ' + act + zone + ' hace falta una autorización previa según la normativa verificada.';
-  if (hasReason(d, "NO_APPLICABLE_SCOPE")) return "Ninguna norma estudiada alcanza este punto.";
-  if ((d.coverage || {}).status === "UNKNOWN") return "Zona todavía no cubierta.";
+  if (hasReason(d, "NO_PUBLISHABLE_RULE_COVERAGE")) return "La zona está delimitada, pero falta una condición verificable para aplicar una regla concreta.";
+  if (hasReason(d, "NO_APPLICABLE_SCOPE") && (d.coverage || {}).status === "PARTIAL") {
+    return "Tenemos normativa de la zona, pero la comprobación espacial de este punto no está cerrada.";
+  }
+  if (hasReason(d, "NO_APPLICABLE_SCOPE") && (d.coverage || {}).status === "UNKNOWN") {
+    return "No tenemos una zona normativa verificada para este punto.";
+  }
+  if ((d.coverage || {}).status === "UNKNOWN") return "Aún no tenemos normativa verificada para este punto.";
   if ((d.coverage || {}).status === "PARTIAL") return "La cobertura de esta zona todavía no permite resolver este punto.";
   return "Faltan datos en la consulta para completar la evaluación.";
 }
@@ -1255,6 +1296,7 @@ function render(d) {
   // Coords — use ACT_LABELS for Spanish label (U5)
   var actLabel = ACT_LABELS[d.query.activity] || d.query.activity;
   $("coords").textContent = state.lat.toFixed(5) + ", " + state.lon.toFixed(5) + " · " + actLabel + " · " + d.query.activity_date;
+  renderPlaceHeading();
 
   // Altitude: only from dem.value_m (POI altitude stays in the POI card only).
   var altLine = $("altitude-line");
@@ -1273,6 +1315,13 @@ function render(d) {
   $("headline").textContent = primaryLegalLabel(d);
   $("answer-explanation").textContent = answerExplanation(d);
   var resultEl = $("legal-result");
+  var statusClass = {
+    PERMITTED: "permitted",
+    PROHIBITED: "prohibited",
+    AUTHORIZATION_REQUIRED: "authorization",
+    UNDETERMINED: "undetermined",
+  }[legalStatus] || "undetermined";
+  resultEl.className = "legal-result legal-status--" + statusClass;
   resultEl.style.borderLeftColor = LEGAL_BORDER_COLOR[legalStatus] || "#999";
 
   // Plain-language conditions (bullets)
