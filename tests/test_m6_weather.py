@@ -1,8 +1,8 @@
 """M6 Weather conditions: Open-Meteo as observational outdoor context.
 
 Contract:
-- weather is NOT legal evidence: it lives in #outdoor-info, the resolver
-  and the legal section are untouched
+- weather is NOT legal evidence: it lives after the legal section, while the
+  resolver and legal semantics remain untouched
 - direct browser fetch to api.open-meteo.com: no API key, no new endpoint,
   one request per point selection (never per refresh)
 - coordinates rounded to 3 decimals (~100 m) for the weather URL only
@@ -41,12 +41,11 @@ class TestWeatherBlockLocation:
         match = re.search(r'<div id="weather-block"[^>]*>', HTML)
         assert match and "hidden" in match.group(0)
 
-    def test_block_inside_outdoor_info_before_legal_section(self):
-        outdoor_idx = HTML.find('id="outdoor-info"')
+    def test_block_after_legal_section(self):
         block_idx = HTML.find('id="weather-block"')
         legal_idx = HTML.find('id="legal-section"')
-        assert 0 < outdoor_idx < block_idx < legal_idx, \
-            "weather block must live in outdoor info, before the legal section"
+        assert 0 < legal_idx < block_idx, \
+            "weather block must follow the legal section"
 
     def test_altitude_line_still_before_block(self):
         alt_idx = HTML.find('id="altitude-line"')

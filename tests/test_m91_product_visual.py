@@ -9,6 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CSS = (ROOT / "webapp/static/style.css").read_text(encoding="utf-8")
+HTML = (ROOT / "webapp/static/index.html").read_text(encoding="utf-8")
 
 
 def test_m91_has_small_semantic_token_vocabulary():
@@ -48,3 +49,20 @@ def test_m91_has_semantic_legal_state_primitives():
 def test_m91_has_shared_focus_and_reduced_motion_primitives():
     assert ":focus-visible" in CSS
     assert "prefers-reduced-motion: reduce" in CSS
+
+
+def test_m91_result_order_prioritizes_place_and_legal_answer():
+    order = (
+        "id=\"place-identity\"",
+        "id=\"legal-section\"",
+        "id=\"weather-block\"",
+        "id=\"action-buttons\"",
+        "id=\"detail-box\"",
+    )
+    positions = [HTML.index(marker) for marker in order]
+    assert positions == sorted(positions), "primary result order must be place, legal, weather, actions, detail"
+
+
+def test_m91_place_identity_has_a_semantic_heading_hook():
+    assert 'id="place-heading"' in HTML
+    assert 'class="place-identity"' in HTML

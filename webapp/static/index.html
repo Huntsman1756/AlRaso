@@ -67,28 +67,30 @@
           </div>
         </div>
         <div id="card-result" hidden>
-          <!-- a) OUTDOOR INFO BLOCK -->
+          <!-- a) PLACE IDENTITY: location context remains primary; OSM stays contextual -->
           <div id="outdoor-info">
-            <section id="poi" hidden>
-              <div class="poi-head"><span id="poi-emoji"></span><span id="poi-name" class="poi-name"></span></div>
-              <div id="poi-meta" class="poi-meta"></div>
-              <p id="poi-note" class="poi-note"></p>
-              <div id="poi-cta"><button id="poi-legal-btn" type="button" class="cta-legal" disabled>Consultar aquí el estatus legal</button></div>
-              <p class="poi-sep">Este punto es solo una observación (OSM). Su existencia <b>no</b> implica ningún permiso.</p>
-              <details id="poi-srcbox"><summary>Fuente y procedencia</summary><div id="poi-src-details"></div></details>
-            </section>
-            <section id="pa-card" hidden>
-              <div class="poi-head"><span id="pa-emoji">🌲</span><span id="pa-name" class="poi-name"></span></div>
-              <div id="pa-meta" class="poi-meta"></div>
-              <p class="pa-disclaimer">Informativo — no es una determinación legal.</p>
-              <p id="pa-note" class="poi-note"></p>
-              <div id="pa-cta"><button id="pa-legal-btn" type="button" class="cta-legal" disabled>Consultar aquí el estatus legal</button></div>
-              <p class="poi-sep">Este espacio protegido es referencia cartográfica (OSM). Su existencia <b>no</b> implica ningún permiso.</p>
-              <details id="pa-srcbox"><summary>Fuente y procedencia</summary><div id="pa-src-details"></div></details>
-            </section>
-            <div id="coords"></div>
-            <p id="altitude-line" class="altitude-line" hidden></p>
-            <div id="weather-block" class="weather-block" hidden></div>
+            <div id="place-identity" class="place-identity">
+              <h2 id="place-heading" class="place-heading" hidden></h2>
+              <section id="poi" hidden>
+                <div class="poi-head"><span id="poi-emoji"></span><span id="poi-name" class="poi-name"></span></div>
+                <div id="poi-meta" class="poi-meta"></div>
+                <p id="poi-note" class="poi-note"></p>
+                <div id="poi-cta"><button id="poi-legal-btn" type="button" class="cta-legal" disabled>Consultar aquí el estatus legal</button></div>
+                <p class="poi-sep">Este punto es solo una observación (OSM). Su existencia <b>no</b> implica ningún permiso.</p>
+                <details id="poi-srcbox"><summary>Fuente y procedencia</summary><div id="poi-src-details"></div></details>
+              </section>
+              <section id="pa-card" hidden>
+                <div class="poi-head"><span id="pa-emoji">🌲</span><span id="pa-name" class="poi-name"></span></div>
+                <div id="pa-meta" class="poi-meta"></div>
+                <p class="pa-disclaimer">Informativo — no es una determinación legal.</p>
+                <p id="pa-note" class="poi-note"></p>
+                <div id="pa-cta"><button id="pa-legal-btn" type="button" class="cta-legal" disabled>Consultar aquí el estatus legal</button></div>
+                <p class="poi-sep">Este espacio protegido es referencia cartográfica (OSM). Su existencia <b>no</b> implica ningún permiso.</p>
+                <details id="pa-srcbox"><summary>Fuente y procedencia</summary><div id="pa-src-details"></div></details>
+              </section>
+              <div id="coords"></div>
+              <p id="altitude-line" class="altitude-line" hidden></p>
+            </div>
           </div>
 
           <!-- b) LEGAL QUESTION SECTION -->
@@ -104,6 +106,9 @@
             <h3>Condiciones</h3>
             <ul id="plain-conds" class="plain-conds" hidden></ul>
           </section>
+
+          <!-- c) WEATHER CONTEXT: now first, forecast is progressively disclosed -->
+          <div id="weather-block" class="weather-block" hidden></div>
 
           <section id="place-context" class="place-context" hidden>
             <h3>Contexto del lugar</h3>

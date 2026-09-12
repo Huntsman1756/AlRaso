@@ -111,7 +111,9 @@ main { flex:1 1 auto; min-height:0; display:flex; }
 /* ── CARD — RESTRUCTURED ── */
 
 /* Outdoor info block — R4: the PLACE is the primary element of the card */
-#outdoor-info { margin-bottom:20px; }
+#outdoor-info { margin-bottom:var(--space-4); }
+.place-identity { display:flex; flex-direction:column; gap:var(--space-2); }
+.place-heading { margin:0; font-size:24px; line-height:1.2; font-weight:800; }
 .poi-head { display:flex; align-items:center; gap:8px; font-size:23px; font-weight:800; margin:2px 0 6px; line-height:1.25; }
 .poi-name { word-break:break-word; }
 .poi-meta { font-size:13px; color:var(--muted); margin-bottom:6px; }
