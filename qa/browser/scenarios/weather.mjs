@@ -2,26 +2,25 @@ import { CANONICAL } from '../helpers/constants.mjs';
 import { boot, selectCoordinates } from '../helpers/ui.mjs';
 import {
   check,
+  classifyWeatherObservation,
+  isWeatherUrl,
+  matchesCanonicalWeatherCoordinates,
   observedStep,
   readWeatherResponse,
   recordLegalState,
   text,
   visible,
+  weatherProbeAssertions,
+  waitForWeatherRequest,
   waitForWeatherResponse
 } from './shared.mjs';
 
-function isWeatherUrl(url) {
-  try {
-    return new URL(url).hostname === 'api.open-meteo.com';
-  } catch {
-    return false;
-  }
-}
-
 export const S08_WEATHER_AVAILABLE = {
   id: 'S08_WEATHER_AVAILABLE',
-  async run({ page, recorder }) {
+  async run({ page, recorder, observer }) {
+    observer.addNonBlockingFailure('open_meteo_external', (request) => isWeatherUrl(request.url()));
     await boot(page);
+    const weatherRequest = waitForWeatherRequest(page);
     const weatherResponse = waitForWeatherResponse(page);
     const complete = await observedStep(recorder, 'weather-available-selection-completes', async () => {
       await selectCoordinates(page, CANONICAL.cares.lat, CANONICAL.cares.lon);
@@ -29,25 +28,56 @@ export const S08_WEATHER_AVAILABLE = {
     });
     if (!complete) return;
 
-    const response = await weatherResponse;
+    const [request, response] = await Promise.all([weatherRequest, weatherResponse]);
+    const network = observer.snapshot().network;
+    const failedRequest = network.failed_requests.find((candidate) => isWeatherUrl(candidate.url));
+    const requestObserved = Boolean(request || failedRequest);
+    const requestUrl = request?.url?.() || failedRequest?.url || null;
+    const responseObserved = Boolean(response);
+    const responseStatus = response?.status?.() ?? null;
+    const status = classifyWeatherObservation({
+      requestObserved,
+      responseObserved,
+      responseStatus,
+      requestFailed: Boolean(failedRequest)
+    });
     const observed = await readWeatherResponse(response);
     const weatherVisible = await visible(page, '#weather-block');
     const weatherHead = await visible(page, '#weather-block .weather-head');
     const weatherText = await text(page, '#weather-block');
+    const weatherUiValid = weatherVisible && weatherHead && weatherText.includes('Open-Meteo');
+    const canonicalCoordinates = matchesCanonicalWeatherCoordinates(requestUrl, CANONICAL.cares);
+    const externalObservation = {
+      provider: 'open-meteo',
+      request_observed: requestObserved,
+      request_url: requestUrl,
+      response_observed: responseObserved,
+      status,
+      response_http_status: responseStatus,
+      external_latency_ms: network.responses.find((candidate) => candidate.url === requestUrl)?.duration_ms ?? null,
+      ui_structure_valid: weatherUiValid,
+      attribution_visible: weatherText.includes('Open-Meteo')
+    };
+    recorder.setField('external_observation', externalObservation);
     recorder.setField('weather', {
       observed_at: observed?.observed_at || null,
       temperature: observed?.temperature ?? null,
-      request_url: observed?.request_url || null,
-      http_status: observed?.http_status ?? null,
-      ui_structure_valid: weatherVisible && weatherHead && weatherText.includes('Open-Meteo')
+      request_url: requestUrl,
+      http_status: responseStatus,
+      ui_structure_valid: weatherUiValid
     });
-    check(recorder, 'weather-response-observed', Boolean(response), {
-      actual: { http_status: observed?.http_status ?? null }
-    });
-    check(recorder, 'weather-http-success', observed?.http_status === 200, { actual: observed?.http_status });
-    check(recorder, 'weather-ui-structure-valid', weatherVisible && weatherHead && weatherText.includes('Open-Meteo'));
     const legal = await recordLegalState(page, recorder, 'weather-available-legal');
-    check(recorder, 'weather-does-not-hide-legal-result', legal.headline.length > 0);
+    const assertions = weatherProbeAssertions({
+      requestObserved,
+      canonicalCoordinates,
+      status,
+      weatherUiValid,
+      legalAvailable: legal.headline.length > 0
+    });
+    check(recorder, 'weather-request-observed', assertions.request_observed);
+    check(recorder, 'weather-canonical-coordinates', assertions.canonical_coordinates);
+    check(recorder, 'weather-live-integration-valid', assertions.live_integration_valid);
+    check(recorder, 'weather-does-not-hide-legal-result', assertions.legal_result_available);
   }
 };
 

@@ -30,12 +30,17 @@ export function observePage(page, { expectedAbortMatchers = [] } = {}) {
   const consoleWarnings = [];
   const pageErrors = [];
   const expectedRules = [];
+  const nonBlockingRules = [];
   const declaredFaults = new Set();
   const observedFaults = new Set();
 
   function addExpectedAbort(name, matcher) {
     declaredFaults.add(name);
     expectedRules.push({ name, matcher });
+  }
+
+  function addNonBlockingFailure(name, matcher) {
+    nonBlockingRules.push({ name, matcher });
   }
 
   for (const entry of expectedAbortMatchers) {
@@ -96,6 +101,7 @@ export function observePage(page, { expectedAbortMatchers = [] } = {}) {
   page.on('requestfailed', (request) => {
     const record = requestRecords.get(request);
     const rule = expectedRules.find((candidate) => matches(candidate.matcher, request));
+    const nonBlockingRule = nonBlockingRules.find((candidate) => matches(candidate.matcher, request));
     const failureText = request.failure()?.errorText || null;
     const browserCancelled = failureText === 'net::ERR_ABORTED';
     const failure = {
@@ -104,6 +110,8 @@ export function observePage(page, { expectedAbortMatchers = [] } = {}) {
       resource_type: request.resourceType(),
       failure_text: failureText,
       expected: Boolean(rule) || browserCancelled,
+      non_blocking: Boolean(nonBlockingRule),
+      non_blocking_reason: nonBlockingRule?.name || null,
       browser_cancelled: browserCancelled,
       expected_fault: rule?.name || null
     };
@@ -119,6 +127,7 @@ export function observePage(page, { expectedAbortMatchers = [] } = {}) {
 
   return {
     addExpectedAbort,
+    addNonBlockingFailure,
     declareExpectedFault(name) {
       declaredFaults.add(name);
     },
@@ -126,7 +135,7 @@ export function observePage(page, { expectedAbortMatchers = [] } = {}) {
       return observedFaults.has(name);
     },
     snapshot() {
-      const unexpectedFailures = failedRequests.filter((failure) => !failure.expected);
+      const unexpectedFailures = failedRequests.filter((failure) => !failure.expected && !failure.non_blocking);
       return {
         console: {
           unexpected_errors: consoleErrors.length,
@@ -139,6 +148,7 @@ export function observePage(page, { expectedAbortMatchers = [] } = {}) {
           requests: requests.map(({ started_at_ms, ...record }) => record),
           responses: [...responses],
           failed_requests: [...failedRequests],
+          non_blocking_failures: failedRequests.filter((failure) => failure.non_blocking),
           unexpected_failures: [...unexpectedFailures]
         },
         expected_faults: [...new Set([...declaredFaults, ...observedFaults])].sort(),
