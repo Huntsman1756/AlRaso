@@ -1,0 +1,86 @@
+name: m9-browser-baseline
+
+on:
+  pull_request:
+    paths:
+      - 'qa/browser/**'
+      - 'webapp/**'
+      - 'alraso/**'
+      - 'docs/m9/**'
+      - '.github/workflows/m9-baseline.yml'
+      - '.gitignore'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  baseline:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.10'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: qa/browser/package-lock.json
+
+      - name: verify canonical runtime is DEM-free
+        run: |
+          python --version
+          python - <<'PY'
+          import importlib.util
+          if importlib.util.find_spec('rasterio') is not None:
+              raise SystemExit('ENVIRONMENT_ERROR: rasterio unexpectedly installed')
+          print('rasterio: absent')
+          PY
+
+      - name: install QA harness
+        working-directory: qa/browser
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+          node --version
+          npm --version
+          npx playwright --version
+
+      - name: verify frozen product tree
+        working-directory: qa/browser
+        run: node -e "import('./helpers/product-guard.mjs').then(m => m.assertFrozenProductClean('../..'))"
+
+      - name: unit test harness
+        working-directory: qa/browser
+        run: npm run unit
+
+      - name: execute two consecutive baselines
+        working-directory: qa/browser
+        run: npm run baseline:twice
+
+      - name: compare reproducibility
+        working-directory: qa/browser
+        run: npm run baseline:compare
+
+      - name: analyze frozen repo
+        working-directory: qa/browser
+        run: npm run baseline:analyze
+
+      - name: final frozen product guard
+        working-directory: qa/browser
+        run: node -e "import('./helpers/product-guard.mjs').then(m => m.assertFrozenProductClean('../..'))"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m9-browser-baseline-${{ github.sha }}
+          path: qa/browser/.m9-runs/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14

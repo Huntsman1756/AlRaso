@@ -1,0 +1,234 @@
+{
+  "product_commit": "2491d7d5e4e90d380b45c4baee3f2d023008b1a4",
+  "qa_harness_commit": "44d807690630c0710700f1bd72a5aed7eaf6df2b",
+  "generated_at": "2026-09-12T07:22:01.195Z",
+  "baseline_now": "2026-09-12T07:20:00+02:00",
+  "node_version": "v24.19.0",
+  "python_version": "Python 3.12.10",
+  "playwright_version": "1.63.0",
+  "chromium_version": "153.0.8010.12",
+  "platform": {
+    "os": "win32",
+    "arch": "x64"
+  },
+  "dem": {
+    "available": false,
+    "rasterio_installed": false,
+    "tile_present": false,
+    "metadata_present": false
+  },
+  "locale": "es-ES",
+  "timezone": "Europe/Madrid",
+  "device_scale_factor": 1,
+  "viewports": [
+    {
+      "id": "desktop-1440x900",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "id": "mobile-390x844",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "id": "mobile-360x800",
+      "width": 360,
+      "height": 800
+    }
+  ],
+  "scenarios": [
+    "S01_BOOT_EMPTY",
+    "S02_SEARCH_KNOWN_PLACE",
+    "S03_COORDS_UNKNOWN",
+    "S04_PICOS_PERMITTED",
+    "S05_POI_NAMED",
+    "S06_POI_UNNAMED",
+    "S07_PROTECTED_AREA",
+    "S08_WEATHER_AVAILABLE",
+    "S09_WEATHER_UNAVAILABLE",
+    "S10_SAVE_FAVORITE",
+    "S11_OUTING_FLOW",
+    "S12_MOBILE_SHEET",
+    "S13_OFFLINE_VISITED",
+    "S14_LEGAL_SERVER_DOWN"
+  ],
+  "volatile_fields": [
+    "weather.temperature",
+    "weather.observed_at"
+  ],
+  "evidence": [
+    {
+      "path": "desktop-1440x900/S01_BOOT_EMPTY.png",
+      "sha256": "76ac66ab7ab52d83b6883b946fac566c021d017833a4e393cb67b7a299dd5b33"
+    },
+    {
+      "path": "desktop-1440x900/S02_SEARCH_KNOWN_PLACE.png",
+      "sha256": "3d41b8d77846006155b8493e4ed3c2d72fb881ddc20ff91658e28fb1a3826302"
+    },
+    {
+      "path": "desktop-1440x900/S03_COORDS_UNKNOWN.png",
+      "sha256": "78e8ab5fefa7ba4cff41dd6f952c857380876107207033bb27076a94e83a7f64"
+    },
+    {
+      "path": "desktop-1440x900/S04_PICOS_PERMITTED.png",
+      "sha256": "9c2027469fffc3bc4b0647ef058fe79e30193e46b755f57374d85720f6bd4ce6"
+    },
+    {
+      "path": "desktop-1440x900/S05_POI_NAMED.png",
+      "sha256": "86af79d8d456ba00350dc5e6b1a0ed5480187fcf0cb909bdfcff5095571a3b89"
+    },
+    {
+      "path": "desktop-1440x900/S06_POI_UNNAMED.png",
+      "sha256": "5dfa51371611b99e56125401b03132219f3bdcf19d45fd70691c1221dfe5c0e1"
+    },
+    {
+      "path": "desktop-1440x900/S07_PROTECTED_AREA.png",
+      "sha256": "a18e3cf5714da8b8bbd26e5b2502067836d1f1ba2e3f23ccdae22af4e2497254"
+    },
+    {
+      "path": "desktop-1440x900/S08_WEATHER_AVAILABLE.png",
+      "sha256": "dc4c0e98dc6fce5165bf4ad348be0037ea967244709ebd2f24a1d3c68470d210"
+    },
+    {
+      "path": "desktop-1440x900/S09_WEATHER_UNAVAILABLE.png",
+      "sha256": "6d06c1d7b18a5a6cf57c44ecee1c614cfd21ff67bfe47f959e3d8cc778fbf29e"
+    },
+    {
+      "path": "desktop-1440x900/S10_SAVE_FAVORITE.png",
+      "sha256": "1428dc59e663a8dd561ccc33db0a02ffa325416f9b77373d618f8d2b000b7759"
+    },
+    {
+      "path": "desktop-1440x900/S11_OUTING_FLOW.png",
+      "sha256": "828b321d77324ce715ac80dcb5cc59189ab2456fb4c90477da5d159d16b5f090"
+    },
+    {
+      "path": "desktop-1440x900/S12_MOBILE_SHEET.png",
+      "sha256": "76ac66ab7ab52d83b6883b946fac566c021d017833a4e393cb67b7a299dd5b33"
+    },
+    {
+      "path": "desktop-1440x900/S13_OFFLINE_VISITED.png",
+      "sha256": "e4ec56d62f25fbd025aaeafdbd436b3cc821d60fc245f5ec8389320c5a7dc904"
+    },
+    {
+      "path": "desktop-1440x900/S14_LEGAL_SERVER_DOWN.png",
+      "sha256": "4d2652705903c6c70ed478828a10a1ee072b40fbd968154b22df3ef47777a79f"
+    },
+    {
+      "path": "findings.json",
+      "sha256": "bdd13a68b7171c56bd6c8cab927343110cb5b53c339484a1f4a6f3c1117c82eb"
+    },
+    {
+      "path": "mobile-360x800/S01_BOOT_EMPTY.png",
+      "sha256": "7accced9872405139273e29ab1ba0ba5385360abeff122ea28d7e83af8361884"
+    },
+    {
+      "path": "mobile-360x800/S02_SEARCH_KNOWN_PLACE.png",
+      "sha256": "ac40cfd54f656273b37c0c1b1d15bc97739b73ad23129638c689d2057fe71917"
+    },
+    {
+      "path": "mobile-360x800/S03_COORDS_UNKNOWN.png",
+      "sha256": "c12172a74567969fc53b1eab73cdf7ed11436936550adc12c98e21638c47fb99"
+    },
+    {
+      "path": "mobile-360x800/S04_PICOS_PERMITTED.png",
+      "sha256": "a8d1c4b3112bd50f5c17d39053a4a4b9f54e2244d03ec301e9389a35498947bf"
+    },
+    {
+      "path": "mobile-360x800/S05_POI_NAMED.png",
+      "sha256": "ce4a0edde4676cc2c508f3deac1f603b2ffffb2eb9c4dc7e31965b4a73924721"
+    },
+    {
+      "path": "mobile-360x800/S06_POI_UNNAMED.png",
+      "sha256": "077737fed5db985c960e04e1aaca56ee19f987d3a923bf9d3799f97fff999841"
+    },
+    {
+      "path": "mobile-360x800/S07_PROTECTED_AREA.png",
+      "sha256": "fd2d2314034456d95c3eac5497a309410203262238c8b337590afc49379519d9"
+    },
+    {
+      "path": "mobile-360x800/S08_WEATHER_AVAILABLE.png",
+      "sha256": "b3427bfe66c1e28afa7bf31ca6598b6a6c3c0030a63a031c762dcc58f69c867a"
+    },
+    {
+      "path": "mobile-360x800/S09_WEATHER_UNAVAILABLE.png",
+      "sha256": "dd4f2e12f0520e8ccb185b2104b888be2c055ab01531ac2dced56024a505726a"
+    },
+    {
+      "path": "mobile-360x800/S10_SAVE_FAVORITE.png",
+      "sha256": "f320b51d6526f7880775bea2f34971125cdcee11b26d09f95add2cfe3650ce0b"
+    },
+    {
+      "path": "mobile-360x800/S11_OUTING_FLOW.png",
+      "sha256": "8bddfc878a25cffa0b8a3fb49526b6d4a6a35a3fb8970fd18a6dcab461255a2a"
+    },
+    {
+      "path": "mobile-360x800/S12_MOBILE_SHEET.png",
+      "sha256": "e6bf8971253b28b8839f6a75bf7d0e726bd3e84fe33af22a0a896b9d3851e71e"
+    },
+    {
+      "path": "mobile-360x800/S13_OFFLINE_VISITED.png",
+      "sha256": "76542d2b93f6f6c5dcae7d5c86b5ae1e993f0efdeb9adcd4ced655de82217901"
+    },
+    {
+      "path": "mobile-360x800/S14_LEGAL_SERVER_DOWN.png",
+      "sha256": "545a44061a7481c1c9f3b40ebb152a71f915e533afb8f2eb6f2facf636dd47ab"
+    },
+    {
+      "path": "mobile-390x844/S01_BOOT_EMPTY.png",
+      "sha256": "d507c4b7219544c41e161d135be9e0ebd7c4742f96a5f92c589dad9cc19f879f"
+    },
+    {
+      "path": "mobile-390x844/S02_SEARCH_KNOWN_PLACE.png",
+      "sha256": "8177eaf5b8b13444d50dacf9ab547f9e90d64cd64b7e680cb6d6075613402e72"
+    },
+    {
+      "path": "mobile-390x844/S03_COORDS_UNKNOWN.png",
+      "sha256": "afb5b89c46c0413572cdc12c51dea97eb61579eb0eda6192394c63c6acd60b4d"
+    },
+    {
+      "path": "mobile-390x844/S04_PICOS_PERMITTED.png",
+      "sha256": "8e454f33da1d54c4b6ab22c7bdb559eae83f40dc5aa145ae9763ebdebc50d36d"
+    },
+    {
+      "path": "mobile-390x844/S05_POI_NAMED.png",
+      "sha256": "a05bd3cbb3a247438429b2d9c43fe32cb083a6e12ec88ab36bd43fc40c6bb32f"
+    },
+    {
+      "path": "mobile-390x844/S06_POI_UNNAMED.png",
+      "sha256": "8cca77e5d84a28339b9522f37c286026e1e851daea1c0f2e83306b5da67abec0"
+    },
+    {
+      "path": "mobile-390x844/S07_PROTECTED_AREA.png",
+      "sha256": "b2a4544ce2a6d964874f6c27197f03b795a77fd32d25f5de73815ee65860e4cc"
+    },
+    {
+      "path": "mobile-390x844/S08_WEATHER_AVAILABLE.png",
+      "sha256": "75855c791124b97cccd95fdd98dcbd4715fb42d698a0cbddfafbfce2be23c658"
+    },
+    {
+      "path": "mobile-390x844/S09_WEATHER_UNAVAILABLE.png",
+      "sha256": "03f0e7b9340396795f326a4bc0021559934c5448c30f49485fb9ce93db76023a"
+    },
+    {
+      "path": "mobile-390x844/S10_SAVE_FAVORITE.png",
+      "sha256": "5eafdbcbb51276c857f6e900a5f975e730f5c5ea0e0bf744ae5db1421cccefc3"
+    },
+    {
+      "path": "mobile-390x844/S11_OUTING_FLOW.png",
+      "sha256": "c5739bcc511283026c20790b1f11b870383192920f699fc655259ea24ec217bc"
+    },
+    {
+      "path": "mobile-390x844/S12_MOBILE_SHEET.png",
+      "sha256": "373edf2cd5b917f8b6e34dfcffd8d0f76ebca96bf93824a090193ea08d506f48"
+    },
+    {
+      "path": "mobile-390x844/S13_OFFLINE_VISITED.png",
+      "sha256": "59d05e13b497a9081a87eb288d0abcb26334c12582a537da4176fdc0bdbf6d0e"
+    },
+    {
+      "path": "mobile-390x844/S14_LEGAL_SERVER_DOWN.png",
+      "sha256": "f59d5d74893c59fa9d59b882229f082190f568bbaf9a6bbaf65e3e71f36d7722"
+    }
+  ]
+}

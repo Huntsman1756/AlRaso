@@ -1,0 +1,74 @@
+[
+  {
+    "id": "M9-LEGAL-BOUNDARY-001",
+    "severity": "P0",
+    "area": "LEGAL_BOUNDARY",
+    "blocking_p0": true,
+    "scenario": "S14_LEGAL_SERVER_DOWN",
+    "viewport": "desktop-1440x900",
+    "summary": "La determinación PERMITTED anterior permanece visible tras fallar el nuevo resolve.",
+    "evidence": [
+      "desktop-1440x900/S14_LEGAL_SERVER_DOWN.png"
+    ],
+    "reproduction": [
+      "Resolver Picos con los hechos canónicos hasta obtener PERMITTED.",
+      "Armar el aborto del siguiente /api/resolve.",
+      "Buscar 41.9, -2.4 y observar la ficha legal."
+    ],
+    "expected": "No presentar una determinación anterior como resultado de la nueva coordenada.",
+    "actual": {
+      "headline": "Permitido",
+      "legal_status": "PERMITTED",
+      "coordinates": "43.17068, -4.80299 · dormir al raso (vivac) · 2026-09-12"
+    },
+    "proposed_milestone": "M9.3"
+  },
+  {
+    "id": "M9-LEGAL-BOUNDARY-002",
+    "severity": "P0",
+    "area": "LEGAL_BOUNDARY",
+    "blocking_p0": true,
+    "scenario": "S14_LEGAL_SERVER_DOWN",
+    "viewport": "mobile-390x844",
+    "summary": "La determinación PERMITTED anterior permanece visible tras fallar el nuevo resolve.",
+    "evidence": [
+      "mobile-390x844/S14_LEGAL_SERVER_DOWN.png"
+    ],
+    "reproduction": [
+      "Resolver Picos con los hechos canónicos hasta obtener PERMITTED.",
+      "Armar el aborto del siguiente /api/resolve.",
+      "Buscar 41.9, -2.4 y observar la ficha legal."
+    ],
+    "expected": "No presentar una determinación anterior como resultado de la nueva coordenada.",
+    "actual": {
+      "headline": "Permitido",
+      "legal_status": "PERMITTED",
+      "coordinates": "43.17068, -4.80299 · dormir al raso (vivac) · 2026-09-12"
+    },
+    "proposed_milestone": "M9.3"
+  },
+  {
+    "id": "M9-LEGAL-BOUNDARY-003",
+    "severity": "P0",
+    "area": "LEGAL_BOUNDARY",
+    "blocking_p0": true,
+    "scenario": "S14_LEGAL_SERVER_DOWN",
+    "viewport": "mobile-360x800",
+    "summary": "La determinación PERMITTED anterior permanece visible tras fallar el nuevo resolve.",
+    "evidence": [
+      "mobile-360x800/S14_LEGAL_SERVER_DOWN.png"
+    ],
+    "reproduction": [
+      "Resolver Picos con los hechos canónicos hasta obtener PERMITTED.",
+      "Armar el aborto del siguiente /api/resolve.",
+      "Buscar 41.9, -2.4 y observar la ficha legal."
+    ],
+    "expected": "No presentar una determinación anterior como resultado de la nueva coordenada.",
+    "actual": {
+      "headline": "Permitido",
+      "legal_status": "PERMITTED",
+      "coordinates": "43.17068, -4.80299 · dormir al raso (vivac) · 2026-09-12"
+    },
+    "proposed_milestone": "M9.3"
+  }
+]
