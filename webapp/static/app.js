@@ -665,6 +665,8 @@ function selectPoint(lat, lon, name, fly, preserveContext) {
     state.cartographicContext = null;
     var contextBox = $("place-context");
     if (contextBox) contextBox.hidden = true;
+    var contextDisclosure = $("place-context-disclosure");
+    if (contextDisclosure) contextDisclosure.hidden = true;
     var paLegalBtn = $("pa-legal-btn");
     if (paLegalBtn) {
       paLegalBtn.disabled = true;
@@ -1204,17 +1206,20 @@ function normalizePlaceContext(candidate) {
 function renderPlaceContext(d) {
   var box = $("place-context");
   if (!box) return;
+  var disclosure = $("place-context-disclosure");
   var raw = d.cartographicContext || d.cartographic_context || d.placeContext ||
     d.place_context || d.protectedArea || d.protected_area ||
     ((d.coverage || {}).context) || state.cartographicContext;
   var context = normalizePlaceContext(Array.isArray(raw) ? raw[0] : raw);
   if (!context) {
     box.hidden = true;
+    if (disclosure) disclosure.hidden = true;
     $("place-context-value").textContent = "";
     $("place-context-note").textContent = "";
     return;
   }
   box.hidden = false;
+  if (disclosure) disclosure.hidden = false;
   $("place-context-kind").textContent = context.kind;
   $("place-context-value").textContent = context.name;
   $("place-context-note").textContent = context.note;

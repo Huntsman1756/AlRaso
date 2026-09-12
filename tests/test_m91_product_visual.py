@@ -86,3 +86,16 @@ def test_m91_weather_forecast_is_a_native_disclosure():
     assert 'className = "weather-forecast"' in APP
     assert 'textContent = "Próximas 24 h"' in APP
     assert "forecast.appendChild(summary)" in APP
+
+
+def test_m91_detail_disclosures_keep_actions_primary_and_detail_secondary():
+    assert '<details id="detail-box"><summary>Ver fuentes y detalle</summary>' in HTML
+    for summary in (
+        "Contexto del lugar",
+        "Ajustar la consulta",
+        "Por qué damos esta respuesta",
+        "Normas y fuentes",
+        "Detalle técnico",
+    ):
+        assert f"<summary>{summary}</summary>" in HTML
+    assert HTML.index('id="action-buttons"') < HTML.index('id="detail-box"')

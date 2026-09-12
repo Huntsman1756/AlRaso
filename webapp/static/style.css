@@ -158,6 +158,10 @@ main { flex:1 1 auto; min-height:0; display:flex; }
 /* Details block */
 #detail-box { margin-top:8px; }
 #detail-box > summary { cursor:pointer; font-size:13px; font-weight:600; color:var(--muted); padding:6px 0; }
+.secondary-disclosure { margin-top:8px; border-top:1px solid var(--line); }
+.secondary-disclosure > summary { cursor:pointer; min-height:44px; padding:10px 0; font-size:14px; font-weight:650; color:var(--text); }
+.secondary-disclosure[open] > summary { color:var(--accent); }
+.secondary-disclosure > summary:focus-visible { outline-offset:3px; }
 .detail-section { margin:12px 0; }
 
 /* Tools row inside detail box (U6) */
@@ -326,7 +330,7 @@ footer { display:flex; flex-wrap:wrap; gap:6px 18px; padding:6px 16px; border-to
 .weather-sub { margin-top:8px; font-size:11px; text-transform:uppercase; letter-spacing:.7px; color:var(--muted); font-weight:700; }
 .weather-unavailable, .weather-loading { color:var(--muted); }
 .weather-forecast { margin-top:8px; border-top:1px solid var(--line); padding-top:6px; }
-.weather-forecast > summary { cursor:pointer; list-style-position:outside; min-height:30px; padding:4px 0; }
+.weather-forecast > summary { cursor:pointer; list-style-position:outside; min-height:44px; padding:4px 0; }
 .weather-forecast > summary:focus-visible { outline-offset:3px; }
 .weather-forecast[open] > summary { margin-bottom:5px; }
 

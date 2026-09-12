@@ -218,8 +218,8 @@ def test_poi_vs_legal_separation_visible():
     # Action button text
     assert "Añadir a una salida" in html
 
-    # "Consultar detalle" after "Añadir a una salida"
-    sources_idx = html.find("Consultar detalle")
+    # "Ver fuentes y detalle" after "Añadir a una salida"
+    sources_idx = html.find("Ver fuentes y detalle")
     add_btn_idx = html.find("Añadir a una salida")
     assert sources_idx > add_btn_idx, "Details block must be after action buttons"
 

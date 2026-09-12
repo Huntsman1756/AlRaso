@@ -38,6 +38,8 @@ export const S02_SEARCH_KNOWN_PLACE = {
     await boot(page);
     const complete = await observedStep(recorder, 'known-place-search-completes', async () => {
       await searchPlace(page, CANONICAL.goriz.query);
+      check(recorder, 'known-actions-visible-before-detail', await visible(page, '#action-buttons'));
+      check(recorder, 'known-detail-collapsed-by-default', !(await page.locator('#detail-box').evaluate((element) => element.open)));
       await openLegalDetail(page);
       return true;
     });
@@ -78,6 +80,10 @@ export const S03_COORDS_UNKNOWN = {
     check(recorder, 'unknown-place-heading-primary', (await text(page, '#place-heading')) === 'Punto seleccionado');
     check(recorder, 'unknown-copy-not-permission', folded(await text(page, '#answer-explanation')).includes('no significa que este prohibido'));
     check(recorder, 'unknown-technical-coverage', technicalText.includes('coverage=UNKNOWN'));
+    const why = page.locator('#why-disclosure');
+    await why.locator(':scope > summary').click();
+    check(recorder, 'unknown-why-disclosure-opens', await why.evaluate((element) => element.open));
+    await why.locator(':scope > summary').click();
     recorder.setField('unknown', { legal_status: state.technical, coverage: state.coverage });
   }
 };

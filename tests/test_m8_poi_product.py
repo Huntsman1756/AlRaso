@@ -231,7 +231,7 @@ def test_m82_primary_answer_is_compact_and_detail_is_progressive_disclosure():
     assert 'id="answer-explanation"' in INDEX_HTML
     assert 'id="conditions-summary"' in INDEX_HTML
     assert 'id="place-context"' in INDEX_HTML
-    assert '<details id="detail-box"><summary>Consultar detalle</summary>' in INDEX_HTML
+    assert '<details id="detail-box"><summary>Ver fuentes y detalle</summary>' in INDEX_HTML
     assert 'id="ui-knowledge"' not in INDEX_HTML
 
     tech_at = INDEX_HTML.index('id="tech"')

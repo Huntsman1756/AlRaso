@@ -110,12 +110,6 @@
           <!-- c) WEATHER CONTEXT: now first, forecast is progressively disclosed -->
           <div id="weather-block" class="weather-block" hidden></div>
 
-          <section id="place-context" class="place-context" hidden>
-            <h3>Contexto del lugar</h3>
-            <div><span id="place-context-kind" class="place-context-kind"></span>: <strong id="place-context-value"></strong></div>
-            <p id="place-context-note" class="place-context-note"></p>
-          </section>
-
           <!-- c) ACTION BUTTONS -->
           <div id="action-buttons">
             <button id="save-btn" type="button" disabled>♡ Guardar</button>
@@ -123,7 +117,16 @@
           </div>
 
           <!-- d) DETAILS BLOCK -->
-          <details id="detail-box"><summary>Consultar detalle</summary>
+          <details id="detail-box"><summary>Ver fuentes y detalle</summary>
+            <details id="place-context-disclosure" class="secondary-disclosure" hidden>
+              <summary>Contexto del lugar</summary>
+              <section id="place-context" class="place-context" hidden>
+                <div><span id="place-context-kind" class="place-context-kind"></span>: <strong id="place-context-value"></strong></div>
+                <p id="place-context-note" class="place-context-note"></p>
+              </section>
+            </details>
+            <details id="query-disclosure" class="secondary-disclosure">
+              <summary>Ajustar la consulta</summary>
             <div class="detail-tools">
               <button id="center-btn" type="button">Usar el centro del mapa</button>
             </div>
@@ -142,7 +145,13 @@
               <p id="dem-info" class="dem-info" hidden></p>
             </section>
             <section id="condiciones" class="detail-section"><h3>Condiciones evaluadas</h3><ul id="cond-list"></ul></section>
-            <section class="detail-section"><h3>Por qué damos esta respuesta</h3><p id="decision"></p></section>
+            </details>
+            <details id="why-disclosure" class="secondary-disclosure">
+              <summary>Por qué damos esta respuesta</summary>
+              <section class="detail-section"><p id="decision"></p></section>
+            </details>
+            <details id="sources-disclosure" class="secondary-disclosure">
+              <summary>Normas y fuentes</summary>
             <section class="detail-section">
               <h3>Cobertura y fuentes</h3>
               <p id="corpus-status" class="detail-status"></p>
@@ -151,8 +160,9 @@
               <ul id="sources"></ul>
               <p id="warning" class="warning"></p>
             </section>
+            </details>
             <details id="tech">
-              <summary>Detalle técnico (códigos)</summary>
+              <summary>Detalle técnico</summary>
               <div class="badges">
                 <div><span class="badge-label">SITUACIÓN LEGAL</span><span id="legal" class="badge">—</span></div>
                 <div><span class="badge-label">ESTADO DE LA INFORMACIÓN</span><span id="knowledge" class="badge">—</span></div>
