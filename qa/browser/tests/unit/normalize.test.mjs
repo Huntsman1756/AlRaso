@@ -67,3 +67,36 @@ test('reproducibility contract ignores transport inventory but keeps stable outc
 
   assert.deepEqual(a, b);
 });
+
+test('offline transport failure count stays in normalized raw evidence', () => {
+  const result = normalizeResult({
+    scenario: 'S13_OFFLINE_VISITED',
+    offline: {
+      controller_before: true,
+      controller_after: true,
+      api_failures: 5,
+      stale_weather_visible: false
+    }
+  });
+
+  assert.equal(result.offline.api_failures, 5);
+});
+
+test('reproducibility contract ignores offline transport failure count', () => {
+  const makeResult = (apiFailures) => ({
+    scenario: 'S13_OFFLINE_VISITED',
+    scenario_status: 'PASS',
+    expected_faults: ['offline_transport'],
+    offline: {
+      controller_before: true,
+      controller_after: true,
+      api_failures: apiFailures,
+      stale_weather_visible: false
+    }
+  });
+
+  assert.deepEqual(
+    reproducibilityContract(makeResult(5)),
+    reproducibilityContract(makeResult(4))
+  );
+});

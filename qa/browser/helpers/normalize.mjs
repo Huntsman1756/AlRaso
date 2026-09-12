@@ -47,5 +47,10 @@ export function reproducibilityContract(result) {
   stable.network = {
     unexpected_failures: normalized.network?.unexpected_failures || []
   };
+  if (stable.offline && typeof stable.offline === 'object' && !Array.isArray(stable.offline)) {
+    const offline = { ...stable.offline };
+    delete offline.api_failures;
+    stable.offline = offline;
+  }
   return stable;
 }

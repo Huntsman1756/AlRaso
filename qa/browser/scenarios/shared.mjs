@@ -1,5 +1,7 @@
 import { DEFAULT_TIMEOUT } from '../helpers/ui.mjs';
 
+const WEATHER_TIMEOUT = 30_000;
+
 export async function text(page, selector) {
   return (await page.locator(selector).textContent({ timeout: DEFAULT_TIMEOUT })).trim();
 }
@@ -83,7 +85,7 @@ export async function waitForWeatherResponse(page) {
   try {
     return await page.waitForResponse(
       (response) => new URL(response.url()).hostname === 'api.open-meteo.com',
-      { timeout: DEFAULT_TIMEOUT }
+      { timeout: WEATHER_TIMEOUT }
     );
   } catch {
     return null;
