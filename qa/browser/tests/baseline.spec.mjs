@@ -113,4 +113,3 @@ for (const scenario of scenarios) {
     if (screenshotError) throw screenshotError;
   });
 }
-
