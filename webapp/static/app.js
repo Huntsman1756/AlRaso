@@ -993,6 +993,49 @@ function factsFromForm() {
 
 var resolveRequestId = 0;
 
+function resetLegalResultForPending() {
+  $("card-empty").hidden = true;
+  $("card-result").hidden = false;
+  if (state.lat !== null && state.lon !== null) {
+    var actLabel = ACT_LABELS[$("activity").value] || $("activity").value;
+    var date = $("date").value || new Date().toISOString().slice(0, 10);
+    $("coords").textContent = state.lat.toFixed(5) + ", " + state.lon.toFixed(5) + " · " + actLabel + " · " + date;
+  }
+  $("legal-emoji").textContent = "";
+  $("headline").textContent = "Consultando…";
+  $("answer-explanation").textContent = "Verificando la normativa para este punto.";
+  $("legal-result").style.borderLeftColor = "#93a1b0";
+  $("plain-conds").innerHTML = "";
+  $("plain-conds").hidden = true;
+  $("conditions-summary").hidden = true;
+  $("condiciones").style.display = "none";
+  $("decision").textContent = "Esperando una nueva determinación.";
+  $("corpus-status").textContent = "";
+  $("coverage-status").textContent = "";
+  $("region-list").innerHTML = "";
+  $("sources").innerHTML = "";
+  $("tech-codes").innerHTML = "";
+  $("warning").textContent = "";
+  $("dem-info").hidden = true;
+  $("dem-info").innerHTML = "";
+  $("altitude-line").hidden = true;
+  $("altitude-line").textContent = "";
+  ["legal", "knowledge", "coverage"].forEach(function (id) {
+    var badgeEl = $(id);
+    badgeEl.textContent = "—";
+    badgeEl.removeAttribute("data-code");
+    badgeEl.className = "badge";
+  });
+}
+
+function renderLegalResolveFailure() {
+  resetLegalResultForPending();
+  $("legal-emoji").textContent = "⚠️";
+  $("headline").textContent = "No se pudo obtener la determinación";
+  $("answer-explanation").textContent = "No se pudo obtener una nueva determinación. Inténtalo de nuevo.";
+  $("decision").textContent = "No hay una determinación nueva para este punto.";
+}
+
 async function refresh() {
   updateSaveButton();
   var p = new URLSearchParams({
@@ -1004,13 +1047,16 @@ async function refresh() {
   factsFromForm().forEach(function (kv) { var parts = kv.split("="); p.set(parts[0], parts.slice(1).join("=")); });
   resolveRequestId += 1;
   var myId = resolveRequestId;
+  resetLegalResultForPending();
   try {
     var r = await fetch("/api/resolve?" + p.toString());
     var d = await r.json();
     if (myId !== resolveRequestId) return; // stale response: discarded
     render(d);
   } catch (e) {
+    if (myId !== resolveRequestId) return;
     console.error("resolve error", e);
+    renderLegalResolveFailure();
     $("searchmsg").textContent = "No se pudo obtener la determinación. Inténtalo de nuevo.";
   }
 }
