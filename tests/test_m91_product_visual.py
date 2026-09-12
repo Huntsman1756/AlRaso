@@ -99,3 +99,11 @@ def test_m91_detail_disclosures_keep_actions_primary_and_detail_secondary():
     ):
         assert f"<summary>{summary}</summary>" in HTML
     assert HTML.index('id="action-buttons"') < HTML.index('id="detail-box"')
+
+
+def test_m91_mobile_sheet_exposes_controlled_panel_and_peek_contract():
+    assert 'id="sheet-handle"' in HTML
+    assert 'aria-controls="card-result"' in HTML
+    assert "--sheet-peek-height" in CSS
+    assert "sheetPeekHeight" in APP
+    assert "handle.focus" in APP

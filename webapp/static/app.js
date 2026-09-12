@@ -434,7 +434,10 @@ function setSheetState(next) {
   var card = $("card");
   SHEET_STATES.forEach(function (s) { card.classList.toggle("sheet-" + s, s === next); });
   var handle = $("sheet-handle");
-  if (handle) handle.setAttribute("aria-expanded", next === "full" ? "true" : "false");
+  if (handle) {
+    handle.setAttribute("aria-expanded", next === "closed" ? "false" : "true");
+    handle.setAttribute("aria-label", next === "full" ? "Recoger la ficha" : "Desplegar la ficha");
+  }
   // MapLibre may need a resize pass after the layout settles (grey/misaligned canvas guard)
   if (map) setTimeout(function () { map.resize(); }, 60);
 }
@@ -467,8 +470,9 @@ function openSheetForSelection() {
   handle.addEventListener("pointermove", function (ev) {
     if (dragStartY === null) return;
     dragDelta = ev.clientY - dragStartY;
+    var sheetPeekHeight = parseFloat(getComputedStyle(card).getPropertyValue("--sheet-peek-height")) || 440;
     var base = sheetState === "full" ? 0
-      : sheetState === "peek" ? card.offsetHeight - 176 : card.offsetHeight - 44;
+      : sheetState === "peek" ? card.offsetHeight - sheetPeekHeight : card.offsetHeight - 44;
     card.style.transform = "translateY(" + Math.max(0, base + dragDelta) + "px)";
   });
   function endDrag() {
@@ -494,8 +498,10 @@ function openSheetForSelection() {
     var layersPanel = $("layers-panel");
     if (layersPanel && !layersPanel.hasAttribute("hidden")) return; // layers owns this Escape
     if (!isMobileLayout()) return;
+    var focusInsideSheet = document.activeElement && card.contains(document.activeElement);
     if (sheetState === "full") setSheetState("peek");
     else if (sheetState === "peek") setSheetState("closed");
+    if (focusInsideSheet) handle.focus({ preventScroll: true });
   });
 })();
 

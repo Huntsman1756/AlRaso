@@ -27,6 +27,7 @@
   --radius-pill:999px;
   --shadow-card:0 4px 20px rgba(0,0,0,.5);
   --shadow-sheet:0 -8px 24px rgba(0,0,0,.45);
+  --sheet-peek-height:520px;
   --bg:var(--color-bg);
   --panel:var(--color-surface);
   --line:var(--color-border);
@@ -265,7 +266,7 @@ footer { display:flex; flex-wrap:wrap; gap:6px 18px; padding:6px 16px; border-to
     transform:translateY(105%); transition:transform .25s ease; will-change:transform;
   }
   /* Sheet states (R2): closed (handle strip stays reachable) / peek / full */
-  #card.sheet-peek { transform:translateY(calc(100% - 176px)); }
+  #card.sheet-peek { transform:translateY(calc(100% - var(--sheet-peek-height))); }
   #card.sheet-full { transform:translateY(0); }
   #card.sheet-closed { transform:translateY(calc(100% - 44px)); }
 
@@ -275,6 +276,7 @@ footer { display:flex; flex-wrap:wrap; gap:6px 18px; padding:6px 16px; border-to
 
   /* R5: snackbar feedback above the bottom nav, above the sheet */
   #searchmsg { top:auto; bottom:calc(56px + env(safe-area-inset-bottom) + 12px); z-index:900; }
+  body.has-selection #searchmsg { top:10px; bottom:auto; }
 
   /* Onboarding CTA strip above the nav; hidden once a place is selected */
   #explore-cta { bottom:calc(56px + env(safe-area-inset-bottom) + 12px); z-index:15; }
