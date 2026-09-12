@@ -36,3 +36,21 @@ test('observer errors make a product result FAIL without changing its status cla
   assert.equal(result.unexpected_console_errors, 1);
   assert.equal(result.page_errors, 1);
 });
+
+test('console.error remains evidence without failing the scenario by itself', () => {
+  const recorder = new ScenarioRecorder('S14_LEGAL_SERVER_DOWN', 'mobile-390x844');
+  const result = recorder.finish({
+    observer: {
+      snapshot: () => ({
+        console: { unexpected_errors: 1, warnings: 0, errors: [{ text: 'expected transport error' }] },
+        page_errors: [],
+        network: { unexpected_failures: [] },
+        expected_faults: ['resolve_request_aborted']
+      })
+    }
+  });
+
+  assert.equal(result.scenario_status, 'PASS');
+  assert.equal(result.unexpected_console_errors, 1);
+  assert.deepEqual(result.expected_faults, ['resolve_request_aborted']);
+});

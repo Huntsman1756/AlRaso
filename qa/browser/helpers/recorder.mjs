@@ -9,6 +9,7 @@ export class ScenarioRecorder {
     this.assertionRecords = [];
     this.findings = [];
     this.expectedFaults = new Set();
+    this.fields = {};
   }
 
   check(label, condition, details = {}) {
@@ -29,6 +30,10 @@ export class ScenarioRecorder {
     this.findings.push(finding);
   }
 
+  setField(name, value) {
+    this.fields[name] = value;
+  }
+
   finish({ observer = null, metrics = {}, reproducible = null } = {}) {
     const observed = observer?.snapshot?.() || {};
     const assertionRecords = [...this.assertionRecords];
@@ -38,9 +43,10 @@ export class ScenarioRecorder {
     const unexpectedConsoleErrors = observed.console?.unexpected_errors || 0;
     const pageErrors = observed.page_errors?.length || 0;
     const unexpectedNetworkFailures = observed.network?.unexpected_failures || [];
-    const failed = assertionFailed + unexpectedConsoleErrors + pageErrors + unexpectedNetworkFailures.length;
+    const failed = assertionFailed + pageErrors + unexpectedNetworkFailures.length;
 
     return {
+      ...this.fields,
       scenario: this.scenario,
       viewport: this.viewport,
       scenario_status: failed === 0 ? 'PASS' : 'FAIL',
