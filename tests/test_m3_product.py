@@ -303,12 +303,12 @@ def test_activity_options_preserved():
 def test_no_new_endpoints_and_no_core_files_touched():
     py = _read("webapp/server.py")
 
-    for ep in ('/api/resolve', '/api/pois', '/api/find', '/api/coverage', '/api/config', '/api/places'):
+    for ep in ('/api/resolve', '/api/pois', '/api/find', '/api/coverage', '/api/config', '/api/places', '/api/protected-areas'):
         assert f'path == "{ep}"' in py, f"Missing endpoint: {ep}"
 
     paths = re.findall(r'path == "([^"]+)"', py)
     api_paths = [p for p in paths if p.startswith("/api/")]
-    allowed_api_paths = {"/api/resolve", "/api/pois", "/api/find", "/api/coverage", "/api/config", "/api/places"}
+    allowed_api_paths = {"/api/resolve", "/api/pois", "/api/find", "/api/coverage", "/api/config", "/api/places", "/api/protected-areas"}
     assert set(api_paths) == allowed_api_paths, f"Unexpected API routes: {set(api_paths) - allowed_api_paths}"
 
 
@@ -348,10 +348,13 @@ def test_picos_authorized_copy(svc):
 def test_m2_gate_protected_area_is_osm_reference():
     js = _read("webapp/static/app.js")
     assert "poi-circles-protected_area" not in js
-    assert "lg-protected" not in js
+    # M8.1: lg-protected was added for the PA cartographic context layer.
+    assert "lg-protected" in js, "M8.1: #lg-protected toggle must exist"
+    assert "pa-fill" in js and "pa-line" in js, "M8.1: PA polygon layers must exist"
     assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in js
     assert "/api/coverage" in js
     assert "/api/pois" in js
+    assert "/api/protected-areas" in js
 
 
 def test_m2_gate_provider_decoupled():

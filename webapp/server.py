@@ -130,7 +130,9 @@ def ui_texto(legal: str, knowledge: str, coverage: str, conditions: list) -> dic
     }
 
 
-def _norm_name(s: str) -> str:
+def _norm_name(s: str | None) -> str:
+    if not isinstance(s, str):
+        return ""
     decomposed = unicodedata.normalize("NFD", s.casefold())
     return "".join(c for c in decomposed if not unicodedata.combining(c))
 
@@ -171,7 +173,9 @@ def find_query(svc: "Service", text: str) -> dict:
     # UI no los trate como un lugar curado. protected_area NO se busca (no es un
     # destino interactivo).
     poi_matches = [p for p in svc.pois
-                   if p["category"] != "protected_area" and needle in _norm_name(p["name"])]
+                   if p["category"] != "protected_area"
+                   and p.get("name")
+                   and needle in _norm_name(p["name"])]
     if len(poi_matches) == 1:
         p = poi_matches[0]
         return {"kind": "poi", "source": p.get("source", "openstreetmap"),
@@ -267,9 +271,20 @@ class Service:
         # observacional. NUNCA entran en el resolver: son cartografia, no derecho.
         # protected_area queda en el snapshot/provenance pero NO es interactivo.
         self.pois = list(pois_doc["features"])
+        # Protected-areas layer: cartographic context from OSM (Polygon/MultiPolygon).
+        # NOT a legal scope, NOT a resolver input, NOT a POI symbol.
+        pa_path = WEBAPP / "protected_areas.json"
+        if pa_path.is_file():
+            self.protected_areas = json.loads(pa_path.read_text(encoding="utf-8"))
+        else:
+            self.protected_areas = {"metadata": {}, "features": []}
+        # The suggestion UI expects a real string name.  Unnamed POIs remain
+        # available in /api/pois for map clicks, but must not enter search or
+        # autocomplete as a technical id (or as a null value).
         self.searchable = (self.places +
                            [{k: p[k] for k in ("id", "name", "lat", "lon", "note")}
-                            for p in self.pois if p["category"] != "protected_area"])
+                            for p in self.pois
+                            if p["category"] != "protected_area" and p.get("name")])
         self.cov_provider = InMemorySpatialProvider()
         self.regions_by_id: dict[str, dict] = {}
         for region in self.coverage["regions"]:
@@ -562,6 +577,30 @@ def pois_geojson(svc: Service) -> dict:
     return {"type": "FeatureCollection", "features": features}
 
 
+def protected_areas_geojson(svc: Service) -> dict:
+    """Capa de AREAS PROTEGIDAS: contexto visual OSM (Polygon/MultiPolygon).
+    NO es ambito legal, NO entra al resolver, NO es POI interactivo."""
+    features = []
+    for f in svc.protected_areas.get("features", []):
+        if f.get("type") != "Feature":
+            continue
+        # Start from the feature's properties dict (which has the real values),
+        # then overlay top-level keys for backwards compatibility.
+        props = dict(f.get("properties", {}))
+        for k in ("id", "name", "category", "region", "source", "source_label",
+                  "source_ref", "snapshot_date", "attribution", "source_license",
+                  "osm_url", "note"):
+            top_val = f.get(k)
+            if top_val and k not in props:
+                props[k] = top_val
+        features.append({
+            "type": "Feature",
+            "geometry": f.get("geometry"),
+            "properties": props,
+        })
+    return {"type": "FeatureCollection", "features": features}
+
+
 STATIC_FILES = {
     "/": ("index.html", "text/html; charset=utf-8"),
     "/index.html": ("index.html", "text/html; charset=utf-8"),
@@ -608,6 +647,8 @@ def make_handler(svc: Service):
                     self._json(HTTPStatus.OK, {"places": svc.searchable})
                 elif path == "/api/pois":
                     self._json(HTTPStatus.OK, pois_geojson(svc))
+                elif path == "/api/protected-areas":
+                    self._json(HTTPStatus.OK, protected_areas_geojson(svc))
                 elif path == "/api/find":
                     params = urllib.parse.parse_qs(parsed.query)
                     q = params.get("q", [""])[-1]

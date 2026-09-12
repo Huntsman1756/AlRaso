@@ -1,0 +1,31 @@
+{
+  "script": "m81_official_crosscheck.py",
+  "script_sha256": "f527c658c8ba3fb49df11d923d4d65549e06c1cf5d6b1e1327e051994c7e8a44",
+  "retrieved_at": "2026-09-11T19:30:04.347804+00:00",
+  "official_source_url": "https://sigred.oapn.es/geoserverOAPN/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=LimitesParquesNacionalesZPP%3Aview_red_oapn_limite_pn&outputFormat=application/json",
+  "official_redistribution": "NO (digest-only)",
+  "parks": {
+    "ordesa": {
+      "osm_relation_id": "relation/10036292",
+      "osm_area_ha": 15724.38,
+      "official_area_ha": 15691.67,
+      "delta_pct": 0.2085,
+      "official_response_sha256": "9e2099da69b3ac4ca31a9bbdf7fc5ec12fe5814a6d0870ce935aa05b00033610",
+      "official_source_url": "https://sigred.oapn.es/geoserverOAPN/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=LimitesParquesNacionalesZPP%3Aview_red_oapn_limite_pn&outputFormat=application/json",
+      "official_redistribution": "NO (digest-only)"
+    },
+    "picos": {
+      "osm_relation_id": "relation/2401595",
+      "osm_area_ha": 65916.08,
+      "official_area_ha": 66032.4,
+      "delta_pct": -0.1762,
+      "official_response_sha256": "9e2099da69b3ac4ca31a9bbdf7fc5ec12fe5814a6d0870ce935aa05b00033610",
+      "official_source_url": "https://sigred.oapn.es/geoserverOAPN/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=LimitesParquesNacionalesZPP%3Aview_red_oapn_limite_pn&outputFormat=application/json",
+      "official_redistribution": "NO (digest-only)"
+    }
+  },
+  "guard": {
+    "threshold_pct": 5,
+    "passed": true
+  }
+}

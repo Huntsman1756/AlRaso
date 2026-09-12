@@ -44,14 +44,16 @@
           <label><input type="checkbox" id="lg-shelter" checked> 🛖 Abrigos</label>
           <label><input type="checkbox" id="lg-water" checked> 💧 Agua</label>
           <label><input type="checkbox" id="lg-camping" checked> ⛺ Campings</label>
+          <label><input type="checkbox" id="lg-protected" checked> 🌲 Áreas protegidas (OSM)</label>
           <label><input type="checkbox" id="lg-coverage" checked> 🗺️ Cobertura legal</label>
           <div class="legend">
             <span class="chip ok">Cobertura verificada</span> norma y geometría oficial verificadas; la conclusión puede seguir siendo UNDETERMINED si faltan reglas publicables o hechos verificables<br>
             <span class="chip warn">Cobertura parcial</span> normativa de la zona verificada, respuesta punto a punto sin cerrar<br>
             <span class="chip unk">Sin información</span> sin corpus: no sabemos; eso no significa que esté prohibido<br>
-            <span class="chip poi">Puntos de interés</span> refugios, agua, abrigos, campings y espacios protegidos (OSM). Solo cartografía, no determinan legalidad.
+            <span class="chip poi">Puntos de interés</span> refugios, agua, abrigos, campings y espacios protegidos (OSM). Solo cartografía, no determinan legalidad.<br>
+            <span class="chip pa">Áreas protegidas</span> límites OSM para contexto visual — referencia cartográfica, no delimitación legal.
           </div>
-          <p class="layers-note">Los POIs son solo cartografía (OSM); no determinan legalidad.</p>
+          <p class="layers-note">Los POIs son solo cartografía (OSM); no determinan legalidad. La capa de áreas protegidas es informativa — no es una determinación legal.</p>
         </div>
         <p id="searchmsg" role="status" aria-live="polite" class="searchmsg-pill"></p>
       </div>
@@ -74,6 +76,15 @@
               <div id="poi-cta"><button id="poi-legal-btn" type="button" class="cta-legal" disabled>Consultar aquí el estatus legal</button></div>
               <p class="poi-sep">Este punto es solo una observación (OSM). Su existencia <b>no</b> implica ningún permiso.</p>
               <details id="poi-srcbox"><summary>Fuente y procedencia</summary><div id="poi-src-details"></div></details>
+            </section>
+            <section id="pa-card" hidden>
+              <div class="poi-head"><span id="pa-emoji">🌲</span><span id="pa-name" class="poi-name"></span></div>
+              <div id="pa-meta" class="poi-meta"></div>
+              <p class="pa-disclaimer">Informativo — no es una determinación legal.</p>
+              <p id="pa-note" class="poi-note"></p>
+              <div id="pa-cta"><button id="pa-legal-btn" type="button" class="cta-legal" disabled>Consultar aquí el estatus legal</button></div>
+              <p class="poi-sep">Este espacio protegido es referencia cartográfica (OSM). Su existencia <b>no</b> implica ningún permiso.</p>
+              <details id="pa-srcbox"><summary>Fuente y procedencia</summary><div id="pa-src-details"></div></details>
             </section>
             <div id="coords"></div>
             <p id="altitude-line" class="altitude-line" hidden></p>

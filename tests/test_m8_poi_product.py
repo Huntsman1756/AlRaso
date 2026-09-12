@@ -143,14 +143,37 @@ def test_source_disclosure_fields():
         "renderPoi must write snapshot_date to src-details"
     assert "attribution" in render_poi_body, \
         "renderPoi must write attribution to src-details"
+    assert "source_ref" in render_poi_body, \
+        "renderPoi must keep the object reference in provenance"
+    assert "Objeto OSM" in render_poi_body, \
+        "OSM object reference must be presented as provenance, not as a name"
+
+
+def test_unnamed_pois_are_icon_only_and_get_a_card_label():
+    """A missing display name hides map text but remains understandable in the card."""
+    labels_start = APP_JS.find('id: "poi-labels-"')
+    labels_end = APP_JS.find("bindLayerToggles();", labels_start)
+    labels_block = APP_JS[labels_start:labels_end]
+    assert '["!=", ["get", "name"], null]' in labels_block
+    assert "anonymousLabel" in APP_JS
+    render_start = APP_JS.find("function renderPoi")
+    render_end = APP_JS.find("\nfunction ", render_start + 1)
+    render_block = APP_JS[render_start:render_end]
+    assert "sin nombre" in render_block
+    assert "p.name" in render_block
 
 
 # ── 5. No protected_area UI ────────────────────────────────────────────────
 
 def test_no_protected_area_ui():
-    """'protected_area' appears in neither index.html toggles nor app.js POI_ORDER."""
-    assert "protected_area" not in INDEX_HTML, \
-        "index.html must not contain 'protected_area' in toggles"
+    """'protected_area' appears in neither index.html toggles nor app.js POI_ORDER.
+    The layer toggle is #lg-protected (cartographic context), not a POI symbol layer."""
+    # index.html: no 'protected_area' string in toggles (the toggle is #lg-protected).
+    # The string 'protected_area' must not appear as a category value in HTML toggles.
+    toggle_lines = [l for l in INDEX_HTML.splitlines() if 'id="lg-' in l]
+    for line in toggle_lines:
+        assert "protected_area" not in line, \
+            "index.html toggles must not contain 'protected_area' category"
     poi_order_match = re.search(
         r'const POI_ORDER = \[([^\]]+)\]', APP_JS
     )
@@ -158,6 +181,9 @@ def test_no_protected_area_ui():
     poi_order_content = poi_order_match.group(1)
     assert "protected_area" not in poi_order_content, \
         "POI_ORDER must not contain protected_area"
+    # The #lg-protected toggle exists for cartographic context (not a POI symbol).
+    assert 'id="lg-protected"' in INDEX_HTML, "toggle #lg-protected must exist"
+    assert 'id="pa-card"' in INDEX_HTML, "PA card section must exist"
 
 
 # ── 6. No new endpoint ─────────────────────────────────────────────────────
@@ -169,6 +195,7 @@ def test_no_new_endpoint():
         "/api/config",
         "/api/places",
         "/api/pois",
+        "/api/protected-areas",
         "/api/find",
         "/api/resolve",
     }

@@ -21,6 +21,8 @@ BUILD_PY = TOOLS / "m8_poi_build.py"
 ANCHORS_JSON = TOOLS / "poi_anchors.json"
 DORMANT_JSON = TOOLS / "poi_dormant_protected_area.json"
 POIS_JSON = ROOT / "webapp" / "pois.json"
+sys.path.insert(0, str(TOOLS))
+from m8_poi_build import _resolve_display_name  # noqa: E402
 
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
@@ -73,6 +75,30 @@ def test_contract_completeness_per_feature():
                 assert key in f, f"Feature {f['id']} missing alt_m key"
             if key in ("osm_url", "source_label", "note", "region"):
                 assert key in f, f"Feature {f['id']} missing {key}"
+        assert f["name"] is None or (isinstance(f["name"], str) and f["name"].strip())
+
+
+def test_display_name_resolution_is_real_name_only():
+    """Resolve the documented OSM name chain and never use technical metadata."""
+    assert _resolve_display_name({"name": " Refugio real ", "name:es": "Otro"}) == "Refugio real"
+    assert _resolve_display_name({"name:es": "Nombre en español"}) == "Nombre en español"
+    assert _resolve_display_name({"official_name": "Nombre oficial"}) == "Nombre oficial"
+    assert _resolve_display_name({"short_name": "Nombre corto"}) == "Nombre corto"
+    assert _resolve_display_name({"operator": "Operador", "description": "Descripción",
+                                  "ref": "ABC-1"}) is None
+
+
+def test_unnamed_pois_have_no_technical_display_name():
+    """OSM ids may be provenance, never the primary display name."""
+    out = _build()
+    doc = json.loads(out.read_text(encoding="utf-8"))
+    unnamed = [f for f in doc["features"] if f["name"] is None]
+    assert unnamed, "Fixtures should exercise unnamed POIs"
+    for f in unnamed:
+        assert f["source_ref"].startswith(("node/", "way/"))
+        assert f["name"] is None
+    assert all(not (isinstance(f["name"], str) and f["name"].startswith("POI "))
+               for f in doc["features"])
 
 
 # ── Unique IDs ───────────────────────────────────────────────────────────────

@@ -8,10 +8,10 @@ let poiClickGuard = 0;
 const FALLBACK_STYLE_URL = "https://tiles.openfreemap.org/styles/positron";
 
 const POI_CATS = {
-  refuge: { emoji: "🏠", label: "Refugio", color: "#b45309" },
-  shelter: { emoji: "🛖", label: "Abrigo / cabaña", color: "#f97316" },
-  water: { emoji: "💧", label: "Agua", color: "#0ea5e9" },
-  camping: { emoji: "⛺", label: "Camping / bivouac", color: "#16a34a" },
+  refuge: { emoji: "🏠", label: "Refugio", anonymousLabel: "Refugio", color: "#b45309" },
+  shelter: { emoji: "🛖", label: "Abrigo / cabaña", anonymousLabel: "Abrigo", color: "#f97316" },
+  water: { emoji: "💧", label: "Agua", anonymousLabel: "Agua", color: "#0ea5e9" },
+  camping: { emoji: "⛺", label: "Camping / bivouac", anonymousLabel: "Camping", color: "#16a34a" },
   protected_area: { emoji: "🌲", label: "Referencia OSM: espacio natural protegido", color: "#0d9488" },
 };
 // protected_area queda en el snapshot (provenance) pero NO se renderiza ni es
@@ -117,6 +117,7 @@ async function boot() {
         paint: { "line-color": covColor, "line-width": 0.9, "line-opacity": 0.35, "line-dasharray": [3, 3] },
       });
       await loadPois();
+      await loadProtectedAreas();
       map.fitBounds([[-5.35, 42.45], [0.25, 43.4]], { padding: 30 });
     } catch (e) { console.error(e); }
   });
@@ -203,7 +204,10 @@ async function loadPois() {
     if (cat !== "water") {
       map.addLayer({
         id: "poi-labels-" + cat, type: "symbol", source: "pois",
-        filter: ["==", ["get", "category"], cat],
+        // Unnamed POIs remain icon-only.  ``name`` is the nullable
+        // display_name field; source_ref must never become a map label.
+        filter: ["all", ["==", ["get", "category"], cat],
+                 ["!=", ["get", "name"], null]],
         minzoom: 9,
         layout: { "text-field": ["get", "name"], "text-size": 11,
                   "text-offset": [0, 1.1], "text-anchor": "top",
@@ -217,12 +221,75 @@ async function loadPois() {
   bindLayerToggles();
 }
 
+/*
+PA_FILL_COLOR: "fill" color constant for protected-area polygons.
+  Mapped from a documented constant so the visual can be reviewed/changed in one place.
+  Value chosen: low-opacity teal, consistent with cartographic context (not legal coverage).
+*/
+const PA_FILL_COLOR = "#0d9488";
+
+function validPaPosition(position) {
+  return Array.isArray(position) && position.length >= 2 &&
+    Number.isFinite(position[0]) && Number.isFinite(position[1]) &&
+    position[0] >= -180 && position[0] <= 180 &&
+    position[1] >= -90 && position[1] <= 90;
+}
+
+function validPaRing(ring) {
+  return Array.isArray(ring) && ring.length >= 4 && ring.every(validPaPosition) &&
+    ring[0][0] === ring[ring.length - 1][0] &&
+    ring[0][1] === ring[ring.length - 1][1];
+}
+
+function validPaGeometry(geometry) {
+  if (!geometry || (geometry.type !== "Polygon" && geometry.type !== "MultiPolygon")) return false;
+  if (geometry.type === "Polygon") return Array.isArray(geometry.coordinates) && geometry.coordinates.length > 0 && geometry.coordinates.every(validPaRing);
+  return Array.isArray(geometry.coordinates) && geometry.coordinates.length > 0 && geometry.coordinates.every(
+    (polygon) => Array.isArray(polygon) && polygon.length > 0 && polygon.every(validPaRing));
+}
+
+function validPaFeatureCollection(fc) {
+  return !!fc && fc.type === "FeatureCollection" && Array.isArray(fc.features) &&
+    fc.features.every((feature) => feature && feature.type === "Feature" && validPaGeometry(feature.geometry));
+}
+
+async function loadProtectedAreas() {
+  var fc;
+  try { fc = await (await fetch("/api/protected-areas")).json(); }
+  catch (e) { console.error("protected-areas", e); return; }
+  // A failed or malformed geometry is a missing context layer, never a reason
+  // to invent a polygon or let MapLibre break the rest of the map.
+  if (!validPaFeatureCollection(fc)) {
+    console.warn("protected-areas: invalid geometry payload; layer skipped");
+    return;
+  }
+  map.addSource("protected-areas", { type: "geojson", data: fc });
+  map.addLayer({
+    id: "pa-fill", type: "fill", source: "protected-areas",
+    layout: { visibility: $("lg-protected").checked ? "visible" : "none" },
+    paint: { "fill-color": PA_FILL_COLOR, "fill-opacity": 0.12 },
+  });
+  map.addLayer({
+    id: "pa-line", type: "line", source: "protected-areas",
+    layout: { visibility: $("lg-protected").checked ? "visible" : "none" },
+    paint: { "line-color": "#0d9488", "line-width": 1.5, "line-opacity": 0.5 },
+  });
+  map.on("click", "pa-fill", function (e) { onPaClick(e); });
+  map.on("click", "pa-line", function (e) { onPaClick(e); });
+  // Cursor change on hover
+  map.on("mouseenter", "pa-fill", function () { map.getCanvas().style.cursor = "pointer"; });
+  map.on("mouseleave", "pa-fill", function () { map.getCanvas().style.cursor = ""; });
+  map.on("mouseenter", "pa-line", function () { map.getCanvas().style.cursor = "pointer"; });
+  map.on("mouseleave", "pa-line", function () { map.getCanvas().style.cursor = ""; });
+}
+
 function bindLayerToggles() {
   const groups = {
     "lg-refuge": ["poi-icons-refuge", "poi-labels-refuge"],
     "lg-shelter": ["poi-icons-shelter", "poi-labels-shelter"],
     "lg-water": ["poi-icons-water"],
     "lg-camping": ["poi-icons-camping", "poi-labels-camping"],
+    "lg-protected": ["pa-fill", "pa-line"],
     "lg-coverage": ["cov-fill", "cov-line", "cov-line-esquematico"],
   };
   Object.keys(groups).forEach((boxId) => {
@@ -245,11 +312,32 @@ function onPoiClick(e) {
   renderPoi(p);
 }
 
+function onPaClick(e) {
+  const f = e.features && e.features[0];
+  if (!f) return;
+  const p = f.properties;
+  poiClickGuard = Date.now();
+  // Use the exact clicked coordinates for the CTA (coords-only invariant).
+  var clickedLat = e.lngLat.lat;
+  var clickedLon = e.lngLat.lng;
+  selectPoint(clickedLat, clickedLon, null, false);
+  // Wire CTA with clicked coordinates only — no name, no facts.
+  var ctaBtn = $("pa-legal-btn");
+  if (ctaBtn) {
+    ctaBtn.disabled = false;
+    ctaBtn.setAttribute("data-lat", String(clickedLat));
+    ctaBtn.setAttribute("data-lon", String(clickedLon));
+  }
+  renderPa(p);
+}
+
 function renderPoi(p) {
   const cat = POI_CATS[p.category] || { emoji: "📍", label: p.category };
+  const displayName = typeof p.name === "string" && p.name.trim() ? p.name.trim() : null;
   $("poi").hidden = false;
+  $("pa-card").hidden = true;
   $("poi-emoji").textContent = cat.emoji;
-  $("poi-name").textContent = p.name;
+  $("poi-name").textContent = displayName || (cat.anonymousLabel || cat.label) + " sin nombre";
   const parts = [cat.label];
   if (p.alt_m) parts.push(`${p.alt_m} m`);
   if (p.source_label) parts.push(`fuente: ${p.source_label}`);
@@ -270,6 +358,10 @@ function renderPoi(p) {
       html += `<div><a href="${esc(p.osm_url)}" target="_blank" rel="noopener">${esc(p.osm_url)}</a></div>`;
     }
     if (p.source_label) html += `<div><span class="src-label">Fuente: </span>${esc(p.source_label)}</div>`;
+    if (p.source_ref) {
+      const refLabel = p.source === "openstreetmap" ? "Objeto OSM" : "Referencia";
+      html += `<div><span class="src-label">${refLabel}: </span>${esc(p.source_ref)}</div>`;
+    }
     if (p.snapshot_date) html += `<div><span class="src-label">Fecha de instantánea: </span>${esc(p.snapshot_date)}</div>`;
     if (p.attribution) html += `<div><span class="src-label">Atribución: </span>${esc(p.attribution)}</div>`;
     if (p.source_license) html += `<div><span class="src-label">Licencia: </span>${esc(p.source_license)}</div>`;
@@ -278,6 +370,37 @@ function renderPoi(p) {
   }
   state.poiCategory = p.category;
   state.poiAlt = p.alt_m || null;
+}
+
+function renderPa(p) {
+  $("poi").hidden = true;
+  $("pa-card").hidden = false;
+  $("pa-name").textContent = p.name || "";
+  var metaParts = [];
+  if (p.region) metaParts.push(p.region);
+  metaParts.push("referencia OSM · no ámbito legal");
+  $("pa-meta").textContent = metaParts.join(" · ");
+  $("pa-note").textContent = p.note || "";
+  // CTA: coords only from clicked point — data-lat and data-lon set by onPaClick.
+  // The button is wired in onPaClick before renderPa is called.
+  var ctaBtn = $("pa-legal-btn");
+  if (ctaBtn) {
+    ctaBtn.disabled = false;
+  }
+  // Provenance disclosure
+  var box = $("pa-srcbox"), details = $("pa-src-details");
+  if (details) {
+    let html = "";
+    if (p.osm_url) {
+      html += `<div><a href="${esc(p.osm_url)}" target="_blank" rel="noopener">${esc(p.osm_url)}</a></div>`;
+    }
+    if (p.source_label) html += `<div><span class="src-label">Fuente: </span>${esc(p.source_label)}</div>`;
+    if (p.snapshot_date) html += `<div><span class="src-label">Fecha de instantánea: </span>${esc(p.snapshot_date)}</div>`;
+    if (p.attribution) html += `<div><span class="src-label">Atribución: </span>${esc(p.attribution)}</div>`;
+    if (p.source_license) html += `<div><span class="src-label">Licencia: </span>${esc(p.source_license)}</div>`;
+    details.innerHTML = html;
+    box.style.display = "";
+  }
 }
 
 // ─────────────────────────────────────────────
@@ -503,7 +626,7 @@ function openSheetForSelection() {
 // ─────────────────────────────────────────────
 // SELECT POINT & FRESH RESOLVE
 // ─────────────────────────────────────────────
-function selectPoint(lat, lon, name, fly) {
+function selectPoint(lat, lon, name, fly, preserveContext) {
   if (fly === undefined) fly = true;
   state.lat = lat;
   state.lon = lon;
@@ -517,7 +640,22 @@ function selectPoint(lat, lon, name, fly) {
     }
     if (fly) map.flyTo({ center: ll, zoom: Math.max(map.getZoom(), 10) });
   }
-  if (!name) { $("poi").hidden = true; state.poiCategory = null; state.poiAlt = null; }
+  // A fresh coordinate/name selection replaces any contextual card from a
+  // previous POI or protected-area click. The specialized renderers show the
+  // relevant card again after this reset. Legal CTAs opt into preserving the
+  // card that the user is using while the resolver refreshes below it.
+  if (!preserveContext) {
+    $("poi").hidden = true;
+    $("pa-card").hidden = true;
+    state.poiCategory = null;
+    state.poiAlt = null;
+    var paLegalBtn = $("pa-legal-btn");
+    if (paLegalBtn) {
+      paLegalBtn.disabled = true;
+      paLegalBtn.removeAttribute("data-lat");
+      paLegalBtn.removeAttribute("data-lon");
+    }
+  }
   $("searchmsg").textContent = name ? `Zona seleccionada: ${name}` : "";
   document.body.classList.toggle("has-selection", state.lat !== null);
   openSheetForSelection();
@@ -697,7 +835,19 @@ if (poiLegalBtn) {
     var lat = parseFloat(poiLegalBtn.getAttribute("data-lat"));
     var lon = parseFloat(poiLegalBtn.getAttribute("data-lon"));
     if (isNaN(lat) || isNaN(lon)) return;
-    selectPoint(lat, lon, state.selectedName, true);
+    selectPoint(lat, lon, state.selectedName, true, true);
+  });
+}
+
+// PA LEGAL CTA — same coords-only pattern (no name/fact injection)
+// ─────────────────────────────────────────────
+var paLegalBtn = $("pa-legal-btn");
+if (paLegalBtn) {
+  paLegalBtn.addEventListener("click", function () {
+    var lat = parseFloat(paLegalBtn.getAttribute("data-lat"));
+    var lon = parseFloat(paLegalBtn.getAttribute("data-lon"));
+    if (isNaN(lat) || isNaN(lon)) return;
+    selectPoint(lat, lon, null, true, true);
   });
 }
 

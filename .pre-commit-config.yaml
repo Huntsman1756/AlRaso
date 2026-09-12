@@ -33,6 +33,10 @@ repos:
         name: "Check places.json against M2 schema"
         args: ['--schemafile', 'schemas/alraso-m2-places-v1.schema.json']
         files: '^webapp/places\.json$'
+      - id: check-jsonschema
+        name: "Check protected_areas.json against M8.1 schema"
+        args: ['--schemafile', 'schemas/alraso-m2-protected-areas-v1.schema.json']
+        files: '^webapp/protected_areas\.json$'
 
   - repo: https://github.com/DavidAnson/markdownlint-cli2
     rev: v0.23.2

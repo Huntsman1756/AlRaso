@@ -191,7 +191,7 @@ def test_poi_has_provenance(svc):
         assert props["source"] in ("openstreetmap", "alraso"), props["id"]
         assert props["source_label"], props["id"]
         assert props["region"] in ("ordesa", "picos"), props["id"]
-        assert props["name"], props["id"]
+        assert props["name"] is None or (isinstance(props["name"], str) and props["name"].strip()), props["id"]
         if props["source"] == "openstreetmap":
             assert props["source_ref"], props["id"]
             assert props["osm_url"], props["id"]
@@ -232,6 +232,13 @@ def test_poi_search_returns_poi_kind_not_place(svc):
     # La busqueda puede mover el mapa, pero nunca suministra hechos al resolver.
     for key in ("facts", "nights", "refuge_capacity_full"):
         assert key not in out
+
+
+def test_unnamed_poi_is_not_searchable_as_a_technical_name(svc):
+    unnamed = next(p for p in svc.pois if p["name"] is None)
+    out = server.find_query(svc, unnamed["source_ref"])
+    assert out["kind"] == "none"
+    assert unnamed["id"] not in {p["id"] for p in svc.searchable}
 
 
 def test_curated_search_takes_precedence_over_poi(svc):
@@ -294,14 +301,16 @@ def test_protected_area_is_osm_reference_not_legal_layer():
             assert "No determina el ámbito jurídico" in f["note"], f["id"]
             assert "prohibición automática" in f["note"], f["id"]
             assert f["source_ref"].startswith("relation/"), f["id"]
-    # protected_area queda en provenance pero NO se renderiza ni es interactivo.
+    # protected_area: no se renderiza como capa POI (POI_ORDER no la incluye),
+    # pero SÍ hay un toggle #lg-protected y una capa de contexto visual (pa-fill/pa-line).
     js = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
     assert "poi-circles-protected_area" not in js, "no se renderiza como capa POI"
-    assert "lg-protected" not in js, "no hay toggle de espacios protegidos"
+    assert "lg-protected" in js, "hay toggle de áreas protegidas (contexto visual)"
+    assert "pa-fill" in js and "pa-line" in js, "capas de contexto visual OSM"
     assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in js
     html = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
-    assert "lg-protected" not in html, "no hay checkbox de espacios protegidos"
-    assert "/api/coverage" in js and "/api/pois" in js
+    assert "lg-protected" in html, "hay checkbox de áreas protegidas (contexto visual)"
+    assert "/api/coverage" in js and "/api/pois" in js and "/api/protected-areas" in js
 
 
 def test_find_excludes_protected_area(svc):
