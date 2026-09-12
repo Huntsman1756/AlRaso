@@ -692,7 +692,10 @@ function selectPoint(lat, lon, name, fly, preserveContext) {
       paLegalBtn.removeAttribute("data-lon");
     }
   }
-  $("searchmsg").textContent = name ? `Zona seleccionada: ${name}` : "";
+  // The selected place is already the primary heading; avoid a redundant
+  // map toast covering the mobile sheet. Error/save feedback still uses this
+  // live region elsewhere.
+  $("searchmsg").textContent = "";
   document.body.classList.toggle("has-selection", state.lat !== null);
   openSheetForSelection();
   loadWeather(lat, lon);
