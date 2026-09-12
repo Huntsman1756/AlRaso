@@ -608,6 +608,7 @@ function openChooser() {
         sel.appendChild(opt);
       });
       sel.style.display = "";
+      sel.parentElement.style.display = "";
       // Initialize visibility from current select value (default is "__new__")
       if (sel.value === "__new__") {
         $("chooser-new").hidden = false;
@@ -826,6 +827,8 @@ function factsFromForm() {
   return out;
 }
 
+var resolveRequestId = 0;
+
 async function refresh() {
   updateSaveButton();
   var p = new URLSearchParams({
@@ -835,9 +838,12 @@ async function refresh() {
     knowledge: new Date().toISOString().slice(0, 10),
   });
   factsFromForm().forEach(function (kv) { var parts = kv.split("="); p.set(parts[0], parts.slice(1).join("=")); });
+  resolveRequestId += 1;
+  var myId = resolveRequestId;
   try {
     var r = await fetch("/api/resolve?" + p.toString());
     var d = await r.json();
+    if (myId !== resolveRequestId) return; // stale response: discarded
     render(d);
   } catch (e) {
     console.error("resolve error", e);
