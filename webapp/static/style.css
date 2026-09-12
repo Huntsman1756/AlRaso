@@ -288,3 +288,22 @@ footer { display:flex; flex-wrap:wrap; gap:6px 18px; padding:6px 16px; border-to
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
+
+
+/* ── M8.2: COMPACT PRODUCT ANSWER ── */
+.answer-explanation { margin:4px 0 0; font-size:14px; line-height:1.45; color:var(--muted); }
+.primary-section { margin:14px 0; }
+.primary-section > h3, .place-context > h3 { margin:0 0 7px; font-size:14px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }
+.place-context { margin:14px 0; padding:9px 11px; border:1px solid var(--line); border-left:3px solid #0d9488; border-radius:7px; background:#141a20; font-size:13px; }
+.place-context-kind { color:var(--muted); }
+.place-context-note { margin:5px 0 0; color:var(--muted); font-size:12px; }
+.detail-section { padding:10px 0; border-bottom:1px solid var(--line); }
+.detail-section:last-of-type { border-bottom:0; }
+.detail-status { margin:4px 0; color:var(--muted); font-size:13px; }
+.region-empty { color:var(--muted); }
+#detail-box > summary { font-weight:700; }
+#tech { margin-top:10px; }
+#tech .badges { margin:10px 0; }
+.weather-block { margin:8px 0 10px; padding:8px 10px; }
+.weather-line { margin:2px 0; line-height:1.35; }
+#warning:empty { display:none; }
