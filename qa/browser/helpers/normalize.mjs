@@ -7,9 +7,27 @@ const VOLATILE_KEYS = new Set([
   'timings_ms'
 ]);
 
+const EXTERNAL_WEATHER_OUTCOME_KEYS = new Set([
+  'status',
+  'response_observed',
+  'response_http_status',
+  'external_latency_ms',
+  'ui_structure_valid',
+  'attribution_visible',
+  'observed_at',
+  'temperature'
+]);
+
+const WEATHER_OUTCOME_KEYS = new Set([
+  'observed_at',
+  'temperature',
+  'http_status',
+  'ui_structure_valid'
+]);
+
 function shouldDrop(path, key) {
   if (VOLATILE_KEYS.has(key)) return true;
-  return path[0] === 'weather' && (key === 'temperature' || key === 'observed_at');
+  return path[0] === 'weather' && WEATHER_OUTCOME_KEYS.has(key);
 }
 
 function sanitize(value, path = []) {
@@ -41,6 +59,7 @@ export function reproducibilityContract(result) {
     console,
     unexpected_console_errors,
     console_warnings,
+    external_observation,
     ...stable
   } = normalized;
 
@@ -51,6 +70,12 @@ export function reproducibilityContract(result) {
     const offline = { ...stable.offline };
     delete offline.api_failures;
     stable.offline = offline;
+  }
+  if (external_observation && typeof external_observation === 'object' && !Array.isArray(external_observation)) {
+    stable.external_observation = Object.fromEntries(
+      Object.entries(external_observation)
+        .filter(([key]) => !EXTERNAL_WEATHER_OUTCOME_KEYS.has(key))
+    );
   }
   return stable;
 }

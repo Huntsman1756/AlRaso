@@ -1,13 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { waitForWeatherResponse } from '../../scenarios/shared.mjs';
+import { waitForWeatherRequest, waitForWeatherResponse } from '../../scenarios/shared.mjs';
 
-test('weather response wait uses a dedicated 30-second external timeout', async () => {
-  let receivedOptions;
+test('weather request and response waits use a dedicated 30-second external timeout', async () => {
+  const receivedOptions = [];
   const page = {
+    waitForRequest(_predicate, options) {
+      receivedOptions.push(options);
+      return Promise.resolve({ url: () => 'https://api.open-meteo.com/v1/forecast' });
+    },
     waitForResponse(_predicate, options) {
-      receivedOptions = options;
+      receivedOptions.push(options);
       return Promise.resolve({
         url: () => 'https://api.open-meteo.com/v1/forecast',
         status: () => 200
@@ -15,7 +19,8 @@ test('weather response wait uses a dedicated 30-second external timeout', async 
     }
   };
 
+  await waitForWeatherRequest(page);
   await waitForWeatherResponse(page);
 
-  assert.equal(receivedOptions.timeout, 30_000);
+  assert.deepEqual(receivedOptions, [{ timeout: 30_000 }, { timeout: 30_000 }]);
 });

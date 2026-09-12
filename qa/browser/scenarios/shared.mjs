@@ -2,6 +2,25 @@ import { DEFAULT_TIMEOUT } from '../helpers/ui.mjs';
 
 const WEATHER_TIMEOUT = 30_000;
 
+export function isWeatherUrl(url) {
+  try {
+    return new URL(url).hostname === 'api.open-meteo.com';
+  } catch {
+    return false;
+  }
+}
+
+export async function waitForWeatherRequest(page) {
+  try {
+    return await page.waitForRequest(
+      (request) => isWeatherUrl(request.url()),
+      { timeout: WEATHER_TIMEOUT }
+    );
+  } catch {
+    return null;
+  }
+}
+
 export async function text(page, selector) {
   return (await page.locator(selector).textContent({ timeout: DEFAULT_TIMEOUT })).trim();
 }
@@ -37,6 +56,51 @@ export async function observedStep(recorder, label, action, details = {}) {
 
 export function check(recorder, label, condition, details = {}) {
   return recorder.check(label, Boolean(condition), details);
+}
+
+export function classifyWeatherObservation({
+  requestObserved,
+  responseObserved,
+  responseStatus,
+  requestFailed
+}) {
+  if (!requestObserved) return null;
+  if (responseObserved) return responseStatus === 200 ? 'LIVE_OK' : 'EXTERNAL_HTTP_ERROR';
+  if (requestFailed) return 'EXTERNAL_NETWORK_ERROR';
+  return 'EXTERNAL_TIMEOUT';
+}
+
+export function weatherProbeAssertions({
+  requestObserved,
+  canonicalCoordinates,
+  status,
+  weatherUiValid,
+  legalAvailable
+}) {
+  return {
+    request_observed: Boolean(requestObserved),
+    canonical_coordinates: Boolean(canonicalCoordinates),
+    live_integration_valid: status !== 'LIVE_OK' || Boolean(weatherUiValid),
+    legal_result_available: Boolean(legalAvailable)
+  };
+}
+
+function requestUrl(requestOrUrl) {
+  if (typeof requestOrUrl === 'string') return requestOrUrl;
+  if (requestOrUrl && typeof requestOrUrl.url === 'function') return requestOrUrl.url();
+  return null;
+}
+
+export function matchesCanonicalWeatherCoordinates(requestOrUrl, canonical) {
+  try {
+    const url = new URL(requestUrl(requestOrUrl));
+    const latitude = Number(url.searchParams.get('latitude'));
+    const longitude = Number(url.searchParams.get('longitude'));
+    return latitude === Number(canonical.lat.toFixed(3))
+      && longitude === Number(canonical.lon.toFixed(3));
+  } catch {
+    return false;
+  }
 }
 
 export async function waitForRequestFailure(page, predicate) {
@@ -84,7 +148,7 @@ export async function inspectServiceWorker(page) {
 export async function waitForWeatherResponse(page) {
   try {
     return await page.waitForResponse(
-      (response) => new URL(response.url()).hostname === 'api.open-meteo.com',
+      (response) => isWeatherUrl(response.url()),
       { timeout: WEATHER_TIMEOUT }
     );
   } catch {

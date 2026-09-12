@@ -96,7 +96,20 @@ function buildManifest() {
     device_scale_factor: DEVICE_SCALE_FACTOR,
     viewports: Object.entries(VIEWPORTS).map(([id, viewport]) => ({ id, ...viewport })),
     scenarios: scenarioIds,
-    volatile_fields: ['weather.temperature', 'weather.observed_at'],
+    volatile_fields: [
+      'weather.temperature',
+      'weather.observed_at',
+      'weather.http_status',
+      'external_observation.status',
+      'external_observation.response_observed',
+      'external_observation.response_http_status',
+      'external_observation.external_latency_ms'
+    ],
+    reproducibility_excluded_fields: [
+      'weather.ui_structure_valid',
+      'external_observation.ui_structure_valid',
+      'external_observation.attribution_visible'
+    ],
     evidence
   };
   writeJson(manifestPath, manifest);

@@ -100,3 +100,55 @@ test('reproducibility contract ignores offline transport failure count', () => {
     reproducibilityContract(makeResult(4))
   );
 });
+
+test('S08 external outcome is raw evidence but not stable reproducibility state', () => {
+  const makeResult = (observation) => ({
+    scenario: 'S08_WEATHER_AVAILABLE',
+    viewport: 'desktop-1440x900',
+    scenario_status: 'PASS',
+    assertions: { passed: 4, failed: 0, not_applicable: 0 },
+    legal_observed: {
+      headline: 'No lo podemos determinar',
+      legal_status: 'UNDETERMINED',
+      coverage: 'PARTIAL'
+    },
+    weather: {
+      observed_at: observation.observed_at,
+      temperature: observation.temperature,
+      request_url: observation.request_url,
+      http_status: observation.response_http_status,
+      ui_structure_valid: observation.ui_structure_valid
+    },
+    external_observation: observation
+  });
+
+  const live = {
+    provider: 'open-meteo',
+    request_observed: true,
+    request_url: 'https://api.open-meteo.com/v1/forecast?latitude=43.171&longitude=-4.803',
+    response_observed: true,
+    status: 'LIVE_OK',
+    response_http_status: 200,
+    external_latency_ms: 120,
+    observed_at: '2026-09-12T07:20',
+    temperature: 12,
+    ui_structure_valid: true
+  };
+  const timeout = {
+    ...live,
+    response_observed: false,
+    status: 'EXTERNAL_TIMEOUT',
+    response_http_status: null,
+    external_latency_ms: null,
+    observed_at: null,
+    temperature: null,
+    ui_structure_valid: false
+  };
+
+  assert.equal(normalizeResult(makeResult(timeout)).external_observation.status, 'EXTERNAL_TIMEOUT');
+  assert.deepEqual(reproducibilityContract(makeResult(live)), reproducibilityContract(makeResult(timeout)));
+  assert.notDeepEqual(
+    reproducibilityContract(makeResult(live)),
+    reproducibilityContract(makeResult({ ...live, request_observed: false, request_url: null }))
+  );
+});
