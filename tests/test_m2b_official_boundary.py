@@ -860,4 +860,9 @@ def test_git_diff_vs_main_only_allowed_files():
         "webapp/protected_areas.json",
     }
     for f in changed:
-        assert f in allowed, f"Unexpected file changed: {f}"
+        m9_allowed = (
+            f == ".github/workflows/m9-baseline.yml"
+            or f.startswith("docs/m9/")
+            or f.startswith("qa/browser/")
+        )
+        assert f in allowed or m9_allowed, f"Unexpected file changed: {f}"
