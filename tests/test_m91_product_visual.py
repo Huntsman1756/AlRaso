@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CSS = (ROOT / "webapp/static/style.css").read_text(encoding="utf-8")
 HTML = (ROOT / "webapp/static/index.html").read_text(encoding="utf-8")
 APP = (ROOT / "webapp/static/app.js").read_text(encoding="utf-8")
+ICON_ROOT = ROOT / "webapp/static/icons/outline"
 
 
 def test_m91_has_small_semantic_token_vocabulary():
@@ -107,3 +108,43 @@ def test_m91_mobile_sheet_exposes_controlled_panel_and_peek_contract():
     assert "--sheet-peek-height" in CSS
     assert "sheetPeekHeight" in APP
     assert "handle.focus" in APP
+
+
+def test_m91_tabler_subset_is_vendored_without_runtime_dependency():
+    icons = (
+        "map-pin.svg",
+        "layers-subtract.svg",
+        "bookmark.svg",
+        "route.svg",
+        "cloud.svg",
+        "chevron-down.svg",
+        "x.svg",
+        "current-location.svg",
+    )
+    for icon in icons:
+        path = ICON_ROOT / icon
+        assert path.is_file(), icon
+        source = path.read_text(encoding="utf-8")
+        assert 'stroke="currentColor"' in source
+        assert "viewBox=\"0 0 24 24\"" in source
+    notice = (ROOT / "webapp/static/icons/NOTICE-TABLER.txt").read_text(encoding="utf-8")
+    assert "MIT License" in notice
+    assert "tabler/tabler-icons" in notice
+    assert "npm" not in notice.lower()
+
+
+def test_m91_control_icons_keep_visible_labels_and_no_icon_only_meaning():
+    for path in (
+        "/icons/outline/map-pin.svg",
+        "/icons/outline/layers-subtract.svg",
+        "/icons/outline/current-location.svg",
+        "/icons/outline/bookmark.svg",
+        "/icons/outline/route.svg",
+        "/icons/outline/x.svg",
+    ):
+        assert path in HTML
+    assert ">Explorar<" in HTML
+    assert ">Guardados<" in HTML
+    assert ">Salidas<" in HTML
+    assert "aria-hidden=\"true\"" in HTML
+    assert "/icons/outline/cloud.svg" in APP

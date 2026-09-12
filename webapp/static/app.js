@@ -703,12 +703,15 @@ function updateSaveButton() {
   var hasPoint = state.lat !== null;
   saveBtn.disabled = !hasPoint;
   planBtn.disabled = !hasPoint;
+  var saveLabel = saveBtn.querySelector(".button-label");
   if (!hasPoint) {
-    saveBtn.textContent = "♡ Guardar";
+    if (saveLabel) saveLabel.textContent = "Guardar";
+    else saveBtn.textContent = "Guardar";
     return;
   }
   var fav = AlRasoStore.findFavoriteByPoint(state.lat, state.lon);
-  saveBtn.textContent = fav ? "♥ Guardado" : "♡ Guardar";
+  if (saveLabel) saveLabel.textContent = fav ? "Guardado" : "Guardar";
+  else saveBtn.textContent = fav ? "Guardado" : "Guardar";
 }
 
 $("save-btn").addEventListener("click", function () {
@@ -1930,7 +1933,7 @@ function renderWeather(block, lat, lon, data) {
 
   var head = document.createElement("p");
   head.className = "weather-head";
-  head.innerHTML = 'Condiciones <span class="weather-src">Tiempo: ' +
+  head.innerHTML = '<span class="weather-title"><img class="ui-icon weather-icon" src="/icons/outline/cloud.svg" alt="" aria-hidden="true"><span>Condiciones</span></span><span class="weather-src">Tiempo: ' +
     '<a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>' +
     ' (CC BY 4.0)</span>';
   block.appendChild(head);
