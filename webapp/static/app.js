@@ -224,9 +224,9 @@ function selectPoint(lat, lon, name, fly, preserveContext) {
     if (fly) {
       var camera = { center: ll, zoom: Math.max(map.getZoom(), 10) };
       if (window.matchMedia("(max-width: 820px)").matches) {
-        var sheet = $("card");
-        var peekHeight = sheet
-          ? parseFloat(getComputedStyle(sheet).getPropertyValue("--sheet-peek-height"))
+        var sheetEl = $("card");
+        var peekHeight = sheetEl
+          ? parseFloat(getComputedStyle(sheetEl).getPropertyValue("--sheet-peek-height"))
           : 0;
         if (Number.isFinite(peekHeight) && peekHeight > 0) {
           camera.padding = { top: 0, right: 0, bottom: peekHeight, left: 0 };
