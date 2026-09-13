@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:georss="http://www.georss.org/georss"
+    xmlns:inspire_dls="http://inspire.ec.europa.eu/schemas/inspire_dls/1.0" xml:lang="es"
+    xmlns:inspire_common="http://inspire.ec.europa.eu/schemas/common/1.0"
+    xsi:schemaLocation="http://www.w3.org/2005/Atom http://inspire-geoportal.ec.europa.eu/schemas/inspire/atom/1.0/atom.xsd http://inspire.ec.europa.eu/schemas/inspire_dls/1.0 http://inspire.ec.europa.eu/schemas/inspire_dls/1.0/inspire_dls.xsd http://inspire.ec.europa.eu/schemas/common/1.0 http://inspire.ec.europa.eu/schemas/common/1.0/common.xsd"
+    xmlns="http://www.w3.org/2005/Atom">
+    
+    <title>Servicio de descarga ATOM del </title>
+    <subtitle></subtitle>
+    <link rel="self" type="application/atom+xml" hreflang="es"
+        href="https://www.mapama.gob.es/ide/inspire/atom/downloadservice.xml" title="Enlace a este mismo documento"/>
+    <link rel="describedby" hreflang="es" type="application/xml" href="https://www.mapama.gob.es/ide/metadatos/srv/spa/csw?SERVICE=CSW&amp;VERSION=2.0.2&amp;REQUEST=GetRecordById&amp;outputSchema=http://www.isotc211.org/2005/gmd&amp;ElementSetName=full&amp;ID=e0e600db-443c-44c3-83da-87c69bdfb47a" title="Enlace a los metadatos del servicio de descarga"/>
+    <link rel="search" type="application/opensearchdescription+xml"
+        href="https://www.mapama.gob.es/ide/inspire/opensearchdescription.xml"
+        title="Buscar descargas " hreflang="es" />
+    
+    <id>https://www.mapama.gob.es/ide/inspire/atom/downloadservice.xml</id>
+    <rights>Este servicio se puede usar de modo libre y gratuito en cualquier caso, siempre que se mencione al Ministerio como autor y propietario de la información.</rights>
+    <updated>2026-08-20T12:47:00+00:00</updated>
+    <author>
+        <name>Ministerio de Agricultura, Pesca y Alimentación</name>
+        <uri>https://www.mapa.gob.es</uri>
+        <email>sig@mapa.es</email>
+    </author>
+    <author>
+        <name>Ministerio para la Transición Ecológica y el Reto Demográfico</name>
+        <uri>https://www.miteco.gob.es</uri>
+        <email>sig@mapa.es</email>
+    </author>
+</feed>

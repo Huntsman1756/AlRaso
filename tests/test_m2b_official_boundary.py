@@ -897,4 +897,12 @@ def test_git_diff_vs_main_only_allowed_files():
             or f.startswith("docs/m9/")
             or f.startswith("qa/browser/")
         )
-        assert f in allowed or m9_allowed, f"Unexpected file changed: {f}"
+        # docs/spain-coverage-g0: M10-G0 source + OSS discovery evidence only.
+        g0_allowed = (
+            f == "tooling/g0_probe_verify.py"
+            or f.startswith("docs/spain-coverage-g0/")
+            or f.startswith("discovery/evidence/spain-coverage-g0/")
+        )
+        assert f in allowed or m9_allowed or g0_allowed, (
+            f"Unexpected file changed: {f}"
+        )

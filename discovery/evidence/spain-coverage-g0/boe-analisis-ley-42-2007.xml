@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response>
+  <status>
+    <code>200</code>
+    <text>ok</text>
+  </status>
+  <data>
+    <analisis>
+      <materias>
+        <materia codigo="7927">Catálogo Nacional de Especies Amenazadas</materia>
+        <materia codigo="674">Caza</materia>
+        <materia codigo="1523">Consejo Nacional del Agua</materia>
+        <materia codigo="1631">Contaminación de las aguas</materia>
+        <materia codigo="1751">Costas marítimas</materia>
+        <materia codigo="2255">Cultivos marinos</materia>
+        <materia codigo="3430">Espacios naturales protegidos</materia>
+        <materia codigo="3438">Especies protegidas</materia>
+        <materia codigo="3608">Fauna</materia>
+        <materia codigo="3726">Flora</materia>
+        <materia codigo="5567">Pesca</materia>
+        <materia codigo="5651">Políticas de medio ambiente</materia>
+        <materia codigo="5909">Recursos naturales</materia>
+        <materia codigo="5910">Recursos pesqueros</materia>
+        <materia codigo="6273">Sanciones</materia>
+        <materia codigo="6814">Sustancias peligrosas</materia>
+      </materias>
+      <referencias>
+        <anteriores>
+          <anterior>
+            <id_norma>BOE-A-2006-7678</id_norma>
+            <relacion codigo="210">DEROGA</relacion>
+            <texto>la disposición adicional 1 de la Ley 10/2006</texto>
+          </anterior>
+          <anterior>
+            <id_norma>BOE-A-1989-6881</id_norma>
+            <relacion codigo="210">DEROGA</relacion>
+            <texto>Ley 4/1989, de 27 de marzo</texto>
+          </anterior>
+          <anterior>
+            <id_norma>BOE-A-1995-27761</id_norma>
+            <relacion codigo="210">DEROGA</relacion>
+            <texto>Anexos I a VI del Real Decreto 1997/1995</texto>
+          </anterior>
+          <anterior>
+            <id_norma>BOE-A-1970-369</id_norma>
+            <relacion codigo="210">DEROGA</relacion>
+            <texto>los arts. 23.5 a), b) y c), 31.15 y lo indicado del 34.2 de la Ley 1/1970, de 4 de abril</texto>
+          </anterior>
+          <anterior>
+            <id_norma>BOE-A-1971-444</id_norma>
+            <relacion codigo="210">DEROGA</relacion>
+            <texto>arts. 25.13 a), b) y c), 33.15, 18 y 19, 37, 48.1.15, 48.2.17, 48.2.31 y 48.3.46 del Real Decreto 506/1971, de 25 de marzo</texto>
+          </anterior>
+          <anterior>
+            <id_norma>BOE-A-1988-18762</id_norma>
+            <relacion codigo="270">MODIFICA</relacion>
+            <texto>art. 84, y AÑADE una disposición adicional 9 y los Anexos I, II y III a la Ley 22/1988, de 28 de julio</texto>
+          </anterior>
+          <anterior>
+            <id_norma>BOE-A-2001-14276</id_norma>
+            <relacion codigo="270">MODIFICA</relacion>
+            <texto>arts. 13 y 19 de la Ley de Aguas, texto refundido aprobado por Real Decreto Legislativo 1/2001, de 20 de julio</texto>
+          </anterior>
+          <anterior>
+            <id_norma>BOE-A-2002-12995</id_norma>
+            <relacion codigo="270">MODIFICA</relacion>
+            <texto>Segundo párrafo de la disposición transitoria 1 de la Ley 16/2002, de 1 de julio</texto>
+          </anterior>
+          <anterior>
+            <id_norma>DOUE-L-1979-80128</id_norma>
+            <relacion codigo="426">TRANSPONE</relacion>
+            <texto>la Directiva 79/409/CEE, de 2 de abril de 1979</texto>
+          </anterior>
+          <anterior>
+            <id_norma>DOUE-L-1992-81200</id_norma>
+            <relacion codigo="426">TRANSPONE</relacion>
+            <texto>Directiva 92/43/CEE, de 21 de mayo de 1992</texto>
+          </anterior>
+          <anterior>
+            <id_norma>BOE-A-2007-18475</id_norma>
+            <relacion codigo="330">CITA</relacion>
+            <texto>Ley 26/2007, de 23 de octubre</texto>
+          </anterior>
+          <anterior>
+            <id_norma>BOE-A-2006-7677</id_norma>
+            <relacion codigo="330">CITA</relacion>
+            <texto>Ley 9/2006, de 28 de abril</texto>
+          </anterior>
+        </anteriores>
+        <posteriores>
+          <posterior>
+            <id_norma>BOE-A-2020-17340</id_norma>
+            <relacion codigo="270">SE MODIFICA</relacion>
+            <texto>el art. 78, por Real Decreto-ley 36/2020, de 30 de diciembre</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2018-10240</id_norma>
+            <relacion codigo="270">SE MODIFICA</relacion>
+            <texto>los arts. 2, 3, 54, 60.1, 64, 65.3.e), 80.1 y 2, SE AÑADE los arts. 64 ter y quáter y SE SUPRIME la disposición transitoria 2, por Ley 7/2018, de 20 de julio</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2015-10142</id_norma>
+            <relacion codigo="270">SE MODIFICA</relacion>
+            <texto>, SE AÑADE y SE RENUMERA determinados preceptos, por Ley 33/2015, de 21 de septiembre</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2013-13432</id_norma>
+            <relacion codigo="270">SE MODIFICA</relacion>
+            <texto>los anexos I, II y V, por Real Decreto 1015/2013, de 20 de diciembre</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2013-12913</id_norma>
+            <relacion codigo="270">SE MODIFICA</relacion>
+            <texto>los arts. 76 y 77 y SE AÑADE el art. 80, por Ley 21/2013, de 9 de diciembre</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2012-15337</id_norma>
+            <relacion codigo="270">SE MODIFICA</relacion>
+            <texto>los arts. 28, 45 y la disposición adicional 8, por Ley 11/2012, de 19 de diciembre</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2012-5989</id_norma>
+            <relacion codigo="270">SE MODIFICA</relacion>
+            <texto>los arts. 28.2, 45.1.a) y la disposición final 8, por Real Decreto-ley 17/2012, de 4 de mayo</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2011-11641</id_norma>
+            <relacion codigo="270">SE MODIFICA</relacion>
+            <texto>el art. 22.2, por Real Decreto-ley 8/2011, de 1 de julio</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2009-20725</id_norma>
+            <relacion codigo="270">SE MODIFICA</relacion>
+            <texto>los arts. 58 y 72, por Ley 25/2009, de 22 de diciembre</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2008-2323</id_norma>
+            <relacion codigo="201">CORRECCIÓN de errores</relacion>
+            <texto>en BOE num. 36 de 11 de febrero de 2008</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2017-2743</id_norma>
+            <relacion codigo="490">SE DESARROLLA</relacion>
+            <texto>los artículos 71, 72, 74, 80 y 81, por Real Decreto 124/2017, de 24 de febrero</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2026-5877</id_norma>
+            <relacion codigo="440">SE DICTA DE CONFORMIDAD</relacion>
+            <texto>con el art. 6, para la conservación de praderas de fanerógamas marinas en aguas marinas del Mediterráneo español: Real Decreto 191/2026, de 11 de marzo</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2025-15425</id_norma>
+            <relacion codigo="440">SE DICTA DE CONFORMIDAD</relacion>
+            <texto>se declaran diez zonas especiales de conservación, se aprueban sus medidas de conservación y las de siete zonas de especial protección para las aves, y se propone la modificación de los límites geográficos de doce espacios protegidos de la Red Natura 2000 en la Región Marina Mediterránea, por Real Decreto 531/2025, de 24 de junio</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2022-23751</id_norma>
+            <relacion codigo="440">SE DICTA DE CONFORMIDAD</relacion>
+            <texto>y se aprueba el Plan estratégico del patrimonio natural y de la biodiversidad a 2030: Real Decreto 1057/2022, de 27 de diciembre</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2021-11614</id_norma>
+            <relacion codigo="440">SE DICTA DE CONFORMIDAD</relacion>
+            <texto>con el art. 15, y establece la Estrategia Nacional de Infraestructura Verde y de la Conectividad y Restauración Ecológicas: Orden PCM/735/2021, de 9 de julio</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2020-7277</id_norma>
+            <relacion codigo="440">SE DICTA DE CONFORMIDAD</relacion>
+            <texto>con el art. 54, y establece el procediiento de autorización para especies alóctonas: Real Decreto 570/2020, de 16 de junio</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2014-7576</id_norma>
+            <relacion codigo="440">SE DICTA DE CONFORMIDAD</relacion>
+            <texto>y declara 39 espacios como zonas de especial protección para las aves (ZEPA): Orden AAA/1260/2014, de 9 de julio</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2013-12568</id_norma>
+            <relacion codigo="440">SE DICTA DE CONFORMIDAD</relacion>
+            <texto>con el art. 45 y se establece el procedimiento de comuniación a la Comisión Europea de medidas compensatorias para la Red Natura 2000: Orden AAA/2231/2013, de 25 de noviembre</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2013-12567</id_norma>
+            <relacion codigo="440">SE DICTA DE CONFORMIDAD</relacion>
+            <texto>y se regula el procedimiento de comunicación oficial sobre espacios de la Red Natura 2000 entre Europa, Estado y Autonomías: Orden AAA/2230/2013, de 25 de noviembre</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2011-19398</id_norma>
+            <relacion codigo="440">SE DICTA DE CONFORMIDAD</relacion>
+            <texto>regulando el listado y catálogo de especies exóticas invasoras: Real Decreto 1628/2011, de 14 de noviembre</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2011-19209</id_norma>
+            <relacion codigo="440">SE DICTA DE CONFORMIDAD</relacion>
+            <texto>y se establecen los criterios de integración de los espacios marinos protegidos en la Red de Áreas Marinas Protegidas de España, por Real Decreto 1599/2011, de 4 de noviembre</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2011-15363</id_norma>
+            <relacion codigo="440">SE DICTA DE CONFORMIDAD</relacion>
+            <texto>publicando el Plan estratégico del patrimonio natural: Real Decreto 1274/2011, de 16 de septiembre</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2011-3582</id_norma>
+            <relacion codigo="440">SE DICTA DE CONFORMIDAD</relacion>
+            <texto>sobre el desarrollo del listado de especies silvestres protegidas y el Catálogo Español de Especies Amenazadas: Real Decreto 139/2011, de 4 de febrero</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2009-10221</id_norma>
+            <relacion codigo="440">SE DICTA DE CONFORMIDAD</relacion>
+            <texto>, regulando la composición, las funciones y las normas de funcionamiento del Consejo Estatal para el Patrimonio Natural y la Biodiversidad: Real Decreto 948/2009, de 5 de junio</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2008-14914</id_norma>
+            <relacion codigo="440">SE DICTA DE CONFORMIDAD</relacion>
+            <texto>, estableciendo medidas para la protección de la avifauna contra la colisión y la electrocución en líneas eléctricas de alta tensión: Real Decreto 1432/2008, de 29 de agosto</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2008-14855</id_norma>
+            <relacion codigo="440">SE DICTA DE CONFORMIDAD</relacion>
+            <texto>con el art. 7.2, sobre composición y funcionamiento de la Comisión Estatal para el Patrimonio Natural y la Biodiversidad: Real Decreto 1424/2008, de 14 de agosto</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2008-4210</id_norma>
+            <relacion codigo="440">SE DICTA DE CONFORMIDAD</relacion>
+            <texto>, estableciendo medidas de carácter técnico en líneas eléctricas para proteger la avifauna: Real Decreto 263/2008, de 22 de febrero</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2008-516</id_norma>
+            <relacion codigo="440">SE DICTA DE CONFORMIDAD</relacion>
+            <texto>, estableciendo medidas de protección de los cetáceos: Real Decreto 1727/2007, de 21 de diciembre</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2010-20050</id_norma>
+            <relacion codigo="331">SE DICTA EN RELACIÓN</relacion>
+            <texto>, sobre protección del medio marino: Ley 41/2010, de 29 de diciembre</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2013-7214</id_norma>
+            <relacion codigo="470">SE DECLARA</relacion>
+            <texto>en el Recurso 2155/2008,  la constitucionalidad del art. 66.2 en los términos del fj 11 y la DESESTIMACIÓN de todo lo demás, por Sentencia 138/2013, de 6 de junio</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2013-4907</id_norma>
+            <relacion codigo="470">SE DECLARA</relacion>
+            <texto>la desestimación del Recurso 6868/2008, en relación con el art. 36.1, por Sentencia 87/2013, de 11 de abril</texto>
+          </posterior>
+          <posterior>
+            <id_norma>BOE-A-2013-3805</id_norma>
+            <relacion codigo="470">SE DECLARA</relacion>
+            <texto>en el Recurso 2124/2008,  la desestimación y la constitucionalidad del art. 66.2 entendido en los términos del fj 7, por Sentencia 69/2013, de 14 de marzo</texto>
+          </posterior>
+        </posteriores>
+      </referencias>
+    </analisis>
+  </data>
+</response>
