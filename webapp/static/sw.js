@@ -19,7 +19,7 @@ var SHELL_URLS = [
   "/", "/index.html", "/style.css", "/app.js", "/store.js",
   "/modules/dom.js", "/modules/state.js",
   "/modules/api-legal.js", "/modules/api-cartography.js",
-  "/modules/place.js", "/modules/saved.js",
+  "/modules/place.js", "/modules/legal.js", "/modules/saved.js",
   "/modules/weather.js",
   "/modules/connectivity.js",
   "/modules/search.js",

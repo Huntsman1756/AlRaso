@@ -610,6 +610,7 @@ STATIC_FILES = {
     "/modules/api-legal.js": ("modules/api-legal.js", "text/javascript; charset=utf-8"),
     "/modules/api-cartography.js": ("modules/api-cartography.js", "text/javascript; charset=utf-8"),
     "/modules/place.js": ("modules/place.js", "text/javascript; charset=utf-8"),
+    "/modules/legal.js": ("modules/legal.js", "text/javascript; charset=utf-8"),
     "/modules/saved.js": ("modules/saved.js", "text/javascript; charset=utf-8"),
     "/modules/weather.js": ("modules/weather.js", "text/javascript; charset=utf-8"),
     "/modules/connectivity.js": ("modules/connectivity.js", "text/javascript; charset=utf-8"),

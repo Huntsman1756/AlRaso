@@ -73,7 +73,7 @@ const frontendResponsibilities = [
   { label: 'bottom sheet', markers: ['SHEET_STATES', 'setSheetState', 'sheet-handle'] },
   { label: 'geolocation', markers: ['navigator.geolocation', 'initGeo'] },
   { label: 'search/suggestions', markers: ['initSuggest', 'searchform', '/api/find'] },
-  { label: 'legal resolve rendering', markers: ['async function refresh', 'primaryLegalLabel', 'render(d)'] },
+  { label: 'legal resolve rendering', markers: ['createLegalController', './modules/legal.js'] },
   { label: 'favorites', markers: ['saved.renderFavorites', './modules/saved.js'] },
   { label: 'outings', markers: ['saved.renderOutings', './modules/saved.js'] },
   { label: 'connectivity/PWA', markers: ['createConnectivityController', './modules/connectivity.js'] },

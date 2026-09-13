@@ -26,6 +26,7 @@ def _read(path):
 HTML = _read("webapp/static/index.html")
 JS = _read("webapp/static/app.js")
 API_LEGAL_JS = _read("webapp/static/modules/api-legal.js")
+LEGAL_JS = _read("webapp/static/modules/legal.js")
 PLACE_JS = _read("webapp/static/modules/place.js")
 SAVED_JS = _read("webapp/static/modules/saved.js")
 SEARCH_JS = _read("webapp/static/modules/search.js")
@@ -258,9 +259,9 @@ class TestU5PlaceCard:
 
     def test_act_labels_used_in_coords(self):
         """ACT_LABELS[d.query.activity] should appear in the coords line."""
-        assert "ACT_LABELS" in JS
+        assert "ACT_LABELS" in LEGAL_JS
         # The coords line should reference ACT_LABELS
-        assert "ACT_LABELS[" in JS
+        assert "ACT_LABELS[" in LEGAL_JS
 
     def test_place_name_larger_than_legal_result(self):
         # M4 R4: the place name must dominate the card, legal answer stays
@@ -481,10 +482,10 @@ class TestHooksSurvive:
         assert "lg-protected" in HTML, "M8.1: #lg-protected toggle must exist"
 
     def test_legal_emoji_map(self):
-        assert chr(0x2705) in JS  # ✅
-        assert chr(0x26D4) in JS  # ⛔
-        assert chr(0x1F7E0) in JS  # 🟠
-        assert chr(0x26A0) in JS  # ⚠️
+        assert chr(0x2705) in LEGAL_JS  # ✅
+        assert chr(0x26D4) in LEGAL_JS  # ⛔
+        assert chr(0x1F7E0) in LEGAL_JS  # 🟠
+        assert chr(0x26A0) in LEGAL_JS  # ⚠️
 
     def test_geo_btn_in_html(self):
         assert 'id="geo-btn"' in HTML
@@ -705,12 +706,12 @@ class TestM4ProductUsability:
         # wins the render even when it does NOT match the current form state, so an
         # earlier facts-incomplete response could overwrite PERMITTED with
         # UNDETERMINED. refresh() must mirror the established loadWeather guard.
-        assert "var resolveRequestId = 0;" in JS
+        assert "var resolveRequestId = 0;" in LEGAL_JS
 
-        start = JS.find("async function refresh")
-        end = JS.find('$("date").valueAsDate', start)
+        start = LEGAL_JS.find("async function refresh")
+        end = LEGAL_JS.find("function render(", start)
         assert start != -1 and end != -1 and start < end
-        block = JS[start:end]
+        block = LEGAL_JS[start:end]
 
         # The generation is bumped and captured before the fetch is issued...
         assert "resolveRequestId += 1;" in block

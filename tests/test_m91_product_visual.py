@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CSS = (ROOT / "webapp/static/style.css").read_text(encoding="utf-8")
 HTML = (ROOT / "webapp/static/index.html").read_text(encoding="utf-8")
 APP = (ROOT / "webapp/static/app.js").read_text(encoding="utf-8")
+LEGAL = (ROOT / "webapp/static/modules/legal.js").read_text(encoding="utf-8")
 PLACE = (ROOT / "webapp/static/modules/place.js").read_text(encoding="utf-8")
 WEATHER = (ROOT / "webapp/static/modules/weather.js").read_text(encoding="utf-8")
 ICON_ROOT = ROOT / "webapp/static/icons/outline"
@@ -73,10 +74,10 @@ def test_m91_place_identity_has_a_semantic_heading_hook():
 
 
 def test_m91_reason_copy_has_explicit_spatial_and_publishability_paths():
-    assert "NO_PUBLISHABLE_RULE_COVERAGE" in APP
-    assert "NO_APPLICABLE_SCOPE" in APP
-    assert "La zona está delimitada, pero falta una condición verificable" in APP
-    assert "Tenemos normativa de la zona, pero la comprobación espacial" in APP
+    assert "NO_PUBLISHABLE_RULE_COVERAGE" in LEGAL
+    assert "NO_APPLICABLE_SCOPE" in LEGAL
+    assert "La zona está delimitada, pero falta una condición verificable" in LEGAL
+    assert "Tenemos normativa de la zona, pero la comprobación espacial" in LEGAL
 
 
 def test_m91_place_heading_is_rendered_from_existing_selection_state():

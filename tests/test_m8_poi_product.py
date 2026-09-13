@@ -17,6 +17,7 @@ sys.path.insert(0, str(ROOT / "webapp"))
 
 INDEX_HTML = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
 APP_JS = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
+LEGAL_JS = (ROOT / "webapp/static/modules/legal.js").read_text(encoding="utf-8")
 MAP_JS = (ROOT / "webapp/static/modules/map.js").read_text(encoding="utf-8")
 WEATHER_JS = (ROOT / "webapp/static/modules/weather.js").read_text(encoding="utf-8")
 PLACE_JS = (ROOT / "webapp/static/modules/place.js").read_text(encoding="utf-8")
@@ -59,12 +60,12 @@ def test_cta_passes_coordinates_only():
         "app callback must preserve the existing coordinates-only selection path"
 
     # factsFromForm reads only #factbox inputs — assert its body is unchanged:
-    assert "document.querySelectorAll" in APP_JS, \
-        "factsFromForm must use querySelectorAll"
+    assert "form.factbox.querySelectorAll" in LEGAL_JS, \
+        "factsFromForm must read the injected factbox"
     # Find the factsFromForm function body and verify it targets #factbox:
-    facts_pos = APP_JS.find("function factsFromForm()")
+    facts_pos = LEGAL_JS.find("function factsFromForm()")
     assert facts_pos >= 0, "factsFromForm function must exist"
-    facts_block = APP_JS[facts_pos:facts_pos + 500]
+    facts_block = LEGAL_JS[facts_pos:facts_pos + 500]
     assert "factbox" in facts_block, \
         "factsFromForm must still query #factbox inputs only"
 
@@ -93,7 +94,7 @@ def test_poi_alt_never_becomes_cota_m():
     # state.poiAlt must not appear in factsFromForm or the resolve query builder.
     # Extract factsFromForm body:
     facts_match = re.search(
-        r"function factsFromForm\(\)\s*\{([\s\S]*?)\n\}", APP_JS
+        r"function factsFromForm\(\)\s*\{([\s\S]*?)\n  \}", LEGAL_JS
     )
     assert facts_match, "factsFromForm function must exist"
     facts_body = facts_match.group(1)
@@ -102,18 +103,18 @@ def test_poi_alt_never_becomes_cota_m():
     # 'observación OSM' must not appear in the render() function (legal card path).
     # Extract the render function:
     render_match = re.search(
-        r"function render\s*\([^\)]*\)\s*\{", APP_JS
+        r"function render\s*\([^\)]*\)\s*\{", LEGAL_JS
     )
     assert render_match, "render() function must exist"
     # Find the altitude-line section within render.
     # The old code had: "Altitud: " + state.poiAlt + " m (observación OSM)"
-    assert "observación OSM" not in APP_JS, (
-        "'observación OSM' must not appear anywhere in app.js after POI-alt removal")
+    assert "observación OSM" not in LEGAL_JS, (
+        "'observación OSM' must not appear anywhere in legal.js after POI-alt removal")
 
     # state.poiAlt must not appear in the altitude-line branch of render().
     # Extract the altitude section from render:
     altitude_section = re.search(
-        r"altitude-line[\s\S]*?(?=\n  //|function |_const )", APP_JS
+        r"altitude-line[\s\S]*?(?=\n  //|function |_const )", LEGAL_JS
     )
     if altitude_section:
         assert "state.poiAlt" not in altitude_section.group(), (
@@ -249,23 +250,23 @@ def test_m82_primary_answer_is_compact_and_detail_is_progressive_disclosure():
 
 
 def test_m82_unknown_answer_copy_is_single_and_user_facing():
-    assert 'UNDETERMINED: "No lo podemos determinar"' in APP_JS
-    assert "Aún no tenemos normativa verificada para este punto." in APP_JS
-    assert 'return "Aún no tenemos normativa verificada para este punto.";' in APP_JS
-    assert "NO_APPLICABLE_SCOPE" in APP_JS
-    assert "NO_PUBLISHABLE_RULE_COVERAGE" in APP_JS
-    assert '"Cobertura normativa del punto: ninguna"' in APP_JS
-    assert 'No hay fuentes normativas vinculadas a este punto.' in APP_JS
+    assert 'UNDETERMINED: "No lo podemos determinar"' in LEGAL_JS
+    assert "Aún no tenemos normativa verificada para este punto." in LEGAL_JS
+    assert 'return "Aún no tenemos normativa verificada para este punto.";' in LEGAL_JS
+    assert "NO_APPLICABLE_SCOPE" in LEGAL_JS
+    assert "NO_PUBLISHABLE_RULE_COVERAGE" in LEGAL_JS
+    assert '"Cobertura normativa del punto: ninguna"' in LEGAL_JS
+    assert 'No hay fuentes normativas vinculadas a este punto.' in LEGAL_JS
 
-    assert "Ninguna norma del corpus de AlRaso llega a este punto" not in APP_JS
-    assert "AlRaso no tiene corpus aquí y por eso no puede afirmar nada" not in APP_JS
+    assert "Ninguna norma del corpus de AlRaso llega a este punto" not in LEGAL_JS
+    assert "AlRaso no tiene corpus aquí y por eso no puede afirmar nada" not in LEGAL_JS
 
 
 def test_m82_port_does_not_restore_poi_altitude_as_legal_altitude():
-    start = APP_JS.find("function render(d)")
+    start = LEGAL_JS.find("function render(d)")
     assert start != -1
-    end = APP_JS.find("\nfunction ", start + 1)
-    render = APP_JS[start:] if end == -1 else APP_JS[start:end]
+    end = LEGAL_JS.find("\n  function ", start + 1)
+    render = LEGAL_JS[start:] if end == -1 else LEGAL_JS[start:end]
     assert "state.poiAlt" not in render
     assert "d.dem" in render
 

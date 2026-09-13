@@ -34,7 +34,7 @@ def test_new_static_assets_registered_and_safe():
     assert "/" in sf
     assert "/app.js" in sf
     assert "/style.css" in sf
-    for module in ("/modules/place.js", "/modules/saved.js", "/modules/connectivity.js", "/modules/search.js", "/modules/map.js"):
+    for module in ("/modules/place.js", "/modules/legal.js", "/modules/saved.js", "/modules/connectivity.js", "/modules/search.js", "/modules/map.js"):
         assert module in sf
         assert sf[module][1].startswith("text/javascript")
     # No path traversal
@@ -170,7 +170,7 @@ def test_geolocation_error_ui_states():
 
 def test_legal_result_mapping_and_not_color_only():
     html = _read("webapp/static/index.html")
-    js = _read("webapp/static/app.js")
+    js = _read("webapp/static/modules/legal.js")
 
     assert "¿Puedo hacer vivac aquí?" in html
 
@@ -408,7 +408,7 @@ def test_chooser_modal_accessibility():
 # ══════════════════════════════════════════════
 
 def test_legal_result_styling_not_color_only():
-    js = _read("webapp/static/app.js")
+    js = _read("webapp/static/modules/legal.js")
     assert "borderLeftColor" in js or "border-left-color" in js
 
 

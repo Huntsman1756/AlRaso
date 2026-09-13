@@ -25,6 +25,7 @@ sys.path.insert(0, str(ROOT / "webapp"))
 import server  # noqa: E402
 
 APP = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
+LEGAL_JS = (ROOT / "webapp" / "static" / "modules" / "legal.js").read_text(encoding="utf-8")
 WEATHER_JS = (ROOT / "webapp" / "static" / "modules" / "weather.js").read_text(encoding="utf-8")
 HTML = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
 CSS = (ROOT / "webapp" / "static" / "style.css").read_text(encoding="utf-8")
@@ -76,9 +77,9 @@ class TestWeatherFetchModel:
     def test_one_request_per_selection_not_per_refresh(self):
         assert "weather.load(lat, lon);" in APP
         # selectPoint flow calls it; refresh() must not
-        refresh_start = APP.find("function refresh(")
+        refresh_start = LEGAL_JS.find("function refresh(")
         assert refresh_start != -1
-        refresh_body = APP[refresh_start:APP.find("\nfunction ", refresh_start + 10)]
+        refresh_body = LEGAL_JS[refresh_start:LEGAL_JS.find("\n  function ", refresh_start + 10)]
         assert "weather.load" not in refresh_body, \
             "weather must not be re-fetched on facts/activity changes"
         select_start = APP.find("function selectPoint(")
