@@ -1,0 +1,205 @@
+{
+  "schema": "alraso.g0.source-matrix/v1",
+  "generated": "2026-09-13",
+  "baseline": "f15b62c0ffb05779fca6710a71dad4c9d831f8a5",
+  "scope": "SPAIN_COVERAGE_G0 discovery only — no production ingestion, no PERMITTED, no corpus publication",
+  "probed_at": "2026-09-13",
+  "sources": [
+    {
+      "id": "miteco-enp",
+      "name": "MITECO — Espacios Naturales Protegidos (ENP_ES)",
+      "publisher": "MITECO / Banco de Datos de la Naturaleza",
+      "authority_role": "national_inventory + administrative_geometry",
+      "legal_status": "administrative compilation of figures declared by state and autonomous authorities; NOT itself the legal scope for an activity",
+      "coverage": "national (all ENP figures: PN, PNat, Reservas, etc.)",
+      "access": {
+        "download": "https://gis.miteco.gob.es/descargas/app/DescargaFichero?f=enp.zip | gml_enp.zip — GATED by ALTCHA proof-of-work + ASP.NET form token (verified 2026-09-13; HTML gate page saved as evidence)",
+        "wms": "https://wms.mapama.gob.es/sig/Biodiversidad/ENP/wms.aspx — FRAGILE (GetCapabilities returned ASP.NET NullReferenceException on probe)",
+        "atom": "https://www.mapama.gob.es/ide/inspire/atom/downloadservice.xml — service-level feed; dataset feeds via OpenSearch; license clause: free reuse with attribution",
+        "catalog": "https://www.miteco.gob.es/es/cartografia-y-sig/ide/descargas/biodiversidad/enp.html"
+      },
+      "formats": ["SHP", "GML (INSPIRE)"],
+      "identifiers": "ENP codes observed in CCAA WFS (e.g. codeara=ENP101, zonecode=ENP101_025 in Aragón); ENP dataset code field NOT_VERIFIED (download gated)",
+      "update_frequency": "annual review per MITECO page (Dec-2025 update reported); ATOM service updated 2026-08-20",
+      "license": "free reuse with attribution (ATOM rights clause); CC-BY 4.0 compatible per datos.gob.es",
+      "change_detection": "ATOM <updated> + periodic re-download + sha256; no per-feature versioning observed",
+      "classification": "official_administrative_source",
+      "legal_scope_verdict": "INSUFFICIENT_ALONE — inventory + geometry for discovery; the binding scope comes from each space's PRUG/norm"
+    },
+    {
+      "id": "miteco-rn2000",
+      "name": "MITECO — Red Natura 2000 (LIC/ZEC/ZEPA)",
+      "publisher": "MITECO",
+      "authority_role": "national_inventory + administrative_geometry",
+      "legal_status": "LIC data becomes official only once biogeographical lists are approved by the EC; ZEC/ZEPA designation acts are autonomous/state norms",
+      "access": {
+        "download": "https://www.mapama.gob.es/app/descargas/descargafichero.aspx?f=rn2000.zip | gml_natura2000.zip (same download infra; gating NOT_VERIFIED for these paths)",
+        "wms": "https://wms.mapama.gob.es/sig/Biodiversidad/RedNatura",
+        "catalog": "https://www.miteco.gob.es/es/cartografia-y-sig/ide/descargas/biodiversidad/rn2000.html"
+      },
+      "formats": ["SHP", "GeoJSON", "GML", "KMZ"],
+      "update_frequency": "per EC submission cycles (Dec-2024 basis reported)",
+      "classification": "official_administrative_source",
+      "legal_scope_verdict": "INSUFFICIENT_ALONE — RN2000 membership ≠ activity scope; must combine with ENP figure + PRUG"
+    },
+    {
+      "id": "oapn-geoserver",
+      "name": "OAPN GeoServer — Red de Parques Nacionales",
+      "publisher": "Organismo Autónomo Parques Nacionales",
+      "authority_role": "administrative_inventory + zoning + legal_citation_pointer",
+      "legal_status": "administrative cartography; each zone feature carries a Normativa citation field — discovery pointer, not the legal instrument itself",
+      "coverage": "national park network only (17 parks) — NOT all ENP",
+      "access": {
+        "wfs": "https://sigred.oapn.es/geoserverOAPN/ows — WFS 2.0.0 VERIFIED (GetCapabilities 200, 133 KB, 2026-09-13)",
+        "key_layers": [
+          "LimitesParquesNacionalesZPP:view_red_oapn_limite_pn (17 features; Nombre, Fecha Declaración, Declaración=<law citation>, Superficie oficial, Web)",
+          "LimitesParquesNacionalesZPP:view_red_oapn_zpp",
+          "ZonificacionPRUG:view_zon_zonificacion_prug (1.915 features; Nombre Parque, Zona, Subzona PRUG, Normativa citation, Superficie ha)",
+          "AreasInfluenciaSocioeconomica:view_red_oapn_influencia_socioeconomica",
+          "UsoPublico:view_vis_oapn_itinerarios, view_vis_oapn_instalaciones_up"
+        ]
+      },
+      "formats": ["GeoJSON via WFS"],
+      "identifiers": "NO machine ID — park identity = name string (gap)",
+      "change_detection": "none observed → snapshot sha256 digest recommended",
+      "classification": "official_administrative_source (pointer role for norms)",
+      "legal_scope_verdict": "INSUFFICIENT_ALONE — zoning + citations are administrative; each cited norm must be fetched from its gazette"
+    },
+    {
+      "id": "cnig-idee",
+      "name": "CNIG/IGN — IDEE node",
+      "publisher": "Instituto Geográfico Nacional",
+      "authority_role": "control_infrastructure",
+      "legal_status": "base cartography (MTN, MDT, administrative boundaries BTN); infrastructure, not ENP legal scope",
+      "access": {
+        "downloads": "https://centrodedescargas.cnig.es (200 verified)",
+        "atom": "https://atom.cnig.es — timed out on probe (000) — record as UNREACHABLE during G0"
+      },
+      "classification": "control_validation_source",
+      "legal_scope_verdict": "NEVER legal scope — used for jurisdiction/control boundaries (cf. GISCO ES12/ES13/ES41 role in M2A)"
+    },
+    {
+      "id": "boe",
+      "name": "BOE — API datos abiertos (legislación consolidada + sumarios + ELI)",
+      "publisher": "Agencia Estatal BOE",
+      "authority_role": "authoritative_legal_source (state scope + CCAA norms republished in BOE)",
+      "api_doc": "evidence: boe-api-consolidada-doc.pdf (official, 2025-09-02)",
+      "endpoints_verified": {
+        "list": "GET /datosabiertos/api/legislacion-consolidada — params offset/limit/from/to(AAAAMMDD on fecha_actualizacion)/query(query_string JSON: numero_oficial, titulo, ambito@codigo, departamento@codigo, rango@codigo, materia@codigo, texto, ranges, sort) — VERIFIED",
+        "norm": "GET .../id/{id} | /metadatos | /analisis | /metadata-eli | /texto | /texto/indice | /texto/bloque/{id_bloque} — VERIFIED (Ley 42/2007)",
+        "sumario": "GET /datosabiertos/api/boe/sumario/{AAAAMMDD} — VERIFIED 200 application/xml",
+        "formats": "XML + JSON via Accept header; consolidated PDF available"
+      },
+      "fields_verified": "identificador, titulo, fecha_publicacion, fecha_vigencia, fecha_actualizacion (ISO datetime), estatus_derogacion, estatus_anulacion, vigencia_agotada, estado_consolidacion(codigo+texto), ambito(1=Estatal,2=Autonómico), departamento, rango, url_eli, url_html_consolidada; per-block fecha_actualizacion in texto/indice",
+      "coverage_gap_verified": "PRUG decrees NOT in consolidated corpus — queries for numero_oficial 238/2011 (Sierra Nevada), 49/2015 (Ordesa), 17/2025 (Picos-CyL), 21/2026 (Picos-Ast), 57/2026 (Picos-Cant), 182/2025 (Teide) returned 0 hits or unrelated state norms; park DECLARATION laws ARE present (Ley 1/2007 Monfragüe=BOE-A-2007-4461, Ley 3/1999 Sierra Nevada=BOE-A-1999-782)",
+      "change_detection": "STRONG — fecha_actualizacion range queries corpus-wide + per-block fecha_actualizacion in texto/indice",
+      "soft404": "ELI resolver returns HTTP 200 with 'Error 404' page for missing autonomous ELIs (verified es-cl Decreto 17/2025) — probe by content, not status",
+      "classification": "authoritative_legal_source",
+      "legal_scope_verdict": "SUFFICIENT for state framework + park declaration laws; INSUFFICIENT for PRUG/activity rules (autonomous gazette required)"
+    },
+    {
+      "id": "boa-aragon",
+      "name": "BOA — Boletín Oficial de Aragón",
+      "authority_role": "authoritative_legal_source (Aragón)",
+      "access": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?BASE=BOLE&CMD=VERDOC&DOCN=007922169 — VERIFIED 200 text/plain; charset=ISO-8859-1 (legacy CGI, DOCN identifiers)",
+      "formats": ["text/html-plain", "PDF via same CGI"],
+      "consolidation": "Aragón consolidated-legislation portal exists; API NOT_VERIFIED",
+      "change_detection": "WEAK-MEDIUM — daily bulletin + document polling; no machine feed verified",
+      "classification": "authoritative_legal_source",
+      "probe": "Decreto 16/2022 (Ordesa PRUG amendment) retrieved; extract in evidence/m11c-goriz"
+    },
+    {
+      "id": "boja-andalucia",
+      "name": "BOJA — Boletín Oficial de la Junta de Andalucía",
+      "authority_role": "authoritative_legal_source (Andalucía)",
+      "access": "https://www.juntadeandalucia.es/boja/{year}/{issue}/{doc} — VERIFIED 200 text/html; charset=UTF-8",
+      "consolidation": "sedeboja textos-consolidados portal (Liferay portlet, resumen-ficha endpoint observed for Decreto 238/2011) — exists but portlet-style, no clean API verified",
+      "formats": ["HTML", "PDF (fascículos)"],
+      "change_detection": "MEDIUM — consolidated portal + bulletin polling; no documented API",
+      "classification": "authoritative_legal_source",
+      "probe": "Decreto 238/2011 Sierra Nevada PRUG located in BOJA 155 (09/08/2011) + consolidated portal entry"
+    },
+    {
+      "id": "bopa-asturias",
+      "name": "BOPA — Boletín Oficial del Principado de Asturias",
+      "authority_role": "authoritative_legal_source (Asturias)",
+      "access": "https://sede.asturias.es/bopa/{YYYY}/{MM}/{DD}/{YYYY-NNNNN}.pdf — VERIFIED 200 application/pdf (Decreto 21/2026, code 2026-02506, 55.8 MB/433 pp — sha256 in m2a-picos lock)",
+      "formats": ["PDF"],
+      "change_detection": "WEAK — PDF-per-document + search UI; no consolidated service or API verified",
+      "classification": "authoritative_legal_source",
+      "probe": "Decreto 21/2026 Picos PRUG (Asturias) — verbatim extract in evidence/m2a-picos"
+    },
+    {
+      "id": "boc-cantabria",
+      "name": "BOC — Boletín Oficial de Cantabria",
+      "authority_role": "authoritative_legal_source (Cantabria)",
+      "access": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=NNNNNN — VERIFIED 200 text/html; charset=ISO-8859-1 (JSP viewer, blob IDs)",
+      "formats": ["HTML", "PDF"],
+      "change_detection": "WEAK — viewer-style access; no API verified",
+      "classification": "authoritative_legal_source",
+      "probe": "Decreto 57/2026 Picos PRUG (Cantabria) — extract in evidence/m2a-picos"
+    },
+    {
+      "id": "bocyl",
+      "name": "BOCyL — Boletín Oficial de Castilla y León",
+      "authority_role": "authoritative_legal_source (Castilla y León)",
+      "access": {
+        "api": "https://jcyl.opendatasoft.com/api/explore/v2.1/catalog/datasets/bocyl/records — VERIFIED; queryable (titulo like, no_oficial, fecha_publicacion); fields: no_edicion, fecha_publicacion, seccion, subseccion, organismo, rango, no_oficial, fecha_disposicion, titulo, pagina_inicial/final, enlace_fichero_pdf|xml|html",
+        "docs": "https://bocyl.jcyl.es/boletines/{YYYY}/{MM}/{DD}/{pdf|xml}/BOCYL-D-DDMMYYYY-N.{ext} — VERIFIED 200 application/xml for BOCYL-D-15122025-1",
+        "doc_ids": "BOCYL-D-DDMMYYYY-N (stable)"
+      },
+      "formats": ["XML (structured disposition)", "HTML", "PDF"],
+      "caveat_verified": "per-disposition XML carries decree text but long annexes (PRUG ~430 pp) are PDF/image-only — XML sufficient for metadata, annex content needs PDF path",
+      "change_detection": "STRONG — daily updated Opendatasoft dataset + stable doc URLs",
+      "classification": "authoritative_legal_source",
+      "probe": "Decreto 17/2025 Picos PRUG (CyL) — full metadata + XML retrieved via API"
+    },
+    {
+      "id": "boc-canarias",
+      "name": "BOC — Boletín Oficial de Canarias",
+      "authority_role": "authoritative_legal_source (Canarias)",
+      "access": "https://www.gobiernodecanarias.org/boc/{YYYY}/{NNN}/[pda/]{NNNN}.html — VERIFIED 200 text/html (Teide PRUG: Decreto 182/2025, BOC 240, 2025-12-03, anuncio 4148); doc IDs BOC-A-YYYY-NNN-NNNN; signed PDF linked",
+      "formats": ["HTML", "signed PDF"],
+      "soft404": "guessed doc URLs return 200 with empty/error content — verify by content",
+      "change_detection": "MEDIUM — stable doc IDs + bulletin archive; no API verified",
+      "classification": "authoritative_legal_source",
+      "probe": "Decreto 182/2025 Teide PRUG (new PRUG after 23 years; normative doc also on IDECanarias)"
+    },
+    {
+      "id": "bocm-madrid",
+      "name": "BOCM — Boletín Oficial de la Comunidad de Madrid",
+      "authority_role": "authoritative_legal_source (Madrid)",
+      "access": "https://www.bocm.es/boletin/CM_Orden_BOCM/{YYYY}/{MM}/{DD}/BOCM-YYYYMMDD-N.PDF — VERIFIED 200 application/pdf",
+      "formats": ["PDF", "HTML", "EPUB", "XML + JSON-LD per announcement since 2026-01 (reported)"],
+      "change_detection": "MEDIUM-STRONG — daily bulletin download + XML/JSON-LD formats",
+      "classification": "authoritative_legal_source"
+    },
+    {
+      "id": "dogc-catalunya",
+      "name": "DOGC + Portal Jurídic — Catalunya",
+      "authority_role": "authoritative_legal_source (Catalunya)",
+      "access": {
+        "api": "https://analisi.transparenciacatalunya.cat/resource/n6hn-rmy7.json (Socrata) — VERIFIED; queryable by title; fields: control number, title ca/es, document date, diari_oficial, issue number, publication date, vigència (Vigent/Derogada), format links",
+        "eli": "https://portaljuridic.gencat.cat/eli/es-ct/d/{YYYY}/{MM}/{DD}/{N}/dof/{lang}/{format} — VERIFIED; 302→Akoma Ntoso XML (portaldogc utilsEADOP AkomaNtoso?idNumber=...&format=xml) — LEGAL-XML STANDARD",
+        "formats": ["Akoma Ntoso XML", "HTML", "PDF", "RDF", "Turtle"]
+      },
+      "change_detection": "STRONG — Socrata dataset + vigència field + ELI versioning",
+      "classification": "authoritative_legal_source",
+      "probe": "DECRET 39/2003 Aigüestortes PRUG found, status=Vigent, ELI html+xml verified"
+    },
+    {
+      "id": "eea-cdda",
+      "name": "EEA — Nationally Designated Areas (CDDA)",
+      "authority_role": "control_validation_source",
+      "legal_status": "EU reporting compilation; secondary — authoritative copy is national",
+      "classification": "secondary_aggregation (control)",
+      "note": "fallback cross-check for ENP inventory completeness; sitecodes stable EU-wide"
+    }
+  ],
+  "cross_source_verdicts": [
+    "No single source covers inventory+geometry+norm+version: minimum chain = national inventory (MITECO/OAPN) + CCAA gazette (norm) + consolidation status (per-gazette, heterogeneous)",
+    "BOE consolidada covers state framework + park declaration laws but NOT PRUG decrees — verified empirically",
+    "Gazette heterogeneity is real: DOGC (Socrata+Akoma Ntoso+ELI) and BOCyL (Opendatasoft+per-doc XML) are API-grade; BOA/BOC-Cantabria/BOPA are document-grade; BOJA has a consolidated portal without verified API",
+    "Soft-404s observed at BOE ELI and BOC Canarias — all probes must verify content, not just status"
+  ]
+}
