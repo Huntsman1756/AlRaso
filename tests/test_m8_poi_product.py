@@ -266,4 +266,6 @@ def test_m82_port_does_not_restore_poi_altitude_as_legal_altitude():
 def test_m82_m6_and_m81_plumbing_remain_single_instance():
     assert APP_JS.count("function loadWeather(") == 1
     assert APP_JS.count("async function loadProtectedAreas(") == 1
-    assert 'fetch("/api/protected-areas")' in APP_JS
+    api_cartography = (ROOT / "webapp/static/modules/api-cartography.js").read_text(encoding="utf-8")
+    assert "fetchProtectedAreas()" in APP_JS
+    assert "'/api/protected-areas'" in api_cartography

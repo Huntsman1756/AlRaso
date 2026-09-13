@@ -352,9 +352,11 @@ def test_m2_gate_protected_area_is_osm_reference():
     assert "lg-protected" in js, "M8.1: #lg-protected toggle must exist"
     assert "pa-fill" in js and "pa-line" in js, "M8.1: PA polygon layers must exist"
     assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in js
-    assert "/api/coverage" in js
-    assert "/api/pois" in js
-    assert "/api/protected-areas" in js
+    api_legal = _read("webapp/static/modules/api-legal.js")
+    api_cartography = _read("webapp/static/modules/api-cartography.js")
+    assert "/api/coverage" in api_legal
+    assert "/api/pois" in api_cartography
+    assert "/api/protected-areas" in api_cartography
 
 
 def test_m2_gate_provider_decoupled():

@@ -25,6 +25,7 @@ def _read(path):
 
 HTML = _read("webapp/static/index.html")
 JS = _read("webapp/static/app.js")
+API_LEGAL_JS = _read("webapp/static/modules/api-legal.js")
 CSS = _read("webapp/static/style.css")
 PY = _read("webapp/server.py")
 
@@ -595,7 +596,8 @@ class TestM4ProductUsability:
         end = JS.find('$("searchform").addEventListener("submit"')
         assert start != -1 and end != -1 and start < end
         block = JS[start:end]
-        assert "/api/places" in block
+        assert "fetchPlaces()" in block
+        assert "/api/places" in API_LEGAL_JS
         assert "/api/find" not in block, "dropdown must not add a search source"
 
     def test_r3_selection_calls_selectpoint(self):

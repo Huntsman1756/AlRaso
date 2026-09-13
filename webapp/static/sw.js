@@ -18,6 +18,7 @@ var MAX_MAP_CACHE_ENTRIES = 600; // explicit operational cap for tiles
 var SHELL_URLS = [
   "/", "/index.html", "/style.css", "/app.js", "/store.js",
   "/modules/dom.js", "/modules/state.js",
+  "/modules/api-legal.js", "/modules/api-cartography.js",
   "/vendor/maplibre-gl.js", "/vendor/maplibre-gl.css",
   "/manifest.webmanifest", "/icon-192.png", "/icon-512.png"
 ];

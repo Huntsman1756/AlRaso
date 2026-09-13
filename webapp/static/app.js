@@ -1,5 +1,7 @@
 import { $, esc } from "./modules/dom.js";
 import { createAppState } from "./modules/state.js";
+import { fetchCoverage, fetchPlaces, findPlaces, resolveLegal } from "./modules/api-legal.js";
+import { fetchPois, fetchProtectedAreas } from "./modules/api-cartography.js";
 
 "use strict";
 const state = createAppState();
@@ -98,7 +100,7 @@ async function boot() {
 
   map.on("load", async () => {
     try {
-      const fc = await (await fetch("/api/coverage")).json();
+      const fc = await fetchCoverage();
       map.addSource("coverage", { type: "geojson", data: fc });
       map.addLayer({
         id: "cov-fill", type: "fill", source: "coverage",
@@ -163,7 +165,7 @@ function makePoiIconDataUrl(cat) {
 
 async function loadPois() {
   var fc;
-  try { fc = await (await fetch("/api/pois")).json(); }
+  try { fc = await fetchPois(); }
   catch (e) { console.error("pois", e); return; }
   map.addSource("pois", { type: "geojson", data: fc });
 
@@ -257,7 +259,7 @@ function validPaFeatureCollection(fc) {
 
 async function loadProtectedAreas() {
   var fc;
-  try { fc = await (await fetch("/api/protected-areas")).json(); }
+  try { fc = await fetchProtectedAreas(); }
   catch (e) { console.error("protected-areas", e); return; }
   // A failed or malformed geometry is a missing context layer, never a reason
   // to invent a polygon or let MapLibre break the rest of the map.
@@ -597,8 +599,7 @@ function openSheetForSelection() {
   ];
 
   // Fetch /api/places to use real data (no new endpoint)
-  fetch("/api/places")
-    .then(function (r) { return r.json(); })
+  fetchPlaces()
     .then(function (data) {
       // Build a lookup from the places API by id
       var placeMap = {};
@@ -621,8 +622,7 @@ function openSheetForSelection() {
             selectPoint(place.lat, place.lon, place.name, true);
           } else {
             // Fresh resolve — use /api/find to look up the zone
-            fetch("/api/find?q=" + encodeURIComponent(z.label))
-              .then(function (r) { return r.json(); })
+            findPlaces(z.label)
               .then(function (f) {
                 if (f.kind === "place" || f.kind === "coords") {
                   selectPoint(f.lat, f.lon, f.name || null, true);
@@ -907,8 +907,7 @@ if (paLegalBtn) {
   var matches = [];
   var active = -1;
 
-  fetch("/api/places")
-    .then(function (r) { return r.json(); })
+  fetchPlaces()
     .then(function (data) { places = (data.places || []).slice(); })
     .catch(function (e) { console.error("places", e); });
 
@@ -985,7 +984,7 @@ $("searchform").addEventListener("submit", async function (ev) {
   if (!q) return;
   var f;
   try {
-    f = await (await fetch("/api/find?q=" + encodeURIComponent(q))).json();
+    f = await findPlaces(q);
   } catch (e) {
     $("searchmsg").textContent = "No se pudo consultar la búsqueda.";
     return;
@@ -1079,8 +1078,7 @@ async function refresh() {
   var myId = resolveRequestId;
   resetLegalResultForPending();
   try {
-    var r = await fetch("/api/resolve?" + p.toString());
-    var d = await r.json();
+    var d = await resolveLegal(p);
     if (myId !== resolveRequestId) return; // stale response: discarded
     render(d);
   } catch (e) {

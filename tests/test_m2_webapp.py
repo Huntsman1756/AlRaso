@@ -310,7 +310,11 @@ def test_protected_area_is_osm_reference_not_legal_layer():
     assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in js
     html = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
     assert "lg-protected" in html, "hay checkbox de áreas protegidas (contexto visual)"
-    assert "/api/coverage" in js and "/api/pois" in js and "/api/protected-areas" in js
+    api_legal = (ROOT / "webapp" / "static" / "modules" / "api-legal.js").read_text(encoding="utf-8")
+    api_cartography = (ROOT / "webapp" / "static" / "modules" / "api-cartography.js").read_text(encoding="utf-8")
+    assert "/api/coverage" in api_legal
+    assert "/api/pois" in api_cartography
+    assert "/api/protected-areas" in api_cartography
 
 
 def test_find_excludes_protected_area(svc):
