@@ -22,4 +22,3 @@ test('saved controller exposes only the injected storage boundary and UI methods
     'updateStats'
   ]);
 });
-
