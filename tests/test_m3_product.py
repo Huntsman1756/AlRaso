@@ -34,7 +34,7 @@ def test_new_static_assets_registered_and_safe():
     assert "/" in sf
     assert "/app.js" in sf
     assert "/style.css" in sf
-    for module in ("/modules/place.js", "/modules/legal.js", "/modules/saved.js", "/modules/connectivity.js", "/modules/search.js", "/modules/map.js"):
+    for module in ("/modules/dom.js", "/modules/state.js", "/modules/api-legal.js", "/modules/api-cartography.js", "/modules/place.js", "/modules/legal.js", "/modules/saved.js", "/modules/weather.js", "/modules/connectivity.js", "/modules/search.js", "/modules/sheet.js", "/modules/map.js"):
         assert module in sf
         assert sf[module][1].startswith("text/javascript")
     # No path traversal
