@@ -7,6 +7,7 @@ import { createWeatherController } from "./modules/weather.js";
 import { createConnectivityController } from "./modules/connectivity.js";
 import { createSearchController } from "./modules/search.js";
 import { createMapController } from "./modules/map.js";
+import { createSheetController } from "./modules/sheet.js";
 
 "use strict";
 const state = createAppState();
@@ -121,94 +122,14 @@ async function boot() {
 }
 
 // ─────────────────────────────────────────────
-// BOTTOM SHEET (R2, mobile <=820px) — states: closed / peek / full
-// Tap/handle navigation is the REQUIRED path; a minimal Pointer Events
-// drag is a progressive enhancement. No physics, no inertia, no library.
-// ─────────────────────────────────────────────
-var SHEET_STATES = ["closed", "peek", "full"];
-var sheetState = "closed";
-
-function isMobileLayout() {
-  return window.matchMedia("(max-width: 820px)").matches;
-}
-
-function setSheetState(next) {
-  if (!isMobileLayout() || SHEET_STATES.indexOf(next) === -1) return;
-  sheetState = next;
-  var card = $("card");
-  SHEET_STATES.forEach(function (s) { card.classList.toggle("sheet-" + s, s === next); });
-  var handle = $("sheet-handle");
-  if (handle) {
-    handle.setAttribute("aria-expanded", next === "closed" ? "false" : "true");
-    handle.setAttribute("aria-label", next === "full" ? "Recoger la ficha" : "Desplegar la ficha");
+// BOTTOM SHEET (R2, mobile <=820px) — the controller owns state, pointer input,
+// Escape arbitration and accessibility attributes. Map resize is injected.
+const sheet = createSheetController({
+  onLayoutChange: function () {
+    var mapHandle = mapController.handle();
+    if (mapHandle) setTimeout(function () { mapHandle.resize(); }, 60);
   }
-  // MapLibre may need a resize pass after the layout settles (grey/misaligned canvas guard)
-  var mapHandle = mapController.handle();
-  if (mapHandle) setTimeout(function () { mapHandle.resize(); }, 60);
-}
-
-function openSheetForSelection() {
-  if (!isMobileLayout()) return;
-  if (sheetState === "closed") setSheetState("peek");
-}
-
-(function initSheet() {
-  var card = $("card");
-  var handle = $("sheet-handle");
-  if (!card || !handle) return;
-
-  handle.addEventListener("click", function () {
-    // Explicit cycle: closed -> peek -> full -> closed (drag never required)
-    var i = SHEET_STATES.indexOf(sheetState);
-    setSheetState(SHEET_STATES[(i + 1) % SHEET_STATES.length]);
-  });
-
-  // OPTIONAL drag: simple vertical delta with fixed snap thresholds.
-  var dragStartY = null, dragDelta = 0;
-  handle.addEventListener("pointerdown", function (ev) {
-    if (!isMobileLayout()) return;
-    dragStartY = ev.clientY;
-    dragDelta = 0;
-    card.style.transition = "none";
-    handle.setPointerCapture(ev.pointerId);
-  });
-  handle.addEventListener("pointermove", function (ev) {
-    if (dragStartY === null) return;
-    dragDelta = ev.clientY - dragStartY;
-    var sheetPeekHeight = parseFloat(getComputedStyle(card).getPropertyValue("--sheet-peek-height")) || 440;
-    var base = sheetState === "full" ? 0
-      : sheetState === "peek" ? card.offsetHeight - sheetPeekHeight : card.offsetHeight - 44;
-    card.style.transform = "translateY(" + Math.max(0, base + dragDelta) + "px)";
-  });
-  function endDrag() {
-    if (dragStartY === null) return;
-    card.style.transition = "";
-    card.style.transform = "";
-    dragStartY = null;
-    var order = { closed: 0, peek: 1, full: 2 };
-    var i = order[sheetState];
-    if (dragDelta > 60 && i > 0) setSheetState(SHEET_STATES[i - 1]);
-    else if (dragDelta < -60 && i < SHEET_STATES.length - 1) setSheetState(SHEET_STATES[i + 1]);
-    else setSheetState(sheetState); // snap back
-    dragDelta = 0;
-  }
-  handle.addEventListener("pointerup", endDrag);
-  handle.addEventListener("pointercancel", endDrag);
-
-  // Escape closes things one level at a time: dropdown -> layers panel -> sheet
-  document.addEventListener("keydown", function (ev) {
-    if (ev.key !== "Escape" || ev.defaultPrevented) return;
-    var suggest = $("suggest");
-    if (suggest && !suggest.hidden) return; // dropdown owns this Escape
-    var layersPanel = $("layers-panel");
-    if (layersPanel && !layersPanel.hasAttribute("hidden")) return; // layers owns this Escape
-    if (!isMobileLayout()) return;
-    var focusInsideSheet = document.activeElement && card.contains(document.activeElement);
-    if (sheetState === "full") setSheetState("peek");
-    else if (sheetState === "peek") setSheetState("closed");
-    if (focusInsideSheet) handle.focus({ preventScroll: true });
-  });
-})();
+});
 
 // Search, suggestions and onboarding CTA: initialize before the remaining
 // synchronous controls, matching the original end-of-body order.
@@ -303,7 +224,7 @@ function selectPoint(lat, lon, name, fly, preserveContext) {
     }
     if (fly) {
       var camera = { center: ll, zoom: Math.max(map.getZoom(), 10) };
-      if (isMobileLayout()) {
+      if (window.matchMedia("(max-width: 820px)").matches) {
         var sheet = $("card");
         var peekHeight = sheet
           ? parseFloat(getComputedStyle(sheet).getPropertyValue("--sheet-peek-height"))
@@ -342,7 +263,7 @@ function selectPoint(lat, lon, name, fly, preserveContext) {
   // live region elsewhere.
   $("searchmsg").textContent = "";
   document.body.classList.toggle("has-selection", state.lat !== null);
-  openSheetForSelection();
+  sheet.openSheetForSelection();
   weather.load(lat, lon);
   legal.refresh();
 }

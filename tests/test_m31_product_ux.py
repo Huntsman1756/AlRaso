@@ -31,6 +31,7 @@ PLACE_JS = _read("webapp/static/modules/place.js")
 SAVED_JS = _read("webapp/static/modules/saved.js")
 SEARCH_JS = _read("webapp/static/modules/search.js")
 MAP_JS = _read("webapp/static/modules/map.js")
+SHEET_JS = _read("webapp/static/modules/sheet.js")
 CSS = _read("webapp/static/style.css")
 PY = _read("webapp/server.py")
 
@@ -548,8 +549,8 @@ class TestHooksSurvive:
     def test_sheet_handle_hooks(self):
         # M4 R2: handle/button navigation between sheet states is required.
         assert 'id="sheet-handle"' in HTML
-        assert "setSheetState" in JS
-        assert "openSheetForSelection" in JS
+        assert "setSheetState" in SHEET_JS
+        assert "openSheetForSelection" in SHEET_JS
         assert "mapHandle.resize()" in JS
 
     def test_snackbar_above_bottom_nav(self):
@@ -568,7 +569,7 @@ class TestHooksSurvive:
 
     def test_escape_coordinator_order(self):
         # M4 product check: Escape closes dropdown -> layers -> sheet step down.
-        assert 'ev.key !== "Escape"' in JS
+        assert 'ev.key !== "Escape"' in SHEET_JS
 
     def test_poi_separation_copy_unchanged(self):
         # La copia real lleva <b>no</b> implica ningún permiso (etiqueta en medio)
@@ -593,10 +594,10 @@ class TestM4ProductUsability:
 
     def test_r2_tap_navigation_required_and_drag_optional(self):
         # Required: handle click toggles states
-        assert 'handle.addEventListener("click"' in JS
+        assert 'handle.addEventListener("click"' in SHEET_JS
         # Optional: plain Pointer Events drag, no library, no inertia
-        assert "pointerdown" in JS and "pointerup" in JS
-        assert "requestAnimationFrame" not in JS.split("endDrag")[1][:400]
+        assert "pointerdown" in SHEET_JS and "pointerup" in SHEET_JS
+        assert "requestAnimationFrame" not in SHEET_JS.split("endDrag")[1][:400]
 
     def test_r3_dropdown_sources_only_api_places(self):
         start = SEARCH_JS.find("function initSuggest")
@@ -643,13 +644,13 @@ class TestM4ProductUsability:
         # Dropdown Escape must stop propagation AND the sheet coordinator
         # must honour defaultPrevented: one keypress, one level.
         assert "ev.stopPropagation(); close();" in SEARCH_JS
-        assert 'ev.key !== "Escape" || ev.defaultPrevented' in JS
+        assert 'ev.key !== "Escape" || ev.defaultPrevented' in SHEET_JS
 
     def test_p1_3_closed_state_tap_reachable(self):
         # closed keeps a visible handle strip and the handle cycles all
         # three states, so closing/reopening never requires a drag.
         assert "calc(100% - 44px)" in CSS
-        assert "SHEET_STATES[(i + 1) % SHEET_STATES.length]" in JS
+        assert "SHEET_STATES[(i + 1) % SHEET_STATES.length]" in SHEET_JS
 
     def test_p1_4_cta_notes_come_from_places_data(self):
         # No hardcoded zone claims in JS: the note is place.note from /api/places.

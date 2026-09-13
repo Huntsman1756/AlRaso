@@ -14,6 +14,7 @@ APP = (ROOT / "webapp/static/app.js").read_text(encoding="utf-8")
 LEGAL = (ROOT / "webapp/static/modules/legal.js").read_text(encoding="utf-8")
 PLACE = (ROOT / "webapp/static/modules/place.js").read_text(encoding="utf-8")
 WEATHER = (ROOT / "webapp/static/modules/weather.js").read_text(encoding="utf-8")
+SHEET = (ROOT / "webapp/static/modules/sheet.js").read_text(encoding="utf-8")
 ICON_ROOT = ROOT / "webapp/static/icons/outline"
 
 
@@ -109,8 +110,8 @@ def test_m91_mobile_sheet_exposes_controlled_panel_and_peek_contract():
     assert 'id="sheet-handle"' in HTML
     assert 'aria-controls="card-result"' in HTML
     assert "--sheet-peek-height" in CSS
-    assert "sheetPeekHeight" in APP
-    assert "handle.focus" in APP
+    assert "sheetPeekHeight" in SHEET
+    assert "handle.focus" in SHEET
 
 
 def test_m91_tabler_subset_is_vendored_without_runtime_dependency():

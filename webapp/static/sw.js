@@ -23,6 +23,7 @@ var SHELL_URLS = [
   "/modules/weather.js",
   "/modules/connectivity.js",
   "/modules/search.js",
+  "/modules/sheet.js",
   "/modules/map.js",
   "/vendor/maplibre-gl.js", "/vendor/maplibre-gl.css",
   "/manifest.webmanifest", "/icon-192.png", "/icon-512.png"

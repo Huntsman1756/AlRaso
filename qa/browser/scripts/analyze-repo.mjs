@@ -70,7 +70,7 @@ const frontendResponsibilities = [
   { label: 'map/layers', markers: ['createMapController', './modules/map.js'] },
   { label: 'POIs/place presentation', markers: ['place.renderPoi', './modules/place.js'] },
   { label: 'protected areas/place presentation', markers: ['place.renderPa', './modules/place.js'] },
-  { label: 'bottom sheet', markers: ['SHEET_STATES', 'setSheetState', 'sheet-handle'] },
+  { label: 'bottom sheet', markers: ['createSheetController', './modules/sheet.js', 'SHEET_STATES'] },
   { label: 'geolocation', markers: ['navigator.geolocation', 'initGeo'] },
   { label: 'search/suggestions', markers: ['initSuggest', 'searchform', '/api/find'] },
   { label: 'legal resolve rendering', markers: ['createLegalController', './modules/legal.js'] },
