@@ -1,7 +1,7 @@
 import { $, esc } from "./modules/dom.js";
 import { createAppState } from "./modules/state.js";
 import { resolveLegal } from "./modules/api-legal.js";
-import { POI_CATS, POI_ORDER } from "./modules/place.js";
+import { createPlacePresenter, POI_CATS, POI_ORDER } from "./modules/place.js";
 import { createSavedController } from "./modules/saved.js";
 import { createWeatherController } from "./modules/weather.js";
 import { createConnectivityController } from "./modules/connectivity.js";
@@ -12,6 +12,10 @@ import { createMapController } from "./modules/map.js";
 const state = createAppState();
 const weather = createWeatherController();
 const connectivity = createConnectivityController();
+const place = createPlacePresenter({
+  state,
+  onLegalQuery: function (lat, lon, name) { selectPoint(lat, lon, name, true, true); }
+});
 const mapController = createMapController({
   state,
   poiCats: POI_CATS,
@@ -19,24 +23,18 @@ const mapController = createMapController({
   onPointSelected: function (lat, lon, name, fly) { selectPoint(lat, lon, name, fly); },
   onPoiClick: function (p, lat, lon) {
     selectPoint(lat, lon, p.name, false);
-    renderPoi(p);
+    place.renderPoi(p);
   },
   onPaClick: function (p, lat, lon) {
     selectPoint(lat, lon, null, false);
-    var ctaBtn = $("pa-legal-btn");
-    if (ctaBtn) {
-      ctaBtn.disabled = false;
-      ctaBtn.setAttribute("data-lat", String(lat));
-      ctaBtn.setAttribute("data-lon", String(lon));
-    }
-    renderPa(p);
+    place.renderPa(p, lat, lon);
   }
 });
 const store = window.AlRasoStore;
 const search = createSearchController({
   state,
   onSelectPoint: function (lat, lon, name, fly) { selectPoint(lat, lon, name, fly); },
-  onRenderPoi: function (poi) { renderPoi(poi); }
+  onRenderPoi: function (poi) { place.renderPoi(poi); }
 });
 const saved = createSavedController({
   store,
@@ -109,92 +107,6 @@ window.addEventListener("hashchange", function () {
 // ─────────────────────────────────────────────
 async function boot() {
   return mapController.boot();
-}
-
-// ─────────────────────────────────────────────
-// POIS — runtime-generated canvas icons (U3)
-// ─────────────────────────────────────────────
-
-function renderPoi(p) {
-  const cat = POI_CATS[p.category] || { emoji: "📍", label: p.category };
-  const displayName = typeof p.name === "string" && p.name.trim() ? p.name.trim() : null;
-  $("poi").hidden = false;
-  $("pa-card").hidden = true;
-  $("poi-emoji").textContent = cat.emoji;
-  $("poi-name").textContent = displayName || (cat.anonymousLabel || cat.label) + " sin nombre";
-  const parts = [cat.label];
-  if (p.alt_m) parts.push(`${p.alt_m} m`);
-  if (p.source_label) parts.push(`fuente: ${p.source_label}`);
-  $("poi-meta").textContent = parts.join(" · ");
-  $("poi-note").textContent = p.note || "";
-  // CTA: wire the legal button with POI coordinates only.
-  const ctaBtn = $("poi-legal-btn");
-  if (ctaBtn) {
-    ctaBtn.disabled = false;
-    ctaBtn.setAttribute("data-lat", String(p.lat));
-    ctaBtn.setAttribute("data-lon", String(p.lon));
-  }
-  // Provenance disclosure: source label, snapshot date, attribution (and OSM URL if available).
-  const box = $("poi-srcbox"), details = $("poi-src-details");
-  if (details) {
-    let html = "";
-    if (p.osm_url) {
-      html += `<div><a href="${esc(p.osm_url)}" target="_blank" rel="noopener">${esc(p.osm_url)}</a></div>`;
-    }
-    if (p.source_label) html += `<div><span class="src-label">Fuente: </span>${esc(p.source_label)}</div>`;
-    if (p.source_ref) {
-      const refLabel = p.source === "openstreetmap" ? "Objeto OSM" : "Referencia";
-      html += `<div><span class="src-label">${refLabel}: </span>${esc(p.source_ref)}</div>`;
-    }
-    if (p.snapshot_date) html += `<div><span class="src-label">Fecha de instantánea: </span>${esc(p.snapshot_date)}</div>`;
-    if (p.attribution) html += `<div><span class="src-label">Atribución: </span>${esc(p.attribution)}</div>`;
-    if (p.source_license) html += `<div><span class="src-label">Licencia: </span>${esc(p.source_license)}</div>`;
-    details.innerHTML = html;
-    box.style.display = "";
-  }
-  state.poiCategory = p.category;
-  state.poiAlt = p.alt_m || null;
-  state.cartographicContext = null;
-  renderPlaceHeading();
-  renderPlaceContext({});
-}
-
-function renderPa(p) {
-  $("poi").hidden = true;
-  $("pa-card").hidden = false;
-  $("pa-name").textContent = p.name || "";
-  var metaParts = [];
-  if (p.region) metaParts.push(p.region);
-  metaParts.push("referencia OSM · no ámbito legal");
-  $("pa-meta").textContent = metaParts.join(" · ");
-  $("pa-note").textContent = p.note || "";
-  // CTA: coords only from clicked point — data-lat and data-lon set by onPaClick.
-  // The button is wired in onPaClick before renderPa is called.
-  var ctaBtn = $("pa-legal-btn");
-  if (ctaBtn) {
-    ctaBtn.disabled = false;
-  }
-  // Provenance disclosure
-  var box = $("pa-srcbox"), details = $("pa-src-details");
-  if (details) {
-    let html = "";
-    if (p.osm_url) {
-      html += `<div><a href="${esc(p.osm_url)}" target="_blank" rel="noopener">${esc(p.osm_url)}</a></div>`;
-    }
-    if (p.source_label) html += `<div><span class="src-label">Fuente: </span>${esc(p.source_label)}</div>`;
-    if (p.snapshot_date) html += `<div><span class="src-label">Fecha de instantánea: </span>${esc(p.snapshot_date)}</div>`;
-    if (p.attribution) html += `<div><span class="src-label">Atribución: </span>${esc(p.attribution)}</div>`;
-    if (p.source_license) html += `<div><span class="src-label">Licencia: </span>${esc(p.source_license)}</div>`;
-    details.innerHTML = html;
-    box.style.display = "";
-  }
-  state.cartographicContext = {
-    kind: "Espacio protegido",
-    name: p.name || "Espacio protegido",
-    note: "Información cartográfica; no determina la legalidad.",
-  };
-  renderPlaceHeading();
-  renderPlaceContext({});
 }
 
 // ─────────────────────────────────────────────
@@ -439,28 +351,6 @@ $("center-btn").addEventListener("click", function () {
 // ─────────────────────────────────────────────
 // POI LEGAL CTA — reuse existing selectPoint/refresh (coordinates only)
 // ─────────────────────────────────────────────
-var poiLegalBtn = $("poi-legal-btn");
-if (poiLegalBtn) {
-  poiLegalBtn.addEventListener("click", function () {
-    var lat = parseFloat(poiLegalBtn.getAttribute("data-lat"));
-    var lon = parseFloat(poiLegalBtn.getAttribute("data-lon"));
-    if (isNaN(lat) || isNaN(lon)) return;
-    selectPoint(lat, lon, state.selectedName, true, true);
-  });
-}
-
-// PA LEGAL CTA — same coords-only pattern (no name/fact injection)
-// ─────────────────────────────────────────────
-var paLegalBtn = $("pa-legal-btn");
-if (paLegalBtn) {
-  paLegalBtn.addEventListener("click", function () {
-    var lat = parseFloat(paLegalBtn.getAttribute("data-lat"));
-    var lon = parseFloat(paLegalBtn.getAttribute("data-lon"));
-    if (isNaN(lat) || isNaN(lon)) return;
-    selectPoint(lat, lon, null, true, true);
-  });
-}
-
 // ─────────────────────────────────────────────
 // FRESH RESOLVE (api/resolve)
 // ─────────────────────────────────────────────
@@ -483,7 +373,7 @@ function resetLegalResultForPending() {
     var date = $("date").value || new Date().toISOString().slice(0, 10);
     $("coords").textContent = state.lat.toFixed(5) + ", " + state.lon.toFixed(5) + " · " + actLabel + " · " + date;
   }
-  renderPlaceHeading();
+  place.renderPlaceHeading();
   $("legal-emoji").textContent = "";
   $("headline").textContent = "Consultando…";
   $("answer-explanation").textContent = "Verificando la normativa para este punto.";
@@ -663,59 +553,6 @@ function coverageStatusText(d) {
   return "Cobertura normativa del punto: " + (coverage || "no disponible");
 }
 
-function normalizePlaceContext(candidate) {
-  if (!candidate) return null;
-  var raw = candidate.properties || candidate;
-  if (typeof raw === "string") return { kind: "Espacio protegido", name: raw };
-  var name = raw.name || raw.official_name || raw.label || raw.title;
-  if (!name) return null;
-  var category = String(raw.category || raw.kind || raw.context_type || "").toLowerCase();
-  var kind = category.indexOf("protected") !== -1 || category.indexOf("proteg") !== -1
-    ? "Espacio protegido"
-    : (raw.kind_label || raw.context_label || "Contexto cartográfico");
-  return {
-    kind: kind,
-    name: name,
-    note: raw.note || raw.disclaimer || "Información cartográfica; no determina la legalidad.",
-  };
-}
-
-function renderPlaceContext(d) {
-  var box = $("place-context");
-  if (!box) return;
-  var disclosure = $("place-context-disclosure");
-  var raw = d.cartographicContext || d.cartographic_context || d.placeContext ||
-    d.place_context || d.protectedArea || d.protected_area ||
-    ((d.coverage || {}).context) || state.cartographicContext;
-  var context = normalizePlaceContext(Array.isArray(raw) ? raw[0] : raw);
-  if (!context) {
-    box.hidden = true;
-    if (disclosure) disclosure.hidden = true;
-    $("place-context-value").textContent = "";
-    $("place-context-note").textContent = "";
-    return;
-  }
-  box.hidden = false;
-  if (disclosure) disclosure.hidden = false;
-  $("place-context-kind").textContent = context.kind;
-  $("place-context-value").textContent = context.name;
-  $("place-context-note").textContent = context.note;
-}
-
-function renderPlaceHeading() {
-  var heading = $("place-heading");
-  if (!heading) return;
-  var hasCartographicCard =
-    ($("poi") && !$("poi").hidden) || ($("pa-card") && !$("pa-card").hidden);
-  if (hasCartographicCard) {
-    heading.hidden = true;
-    heading.textContent = "";
-    return;
-  }
-  heading.textContent = state.selectedName || "Punto seleccionado";
-  heading.hidden = false;
-}
-
 function whyText(d) {
   var legal = d.determination.legalStatus;
   var act = ACT_LABELS[d.query.activity] || d.query.activity;
@@ -772,7 +609,7 @@ function render(d) {
   // Coords — use ACT_LABELS for Spanish label (U5)
   var actLabel = ACT_LABELS[d.query.activity] || d.query.activity;
   $("coords").textContent = state.lat.toFixed(5) + ", " + state.lon.toFixed(5) + " · " + actLabel + " · " + d.query.activity_date;
-  renderPlaceHeading();
+  place.renderPlaceHeading();
 
   // Altitude: only from dem.value_m (POI altitude stays in the POI card only).
   var altLine = $("altitude-line");
@@ -818,7 +655,7 @@ function render(d) {
 
   var conditionsSummary = $("conditions-summary");
   if (conditionsSummary) conditionsSummary.hidden = !(legalStatus !== "UNDETERMINED" && conds.length > 0);
-  renderPlaceContext(d);
+  place.renderPlaceContext(d);
 
   // ── detail box (technical) ──
   renderFacts(d);

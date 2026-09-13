@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CSS = (ROOT / "webapp/static/style.css").read_text(encoding="utf-8")
 HTML = (ROOT / "webapp/static/index.html").read_text(encoding="utf-8")
 APP = (ROOT / "webapp/static/app.js").read_text(encoding="utf-8")
+PLACE = (ROOT / "webapp/static/modules/place.js").read_text(encoding="utf-8")
 WEATHER = (ROOT / "webapp/static/modules/weather.js").read_text(encoding="utf-8")
 ICON_ROOT = ROOT / "webapp/static/icons/outline"
 
@@ -79,9 +80,9 @@ def test_m91_reason_copy_has_explicit_spatial_and_publishability_paths():
 
 
 def test_m91_place_heading_is_rendered_from_existing_selection_state():
-    assert "function renderPlaceHeading()" in APP
-    assert "state.selectedName" in APP
-    assert "renderPlaceHeading();" in APP
+    assert "function renderPlaceHeading()" in PLACE
+    assert "state.selectedName" in PLACE
+    assert "renderPlaceHeading();" in PLACE
 
 
 def test_m91_weather_forecast_is_a_native_disclosure():

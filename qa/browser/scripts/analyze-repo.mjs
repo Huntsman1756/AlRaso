@@ -68,8 +68,8 @@ function markerInventory(relative, labels) {
 
 const frontendResponsibilities = [
   { label: 'map/layers', markers: ['createMapController', './modules/map.js'] },
-  { label: 'POIs', markers: ['loadPois', 'renderPoi', 'poiLegalBtn'] },
-  { label: 'protected areas', markers: ['loadProtectedAreas', 'renderPa', 'paLegalBtn'] },
+  { label: 'POIs/place presentation', markers: ['place.renderPoi', './modules/place.js'] },
+  { label: 'protected areas/place presentation', markers: ['place.renderPa', './modules/place.js'] },
   { label: 'bottom sheet', markers: ['SHEET_STATES', 'setSheetState', 'sheet-handle'] },
   { label: 'geolocation', markers: ['navigator.geolocation', 'initGeo'] },
   { label: 'search/suggestions', markers: ['initSuggest', 'searchform', '/api/find'] },

@@ -106,17 +106,17 @@ def test_dynamic_invariant_resolve_unchanged_with_pa_loaded():
 def test_pa_cta_coords_only():
     """The PA CTA element carries only data-lat/data-lon (no name, no facts),
     mirroring the POI_FACT_INJECTION=0 pattern."""
-    # Check that the PA CTA button id exists in HTML.
+    # Check that the PA CTA button id exists in HTML and place.js owns its handler.
     assert "pa-legal-btn" in INDEX_HTML, "PA CTA button must have id=pa-legal-btn"
+    assert "pa-legal-btn" in PLACE_JS, "place.js must wire the PA CTA button"
     # Check that the CTA handler reads only data-lat/data-lon.
-    assert "pa-legal-btn" in APP_JS, "app.js must wire the PA CTA button"
     # The PA CTA handler must use data-lat and data-lon attributes only.
     pa_cta_pattern = re.search(
-        r'paLegalBtn.*?getAttribute\s*\(\s*"data-lat"\s*\)', APP_JS, re.DOTALL
+        r'button.*?getAttribute\s*\(\s*"data-lat"\s*\)', PLACE_JS, re.DOTALL
     )
     assert pa_cta_pattern, "PA CTA handler must read data-lat attribute"
     pa_cta_pattern2 = re.search(
-        r'paLegalBtn.*?getAttribute\s*\(\s*"data-lon"\s*\)', APP_JS, re.DOTALL
+        r'button.*?getAttribute\s*\(\s*"data-lon"\s*\)', PLACE_JS, re.DOTALL
     )
     assert pa_cta_pattern2, "PA CTA handler must read data-lon attribute"
 
@@ -225,10 +225,10 @@ def test_pa_card_hidden_by_default():
 
 
 def test_pa_click_handler_sets_coords_on_cta():
-    """onPaClick sets data-lat/data-lon on the PA CTA button from e.lngLat."""
+    """The PA presenter sets data-lat/data-lon from the map click coordinates."""
     assert "onPaClick:" in APP_JS
-    assert 'setAttribute("data-lat"' in APP_JS or "setAttribute('data-lat'" in APP_JS
-    assert 'setAttribute("data-lon"' in APP_JS or "setAttribute('data-lon'" in APP_JS
+    assert 'setAttribute("data-lat"' in PLACE_JS or "setAttribute('data-lat'" in PLACE_JS
+    assert 'setAttribute("data-lon"' in PLACE_JS or "setAttribute('data-lon'" in PLACE_JS
     # Verify the PA CTA handler uses clicked coordinates.
     assert "e.lngLat.lat" in MAP_JS, "map handler must use clicked latitude"
     assert "e.lngLat.lng" in MAP_JS, "map handler must use clicked longitude"
@@ -243,10 +243,9 @@ def test_new_selection_clears_previous_pa_context_and_name():
     assert 'paLegalBtn.removeAttribute("data-lat")' in select_block
     assert 'paLegalBtn.removeAttribute("data-lon")' in select_block
 
-    pa_cta_idx = APP_JS.rfind('var paLegalBtn = $("pa-legal-btn");')
-    assert pa_cta_idx >= 0
-    pa_cta_block = APP_JS[pa_cta_idx:APP_JS.find("// ─", pa_cta_idx + 1)]
-    assert "selectPoint(lat, lon, null, true, true)" in pa_cta_block
+    assert "onLegalQuery: function (lat, lon, name)" in APP_JS
+    assert "selectPoint(lat, lon, name, true, true)" in APP_JS
+    assert 'id === "poi-legal-btn" ? state.selectedName : null' in PLACE_JS
 
 
 # ── 6. JS syntax gate ───────────────────────────────────────────────────────

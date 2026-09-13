@@ -27,12 +27,12 @@ SERVER_PY = (ROOT / "webapp" / "server.py").read_text(encoding="utf-8")
 # ── 1. CTA exists with exact copy ──────────────────────────────────────────
 
 def test_cta_exists_with_exact_copy():
-    """"Consultar aquí el estatus legal" is present in index.html and wired in app.js."""
+    """"Consultar aquí el estatus legal" is present and wired by place.js."""
     assert "Consultar aquí el estatus legal" in INDEX_HTML, \
         "index.html must contain the CTA exact copy"
-    # The button must have an id or be referenced in app.js by the CTA text or id.
+    # The presentation module owns the button wiring; app.js receives the query callback.
     assert "poi-legal-btn" in INDEX_HTML, "CTA button must have id=poi-legal-btn"
-    assert "poi-legal-btn" in APP_JS, "app.js must wire the CTA button"
+    assert "poi-legal-btn" in PLACE_JS, "place.js must wire the CTA button"
 
 
 # ── 2. CTA passes coordinates only (no POI metadata to resolver) ──────────
@@ -50,9 +50,13 @@ def test_cta_passes_coordinates_only():
     # The CTA handler calls selectPoint(lat, lon, …) — check that the handler
     # only passes lat, lon and the existing selectedName (which is user-set,
     # not POI metadata).
-    # Pattern: selectPoint(lat, lon, state.selectedName, true)
-    assert re.search(r"selectPoint\s*\(\s*lat\s*,\s*lon\s*,\s*state\.selectedName", APP_JS), \
-        "CTA handler must call selectPoint(lat, lon, state.selectedName, ...)"
+    # place.js passes coordinates and the current user-selected name only for the POI CTA.
+    assert re.search(
+        r'onLegalQuery\(buttonLat, buttonLon, id === "poi-legal-btn" \? state\.selectedName : null\)',
+        PLACE_JS,
+    ), "place CTA must pass coordinates and the current selected name only"
+    assert "selectPoint(lat, lon, name, true, true)" in APP_JS, \
+        "app callback must preserve the existing coordinates-only selection path"
 
     # factsFromForm reads only #factbox inputs — assert its body is unchanged:
     assert "document.querySelectorAll" in APP_JS, \
@@ -124,17 +128,17 @@ def test_source_disclosure_fields():
     assert "poi-src-details" in INDEX_HTML, \
         "index.html must contain #poi-src-details"
 
-    # app.js must write source_label, snapshot_date, attribution in renderPoi:
-    assert "source_label" in APP_JS, \
+    # place.js writes source_label, snapshot_date, attribution in renderPoi.
+    assert "source_label" in PLACE_JS, \
         "renderPoi must reference source_label"
-    assert "snapshot_date" in APP_JS, \
+    assert "snapshot_date" in PLACE_JS, \
         "renderPoi must reference snapshot_date"
-    assert "attribution" in APP_JS, \
+    assert "attribution" in PLACE_JS, \
         "renderPoi must reference attribution"
 
     # Check that renderPoi uses these in the src-details block (DOM-level).
     render_poi_re = re.search(
-        r"function renderPoi\([^)]*\)\s*\{([\s\S]*?)(?=\nfunction |\n//|$)", APP_JS
+        r"function renderPoi\([^)]*\)\s*\{([\s\S]*?)(?=\nfunction |\n//|$)", PLACE_JS
     )
     assert render_poi_re, "renderPoi function must exist"
     render_poi_body = render_poi_re.group(1)
@@ -158,10 +162,10 @@ def test_unnamed_pois_are_icon_only_and_get_a_card_label():
     labels_end = MAP_JS.find("bindLayerToggles();", labels_start)
     labels_block = MAP_JS[labels_start:labels_end]
     assert '["!=", ["get", "name"], null]' in labels_block
-    assert "anonymousLabel" in APP_JS
-    render_start = APP_JS.find("function renderPoi")
-    render_end = APP_JS.find("\nfunction ", render_start + 1)
-    render_block = APP_JS[render_start:render_end]
+    assert "anonymousLabel" in PLACE_JS
+    render_start = PLACE_JS.find("function renderPoi")
+    render_end = PLACE_JS.find("\nfunction ", render_start + 1)
+    render_block = PLACE_JS[render_start:render_end]
     assert "sin nombre" in render_block
     assert "p.name" in render_block
 
