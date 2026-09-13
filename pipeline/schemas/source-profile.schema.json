@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://alraso.dev/schemas/m10.1-source-profile.schema.json",
+  "title": "M10.1 SourceProfile",
+  "description": "Declarative per-source configuration (spec C.2). JSON only — no YAML dependency. Validated by the small explicit stdlib validator in pipeline/profiles.py; this file is also the canonical contract for external JSON Schema checkers.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_id",
+    "jurisdiction",
+    "kind",
+    "discovery",
+    "fetch",
+    "parse",
+    "versioning",
+    "reachability"
+  ],
+  "properties": {
+    "source_id": { "type": "string", "minLength": 1 },
+    "jurisdiction": { "type": "string", "pattern": "^ES(-[A-Z]{1,2})?$" },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "gazette",
+        "gazette+open_data_api",
+        "administrative_wfs",
+        "national_inventory",
+        "consolidated_api"
+      ]
+    },
+    "discovery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "recipe"],
+      "properties": {
+        "provider": { "type": "string", "minLength": 1 },
+        "recipe": { "type": "string", "minLength": 1 },
+        "endpoint": { "type": "string" },
+        "doc_id_pattern": { "type": "string" },
+        "queryable_fields": { "type": "array", "items": { "type": "string" } },
+        "fields": { "type": "array", "items": { "type": "string" } },
+        "ids": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "fetch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "recipe", "method", "formats", "content_marker"],
+      "properties": {
+        "provider": { "type": "string", "minLength": 1 },
+        "recipe": { "type": "string", "minLength": 1 },
+        "method": { "type": "string", "enum": ["GET", "POST", "POST-then-GET"] },
+        "formats": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "content_marker": { "type": "string", "minLength": 1 },
+        "soft_404_marker": { "type": "string" },
+        "doc_url_template": { "type": "string" }
+      }
+    },
+    "parse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format"],
+      "properties": {
+        "format": { "type": "string", "minLength": 1 },
+        "annex_format": { "type": "string" }
+      }
+    },
+    "versioning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strategy"],
+      "properties": {
+        "strategy": {
+          "type": "string",
+          "enum": ["gazette_publication", "consolidated_api"]
+        }
+      }
+    },
+    "reachability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["expected"],
+      "properties": {
+        "expected": {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "es_local": {
+              "type": "string",
+              "enum": ["REACHABLE", "ES_ONLY_SUSPECTED", "WAF_BLOCKED", "UNREACHABLE", "UNKNOWN"]
+            },
+            "foreign_ci": {
+              "type": "string",
+              "enum": ["REACHABLE", "ES_ONLY_SUSPECTED", "WAF_BLOCKED", "UNREACHABLE", "UNKNOWN"]
+            },
+            "fixture": {
+              "type": "string",
+              "enum": ["REACHABLE", "ES_ONLY_SUSPECTED", "WAF_BLOCKED", "UNREACHABLE", "UNKNOWN"]
+            },
+            "unknown": {
+              "type": "string",
+              "enum": ["REACHABLE", "ES_ONLY_SUSPECTED", "WAF_BLOCKED", "UNREACHABLE", "UNKNOWN"]
+            }
+          }
+        },
+        "fallback": { "type": ["string", "null"] }
+      }
+    },
+    "change_detection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method"],
+      "properties": {
+        "method": { "type": "string", "minLength": 1 },
+        "cadence": {
+          "type": "string",
+          "enum": ["daily", "weekly", "monthly", "manual"]
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "derived_from": { "type": "string" },
+        "probed_at": { "type": "string" }
+      }
+    }
+  }
+}
