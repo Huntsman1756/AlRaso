@@ -147,7 +147,10 @@
           ]
         },
         "observed_at": { "$ref": "#/$defs/iso_datetime" },
-        "evidence_sha256": { "$ref": "#/$defs/sha256" },
+        "evidence_sha256": {
+          "type": "string",
+          "pattern": "^([0-9a-f]{64})?$"
+        },
         "runner_network": { "$ref": "#/$defs/runner_network" },
         "reachability_observed": { "$ref": "#/$defs/reachability_observed" }
       }

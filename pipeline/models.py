@@ -256,6 +256,10 @@ class DocumentEvidence(_EvidenceModel):
     an HTTP 404 records REACHABLE + HTTP_ERROR; a timeout records
     UNREACHABLE + TIMEOUT. ``UNKNOWN`` reachability means no attempt was
     issued — in that case ``fetch_outcome`` must be ``None``.
+
+    ``bytes_sha256`` and ``evidence_sha256`` coincide by convention: both are
+    sha256 of the raw received bytes (never normalized text); empty string
+    when no response was received.
     """
 
     doc_ref: DocumentRef
