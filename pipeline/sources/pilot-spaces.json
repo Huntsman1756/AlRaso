@@ -1,0 +1,44 @@
+{
+  "schema": "alraso.m10.pilot-spaces/v1",
+  "seeded_at": "2026-09-13",
+  "g0_baseline": "f15b62c0ffb05779fca6710a71dad4c9d831f8a5",
+  "scope": "M10.1 pilot inventory — administrative seed only; cites are discovery pointers, not verified legal scope",
+  "source": "oapn-red-pn",
+  "source_layer": "LimitesParquesNacionalesZPP:view_red_oapn_limite_pn",
+  "spaces": [
+    {
+      "space_id": "pn-picos-de-europa",
+      "name": "Parque Nacional de los Picos de Europa",
+      "ccaa": ["ES-AS", "ES-CB", "ES-CL"],
+      "authorities": [
+        {"jurisdiction": "ES-AS", "gazette": "bopa", "cite": "Decreto 21/2026"},
+        {"jurisdiction": "ES-CB", "gazette": "boc-cantabria", "cite": "Decreto 57/2026"},
+        {"jurisdiction": "ES-CL", "gazette": "bocyl", "cite": "Decreto 17/2025"}
+      ]
+    },
+    {
+      "space_id": "pn-ordesa-y-monte-perdido",
+      "name": "Parque Nacional de Ordesa y Monte Perdido",
+      "ccaa": ["ES-AR"],
+      "authorities": [
+        {"jurisdiction": "ES-AR", "gazette": "boa", "cite": "Decreto 16/2022"}
+      ]
+    },
+    {
+      "space_id": "pn-aiguestortes-i-estany-de-sant-maurici",
+      "name": "Parque Nacional de Aigüestortes i Estany de Sant Maurici",
+      "ccaa": ["ES-CT"],
+      "authorities": [
+        {"jurisdiction": "ES-CT", "gazette": "dogc", "cite": "Decreto 39/2003"}
+      ]
+    },
+    {
+      "space_id": "pn-teide",
+      "name": "Parque Nacional del Teide",
+      "ccaa": ["ES-CN"],
+      "authorities": [
+        {"jurisdiction": "ES-CN", "gazette": "boc-canarias", "cite": "Decreto 182/2025"}
+      ]
+    }
+  ]
+}
