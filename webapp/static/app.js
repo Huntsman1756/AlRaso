@@ -92,7 +92,7 @@ function showTab(name) {
 }
 
 // Boot: read hash, set initial tab
-(function initTabs() {
+function initTabs() {
   var hash = location.hash.replace("#", "");
   if (hash && ["explore", "saved", "outings", "profile"].indexOf(hash) !== -1) {
     showTab(hash);
@@ -104,15 +104,15 @@ function showTab(name) {
   navBtns.forEach(function (b) {
     b.addEventListener("click", function () { showTab(b.getAttribute("data-tab")); });
   });
-})();
 
-// Listen for back/forward
-window.addEventListener("hashchange", function () {
-  var hash = location.hash.replace("#", "");
-  if (hash && ["explore", "saved", "outings", "profile"].indexOf(hash) !== -1) {
-    showTab(hash);
-  }
-});
+  // Listen for back/forward
+  window.addEventListener("hashchange", function () {
+    var hash = location.hash.replace("#", "");
+    if (hash && ["explore", "saved", "outings", "profile"].indexOf(hash) !== -1) {
+      showTab(hash);
+    }
+  });
+}
 
 // ─────────────────────────────────────────────
 // MAP BOOT
@@ -124,21 +124,20 @@ async function boot() {
 // ─────────────────────────────────────────────
 // BOTTOM SHEET (R2, mobile <=820px) — the controller owns state, pointer input,
 // Escape arbitration and accessibility attributes. Map resize is injected.
-const sheet = createSheetController({
-  onLayoutChange: function () {
-    var mapHandle = mapController.handle();
-    if (mapHandle) setTimeout(function () { mapHandle.resize(); }, 60);
-  }
-});
-
-// Search, suggestions and onboarding CTA: initialize before the remaining
-// synchronous controls, matching the original end-of-body order.
-search.init();
+let sheet = null;
+function initSheet() {
+  sheet = createSheetController({
+    onLayoutChange: function () {
+      var mapHandle = mapController.handle();
+      if (mapHandle) setTimeout(function () { mapHandle.resize(); }, 60);
+    }
+  });
+}
 
 // ─────────────────────────────────────────────
 // GEOLocation
 // ─────────────────────────────────────────────
-(function initGeo() {
+function initGeo() {
   var geoBtn = $("geo-btn");
   if (!geoBtn) return;
   if (!navigator.geolocation) {
@@ -169,12 +168,12 @@ search.init();
       $("searchmsg").textContent = msg;
     }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 });
   });
-})();
+}
 
 // ─────────────────────────────────────────────
 // LAYERS PANEL TOGGLE (U1)
 // ─────────────────────────────────────────────
-(function initLayersPanel() {
+function initLayersPanel() {
   var btn = $("layers-btn");
   var panel = $("layers-panel");
   if (!btn || !panel) return;
@@ -204,7 +203,7 @@ search.init();
       panel.setAttribute("hidden", "");
     }
   });
-})();
+}
 
 // ─────────────────────────────────────────────
 // SELECT POINT & FRESH RESOLVE
@@ -268,37 +267,39 @@ function selectPoint(lat, lon, name, fly, preserveContext) {
   legal.refresh();
 }
 
-// ─────────────────────────────────────────────
-// HELPERS
-// ─────────────────────────────────────────────
-saved.initChooser();
 // CENTER BUTTON (existing hook, now inside #detail-box)
-// ─────────────────────────────────────────────
-$("center-btn").addEventListener("click", function () {
-  var map = mapController.handle();
-  if (!map) return;
-  var c = map.getCenter();
-  selectPoint(c.lat, c.lng, null, false);
-});
+function initCenterButton() {
+  $("center-btn").addEventListener("click", function () {
+    var map = mapController.handle();
+    if (!map) return;
+    var c = map.getCenter();
+    selectPoint(c.lat, c.lng, null, false);
+  });
+}
 
 // FRESH RESOLVE (api/resolve)
-// ─────────────────────────────────────────────
-$("date").valueAsDate = new Date();
-["activity", "date"].forEach(function (id) {
-  $(id).addEventListener("change", function () {
-    if (state.lat !== null) legal.refresh();
+function initLegalForm() {
+  $("date").valueAsDate = new Date();
+  ["activity", "date"].forEach(function (id) {
+    $(id).addEventListener("change", function () {
+      if (state.lat !== null) legal.refresh();
+    });
   });
-});
+}
 
-// ─────────────────────────────────────────────
-// RENDER — full card restructure
-// ─────────────────────────────────────────────
-saved.updateStats();
-// BOOT
-// ─────────────────────────────────────────────
-void boot();
+// Composition root: preserve the existing listener and boot order.
+function bootApp() {
+  initTabs();
+  initSheet();
+  search.init();
+  initGeo();
+  initLayersPanel();
+  saved.initChooser();
+  initCenterButton();
+  initLegalForm();
+  saved.updateStats();
+  void boot();
+  connectivity.init();
+}
 
-// ─────────────────────────────────────────────
-// M5: PWA + OFFLINE RESILIENCE
-// ─────────────────────────────────────────────
-connectivity.init();
+bootApp();
