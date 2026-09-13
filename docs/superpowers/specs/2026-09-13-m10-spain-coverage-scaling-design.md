@@ -1,6 +1,7 @@
 # AlRaso M10 — Spain Coverage Scaling (diseño)
 
-**Estado:** BORRADOR — pendiente de aprobación del owner.
+**Estado:** APROBADA por el owner (2026-09-13) con tres correcciones de
+contrato aplicadas — ver §P.
 **Fecha:** 2026-09-13
 **Base de diseño:** `origin/main` = `48146cf` (merge PR #36, cierre M10-G0)
 **Rama de trabajo:** `docs/spain-coverage-scaling-design` (worktree `.worktrees/m10-design`)
@@ -108,7 +109,13 @@ InventorySource.list_spaces()  → [SpaceRecord]
 GeometryProvider.fetch_geometry(space_id) → GeometryEvidence
   GeometryEvidence: {space_id, provider, layer, retrieved_at, crs,
                      digest_sha256, feature_props, source_url,
-                     redistribution_policy}
+                     redistribution_policy,
+                     scope_evidence_status}
+  # scope_evidence_status ∈ {CONTEXT_ONLY, OFFICIAL_SCOPE_CANDIDATE,
+  #   OFFICIAL_SCOPE_LINK_PROVEN}; default CONTEXT_ONLY. Solo evidencia
+  #   revisada puede llegar a OFFICIAL_SCOPE_LINK_PROVEN: un polígono
+  #   administrativo MITECO/OAPN nunca se convierte en scope jurídico
+  #   por ser "oficial".
   # La geometría completa NO se redistribuye salvo reuse verificado;
   # se almacena digest + props + URL re-fetcheada (convención M2A/M8.1).
 
@@ -164,8 +171,9 @@ versioning:
   strategy: gazette_publication    # sin consolidado → REQUIRES_MANUAL_REVIEW
 
 reachability:
-  spain: REACHABLE
-  cloud_foreign: BLOCKED           # verificado vía fetcher externo
+  expected:                        # expectativa, NO propiedad eterna
+    spain: REACHABLE
+    foreign_ci: ES_ONLY_SUSPECTED  # verificado vía fetcher externo en G0
   fallback: es_local_fetcher       # volcado versionado + push (patrón OSS)
 
 change_detection:
@@ -193,13 +201,20 @@ parsers (medido en G0):
 | PDF (pdftotext) | BOPA, BOA, BOJA, BOC Canarias, anexos |
 | HTML marcado | BOC Canarias, BOJA, BOCM (hasta 2026) |
 
-### C.4 Reachability como salida de primera clase
+### C.4 Reachability: expectativa en perfil, verdad en ejecución
 
-Cada `DocumentFetcher` reporta `reachability_observed` por ejecución. Un timeout
-extranjero produce `UNREACHABLE(ES_ONLY suspected)`, nunca "fuente ausente" ni
-silencio. La matriz `access-matrix.json` de G0 es la semilla del catálogo de
-reachability; la spec exige que el runner declare su clase de red
-(`runner_network: es | foreign_ci | local`) en toda evidencia.
+Reachability **no es una propiedad permanente de la fuente**: es una relación
+`fuente × runner_network × instante` (P3 lo demuestra: mismo documento, 200
+desde red ES, timeout desde fetcher extranjero). Por tanto:
+
+- El `SourceProfile` solo declara `reachability.expected` (hipótesis sembrada
+  desde `access-matrix.json` de G0) + `fallback`. Si Cantabria elimina mañana
+  el geo-block, el perfil no convierte un dato histórico en propiedad eterna.
+- La verdad de ejecución son únicamente cuatro campos por fetch:
+  `runner_network`, `reachability_observed`, `observed_at`, `evidence_sha256`.
+- Un timeout extranjero produce `UNREACHABLE(ES_ONLY_SUSPECTED)`, nunca
+  "fuente ausente" ni silencio. La divergencia `expected` vs `observed` es
+  señal de drift a registrar, no a ignorar.
 
 ## D. Identificadores y reconciliación espacio ↔ norma
 
@@ -238,24 +253,29 @@ VALID time:  [effective_from, effective_to]   cerrado; NULL = en vigor
 SYSTEM time: [recorded_at, recorded_until)    qué sabía el sistema y cuándo
 ```
 
-La pipeline debe alimentar **ambos ejes** y además el eje de publicación:
+La pipeline alimenta exactamente estos ejes — **no hay tercer par temporal**:
 
 ```text
-publication_date   → cuándo salió en gaceta (DocumentRef.published_on)
-effective_from/to  → entrada en vigor / derogación (del propio precepto:
-                     "día siguiente" BOA, "15 días" BOC Canarias — heterogéneo)
-recorded_at/until  → cuándo la pipeline lo observó (fetch + review)
-supersession       → rule_relation_version (ya versionada)
+VALID TIME             effective_from / effective_to
+                       entrada en vigor / derogación (del propio precepto:
+                       "día siguiente" BOA, "15 días" BOC Canarias — heterogéneo)
+SYSTEM / KNOWLEDGE TIME recorded_at / recorded_until
+                       cuándo la pipeline lo observó (fetch + review)
+PUBLICATION METADATA   publication_date (DocumentRef.published_on)
+supersession           rule_relation_version (ya versionada)
 ```
+
+`knowledge_from/to` **no existen como campos**: la semántica de conocimiento ya
+la representa `recorded_at/recorded_until` (qué sabía el sistema y cuándo).
 
 **Doble era PRUG** (G0, gap documentado): RD 384/2002 (era estatal, en BOE)
 coexiste en el tiempo válido con los decretos autonómicos 2025-2026 (fuera de
 BOE). El resolver temporal debe poder responder "¿qué regía el 2010-06-01?" —
 la pipeline registra `effective_from` de cada era sin colapsarlas.
 
-`knowledge_from/to`: toda extracción asistida lleva `recorded_at` del fetch y
-`recorded_until` al ser sustituida; un fetch posterior que contradiga una regla
-publicada **no la sobrescribe**: abre ReviewPacket con diff.
+Toda extracción asistida lleva `recorded_at` del fetch y `recorded_until` al
+ser sustituida; un fetch posterior que contradiga una regla publicada **no la
+sobrescribe**: abre ReviewPacket con diff.
 
 ## F. Provenance y hashing
 
@@ -404,5 +424,36 @@ exigiera tocar el resolver, eso es una señal de diseño erróneo, no una tarea.
 
 ## P. Registro de aprobación
 
-Pendiente. La implementación de M10.1 no comienza sin aprobación del owner de
-esta spec.
+**APROBADA por el owner (2026-09-13) con tres correcciones de contrato,
+todas documentales y aplicadas en esta misma revisión:**
+
+1. **Reachability = expectativa, no propiedad** (§C.2, §C.4): el perfil declara
+   `reachability.expected` + `fallback`; la verdad de ejecución es solo
+   `runner_network` / `reachability_observed` / `observed_at` /
+   `evidence_sha256`.
+2. **Ejes temporales congelados** (§E): `VALID = effective_from/to`,
+   `SYSTEM/KNOWLEDGE = recorded_at/until`, `PUBLICATION = publication_date`.
+   `knowledge_from/to` eliminados: no existe tercer par temporal.
+3. **`scope_evidence_status` en `GeometryEvidence`** (§C.1): `CONTEXT_ONLY`
+   (default) | `OFFICIAL_SCOPE_CANDIDATE` | `OFFICIAL_SCOPE_LINK_PROVEN`;
+   solo evidencia revisada alcanza el último estado. Protege contra convertir
+   geometría administrativa en scope jurídico por ser "oficial".
+
+Nit adicional: comentario del whitelist M10 corregido para describir lo que
+realmente protege (docs de diseño); la implementación M10.1 añadirá su propia
+estrofa acotada.
+
+Estado tras aprobación:
+
+```text
+ARCHITECTURE=APPROVED
+MONOLITHIC_SOURCE_ADAPTER=REJECTED
+FUNCTIONAL_CAPABILITIES=APPROVED
+SOURCE_PROFILE=APPROVED
+REVIEW_GATE=APPROVED
+BITEMPORALITY=PRESERVED
+LEGAL_ENGINE=FROZEN
+NEW_RULE_PUBLICATION=FORBIDDEN_IN_M10.1
+IMPLEMENTATION=NOT_AUTHORIZED
+NEXT=M10.1_IMPLEMENTATION_PLAN
+```
