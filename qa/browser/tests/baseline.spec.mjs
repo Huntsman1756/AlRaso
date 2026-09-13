@@ -6,7 +6,7 @@ import { test } from '@playwright/test';
 import { assertCanonicalEnvironment, captureEnvironment, installBaselineClock } from '../helpers/environment.mjs';
 import { writeJson, writeScreenshot } from '../helpers/evidence.mjs';
 import { observePage } from '../helpers/observer.mjs';
-import { assertFrozenProductClean } from '../helpers/product-guard.mjs';
+import { assertProductWorktreeClean } from '../helpers/product-guard.mjs';
 import { ScenarioRecorder } from '../helpers/recorder.mjs';
 import {
   S01_BOOT_EMPTY,
@@ -58,14 +58,15 @@ function evidencePath(projectName, scenarioId, suffix) {
 }
 
 test.beforeAll(async ({ browser }) => {
-  assertFrozenProductClean(root);
+  const productHeadSha = assertProductWorktreeClean(root);
   const environment = captureEnvironment(browser, root);
+  environment.product_head_sha = productHeadSha;
   assertCanonicalEnvironment(environment);
   writeJson(path.join(runDir, 'environment.json'), environment);
 });
 
 test.afterAll(() => {
-  assertFrozenProductClean(root);
+  assertProductWorktreeClean(root);
 });
 
 for (const scenario of scenarios) {
