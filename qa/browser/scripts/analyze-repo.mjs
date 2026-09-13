@@ -74,8 +74,8 @@ const frontendResponsibilities = [
   { label: 'geolocation', markers: ['navigator.geolocation', 'initGeo'] },
   { label: 'search/suggestions', markers: ['initSuggest', 'searchform', '/api/find'] },
   { label: 'legal resolve rendering', markers: ['async function refresh', 'primaryLegalLabel', 'render(d)'] },
-  { label: 'favorites', markers: ['renderFavorites', 'AlRasoStore.addFavorite'] },
-  { label: 'outings', markers: ['renderOutings', 'openChooser', 'AlRasoStore.addOuting'] },
+  { label: 'favorites', markers: ['saved.renderFavorites', './modules/saved.js'] },
+  { label: 'outings', markers: ['saved.renderOutings', './modules/saved.js'] },
   { label: 'connectivity/PWA', markers: ['initPwa', 'serviceWorker.register', 'conn-banner'] },
   { label: 'weather', markers: ['createWeatherController', 'weather.load', './modules/weather.js'] }
 ];

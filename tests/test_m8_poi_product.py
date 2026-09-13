@@ -18,6 +18,7 @@ sys.path.insert(0, str(ROOT / "webapp"))
 INDEX_HTML = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
 APP_JS = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
 WEATHER_JS = (ROOT / "webapp/static/modules/weather.js").read_text(encoding="utf-8")
+PLACE_JS = (ROOT / "webapp/static/modules/place.js").read_text(encoding="utf-8")
 STYLE_CSS = (ROOT / "webapp" / "static" / "style.css").read_text(encoding="utf-8")
 SERVER_PY = (ROOT / "webapp" / "server.py").read_text(encoding="utf-8")
 
@@ -176,7 +177,7 @@ def test_no_protected_area_ui():
         assert "protected_area" not in line, \
             "index.html toggles must not contain 'protected_area' category"
     poi_order_match = re.search(
-        r'const POI_ORDER = \[([^\]]+)\]', APP_JS
+        r'const POI_ORDER = \[([^\]]+)\]', PLACE_JS
     )
     assert poi_order_match, "POI_ORDER must exist"
     poi_order_content = poi_order_match.group(1)

@@ -34,6 +34,9 @@ def test_new_static_assets_registered_and_safe():
     assert "/" in sf
     assert "/app.js" in sf
     assert "/style.css" in sf
+    for module in ("/modules/place.js", "/modules/saved.js"):
+        assert module in sf
+        assert sf[module][1].startswith("text/javascript")
     # No path traversal
     for p in sf:
         assert ".." not in p
@@ -233,7 +236,7 @@ def test_poi_vs_legal_separation_visible():
 # ══════════════════════════════════════════════
 
 def test_saved_items_reopen_via_fresh_resolve():
-    js = _read("webapp/static/app.js")
+    js = _read("webapp/static/app.js") + _read("webapp/static/modules/saved.js")
 
     assert "selectPoint" in js
     assert "findFavoriteByPoint" in js
@@ -246,7 +249,7 @@ def test_saved_items_reopen_via_fresh_resolve():
 # ══════════════════════════════════════════════
 
 def test_outings_mark_completed_and_stats():
-    js = _read("webapp/static/app.js")
+    js = _read("webapp/static/app.js") + _read("webapp/static/modules/saved.js")
     html = _read("webapp/static/index.html")
 
     assert "completeOuting" in js
@@ -262,7 +265,7 @@ def test_outings_mark_completed_and_stats():
 # ══════════════════════════════════════════════
 
 def test_empty_states_present():
-    js = _read("webapp/static/app.js")
+    js = _read("webapp/static/app.js") + _read("webapp/static/modules/saved.js")
     html = _read("webapp/static/index.html")
 
     assert "Todavía no has guardado ningún sitio." in (js + html)
@@ -351,7 +354,7 @@ def test_m2_gate_protected_area_is_osm_reference():
     # M8.1: lg-protected was added for the PA cartographic context layer.
     assert "lg-protected" in js, "M8.1: #lg-protected toggle must exist"
     assert "pa-fill" in js and "pa-line" in js, "M8.1: PA polygon layers must exist"
-    assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in js
+    assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in _read("webapp/static/modules/place.js")
     api_legal = _read("webapp/static/modules/api-legal.js")
     api_cartography = _read("webapp/static/modules/api-cartography.js")
     assert "/api/coverage" in api_legal

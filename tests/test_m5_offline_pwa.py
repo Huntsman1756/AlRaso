@@ -92,6 +92,11 @@ class TestServiceWorkerStrategies:
         shell_section = SW[SW.find("var SHELL_URLS"):SW.find("self.addEventListener")]
         assert "/api/" not in shell_section, "shell precache list must not contain API paths"
 
+    def test_saved_modules_are_in_the_shell_precache(self):
+        shell_section = SW[SW.find("var SHELL_URLS"):SW.find("self.addEventListener")]
+        for module in ("/modules/place.js", "/modules/saved.js"):
+            assert module in shell_section
+
     def test_no_provider_prefetch_or_hardcoded_tile_urls(self):
         # Only host-based classification; the SW never constructs provider URLs.
         assert "tiles.openfreemap.org" not in SW
@@ -198,6 +203,8 @@ class TestServerServesAssets:
         assert "manifest+json" in sf["/manifest.webmanifest"][1]
         assert sf["/sw.js"][1].startswith("text/javascript")
         assert sf["/icon-192.png"][1] == "image/png"
+        for module in ("/modules/place.js", "/modules/saved.js"):
+            assert sf[module][1].startswith("text/javascript")
         assert sf["/icon-512.png"][1] == "image/png"
 
     def test_no_new_api_routes(self):

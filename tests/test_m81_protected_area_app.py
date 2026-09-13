@@ -31,6 +31,7 @@ import server  # noqa: E402
 
 INDEX_HTML = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
 APP_JS = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
+PLACE_JS = (ROOT / "webapp" / "static" / "modules/place.js").read_text(encoding="utf-8")
 PA_JSON = (ROOT / "webapp" / "protected_areas.json").read_text(encoding="utf-8")
 
 GORIZ_INSIDE = (42.6627475, 0.0159801)
@@ -159,7 +160,7 @@ def test_pa_fill_pa_line_registered_in_toggle_binding():
 def test_protected_area_excluded_from_poi_order():
     """protected_area is NOT in POI_ORDER (no PA POI symbols)."""
     poi_order_match = re.search(
-        r'const POI_ORDER = \[([^\]]+)\]', APP_JS
+        r'const POI_ORDER = \[([^\]]+)\]', PLACE_JS
     )
     assert poi_order_match, "POI_ORDER must exist"
     assert "protected_area" not in poi_order_match.group(1)

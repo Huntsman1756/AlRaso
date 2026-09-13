@@ -26,6 +26,8 @@ def _read(path):
 HTML = _read("webapp/static/index.html")
 JS = _read("webapp/static/app.js")
 API_LEGAL_JS = _read("webapp/static/modules/api-legal.js")
+PLACE_JS = _read("webapp/static/modules/place.js")
+SAVED_JS = _read("webapp/static/modules/saved.js")
 CSS = _read("webapp/static/style.css")
 PY = _read("webapp/server.py")
 
@@ -197,7 +199,7 @@ class TestU3PoiIcons:
         assert "map.on(\"click\"" in JS or "map.on('click'" in JS
 
     def test_poi_order_unchanged(self):
-        assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in JS
+        assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in PLACE_JS
 
 
 # ══════════════════════════════════════════════
@@ -465,7 +467,7 @@ class TestHooksSurvive:
             assert 'value="' + opt + '"' in HTML, f"Missing activity: {opt}"
 
     def test_poi_order_line(self):
-        assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in JS
+        assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in PLACE_JS
 
     def test_no_tile_openstreetmap(self):
         assert "tile.openstreetmap.org" not in JS
@@ -524,8 +526,8 @@ class TestHooksSurvive:
         assert "Ver fuentes y detalle" in HTML
 
     def test_empty_states_survive(self):
-        assert "Todavía no has guardado ningún sitio." in JS
-        assert "Todavía no has preparado ninguna salida." in JS
+        assert "Todavía no has guardado ningún sitio." in SAVED_JS
+        assert "Todavía no has preparado ninguna salida." in SAVED_JS
 
     def test_stat_ids_survive(self):
         assert 'id="stat-favorites"' in HTML
@@ -667,10 +669,10 @@ class TestM4ProductUsability:
         # branch must restore that parent label, or a second open (once planned
         # outings exist) renders the dropdown invisible and a place can never be
         # added to an EXISTING outing through the UI.
-        start = JS.find("function openChooser")
-        end = JS.find("function closeChooser")
+        start = SAVED_JS.find("function openChooser")
+        end = SAVED_JS.find("function closeChooser")
         assert start != -1 and end != -1 and start < end
-        block = JS[start:end]
+        block = SAVED_JS[start:end]
 
         # The parent-hide must live ONLY in the outings.length === 0 branch.
         guard = block.find("if (outings.length === 0)")

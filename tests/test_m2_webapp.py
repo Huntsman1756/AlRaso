@@ -307,7 +307,8 @@ def test_protected_area_is_osm_reference_not_legal_layer():
     assert "poi-circles-protected_area" not in js, "no se renderiza como capa POI"
     assert "lg-protected" in js, "hay toggle de áreas protegidas (contexto visual)"
     assert "pa-fill" in js and "pa-line" in js, "capas de contexto visual OSM"
-    assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in js
+    place_js = (ROOT / "webapp/static/modules/place.js").read_text(encoding="utf-8")
+    assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in place_js
     html = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
     assert "lg-protected" in html, "hay checkbox de áreas protegidas (contexto visual)"
     api_legal = (ROOT / "webapp" / "static" / "modules" / "api-legal.js").read_text(encoding="utf-8")
