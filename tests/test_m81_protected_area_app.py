@@ -31,6 +31,7 @@ import server  # noqa: E402
 
 INDEX_HTML = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
 APP_JS = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
+MAP_JS = (ROOT / "webapp" / "static" / "modules" / "map.js").read_text(encoding="utf-8")
 PLACE_JS = (ROOT / "webapp" / "static" / "modules/place.js").read_text(encoding="utf-8")
 PA_JSON = (ROOT / "webapp" / "protected_areas.json").read_text(encoding="utf-8")
 
@@ -145,11 +146,11 @@ def test_lg_protected_toggle_exists_and_checked_by_default():
 
 def test_pa_fill_pa_line_registered_in_toggle_binding():
     """pa-fill and pa-line are registered in the bindLayerToggles mapping."""
-    assert '"pa-fill"' in APP_JS or "'pa-fill'" in APP_JS
-    assert '"pa-line"' in APP_JS or "'pa-line'" in APP_JS
+    assert '"pa-fill"' in MAP_JS or "'pa-fill'" in MAP_JS
+    assert '"pa-line"' in MAP_JS or "'pa-line'" in MAP_JS
     # Check they are in the groups dict.
     groups_match = re.search(
-        r'const groups\s*=\s*\{([^}]+)\}', APP_JS, re.DOTALL
+        r'const groups\s*=\s*\{([^}]+)\}', MAP_JS, re.DOTALL
     )
     assert groups_match, "bindLayerToggles groups dict must exist"
     groups_body = groups_match.group(1)
@@ -181,19 +182,19 @@ def test_protected_area_not_in_pois_json_features():
 
 def test_pa_layer_not_a_poi_symbol_layer():
     """The protected-areas layer is not rendered as a POI symbol layer."""
-    assert "poi-icons-protected_area" not in APP_JS
-    assert "poi-labels-protected_area" not in APP_JS
+    assert "poi-icons-protected_area" not in MAP_JS
+    assert "poi-labels-protected_area" not in MAP_JS
 
 
 def test_pa_layer_uses_polygon_layers():
     """pa-fill and pa-line are polygon layers (fill/line), not symbol layers."""
-    assert '"pa-fill"' in APP_JS or "'pa-fill'" in APP_JS
-    assert '"pa-line"' in APP_JS or "'pa-line'" in APP_JS
+    assert '"pa-fill"' in MAP_JS or "'pa-fill'" in MAP_JS
+    assert '"pa-line"' in MAP_JS or "'pa-line'" in MAP_JS
     # Check that pa-fill is a fill layer and pa-line is a line layer.
-    pa_fill_section = APP_JS[APP_JS.find("pa-fill"):]
+    pa_fill_section = MAP_JS[MAP_JS.find("pa-fill"):]
     pa_fill_section = pa_fill_section[:pa_fill_section.find("});") + 3] if "});" in pa_fill_section else pa_fill_section
     assert "fill" in pa_fill_section.lower(), "pa-fill must be a fill layer"
-    pa_line_section = APP_JS[APP_JS.find("pa-line"):]
+    pa_line_section = MAP_JS[MAP_JS.find("pa-line"):]
     pa_line_section = pa_line_section[:pa_line_section.find("});") + 3] if "});" in pa_line_section else pa_line_section
     assert "line" in pa_line_section.lower(), "pa-line must be a line layer"
 
@@ -212,7 +213,7 @@ def test_pa_disclaimer_is_explicitly_non_legal():
 
 def test_pa_geometry_payload_is_validated_before_map_source():
     """Malformed PA geometry must be skipped before MapLibre receives it."""
-    guard = APP_JS[APP_JS.find("function validPaFeatureCollection"):APP_JS.find("function bindLayerToggles")]
+    guard = MAP_JS[MAP_JS.find("export function validPaFeatureCollection"):MAP_JS.find("async function boot")]
     assert "validPaGeometry" in guard
     assert "invalid geometry payload; layer skipped" in guard
     assert guard.index("validPaFeatureCollection(fc)") < guard.index('map.addSource("protected-areas"')
@@ -225,19 +226,12 @@ def test_pa_card_hidden_by_default():
 
 def test_pa_click_handler_sets_coords_on_cta():
     """onPaClick sets data-lat/data-lon on the PA CTA button from e.lngLat."""
-    assert "onPaClick" in APP_JS
+    assert "onPaClick:" in APP_JS
     assert 'setAttribute("data-lat"' in APP_JS or "setAttribute('data-lat'" in APP_JS
     assert 'setAttribute("data-lon"' in APP_JS or "setAttribute('data-lon'" in APP_JS
     # Verify the PA CTA handler uses clicked coordinates.
-    onpa_idx = APP_JS.find("function onPaClick")
-    assert onpa_idx >= 0, "onPaClick function must exist"
-    # Extract the function body (up to the next function declaration or end).
-    rest = APP_JS[onpa_idx:onpa_idx + 1500]
-    func_end = rest.find("\nfunction ", 1)
-    if func_end > 0:
-        rest = rest[:func_end]
-    assert "e.lngLat.lat" in rest or "clickedLat" in rest, "onPaClick must use clicked latitude"
-    assert "e.lngLat.lng" in rest or "clickedLon" in rest, "onPaClick must use clicked longitude"
+    assert "e.lngLat.lat" in MAP_JS, "map handler must use clicked latitude"
+    assert "e.lngLat.lng" in MAP_JS, "map handler must use clicked longitude"
 
 
 def test_new_selection_clears_previous_pa_context_and_name():

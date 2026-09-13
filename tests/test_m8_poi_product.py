@@ -17,6 +17,7 @@ sys.path.insert(0, str(ROOT / "webapp"))
 
 INDEX_HTML = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
 APP_JS = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
+MAP_JS = (ROOT / "webapp/static/modules/map.js").read_text(encoding="utf-8")
 WEATHER_JS = (ROOT / "webapp/static/modules/weather.js").read_text(encoding="utf-8")
 PLACE_JS = (ROOT / "webapp/static/modules/place.js").read_text(encoding="utf-8")
 STYLE_CSS = (ROOT / "webapp" / "static" / "style.css").read_text(encoding="utf-8")
@@ -153,9 +154,9 @@ def test_source_disclosure_fields():
 
 def test_unnamed_pois_are_icon_only_and_get_a_card_label():
     """A missing display name hides map text but remains understandable in the card."""
-    labels_start = APP_JS.find('id: "poi-labels-"')
-    labels_end = APP_JS.find("bindLayerToggles();", labels_start)
-    labels_block = APP_JS[labels_start:labels_end]
+    labels_start = MAP_JS.find('id: "poi-labels-"')
+    labels_end = MAP_JS.find("bindLayerToggles();", labels_start)
+    labels_block = MAP_JS[labels_start:labels_end]
     assert '["!=", ["get", "name"], null]' in labels_block
     assert "anonymousLabel" in APP_JS
     render_start = APP_JS.find("function renderPoi")
@@ -269,7 +270,7 @@ def test_m82_m6_and_m81_plumbing_remain_single_instance():
     assert WEATHER_JS.count("function load(") == 1
     assert "createWeatherController" in APP_JS
     assert "weather.load(lat, lon);" in APP_JS
-    assert APP_JS.count("async function loadProtectedAreas(") == 1
+    assert MAP_JS.count("async function loadProtectedAreas(") == 1
     api_cartography = (ROOT / "webapp/static/modules/api-cartography.js").read_text(encoding="utf-8")
-    assert "fetchProtectedAreas()" in APP_JS
+    assert "fetchProtectedAreas()" in MAP_JS
     assert "'/api/protected-areas'" in api_cartography

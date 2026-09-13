@@ -29,6 +29,7 @@ API_LEGAL_JS = _read("webapp/static/modules/api-legal.js")
 PLACE_JS = _read("webapp/static/modules/place.js")
 SAVED_JS = _read("webapp/static/modules/saved.js")
 SEARCH_JS = _read("webapp/static/modules/search.js")
+MAP_JS = _read("webapp/static/modules/map.js")
 CSS = _read("webapp/static/style.css")
 PY = _read("webapp/server.py")
 
@@ -57,7 +58,7 @@ class TestU1LayersFloatingControl:
     def test_layer_toggles_still_bound(self):
         # bindLayerToggles must reference the checkbox ids
         for cid in ("lg-refuge", "lg-shelter", "lg-water", "lg-camping", "lg-coverage"):
-            assert cid in JS
+            assert cid in MAP_JS
 
     def test_layers_panel_hidden_by_default(self):
         assert 'class="layers-panel"' in HTML or 'id="layers-panel"' in HTML
@@ -101,8 +102,8 @@ class TestU1LayersFloatingControl:
             "outside-click listener must not dereference map; "
             f"found: {listener_code}"
         )
-        # Additionally verify: exactly 4 map.getCanvas in app.js, all inside loadProtectedAreas.
-        total_getCanvas = JS.count("map.getCanvas")
+        # Additionally verify: exactly 4 map.getCanvas in map.js, all inside loadProtectedAreas.
+        total_getCanvas = MAP_JS.count("map.getCanvas")
         assert total_getCanvas == 4, (
             f"Expected exactly 4 map.getCanvas calls (all inside loadProtectedAreas), got {total_getCanvas}"
         )
@@ -164,40 +165,40 @@ class TestU3PoiIcons:
     """Runtime-generated canvas POI icons replace circle layers."""
 
     def test_get_context_used(self):
-        assert "getContext" in JS
+        assert "getContext" in MAP_JS
 
     def test_add_image_used(self):
-        assert "addImage" in JS
+        assert "addImage" in MAP_JS
 
     def test_poi_icon_naming(self):
-        assert "poi-icon-" in JS
+        assert "poi-icon-" in MAP_JS
 
     def test_poi_icons_layer_naming(self):
-        assert "poi-icons-" in JS
+        assert "poi-icons-" in MAP_JS
 
     def test_icon_size_interpolate(self):
         # icon-size uses interpolate with zoom
-        assert "icon-size" in JS
-        assert "interpolate" in JS
-        assert '["zoom"]' in JS or '"zoom"' in JS
+        assert "icon-size" in MAP_JS
+        assert "interpolate" in MAP_JS
+        assert '["zoom"]' in MAP_JS or '"zoom"' in MAP_JS
 
     def test_no_poi_circles_refuge(self):
-        assert "poi-circles-refuge" not in JS
+        assert "poi-circles-refuge" not in MAP_JS
 
     def test_no_poi_circles_protected_area(self):
-        assert "poi-circles-protected_area" not in JS
+        assert "poi-circles-protected_area" not in MAP_JS
 
     def test_bind_layer_toggles_use_poi_icons(self):
         # The layer toggle groups should reference poi-icons- ids
-        assert "poi-icons-refuge" in JS
-        assert "poi-icons-shelter" in JS
-        assert "poi-icons-water" in JS
-        assert "poi-icons-camping" in JS
+        assert "poi-icons-refuge" in MAP_JS
+        assert "poi-icons-shelter" in MAP_JS
+        assert "poi-icons-water" in MAP_JS
+        assert "poi-icons-camping" in MAP_JS
 
     def test_click_handler_uses_poi_icons(self):
         # Click handlers should bind to poi-icons- layer names
-        assert "poi-icons-" in JS
-        assert "map.on(\"click\"" in JS or "map.on('click'" in JS
+        assert "poi-icons-" in MAP_JS
+        assert "map.on(\"click\"" in MAP_JS or "map.on('click'" in MAP_JS
 
     def test_poi_order_unchanged(self):
         assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in PLACE_JS
@@ -212,18 +213,18 @@ class TestU4SoftenCoverageBasemap:
 
     def test_fill_opacity_0_06(self):
         # M4 R6: coverage visually quieter (was 0.1 in M3.1)
-        assert '"fill-opacity": 0.06' in JS
+        assert '"fill-opacity": 0.06' in MAP_JS
 
     def test_line_opacity_oficial_0_4(self):
         # M4 R6: coverage visually quieter (was 0.55 in M3.1)
-        assert '"line-opacity": 0.4' in JS
+        assert '"line-opacity": 0.4' in MAP_JS
 
     def test_line_opacity_esquematico_0_35(self):
         # M4 R6: coverage visually quieter (was 0.45 in M3.1)
-        assert '"line-opacity": 0.35' in JS
+        assert '"line-opacity": 0.35' in MAP_JS
 
     def test_app_js_uses_positron(self):
-        assert "positron" in JS
+        assert "positron" in MAP_JS
 
     def test_server_py_uses_positron(self):
         assert "positron" in PY
@@ -239,7 +240,7 @@ class TestU4SoftenCoverageBasemap:
         assert set(api_paths) == allowed_api_paths, f"Unexpected API routes: {set(api_paths) - allowed_api_paths}"
 
     def test_api_config_still_fetched(self):
-        assert "/api/config" in JS
+        assert "/api/config" in MAP_JS
 
 
 # ══════════════════════════════════════════════
@@ -548,7 +549,7 @@ class TestHooksSurvive:
         assert 'id="sheet-handle"' in HTML
         assert "setSheetState" in JS
         assert "openSheetForSelection" in JS
-        assert "map.resize()" in JS
+        assert "mapHandle.resize()" in JS
 
     def test_snackbar_above_bottom_nav(self):
         # M4 R5: feedback pill moves above the bottom nav on mobile.
@@ -617,12 +618,12 @@ class TestM4ProductUsability:
         assert "max-height:min(78dvh" in CSS
 
     def test_resize_on_sheet_layout_change(self):
-        assert "map.resize()" in JS
+        assert "mapHandle.resize()" in JS
 
     def test_r6_coverage_quieter_but_labeled(self):
         # Never color alone: legend keeps textual chips in the layers panel.
         assert "Cobertura verificada" in HTML
-        assert '"fill-opacity": 0.06' in JS
+        assert '"fill-opacity": 0.06' in MAP_JS
 
     def test_r8_no_new_framework(self):
         # No dependency added to the static layer.

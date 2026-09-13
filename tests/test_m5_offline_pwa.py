@@ -95,7 +95,7 @@ class TestServiceWorkerStrategies:
 
     def test_frontend_modules_are_in_the_shell_precache(self):
         shell_section = SW[SW.find("var SHELL_URLS"):SW.find("self.addEventListener")]
-        for module in ("/modules/place.js", "/modules/saved.js", "/modules/connectivity.js", "/modules/search.js"):
+        for module in ("/modules/place.js", "/modules/saved.js", "/modules/connectivity.js", "/modules/search.js", "/modules/map.js"):
             assert module in shell_section
 
     def test_no_provider_prefetch_or_hardcoded_tile_urls(self):
@@ -204,7 +204,7 @@ class TestServerServesAssets:
         assert "manifest+json" in sf["/manifest.webmanifest"][1]
         assert sf["/sw.js"][1].startswith("text/javascript")
         assert sf["/icon-192.png"][1] == "image/png"
-        for module in ("/modules/place.js", "/modules/saved.js", "/modules/connectivity.js", "/modules/search.js"):
+        for module in ("/modules/place.js", "/modules/saved.js", "/modules/connectivity.js", "/modules/search.js", "/modules/map.js"):
             assert sf[module][1].startswith("text/javascript")
         assert sf["/icon-512.png"][1] == "image/png"
 

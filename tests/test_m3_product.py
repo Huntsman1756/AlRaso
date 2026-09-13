@@ -34,7 +34,7 @@ def test_new_static_assets_registered_and_safe():
     assert "/" in sf
     assert "/app.js" in sf
     assert "/style.css" in sf
-    for module in ("/modules/place.js", "/modules/saved.js"):
+    for module in ("/modules/place.js", "/modules/saved.js", "/modules/connectivity.js", "/modules/search.js", "/modules/map.js"):
         assert module in sf
         assert sf[module][1].startswith("text/javascript")
     # No path traversal
@@ -135,7 +135,7 @@ def test_tab_navigation_and_hash_routing():
 
     assert "function showTab" in js
     assert "aria-current" in js
-    assert "map.resize()" in js
+    assert "mapController.handle()" in js and "resize()" in js
     assert "location.hash" in js
 
 
@@ -350,10 +350,11 @@ def test_picos_authorized_copy(svc):
 
 def test_m2_gate_protected_area_is_osm_reference():
     js = _read("webapp/static/app.js")
+    map_js = _read("webapp/static/modules/map.js")
     assert "poi-circles-protected_area" not in js
     # M8.1: lg-protected was added for the PA cartographic context layer.
-    assert "lg-protected" in js, "M8.1: #lg-protected toggle must exist"
-    assert "pa-fill" in js and "pa-line" in js, "M8.1: PA polygon layers must exist"
+    assert "lg-protected" in map_js, "M8.1: #lg-protected toggle must exist"
+    assert "pa-fill" in map_js and "pa-line" in map_js, "M8.1: PA polygon layers must exist"
     assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in _read("webapp/static/modules/place.js")
     api_legal = _read("webapp/static/modules/api-legal.js")
     api_cartography = _read("webapp/static/modules/api-cartography.js")
@@ -364,8 +365,9 @@ def test_m2_gate_protected_area_is_osm_reference():
 
 def test_m2_gate_provider_decoupled():
     js = _read("webapp/static/app.js")
+    map_js = _read("webapp/static/modules/map.js")
     assert "tile.openstreetmap.org" not in js
-    assert "/api/config" in js
+    assert "/api/config" in map_js
 
 
 def test_m2_gate_frontend_markup():

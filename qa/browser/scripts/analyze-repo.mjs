@@ -67,7 +67,7 @@ function markerInventory(relative, labels) {
 }
 
 const frontendResponsibilities = [
-  { label: 'map/layers', markers: ['new maplibregl.Map', 'bindLayerToggles', 'loadCoverage'] },
+  { label: 'map/layers', markers: ['createMapController', './modules/map.js'] },
   { label: 'POIs', markers: ['loadPois', 'renderPoi', 'poiLegalBtn'] },
   { label: 'protected areas', markers: ['loadProtectedAreas', 'renderPa', 'paLegalBtn'] },
   { label: 'bottom sheet', markers: ['SHEET_STATES', 'setSheetState', 'sheet-handle'] },
