@@ -25,6 +25,7 @@ sys.path.insert(0, str(ROOT / "webapp"))
 import server  # noqa: E402
 
 APP = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
+WEATHER_JS = (ROOT / "webapp" / "static" / "modules" / "weather.js").read_text(encoding="utf-8")
 HTML = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
 CSS = (ROOT / "webapp" / "static" / "style.css").read_text(encoding="utf-8")
 SW = (ROOT / "webapp" / "static" / "sw.js").read_text(encoding="utf-8")
@@ -63,38 +64,38 @@ class TestWeatherBlockLocation:
 
 class TestWeatherFetchModel:
     def test_direct_open_meteo_url_no_key(self):
-        assert "https://api.open-meteo.com/v1/forecast" in APP
+        assert "https://api.open-meteo.com/v1/forecast" in WEATHER_JS
         # no API key parameters anywhere in the URL construction
-        assert "appid=" not in APP and "&key=" not in APP and "apikey" not in APP.lower()
+        assert "appid=" not in WEATHER_JS and "&key=" not in WEATHER_JS and "apikey" not in WEATHER_JS.lower()
 
     def test_coordinates_rounded_to_3_decimals(self):
         # privacy: weather URL uses ~100 m precision only
-        assert "lat.toFixed(3)" in APP
-        assert "lon.toFixed(3)" in APP
+        assert "lat.toFixed(3)" in WEATHER_JS
+        assert "lon.toFixed(3)" in WEATHER_JS
 
     def test_one_request_per_selection_not_per_refresh(self):
-        assert "loadWeather(lat, lon);" in APP
+        assert "weather.load(lat, lon);" in APP
         # selectPoint flow calls it; refresh() must not
         refresh_start = APP.find("function refresh(")
         assert refresh_start != -1
         refresh_body = APP[refresh_start:APP.find("\nfunction ", refresh_start + 10)]
-        assert "loadWeather" not in refresh_body, \
+        assert "weather.load" not in refresh_body, \
             "weather must not be re-fetched on facts/activity changes"
         select_start = APP.find("function selectPoint(")
         select_body = APP[select_start:APP.find("\nfunction ", select_start + 10)]
-        assert "loadWeather" in select_body
+        assert "weather.load" in select_body
 
     def test_monotonic_generation_guard(self):
-        assert "weatherRequestId" in APP
-        assert "myId !== weatherRequestId" in APP
+        assert "weatherRequestId" in WEATHER_JS
+        assert "myId !== weatherRequestId" in WEATHER_JS
 
     def test_abort_previous_request(self):
-        assert "weatherAbort" in APP
-        assert "weatherAbort.abort()" in APP
+        assert "weatherAbort" in WEATHER_JS
+        assert "weatherAbort.abort()" in WEATHER_JS
 
     def test_timezone_auto_and_metric(self):
-        assert "timezone=auto" in APP
-        assert "wind_speed_unit=kmh" in APP
+        assert "timezone=auto" in WEATHER_JS
+        assert "wind_speed_unit=kmh" in WEATHER_JS
 
 
 # ─────────────────────────────────────────────
@@ -104,22 +105,22 @@ class TestWeatherFetchModel:
 class TestChronologicalPeriods:
     def test_three_period_buckets(self):
         for h in ("06:00", "12:00", "18:00"):
-            assert f'T{h}' in APP
+            assert f'T{h}' in WEATHER_JS
 
     def test_labels_use_local_chronology(self):
-        assert '"Esta "' in APP and '"Mañana "' in APP
-        assert "por la mañana" in APP and "por la tarde" in APP and "por la noche" in APP
+        assert '"Esta "' in WEATHER_JS and '"Mañana "' in WEATHER_JS
+        assert "por la mañana" in WEATHER_JS and "por la tarde" in WEATHER_JS and "por la noche" in WEATHER_JS
 
     def test_utc_offset_used_not_browser_clock(self):
-        assert "utc_offset_seconds" in APP
-        assert "nowLocal" in APP
+        assert "utc_offset_seconds" in WEATHER_JS
+        assert "nowLocal" in WEATHER_JS
 
     def test_elapsed_periods_skipped(self):
-        assert "bEnd <= nowLocal" in APP
+        assert "bEnd <= nowLocal" in WEATHER_JS
 
     def test_daily_wind_is_not_presented_as_current(self):
         # Ahora block only uses data.current; daily max stays in the daily line
-        current_slice = APP[APP.find("var cur = data.current"):APP.find("var daily = data.daily")]
+        current_slice = WEATHER_JS[WEATHER_JS.find("var cur = data.current"):WEATHER_JS.find("var daily = data.daily")]
         assert "cur.wind_speed_10m" in current_slice
         assert "wind_speed_10m_max" not in current_slice
 
@@ -136,10 +137,10 @@ class TestP1_1_HoyOnlyCurrentLocalDay:
     as today's."""
 
     def _hoy_slice(self):
-        start = APP.find("var daily = data.daily")
-        end = APP.find("var periods = computeWeatherPeriods", start)
+        start = WEATHER_JS.find("var daily = data.daily")
+        end = WEATHER_JS.find("var periods = computeWeatherPeriods", start)
         assert 0 < start < end
-        return APP[start:end]
+        return WEATHER_JS[start:end]
 
     def test_current_local_day_located_by_index(self):
         slice_ = self._hoy_slice()
@@ -173,8 +174,8 @@ class TestP1_2_CurrentSlotExcludesPastHours:
     12:00-16:00 range leaked into 'Próximas 24 h')."""
 
     def _periods_body(self):
-        start = APP.find("function computeWeatherPeriods(")
-        return APP[start:APP.find("\nfunction ", start + 10)]
+        start = WEATHER_JS.find("function computeWeatherPeriods(")
+        return WEATHER_JS[start:WEATHER_JS.find("\nfunction ", start + 10)]
 
     def test_past_hour_guard_present(self):
         assert "if (t <= nowLocal) continue;" in self._periods_body()
@@ -199,6 +200,9 @@ class TestP1_2_CurrentSlotExcludesPastHours:
 
 
 class TestServiceWorkerUntouched:
+    def test_weather_module_is_precached_explicitly(self):
+        assert '"/modules/weather.js"' in SW
+
     def test_sw_has_no_open_meteo_rule(self):
         assert "open-meteo" not in SW, \
             "weather must fall through the existing other-host branch; no SW change expected"
@@ -213,22 +217,22 @@ class TestServiceWorkerUntouched:
 
 class TestHonestStates:
     def test_loading_state_cleared_per_selection(self):
-        assert '"Cargando condiciones…"' in APP
-        assert 'block.removeAttribute("data-lat")' in APP
+        assert '"Cargando condiciones…"' in WEATHER_JS
+        assert 'block.removeAttribute("data-lat")' in WEATHER_JS
 
     def test_no_connection_copy_exact(self):
-        assert "No hay datos meteorológicos disponibles ahora." in APP
+        assert "No hay datos meteorológicos disponibles ahora." in WEATHER_JS
 
     def test_stale_response_discarded(self):
-        assert "stale response: discarded" in APP
+        assert "stale response: discarded" in WEATHER_JS
 
     def test_attribution_visible_with_link(self):
-        assert "CC BY 4.0" in APP
-        assert 'href="https://open-meteo.com/"' in APP
+        assert "CC BY 4.0" in WEATHER_JS
+        assert 'href="https://open-meteo.com/"' in WEATHER_JS
 
     def test_no_snow_or_freezing_science(self):
         for banned in ("snow", "freezing", "snowfall"):
-            assert banned not in APP.lower(), banned
+            assert banned not in (APP + WEATHER_JS).lower(), banned
 
 
 # ─────────────────────────────────────────────
@@ -252,7 +256,10 @@ class TestScope:
         assert '"tests/test_m6_weather.py"' in m2b
 
     def test_js_syntax_resources(self):
-        # loadWeather/renderWeather are globals callable from the selection flow
-        assert "function loadWeather(" in APP
-        assert "function renderWeather(" in APP
-        assert "function computeWeatherPeriods(" in APP
+        assert "createWeatherController" in WEATHER_JS
+        assert "function load(" in WEATHER_JS
+        assert "function renderWeather(" in WEATHER_JS
+        assert "function computeWeatherPeriods(" in WEATHER_JS
+
+    def test_weather_module_has_explicit_static_route(self):
+        assert '"/modules/weather.js": ("modules/weather.js", "text/javascript; charset=utf-8")' in PY

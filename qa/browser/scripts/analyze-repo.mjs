@@ -77,7 +77,7 @@ const frontendResponsibilities = [
   { label: 'favorites', markers: ['renderFavorites', 'AlRasoStore.addFavorite'] },
   { label: 'outings', markers: ['renderOutings', 'openChooser', 'AlRasoStore.addOuting'] },
   { label: 'connectivity/PWA', markers: ['initPwa', 'serviceWorker.register', 'conn-banner'] },
-  { label: 'weather', markers: ['loadWeather', 'renderWeather', 'api.open-meteo.com'] }
+  { label: 'weather', markers: ['createWeatherController', 'weather.load', './modules/weather.js'] }
 ];
 
 const backendResponsibilities = [

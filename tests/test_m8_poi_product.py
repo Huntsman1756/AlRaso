@@ -17,6 +17,7 @@ sys.path.insert(0, str(ROOT / "webapp"))
 
 INDEX_HTML = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
 APP_JS = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
+WEATHER_JS = (ROOT / "webapp/static/modules/weather.js").read_text(encoding="utf-8")
 STYLE_CSS = (ROOT / "webapp" / "static" / "style.css").read_text(encoding="utf-8")
 SERVER_PY = (ROOT / "webapp" / "server.py").read_text(encoding="utf-8")
 
@@ -264,7 +265,9 @@ def test_m82_port_does_not_restore_poi_altitude_as_legal_altitude():
 
 
 def test_m82_m6_and_m81_plumbing_remain_single_instance():
-    assert APP_JS.count("function loadWeather(") == 1
+    assert WEATHER_JS.count("function load(") == 1
+    assert "createWeatherController" in APP_JS
+    assert "weather.load(lat, lon);" in APP_JS
     assert APP_JS.count("async function loadProtectedAreas(") == 1
     api_cartography = (ROOT / "webapp/static/modules/api-cartography.js").read_text(encoding="utf-8")
     assert "fetchProtectedAreas()" in APP_JS

@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CSS = (ROOT / "webapp/static/style.css").read_text(encoding="utf-8")
 HTML = (ROOT / "webapp/static/index.html").read_text(encoding="utf-8")
 APP = (ROOT / "webapp/static/app.js").read_text(encoding="utf-8")
+WEATHER = (ROOT / "webapp/static/modules/weather.js").read_text(encoding="utf-8")
 ICON_ROOT = ROOT / "webapp/static/icons/outline"
 
 
@@ -84,9 +85,9 @@ def test_m91_place_heading_is_rendered_from_existing_selection_state():
 
 
 def test_m91_weather_forecast_is_a_native_disclosure():
-    assert 'className = "weather-forecast"' in APP
-    assert 'textContent = "Próximas 24 h"' in APP
-    assert "forecast.appendChild(summary)" in APP
+    assert 'className = "weather-forecast"' in WEATHER
+    assert 'textContent = "Próximas 24 h"' in WEATHER
+    assert "forecast.appendChild(summary)" in WEATHER
 
 
 def test_m91_detail_disclosures_keep_actions_primary_and_detail_secondary():
@@ -147,4 +148,4 @@ def test_m91_control_icons_keep_visible_labels_and_no_icon_only_meaning():
     assert ">Guardados<" in HTML
     assert ">Salidas<" in HTML
     assert "aria-hidden=\"true\"" in HTML
-    assert 'data-icon="cloud"' in APP
+    assert 'data-icon="cloud"' in WEATHER
