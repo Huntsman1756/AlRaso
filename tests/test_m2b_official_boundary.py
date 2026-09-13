@@ -872,6 +872,23 @@ def test_git_diff_vs_main_only_allowed_files():
         "webapp/static/icons/outline/map-pin.svg",
         "webapp/static/icons/outline/route.svg",
         "webapp/static/icons/outline/x.svg",
+        # M9.2 frontend architecture: approved spec/plan, twelve explicit
+        # frontend modules, and the architecture contract suite.
+        "docs/superpowers/specs/2026-09-12-m9.2-frontend-architecture-design.md",
+        "docs/superpowers/plans/2026-09-12-m9.2-frontend-architecture.md",
+        "tests/test_m92_frontend_architecture.py",
+        "webapp/static/modules/dom.js",
+        "webapp/static/modules/state.js",
+        "webapp/static/modules/api-legal.js",
+        "webapp/static/modules/api-cartography.js",
+        "webapp/static/modules/weather.js",
+        "webapp/static/modules/saved.js",
+        "webapp/static/modules/connectivity.js",
+        "webapp/static/modules/search.js",
+        "webapp/static/modules/map.js",
+        "webapp/static/modules/place.js",
+        "webapp/static/modules/legal.js",
+        "webapp/static/modules/sheet.js",
     }
     for f in changed:
         m9_allowed = (

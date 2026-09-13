@@ -2,7 +2,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 
-import { assertFrozenProductClean } from '../helpers/product-guard.mjs';
+import { assertProductWorktreeClean } from '../helpers/product-guard.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const browserRoot = path.resolve(here, '..');
@@ -26,11 +26,11 @@ function runOnce(runId) {
 }
 
 function main() {
-  assertFrozenProductClean(repositoryRoot);
+  assertProductWorktreeClean(repositoryRoot);
   runOnce('run-1');
-  assertFrozenProductClean(repositoryRoot);
+  assertProductWorktreeClean(repositoryRoot);
   runOnce('run-2');
-  assertFrozenProductClean(repositoryRoot);
+  assertProductWorktreeClean(repositoryRoot);
   console.log(`M9 two-run evidence written to ${runsRoot}`);
 }
 

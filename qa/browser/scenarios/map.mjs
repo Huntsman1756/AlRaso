@@ -3,9 +3,11 @@ import {
   boot,
   mapClickLngLat,
   openLegalDetail,
+  queryMapRenderedFeatures,
   searchPlace,
   selectCoordinates,
-  waitForMapLayer
+  waitForMapLayer,
+  waitForMapLayoutProperty
 } from '../helpers/ui.mjs';
 import {
   check,
@@ -77,11 +79,7 @@ export const S06_POI_UNNAMED = {
     if (await protectedToggle.isChecked()) {
       await page.locator('#layers-btn').click();
       await protectedToggle.click();
-      await page.waitForFunction(
-        () => map.getLayoutProperty('pa-fill', 'visibility') === 'none',
-        undefined,
-        { timeout: 15_000 }
-      );
+      await waitForMapLayoutProperty(page, 'pa-fill', 'visibility', 'none');
       await page.locator('#layers-btn').click();
       await page.waitForFunction(
         () => document.querySelector('#layers-panel')?.hasAttribute('hidden'),
@@ -98,10 +96,10 @@ export const S06_POI_UNNAMED = {
 
     const title = await text(page, '#poi-name');
     const meta = await text(page, '#poi-meta');
-    const labelFeatures = await page.evaluate((id) => {
-      const features = map.queryRenderedFeatures({ layers: ['poi-labels-camping'] });
-      return features.filter((feature) => feature.properties?.id === id).map((feature) => feature.properties?.name || null);
-    }, CANONICAL.unnamedPoi.id);
+    const features = await queryMapRenderedFeatures(page, { layers: ['poi-labels-camping'] });
+    const labelFeatures = features
+      .filter((feature) => feature.properties?.id === CANONICAL.unnamedPoi.id)
+      .map((feature) => feature.properties?.name || null);
     check(recorder, 'unnamed-poi-card-visible', await visible(page, '#poi'));
     check(recorder, 'unnamed-poi-category-title', title === 'Camping sin nombre', { actual: title });
     check(recorder, 'unnamed-poi-source-ref-not-title', !`${title} ${meta}`.includes(CANONICAL.unnamedPoi.id));

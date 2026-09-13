@@ -1,6 +1,38 @@
 import { CANONICAL } from './constants.mjs';
 
 const DEFAULT_TIMEOUT = 15_000;
+const mapHookedPages = new WeakSet();
+
+async function installMapCapture(page) {
+  if (mapHookedPages.has(page)) return;
+  await page.addInitScript(() => {
+    let currentMapLibre = null;
+
+    function wrapMapConstructor(value) {
+      if (!value || typeof value.Map !== 'function' || value.Map.__m9HarnessWrapped) {
+        return value;
+      }
+      const OriginalMap = value.Map;
+      const WrappedMap = new Proxy(OriginalMap, {
+        construct(target, args, newTarget) {
+          const instance = Reflect.construct(target, args, newTarget);
+          window.__m9HarnessMap = instance;
+          return instance;
+        }
+      });
+      Object.defineProperty(WrappedMap, '__m9HarnessWrapped', { value: true });
+      value.Map = WrappedMap;
+      return value;
+    }
+
+    Object.defineProperty(window, 'maplibregl', {
+      configurable: true,
+      get() { return currentMapLibre; },
+      set(value) { currentMapLibre = wrapMapConstructor(value); }
+    });
+  });
+  mapHookedPages.add(page);
+}
 
 function isPath(response, pathname) {
   try {
@@ -19,17 +51,24 @@ async function waitForResolve(page) {
 
 async function waitForMapIdle(page) {
   await page.waitForFunction(
-    () => typeof map !== 'undefined' && map && (!map.isMoving || !map.isMoving()),
+    () => {
+      const map = window.__m9HarnessMap;
+      return map && (!map.isMoving || !map.isMoving());
+    },
     undefined,
     { timeout: DEFAULT_TIMEOUT }
   );
 }
 
 export async function boot(page) {
+  await installMapCapture(page);
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await page.locator('#map').waitFor({ state: 'visible', timeout: DEFAULT_TIMEOUT });
   await page.waitForFunction(
-    () => typeof map !== 'undefined' && map && map.loaded(),
+    () => {
+      const map = window.__m9HarnessMap;
+      return Boolean(map && typeof map.loaded === 'function' && map.loaded());
+    },
     undefined,
     { timeout: DEFAULT_TIMEOUT }
   );
@@ -38,10 +77,22 @@ export async function boot(page) {
 
 export async function waitForMapLayer(page, layerId) {
   await page.waitForFunction(
-    (id) => typeof map !== 'undefined' && map && map.getLayer(id),
+    (id) => window.__m9HarnessMap?.getLayer(id),
     layerId,
     { timeout: DEFAULT_TIMEOUT }
   );
+}
+
+export async function waitForMapLayoutProperty(page, layerId, property, expected) {
+  await page.waitForFunction(
+    ([id, name, value]) => window.__m9HarnessMap?.getLayoutProperty(id, name) === value,
+    [layerId, property, expected],
+    { timeout: DEFAULT_TIMEOUT }
+  );
+}
+
+export async function queryMapRenderedFeatures(page, options) {
+  return page.evaluate((query) => window.__m9HarnessMap?.queryRenderedFeatures(query) || [], options);
 }
 
 export async function searchPlace(page, query) {
@@ -135,7 +186,8 @@ export async function enterPicosFacts(page) {
 
 export async function mapClickLngLat(page, lon, lat) {
   const point = await page.evaluate(([longitude, latitude]) => {
-    if (typeof map === 'undefined' || !map) {
+    const map = window.__m9HarnessMap;
+    if (!map) {
       throw new Error('HARNESS_ERROR MapLibre map unavailable');
     }
     const pixel = map.project([longitude, latitude]);

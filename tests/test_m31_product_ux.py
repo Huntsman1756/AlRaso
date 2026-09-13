@@ -25,6 +25,13 @@ def _read(path):
 
 HTML = _read("webapp/static/index.html")
 JS = _read("webapp/static/app.js")
+API_LEGAL_JS = _read("webapp/static/modules/api-legal.js")
+LEGAL_JS = _read("webapp/static/modules/legal.js")
+PLACE_JS = _read("webapp/static/modules/place.js")
+SAVED_JS = _read("webapp/static/modules/saved.js")
+SEARCH_JS = _read("webapp/static/modules/search.js")
+MAP_JS = _read("webapp/static/modules/map.js")
+SHEET_JS = _read("webapp/static/modules/sheet.js")
 CSS = _read("webapp/static/style.css")
 PY = _read("webapp/server.py")
 
@@ -53,7 +60,7 @@ class TestU1LayersFloatingControl:
     def test_layer_toggles_still_bound(self):
         # bindLayerToggles must reference the checkbox ids
         for cid in ("lg-refuge", "lg-shelter", "lg-water", "lg-camping", "lg-coverage"):
-            assert cid in JS
+            assert cid in MAP_JS
 
     def test_layers_panel_hidden_by_default(self):
         assert 'class="layers-panel"' in HTML or 'id="layers-panel"' in HTML
@@ -97,8 +104,8 @@ class TestU1LayersFloatingControl:
             "outside-click listener must not dereference map; "
             f"found: {listener_code}"
         )
-        # Additionally verify: exactly 4 map.getCanvas in app.js, all inside loadProtectedAreas.
-        total_getCanvas = JS.count("map.getCanvas")
+        # Additionally verify: exactly 4 map.getCanvas in map.js, all inside loadProtectedAreas.
+        total_getCanvas = MAP_JS.count("map.getCanvas")
         assert total_getCanvas == 4, (
             f"Expected exactly 4 map.getCanvas calls (all inside loadProtectedAreas), got {total_getCanvas}"
         )
@@ -160,43 +167,43 @@ class TestU3PoiIcons:
     """Runtime-generated canvas POI icons replace circle layers."""
 
     def test_get_context_used(self):
-        assert "getContext" in JS
+        assert "getContext" in MAP_JS
 
     def test_add_image_used(self):
-        assert "addImage" in JS
+        assert "addImage" in MAP_JS
 
     def test_poi_icon_naming(self):
-        assert "poi-icon-" in JS
+        assert "poi-icon-" in MAP_JS
 
     def test_poi_icons_layer_naming(self):
-        assert "poi-icons-" in JS
+        assert "poi-icons-" in MAP_JS
 
     def test_icon_size_interpolate(self):
         # icon-size uses interpolate with zoom
-        assert "icon-size" in JS
-        assert "interpolate" in JS
-        assert '["zoom"]' in JS or '"zoom"' in JS
+        assert "icon-size" in MAP_JS
+        assert "interpolate" in MAP_JS
+        assert '["zoom"]' in MAP_JS or '"zoom"' in MAP_JS
 
     def test_no_poi_circles_refuge(self):
-        assert "poi-circles-refuge" not in JS
+        assert "poi-circles-refuge" not in MAP_JS
 
     def test_no_poi_circles_protected_area(self):
-        assert "poi-circles-protected_area" not in JS
+        assert "poi-circles-protected_area" not in MAP_JS
 
     def test_bind_layer_toggles_use_poi_icons(self):
         # The layer toggle groups should reference poi-icons- ids
-        assert "poi-icons-refuge" in JS
-        assert "poi-icons-shelter" in JS
-        assert "poi-icons-water" in JS
-        assert "poi-icons-camping" in JS
+        assert "poi-icons-refuge" in MAP_JS
+        assert "poi-icons-shelter" in MAP_JS
+        assert "poi-icons-water" in MAP_JS
+        assert "poi-icons-camping" in MAP_JS
 
     def test_click_handler_uses_poi_icons(self):
         # Click handlers should bind to poi-icons- layer names
-        assert "poi-icons-" in JS
-        assert "map.on(\"click\"" in JS or "map.on('click'" in JS
+        assert "poi-icons-" in MAP_JS
+        assert "map.on(\"click\"" in MAP_JS or "map.on('click'" in MAP_JS
 
     def test_poi_order_unchanged(self):
-        assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in JS
+        assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in PLACE_JS
 
 
 # ══════════════════════════════════════════════
@@ -208,18 +215,18 @@ class TestU4SoftenCoverageBasemap:
 
     def test_fill_opacity_0_06(self):
         # M4 R6: coverage visually quieter (was 0.1 in M3.1)
-        assert '"fill-opacity": 0.06' in JS
+        assert '"fill-opacity": 0.06' in MAP_JS
 
     def test_line_opacity_oficial_0_4(self):
         # M4 R6: coverage visually quieter (was 0.55 in M3.1)
-        assert '"line-opacity": 0.4' in JS
+        assert '"line-opacity": 0.4' in MAP_JS
 
     def test_line_opacity_esquematico_0_35(self):
         # M4 R6: coverage visually quieter (was 0.45 in M3.1)
-        assert '"line-opacity": 0.35' in JS
+        assert '"line-opacity": 0.35' in MAP_JS
 
     def test_app_js_uses_positron(self):
-        assert "positron" in JS
+        assert "positron" in MAP_JS
 
     def test_server_py_uses_positron(self):
         assert "positron" in PY
@@ -235,7 +242,7 @@ class TestU4SoftenCoverageBasemap:
         assert set(api_paths) == allowed_api_paths, f"Unexpected API routes: {set(api_paths) - allowed_api_paths}"
 
     def test_api_config_still_fetched(self):
-        assert "/api/config" in JS
+        assert "/api/config" in MAP_JS
 
 
 # ══════════════════════════════════════════════
@@ -253,9 +260,9 @@ class TestU5PlaceCard:
 
     def test_act_labels_used_in_coords(self):
         """ACT_LABELS[d.query.activity] should appear in the coords line."""
-        assert "ACT_LABELS" in JS
+        assert "ACT_LABELS" in LEGAL_JS
         # The coords line should reference ACT_LABELS
-        assert "ACT_LABELS[" in JS
+        assert "ACT_LABELS[" in LEGAL_JS
 
     def test_place_name_larger_than_legal_result(self):
         # M4 R4: the place name must dominate the card, legal answer stays
@@ -392,21 +399,23 @@ class TestU8Onboarding:
 
     def test_cta_ids_in_js(self):
         """Three place IDs used by the CTA."""
-        assert "cares-picos" in JS
-        assert "refugio-goriz" in JS
-        assert "pradera-ordesa" in JS
+        assert "cares-picos" in SEARCH_JS
+        assert "refugio-goriz" in SEARCH_JS
+        assert "pradera-ordesa" in SEARCH_JS
 
     def test_cta_uses_api_places(self):
-        assert "/api/places" in JS
+        assert "fetchPlaces()" in SEARCH_JS
+        assert "/api/places" in API_LEGAL_JS
 
     def test_cta_selectPoint_called(self):
-        assert "selectPoint" in JS
+        assert "onSelectPoint(place.lat, place.lon, place.name, true)" in SEARCH_JS
+        assert "onSelectPoint: function (lat, lon, name, fly) { selectPoint(lat, lon, name, fly); }" in JS
 
     def test_cta_buttons_keyboard_reachable(self):
         """CTA buttons are real <button> elements created dynamically in JS."""
-        # Buttons are created dynamically in app.js with createElement("button")
-        assert "createElement" in JS
-        assert "cta-btn" in JS or 'className' in JS or "class = " in JS or "className =" in JS
+        # Buttons are created dynamically in search.js with createElement("button")
+        assert "createElement" in SEARCH_JS
+        assert "cta-btn" in SEARCH_JS or 'className' in SEARCH_JS or "class = " in SEARCH_JS or "className =" in SEARCH_JS
 
     def test_legend_chips_in_layers_panel(self):
         """Legend chips moved to layers-panel, not card-empty."""
@@ -464,7 +473,7 @@ class TestHooksSurvive:
             assert 'value="' + opt + '"' in HTML, f"Missing activity: {opt}"
 
     def test_poi_order_line(self):
-        assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in JS
+        assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in PLACE_JS
 
     def test_no_tile_openstreetmap(self):
         assert "tile.openstreetmap.org" not in JS
@@ -474,10 +483,10 @@ class TestHooksSurvive:
         assert "lg-protected" in HTML, "M8.1: #lg-protected toggle must exist"
 
     def test_legal_emoji_map(self):
-        assert chr(0x2705) in JS  # ✅
-        assert chr(0x26D4) in JS  # ⛔
-        assert chr(0x1F7E0) in JS  # 🟠
-        assert chr(0x26A0) in JS  # ⚠️
+        assert chr(0x2705) in LEGAL_JS  # ✅
+        assert chr(0x26D4) in LEGAL_JS  # ⛔
+        assert chr(0x1F7E0) in LEGAL_JS  # 🟠
+        assert chr(0x26A0) in LEGAL_JS  # ⚠️
 
     def test_geo_btn_in_html(self):
         assert 'id="geo-btn"' in HTML
@@ -523,8 +532,8 @@ class TestHooksSurvive:
         assert "Ver fuentes y detalle" in HTML
 
     def test_empty_states_survive(self):
-        assert "Todavía no has guardado ningún sitio." in JS
-        assert "Todavía no has preparado ninguna salida." in JS
+        assert "Todavía no has guardado ningún sitio." in SAVED_JS
+        assert "Todavía no has preparado ninguna salida." in SAVED_JS
 
     def test_stat_ids_survive(self):
         assert 'id="stat-favorites"' in HTML
@@ -540,9 +549,9 @@ class TestHooksSurvive:
     def test_sheet_handle_hooks(self):
         # M4 R2: handle/button navigation between sheet states is required.
         assert 'id="sheet-handle"' in HTML
-        assert "setSheetState" in JS
-        assert "openSheetForSelection" in JS
-        assert "map.resize()" in JS
+        assert "setSheetState" in SHEET_JS
+        assert "openSheetForSelection" in SHEET_JS
+        assert "mapHandle.resize()" in JS
 
     def test_snackbar_above_bottom_nav(self):
         # M4 R5: feedback pill moves above the bottom nav on mobile.
@@ -560,7 +569,7 @@ class TestHooksSurvive:
 
     def test_escape_coordinator_order(self):
         # M4 product check: Escape closes dropdown -> layers -> sheet step down.
-        assert 'ev.key !== "Escape"' in JS
+        assert 'ev.key !== "Escape"' in SHEET_JS
 
     def test_poi_separation_copy_unchanged(self):
         # La copia real lleva <b>no</b> implica ningún permiso (etiqueta en medio)
@@ -585,21 +594,23 @@ class TestM4ProductUsability:
 
     def test_r2_tap_navigation_required_and_drag_optional(self):
         # Required: handle click toggles states
-        assert 'handle.addEventListener("click"' in JS
+        assert 'handle.addEventListener("click"' in SHEET_JS
         # Optional: plain Pointer Events drag, no library, no inertia
-        assert "pointerdown" in JS and "pointerup" in JS
-        assert "requestAnimationFrame" not in JS.split("endDrag")[1][:400]
+        assert "pointerdown" in SHEET_JS and "pointerup" in SHEET_JS
+        assert "requestAnimationFrame" not in SHEET_JS.split("endDrag")[1][:400]
 
     def test_r3_dropdown_sources_only_api_places(self):
-        start = JS.find("function initSuggest")
-        end = JS.find('$("searchform").addEventListener("submit"')
+        start = SEARCH_JS.find("function initSuggest")
+        end = SEARCH_JS.find("function initSubmit")
         assert start != -1 and end != -1 and start < end
-        block = JS[start:end]
-        assert "/api/places" in block
+        block = SEARCH_JS[start:end]
+        assert "fetchPlaces()" in block
+        assert "/api/places" in API_LEGAL_JS
         assert "/api/find" not in block, "dropdown must not add a search source"
 
     def test_r3_selection_calls_selectpoint(self):
-        assert "selectPoint(p.lat, p.lon, p.name, true)" in JS
+        assert "onSelectPoint(p.lat, p.lon, p.name, true)" in SEARCH_JS
+        assert "onSelectPoint: function (lat, lon, name, fly) { selectPoint(lat, lon, name, fly); }" in JS
 
     def test_r5_actions_sticky_above_nav(self):
         assert "position:sticky" in CSS
@@ -609,12 +620,12 @@ class TestM4ProductUsability:
         assert "max-height:min(78dvh" in CSS
 
     def test_resize_on_sheet_layout_change(self):
-        assert "map.resize()" in JS
+        assert "mapHandle.resize()" in JS
 
     def test_r6_coverage_quieter_but_labeled(self):
         # Never color alone: legend keeps textual chips in the layers panel.
         assert "Cobertura verificada" in HTML
-        assert '"fill-opacity": 0.06' in JS
+        assert '"fill-opacity": 0.06' in MAP_JS
 
     def test_r8_no_new_framework(self):
         # No dependency added to the static layer.
@@ -632,20 +643,20 @@ class TestM4ProductUsability:
     def test_p1_2_escape_closes_exactly_one_level(self):
         # Dropdown Escape must stop propagation AND the sheet coordinator
         # must honour defaultPrevented: one keypress, one level.
-        assert "ev.stopPropagation(); close();" in JS
-        assert 'ev.key !== "Escape" || ev.defaultPrevented' in JS
+        assert "ev.stopPropagation(); close();" in SEARCH_JS
+        assert 'ev.key !== "Escape" || ev.defaultPrevented' in SHEET_JS
 
     def test_p1_3_closed_state_tap_reachable(self):
         # closed keeps a visible handle strip and the handle cycles all
         # three states, so closing/reopening never requires a drag.
         assert "calc(100% - 44px)" in CSS
-        assert "SHEET_STATES[(i + 1) % SHEET_STATES.length]" in JS
+        assert "SHEET_STATES[(i + 1) % SHEET_STATES.length]" in SHEET_JS
 
     def test_p1_4_cta_notes_come_from_places_data(self):
         # No hardcoded zone claims in JS: the note is place.note from /api/places.
-        assert "place.note" in JS
-        assert "extremo a extremo" not in JS
-        assert "todavía no la verifica" not in JS
+        assert "place.note" in SEARCH_JS
+        assert "extremo a extremo" not in SEARCH_JS
+        assert "todavía no la verifica" not in SEARCH_JS
 
     def test_p1_5_sheet_handle_meets_44px_target(self):
         # Touch targets must be >=44px. #sheet-handle is more specific than
@@ -665,10 +676,10 @@ class TestM4ProductUsability:
         # branch must restore that parent label, or a second open (once planned
         # outings exist) renders the dropdown invisible and a place can never be
         # added to an EXISTING outing through the UI.
-        start = JS.find("function openChooser")
-        end = JS.find("function closeChooser")
+        start = SAVED_JS.find("function openChooser")
+        end = SAVED_JS.find("function closeChooser")
         assert start != -1 and end != -1 and start < end
-        block = JS[start:end]
+        block = SAVED_JS[start:end]
 
         # The parent-hide must live ONLY in the outings.length === 0 branch.
         guard = block.find("if (outings.length === 0)")
@@ -696,12 +707,12 @@ class TestM4ProductUsability:
         # wins the render even when it does NOT match the current form state, so an
         # earlier facts-incomplete response could overwrite PERMITTED with
         # UNDETERMINED. refresh() must mirror the established loadWeather guard.
-        assert "var resolveRequestId = 0;" in JS
+        assert "var resolveRequestId = 0;" in LEGAL_JS
 
-        start = JS.find("async function refresh")
-        end = JS.find('$("date").valueAsDate', start)
+        start = LEGAL_JS.find("async function refresh")
+        end = LEGAL_JS.find("function render(", start)
         assert start != -1 and end != -1 and start < end
-        block = JS[start:end]
+        block = LEGAL_JS[start:end]
 
         # The generation is bumped and captured before the fetch is issued...
         assert "resolveRequestId += 1;" in block

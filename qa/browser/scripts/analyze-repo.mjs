@@ -4,6 +4,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 
 import { writeJson } from '../helpers/evidence.mjs';
 import { PRODUCT_COMMIT } from '../helpers/constants.mjs';
+import { assertProductWorktreeClean } from '../helpers/product-guard.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const browserRoot = path.resolve(here, '..');
@@ -66,17 +67,17 @@ function markerInventory(relative, labels) {
 }
 
 const frontendResponsibilities = [
-  { label: 'map/layers', markers: ['new maplibregl.Map', 'bindLayerToggles', 'loadCoverage'] },
-  { label: 'POIs', markers: ['loadPois', 'renderPoi', 'poiLegalBtn'] },
-  { label: 'protected areas', markers: ['loadProtectedAreas', 'renderPa', 'paLegalBtn'] },
-  { label: 'bottom sheet', markers: ['SHEET_STATES', 'setSheetState', 'sheet-handle'] },
+  { label: 'map/layers', markers: ['createMapController', './modules/map.js'] },
+  { label: 'POIs/place presentation', markers: ['place.renderPoi', './modules/place.js'] },
+  { label: 'protected areas/place presentation', markers: ['place.renderPa', './modules/place.js'] },
+  { label: 'bottom sheet', markers: ['createSheetController', './modules/sheet.js', 'SHEET_STATES'] },
   { label: 'geolocation', markers: ['navigator.geolocation', 'initGeo'] },
   { label: 'search/suggestions', markers: ['initSuggest', 'searchform', '/api/find'] },
-  { label: 'legal resolve rendering', markers: ['async function refresh', 'primaryLegalLabel', 'render(d)'] },
-  { label: 'favorites', markers: ['renderFavorites', 'AlRasoStore.addFavorite'] },
-  { label: 'outings', markers: ['renderOutings', 'openChooser', 'AlRasoStore.addOuting'] },
-  { label: 'connectivity/PWA', markers: ['initPwa', 'serviceWorker.register', 'conn-banner'] },
-  { label: 'weather', markers: ['loadWeather', 'renderWeather', 'api.open-meteo.com'] }
+  { label: 'legal resolve rendering', markers: ['createLegalController', './modules/legal.js'] },
+  { label: 'favorites', markers: ['saved.renderFavorites', './modules/saved.js'] },
+  { label: 'outings', markers: ['saved.renderOutings', './modules/saved.js'] },
+  { label: 'connectivity/PWA', markers: ['createConnectivityController', './modules/connectivity.js'] },
+  { label: 'weather', markers: ['createWeatherController', 'weather.load', './modules/weather.js'] }
 ];
 
 const backendResponsibilities = [
@@ -209,6 +210,7 @@ function performanceSummary() {
 }
 
 function analyze() {
+  const productHeadSha = assertProductWorktreeClean(repositoryRoot);
   const frontendFiles = ['webapp/static/app.js', 'webapp/static/store.js', 'webapp/static/sw.js', 'webapp/static/index.html', 'webapp/static/style.css'];
   const backendFiles = ['webapp/server.py', 'webapp/dem.py', ...readdirSync(path.join(repositoryRoot, 'alraso'))
     .filter((file) => file.endsWith('.py'))
@@ -216,14 +218,16 @@ function analyze() {
     .map((file) => path.join('alraso', file))];
   const allFiles = [...new Set([...frontendFiles, ...backendFiles])];
   const architecture = {
-    product_commit: PRODUCT_COMMIT,
+    product_head_sha: productHeadSha,
+    historical_product_commit: PRODUCT_COMMIT,
     files: allFiles.map(sourceMetrics),
     frontend_responsibilities: markerInventory('webapp/static/app.js', frontendResponsibilities),
     backend_responsibilities: markerInventory('webapp/server.py', backendResponsibilities),
     server_routes: [...new Set([...read('webapp/server.py').matchAll(/['"](\/api\/[A-Za-z0-9_-]+)['"]/g)].map((match) => match[1]))].sort()
   };
   const quality = {
-    product_commit: PRODUCT_COMMIT,
+    product_head_sha: productHeadSha,
+    historical_product_commit: PRODUCT_COMMIT,
     areas: qualityMatrix(),
     note: 'Statuses record observed M9.0 capability, not a quality verdict.'
   };

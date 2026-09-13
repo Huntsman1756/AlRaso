@@ -156,8 +156,9 @@ def test_map_style_url_fails_closed_to_default_on_garbage(monkeypatch):
 
 def test_frontend_provider_is_decoupled_not_hardcoded():
     js = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
+    map_js = (ROOT / "webapp" / "static" / "modules" / "map.js").read_text(encoding="utf-8")
     assert "tile.openstreetmap.org" not in js, "M2.2: no direct OSMF tile usage"
-    assert "/api/config" in js, "the map style must come from server config"
+    assert "/api/config" in map_js, "the map style must come from server config"
 
 
 POI_CATS = {"refuge", "shelter", "water", "camping"}
@@ -304,13 +305,19 @@ def test_protected_area_is_osm_reference_not_legal_layer():
     # protected_area: no se renderiza como capa POI (POI_ORDER no la incluye),
     # pero SÍ hay un toggle #lg-protected y una capa de contexto visual (pa-fill/pa-line).
     js = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
+    map_js = (ROOT / "webapp" / "static" / "modules" / "map.js").read_text(encoding="utf-8")
     assert "poi-circles-protected_area" not in js, "no se renderiza como capa POI"
-    assert "lg-protected" in js, "hay toggle de áreas protegidas (contexto visual)"
-    assert "pa-fill" in js and "pa-line" in js, "capas de contexto visual OSM"
-    assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in js
+    assert "lg-protected" in map_js, "hay toggle de áreas protegidas (contexto visual)"
+    assert "pa-fill" in map_js and "pa-line" in map_js, "capas de contexto visual OSM"
+    place_js = (ROOT / "webapp/static/modules/place.js").read_text(encoding="utf-8")
+    assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in place_js
     html = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
     assert "lg-protected" in html, "hay checkbox de áreas protegidas (contexto visual)"
-    assert "/api/coverage" in js and "/api/pois" in js and "/api/protected-areas" in js
+    api_legal = (ROOT / "webapp" / "static" / "modules" / "api-legal.js").read_text(encoding="utf-8")
+    api_cartography = (ROOT / "webapp" / "static" / "modules" / "api-cartography.js").read_text(encoding="utf-8")
+    assert "/api/coverage" in api_legal
+    assert "/api/pois" in api_cartography
+    assert "/api/protected-areas" in api_cartography
 
 
 def test_find_excludes_protected_area(svc):

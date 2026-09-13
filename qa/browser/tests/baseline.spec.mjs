@@ -6,7 +6,7 @@ import { test } from '@playwright/test';
 import { assertCanonicalEnvironment, captureEnvironment, installBaselineClock } from '../helpers/environment.mjs';
 import { writeJson, writeScreenshot } from '../helpers/evidence.mjs';
 import { observePage } from '../helpers/observer.mjs';
-import { assertFrozenProductClean } from '../helpers/product-guard.mjs';
+import { assertProductWorktreeClean } from '../helpers/product-guard.mjs';
 import { ScenarioRecorder } from '../helpers/recorder.mjs';
 import {
   S01_BOOT_EMPTY,
@@ -20,7 +20,7 @@ import { S10_SAVE_FAVORITE, S11_OUTING_FLOW } from '../scenarios/persistence.mjs
 import { S12_MOBILE_SHEET, S13_OFFLINE_VISITED, S14_LEGAL_SERVER_DOWN } from '../scenarios/resilience.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const root = path.resolve(here, '../..');
+const root = path.resolve(here, '../../..');
 const runDir = path.resolve(process.env.M9_RUN_DIR || path.join(here, '..', '.m9-runs', 'manual'));
 
 const scenarios = [
@@ -58,14 +58,15 @@ function evidencePath(projectName, scenarioId, suffix) {
 }
 
 test.beforeAll(async ({ browser }) => {
-  assertFrozenProductClean(root);
+  const productHeadSha = assertProductWorktreeClean(root);
   const environment = captureEnvironment(browser, root);
+  environment.product_head_sha = productHeadSha;
   assertCanonicalEnvironment(environment);
   writeJson(path.join(runDir, 'environment.json'), environment);
 });
 
 test.afterAll(() => {
-  assertFrozenProductClean(root);
+  assertProductWorktreeClean(root);
 });
 
 for (const scenario of scenarios) {
@@ -76,6 +77,7 @@ for (const scenario of scenarios) {
     const started = performance.now();
     let fatalError = null;
     let screenshotError = null;
+    let result = null;
     const resultFile = evidencePath(projectName, scenario.id, '.json');
     const screenshotFile = evidencePath(projectName, scenario.id, '.png');
 
@@ -92,7 +94,7 @@ for (const scenario of scenarios) {
       }
 
       const executionError = fatalError || screenshotError;
-      const result = recorder.finish({
+      result = recorder.finish({
         observer,
         metrics: {
           timings_ms: { scenario: Math.round(performance.now() - started) }
@@ -111,5 +113,13 @@ for (const scenario of scenarios) {
 
     if (fatalError) throw fatalError;
     if (screenshotError) throw screenshotError;
+    if (result.scenario_status === 'FAIL') {
+      const failures = result.assertion_details
+        .filter((record) => record.passed === false)
+        .map((record) => record.label);
+      throw new Error(
+        `${scenario.id} recorded FAIL (assertions=${failures.join(',') || 'none'} page_errors=${result.page_errors} network=${result.unexpected_network_failures.length})`
+      );
+    }
   });
 }

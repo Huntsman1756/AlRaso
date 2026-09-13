@@ -5,6 +5,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 
 import { BASELINE_NOW, DEVICE_SCALE_FACTOR, LOCALE, PRODUCT_COMMIT, TIMEZONE, VIEWPORTS } from '../helpers/constants.mjs';
 import { manifestHashCandidates, sha256File, writeJson } from '../helpers/evidence.mjs';
+import { assertProductWorktreeClean } from '../helpers/product-guard.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const browserRoot = path.resolve(here, '..');
@@ -66,6 +67,12 @@ function buildManifest() {
   const environment = readEnvironment();
   assertCanonicalTooling(environment);
   if (!existsSync(evidenceRoot)) throw new Error(`ENVIRONMENT_ERROR missing evidence root ${evidenceRoot}`);
+  const productHeadSha = assertProductWorktreeClean(repositoryRoot);
+  if (environment.product_head_sha && environment.product_head_sha !== productHeadSha) {
+    throw new Error(
+      `ENVIRONMENT_ERROR product_head_sha changed: ${environment.product_head_sha} -> ${productHeadSha}`
+    );
+  }
 
   const relativeFiles = walk(evidenceRoot)
     .map((file) => path.relative(evidenceRoot, file).split(path.sep).join('/'))
@@ -81,7 +88,8 @@ function buildManifest() {
   }).trim();
 
   const manifest = {
-    product_commit: PRODUCT_COMMIT,
+    product_head_sha: productHeadSha,
+    historical_product_commit: PRODUCT_COMMIT,
     qa_harness_commit: qaHarnessCommit,
     generated_at: new Date().toISOString(),
     baseline_now: BASELINE_NOW,

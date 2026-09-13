@@ -17,6 +17,10 @@ sys.path.insert(0, str(ROOT / "webapp"))
 
 INDEX_HTML = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
 APP_JS = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
+LEGAL_JS = (ROOT / "webapp/static/modules/legal.js").read_text(encoding="utf-8")
+MAP_JS = (ROOT / "webapp/static/modules/map.js").read_text(encoding="utf-8")
+WEATHER_JS = (ROOT / "webapp/static/modules/weather.js").read_text(encoding="utf-8")
+PLACE_JS = (ROOT / "webapp/static/modules/place.js").read_text(encoding="utf-8")
 STYLE_CSS = (ROOT / "webapp" / "static" / "style.css").read_text(encoding="utf-8")
 SERVER_PY = (ROOT / "webapp" / "server.py").read_text(encoding="utf-8")
 
@@ -24,12 +28,12 @@ SERVER_PY = (ROOT / "webapp" / "server.py").read_text(encoding="utf-8")
 # ── 1. CTA exists with exact copy ──────────────────────────────────────────
 
 def test_cta_exists_with_exact_copy():
-    """"Consultar aquí el estatus legal" is present in index.html and wired in app.js."""
+    """"Consultar aquí el estatus legal" is present and wired by place.js."""
     assert "Consultar aquí el estatus legal" in INDEX_HTML, \
         "index.html must contain the CTA exact copy"
-    # The button must have an id or be referenced in app.js by the CTA text or id.
+    # The presentation module owns the button wiring; app.js receives the query callback.
     assert "poi-legal-btn" in INDEX_HTML, "CTA button must have id=poi-legal-btn"
-    assert "poi-legal-btn" in APP_JS, "app.js must wire the CTA button"
+    assert "poi-legal-btn" in PLACE_JS, "place.js must wire the CTA button"
 
 
 # ── 2. CTA passes coordinates only (no POI metadata to resolver) ──────────
@@ -47,17 +51,21 @@ def test_cta_passes_coordinates_only():
     # The CTA handler calls selectPoint(lat, lon, …) — check that the handler
     # only passes lat, lon and the existing selectedName (which is user-set,
     # not POI metadata).
-    # Pattern: selectPoint(lat, lon, state.selectedName, true)
-    assert re.search(r"selectPoint\s*\(\s*lat\s*,\s*lon\s*,\s*state\.selectedName", APP_JS), \
-        "CTA handler must call selectPoint(lat, lon, state.selectedName, ...)"
+    # place.js passes coordinates and the current user-selected name only for the POI CTA.
+    assert re.search(
+        r'onLegalQuery\(buttonLat, buttonLon, id === "poi-legal-btn" \? state\.selectedName : null\)',
+        PLACE_JS,
+    ), "place CTA must pass coordinates and the current selected name only"
+    assert "selectPoint(lat, lon, name, true, true)" in APP_JS, \
+        "app callback must preserve the existing coordinates-only selection path"
 
     # factsFromForm reads only #factbox inputs — assert its body is unchanged:
-    assert "document.querySelectorAll" in APP_JS, \
-        "factsFromForm must use querySelectorAll"
+    assert "form.factbox.querySelectorAll" in LEGAL_JS, \
+        "factsFromForm must read the injected factbox"
     # Find the factsFromForm function body and verify it targets #factbox:
-    facts_pos = APP_JS.find("function factsFromForm()")
+    facts_pos = LEGAL_JS.find("function factsFromForm()")
     assert facts_pos >= 0, "factsFromForm function must exist"
-    facts_block = APP_JS[facts_pos:facts_pos + 500]
+    facts_block = LEGAL_JS[facts_pos:facts_pos + 500]
     assert "factbox" in facts_block, \
         "factsFromForm must still query #factbox inputs only"
 
@@ -86,7 +94,7 @@ def test_poi_alt_never_becomes_cota_m():
     # state.poiAlt must not appear in factsFromForm or the resolve query builder.
     # Extract factsFromForm body:
     facts_match = re.search(
-        r"function factsFromForm\(\)\s*\{([\s\S]*?)\n\}", APP_JS
+        r"function factsFromForm\(\)\s*\{([\s\S]*?)\n  \}", LEGAL_JS
     )
     assert facts_match, "factsFromForm function must exist"
     facts_body = facts_match.group(1)
@@ -95,18 +103,18 @@ def test_poi_alt_never_becomes_cota_m():
     # 'observación OSM' must not appear in the render() function (legal card path).
     # Extract the render function:
     render_match = re.search(
-        r"function render\s*\([^\)]*\)\s*\{", APP_JS
+        r"function render\s*\([^\)]*\)\s*\{", LEGAL_JS
     )
     assert render_match, "render() function must exist"
     # Find the altitude-line section within render.
     # The old code had: "Altitud: " + state.poiAlt + " m (observación OSM)"
-    assert "observación OSM" not in APP_JS, (
-        "'observación OSM' must not appear anywhere in app.js after POI-alt removal")
+    assert "observación OSM" not in LEGAL_JS, (
+        "'observación OSM' must not appear anywhere in legal.js after POI-alt removal")
 
     # state.poiAlt must not appear in the altitude-line branch of render().
     # Extract the altitude section from render:
     altitude_section = re.search(
-        r"altitude-line[\s\S]*?(?=\n  //|function |_const )", APP_JS
+        r"altitude-line[\s\S]*?(?=\n  //|function |_const )", LEGAL_JS
     )
     if altitude_section:
         assert "state.poiAlt" not in altitude_section.group(), (
@@ -121,17 +129,17 @@ def test_source_disclosure_fields():
     assert "poi-src-details" in INDEX_HTML, \
         "index.html must contain #poi-src-details"
 
-    # app.js must write source_label, snapshot_date, attribution in renderPoi:
-    assert "source_label" in APP_JS, \
+    # place.js writes source_label, snapshot_date, attribution in renderPoi.
+    assert "source_label" in PLACE_JS, \
         "renderPoi must reference source_label"
-    assert "snapshot_date" in APP_JS, \
+    assert "snapshot_date" in PLACE_JS, \
         "renderPoi must reference snapshot_date"
-    assert "attribution" in APP_JS, \
+    assert "attribution" in PLACE_JS, \
         "renderPoi must reference attribution"
 
     # Check that renderPoi uses these in the src-details block (DOM-level).
     render_poi_re = re.search(
-        r"function renderPoi\([^)]*\)\s*\{([\s\S]*?)(?=\nfunction |\n//|$)", APP_JS
+        r"function renderPoi\([^)]*\)\s*\{([\s\S]*?)(?=\nfunction |\n//|$)", PLACE_JS
     )
     assert render_poi_re, "renderPoi function must exist"
     render_poi_body = render_poi_re.group(1)
@@ -151,14 +159,14 @@ def test_source_disclosure_fields():
 
 def test_unnamed_pois_are_icon_only_and_get_a_card_label():
     """A missing display name hides map text but remains understandable in the card."""
-    labels_start = APP_JS.find('id: "poi-labels-"')
-    labels_end = APP_JS.find("bindLayerToggles();", labels_start)
-    labels_block = APP_JS[labels_start:labels_end]
+    labels_start = MAP_JS.find('id: "poi-labels-"')
+    labels_end = MAP_JS.find("bindLayerToggles();", labels_start)
+    labels_block = MAP_JS[labels_start:labels_end]
     assert '["!=", ["get", "name"], null]' in labels_block
-    assert "anonymousLabel" in APP_JS
-    render_start = APP_JS.find("function renderPoi")
-    render_end = APP_JS.find("\nfunction ", render_start + 1)
-    render_block = APP_JS[render_start:render_end]
+    assert "anonymousLabel" in PLACE_JS
+    render_start = PLACE_JS.find("function renderPoi")
+    render_end = PLACE_JS.find("\nfunction ", render_start + 1)
+    render_block = PLACE_JS[render_start:render_end]
     assert "sin nombre" in render_block
     assert "p.name" in render_block
 
@@ -175,7 +183,7 @@ def test_no_protected_area_ui():
         assert "protected_area" not in line, \
             "index.html toggles must not contain 'protected_area' category"
     poi_order_match = re.search(
-        r'const POI_ORDER = \[([^\]]+)\]', APP_JS
+        r'const POI_ORDER = \[([^\]]+)\]', PLACE_JS
     )
     assert poi_order_match, "POI_ORDER must exist"
     poi_order_content = poi_order_match.group(1)
@@ -242,28 +250,32 @@ def test_m82_primary_answer_is_compact_and_detail_is_progressive_disclosure():
 
 
 def test_m82_unknown_answer_copy_is_single_and_user_facing():
-    assert 'UNDETERMINED: "No lo podemos determinar"' in APP_JS
-    assert "Aún no tenemos normativa verificada para este punto." in APP_JS
-    assert 'return "Aún no tenemos normativa verificada para este punto.";' in APP_JS
-    assert "NO_APPLICABLE_SCOPE" in APP_JS
-    assert "NO_PUBLISHABLE_RULE_COVERAGE" in APP_JS
-    assert '"Cobertura normativa del punto: ninguna"' in APP_JS
-    assert 'No hay fuentes normativas vinculadas a este punto.' in APP_JS
+    assert 'UNDETERMINED: "No lo podemos determinar"' in LEGAL_JS
+    assert "Aún no tenemos normativa verificada para este punto." in LEGAL_JS
+    assert 'return "Aún no tenemos normativa verificada para este punto.";' in LEGAL_JS
+    assert "NO_APPLICABLE_SCOPE" in LEGAL_JS
+    assert "NO_PUBLISHABLE_RULE_COVERAGE" in LEGAL_JS
+    assert '"Cobertura normativa del punto: ninguna"' in LEGAL_JS
+    assert 'No hay fuentes normativas vinculadas a este punto.' in LEGAL_JS
 
-    assert "Ninguna norma del corpus de AlRaso llega a este punto" not in APP_JS
-    assert "AlRaso no tiene corpus aquí y por eso no puede afirmar nada" not in APP_JS
+    assert "Ninguna norma del corpus de AlRaso llega a este punto" not in LEGAL_JS
+    assert "AlRaso no tiene corpus aquí y por eso no puede afirmar nada" not in LEGAL_JS
 
 
 def test_m82_port_does_not_restore_poi_altitude_as_legal_altitude():
-    start = APP_JS.find("function render(d)")
+    start = LEGAL_JS.find("function render(d)")
     assert start != -1
-    end = APP_JS.find("\nfunction ", start + 1)
-    render = APP_JS[start:] if end == -1 else APP_JS[start:end]
+    end = LEGAL_JS.find("\n  function ", start + 1)
+    render = LEGAL_JS[start:] if end == -1 else LEGAL_JS[start:end]
     assert "state.poiAlt" not in render
     assert "d.dem" in render
 
 
 def test_m82_m6_and_m81_plumbing_remain_single_instance():
-    assert APP_JS.count("function loadWeather(") == 1
-    assert APP_JS.count("async function loadProtectedAreas(") == 1
-    assert 'fetch("/api/protected-areas")' in APP_JS
+    assert WEATHER_JS.count("function load(") == 1
+    assert "createWeatherController" in APP_JS
+    assert "weather.load(lat, lon);" in APP_JS
+    assert MAP_JS.count("async function loadProtectedAreas(") == 1
+    api_cartography = (ROOT / "webapp/static/modules/api-cartography.js").read_text(encoding="utf-8")
+    assert "fetchProtectedAreas()" in MAP_JS
+    assert "'/api/protected-areas'" in api_cartography

@@ -34,6 +34,9 @@ def test_new_static_assets_registered_and_safe():
     assert "/" in sf
     assert "/app.js" in sf
     assert "/style.css" in sf
+    for module in ("/modules/dom.js", "/modules/state.js", "/modules/api-legal.js", "/modules/api-cartography.js", "/modules/place.js", "/modules/legal.js", "/modules/saved.js", "/modules/weather.js", "/modules/connectivity.js", "/modules/search.js", "/modules/sheet.js", "/modules/map.js"):
+        assert module in sf
+        assert sf[module][1].startswith("text/javascript")
     # No path traversal
     for p in sf:
         assert ".." not in p
@@ -132,7 +135,7 @@ def test_tab_navigation_and_hash_routing():
 
     assert "function showTab" in js
     assert "aria-current" in js
-    assert "map.resize()" in js
+    assert "mapController.handle()" in js and "resize()" in js
     assert "location.hash" in js
 
 
@@ -167,7 +170,7 @@ def test_geolocation_error_ui_states():
 
 def test_legal_result_mapping_and_not_color_only():
     html = _read("webapp/static/index.html")
-    js = _read("webapp/static/app.js")
+    js = _read("webapp/static/modules/legal.js")
 
     assert "¿Puedo hacer vivac aquí?" in html
 
@@ -233,7 +236,7 @@ def test_poi_vs_legal_separation_visible():
 # ══════════════════════════════════════════════
 
 def test_saved_items_reopen_via_fresh_resolve():
-    js = _read("webapp/static/app.js")
+    js = _read("webapp/static/app.js") + _read("webapp/static/modules/saved.js")
 
     assert "selectPoint" in js
     assert "findFavoriteByPoint" in js
@@ -246,7 +249,7 @@ def test_saved_items_reopen_via_fresh_resolve():
 # ══════════════════════════════════════════════
 
 def test_outings_mark_completed_and_stats():
-    js = _read("webapp/static/app.js")
+    js = _read("webapp/static/app.js") + _read("webapp/static/modules/saved.js")
     html = _read("webapp/static/index.html")
 
     assert "completeOuting" in js
@@ -262,7 +265,7 @@ def test_outings_mark_completed_and_stats():
 # ══════════════════════════════════════════════
 
 def test_empty_states_present():
-    js = _read("webapp/static/app.js")
+    js = _read("webapp/static/app.js") + _read("webapp/static/modules/saved.js")
     html = _read("webapp/static/index.html")
 
     assert "Todavía no has guardado ningún sitio." in (js + html)
@@ -347,20 +350,24 @@ def test_picos_authorized_copy(svc):
 
 def test_m2_gate_protected_area_is_osm_reference():
     js = _read("webapp/static/app.js")
+    map_js = _read("webapp/static/modules/map.js")
     assert "poi-circles-protected_area" not in js
     # M8.1: lg-protected was added for the PA cartographic context layer.
-    assert "lg-protected" in js, "M8.1: #lg-protected toggle must exist"
-    assert "pa-fill" in js and "pa-line" in js, "M8.1: PA polygon layers must exist"
-    assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in js
-    assert "/api/coverage" in js
-    assert "/api/pois" in js
-    assert "/api/protected-areas" in js
+    assert "lg-protected" in map_js, "M8.1: #lg-protected toggle must exist"
+    assert "pa-fill" in map_js and "pa-line" in map_js, "M8.1: PA polygon layers must exist"
+    assert 'const POI_ORDER = ["refuge", "shelter", "water", "camping"];' in _read("webapp/static/modules/place.js")
+    api_legal = _read("webapp/static/modules/api-legal.js")
+    api_cartography = _read("webapp/static/modules/api-cartography.js")
+    assert "/api/coverage" in api_legal
+    assert "/api/pois" in api_cartography
+    assert "/api/protected-areas" in api_cartography
 
 
 def test_m2_gate_provider_decoupled():
     js = _read("webapp/static/app.js")
+    map_js = _read("webapp/static/modules/map.js")
     assert "tile.openstreetmap.org" not in js
-    assert "/api/config" in js
+    assert "/api/config" in map_js
 
 
 def test_m2_gate_frontend_markup():
@@ -375,8 +382,12 @@ def test_m2_gate_frontend_markup():
     assert "min-height:44px" in css
 
     js = _read("webapp/static/app.js")
-    assert "/api/find" in js
-    assert "/api/places" in js
+    search = _read("webapp/static/modules/search.js")
+    api_legal = _read("webapp/static/modules/api-legal.js")
+    assert "findPlaces(q)" in search
+    assert "fetchPlaces()" in search
+    assert "/api/find" in api_legal
+    assert "/api/places" in api_legal
     assert "getCenter" in js
 
 
@@ -397,7 +408,7 @@ def test_chooser_modal_accessibility():
 # ══════════════════════════════════════════════
 
 def test_legal_result_styling_not_color_only():
-    js = _read("webapp/static/app.js")
+    js = _read("webapp/static/modules/legal.js")
     assert "borderLeftColor" in js or "border-left-color" in js
 
 

@@ -62,6 +62,14 @@ REQUIRED_FIELDS = {
 OPTIONAL_FIELDS = {"alt_m", "note", "source_label", "osm_url", "region"}
 
 
+@pytest.fixture(autouse=True)
+def _remove_generated_outputs_after_each_test():
+    """Keep fixture-build outputs temporary and out of the repository tree."""
+    yield
+    for output in Path(__file__).parent.glob("_m8_pois_test_*.json"):
+        output.unlink(missing_ok=True)
+
+
 def test_contract_completeness_per_feature():
     """Every feature must have all required M8 fields."""
     out = _build()

@@ -9,7 +9,7 @@
 //   - OpenFreeMap tiles (visited by normal navigation):
 //     cache-first in MAP_TILES_CACHE with an explicit FIFO cap
 //   - NO prefetch or mass download of any provider resource (OpenFreeMap ToS)
-var SHELL_CACHE = "alraso-shell-v1";
+var SHELL_CACHE = "alraso-shell-v2";
 var MAP_UI_CACHE = "alraso-map-ui-v1";
 var MAP_TILES_CACHE = "alraso-map-tiles-v1";
 var MAX_MAP_UI_ENTRIES = 400;
@@ -17,6 +17,14 @@ var MAX_MAP_CACHE_ENTRIES = 600; // explicit operational cap for tiles
 
 var SHELL_URLS = [
   "/", "/index.html", "/style.css", "/app.js", "/store.js",
+  "/modules/dom.js", "/modules/state.js",
+  "/modules/api-legal.js", "/modules/api-cartography.js",
+  "/modules/place.js", "/modules/legal.js", "/modules/saved.js",
+  "/modules/weather.js",
+  "/modules/connectivity.js",
+  "/modules/search.js",
+  "/modules/sheet.js",
+  "/modules/map.js",
   "/vendor/maplibre-gl.js", "/vendor/maplibre-gl.css",
   "/manifest.webmanifest", "/icon-192.png", "/icon-512.png"
 ];
