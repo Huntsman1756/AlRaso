@@ -77,6 +77,7 @@ for (const scenario of scenarios) {
     const started = performance.now();
     let fatalError = null;
     let screenshotError = null;
+    let result = null;
     const resultFile = evidencePath(projectName, scenario.id, '.json');
     const screenshotFile = evidencePath(projectName, scenario.id, '.png');
 
@@ -93,7 +94,7 @@ for (const scenario of scenarios) {
       }
 
       const executionError = fatalError || screenshotError;
-      const result = recorder.finish({
+      result = recorder.finish({
         observer,
         metrics: {
           timings_ms: { scenario: Math.round(performance.now() - started) }
@@ -112,5 +113,13 @@ for (const scenario of scenarios) {
 
     if (fatalError) throw fatalError;
     if (screenshotError) throw screenshotError;
+    if (result.scenario_status === 'FAIL') {
+      const failures = result.assertion_details
+        .filter((record) => record.passed === false)
+        .map((record) => record.label);
+      throw new Error(
+        `${scenario.id} recorded FAIL (assertions=${failures.join(',') || 'none'} page_errors=${result.page_errors} network=${result.unexpected_network_failures.length})`
+      );
+    }
   });
 }
