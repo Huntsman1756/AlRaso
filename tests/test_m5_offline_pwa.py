@@ -25,6 +25,7 @@ import server  # noqa: E402
 
 SW = (ROOT / "webapp" / "static" / "sw.js").read_text(encoding="utf-8")
 APP = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
+CONNECTIVITY = (ROOT / "webapp" / "static" / "modules" / "connectivity.js").read_text(encoding="utf-8")
 HTML = (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8")
 CSS = (ROOT / "webapp" / "static" / "style.css").read_text(encoding="utf-8")
 PY = (ROOT / "webapp" / "server.py").read_text(encoding="utf-8")
@@ -68,9 +69,9 @@ class TestInstallable:
         assert _png_size(ROOT / "webapp" / "static" / "icon-512.png") == (512, 512)
 
     def test_sw_registration_secure_context_only(self):
-        assert "serviceWorker" in APP
-        assert "window.isSecureContext" in APP
-        assert "data-sw-registered" in APP
+        assert "serviceWorker" in CONNECTIVITY
+        assert "window.isSecureContext" in CONNECTIVITY
+        assert "data-sw-registered" in CONNECTIVITY
 
 
 # ─────────────────────────────────────────────
@@ -92,9 +93,9 @@ class TestServiceWorkerStrategies:
         shell_section = SW[SW.find("var SHELL_URLS"):SW.find("self.addEventListener")]
         assert "/api/" not in shell_section, "shell precache list must not contain API paths"
 
-    def test_saved_modules_are_in_the_shell_precache(self):
+    def test_frontend_modules_are_in_the_shell_precache(self):
         shell_section = SW[SW.find("var SHELL_URLS"):SW.find("self.addEventListener")]
-        for module in ("/modules/place.js", "/modules/saved.js"):
+        for module in ("/modules/place.js", "/modules/saved.js", "/modules/connectivity.js"):
             assert module in shell_section
 
     def test_no_provider_prefetch_or_hardcoded_tile_urls(self):
@@ -166,21 +167,21 @@ class TestConnectivityBanner:
         assert 'role="status"' in HTML
 
     def test_offline_copy_is_honest(self):
-        assert "Sin internet — se muestran recursos cartográficos guardados" in APP
-        assert "la verificación jurídica sigue disponible" in APP
+        assert "Sin internet — se muestran recursos cartográficos guardados" in CONNECTIVITY
+        assert "la verificación jurídica sigue disponible" in CONNECTIVITY
 
     def test_api_down_copy_fail_closed(self):
-        assert "Servidor de verificación no disponible" in APP
-        assert "no podemos calcular una determinación nueva" in APP
+        assert "Servidor de verificación no disponible" in CONNECTIVITY
+        assert "no podemos calcular una determinación nueva" in CONNECTIVITY
 
     def test_probe_uses_existing_config_endpoint_and_no_health_route(self):
-        assert '"/api/config"' in APP
-        assert 'cache: "no-store"' in APP
-        assert "/api/health" not in APP + SW + HTML + PY
+        assert '"/api/config"' in CONNECTIVITY
+        assert 'cache: "no-store"' in CONNECTIVITY
+        assert "/api/health" not in APP + CONNECTIVITY + SW + HTML + PY
 
     def test_online_offline_listeners(self):
-        assert 'addEventListener("online"' in APP
-        assert 'addEventListener("offline"' in APP
+        assert 'addEventListener("online"' in CONNECTIVITY
+        assert 'addEventListener("offline"' in CONNECTIVITY
 
     def test_banner_css_states(self):
         assert ".conn-banner" in CSS
@@ -203,7 +204,7 @@ class TestServerServesAssets:
         assert "manifest+json" in sf["/manifest.webmanifest"][1]
         assert sf["/sw.js"][1].startswith("text/javascript")
         assert sf["/icon-192.png"][1] == "image/png"
-        for module in ("/modules/place.js", "/modules/saved.js"):
+        for module in ("/modules/place.js", "/modules/saved.js", "/modules/connectivity.js"):
             assert sf[module][1].startswith("text/javascript")
         assert sf["/icon-512.png"][1] == "image/png"
 

@@ -21,6 +21,7 @@ var SHELL_URLS = [
   "/modules/api-legal.js", "/modules/api-cartography.js",
   "/modules/place.js", "/modules/saved.js",
   "/modules/weather.js",
+  "/modules/connectivity.js",
   "/vendor/maplibre-gl.js", "/vendor/maplibre-gl.css",
   "/manifest.webmanifest", "/icon-192.png", "/icon-512.png"
 ];

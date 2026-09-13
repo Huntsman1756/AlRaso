@@ -612,6 +612,7 @@ STATIC_FILES = {
     "/modules/place.js": ("modules/place.js", "text/javascript; charset=utf-8"),
     "/modules/saved.js": ("modules/saved.js", "text/javascript; charset=utf-8"),
     "/modules/weather.js": ("modules/weather.js", "text/javascript; charset=utf-8"),
+    "/modules/connectivity.js": ("modules/connectivity.js", "text/javascript; charset=utf-8"),
     "/style.css": ("style.css", "text/css; charset=utf-8"),
     "/store.js": ("store.js", "text/javascript; charset=utf-8"),
     "/vendor/maplibre-gl.js": ("vendor/maplibre-gl.js", "text/javascript; charset=utf-8"),

@@ -76,7 +76,7 @@ const frontendResponsibilities = [
   { label: 'legal resolve rendering', markers: ['async function refresh', 'primaryLegalLabel', 'render(d)'] },
   { label: 'favorites', markers: ['saved.renderFavorites', './modules/saved.js'] },
   { label: 'outings', markers: ['saved.renderOutings', './modules/saved.js'] },
-  { label: 'connectivity/PWA', markers: ['initPwa', 'serviceWorker.register', 'conn-banner'] },
+  { label: 'connectivity/PWA', markers: ['createConnectivityController', './modules/connectivity.js'] },
   { label: 'weather', markers: ['createWeatherController', 'weather.load', './modules/weather.js'] }
 ];
 
