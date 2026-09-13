@@ -14,6 +14,7 @@ function here only when their response shape actually differs.
 from __future__ import annotations
 
 import datetime as dt
+import html
 import re
 from typing import Any, Callable, Mapping
 
@@ -109,8 +110,74 @@ def _bocyl_opendatasoft(
     ]
 
 
+_BOA_DOCN_RE = re.compile(r"DOCN=(\d+)")
+_BOA_TITLE_RE = re.compile(
+    r'<p class="boaseccion">(.*?)</p>', re.DOTALL
+)
+_BOA_PUB_RE = re.compile(r"Publicado el (\d{2})/(\d{2})/(\d{4})")
+
+
+def _boa_cgi(
+    profile: SourceProfile,
+    payload: Mapping[str, Any],
+    *,
+    window: tuple[str | None, str | None] | None,
+) -> list[DocumentRef]:
+    """BRSCGI VERDOC response → DocumentRef.
+
+    BOA's discovery key is the preregistered DOCN; the lookup response is
+    the document page itself (G0 fixture ``boa-decreto-16-2022-doc.html``).
+    Payload shape: ``{"url": <requested URL>, "body": <raw bytes>}`` —
+    BOA serves ISO-8859-1.
+    """
+    url = payload.get("url")
+    body = payload.get("body")
+    if not isinstance(url, str) or not isinstance(body, bytes):
+        raise DiscoveryError(
+            "boa_cgi payload requires {'url': str, 'body': bytes}"
+        )
+    match = _BOA_DOCN_RE.search(url)
+    if match is None:
+        raise DiscoveryError(f"boa_cgi: no DOCN in request URL {url!r}")
+    docn = match.group(1)
+
+    text = body.decode("iso-8859-1", "replace")
+    title_m = _BOA_TITLE_RE.search(text)
+    if title_m is None:
+        raise DiscoveryError("boa_cgi: no <p class=boaseccion> title")
+    title = html.unescape(re.sub(r"<[^>]+>", "", title_m.group(1)))
+    title = re.sub(r"\s+", " ", title).strip()
+    if not title:
+        raise DiscoveryError("boa_cgi: empty document title")
+
+    pub_m = _BOA_PUB_RE.search(text)
+    if pub_m is None:
+        raise DiscoveryError("boa_cgi: no 'Publicado el' date")
+    day, month, year = pub_m.groups()
+    published_on = f"{year}-{month}-{day}"
+    if window is not None:
+        start, end = window
+        if (start and published_on < start) or (
+            end and published_on > end
+        ):
+            return []
+
+    return [
+        DocumentRef(
+            source_id=profile.source_id,
+            doc_id=docn,
+            published_on=published_on,
+            title=title,
+            issuer="Gobierno de Aragón",
+            discovery_url=url,
+            rank=0,
+        )
+    ]
+
+
 _PROVIDERS: dict[str, Callable[..., list[DocumentRef]]] = {
     "bocyl_opendatasoft": _bocyl_opendatasoft,
+    "boa_cgi": _boa_cgi,
 }
 
 

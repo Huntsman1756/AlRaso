@@ -1,0 +1,5 @@
+{
+  "url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?BASE=BOLE&CMD=VERDOC&DOCN=007922169&SEC=BUSQUEDA_AVANZADA&SEPARADOR=",
+  "body_file": "document.bin",
+  "note": "BOA discovery = DOCN lookup; the VERDOC page is the response"
+}

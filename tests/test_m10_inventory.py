@@ -76,6 +76,7 @@ def test_pilot_authority_refs():
         "jurisdiction": "ES-AR",
         "gazette": "boa",
         "cite": "Decreto 16/2022",
+        "doc_key": "007922169",
     }
     assert authority_refs("pn-aiguestortes-i-estany-de-sant-maurici", seed)[0][
         "gazette"

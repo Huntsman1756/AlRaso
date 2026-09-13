@@ -32,6 +32,7 @@ from urllib.parse import quote
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from pipeline.profiles import load_profile
+from pipeline.providers.discovery import discover
 from pipeline.providers.fetch import (
     TransportError,
     TransportRequest,
@@ -125,14 +126,23 @@ def _live(profile, bundle, runner_network):
     ))
     # discovery: endpoint + query_template (already cite-expanded offline
     # equivalent — the template's {cite} is filled from the bundle)
-    cite = bundle["authority"]["cite"] if bundle else ""
+    authority = bundle["authority"] if bundle else {}
     endpoint = profile.discovery.get("endpoint")
     if endpoint:
         template = profile.discovery.get("query_template", "limit=100")
-        url = f"{endpoint}?{quote(template.replace('{cite}', cite), safe='={}&')}"
+        for key, value in authority.items():
+            template = template.replace("{" + key + "}", value)
+        url = f"{endpoint}?{quote(template, safe='={}&/:')}"
+
+        def check(body):
+            try:
+                payload = json.loads(body.decode("utf-8"))
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                payload = {"url": url, "body": body}
+            return f"refs={len(discover(profile, payload))}"
+
         rows.append(_live_row(
-            "discovery_get", url, None, expected,
-            check=lambda b: f"results={len(json.loads(b).get('results', []))}",
+            "discovery_get", url, None, expected, check=check
         ))
     else:
         rows.append(("discovery_get", "FAIL", "no endpoint — not attempted"))

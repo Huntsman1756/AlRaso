@@ -1,0 +1,213 @@
+{
+  "chain_evidence": [
+    {
+      "evidence": {
+        "admin_geom_ref": "Parque Nacional de Ordesa y Monte Perdido",
+        "ccaa": [
+          "ES-AR"
+        ],
+        "evidence_sha256": "3b4da980b631519ef8e7286393473a7d152e1c77c4e7f0fb70b1b738fd302ec3",
+        "figure_type": "PN",
+        "name": "Parque Nacional de Ordesa y Monte Perdido",
+        "observed_at": "2026-09-13",
+        "source": "oapn-red-pn",
+        "source_id": "Parque Nacional de Ordesa y Monte Perdido",
+        "space_id": "pn-ordesa-y-monte-perdido"
+      },
+      "link": "inventory",
+      "sha256": "30e7f208ac81fbc455dd424c9503be66f6730604b1a71f08143974b1cb71a52e"
+    },
+    {
+      "evidence": [
+        {
+          "crs": "EPSG:4326",
+          "digest_sha256": "dbb4d9294544902f379720a05c84d8a6dbe3ecca20a266db300b4c2409d3e5d1",
+          "feature_props": {
+            "Ampliación": "Ley 52/1982, de 13 de julio de reclasificación y ampliación del Parque Nacional de Ordesa y Monte Perdido.BOE, nº 181, 30 de julio de 1982",
+            "Declaración": "RD 16/08/1918, declaración del Parque Nacional Valle de Ordesa.Gaceta de Madrid, nº250,18/08/1918",
+            "Fecha Declaración": "16/08/1918",
+            "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-ordesa_tcm30-378975.pdf",
+            "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-ordesa_tcm30-439490.pdf",
+            "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldeordesaymonteperdido_tcm30-539913.pdf",
+            "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2009%20Ordesa.pdf",
+            "Nombre": "Parque Nacional de Ordesa y Monte Perdido",
+            "Reclasificación": "Ley 52/1982, de 13 de julio de reclasificación y ampliación del Parque Nacional de Ordesa y Monte Perdido.BOE, nº 181, 30 de julio de 1982",
+            "Recononimientos internacionales": "UNESCO - Patrimonio Mundial Mixto - Pirineos-Monte Perdido. Diploma Europeo del Consejo de Europa a la Gestión Ambiental.",
+            "Superficie oficial (ha)": "15.696,20",
+            "Tipo Centro": "Parque Nacional",
+            "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/ordesa"
+          },
+          "layer": "LimitesParquesNacionalesZPP:view_red_oapn_limite_pn",
+          "provider": "oapn_wfs",
+          "redistribution_policy": "DIGEST_ONLY",
+          "retrieved_at": "2026-09-13",
+          "scope_evidence_status": "CONTEXT_ONLY",
+          "source_url": "https://sigred.oapn.es/geoserverOAPN/ows",
+          "space_id": "pn-ordesa-y-monte-perdido"
+        }
+      ],
+      "link": "geometry",
+      "sha256": "6d9ffdb8bfaf408f399854d001cf530819d185d49749bf69d13fc50949d5c607"
+    },
+    {
+      "evidence": {
+        "cite": "Decreto 16/2022",
+        "doc_key": "007922169",
+        "gazette": "boa",
+        "jurisdiction": "ES-AR"
+      },
+      "link": "authority",
+      "sha256": "cdb74ec6387d4b8b20c0f931c43076823a4136819771c2f0b4bf5d8b2a5a50a6"
+    },
+    {
+      "evidence": [
+        {
+          "discovery_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?BASE=BOLE&CMD=VERDOC&DOCN=007922169&SEC=BUSQUEDA_AVANZADA&SEPARADOR=",
+          "doc_id": "007922169",
+          "issuer": "Gobierno de Aragón",
+          "published_on": "2022-02-08",
+          "rank": 0,
+          "reachability_class": null,
+          "source_id": "boa",
+          "title": "DECRETO 16/2022, de 26 de enero, del Gobierno de Aragón, por el que se modifica el Decreto 49/2015, de 8 de abril, del Gobierno de Aragón por el que se aprueba el Plan Rector de Uso y Gestión del Parque Nacional de Ordesa y Monte Perdido y su Zona Periférica de Protección."
+        }
+      ],
+      "link": "discovery",
+      "sha256": "2e3dcb2b3e22f8ca0a8cb014337f1485a40e25c195c092d2544ee8fb5a7e45db"
+    },
+    {
+      "evidence": {
+        "bytes_sha256": "3c560f0a44447d7d3f8054855efd9e680fad6c5354bed7f7bc0e8b7a35a16ef1",
+        "content_marker_ok": true,
+        "content_type": "text/html; charset=ISO-8859-1",
+        "doc_ref": {
+          "discovery_url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?BASE=BOLE&CMD=VERDOC&DOCN=007922169&SEC=BUSQUEDA_AVANZADA&SEPARADOR=",
+          "doc_id": "007922169",
+          "issuer": "Gobierno de Aragón",
+          "published_on": "2022-02-08",
+          "rank": 0,
+          "reachability_class": null,
+          "source_id": "boa",
+          "title": "DECRETO 16/2022, de 26 de enero, del Gobierno de Aragón, por el que se modifica el Decreto 49/2015, de 8 de abril, del Gobierno de Aragón por el que se aprueba el Plan Rector de Uso y Gestión del Parque Nacional de Ordesa y Monte Perdido y su Zona Periférica de Protección."
+        },
+        "evidence_sha256": "3c560f0a44447d7d3f8054855efd9e680fad6c5354bed7f7bc0e8b7a35a16ef1",
+        "fetch_outcome": "SUCCESS",
+        "fetched_at": "2026-09-13T20:38:02Z",
+        "fetched_from": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?BASE=BOLE&CMD=VERDOC&DOCN=007922169&SEC=BUSQUEDA_AVANZADA&SEPARADOR=",
+        "http_status": 200,
+        "method_recipe_id": "cgi",
+        "observed_at": "2026-09-13T20:38:02Z",
+        "reachability_observed": "REACHABLE",
+        "runner_network": "fixture"
+      },
+      "link": "fetch",
+      "sha256": "290b4c094dd1d6f63af8dae0ecf40c959ce9772f1bc9a51152192fb16aae620d"
+    },
+    {
+      "evidence": {
+        "annexes_present": false,
+        "articles": [
+          {
+            "order": 0,
+            "ref": "Artículo único. Modificación del Decreto 49/2015, de 8 de abril, del Gobierno de Aragón, por el que se aprueba el Plan R"
+          },
+          {
+            "order": 1,
+            "ref": "Disposición derogatoria única. Derogación normativa."
+          },
+          {
+            "order": 2,
+            "ref": "Disposición final primera. Facultad de desarrollo."
+          },
+          {
+            "order": 3,
+            "ref": "Disposición final segunda. Entrada en vigor."
+          }
+        ],
+        "citations": [
+          "Ley Orgánica 5/2007",
+          "Ley 30/2014",
+          "Decreto 49/2015",
+          "Real Decreto 1180/2018",
+          "Real Decreto 57/2002",
+          "Real Decreto 862/2009",
+          "Real Decreto 931/2010",
+          "Real Decreto 601/2016",
+          "Decreto 25/2020"
+        ],
+        "doc_id": "007922169",
+        "extracted_at": "2026-09-13T20:38:02Z",
+        "format": "boa_html",
+        "parser_version": "boa_html/0.1"
+      },
+      "link": "parse",
+      "sha256": "51713cc3a326d1bfa1525f14fed0743f7d558014c411b7f5a8e47d200651005f"
+    },
+    {
+      "evidence": {
+        "consolidated_state": null,
+        "doc_id": "007922169",
+        "effective_from": null,
+        "effective_to": null,
+        "publication_date": "2022-02-08",
+        "recorded_at": "2026-09-13T20:38:02Z",
+        "recorded_until": null,
+        "resolver_evidence": {
+          "strategy": "gazette_publication"
+        },
+        "status": "REQUIRES_MANUAL_REVIEW",
+        "supersession": []
+      },
+      "link": "version",
+      "sha256": "cc7a7b2b182b40f9bc675c842c1bf324919182fa33638d308a06ba3791cc29a5"
+    },
+    {
+      "evidence": {
+        "cadence": "daily",
+        "method": "boa_polling"
+      },
+      "link": "change_detection",
+      "sha256": "5e410a2258aaabc6b7a4e1a301eb00d8293185ed60d9d921f1233981af8bd31f"
+    },
+    {
+      "evidence": {
+        "note": "M10.1 prepares review packets only — no rule is published and PERMITTED is never inferred.",
+        "publication_readiness": "NO"
+      },
+      "link": "publication",
+      "sha256": "5f479c9b5eebf9bcee4eadf0259caedb13224cbb6938db12c4246eeb6eac7dbf"
+    }
+  ],
+  "diffs": [],
+  "last_verified": "2026-09-13T20:38:02Z",
+  "proposed_rule_artifacts": [
+    {
+      "doc_id": "007922169",
+      "format": "boa_html",
+      "kind": "parsed_instrument",
+      "status": "NOT_PUBLISHED"
+    },
+    {
+      "claim_status": "REQUIRES_MANUAL_REVIEW",
+      "doc_id": "007922169",
+      "kind": "version_claim",
+      "status": "NOT_PUBLISHED"
+    }
+  ],
+  "provenance": {
+    "bundle_sha256": "23e8939222e09c8a1344a1d5d9cf9772782aaeeff8e9eab8744c33eab9863b8e",
+    "chain": [
+      "inventory",
+      "geometry",
+      "authority",
+      "discovery",
+      "fetch",
+      "parse",
+      "version",
+      "change_detection",
+      "publication"
+    ]
+  },
+  "publication_readiness": "NO",
+  "space_id": "pn-ordesa-y-monte-perdido"
+}

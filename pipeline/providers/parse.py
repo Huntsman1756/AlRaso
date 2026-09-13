@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import datetime as dt
 import hashlib
+import html
 import re
 import shutil
 import subprocess
@@ -32,6 +33,7 @@ from pipeline.profiles import SourceProfile
 
 PARSER_VERSION_BOCYL_XML = "bocyl_xml/0.1"
 PARSER_VERSION_PDF_TEXT = "pdf_text/0.1"
+PARSER_VERSION_BOA_HTML = "boa_html/0.1"
 
 # BOCyL emits this canonical sentence when the XML is not the complete
 # official rendering of the disposition (annex/image content lives in the
@@ -225,8 +227,52 @@ def _pdf_text(
     )
 
 
+_BOA_SCRIPT_RE = re.compile(r"<script.*?</script>", re.DOTALL | re.IGNORECASE)
+_BOA_TAG_RE = re.compile(r"<[^>]+>")
+_BOA_ANNEX_RE = re.compile(r"^(ANEXO|Anexo)\b")
+
+
+def _boa_html(
+    evidence: DocumentEvidence, body: bytes, now: str
+) -> ParsedInstrument:
+    """Parse a BOA BRSCGI VERDOC page (ISO-8859-1 HTML).
+
+    Structure: title in ``<p class="boaseccion">``, the decree body as
+    ``<P>``-separated paragraphs after the ``Emisor:`` block. Articles are
+    structural headings (Artículo/Disposición); ``annexes_present`` only
+    from an ANEXO heading — no length heuristics.
+    """
+    text = body.decode("iso-8859-1", "replace")
+    if 'class="boaseccion"' not in text:
+        raise ParseError("boa_html: no boaseccion title block")
+    emisor = text.find("Emisor:")
+    if emisor < 0:
+        raise ParseError("boa_html: no 'Emisor:' block — not a doc page")
+    tail = _BOA_SCRIPT_RE.sub(" ", text[emisor:])
+    paragraphs = [
+        re.sub(r"\s+", " ", _BOA_TAG_RE.sub(" ", html.unescape(c))).strip()
+        for c in re.split(r"<[Pp]>", tail)
+    ]
+    paragraphs = [p for p in paragraphs if p]
+    headings = [p for p in paragraphs if _HEADING_RE.match(p)]
+    articles = tuple(
+        {"ref": p[:120], "order": i} for i, p in enumerate(headings)
+    )
+    full_text = "\n".join(paragraphs)
+    return ParsedInstrument(
+        doc_id=evidence.doc_ref.doc_id,
+        format="boa_html",
+        annexes_present=any(_BOA_ANNEX_RE.match(p) for p in paragraphs),
+        extracted_at=now,
+        parser_version=PARSER_VERSION_BOA_HTML,
+        articles=articles,
+        citations=_mechanical_citations(full_text),
+    )
+
+
 _PARSERS: dict[str, Callable[..., ParsedInstrument]] = {
     "bocyl_xml": _bocyl_xml,
+    "boa_html": _boa_html,
 }
 
 

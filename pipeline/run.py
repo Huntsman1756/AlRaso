@@ -99,22 +99,36 @@ def _select_ref(refs, cite: str):
 
 
 def _discovery_payload(
-    profile, cite: str, fixtures: Path | None
+    profile, authority: Mapping[str, str], fixtures: Path | None
 ) -> Mapping[str, Any]:
+    """Return the discovery payload.
+
+    JSON APIs (opendatasoft, socrata) return their parsed JSON. Document
+    responses (CGI lookups, TOC pages) are delivered as an envelope
+    ``{"url", "body": bytes}`` — the provider interprets the shape.
+    """
     if fixtures is not None:
-        return json.loads(
+        doc = json.loads(
             (fixtures / "discovery.json").read_text(encoding="utf-8")
         )
+        if "body_file" in doc:
+            return {
+                "url": doc["url"],
+                "body": (fixtures / doc["body_file"]).read_bytes(),
+            }
+        return doc
     endpoint = profile.discovery.get("endpoint")
     if not endpoint:
         raise RunError("live discovery requires profile.discovery.endpoint")
     template = profile.discovery.get("query_template", "limit=100")
-    query = quote(
-        template.replace("{cite}", cite), safe="={}&"
-    )
-    url = f"{endpoint}?{query}"
+    for key, value in authority.items():
+        template = template.replace("{" + key + "}", value)
+    url = f"{endpoint}?{quote(template, safe='={}&/:')}"
     resp = urllib_transport(TransportRequest(method="GET", url=url))
-    return json.loads(resp.body.decode("utf-8"))
+    try:
+        return json.loads(resp.body.decode("utf-8"))
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return {"url": url, "body": resp.body}
 
 
 def run_pilot(
@@ -169,7 +183,7 @@ def run_pilot(
     )
 
     payload = _discovery_payload(
-        profile, authority["cite"], None if live else fixtures_dir
+        profile, authority, None if live else fixtures_dir
     )
     refs_found = discover(profile, payload)
     doc_ref = _select_ref(refs_found, authority["cite"])

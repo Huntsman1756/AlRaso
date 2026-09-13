@@ -93,12 +93,6 @@ def authority_refs(
                     raise InventoryError(
                         f"space {space_id!r}: authority ref missing {key!r}"
                     )
-            refs.append(
-                {
-                    "jurisdiction": ref["jurisdiction"],
-                    "gazette": ref["gazette"],
-                    "cite": ref["cite"],
-                }
-            )
+            refs.append(dict(ref))
         return tuple(refs)
     raise InventoryError(f"unknown space_id {space_id!r}")
