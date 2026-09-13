@@ -118,7 +118,7 @@ class TestServiceWorkerStrategies:
         assert body.index("if (!max)") < body.index("caches.open")
 
     def test_versioned_caches_and_purge_on_activate(self):
-        for name in ("alraso-shell-v1", "alraso-map-ui-v1", "alraso-map-tiles-v1"):
+        for name in ("alraso-shell-v2", "alraso-map-ui-v1", "alraso-map-tiles-v1"):
             assert name in SW
         assert "caches.delete(k)" in SW
 

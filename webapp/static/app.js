@@ -1,9 +1,8 @@
+import { $, esc } from "./modules/dom.js";
+import { createAppState } from "./modules/state.js";
+
 "use strict";
-const $ = (id) => document.getElementById(id);
-const state = {
-  lat: null, lon: null, marker: null, poiCategory: null, poiAlt: null,
-  selectedName: null, cartographicContext: null,
-};
+const state = createAppState();
 let poiClickGuard = 0;
 
 // Proveedor de basemap NO hardcodeado: se pide a /api/config (el server lee
@@ -1293,12 +1292,6 @@ function badge(el, value, plain) {
     { PERMITTED: "ok", PROHIBITED: "bad", AUTHORIZATION_REQUIRED: "warn", UNDETERMINED: "unk",
       CURRENT: "ok", INCOMPLETE: "warn", CONFLICTING: "bad",
       VERIFIED: "ok", PARTIAL: "warn", UNKNOWN: "unk" }[value] || "unk");
-}
-
-function esc(s) {
-  return String(s ?? "").replace(/[&<>"]/g, function (c) {
-    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
-  });
 }
 
 // Emoji mapping per legalStatus (never color-only)
