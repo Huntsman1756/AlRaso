@@ -48,7 +48,7 @@ jobs:
 
       - name: verify frozen product tree
         working-directory: qa/browser
-        run: node -e "import('./helpers/product-guard.mjs').then(m => m.assertFrozenProductClean('../..'))"
+        run: node -e "import('./helpers/historical-product-guard.mjs').then(m => m.assertFrozenProductClean('../..'))"
 
       - name: unit test harness
         working-directory: qa/browser
@@ -68,7 +68,7 @@ jobs:
 
       - name: final frozen product guard
         working-directory: qa/browser
-        run: node -e "import('./helpers/product-guard.mjs').then(m => m.assertFrozenProductClean('../..'))"
+        run: node -e "import('./helpers/historical-product-guard.mjs').then(m => m.assertFrozenProductClean('../..'))"
 
       - uses: actions/upload-artifact@v4
         if: always()

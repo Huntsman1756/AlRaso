@@ -87,7 +87,9 @@ test('the guard rejects a non-repository-root cwd', () => {
 
 test('the historical M9.0 pin remains metadata and is absent from the active guard', () => {
   const guardFile = fileURLToPath(new URL('../../helpers/product-guard.mjs', import.meta.url));
+  const historicalGuardFile = fileURLToPath(new URL('../../helpers/historical-product-guard.mjs', import.meta.url));
   const constantsFile = fileURLToPath(new URL('../../helpers/constants.mjs', import.meta.url));
   assert.doesNotMatch(readFileSync(guardFile, 'utf8'), /PRODUCT_COMMIT/);
+  assert.match(readFileSync(historicalGuardFile, 'utf8'), /PRODUCT_COMMIT/);
   assert.match(readFileSync(constantsFile, 'utf8'), /PRODUCT_COMMIT = '2491d7d5e4e90d380b45c4baee3f2d023008b1a4'/);
 });
