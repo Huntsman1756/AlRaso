@@ -903,6 +903,14 @@ def test_git_diff_vs_main_only_allowed_files():
             or f.startswith("docs/spain-coverage-g0/")
             or f.startswith("discovery/evidence/spain-coverage-g0/")
         )
-        assert f in allowed or m9_allowed or g0_allowed, (
+        # M10 Spain Coverage Scaling: design docs only (spec/plan/design notes).
+        # M10.1 implementation adds its own bounded stanza for pipeline/,
+        # tooling/, evidence and tests/test_m10_* — not preauthorized here.
+        m10_allowed = (
+            f.startswith("docs/superpowers/specs/2026-09-13-m10")
+            or f.startswith("docs/superpowers/plans/2026-09-13-m10")
+            or f.startswith("docs/spain-coverage-scaling/")
+        )
+        assert f in allowed or m9_allowed or g0_allowed or m10_allowed, (
             f"Unexpected file changed: {f}"
         )
