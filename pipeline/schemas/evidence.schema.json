@@ -1,0 +1,253 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://alraso.dev/schemas/m10.1-evidence.schema.json",
+  "title": "M10.1 persisted evidence record",
+  "description": "Shape of persisted pipeline evidence (output of pipeline.models .to_dict()). Validates structure and critical enums only; it does not reimplement model logic. The forbidden third temporal axis (knowledge_from/knowledge_to) is excluded structurally via additionalProperties=false.",
+  "anyOf": [
+    { "$ref": "#/$defs/space_record" },
+    { "$ref": "#/$defs/document_ref" },
+    { "$ref": "#/$defs/document_evidence" },
+    { "$ref": "#/$defs/parsed_instrument" },
+    { "$ref": "#/$defs/version_claim" },
+    { "$ref": "#/$defs/geometry_evidence" },
+    { "$ref": "#/$defs/review_packet" }
+  ],
+  "$defs": {
+    "iso_date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "iso_datetime": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "runner_network": {
+      "type": "string",
+      "enum": ["fixture", "es_local", "foreign_ci", "unknown"]
+    },
+    "reachability_observed": {
+      "type": "string",
+      "enum": ["REACHABLE", "BLOCKED", "UNREACHABLE", "UNKNOWN"]
+    },
+    "fetch_outcome": {
+      "type": "string",
+      "enum": [
+        "SUCCESS",
+        "HTTP_ERROR",
+        "SOFT_404",
+        "CONTENT_MARKER_MISMATCH",
+        "TIMEOUT",
+        "TRANSPORT_ERROR"
+      ]
+    },
+    "scope_evidence_status": {
+      "type": "string",
+      "enum": [
+        "CONTEXT_ONLY",
+        "OFFICIAL_SCOPE_CANDIDATE",
+        "OFFICIAL_SCOPE_LINK_PROVEN"
+      ]
+    },
+    "version_claim_status": {
+      "type": "string",
+      "enum": ["RESOLVED", "REQUIRES_MANUAL_REVIEW"]
+    },
+    "redistribution_policy": {
+      "type": "string",
+      "enum": ["FULL_OK", "DIGEST_ONLY", "METADATA_ONLY"]
+    },
+    "space_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "space_id",
+        "name",
+        "figure_type",
+        "ccaa",
+        "source",
+        "source_id",
+        "observed_at",
+        "evidence_sha256"
+      ],
+      "properties": {
+        "space_id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string" },
+        "figure_type": { "type": "string" },
+        "ccaa": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^ES-[A-Z]{1,2}$" }
+        },
+        "source": { "type": "string" },
+        "source_id": { "type": "string" },
+        "observed_at": { "$ref": "#/$defs/iso_datetime" },
+        "evidence_sha256": { "$ref": "#/$defs/sha256" },
+        "admin_geom_ref": { "type": ["string", "null"] }
+      }
+    },
+    "document_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "doc_id",
+        "published_on",
+        "title",
+        "issuer",
+        "discovery_url"
+      ],
+      "properties": {
+        "source_id": { "type": "string", "minLength": 1 },
+        "doc_id": { "type": "string", "minLength": 1 },
+        "published_on": { "$ref": "#/$defs/iso_date" },
+        "title": { "type": "string" },
+        "issuer": { "type": "string" },
+        "discovery_url": { "type": "string" },
+        "rank": { "type": ["integer", "null"] },
+        "reachability_class": { "type": ["string", "null"] }
+      }
+    },
+    "document_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "doc_ref",
+        "method_recipe_id",
+        "fetched_at",
+        "fetched_from",
+        "http_status",
+        "content_marker_ok",
+        "bytes_sha256",
+        "content_type",
+        "fetch_outcome",
+        "observed_at",
+        "evidence_sha256",
+        "runner_network",
+        "reachability_observed"
+      ],
+      "properties": {
+        "doc_ref": { "$ref": "#/$defs/document_ref" },
+        "method_recipe_id": { "type": "string" },
+        "fetched_at": { "$ref": "#/$defs/iso_datetime" },
+        "fetched_from": { "type": "string" },
+        "http_status": { "type": ["integer", "null"] },
+        "content_marker_ok": { "type": "boolean" },
+        "bytes_sha256": {
+          "type": "string",
+          "pattern": "^([0-9a-f]{64})?$"
+        },
+        "content_type": { "type": ["string", "null"] },
+        "fetch_outcome": {
+          "anyOf": [
+            { "$ref": "#/$defs/fetch_outcome" },
+            { "type": "null" }
+          ]
+        },
+        "observed_at": { "$ref": "#/$defs/iso_datetime" },
+        "evidence_sha256": { "$ref": "#/$defs/sha256" },
+        "runner_network": { "$ref": "#/$defs/runner_network" },
+        "reachability_observed": { "$ref": "#/$defs/reachability_observed" }
+      }
+    },
+    "parsed_instrument": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "doc_id",
+        "format",
+        "annexes_present",
+        "extracted_at",
+        "parser_version"
+      ],
+      "properties": {
+        "doc_id": { "type": "string", "minLength": 1 },
+        "format": { "type": "string" },
+        "annexes_present": { "type": "boolean" },
+        "extracted_at": { "$ref": "#/$defs/iso_datetime" },
+        "parser_version": { "type": "string" },
+        "articles": { "type": "array", "items": { "type": "object" } },
+        "citations": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "version_claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["doc_id", "recorded_at", "status"],
+      "properties": {
+        "doc_id": { "type": "string", "minLength": 1 },
+        "recorded_at": { "$ref": "#/$defs/iso_datetime" },
+        "recorded_until": {
+          "anyOf": [
+            { "$ref": "#/$defs/iso_datetime" },
+            { "type": "null" }
+          ]
+        },
+        "consolidated_state": { "type": ["string", "null"] },
+        "effective_from": {
+          "anyOf": [{ "$ref": "#/$defs/iso_date" }, { "type": "null" }]
+        },
+        "effective_to": {
+          "anyOf": [{ "$ref": "#/$defs/iso_date" }, { "type": "null" }]
+        },
+        "publication_date": {
+          "anyOf": [{ "$ref": "#/$defs/iso_date" }, { "type": "null" }]
+        },
+        "supersession": { "type": "array", "items": { "type": "string" } },
+        "resolver_evidence": { "type": "object" },
+        "status": { "$ref": "#/$defs/version_claim_status" }
+      }
+    },
+    "geometry_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "space_id",
+        "provider",
+        "layer",
+        "retrieved_at",
+        "crs",
+        "digest_sha256",
+        "feature_props",
+        "source_url",
+        "scope_evidence_status"
+      ],
+      "properties": {
+        "space_id": { "type": "string", "minLength": 1 },
+        "provider": { "type": "string" },
+        "layer": { "type": "string" },
+        "retrieved_at": { "$ref": "#/$defs/iso_datetime" },
+        "crs": { "type": "string" },
+        "digest_sha256": { "$ref": "#/$defs/sha256" },
+        "feature_props": { "type": "object" },
+        "source_url": { "type": "string" },
+        "redistribution_policy": { "$ref": "#/$defs/redistribution_policy" },
+        "scope_evidence_status": { "$ref": "#/$defs/scope_evidence_status" }
+      }
+    },
+    "review_packet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["space_id", "publication_readiness"],
+      "properties": {
+        "space_id": { "type": "string", "minLength": 1 },
+        "chain_evidence": { "type": "array", "items": { "type": "object" } },
+        "proposed_rule_artifacts": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "provenance": { "type": "object" },
+        "last_verified": {
+          "anyOf": [
+            { "$ref": "#/$defs/iso_datetime" },
+            { "type": "null" }
+          ]
+        },
+        "diffs": { "type": "array", "items": { "type": "object" } },
+        "publication_readiness": { "const": "NO" }
+      }
+    }
+  }
+}
