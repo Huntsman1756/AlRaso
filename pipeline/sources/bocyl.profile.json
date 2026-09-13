@@ -6,6 +6,7 @@
     "provider": "bocyl_opendatasoft",
     "recipe": "dataset_query",
     "endpoint": "https://jcyl.opendatasoft.com/api/explore/v2.1/catalog/datasets/bocyl/records",
+    "query_template": "where=search(titulo, \"{cite}\")&limit=20",
     "doc_id_pattern": "BOCYL-D-DDMMYYYY-N",
     "queryable_fields": ["titulo", "no_oficial", "fecha_publicacion"],
     "fields": [

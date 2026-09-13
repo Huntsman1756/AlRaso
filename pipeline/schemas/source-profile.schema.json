@@ -36,6 +36,7 @@
         "provider": { "type": "string", "minLength": 1 },
         "recipe": { "type": "string", "minLength": 1 },
         "endpoint": { "type": "string" },
+        "query_template": { "type": "string" },
         "doc_id_pattern": { "type": "string" },
         "queryable_fields": { "type": "array", "items": { "type": "string" } },
         "fields": { "type": "array", "items": { "type": "string" } },

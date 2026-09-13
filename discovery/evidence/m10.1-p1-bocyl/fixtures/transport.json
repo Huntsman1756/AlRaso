@@ -1,0 +1,5 @@
+{
+  "status": 200,
+  "content_type": "application/xml",
+  "note": "offline replay of the G0-verified response; body = document.bin"
+}
