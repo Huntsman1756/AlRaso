@@ -20,7 +20,7 @@ import { S10_SAVE_FAVORITE, S11_OUTING_FLOW } from '../scenarios/persistence.mjs
 import { S12_MOBILE_SHEET, S13_OFFLINE_VISITED, S14_LEGAL_SERVER_DOWN } from '../scenarios/resilience.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const root = path.resolve(here, '../..');
+const root = path.resolve(here, '../../..');
 const runDir = path.resolve(process.env.M9_RUN_DIR || path.join(here, '..', '.m9-runs', 'manual'));
 
 const scenarios = [

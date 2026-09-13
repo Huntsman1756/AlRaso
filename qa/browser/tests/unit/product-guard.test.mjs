@@ -1,5 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import path from 'node:path';
+import { existsSync, readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
 import { classifyProductDrift } from '../../helpers/product-guard.mjs';
 
@@ -17,4 +20,15 @@ test('tracked product drift fails', () => {
 
 test('untracked product drift fails', () => {
   assert.equal(classifyProductDrift(untrackedDrift).clean, false);
+});
+
+test('baseline resolves the repository root from its tests directory', () => {
+  const baselineFile = fileURLToPath(new URL('../baseline.spec.mjs', import.meta.url));
+  const baselineSource = readFileSync(baselineFile, 'utf8');
+  assert.match(baselineSource, /const root = path\.resolve\(here, '\.\.\/\.\.\/\.\.'\);/);
+
+  const repositoryRoot = path.resolve(path.dirname(baselineFile), '../../..');
+  for (const directory of ['webapp', 'alraso', 'qa']) {
+    assert.equal(existsSync(path.join(repositoryRoot, directory)), true, directory);
+  }
 });
