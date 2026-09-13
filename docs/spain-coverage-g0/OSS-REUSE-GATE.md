@@ -15,23 +15,66 @@ Fecha: 2026-09-13. Convención de decisión: `ADOPT` / `ADAPT` / `PATTERN` / `RE
 | `iderioja/base_datos_geografica` | **sin licencia** | inactivo (2020-01) | GeoJSONs de La Rioja (incl. Red Natura, hábitats, Ramsar) | **REJECT** | Sin licencia → no reutilizar nada. Valor residual: demuestra que las IDE autonómicas publican capas ENP/RN2000 (patrón de dónde buscar). Trigger: relicenciado o sustituido por IDE activa equivalente |
 | `projecte-aina/docg-pipeline` | Apache-2.0 | inactivo (2023-12, 0★) | Pipeline de procesamiento DOGC | **PATTERN** | Referencia para DOGC si se necesita más que la API Socrata+ELI ya verificada. Trigger: si Socrata/ELI resultan insuficientes para texto completo estructurado |
 
+## Segunda pasada (búsqueda amplia GitHub, 2026-09-13)
+
+| Repo | Licencia | Actividad | Qué hace realmente | Decisión | Motivo / trigger |
+|---|---|---|---|---|---|
+| `ComputingVictor/MCP-BOE` | MIT | activo (48★) | Servidor MCP sobre la API oficial del BOE: consolidada + sumarios + tablas auxiliares + lectura de PDFs | **ADAPT** | Wrapper MCP maduro; reutilizar sus patrones de cliente BOE (no el MCP como tal). Trigger: implementación del canal BOE |
+| `leyabierta/leyes` | **SIN licencia** | activo | Legislación consolidada en Markdown por jurisdicción (`es/`, `es-an`, `es-cl`...) — pero alimentado esencialmente desde BOE: `es-cl` solo contiene `BOCL-h-*` históricos (sin Decreto 17/2025 Picos) | **REJECT** (datos) + **PATTERN** (modelo) | Sin licencia → los datos no son reutilizables aunque sean "abiertos". Confirma además que quien basa la cobertura CCAA en BOE hereda su agujero de PRUGs |
+| `leyabierta/leyabierta` (engine) | **AGPL-3.0** | activo | Motor TS que genera el repo anterior | **REJECT** | Copyleft incompatible con el codebase del proyecto |
+| `knockatnight/es-legis` | **SIN licencia** | activo | Histórico git de leyes consolidadas | **REJECT** | Sin licencia |
+| `Asensio94/observatorio-alegaciones` | MIT | activo | Lee BOE+BOC Cantabria diario, geolocaliza por municipio, **cruza con Red Natura 2000** y GBIF; GitHub Actions → commit → Pages | **ADAPT/PATTERN** | Demuestra el cruce norma↔geometría en producción y documenta un **problema operativo real: los servidores del Gobierno de Cantabria bloquean IPs de runners de GitHub** — solucionan con fetch local en España + push. Su `boc_cantabria.py` es referencia directa |
+| `unepwcmc/ProtectedPlanet` (WDPA) | BSD-3 (código) / **datos con restricción de uso comercial** | activo | Base mundial de áreas protegidas | **REJECT** como fuente de datos | Los **términos de WDPA restringen uso comercial** — no usar como fallback del inventario ENP; EEA CDDA sigue siendo el cross-check libre |
+| `edusu/spanish-jurisprudence-search` | NOASSERTION | activo | Cliente single-shot del buscador CENDOJ (sin API oficial; WAF) | **PATTERN** | Confirma: **CENDOJ no tiene API** — la cadena de jurisprudencia es scraping frágil con WAF; diseñar para degradación, no para feed |
+| `JIBANEZSA/mcp-cendoj-sentencias` | MIT | reciente | MCP para CENDOJ | **PATTERN** | Mismo techo: scraping del portal CGPJ |
+| `hadronomy/canary` | MIT | activo | Asistente legal IA que parsea BOE | **PATTERN** | Referencia de parsing BOE; dominio distinto |
+| `TwinConsult-AS/akn-profiler` | MIT | activo | Toolkit de perfiles/validación Akoma Ntoso | **ADAPT** | DOGC sirve AKN — este toolkit ayuda a validar/parsear ese XML. Trigger: parser DOGC |
+| `laws-africa/indigo-akn` | MIT | activo | Librerías AKN de la plataforma Indigo (madura) | **ADAPT** | Referencia seria para parsear Akoma Ntoso (canal DOGC) |
+| `es-property-data/es-boe-subastas` | Apache-2.0 | activo | Collector de subastas BOE | **PATTERN** | Solo dominio subastas; patrón de fetch BOE |
+| `matematicsolutions/it-eli-mcp`, `lu-eli-mcp` | Apache-2.0 | activos | MCP sobre ELI de Normattiva/Legilux | **PATTERN** | Patrón ELI-resolver para otros países; España ELI vía BOE/DOGC ya probado |
+
 ## No encontrados / verificación negativa
 
 - **`official-sources-esp`**: la búsqueda en GitHub no devuelve ese repo; los candidatos cercanos
   no encajan (`fedec65/bettercallclaude-espana` AGPL-3.0 — copyleft, REJECT por licencia;
   MCP wrappers sin licencia). Registrar como `NOT_FOUND` — no contar con él.
+- Búsquedas `vivac legal`, `acampada libre`, `bivouac legal spain`, `montaña regulacion` →
+  **0 repositorios**. Nadie ha resuelto públicamente el problema específico de AlRaso
+  (regla de vivac/acampada por espacio protegido con provenance) — confirma el valor del
+  proyecto y que no hay atajo OSS para el núcleo legal.
 
 ## Síntesis
 
 ```text
 ADOPT directo:            0  (nada listo para enchufar)
-ADAPT puntual:            legalize-pipeline → cliente BOE con ETag/rate-limit (si se ingiere BOE)
+ADAPT puntual:            MCP-BOE (patrones cliente BOE), legalize-pipeline (cliente BOE ETag),
+                          akn-profiler / indigo-akn (Akoma Ntoso para DOGC),
+                          observatorio-alegaciones (boc_cantabria.py + cruce geo)
 PATTERN (arquitectura):   legalize-pipeline (interfaces por función),
                           foul-flock (refresh→PR + provenance + reglas explícitas),
-                          es-atlas (geo oficial → artefacto web),
-                          docg-pipeline (DOGC), normativa-dev (recuperación por dominio)
-REJECT:                   iderioja (sin licencia), bettercallclaude-espana (AGPL)
+                          observatorio-alegaciones (diario→geo→RN2000→commit),
+                          leyabierta (modelo ley=fichero/reforma=commit, sin reutilizar datos),
+                          es-atlas, docg-pipeline, normativa-dev, canary, CENDOJ clients
+REJECT:                   leyabierta/leyes (sin licencia), leyabierta engine (AGPL),
+                          es-legis (sin licencia), iderioja (sin licencia),
+                          bettercallclaude-espana (AGPL), WDPA (uso comercial restringido)
 ```
+
+## Problemas destapados por la pasada amplia
+
+1. **Geo-bloqueo de gacetas**: el Gobierno de Cantabria no responde a runners de GitHub
+   (probado en producción por `observatorio-alegaciones` — workaround: fetch local en España + push).
+   Implicación: la automatización de gacetas autonómicas no puede asumir CI en cloud extranjero;
+   el spec debe contemplar fetchers locales/ES o tolerancia a `UNREACHABLE` con reintento fuera de banda.
+2. **Licencias trampa en datos "abiertos"**: `leyes`, `es-legis`, `iderioja` parecen open data pero
+   carecen de LICENSE → legalmente no reutilizables. WDPA restringe uso comercial.
+   Regla: dato sin licencia explícita = `REJECT` aunque sea descargable.
+3. **CENDOJ sin API** (WAF + scraping) — la cadena jurisprudencia es inherentemente frágil;
+   el modelo de confianza debe admitir evidencia judicial como `MANUAL/INCONCLUSIVE`, no como feed.
+4. **Heredar el agujero de BOE**: cualquier proyecto que indexe "España" desde BOE consolidada
+   (leyabierta incluido) no contiene los PRUGs autonómicos — verificado con Decreto 17/2025 ausente
+   en `es-cl` de leyabierta pese a estar publicado. Los datos OSS de legislación española NO cubren
+   el corpus que AlRaso necesita.
 
 Decisión estructural: **ningún OSS resuelve la parte dura** (gacetas autonómicas + consolidación +
 enlace norma↔geometría). OSS aporta patrones de arquitectura y de gobernanza de datos — que es

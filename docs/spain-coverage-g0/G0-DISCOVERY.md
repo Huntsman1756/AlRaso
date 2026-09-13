@@ -41,6 +41,8 @@ DOGC/BOCyL a document-grade en BOPA/BOC-Cantabria).
 |---|---|
 | BOE consolidada `?query=numero_oficial:"238/2011"` | 0 hits — PRUG Sierra Nevada **no está** en BOE |
 | idem para 49/2015 (Ordesa), 17/2025 y 21/2026 y 57/2026 (Picos), 182/2025 (Teide), 39/2003 (Aigüestortes) | 0 hits o normas estatales no relacionadas |
+| BOE consolidada `ambito@codigo:2 and titulo:rector` | 0 hits — ningún PRUG autonómico consolidado. PERO `titulo:plan and titulo:rector` devuelve **RDs estatales históricos** (RD 384/2002 Picos —derogado/anulado—, RD 277/1995, RD 1621/1990, RD 1531/1986…): la era pre-transferencia sí está en BOE |
+| BOE consolidada acepta IDs nativos de gaceta | `BOJA-b-2020-90080`, `BOCL-h-2013-90254` responden 200 — la consolidada indexa normas CCAA bajo su ID autonómico (pero solo las consolidadas: leyes, no PRUGs) |
 | BOE consolidada Ley 1/2007 Monfragüe / Ley 3/1999 Sierra Nevada | `BOE-A-2007-4461`, `BOE-A-1999-782` — las leyes de **declaración** sí están |
 | BOE list `?from&to` sobre `fecha_actualizacion` | Devuelve normas con timestamp de consolidación — **change detection corpus-wide resuelto** |
 | BOE `texto/indice` | `fecha_actualizacion` **por bloque/artículo** — change detection granular resuelto |
@@ -231,6 +233,17 @@ Justificación empírica:
 9. **Cobertura real de PRUGs por gaceta no muestreada al completo** — G0 probó 5 territorios, no 19.
 10. **`query` del BOE solo busca en el corpus consolidado** — las disposiciones no consolidadas
     (resoluciones, correcciones) requieren el sumario diario, no la API de normas.
+11. **Geo-bloqueo de gacetas autonómicas** — probado en producción por un tercero
+    (`observatorio-alegaciones`): los servidores del Gobierno de Cantabria no responden a runners
+    de GitHub. La automatización nacional no puede asumir cloud extranjero: fetchers en España
+    o `UNREACHABLE` explícito con reintento fuera de banda.
+12. **Trampas de licencia en datos "abiertos"** — repos de legislación española en Markdown
+    (`leyabierta/leyes`, `es-legis`) no tienen LICENSE → no reutilizables aunque descargables;
+    WDPA/ProtectedPlanet restringe uso comercial → no sirve como fallback del inventario ENP
+    (EEA CDDA sí). CENDOJ no tiene API (WAF) — jurisprudencia será siempre evidencia manual.
+13. **Doble era de los PRUGs** — los PRUGs pre-transferencia aprobados por Real Decreto SÍ están
+    en BOE consolidada (RD 384/2002 Picos etc. — incl. alguno anulado judicialmente); los modernos
+    por decreto autonómico NO. El resolver temporal debe distinguir ambas eras.
 
 ## 8. Veredicto del gate G0
 
