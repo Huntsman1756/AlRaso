@@ -380,8 +380,12 @@ def test_m2_gate_frontend_markup():
     assert "min-height:44px" in css
 
     js = _read("webapp/static/app.js")
-    assert "/api/find" in js
-    assert "/api/places" in js
+    search = _read("webapp/static/modules/search.js")
+    api_legal = _read("webapp/static/modules/api-legal.js")
+    assert "findPlaces(q)" in search
+    assert "fetchPlaces()" in search
+    assert "/api/find" in api_legal
+    assert "/api/places" in api_legal
     assert "getCenter" in js
 
 

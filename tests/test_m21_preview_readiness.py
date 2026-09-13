@@ -136,4 +136,7 @@ def test_frontend_markup_keeps_accessibility_and_plain_layer_hooks():
     assert ":focus-visible" in css
     assert "min-height:44px" in css
     js = (ROOT / "webapp" / "static" / "app.js").read_text(encoding="utf-8")
-    assert "/api/find" in js and "/api/places" in js and "getCenter" in js
+    search = (ROOT / "webapp" / "static" / "modules" / "search.js").read_text(encoding="utf-8")
+    api_legal = (ROOT / "webapp" / "static" / "modules" / "api-legal.js").read_text(encoding="utf-8")
+    assert "findPlaces(q)" in search and "fetchPlaces()" in search
+    assert "/api/find" in api_legal and "/api/places" in api_legal and "getCenter" in js

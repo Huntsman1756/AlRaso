@@ -28,6 +28,7 @@ JS = _read("webapp/static/app.js")
 API_LEGAL_JS = _read("webapp/static/modules/api-legal.js")
 PLACE_JS = _read("webapp/static/modules/place.js")
 SAVED_JS = _read("webapp/static/modules/saved.js")
+SEARCH_JS = _read("webapp/static/modules/search.js")
 CSS = _read("webapp/static/style.css")
 PY = _read("webapp/server.py")
 
@@ -395,21 +396,23 @@ class TestU8Onboarding:
 
     def test_cta_ids_in_js(self):
         """Three place IDs used by the CTA."""
-        assert "cares-picos" in JS
-        assert "refugio-goriz" in JS
-        assert "pradera-ordesa" in JS
+        assert "cares-picos" in SEARCH_JS
+        assert "refugio-goriz" in SEARCH_JS
+        assert "pradera-ordesa" in SEARCH_JS
 
     def test_cta_uses_api_places(self):
-        assert "/api/places" in JS
+        assert "fetchPlaces()" in SEARCH_JS
+        assert "/api/places" in API_LEGAL_JS
 
     def test_cta_selectPoint_called(self):
-        assert "selectPoint" in JS
+        assert "onSelectPoint(place.lat, place.lon, place.name, true)" in SEARCH_JS
+        assert "onSelectPoint: function (lat, lon, name, fly) { selectPoint(lat, lon, name, fly); }" in JS
 
     def test_cta_buttons_keyboard_reachable(self):
         """CTA buttons are real <button> elements created dynamically in JS."""
-        # Buttons are created dynamically in app.js with createElement("button")
-        assert "createElement" in JS
-        assert "cta-btn" in JS or 'className' in JS or "class = " in JS or "className =" in JS
+        # Buttons are created dynamically in search.js with createElement("button")
+        assert "createElement" in SEARCH_JS
+        assert "cta-btn" in SEARCH_JS or 'className' in SEARCH_JS or "class = " in SEARCH_JS or "className =" in SEARCH_JS
 
     def test_legend_chips_in_layers_panel(self):
         """Legend chips moved to layers-panel, not card-empty."""
@@ -594,16 +597,17 @@ class TestM4ProductUsability:
         assert "requestAnimationFrame" not in JS.split("endDrag")[1][:400]
 
     def test_r3_dropdown_sources_only_api_places(self):
-        start = JS.find("function initSuggest")
-        end = JS.find('$("searchform").addEventListener("submit"')
+        start = SEARCH_JS.find("function initSuggest")
+        end = SEARCH_JS.find("function initSubmit")
         assert start != -1 and end != -1 and start < end
-        block = JS[start:end]
+        block = SEARCH_JS[start:end]
         assert "fetchPlaces()" in block
         assert "/api/places" in API_LEGAL_JS
         assert "/api/find" not in block, "dropdown must not add a search source"
 
     def test_r3_selection_calls_selectpoint(self):
-        assert "selectPoint(p.lat, p.lon, p.name, true)" in JS
+        assert "onSelectPoint(p.lat, p.lon, p.name, true)" in SEARCH_JS
+        assert "onSelectPoint: function (lat, lon, name, fly) { selectPoint(lat, lon, name, fly); }" in JS
 
     def test_r5_actions_sticky_above_nav(self):
         assert "position:sticky" in CSS
@@ -636,7 +640,7 @@ class TestM4ProductUsability:
     def test_p1_2_escape_closes_exactly_one_level(self):
         # Dropdown Escape must stop propagation AND the sheet coordinator
         # must honour defaultPrevented: one keypress, one level.
-        assert "ev.stopPropagation(); close();" in JS
+        assert "ev.stopPropagation(); close();" in SEARCH_JS
         assert 'ev.key !== "Escape" || ev.defaultPrevented' in JS
 
     def test_p1_3_closed_state_tap_reachable(self):
@@ -647,9 +651,9 @@ class TestM4ProductUsability:
 
     def test_p1_4_cta_notes_come_from_places_data(self):
         # No hardcoded zone claims in JS: the note is place.note from /api/places.
-        assert "place.note" in JS
-        assert "extremo a extremo" not in JS
-        assert "todavía no la verifica" not in JS
+        assert "place.note" in SEARCH_JS
+        assert "extremo a extremo" not in SEARCH_JS
+        assert "todavía no la verifica" not in SEARCH_JS
 
     def test_p1_5_sheet_handle_meets_44px_target(self):
         # Touch targets must be >=44px. #sheet-handle is more specific than
