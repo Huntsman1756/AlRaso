@@ -22,7 +22,7 @@ PROBES = [
     ("bocyl-dataset", "https://jcyl.opendatasoft.com/api/explore/v2.1/catalog/datasets/bocyl/records?limit=1", 200, "fecha_publicacion", "application/json"),
     ("bocyl-doc-xml", "https://bocyl.jcyl.es/boletines/2025/12/15/xml/BOCYL-D-15122025-1.xml", 200, "numeroOficial", None),
     ("bopa-doc", "https://sede.asturias.es/bopa/2026/03/30/2026-02506.pdf", 200, None, None),
-    ("boc-cantabria", "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=435888", 200, None, None),
+    ("boc-cantabria-toc-post", "POST https://boc.cantabria.es/boces/boletines.do", 200, "57/2026", None),
     ("boa-doc", "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?BASE=BOLE&CMD=VERDOC&DOCN=007922169&SEC=BUSQUEDA_AVANZADA&SEPARADOR=", 200, "16/2022", None),
     ("boja-doc", "https://www.juntadeandalucia.es/boja/2011/155/41", 200, None, None),
     ("boc-canarias", "https://www.gobiernodecanarias.org/boc/2025/240/pda/4148.html", 200, "182/2025", None),
@@ -36,8 +36,13 @@ def probe(name, url, expected, needle, accept):
     headers = {"User-Agent": "alraso-g0-verify/1.0"}
     if accept:
         headers["Accept"] = accept
+    data = None
+    if url.startswith("POST "):
+        url = url[5:]
+        data = b"boletinBean.fecBolString=04%2F08%2F2026&boletinBean.tipoBol=&boton=Buscar"
+        headers["Content-Type"] = "application/x-www-form-urlencoded"
     try:
-        req = urllib.request.Request(url, headers=headers)
+        req = urllib.request.Request(url, headers=headers, data=data)
         with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
             body = r.read()
             status = r.status

@@ -133,11 +133,18 @@
       "id": "boc-cantabria",
       "name": "BOC — Boletín Oficial de Cantabria",
       "authority_role": "authoritative_legal_source (Cantabria)",
-      "access": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=NNNNNN — VERIFIED 200 text/html; charset=ISO-8859-1 (JSP viewer, blob IDs)",
-      "formats": ["HTML", "PDF"],
-      "change_detection": "WEAK — viewer-style access; no API verified",
+      "access": {
+        "toc": "POST /boces/boletines.do (boletinBean.fecBolString=DD/MM/YYYY&boton=Buscar) → TOC html — VERIFIED",
+        "daily_xml": "GET /boces/verXmlAction.do?idBlob=N — DAILY FULL-TEXT XML (disposicion/numExpediente/CVE/emisor; anexos=1 flag) — VERIFIED (idBlob=46085, 2026-08-04)",
+        "doc": "GET /boces/verAnuncioAction.do?idAnuBlob=N — PDF per announcement (BOC-YYYY-NNNN) — VERIFIED",
+        "stable_ids": "CVE-YYYY-NNNN + numExpediente + BOC-YYYY-NNNN"
+      },
+      "formats": ["daily XML", "PDF", "HTML"],
+      "reachability": "ES_ONLY — foreign fetches time out (r.jina.ai TimeoutError verified 2026-09-13; GitHub runners blocked per third-party production evidence). Discovery may succeed where fetch fails.",
+      "soft404": "verAnuncioAction with wrong idAnuBlob returns 200 'No hay documento' — verify content",
+      "change_detection": "MEDIUM — daily XML diff, requires ES-network fetcher",
       "classification": "authoritative_legal_source",
-      "probe": "Decreto 57/2026 Picos PRUG (Cantabria) — extract in evidence/m2a-picos"
+      "probe": "Decreto 57/2026 Picos PRUG → CVE-2026-6207 in daily XML; extract in evidence/m2a-picos"
     },
     {
       "id": "bocyl",

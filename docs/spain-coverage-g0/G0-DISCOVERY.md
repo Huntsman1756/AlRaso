@@ -64,7 +64,9 @@ DOGC/BOCyL a document-grade en BOPA/BOC-Cantabria).
 
 ## 2. Los 5 probes territoriales heterogéneos
 
-Cadena verificada: `espacio → geometría → autoridad → norma → versión vigente → precepto → revisión`.
+Cadena completa por probe en `docs/spain-coverage-g0/PROBES.md`
+(SPACE_ID → geometría → autoridad → discovery → documento → versión → precepto →
+provenance → parser → change-detection → publication_readiness=NO).
 
 ### 2.1 Ordesa y Monte Perdido (Aragón — BOA)
 
@@ -85,11 +87,11 @@ revisión   : posible (polling BOA) pero manual; cadena CERRADA como discovery, 
 espacio    : PN Picos — OAPN layer (1 feature, 3 jurisdicciones)
 geometría  : OAPN + GISCO NUTS2 ES12/ES13/ES41 (Δ<0,05 % verificado en M2A); jurisdicción OBLIGATORIA
 autoridad  : 3 CCAA — misma estructura de PRUG, 3 decretos
-norma      : Ast Decreto 21/2026 (BOPA 2026-02506, PDF) · Cant Decreto 57/2026 (BOC 148, JSP)
-             · CyL Decreto 17/2025 (BOCyL-D-15122025-1, API+XML+PDF)
-versión    : heterogénea — BOCyL API-grade, BOPA/BOC document-grade
+norma      : Ast Decreto 21/2026 (BOPA 2026-02506, PDF) · Cant Decreto 57/2026 (BOC 148;
+             CVE-2026-6207 en XML diario) · CyL Decreto 17/2025 (BOCyL-D-15122025-1, API+XML+PDF)
+versión    : heterogénea — BOCyL API-grade, BOC XML-diario (ES_ONLY), BOPA PDF-grade
 precepto   : arts. 51-52 verbatim idénticos en los 3 (verificado por diff en M2A)
-revisión   : CyL automatizable (Opendatasoft daily); Ast/Cant manual
+revisión   : CyL automatizable (Opendatasoft daily); Cant automatizable desde red ES; Ast manual
 ```
 
 **Lección**: un mismo parque exige 3 canales de gaceta distintos — el peor caso ya está probado y resoluble.
@@ -131,7 +133,7 @@ revisión   : alta — change detection vía dataset Socrata + ELI versionado
 | Caso | Gaceta | Acceso doc | Consolidado | Change-detection | Cadena |
 |---|---|---|---|---|---|
 | Ordesa | BOA | CGI text/plain | portal s/API verif. | débil-media | reproducible |
-| Picos ×3 | BOPA+BOC+BOCyL | PDF/JSP/**API** | — | CyL fuerte; Ast/Cant débil | reproducible (3 canales) |
+| Picos ×3 | BOPA+BOC+BOCyL | PDF/**XML diario**/**API** | — | CyL fuerte; Cant media (ES_ONLY); Ast débil | reproducible (3 canales) |
 | Teide | BOC | HTML+PDF firmado | no verif. | media | reproducible |
 | Sierra Nevada | BOJA | HTML/PDF | portal Liferay | media | reproducible |
 | Aigüestortes | DOGC | **API+Akoma Ntoso** | vigència por API | fuerte | reproducible |
@@ -190,32 +192,39 @@ Regla: `rule_ref` siempre compuesto — nunca inferir equivalencia entre IDs de 
 
 ## 6. Límites de adapter recomendados (derivados de evidencia)
 
-La evidencia **descarta "un adapter por boletín" como abstracción única** y también descarta
-una interfaz única universal. Lo que emerge:
+La evidencia **descarta un `SourceAdapter` monolítico**: Cantabria demuestra que discovery y
+fetch son dimensiones independientes (el sumario existe y es consultable, pero el fetch falla
+por geolocalización desde CI extranjero). El split que emerge de los 5 probes:
 
 ```text
 InventorySource      MITECO ENP (o CDDA fallback) — lista de espacios + figura + ccaa
-GeometrySource       OAPN WFS / WFS autonómico / descarga MITECO — por espacio
-GazetteDiscovery     por gaceta — buscar/sumario → doc IDs   (heterogéneo real)
-DocumentFetcher      por gaceta — doc ID → bytes + formato
-NormTextParser       por formato — Akoma Ntoso | BOCyL-XML | BOE-XML | PDF(pdftotext) | HTML
+GeometryProvider     OAPN WFS / WFS autonómico / descarga MITECO — por espacio
+DiscoveryProvider    por gaceta — buscar/sumario → doc IDs   (heterogéneo real)
+DocumentFetcher      por gaceta — doc ID → bytes + formato   (con reachability propia)
+DocumentParser       por formato — Akoma Ntoso | daily-XML (BOC) | BOCyL-XML | BOE-XML | PDF
 VersionResolver      por gaceta — consolidado/vigència       (DOGC/BOE fuerte; resto débil)
 ReviewGate           humano — toda regla entra por PR con provenance + last_verified
 ```
 
+Cada interfaz reporta su propio estado, incluyendo **reachability por clase**
+(`REACHABLE | ES_ONLY | WAF_BLOCKED | MANUAL_ONLY | UNREACHABLE`) — un timeout extranjero
+nunca se traduce en "fuente ausente" (ver `access-matrix.json`).
+
 Justificación empírica:
 
-1. `GazetteDiscovery` no puede unificarse: 3 gacetas son API-grade (DOGC-Socrata, BOCyL-Opendatasoft,
-   BOE-JSON), el resto document-grade. Adapter por gaceta **sí**, pero de interfaz estrecha
-   (`discover → doc_ids`, `fetch → bytes`).
-2. `NormTextParser` se factoriza por **formato, no por gaceta**: Akoma Ntoso (DOGC), XML BOCyL,
-   XML BOE comparten shape; PDF-only (BOPA/BOA/BOJA/BOC×2) comparten el path `pdftotext`.
-   Esto colapsa ~19 gacetas en ~3-4 parsers reales.
+1. `DiscoveryProvider`/`DocumentFetcher` separados: P3 (Cantabria) prueba que discovery puede
+   funcionar donde fetch no — y que el fetcher correcto puede ser un proceso local en España
+   que publica el volcado (patrón observado en `observatorio-alegaciones`).
+2. `DocumentParser` se factoriza por **formato, no por gaceta**: Akoma Ntoso (DOGC),
+   XML-diario-estructurado (BOC Cantabria), XML-por-disposición (BOCyL), XML consolidado (BOE),
+   PDF (BOPA/BOA/BOJA/BOC-Canarias) → ~4-5 parsers reales para ~19 gacetas.
+   Detalle verificado: `anexos="1"`/anexos PDF-only exige path híbrido XML+pdftotext.
 3. `VersionResolver` es el cuello de botella real: sólo BOE/DOGC/BOCyL lo resuelven a máquina.
-   Para el resto el resolver devuelve `REQUIRES_MANUAL_REVIEW` — compatible con fail-closed.
-4. `GeometrySource` es independiente del canal legal (OAPN ya probado nacional).
-5. Patrón validado externamente: `legalize-pipeline` usa exactamente esta separación
-   (`LegislativeClient` / `NormDiscovery` / `TextParser` / `MetadataParser` por país) — ver OSS gate.
+   Para el resto devuelve `REQUIRES_MANUAL_REVIEW` — compatible con fail-closed.
+4. `GeometryProvider` independiente del canal legal; OAPN `Normativa` actúa además como
+   **semilla de discovery** (cita gaceta+decreto por parque).
+5. Patrón validado externamente: `legalize-pipeline` usa la misma separación
+   (`LegislativeClient`/`NormDiscovery`/`TextParser`/`MetadataParser` por país).
 
 ## 7. Known gaps (honestos)
 
