@@ -911,6 +911,19 @@ def test_git_diff_vs_main_only_allowed_files():
             or f.startswith("docs/superpowers/plans/2026-09-13-m10")
             or f.startswith("docs/spain-coverage-scaling/")
         )
-        assert f in allowed or m9_allowed or g0_allowed or m10_allowed, (
-            f"Unexpected file changed: {f}"
+        # M10.1 pilot evidence pipeline: bounded to the new pipeline/ subtree,
+        # m10 verify tooling, m10 contract tests and pilot evidence output.
+        # alraso/, webapp/ and qa/browser/ stay FROZEN (0 lines expected).
+        m10_1_allowed = (
+            f.startswith("pipeline/")
+            or f.startswith("tooling/m10_")
+            or f.startswith("tests/test_m10_")
+            or f.startswith("discovery/evidence/m10.1")
         )
+        assert (
+            f in allowed
+            or m9_allowed
+            or g0_allowed
+            or m10_allowed
+            or m10_1_allowed
+        ), f"Unexpected file changed: {f}"
