@@ -47,6 +47,29 @@ ALLOWED_IMPORTS = {
 
 IMPORT_RE = re.compile(r"^\s*import(?:\s+[^\"']+\s+from\s+)?\s*[\"']([^\"']+)[\"']", re.MULTILINE)
 
+FROM_IMPORT_RE = re.compile(
+    r"^\s*import\s+([^;\"']+?)\s+from\s+[\"'](\./[^\"']+)[\"']", re.MULTILINE
+)
+BARE_IMPORT_RE = re.compile(r"^\s*import\s*[\"'](\./[^\"']+)[\"']", re.MULTILINE)
+
+
+def _imported_names(source: str, specifier: str) -> set[str]:
+    names: set[str] = set()
+    for clause, target in FROM_IMPORT_RE.findall(source):
+        if target != specifier:
+            continue
+        clause = clause.strip()
+        assert clause.startswith("{") and clause.endswith("}"), (
+            f"only named imports are allowed from {specifier}: {clause}"
+        )
+        for part in clause[1:-1].split(","):
+            name = part.strip()
+            if name:
+                names.add(name.split(" as ")[0].strip())
+    for target in BARE_IMPORT_RE.findall(source):
+        assert target != specifier, f"bare import from {specifier} is forbidden"
+    return names
+
 
 def _imports(source: str, *, app: bool = False) -> set[str]:
     targets = set()
@@ -117,6 +140,18 @@ def test_app_is_the_only_composition_root_and_imports_all_modules():
     for module in MODULES:
         source = (MODULE_ROOT / module).read_text(encoding="utf-8")
         assert "./app.js" not in source
+
+
+def test_map_js_named_imports_from_api_legal_are_locked_to_fetchcoverage():
+    source = (MODULE_ROOT / "map.js").read_text(encoding="utf-8")
+    names = _imported_names(source, "./api-legal.js")
+    assert names == {"fetchCoverage"}, f"map.js api-legal.js imports: {sorted(names)}"
+
+
+def test_saved_js_named_imports_from_place_are_locked_to_poi_cats():
+    source = (MODULE_ROOT / "saved.js").read_text(encoding="utf-8")
+    names = _imported_names(source, "./place.js")
+    assert names == {"POI_CATS"}, f"saved.js place.js imports: {sorted(names)}"
 
 
 def test_dom_exports_remain_frozen_and_product_has_no_dynamic_imports():
