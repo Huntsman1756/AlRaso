@@ -929,6 +929,13 @@ def test_git_diff_vs_main_only_allowed_files():
             or f == "docs/reports/ALRASO_EVIDENCE_PACKET_V2_CONSUMER_PROOF_2026-09-09.md"
             or f == "tests/test_evidence_packet_v2.py"
         )
+        # M10.2 national source coverage + refresh: design docs only
+        # (spec/plan). Implementation stanzas are added by the M10.2-*
+        # implementation branches themselves — not preauthorized here.
+        m10_2_allowed = (
+            f.startswith("docs/superpowers/specs/2026-09-16-m10.2")
+            or f.startswith("docs/superpowers/plans/2026-09-16-m10.2")
+        )
         assert (
             f in allowed
             or m9_allowed
@@ -936,4 +943,5 @@ def test_git_diff_vs_main_only_allowed_files():
             or m10_allowed
             or m10_1_allowed
             or ep21_allowed
+            or m10_2_allowed
         ), f"Unexpected file changed: {f}"
