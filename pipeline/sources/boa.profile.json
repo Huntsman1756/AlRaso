@@ -1,0 +1,42 @@
+{
+  "source_id": "boa",
+  "jurisdiction": "ES-AR",
+  "kind": "gazette",
+  "discovery": {
+    "provider": "boa_cgi",
+    "recipe": "docn_lookup",
+    "endpoint": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI",
+    "query_template": "BASE=BOLE&CMD=VERDOC&DOCN={doc_key}&SEC=BUSQUEDA_AVANZADA&SEPARADOR=",
+    "doc_id_pattern": "DOCN"
+  },
+  "fetch": {
+    "provider": "boa_cgi",
+    "recipe": "cgi",
+    "method": "GET",
+    "formats": ["html", "pdf"],
+    "content_marker": "boaseccion",
+    "doc_url_template": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?BASE=BOLE&CMD=VERDOC&DOCN={doc_id}&SEC=BUSQUEDA_AVANZADA&SEPARADOR="
+  },
+  "parse": {
+    "format": "boa_html"
+  },
+  "versioning": {
+    "strategy": "gazette_publication"
+  },
+  "reachability": {
+    "expected": {
+      "es_local": "REACHABLE",
+      "foreign_ci": "REACHABLE"
+    },
+    "fallback": null
+  },
+  "change_detection": {
+    "method": "boa_polling",
+    "cadence": "daily"
+  },
+  "provenance": {
+    "derived_from": "discovery/evidence/spain-coverage-g0/source-matrix.json",
+    "probed_at": "2026-09-13",
+    "caveat": "legacy CGI; consolidated-legislation API NOT_VERIFIED"
+  }
+}

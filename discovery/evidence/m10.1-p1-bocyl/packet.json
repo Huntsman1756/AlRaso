@@ -1,0 +1,207 @@
+{
+  "chain_evidence": [
+    {
+      "evidence": {
+        "admin_geom_ref": "Parque Nacional de los Picos de Europa",
+        "ccaa": [
+          "ES-AS",
+          "ES-CB",
+          "ES-CL"
+        ],
+        "evidence_sha256": "3b049d91cb8437f3d536deb4f646ad895302981071f9cff838de5c9ecfe7eaca",
+        "figure_type": "PN",
+        "name": "Parque Nacional de los Picos de Europa",
+        "observed_at": "2026-09-13",
+        "source": "oapn-red-pn",
+        "source_id": "Parque Nacional de los Picos de Europa",
+        "space_id": "pn-picos-de-europa"
+      },
+      "link": "inventory",
+      "sha256": "7bf15f57b093989b9310c3cdf85133d4548b88dfb4a169c60cd790b5a0228462"
+    },
+    {
+      "evidence": [
+        {
+          "crs": "EPSG:4326",
+          "digest_sha256": "ea3399db885468343084c38497af888476c40b7ed503cd9e9df75ebd726b28f1",
+          "feature_props": {
+            "Ampliación": "Resolución de 04 de febrero de 2015",
+            "Declaración": "Ley del 24 de julio de 1918",
+            "Fecha Declaración": "22/07/1918",
+            "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-picos_tcm30-378976.pdf",
+            "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-picos_tcm30-439491.pdf",
+            "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldelospicosdeeuropa_tcm30-539911.pdf",
+            "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2010%20Picos%20de%20Europa.pdf",
+            "Nombre": "Parque Nacional de los Picos de Europa",
+            "Reclasificación": "Ley 16/1995 de 30 de mayo",
+            "Recononimientos internacionales": "UNESCO - Patrimonio Mundial Natural - Hayedos primarios de los Cárpatos y otras regiones de Europa: Hayedo de Cuesta Fría (213 ha) y Hayedo de Canal de Asotín (109 ha).",
+            "Superficie oficial (ha)": "66030,36",
+            "Tipo Centro": "Parque Nacional",
+            "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/picos-europa"
+          },
+          "layer": "LimitesParquesNacionalesZPP:view_red_oapn_limite_pn",
+          "provider": "oapn_wfs",
+          "redistribution_policy": "DIGEST_ONLY",
+          "retrieved_at": "2026-09-13",
+          "scope_evidence_status": "CONTEXT_ONLY",
+          "source_url": "https://sigred.oapn.es/geoserverOAPN/ows",
+          "space_id": "pn-picos-de-europa"
+        }
+      ],
+      "link": "geometry",
+      "sha256": "0cf30a4d6b11b141ae87cf2d8d1357920089ca12bfbf21f2b9ad46740440c021"
+    },
+    {
+      "evidence": {
+        "cite": "Decreto 17/2025",
+        "gazette": "bocyl",
+        "jurisdiction": "ES-CL"
+      },
+      "link": "authority",
+      "sha256": "7328e305e356309449ac6a03f4be25059b78dba3c96071fbcf5ab956027c5ef0"
+    },
+    {
+      "evidence": [
+        {
+          "discovery_url": "https://bocyl.jcyl.es/boletines/2025/12/15/xml/BOCYL-D-15122025-1.xml",
+          "doc_id": "BOCYL-D-15122025-1",
+          "issuer": "CONSEJERÍA DE MEDIO AMBIENTE, VIVIENDA Y ORDENACIÓN DEL TERRITORIO",
+          "published_on": "2025-12-15",
+          "rank": 0,
+          "reachability_class": null,
+          "source_id": "bocyl",
+          "title": "DECRETO 17/2025, de 11 de diciembre, por el que se aprueba el Plan Rector de uso y gestión del Parque Nacional de los Picos de Europa en el ámbito territorial de la comunidad de Castilla y León"
+        }
+      ],
+      "link": "discovery",
+      "sha256": "2621028c762c90b914c6151fa2d32de52b98d6d9c70872e6180d7571d8425044"
+    },
+    {
+      "evidence": {
+        "bytes_sha256": "f3837c8f0e1ddb350cc14c8b11f94be91ad07f867ffc4152d91e8a7058a3d65e",
+        "content_marker_ok": true,
+        "content_type": "application/xml",
+        "doc_ref": {
+          "discovery_url": "https://bocyl.jcyl.es/boletines/2025/12/15/xml/BOCYL-D-15122025-1.xml",
+          "doc_id": "BOCYL-D-15122025-1",
+          "issuer": "CONSEJERÍA DE MEDIO AMBIENTE, VIVIENDA Y ORDENACIÓN DEL TERRITORIO",
+          "published_on": "2025-12-15",
+          "rank": 0,
+          "reachability_class": null,
+          "source_id": "bocyl",
+          "title": "DECRETO 17/2025, de 11 de diciembre, por el que se aprueba el Plan Rector de uso y gestión del Parque Nacional de los Picos de Europa en el ámbito territorial de la comunidad de Castilla y León"
+        },
+        "evidence_sha256": "f3837c8f0e1ddb350cc14c8b11f94be91ad07f867ffc4152d91e8a7058a3d65e",
+        "fetch_outcome": "SUCCESS",
+        "fetched_at": "2026-09-13T20:26:44Z",
+        "fetched_from": "https://bocyl.jcyl.es/boletines/2025/12/15/xml/BOCYL-D-15122025-1.xml",
+        "http_status": 200,
+        "method_recipe_id": "get_simple",
+        "observed_at": "2026-09-13T20:26:44Z",
+        "reachability_observed": "REACHABLE",
+        "runner_network": "fixture"
+      },
+      "link": "fetch",
+      "sha256": "5f8f27bd45fe33f0ee6bf55a6ffda4c117aff50f262aacc09aab19aaa55dd767"
+    },
+    {
+      "evidence": {
+        "annexes_present": true,
+        "articles": [
+          {
+            "order": 0,
+            "ref": "Artículo único.  Objeto."
+          },
+          {
+            "order": 1,
+            "ref": "DISPOSICIÓN TRANSITORIA"
+          },
+          {
+            "order": 2,
+            "ref": "DISPOSICIÓN DEROGATORIA"
+          }
+        ],
+        "citations": [
+          "Ley 16/1995",
+          "Ley 30/2014",
+          "Real Decreto 389/2016",
+          "Ley 4/2015",
+          "Ley 39/2015",
+          "Ley 42/2007"
+        ],
+        "doc_id": "BOCYL-D-15122025-1",
+        "extracted_at": "2026-09-13T20:26:44Z",
+        "format": "bocyl_xml",
+        "parser_version": "bocyl_xml/0.1"
+      },
+      "link": "parse",
+      "sha256": "d8af9f3912560c2ed5cb150f22e9bbe8f8d0f1bd33830acaa8e8b1e9ff5aecb6"
+    },
+    {
+      "evidence": {
+        "consolidated_state": null,
+        "doc_id": "BOCYL-D-15122025-1",
+        "effective_from": null,
+        "effective_to": null,
+        "publication_date": "2025-12-15",
+        "recorded_at": "2026-09-13T20:26:44Z",
+        "recorded_until": null,
+        "resolver_evidence": {
+          "strategy": "gazette_publication"
+        },
+        "status": "REQUIRES_MANUAL_REVIEW",
+        "supersession": []
+      },
+      "link": "version",
+      "sha256": "2abfa757b1619c03b20dfec63e7468a8b2a7151ebef5628e237843f99f2c832e"
+    },
+    {
+      "evidence": {
+        "cadence": "daily",
+        "method": "opendatasoft_dataset_daily"
+      },
+      "link": "change_detection",
+      "sha256": "f432cec19df1db32006af23945e95b5f8673a11ac27262ce4c9fba02a3f2d749"
+    },
+    {
+      "evidence": {
+        "note": "M10.1 prepares review packets only — no rule is published and PERMITTED is never inferred.",
+        "publication_readiness": "NO"
+      },
+      "link": "publication",
+      "sha256": "5f479c9b5eebf9bcee4eadf0259caedb13224cbb6938db12c4246eeb6eac7dbf"
+    }
+  ],
+  "diffs": [],
+  "last_verified": "2026-09-13T20:26:44Z",
+  "proposed_rule_artifacts": [
+    {
+      "doc_id": "BOCYL-D-15122025-1",
+      "format": "bocyl_xml",
+      "kind": "parsed_instrument",
+      "status": "NOT_PUBLISHED"
+    },
+    {
+      "claim_status": "REQUIRES_MANUAL_REVIEW",
+      "doc_id": "BOCYL-D-15122025-1",
+      "kind": "version_claim",
+      "status": "NOT_PUBLISHED"
+    }
+  ],
+  "provenance": {
+    "bundle_sha256": "f216cb478e770f2b7f903f8e963a2477b44e7c3d6e5859944e327bf18a00df08",
+    "chain": [
+      "inventory",
+      "geometry",
+      "authority",
+      "discovery",
+      "fetch",
+      "parse",
+      "version",
+      "change_detection",
+      "publication"
+    ]
+  },
+  "publication_readiness": "NO",
+  "space_id": "pn-picos-de-europa"
+}

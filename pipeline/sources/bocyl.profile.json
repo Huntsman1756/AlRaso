@@ -1,0 +1,60 @@
+{
+  "source_id": "bocyl",
+  "jurisdiction": "ES-CL",
+  "kind": "gazette+open_data_api",
+  "discovery": {
+    "provider": "bocyl_opendatasoft",
+    "recipe": "dataset_query",
+    "endpoint": "https://jcyl.opendatasoft.com/api/explore/v2.1/catalog/datasets/bocyl/records",
+    "query_template": "where=search(titulo, \"{cite}\")&limit=20",
+    "doc_id_pattern": "BOCYL-D-DDMMYYYY-N",
+    "queryable_fields": ["titulo", "no_oficial", "fecha_publicacion"],
+    "fields": [
+      "no_edicion",
+      "fecha_publicacion",
+      "seccion",
+      "subseccion",
+      "organismo",
+      "rango",
+      "no_oficial",
+      "fecha_disposicion",
+      "titulo",
+      "pagina_inicial",
+      "pagina_final",
+      "enlace_fichero_xml",
+      "enlace_fichero_pdf",
+      "enlace_fichero_html"
+    ]
+  },
+  "fetch": {
+    "provider": "per_doc_url",
+    "recipe": "get_simple",
+    "method": "GET",
+    "formats": ["xml", "html", "pdf"],
+    "content_marker": "<disposicion",
+    "doc_url_template": "https://bocyl.jcyl.es/boletines/{YYYY}/{MM}/{DD}/{ext}/BOCYL-D-{DDMMYYYY}-{N}.{ext}"
+  },
+  "parse": {
+    "format": "bocyl_xml",
+    "annex_format": "pdf_text"
+  },
+  "versioning": {
+    "strategy": "gazette_publication"
+  },
+  "reachability": {
+    "expected": {
+      "es_local": "REACHABLE",
+      "foreign_ci": "REACHABLE"
+    },
+    "fallback": null
+  },
+  "change_detection": {
+    "method": "opendatasoft_dataset_daily",
+    "cadence": "daily"
+  },
+  "provenance": {
+    "derived_from": "discovery/evidence/spain-coverage-g0/source-matrix.json + access-matrix.json",
+    "probed_at": "2026-09-13",
+    "caveat": "per-disposition XML excludes long annexes (PRUG ~430 pp PDF-only)"
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "chain_evidence": [
+    {
+      "evidence": {
+        "admin_geom_ref": "Parque Nacional del Teide",
+        "ccaa": [
+          "ES-CN"
+        ],
+        "evidence_sha256": "7ce50cd19da2a01636ff37f35a2669234323ec46d2e52d834eebf95cf6fa3a19",
+        "figure_type": "PN",
+        "name": "Parque Nacional del Teide",
+        "observed_at": "2026-09-13",
+        "source": "oapn-red-pn",
+        "source_id": "Parque Nacional del Teide",
+        "space_id": "pn-teide"
+      },
+      "link": "inventory",
+      "sha256": "3a52c2c89701f762a0b1dfc625e8bc018cf7b97ff19ed9a939d66454977581b3"
+    },
+    {
+      "evidence": [
+        {
+          "crs": "EPSG:4326",
+          "digest_sha256": "e35872d4bbd9317324526fd02d3af0ae4af027b2107ccb2c96ef6a62b653b205",
+          "feature_props": {
+            "Ampliación": "Resolución de 14 de octubre de 1999, de la Secretaría General de Medio Ambiente,  acuerdo por el que se amplían los límites del Parque Nacional del Teide por incorporación de terrenos colindantes al mismo.BOE, nº 310, de 28/04/1999",
+            "Declaración": "Decreto del 22 de Enero de 1954",
+            "Fecha Declaración": "22/01/1954",
+            "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-teide_tcm30-378981.pdf",
+            "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-teide_tcm30-439495.pdf",
+            "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldelteide_tcm30-539917.pdf",
+            "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2015%20Teide.pdf",
+            "Nombre": "Parque Nacional del Teide",
+            "Reclasificación": "Ley 5/1981, de 25 de marzo, de reclasificación del Parque Nacional del Teide. BOE, nº 90, de 15 de abril de 1981.",
+            "Recononimientos internacionales": "UNESCO - Patrimonio Mundial Natural - Parque Nacional del Teide. Diploma Europeo del Consejo de Europa. Certificación Starlight como Reserva y  Destino turístico.",
+            "Superficie oficial (ha)": "18.990,00",
+            "Tipo Centro": "Parque Nacional",
+            "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/teide"
+          },
+          "layer": "LimitesParquesNacionalesZPP:view_red_oapn_limite_pn",
+          "provider": "oapn_wfs",
+          "redistribution_policy": "DIGEST_ONLY",
+          "retrieved_at": "2026-09-13",
+          "scope_evidence_status": "CONTEXT_ONLY",
+          "source_url": "https://sigred.oapn.es/geoserverOAPN/ows",
+          "space_id": "pn-teide"
+        }
+      ],
+      "link": "geometry",
+      "sha256": "b54d94fcd60860c63615b2e36483e7515867efc54c8dddbf9683dae7d87fd662"
+    },
+    {
+      "evidence": {
+        "archive_path": "2025/240/pda/4148",
+        "cite": "Decreto 182/2025",
+        "doc_key": "BOC-A-2025-240-4148",
+        "gazette": "boc-canarias",
+        "jurisdiction": "ES-CN"
+      },
+      "link": "authority",
+      "sha256": "6acae1b2aae4a58cd4aa9d2c41445af0192e77d91c7ee94b07cc3d53d6cc40ab"
+    },
+    {
+      "evidence": [
+        {
+          "discovery_url": "https://www.gobiernodecanarias.org/boc/2025/240/pda/4148.html",
+          "doc_id": "BOC-A-2025-240-4148",
+          "issuer": "Consejería de Transición Ecológica y Energía",
+          "published_on": "2025-12-03",
+          "rank": 0,
+          "reachability_class": null,
+          "source_id": "boc-canarias",
+          "title": "DECRETO 182/2025, de 1 de diciembre, por el que se aprueba el Plan Rector de Uso y Gestión del Parque Nacional del Teide.."
+        }
+      ],
+      "link": "discovery",
+      "sha256": "af97c47d8befeb4b7e3004e57a0f1e5009b7e5a8910cd7e541e818eba3c46c02"
+    },
+    {
+      "evidence": {
+        "bytes_sha256": "d49782a4a53c86b159a2808796a4e02035f9184d30225933415e71c90ceb46d6",
+        "content_marker_ok": true,
+        "content_type": "text/html; charset=utf-8",
+        "doc_ref": {
+          "discovery_url": "https://www.gobiernodecanarias.org/boc/2025/240/pda/4148.html",
+          "doc_id": "BOC-A-2025-240-4148",
+          "issuer": "Consejería de Transición Ecológica y Energía",
+          "published_on": "2025-12-03",
+          "rank": 0,
+          "reachability_class": null,
+          "source_id": "boc-canarias",
+          "title": "DECRETO 182/2025, de 1 de diciembre, por el que se aprueba el Plan Rector de Uso y Gestión del Parque Nacional del Teide.."
+        },
+        "evidence_sha256": "d49782a4a53c86b159a2808796a4e02035f9184d30225933415e71c90ceb46d6",
+        "fetch_outcome": "SUCCESS",
+        "fetched_at": "2026-09-16T17:09:42Z",
+        "fetched_from": "https://www.gobiernodecanarias.org/boc/2025/240/pda/4148.html",
+        "http_status": 200,
+        "method_recipe_id": "get_simple",
+        "observed_at": "2026-09-16T17:09:42Z",
+        "reachability_observed": "REACHABLE",
+        "runner_network": "fixture"
+      },
+      "link": "fetch",
+      "sha256": "827ad27063d8a4800cd07c39320817f435ec9d585a884c3db8aa229117afc78d"
+    },
+    {
+      "evidence": {
+        "annexes_present": true,
+        "articles": [],
+        "citations": [
+          "Decreto 54/2021",
+          "Decreto 123/2023",
+          "Ley 21/2013",
+          "Decreto 70/2011",
+          "Ley 12/2014",
+          "Decreto 212/1991",
+          "Ley 4/2023"
+        ],
+        "doc_id": "BOC-A-2025-240-4148",
+        "extracted_at": "2026-09-16T17:09:42Z",
+        "format": "boc_canarias_html",
+        "parser_version": "boc_canarias_html/0.1"
+      },
+      "link": "parse",
+      "sha256": "6181e58cc5f275b3e1bf4806da7c812dacd4e80b4e928319f4e7274982dcf2e0"
+    },
+    {
+      "evidence": {
+        "consolidated_state": null,
+        "doc_id": "BOC-A-2025-240-4148",
+        "effective_from": null,
+        "effective_to": null,
+        "publication_date": "2025-12-03",
+        "recorded_at": "2026-09-16T17:09:42Z",
+        "recorded_until": null,
+        "resolver_evidence": {
+          "strategy": "gazette_publication"
+        },
+        "status": "REQUIRES_MANUAL_REVIEW",
+        "supersession": []
+      },
+      "link": "version",
+      "sha256": "81db574511fc2a77018dde079276895b47d8dc48c5585034e9e449c8c4551ea3"
+    },
+    {
+      "evidence": {
+        "cadence": "weekly",
+        "method": "stable_id_archive_polling"
+      },
+      "link": "change_detection",
+      "sha256": "dea194868f83c3b3a5639039e83a267b27ecab79d5eade0503610ed1be9934ed"
+    },
+    {
+      "evidence": {
+        "note": "M10.1 prepares review packets only — no rule is published and PERMITTED is never inferred.",
+        "publication_readiness": "NO"
+      },
+      "link": "publication",
+      "sha256": "5f479c9b5eebf9bcee4eadf0259caedb13224cbb6938db12c4246eeb6eac7dbf"
+    }
+  ],
+  "diffs": [],
+  "last_verified": "2026-09-16T17:09:42Z",
+  "proposed_rule_artifacts": [
+    {
+      "doc_id": "BOC-A-2025-240-4148",
+      "format": "boc_canarias_html",
+      "kind": "parsed_instrument",
+      "status": "NOT_PUBLISHED"
+    },
+    {
+      "claim_status": "REQUIRES_MANUAL_REVIEW",
+      "doc_id": "BOC-A-2025-240-4148",
+      "kind": "version_claim",
+      "status": "NOT_PUBLISHED"
+    }
+  ],
+  "provenance": {
+    "bundle_sha256": "7e8d151da083829f6119d6394765c3d94ba9e51a42f09aeae948d506e190eadf",
+    "chain": [
+      "inventory",
+      "geometry",
+      "authority",
+      "discovery",
+      "fetch",
+      "parse",
+      "version",
+      "change_detection",
+      "publication"
+    ]
+  },
+  "publication_readiness": "NO",
+  "space_id": "pn-teide"
+}

@@ -1,0 +1,17 @@
+{
+  "note": "Sequential replay for recipe post_then_get: POST boletines.do -> TOC; GET verXmlAction.do?idBlob=46085 -> daily XML (G0-verified bytes boc-cantabria-2026-08-04.xml)",
+  "responses": [
+    {
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "body_file": "toc-post.html",
+      "note": "POST /boces/boletines.do -> TOC with idBlob=46085"
+    },
+    {
+      "status": 200,
+      "content_type": "application/xml; charset=utf-8",
+      "body_file": "document.bin",
+      "note": "GET /boces/verXmlAction.do?idBlob=46085 -> daily XML BOC 148, 2026-08-04"
+    }
+  ]
+}
