@@ -36,7 +36,11 @@
         "provider": { "type": "string", "minLength": 1 },
         "recipe": { "type": "string", "minLength": 1 },
         "endpoint": { "type": "string" },
+        "method": { "type": "string", "enum": ["GET", "POST"] },
         "query_template": { "type": "string" },
+        "body_template": { "type": "string" },
+        "post_headers": { "type": "object" },
+        "doc_url_template": { "type": "string" },
         "doc_id_pattern": { "type": "string" },
         "queryable_fields": { "type": "array", "items": { "type": "string" } },
         "fields": { "type": "array", "items": { "type": "string" } },
@@ -58,7 +62,11 @@
         },
         "content_marker": { "type": "string", "minLength": 1 },
         "soft_404_marker": { "type": "string" },
-        "doc_url_template": { "type": "string" }
+        "doc_url_template": { "type": "string" },
+        "endpoint": { "type": "string" },
+        "post_body_template": { "type": "string" },
+        "post_headers": { "type": "object" },
+        "response_url_pattern": { "type": "string" }
       }
     },
     "parse": {

@@ -28,6 +28,7 @@ import os
 import re
 from dataclasses import dataclass, field
 from typing import Any, Callable, Mapping
+from urllib.parse import urljoin
 
 from pipeline.models import (
     DocumentEvidence,
@@ -258,6 +259,7 @@ def fetch(
             method="POST",
             url=endpoint,
             body=_expand(body_template, doc_ref, fetch_cfg).encode("utf-8"),
+            headers=dict(fetch_cfg.get("post_headers") or {}),
         )
         try:
             first = transport(post)
@@ -278,7 +280,7 @@ def fetch(
                 f"response_url_pattern {pattern!r} not found in POST "
                 "response — cannot derive document URL"
             )
-        url = match.group(0)
+        url = urljoin(endpoint, match.group(0))
         get = TransportRequest(method="GET", url=url)
         try:
             response = transport(get)

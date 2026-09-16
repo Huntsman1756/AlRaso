@@ -1,0 +1,5 @@
+{
+  "url": "https://boc.cantabria.es/boces/boletines.do",
+  "body_file": "toc-post.html",
+  "note": "POST boletines.do (boletinBean.fecBolString=04/08/2026) -> TOC page. Bytes = G0-verified capture discovery/evidence/spain-coverage-g0/boc-cantabria-toc-20260804-post.html"
+}

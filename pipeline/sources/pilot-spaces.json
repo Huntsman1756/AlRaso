@@ -12,7 +12,7 @@
       "ccaa": ["ES-AS", "ES-CB", "ES-CL"],
       "authorities": [
         {"jurisdiction": "ES-AS", "gazette": "bopa", "cite": "Decreto 21/2026"},
-        {"jurisdiction": "ES-CB", "gazette": "boc-cantabria", "cite": "Decreto 57/2026"},
+        {"jurisdiction": "ES-CB", "gazette": "boc-cantabria", "cite": "Decreto 57/2026", "doc_key": "BOC-2026-6207", "bulletin_date": "04/08/2026"},
         {"jurisdiction": "ES-CL", "gazette": "bocyl", "cite": "Decreto 17/2025"}
       ]
     },
@@ -29,7 +29,7 @@
       "name": "Parque Nacional de Aigüestortes i Estany de Sant Maurici",
       "ccaa": ["ES-CT"],
       "authorities": [
-        {"jurisdiction": "ES-CT", "gazette": "dogc", "cite": "Decreto 39/2003"}
+        {"jurisdiction": "ES-CT", "gazette": "dogc", "cite": "Decreto 39/2003", "doc_key": "es-ct/d/2003/02/04/39", "query_key": "39/2003"}
       ]
     },
     {
@@ -37,7 +37,7 @@
       "name": "Parque Nacional del Teide",
       "ccaa": ["ES-CN"],
       "authorities": [
-        {"jurisdiction": "ES-CN", "gazette": "boc-canarias", "cite": "Decreto 182/2025"}
+        {"jurisdiction": "ES-CN", "gazette": "boc-canarias", "cite": "Decreto 182/2025", "doc_key": "BOC-A-2025-240-4148", "archive_path": "2025/240/pda/4148"}
       ]
     }
   ]

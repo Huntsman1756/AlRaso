@@ -34,6 +34,9 @@ from pipeline.profiles import SourceProfile
 PARSER_VERSION_BOCYL_XML = "bocyl_xml/0.1"
 PARSER_VERSION_PDF_TEXT = "pdf_text/0.1"
 PARSER_VERSION_BOA_HTML = "boa_html/0.1"
+PARSER_VERSION_BOC_DAILY_XML = "boc_daily_xml/0.1"
+PARSER_VERSION_AKN = "akn/0.1"
+PARSER_VERSION_BOC_CANARIAS_HTML = "boc_canarias_html/0.1"
 
 # BOCyL emits this canonical sentence when the XML is not the complete
 # official rendering of the disposition (annex/image content lives in the
@@ -44,10 +47,14 @@ _HEADING_RE = re.compile(
     r"^(Artículo\b|Artículos\b|DISPOSICIÓN\b|Disposición\b|ANEXO\b|Anexo\b)"
 )
 
-# Mechanical citation extraction only — declared-type + number/year patterns.
+# Mechanical citation extraction only — declared-type + number/year
+# patterns. Norm types span the languages Spanish official gazettes publish
+# in (Spanish + Catalan at M10.1); extraction stays mechanical — a matched
+# string is a citation mention, never a legal claim.
 _CITATION_RE = re.compile(
-    r"\b(?:Ley Orgánica|Ley|Real Decreto-ley|Real Decreto|Decreto|"
-    r"Reglamento|Orden|Directiva|Resolución|Decreto Legislativo)"
+    r"\b(?:Ley Orgánica|Ley|Real Decreto-ley|Real Decreto|"
+    r"Decreto Legislativo|Decreto|Reglamento|Orden|Directiva|Resolución|"
+    r"Llei orgànica|Llei|Reial decret|Decret|Ordre)"
     r"\s+(?:\([^)]*\)\s*)?n?[°º]?\s*(\d[\d./]*/\d{4}|\d{4})"
 )
 
@@ -270,9 +277,197 @@ def _boa_html(
     )
 
 
+def _xml_root(body: bytes, fmt: str) -> ET.Element:
+    head = body[:1024].upper()
+    if b"<!DOCTYPE" in head or b"<!ENTITY" in head:
+        raise ParseError(
+            "DOCTYPE/ENTITY declarations rejected — external resources are "
+            "never resolved"
+        )
+    try:
+        return ET.fromstring(body)
+    except ET.ParseError as exc:
+        raise ParseError(f"{fmt}: malformed XML: {exc}") from exc
+
+
+def _boc_daily_xml(
+    evidence: DocumentEvidence, body: bytes, now: str
+) -> ParsedInstrument:
+    """Parse a BOC Cantabria daily XML and select one ``<disposicion>``.
+
+    The daily bundle wraps every announcement of the bulletin; the target
+    disposition is matched against the identity ids the source itself
+    emits — ``numeroExp`` (CVE-YYYY-NNNN), the ``numExpediente`` attribute
+    (YYYY-NNNN) or its ``BOC-``/``CVE-`` print forms — never by position.
+    ``annexes_present`` is the disposition's own ``anexos`` attribute.
+    """
+    root = _xml_root(body, "boc_daily_xml")
+    if root.tag != "root":
+        raise ParseError(
+            f"boc_daily_xml: expected <root>, got <{root.tag}>"
+        )
+
+    doc_id = evidence.doc_ref.doc_id
+    match = None
+    for disp in root.iter("disposicion"):
+        expediente = (disp.get("numExpediente") or "").strip()
+        numero_exp = (disp.findtext("numeroExp") or "").strip()
+        candidates = {
+            c for c in {
+                numero_exp,
+                expediente,
+                f"CVE-{expediente}" if expediente else "",
+                f"BOC-{expediente}" if expediente else "",
+            } if c
+        }
+        if doc_id in candidates:
+            match = disp
+            break
+    if match is None:
+        raise ParseError(
+            f"boc_daily_xml: no <disposicion> for doc_id {doc_id!r}"
+        )
+
+    texto = match.find("texto")
+    paragraphs = _paragraphs(texto) if texto is not None else []
+    headings = [p for p in paragraphs if _HEADING_RE.match(p)]
+    articles = tuple(
+        {"ref": p[:120], "order": i} for i, p in enumerate(headings)
+    )
+    return ParsedInstrument(
+        doc_id=doc_id,
+        format="boc_daily_xml",
+        annexes_present=(match.get("anexos") == "1"),
+        extracted_at=now,
+        parser_version=PARSER_VERSION_BOC_DAILY_XML,
+        articles=articles,
+        citations=_mechanical_citations("\n".join(paragraphs)),
+    )
+
+
+_AKN_NS = "{http://docs.oasis-open.org/legaldocml/ns/akn/3.0}"
+_AKN_HEADING_RE = re.compile(
+    r"^(Article\b|Artícle\b|Disposició\b|Disposicions\b|Annex\b|ANNEX\b)"
+)
+_AKN_P_RE = re.compile(r"<[Pp](?:\s[^>]*)?>")
+_TAG_RE = re.compile(r"<[^>]+>")
+
+
+def _akn(evidence: DocumentEvidence, body: bytes, now: str) -> ParsedInstrument:
+    """Parse an Akoma Ntoso document (ELI ``/xml`` rendering).
+
+    The gencat rendering carries the normative text HTML-escaped inside the
+    ``<content period>`` attribute — one ``<P>`` block per paragraph.
+    Structural headings (Article/Disposició/Annex) and citations are
+    extracted mechanically; ``FRBRthis`` values must contain the selected
+    doc id so the parsed instrument is bound to the chosen ELI.
+    """
+    root = _xml_root(body, "akn")
+    if root.tag != f"{_AKN_NS}akomaNtoso":
+        raise ParseError(
+            f"akn: expected akomaNtoso root, got <{root.tag}>"
+        )
+
+    doc_id = evidence.doc_ref.doc_id
+    frbr_values = [
+        el.get("value") or "" for el in root.iter(f"{_AKN_NS}FRBRthis")
+    ]
+    if not any(f"/eli/{doc_id}" in value for value in frbr_values):
+        raise ParseError(
+            f"akn: no FRBRthis value contains doc id {doc_id!r}"
+        )
+
+    paragraphs: list[str] = []
+    for content in root.iter(f"{_AKN_NS}content"):
+        period = content.get("period")
+        if not period:
+            continue
+        raw = html.unescape(period)
+        for chunk in _AKN_P_RE.split(raw):
+            cleaned = re.sub(
+                r"\s+", " ", html.unescape(_TAG_RE.sub(" ", chunk))
+            ).strip()
+            if cleaned:
+                paragraphs.append(cleaned)
+    if not paragraphs:
+        raise ParseError("akn: no <content period> paragraphs found")
+
+    headings = [p for p in paragraphs if _AKN_HEADING_RE.match(p)]
+    articles = tuple(
+        {"ref": p[:120], "order": i} for i, p in enumerate(headings)
+    )
+    return ParsedInstrument(
+        doc_id=doc_id,
+        format="akn",
+        annexes_present=any(
+            re.match(r"^(Annex|ANNEX)\b", p) for p in paragraphs
+        ),
+        extracted_at=now,
+        parser_version=PARSER_VERSION_AKN,
+        articles=articles,
+        citations=_mechanical_citations("\n".join(paragraphs)),
+    )
+
+
+# BOC Canarias page-structure patterns — defined independently per layer so
+# PARSE never imports from DISCOVERY (the layers must stay separable).
+_BOC_CN_TITLE_RE = re.compile(r"<h3>\s*\d+\s*-\s*(.*?)</h3>", re.DOTALL)
+_BOC_CN_DATE_RE = re.compile(
+    r"BOC\s*-\s*\d{4}/\d+\.\s*[^-<]*?(\d{1,2})\s+de\s+(\w+)\s+de\s+(\d{4})"
+)
+_BOC_CN_PDF_RE = re.compile(
+    r"sede\.gobiernodecanarias\.org/boc/(boc-a-\d{4}-\d+-\d+)\.pdf",
+    re.IGNORECASE,
+)
+_BOC_CN_BODY_RE = re.compile(
+    r'<p class="justificado">(.*?)</p>', re.DOTALL
+)
+
+
+def _boc_canarias_html(
+    evidence: DocumentEvidence, body: bytes, now: str
+) -> ParsedInstrument:
+    """Parse a BOC Canarias document page (UTF-8 HTML).
+
+    The archive page is a document summary (issuer, title, justification)
+    with a signed-PDF link carrying the ``BOC-A-*`` id. Structure is the
+    ``<p class="justificado">`` body; ``annexes_present`` records that the
+    page publishes a separate signed-PDF rendering — the PDF itself is
+    evidence via the ``pdf_text`` route, not redistributed.
+    """
+    text = body.decode("utf-8", "replace")
+    if _BOC_CN_TITLE_RE.search(text) is None:
+        raise ParseError("boc_canarias_html: no <h3> announcement title")
+    if _BOC_CN_DATE_RE.search(text) is None:
+        raise ParseError("boc_canarias_html: no BOC bulletin line")
+    pdf_m = _BOC_CN_PDF_RE.search(text)
+
+    paragraphs = [
+        re.sub(r"\s+", " ", html.unescape(_TAG_RE.sub(" ", c))).strip()
+        for c in _BOC_CN_BODY_RE.findall(text)
+    ]
+    paragraphs = [p for p in paragraphs if p]
+    headings = [p for p in paragraphs if _HEADING_RE.match(p)]
+    articles = tuple(
+        {"ref": p[:120], "order": i} for i, p in enumerate(headings)
+    )
+    return ParsedInstrument(
+        doc_id=evidence.doc_ref.doc_id,
+        format="boc_canarias_html",
+        annexes_present=pdf_m is not None,
+        extracted_at=now,
+        parser_version=PARSER_VERSION_BOC_CANARIAS_HTML,
+        articles=articles,
+        citations=_mechanical_citations("\n".join(paragraphs)),
+    )
+
+
 _PARSERS: dict[str, Callable[..., ParsedInstrument]] = {
     "bocyl_xml": _bocyl_xml,
     "boa_html": _boa_html,
+    "boc_daily_xml": _boc_daily_xml,
+    "akn": _akn,
+    "boc_canarias_html": _boc_canarias_html,
 }
 
 

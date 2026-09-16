@@ -63,16 +63,42 @@ def _norm(s: str) -> str:
 
 def _fixture_transport(fixtures: Path) -> Callable:
     meta = json.loads((fixtures / "transport.json").read_text("utf-8"))
+    if "responses" in meta:
+        # Sequential replay: the i-th transport call gets responses[i]
+        # (last one repeated if the recipe performs extra requests).
+        responses = [
+            (
+                item["status"],
+                (fixtures / item["body_file"]).read_bytes(),
+                item.get("content_type"),
+            )
+            for item in meta["responses"]
+        ]
+        if not responses:
+            raise RunError("transport.json 'responses' must be non-empty")
+
+        def transport(request: TransportRequest) -> TransportResponse:
+            item = responses[
+                min(len(transport.calls), len(responses) - 1)
+            ]
+            transport.calls.append(request)
+            return TransportResponse(
+                status=item[0], body=item[1], content_type=item[2]
+            )
+
+        transport.calls: list[TransportRequest] = []
+        return transport
+
     body = (fixtures / "document.bin").read_bytes()
 
-    def transport(request: TransportRequest) -> TransportResponse:
+    def single_transport(request: TransportRequest) -> TransportResponse:
         return TransportResponse(
             status=meta["status"],
             body=body,
             content_type=meta.get("content_type"),
         )
 
-    return transport
+    return single_transport
 
 
 class _Capture:
@@ -88,7 +114,13 @@ class _Capture:
         return self.last
 
 
-def _select_ref(refs, cite: str):
+def _select_ref(refs, authority: Mapping[str, str]):
+    doc_key = authority.get("doc_key")
+    if doc_key:
+        keyed = [r for r in refs if r.doc_id == doc_key]
+        if keyed:
+            return keyed[0]
+    cite = authority["cite"]
     hits = [r for r in refs if _norm(cite) in _norm(r.title)]
     if not hits:
         raise RunError(
@@ -96,6 +128,56 @@ def _select_ref(refs, cite: str):
             "the pilot never fetches an unverified document"
         )
     return hits[0]
+
+
+def _expand_kv(
+    template: str, mapping: Mapping[str, str], *, safe: str = ""
+) -> str:
+    """Replace ``{key}`` placeholders with URL-quoted values."""
+    for key, value in mapping.items():
+        template = template.replace(
+            "{" + key + "}", quote(str(value), safe=safe)
+        )
+    return template
+
+
+def discovery_request(
+    profile, authority: Mapping[str, str]
+) -> TransportRequest:
+    """Build the live discovery request declared by the profile.
+
+    Three declarative shapes, all profile-driven:
+    - ``doc_url_template`` → GET on the expanded URL (id-keyed archives).
+    - ``method: POST`` + ``body_template`` → form POST (TOC lookups).
+    - ``endpoint`` + ``query_template`` → GET on ``endpoint?query``.
+    """
+    disc = profile.discovery
+    template = disc.get("doc_url_template")
+    if template:
+        return TransportRequest(
+            "GET", _expand_kv(template, authority, safe="/")
+        )
+    endpoint = disc.get("endpoint")
+    if not endpoint:
+        raise RunError(
+            "live discovery requires profile.discovery.endpoint or "
+            "doc_url_template"
+        )
+    if disc.get("method") == "POST":
+        body = _expand_kv(
+            disc.get("body_template", "{doc_key}"), authority, safe=""
+        )
+        return TransportRequest(
+            "POST",
+            endpoint,
+            body=body.encode("utf-8"),
+            headers=dict(disc.get("post_headers") or {}),
+        )
+    template = disc.get("query_template", "limit=100")
+    for key, value in authority.items():
+        template = template.replace("{" + key + "}", str(value))
+    url = f"{endpoint}?{quote(template, safe='={}&/:')}"
+    return TransportRequest(method="GET", url=url)
 
 
 def _discovery_payload(
@@ -117,18 +199,12 @@ def _discovery_payload(
                 "body": (fixtures / doc["body_file"]).read_bytes(),
             }
         return doc
-    endpoint = profile.discovery.get("endpoint")
-    if not endpoint:
-        raise RunError("live discovery requires profile.discovery.endpoint")
-    template = profile.discovery.get("query_template", "limit=100")
-    for key, value in authority.items():
-        template = template.replace("{" + key + "}", value)
-    url = f"{endpoint}?{quote(template, safe='={}&/:')}"
-    resp = urllib_transport(TransportRequest(method="GET", url=url))
+    request = discovery_request(profile, authority)
+    resp = urllib_transport(request)
     try:
         return json.loads(resp.body.decode("utf-8"))
     except (json.JSONDecodeError, UnicodeDecodeError):
-        return {"url": url, "body": resp.body}
+        return {"url": request.url, "body": resp.body}
 
 
 def run_pilot(
@@ -186,7 +262,7 @@ def run_pilot(
         profile, authority, None if live else fixtures_dir
     )
     refs_found = discover(profile, payload)
-    doc_ref = _select_ref(refs_found, authority["cite"])
+    doc_ref = _select_ref(refs_found, authority)
 
     if live:
         transport = _Capture(urllib_transport)

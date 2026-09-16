@@ -1,0 +1,54 @@
+{
+  "source_id": "boc-cantabria",
+  "jurisdiction": "ES-CB",
+  "kind": "gazette",
+  "discovery": {
+    "provider": "boc_toc_post",
+    "recipe": "toc_to_ids",
+    "endpoint": "https://boc.cantabria.es/boces/boletines.do",
+    "method": "POST",
+    "body_template": "boletinBean.fecBolString={bulletin_date}&boletinBean.tipoBol=&boton=Buscar",
+    "post_headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    "doc_id_pattern": "BOC-YYYY-NNNN",
+    "ids": ["CVE-YYYY-NNNN", "numExpediente YYYY-NNNN", "BOC-YYYY-NNNN", "idAnuBlob", "idBlob"]
+  },
+  "fetch": {
+    "provider": "boc_daily_xml",
+    "recipe": "post_then_get",
+    "method": "POST-then-GET",
+    "endpoint": "https://boc.cantabria.es/boces/boletines.do",
+    "post_body_template": "boletinBean.fecBolString={DD}%2F{MM}%2F{YYYY}&boletinBean.tipoBol=&boton=Buscar",
+    "post_headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    "response_url_pattern": "verXmlAction\\.do\\?idBlob=\\d+",
+    "formats": ["xml", "pdf"],
+    "content_marker": "<disposicion",
+    "soft_404_marker": "No hay documento"
+  },
+  "parse": {
+    "format": "boc_daily_xml",
+    "annex_format": "pdf_text"
+  },
+  "versioning": {
+    "strategy": "gazette_publication"
+  },
+  "reachability": {
+    "expected": {
+      "es_local": "REACHABLE",
+      "foreign_ci": "ES_ONLY_SUSPECTED"
+    },
+    "fallback": "es_local_fetcher"
+  },
+  "change_detection": {
+    "method": "daily_xml_diff",
+    "cadence": "daily"
+  },
+  "provenance": {
+    "derived_from": "discovery/evidence/spain-coverage-g0/source-matrix.json + access-matrix.json + boc-cantabria-toc-20260804-post.html",
+    "probed_at": "2026-09-13",
+    "caveat": "ES-only source: foreign fetchers timed out in G0 — UNREACHABLE+TIMEOUT != absent; daily XML carries all disposiciones, per-disposition PDFs behind idAnuBlob"
+  }
+}
