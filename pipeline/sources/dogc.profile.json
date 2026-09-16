@@ -1,0 +1,52 @@
+{
+  "source_id": "dogc",
+  "jurisdiction": "ES-CT",
+  "kind": "gazette+open_data_api",
+  "discovery": {
+    "provider": "dogc_socrata",
+    "recipe": "dataset_query",
+    "endpoint": "https://analisi.transparenciacatalunya.cat/resource/n6hn-rmy7.json",
+    "query_template": "$where=rang_de_norma='Decret' AND t_tol_de_la_norma like '%{query_key}%'",
+    "doc_id_pattern": "ELI es-ct/d/YYYY/MM/DD/N",
+    "queryable_fields": ["t_tol_de_la_norma", "t_tol_de_la_norma_es", "rang_de_norma"],
+    "fields": [
+      "n_mero_de_control",
+      "t_tol_de_la_norma",
+      "t_tol_de_la_norma_es",
+      "data_del_document",
+      "data_de_publicaci_del_diari",
+      "n_mero_de_diari",
+      "vig_ncia_de_la_norma",
+      "url_format_xml"
+    ]
+  },
+  "fetch": {
+    "provider": "eli_resolver",
+    "recipe": "get_simple",
+    "method": "GET",
+    "formats": ["xml", "html", "pdf"],
+    "content_marker": "<akomaNtoso"
+  },
+  "parse": {
+    "format": "akn"
+  },
+  "versioning": {
+    "strategy": "gazette_publication"
+  },
+  "reachability": {
+    "expected": {
+      "es_local": "REACHABLE",
+      "foreign_ci": "REACHABLE"
+    },
+    "fallback": null
+  },
+  "change_detection": {
+    "method": "socrata_dataset_vigencia",
+    "cadence": "daily"
+  },
+  "provenance": {
+    "derived_from": "discovery/evidence/spain-coverage-g0/source-matrix.json + access-matrix.json + live Socrata capture 2026-09-16",
+    "probed_at": "2026-09-13",
+    "caveat": "ELI /xml redirects to Akoma Ntoso rendering; consolidated text (vigencia) is a separate surface — version resolution stays gazette_publication"
+  }
+}

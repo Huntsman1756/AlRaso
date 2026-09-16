@@ -1,0 +1,406 @@
+{
+  "chain_evidence": [
+    {
+      "evidence": {
+        "admin_geom_ref": "Parque Nacional de Aigüestortes i Estany de Sant Maurici",
+        "ccaa": [
+          "ES-CT"
+        ],
+        "evidence_sha256": "7ce50cd19da2a01636ff37f35a2669234323ec46d2e52d834eebf95cf6fa3a19",
+        "figure_type": "PN",
+        "name": "Parque Nacional de Aigüestortes i Estany de Sant Maurici",
+        "observed_at": "2026-09-13",
+        "source": "oapn-red-pn",
+        "source_id": "Parque Nacional de Aigüestortes i Estany de Sant Maurici",
+        "space_id": "pn-aiguestortes-i-estany-de-sant-maurici"
+      },
+      "link": "inventory",
+      "sha256": "72f8b3d0886d26f15b3def4659a309c58e9e6272b1ca040adca09fc6c9e03842"
+    },
+    {
+      "evidence": [
+        {
+          "crs": "EPSG:4326",
+          "digest_sha256": "709079ce6b326637bfc5afa13c41a5c98c9ce266fe7dee889edf2b7be52f06c9",
+          "feature_props": {
+            "Ampliación": " Decreto 234/96 del 26 de junio de la Generalitat de Cataluña",
+            "Declaración": "Decreto de 21 de octubre de 1955",
+            "Fecha Declaración": "21/10/1955",
+            "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-aiguestortes_tcm30-378967.pdf",
+            "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-aigues_tcm30-439475.pdf",
+            "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldeaiguestortesiestanydesantmaurici_tcm30-539919.pdf",
+            "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2001%20Aig%C3%BCestortes.pdf",
+            "Nombre": "Parque Nacional de Aigüestortes i Estany de Sant Maurici",
+            "Reclasificación": "Ley 7/88 de 30 de marzo, Ley 22/90 de 28 de diciembre y Decreto 234/96 de 26 de junio de la Generalitat de Cataluña.",
+            "Recononimientos internacionales": "Destino Starlight. Destino turístico y Reserva Starlight.",
+            "Superficie oficial (ha)": "14.119,00",
+            "Tipo Centro": "Parque Nacional",
+            "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/aiguestortes"
+          },
+          "layer": "LimitesParquesNacionalesZPP:view_red_oapn_limite_pn",
+          "provider": "oapn_wfs",
+          "redistribution_policy": "DIGEST_ONLY",
+          "retrieved_at": "2026-09-13",
+          "scope_evidence_status": "CONTEXT_ONLY",
+          "source_url": "https://sigred.oapn.es/geoserverOAPN/ows",
+          "space_id": "pn-aiguestortes-i-estany-de-sant-maurici"
+        }
+      ],
+      "link": "geometry",
+      "sha256": "182100f65c73c6f307485d35f92b137a5ce4cdb416b183e425457e36e7cddd45"
+    },
+    {
+      "evidence": {
+        "cite": "Decreto 39/2003",
+        "doc_key": "es-ct/d/2003/02/04/39",
+        "gazette": "dogc",
+        "jurisdiction": "ES-CT",
+        "query_key": "39/2003"
+      },
+      "link": "authority",
+      "sha256": "1284d6e99f371940e3bd2a52e5fe0418d2faec1c6d9563dec4e8ddf499ff1d49"
+    },
+    {
+      "evidence": [
+        {
+          "discovery_url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2003/02/04/39/dof/cat/xml",
+          "doc_id": "es-ct/d/2003/02/04/39",
+          "issuer": "Generalitat de Catalunya",
+          "published_on": "2003-02-19",
+          "rank": 0,
+          "reachability_class": null,
+          "source_id": "dogc",
+          "title": "DECRETO 39/2003, de 4 de febrero, por el que se aprueba el Plan rector de uso y gestión del Parque Nacional de Aigüestortes i Estany de Sant Maurici."
+        },
+        {
+          "discovery_url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2003/05/27/139/dof/cat/xml",
+          "doc_id": "es-ct/d/2003/05/27/139",
+          "issuer": "Generalitat de Catalunya",
+          "published_on": "2003-06-12",
+          "rank": 1,
+          "reachability_class": null,
+          "source_id": "dogc",
+          "title": "DECRETO 139/2003, de 27 de mayo, por el que se amplían los itinerarios de la autopista C-16 Montserrat sujetos al sistema de descuentos para los usuarios habituales aprobados por el Decreto 346/2002, de 24 de diciembre."
+        },
+        {
+          "discovery_url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2003/10/08/239/dof/cat/xml",
+          "doc_id": "es-ct/d/2003/10/08/239",
+          "issuer": "Generalitat de Catalunya",
+          "published_on": "2003-10-20",
+          "rank": 2,
+          "reachability_class": null,
+          "source_id": "dogc",
+          "title": "DECRETO 239/2003, de 8 de octubre, por el que se suprimen los ficheros automatizados que contienen datos de carácter personal gestionados por el Departamento de Bienestar y Familia y se deroga el Decreto 359/1994, de 24 de noviembre, de regulación de ficheros automatizados que contienen datos de carácter personal gestionados por el Departamento de Bienestar Social."
+        }
+      ],
+      "link": "discovery",
+      "sha256": "bf211a2e2a1e17949df49ef74828d22934fb156714ee1c5b140d3e055976c2ae"
+    },
+    {
+      "evidence": {
+        "bytes_sha256": "96f9a5452c956337b45284a705de90858173acef43d3a33b2fd8454c7e517792",
+        "content_marker_ok": true,
+        "content_type": "application/xml; charset=utf-8",
+        "doc_ref": {
+          "discovery_url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2003/02/04/39/dof/cat/xml",
+          "doc_id": "es-ct/d/2003/02/04/39",
+          "issuer": "Generalitat de Catalunya",
+          "published_on": "2003-02-19",
+          "rank": 0,
+          "reachability_class": null,
+          "source_id": "dogc",
+          "title": "DECRETO 39/2003, de 4 de febrero, por el que se aprueba el Plan rector de uso y gestión del Parque Nacional de Aigüestortes i Estany de Sant Maurici."
+        },
+        "evidence_sha256": "96f9a5452c956337b45284a705de90858173acef43d3a33b2fd8454c7e517792",
+        "fetch_outcome": "SUCCESS",
+        "fetched_at": "2026-09-16T17:09:41Z",
+        "fetched_from": "https://portaljuridic.gencat.cat/eli/es-ct/d/2003/02/04/39/dof/cat/xml",
+        "http_status": 200,
+        "method_recipe_id": "get_simple",
+        "observed_at": "2026-09-16T17:09:41Z",
+        "reachability_observed": "REACHABLE",
+        "runner_network": "fixture"
+      },
+      "link": "fetch",
+      "sha256": "ad21a980b29414a3fdeaa902234df33117a16cff0a8a94035b7a6a034fefe73f"
+    },
+    {
+      "evidence": {
+        "annexes_present": true,
+        "articles": [
+          {
+            "order": 0,
+            "ref": "Article únic"
+          },
+          {
+            "order": 1,
+            "ref": "Disposició derogatòria"
+          },
+          {
+            "order": 2,
+            "ref": "Disposicions de caràcter general"
+          },
+          {
+            "order": 3,
+            "ref": "Article 1"
+          },
+          {
+            "order": 4,
+            "ref": "Article 2"
+          },
+          {
+            "order": 5,
+            "ref": "Article 3"
+          },
+          {
+            "order": 6,
+            "ref": "Article 4"
+          },
+          {
+            "order": 7,
+            "ref": "Article 5"
+          },
+          {
+            "order": 8,
+            "ref": "Article 6"
+          },
+          {
+            "order": 9,
+            "ref": "Article 7"
+          },
+          {
+            "order": 10,
+            "ref": "Article 8"
+          },
+          {
+            "order": 11,
+            "ref": "Article 9"
+          },
+          {
+            "order": 12,
+            "ref": "Article 10"
+          },
+          {
+            "order": 13,
+            "ref": "Article 11"
+          },
+          {
+            "order": 14,
+            "ref": "Article 12"
+          },
+          {
+            "order": 15,
+            "ref": "Article 13"
+          },
+          {
+            "order": 16,
+            "ref": "Article 14"
+          },
+          {
+            "order": 17,
+            "ref": "Article 15"
+          },
+          {
+            "order": 18,
+            "ref": "Article 16"
+          },
+          {
+            "order": 19,
+            "ref": "Article 17"
+          },
+          {
+            "order": 20,
+            "ref": "Article 18"
+          },
+          {
+            "order": 21,
+            "ref": "Article 19"
+          },
+          {
+            "order": 22,
+            "ref": "Article 20"
+          },
+          {
+            "order": 23,
+            "ref": "Article 21"
+          },
+          {
+            "order": 24,
+            "ref": "Article 22"
+          },
+          {
+            "order": 25,
+            "ref": "Article 23"
+          },
+          {
+            "order": 26,
+            "ref": "Article 24"
+          },
+          {
+            "order": 27,
+            "ref": "Article 25"
+          },
+          {
+            "order": 28,
+            "ref": "Article 26"
+          },
+          {
+            "order": 29,
+            "ref": "Article 27"
+          },
+          {
+            "order": 30,
+            "ref": "Article 28"
+          },
+          {
+            "order": 31,
+            "ref": "Article 29"
+          },
+          {
+            "order": 32,
+            "ref": "Article 30"
+          },
+          {
+            "order": 33,
+            "ref": "Article 31"
+          },
+          {
+            "order": 34,
+            "ref": "Article 32"
+          },
+          {
+            "order": 35,
+            "ref": "Article 33"
+          },
+          {
+            "order": 36,
+            "ref": "Article 34"
+          },
+          {
+            "order": 37,
+            "ref": "Article 35"
+          },
+          {
+            "order": 38,
+            "ref": "Article 36"
+          },
+          {
+            "order": 39,
+            "ref": "Article 37"
+          },
+          {
+            "order": 40,
+            "ref": "Article 38"
+          },
+          {
+            "order": 41,
+            "ref": "Article 39"
+          },
+          {
+            "order": 42,
+            "ref": "Article 40"
+          },
+          {
+            "order": 43,
+            "ref": "Article 41"
+          },
+          {
+            "order": 44,
+            "ref": "Annex 1"
+          },
+          {
+            "order": 45,
+            "ref": "Annex 2"
+          },
+          {
+            "order": 46,
+            "ref": "Annex 3"
+          }
+        ],
+        "citations": [
+          "Llei 7/1988",
+          "Decret 82/1993",
+          "Decret 223/2000",
+          "Reial decret 1803/1999",
+          "Llei 22/1990",
+          "Decret 234/1996",
+          "Decret 328/1992",
+          "Llei 3/1988",
+          "Llei 12/1985"
+        ],
+        "doc_id": "es-ct/d/2003/02/04/39",
+        "extracted_at": "2026-09-16T17:09:41Z",
+        "format": "akn",
+        "parser_version": "akn/0.1"
+      },
+      "link": "parse",
+      "sha256": "01dd32b516154ab1d839d50f05e001ca953b64f4189c403d82b2c218a82ffe37"
+    },
+    {
+      "evidence": {
+        "consolidated_state": null,
+        "doc_id": "es-ct/d/2003/02/04/39",
+        "effective_from": null,
+        "effective_to": null,
+        "publication_date": "2003-02-19",
+        "recorded_at": "2026-09-16T17:09:41Z",
+        "recorded_until": null,
+        "resolver_evidence": {
+          "strategy": "gazette_publication"
+        },
+        "status": "REQUIRES_MANUAL_REVIEW",
+        "supersession": []
+      },
+      "link": "version",
+      "sha256": "39fe8841a775b9c6c8b66689b81da6bb205fe7ded162397245ae16e6a9e9cd7e"
+    },
+    {
+      "evidence": {
+        "cadence": "daily",
+        "method": "socrata_dataset_vigencia"
+      },
+      "link": "change_detection",
+      "sha256": "bfbe2904b96ec93ed5c8a1031939c0e9b87a26ee2bf93a05ae0231e5732cc455"
+    },
+    {
+      "evidence": {
+        "note": "M10.1 prepares review packets only — no rule is published and PERMITTED is never inferred.",
+        "publication_readiness": "NO"
+      },
+      "link": "publication",
+      "sha256": "5f479c9b5eebf9bcee4eadf0259caedb13224cbb6938db12c4246eeb6eac7dbf"
+    }
+  ],
+  "diffs": [],
+  "last_verified": "2026-09-16T17:09:41Z",
+  "proposed_rule_artifacts": [
+    {
+      "doc_id": "es-ct/d/2003/02/04/39",
+      "format": "akn",
+      "kind": "parsed_instrument",
+      "status": "NOT_PUBLISHED"
+    },
+    {
+      "claim_status": "REQUIRES_MANUAL_REVIEW",
+      "doc_id": "es-ct/d/2003/02/04/39",
+      "kind": "version_claim",
+      "status": "NOT_PUBLISHED"
+    }
+  ],
+  "provenance": {
+    "bundle_sha256": "070f8f732f24572c8ac7247300ee5538fea60804dd0c48b90992e865fe46ded3",
+    "chain": [
+      "inventory",
+      "geometry",
+      "authority",
+      "discovery",
+      "fetch",
+      "parse",
+      "version",
+      "change_detection",
+      "publication"
+    ]
+  },
+  "publication_readiness": "NO",
+  "space_id": "pn-aiguestortes-i-estany-de-sant-maurici"
+}
