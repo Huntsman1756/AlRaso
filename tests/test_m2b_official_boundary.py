@@ -920,10 +920,20 @@ def test_git_diff_vs_main_only_allowed_files():
             or f.startswith("tests/test_m10_")
             or f.startswith("discovery/evidence/m10.1")
         )
+        # feat/evidence-packet-v2-consumer: M4.1/M4.2 EvidencePacket v2.1
+        # consumer — strict validator, evidence-only ingest adapter
+        # (REVIEW_REQUIRED; never creates legal_rule_version), report, tests.
+        ep21_allowed = (
+            f == "alraso/ingest/evidence_packet.py"
+            or f == "alraso/official_sources_v2.py"
+            or f == "docs/reports/ALRASO_EVIDENCE_PACKET_V2_CONSUMER_PROOF_2026-09-09.md"
+            or f == "tests/test_evidence_packet_v2.py"
+        )
         assert (
             f in allowed
             or m9_allowed
             or g0_allowed
             or m10_allowed
             or m10_1_allowed
+            or ep21_allowed
         ), f"Unexpected file changed: {f}"
