@@ -1,0 +1,411 @@
+{
+  "chain_evidence": [
+    {
+      "evidence": {
+        "admin_geom_ref": "Parque Nacional de los Picos de Europa",
+        "ccaa": [
+          "ES-AS",
+          "ES-CB",
+          "ES-CL"
+        ],
+        "evidence_sha256": "7ce50cd19da2a01636ff37f35a2669234323ec46d2e52d834eebf95cf6fa3a19",
+        "figure_type": "PN",
+        "name": "Parque Nacional de los Picos de Europa",
+        "observed_at": "2026-09-13",
+        "source": "oapn-red-pn",
+        "source_id": "Parque Nacional de los Picos de Europa",
+        "space_id": "pn-picos-de-europa"
+      },
+      "link": "inventory",
+      "sha256": "c22e2fc48dfa9b3a9824393410433817c9a7b5cc89d93617aeb67c5f41880e7b"
+    },
+    {
+      "evidence": [
+        {
+          "crs": "EPSG:4326",
+          "digest_sha256": "ea3399db885468343084c38497af888476c40b7ed503cd9e9df75ebd726b28f1",
+          "feature_props": {
+            "Ampliación": "Resolución de 04 de febrero de 2015",
+            "Declaración": "Ley del 24 de julio de 1918",
+            "Fecha Declaración": "22/07/1918",
+            "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-picos_tcm30-378976.pdf",
+            "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-picos_tcm30-439491.pdf",
+            "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldelospicosdeeuropa_tcm30-539911.pdf",
+            "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2010%20Picos%20de%20Europa.pdf",
+            "Nombre": "Parque Nacional de los Picos de Europa",
+            "Reclasificación": "Ley 16/1995 de 30 de mayo",
+            "Recononimientos internacionales": "UNESCO - Patrimonio Mundial Natural - Hayedos primarios de los Cárpatos y otras regiones de Europa: Hayedo de Cuesta Fría (213 ha) y Hayedo de Canal de Asotín (109 ha).",
+            "Superficie oficial (ha)": "66030,36",
+            "Tipo Centro": "Parque Nacional",
+            "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/picos-europa"
+          },
+          "layer": "LimitesParquesNacionalesZPP:view_red_oapn_limite_pn",
+          "provider": "oapn_wfs",
+          "redistribution_policy": "DIGEST_ONLY",
+          "retrieved_at": "2026-09-13",
+          "scope_evidence_status": "CONTEXT_ONLY",
+          "source_url": "https://sigred.oapn.es/geoserverOAPN/ows",
+          "space_id": "pn-picos-de-europa"
+        }
+      ],
+      "link": "geometry",
+      "sha256": "0cf30a4d6b11b141ae87cf2d8d1357920089ca12bfbf21f2b9ad46740440c021"
+    },
+    {
+      "evidence": {
+        "bulletin_date": "04/08/2026",
+        "cite": "Decreto 57/2026",
+        "doc_key": "BOC-2026-6207",
+        "gazette": "boc-cantabria",
+        "jurisdiction": "ES-CB"
+      },
+      "link": "authority",
+      "sha256": "95ff264edbc80d930a1a1dd44f790c86e0c91e4a94b27bb8f16bb9077f9f7894"
+    },
+    {
+      "evidence": [
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438088",
+          "doc_id": "BOC-2026-5658",
+          "issuer": "Ayuntamiento de Santillana del Mar",
+          "published_on": "2026-08-04",
+          "rank": 0,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Información pública del expediente de solicitud de licencia de actividad para legalización de actividad de Parador de Turismo. Expediente 971/2026."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438366",
+          "doc_id": "BOC-2026-5815",
+          "issuer": "Consejería de Fomento, Vivienda, Ordenación del Territorio y Medio Ambiente",
+          "published_on": "2026-08-04",
+          "rank": 1,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Información pública del expediente de solicitud de autorización para instalación de dos remolques móviles para establecimiento de comida en la zona de servidumbre del dominio público marítimo terrestre de barrio La Barra, término municipal de Miengo. Expediente 108/25 AC."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438906",
+          "doc_id": "BOC-2026-6169",
+          "issuer": "Ayuntamiento de San Vicente de la Barquera",
+          "published_on": "2026-08-04",
+          "rank": 2,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Exposición pública de la cuenta general de 2025."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438907",
+          "doc_id": "BOC-2026-6170",
+          "issuer": "Consejería de Fomento, Vivienda, Ordenación del Territorio y Medio Ambiente",
+          "published_on": "2026-08-04",
+          "rank": 3,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Resolución por la que se dispone la publicación del Convenio entre la entidad pública empresarial Administrador de Infraestructuras Ferroviarias (ADIF), el Gobierno de Cantabria y el Ayuntamiento de Torrelavega para la ejecución y financiación de las obras de integración del ferrocarril en Torrelavega (Cantabria)."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438908",
+          "doc_id": "BOC-2026-6172",
+          "issuer": "Ayuntamiento de Camargo",
+          "published_on": "2026-08-04",
+          "rank": 4,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Delegación de funciones del alcalde para autorización de matrimonio civil el 1 de agosto de 2026, a las 12:30 horas."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438911",
+          "doc_id": "BOC-2026-6178",
+          "issuer": "Ayuntamiento de Tudanca",
+          "published_on": "2026-08-04",
+          "rank": 5,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Anuncio de subasta para la adjudicación de permisos de caza para la temporada 2026/2027. Expediente 89/2026."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438912",
+          "doc_id": "BOC-2026-6179",
+          "issuer": "Ayuntamiento de Liendo",
+          "published_on": "2026-08-04",
+          "rank": 6,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Aprobación, exposición pública de los padrones de Suministro de Agua Potable, Alcantarillado, Servicio de Recogida Domiciliaria de Basuras, Canalones y Canon de Saneamiento correspondientes al segundo trimestre de 2026, y apertura del periodo voluntario de cobro."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438924",
+          "doc_id": "BOC-2026-6180",
+          "issuer": "Ayuntamiento de Saro",
+          "published_on": "2026-08-04",
+          "rank": 7,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Exposición pública de la cuenta general de 2025."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438925",
+          "doc_id": "BOC-2026-6181",
+          "issuer": "Ayuntamiento de Torrelavega",
+          "published_on": "2026-08-04",
+          "rank": 8,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Aprobación, exposición pública del padrón de la Tasa por el Mercado Ecológico correspondiente al segundo trimestre de 2026, y apertura del período voluntario de cobro. Expediente 2026/4060W."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438927",
+          "doc_id": "BOC-2026-6183",
+          "issuer": "Universidad de Cantabria",
+          "published_on": "2026-08-04",
+          "rank": 9,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Resolución Rectoral (R. R. 1041/26), por la que se hace pública la modificación de la normativa por la que se regulan los concursos para la provisión de plazas de profesorado de los cuerpos docentes y de profesorado permanente laboral."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438915",
+          "doc_id": "BOC-2026-6185",
+          "issuer": "Consejería de Desarrollo Rural, Ganadería, Pesca y Alimentación",
+          "published_on": "2026-08-04",
+          "rank": 10,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Extracto de la Resolución de la consejera de Desarrollo Rural, Ganadería, Pesca y Alimentación de 27 de julio de 2026, por la que se aprueba la convocatoria de una beca de formación práctica para titulados universitarios en Derecho en la Secretaría General de la Consejería de Desarrollo Rural, Ganadería, Pesca, y Alimentación."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438917",
+          "doc_id": "BOC-2026-6186",
+          "issuer": "Ayuntamiento de Potes",
+          "published_on": "2026-08-04",
+          "rank": 11,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Resolución de Alcaldía 406/2026, de delegación de funciones para autorización de matrimonio civil."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438944",
+          "doc_id": "BOC-2026-6189",
+          "issuer": "Ayuntamiento de Santander",
+          "published_on": "2026-08-04",
+          "rank": 12,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Aprobación definitiva del expediente de modificación de crédito 22/2026 en la modalidad de suplemento de crédito."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438945",
+          "doc_id": "BOC-2026-6190",
+          "issuer": "Ayuntamiento de Santander",
+          "published_on": "2026-08-04",
+          "rank": 13,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Aprobación definitiva de la modificación de crédito 23/2026 en la modalidad de suplemento de crédito."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438931",
+          "doc_id": "BOC-2026-6191",
+          "issuer": "Consejería de Educación, Formación Profesional y Universidades",
+          "published_on": "2026-08-04",
+          "rank": 14,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Resolución por la que se dispone la publicación del Acuerdo de Consejo de Gobierno de 23 de julio de 2026 por el que se autoriza la implantación en el sistema universitario de Cantabria de las enseñanzas universitarias oficiales de Grado en Gestión de Proyectos Internacionales de Ingeniería Civil por la Universidad de Cantabria."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438946",
+          "doc_id": "BOC-2026-6192",
+          "issuer": "Ayuntamiento de Camargo",
+          "published_on": "2026-08-04",
+          "rank": 15,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Resolución de Alcaldía de delegación de funciones para autorización de matrimonio civil el 3 de agosto de 2026, a las 13:30 horas."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438919",
+          "doc_id": "BOC-2026-6193",
+          "issuer": "Consejería de Inclusión Social, Juventud, Familias e Igualdad",
+          "published_on": "2026-08-04",
+          "rank": 16,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Orden ISO/10/2026, de 29 de julio, por la que se aprueban las bases reguladoras para la concesión de subvenciones a particulares y entidades e instituciones privadas sin ánimo de lucro, en régimen de concurrencia competitiva, destinadas a actividades de investigación o divulgación de los Bienes de Interés Cultural de carácter Inmaterial de Cantabria entre la población joven de la Comunidad Autónoma."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438918",
+          "doc_id": "BOC-2026-6194",
+          "issuer": "Consejería de Educación, Formación Profesional y Universidades",
+          "published_on": "2026-08-04",
+          "rank": 17,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Resolución por la que se dispone la publicación del Acuerdo de Consejo de Gobierno de 23 de julio de 2026, por el que se autoriza la implantación en el sistema universitario de Cantabria del Grado de Inteligencia de Negocio y Análisis de Datos por la Universidad de Cantabria."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438950",
+          "doc_id": "BOC-2026-6195",
+          "issuer": "Consejería de Educación, Formación Profesional y Universidades",
+          "published_on": "2026-08-04",
+          "rank": 18,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Resolución por la que se dispone la publicación del Acuerdo de Consejo de Gobierno de 23 de julio de 2026, por el que se autoriza la implantación en el Sistema Universitario de Cantabria de las enseñanzas universitarias oficiales de Máster Universitario en Química Teórica y Modelización Computacional por la Universidad de Cantabria."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438951",
+          "doc_id": "BOC-2026-6197",
+          "issuer": "Consejería de Educación, Formación Profesional y Universidades",
+          "published_on": "2026-08-04",
+          "rank": 19,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Resolución por la que se dispone la publicación del Acuerdo de Consejo de Gobierno de 23 de julio de 2026, por el que se autoriza la implantación en el sistema universitario de Cantabria de las enseñanzas universitarias oficiales de Programa de Doctorado en Ciencias de los Alimentos y Nutrición Humana/Food Science and Human Nutrition por la Universidad Europea del Atlántico y la Universitá Politecnica delle Marche."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438988",
+          "doc_id": "BOC-2026-6207",
+          "issuer": "Consejo de Gobierno",
+          "published_on": "2026-08-04",
+          "rank": 20,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Decreto 57/2026, de 30 de julio, por el que por el que se aprueba el Plan Rector de Uso y Gestión del Parque Nacional de los Picos de Europa en el ámbito territorial de la Comunidad Autónoma de Cantabria."
+        },
+        {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438976",
+          "doc_id": "BOC-2026-6220",
+          "issuer": "Consejería de Economía, Hacienda, Financiación Autonómica y Fondos Europeos",
+          "published_on": "2026-08-04",
+          "rank": 21,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Orden HAC/9/2026 de 30 de julio, por la que se dictan las normas para la elaboración de los Presupuestos Generales de la Comunidad Autónoma de Cantabria para el año 2027."
+        }
+      ],
+      "link": "discovery",
+      "sha256": "ebb9de9c3038899c25df26f88c719c430c92ec2d81a7760a60316d9d9fb4944e"
+    },
+    {
+      "evidence": {
+        "bytes_sha256": "656bf9535b77359788f92a6a7295f04f1b6d7330ee8d94dbde1699bb9b033150",
+        "content_marker_ok": true,
+        "content_type": "application/xml; charset=utf-8",
+        "doc_ref": {
+          "discovery_url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=438988",
+          "doc_id": "BOC-2026-6207",
+          "issuer": "Consejo de Gobierno",
+          "published_on": "2026-08-04",
+          "rank": 20,
+          "reachability_class": null,
+          "source_id": "boc-cantabria",
+          "title": "Decreto 57/2026, de 30 de julio, por el que por el que se aprueba el Plan Rector de Uso y Gestión del Parque Nacional de los Picos de Europa en el ámbito territorial de la Comunidad Autónoma de Cantabria."
+        },
+        "evidence_sha256": "656bf9535b77359788f92a6a7295f04f1b6d7330ee8d94dbde1699bb9b033150",
+        "fetch_outcome": "SUCCESS",
+        "fetched_at": "2026-09-16T17:09:34Z",
+        "fetched_from": "https://boc.cantabria.es/boces/verXmlAction.do?idBlob=46085",
+        "http_status": 200,
+        "method_recipe_id": "post_then_get",
+        "observed_at": "2026-09-16T17:09:34Z",
+        "reachability_observed": "REACHABLE",
+        "runner_network": "fixture"
+      },
+      "link": "fetch",
+      "sha256": "3669bd39c8720be71f3a5429cad7d6920cf5de95a3c4ded79decb5ee30c31254"
+    },
+    {
+      "evidence": {
+        "annexes_present": true,
+        "articles": [
+          {
+            "order": 0,
+            "ref": "Artículo Único. Objeto."
+          }
+        ],
+        "citations": [
+          "Ley 16/1995",
+          "Ley 30/2014",
+          "Real Decreto 389/2016",
+          "Ley 4/2006",
+          "Ley 39/2015",
+          "Ley 42/2007"
+        ],
+        "doc_id": "BOC-2026-6207",
+        "extracted_at": "2026-09-16T17:09:34Z",
+        "format": "boc_daily_xml",
+        "parser_version": "boc_daily_xml/0.1"
+      },
+      "link": "parse",
+      "sha256": "f4bb5a7acd49134cac35ac654a40787a6232033d4a7de5e37091eb3a9cfb0520"
+    },
+    {
+      "evidence": {
+        "consolidated_state": null,
+        "doc_id": "BOC-2026-6207",
+        "effective_from": null,
+        "effective_to": null,
+        "publication_date": "2026-08-04",
+        "recorded_at": "2026-09-16T17:09:34Z",
+        "recorded_until": null,
+        "resolver_evidence": {
+          "strategy": "gazette_publication"
+        },
+        "status": "REQUIRES_MANUAL_REVIEW",
+        "supersession": []
+      },
+      "link": "version",
+      "sha256": "6e7e26e28f4a76cbf60ced90aae49372d2b7d5055a0d28cec58e5dd6ab41490c"
+    },
+    {
+      "evidence": {
+        "cadence": "daily",
+        "method": "daily_xml_diff"
+      },
+      "link": "change_detection",
+      "sha256": "5f180f5bc2d5279bbbd92832caed4e59b27479449281cea8e0e11b26aea59817"
+    },
+    {
+      "evidence": {
+        "note": "M10.1 prepares review packets only — no rule is published and PERMITTED is never inferred.",
+        "publication_readiness": "NO"
+      },
+      "link": "publication",
+      "sha256": "5f479c9b5eebf9bcee4eadf0259caedb13224cbb6938db12c4246eeb6eac7dbf"
+    }
+  ],
+  "diffs": [],
+  "last_verified": "2026-09-16T17:09:34Z",
+  "proposed_rule_artifacts": [
+    {
+      "doc_id": "BOC-2026-6207",
+      "format": "boc_daily_xml",
+      "kind": "parsed_instrument",
+      "status": "NOT_PUBLISHED"
+    },
+    {
+      "claim_status": "REQUIRES_MANUAL_REVIEW",
+      "doc_id": "BOC-2026-6207",
+      "kind": "version_claim",
+      "status": "NOT_PUBLISHED"
+    }
+  ],
+  "provenance": {
+    "bundle_sha256": "d487c74085670a31497c9016ef28752383c10397421373cf14bd9621168c5daa",
+    "chain": [
+      "inventory",
+      "geometry",
+      "authority",
+      "discovery",
+      "fetch",
+      "parse",
+      "version",
+      "change_detection",
+      "publication"
+    ]
+  },
+  "publication_readiness": "NO",
+  "space_id": "pn-picos-de-europa"
+}

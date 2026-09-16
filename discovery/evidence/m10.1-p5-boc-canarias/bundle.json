@@ -1,0 +1,121 @@
+{
+  "authority": {
+    "archive_path": "2025/240/pda/4148",
+    "cite": "Decreto 182/2025",
+    "doc_key": "BOC-A-2025-240-4148",
+    "gazette": "boc-canarias",
+    "jurisdiction": "ES-CN"
+  },
+  "change_detection": {
+    "cadence": "weekly",
+    "method": "stable_id_archive_polling"
+  },
+  "discovery": [
+    {
+      "discovery_url": "https://www.gobiernodecanarias.org/boc/2025/240/pda/4148.html",
+      "doc_id": "BOC-A-2025-240-4148",
+      "issuer": "Consejería de Transición Ecológica y Energía",
+      "published_on": "2025-12-03",
+      "rank": 0,
+      "reachability_class": null,
+      "source_id": "boc-canarias",
+      "title": "DECRETO 182/2025, de 1 de diciembre, por el que se aprueba el Plan Rector de Uso y Gestión del Parque Nacional del Teide.."
+    }
+  ],
+  "fetch": {
+    "bytes_sha256": "d49782a4a53c86b159a2808796a4e02035f9184d30225933415e71c90ceb46d6",
+    "content_marker_ok": true,
+    "content_type": "text/html; charset=utf-8",
+    "doc_ref": {
+      "discovery_url": "https://www.gobiernodecanarias.org/boc/2025/240/pda/4148.html",
+      "doc_id": "BOC-A-2025-240-4148",
+      "issuer": "Consejería de Transición Ecológica y Energía",
+      "published_on": "2025-12-03",
+      "rank": 0,
+      "reachability_class": null,
+      "source_id": "boc-canarias",
+      "title": "DECRETO 182/2025, de 1 de diciembre, por el que se aprueba el Plan Rector de Uso y Gestión del Parque Nacional del Teide.."
+    },
+    "evidence_sha256": "d49782a4a53c86b159a2808796a4e02035f9184d30225933415e71c90ceb46d6",
+    "fetch_outcome": "SUCCESS",
+    "fetched_at": "2026-09-16T17:09:42Z",
+    "fetched_from": "https://www.gobiernodecanarias.org/boc/2025/240/pda/4148.html",
+    "http_status": 200,
+    "method_recipe_id": "get_simple",
+    "observed_at": "2026-09-16T17:09:42Z",
+    "reachability_observed": "REACHABLE",
+    "runner_network": "fixture"
+  },
+  "geometry": [
+    {
+      "crs": "EPSG:4326",
+      "digest_sha256": "e35872d4bbd9317324526fd02d3af0ae4af027b2107ccb2c96ef6a62b653b205",
+      "feature_props": {
+        "Ampliación": "Resolución de 14 de octubre de 1999, de la Secretaría General de Medio Ambiente,  acuerdo por el que se amplían los límites del Parque Nacional del Teide por incorporación de terrenos colindantes al mismo.BOE, nº 310, de 28/04/1999",
+        "Declaración": "Decreto del 22 de Enero de 1954",
+        "Fecha Declaración": "22/01/1954",
+        "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-teide_tcm30-378981.pdf",
+        "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-teide_tcm30-439495.pdf",
+        "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldelteide_tcm30-539917.pdf",
+        "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2015%20Teide.pdf",
+        "Nombre": "Parque Nacional del Teide",
+        "Reclasificación": "Ley 5/1981, de 25 de marzo, de reclasificación del Parque Nacional del Teide. BOE, nº 90, de 15 de abril de 1981.",
+        "Recononimientos internacionales": "UNESCO - Patrimonio Mundial Natural - Parque Nacional del Teide. Diploma Europeo del Consejo de Europa. Certificación Starlight como Reserva y  Destino turístico.",
+        "Superficie oficial (ha)": "18.990,00",
+        "Tipo Centro": "Parque Nacional",
+        "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/teide"
+      },
+      "layer": "LimitesParquesNacionalesZPP:view_red_oapn_limite_pn",
+      "provider": "oapn_wfs",
+      "redistribution_policy": "DIGEST_ONLY",
+      "retrieved_at": "2026-09-13",
+      "scope_evidence_status": "CONTEXT_ONLY",
+      "source_url": "https://sigred.oapn.es/geoserverOAPN/ows",
+      "space_id": "pn-teide"
+    }
+  ],
+  "parse": {
+    "annexes_present": true,
+    "articles": [],
+    "citations": [
+      "Decreto 54/2021",
+      "Decreto 123/2023",
+      "Ley 21/2013",
+      "Decreto 70/2011",
+      "Ley 12/2014",
+      "Decreto 212/1991",
+      "Ley 4/2023"
+    ],
+    "doc_id": "BOC-A-2025-240-4148",
+    "extracted_at": "2026-09-16T17:09:42Z",
+    "format": "boc_canarias_html",
+    "parser_version": "boc_canarias_html/0.1"
+  },
+  "space": {
+    "admin_geom_ref": "Parque Nacional del Teide",
+    "ccaa": [
+      "ES-CN"
+    ],
+    "evidence_sha256": "7ce50cd19da2a01636ff37f35a2669234323ec46d2e52d834eebf95cf6fa3a19",
+    "figure_type": "PN",
+    "name": "Parque Nacional del Teide",
+    "observed_at": "2026-09-13",
+    "source": "oapn-red-pn",
+    "source_id": "Parque Nacional del Teide",
+    "space_id": "pn-teide"
+  },
+  "version": {
+    "consolidated_state": null,
+    "doc_id": "BOC-A-2025-240-4148",
+    "effective_from": null,
+    "effective_to": null,
+    "publication_date": "2025-12-03",
+    "recorded_at": "2026-09-16T17:09:42Z",
+    "recorded_until": null,
+    "resolver_evidence": {
+      "strategy": "gazette_publication"
+    },
+    "status": "REQUIRES_MANUAL_REVIEW",
+    "supersession": []
+  }
+}

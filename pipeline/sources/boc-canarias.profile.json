@@ -1,0 +1,43 @@
+{
+  "source_id": "boc-canarias",
+  "jurisdiction": "ES-CN",
+  "kind": "gazette",
+  "discovery": {
+    "provider": "boc_canarias_doc",
+    "recipe": "doc_page_by_id",
+    "doc_url_template": "https://www.gobiernodecanarias.org/boc/{archive_path}.html",
+    "doc_id_pattern": "BOC-A-YYYY-NNN-NNNN",
+    "ids": ["BOC-A-YYYY-NNN-NNNN", "announcement NNNN", "bulletin YYYY/NNN"]
+  },
+  "fetch": {
+    "provider": "boc_archive",
+    "recipe": "get_simple",
+    "method": "GET",
+    "formats": ["html", "pdf"],
+    "content_marker": "sede.gobiernodecanarias.org/boc/boc-a-",
+    "soft_404_marker": "No se ha encontrado"
+  },
+  "parse": {
+    "format": "boc_canarias_html",
+    "annex_format": "pdf_text"
+  },
+  "versioning": {
+    "strategy": "gazette_publication"
+  },
+  "reachability": {
+    "expected": {
+      "es_local": "REACHABLE",
+      "foreign_ci": "REACHABLE"
+    },
+    "fallback": null
+  },
+  "change_detection": {
+    "method": "stable_id_archive_polling",
+    "cadence": "weekly"
+  },
+  "provenance": {
+    "derived_from": "discovery/evidence/spain-coverage-g0/source-matrix.json + access-matrix.json + boc-canarias-182-2025.html",
+    "probed_at": "2026-09-13",
+    "caveat": "guessed document URLs may return HTTP 200 with error/empty content — the signed-PDF link marker is mandatory; PDF itself stays digest/text-extract evidence"
+  }
+}

@@ -27,7 +27,6 @@ import json
 import sys
 import tempfile
 from pathlib import Path
-from urllib.parse import quote
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -39,7 +38,12 @@ from pipeline.providers.fetch import (
     TransportTimeout,
     urllib_transport,
 )
-from pipeline.run import OAPN_LIMITES_LAYER, OAPN_WFS, run_pilot
+from pipeline.run import (
+    OAPN_LIMITES_LAYER,
+    OAPN_WFS,
+    discovery_request,
+    run_pilot,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -86,14 +90,14 @@ def _expected(profile, runner_network):
     return profile.reachability.get("expected", {}).get(runner_network)
 
 
-def _live_attempt(url, marker=None):
-    """Issue one real GET. Returns (status, body) or raises."""
-    return urllib_transport(TransportRequest(method="GET", url=url))
+def _live_attempt(request: TransportRequest):
+    """Issue one real request. Returns the response or raises."""
+    return urllib_transport(request)
 
 
-def _live_row(name, url, marker, expected, *, check=None):
+def _live_row(name, request, marker, expected, *, check=None):
     try:
-        resp = _live_attempt(url)
+        resp = _live_attempt(request)
     except (TransportTimeout, TransportError) as exc:
         if expected in _OBSERVATIONAL:
             return (name, "INCONCLUSIVE",
@@ -121,18 +125,26 @@ def _live(profile, bundle, runner_network):
     # geometry: WFS GetCapabilities must list the layer
     rows.append(_live_row(
         "geometry_wfs",
-        f"{OAPN_WFS}?service=WFS&version=2.0.0&request=GetCapabilities",
+        TransportRequest(
+            "GET",
+            f"{OAPN_WFS}?service=WFS&version=2.0.0"
+            "&request=GetCapabilities",
+        ),
         OAPN_LIMITES_LAYER, expected,
     ))
-    # discovery: endpoint + query_template (already cite-expanded offline
-    # equivalent — the template's {cite} is filled from the bundle)
+    # discovery: the profile-declared live request (GET/POST/doc URL),
+    # expanded from the bundle's authority record — identical to what the
+    # runner issues in --live mode.
     authority = bundle["authority"] if bundle else {}
-    endpoint = profile.discovery.get("endpoint")
-    if endpoint:
-        template = profile.discovery.get("query_template", "limit=100")
-        for key, value in authority.items():
-            template = template.replace("{" + key + "}", value)
-        url = f"{endpoint}?{quote(template, safe='={}&/:')}"
+    try:
+        request = discovery_request(profile, authority)
+    except Exception as exc:
+        rows.append(
+            ("discovery", "FAIL",
+             f"cannot build request: {exc} — not attempted")
+        )
+    else:
+        url = request.url
 
         def check(body):
             try:
@@ -142,15 +154,14 @@ def _live(profile, bundle, runner_network):
             return f"refs={len(discover(profile, payload))}"
 
         rows.append(_live_row(
-            "discovery_get", url, None, expected, check=check
+            "discovery", request, None, expected, check=check
         ))
-    else:
-        rows.append(("discovery_get", "FAIL", "no endpoint — not attempted"))
     # document: the URL the replay actually fetched
     doc_url = bundle["fetch"]["fetched_from"] if bundle else None
     if doc_url:
         rows.append(_live_row(
-            "document_get", doc_url,
+            "document_get",
+            TransportRequest("GET", doc_url),
             profile.fetch.get("content_marker"), expected,
         ))
     else:

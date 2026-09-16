@@ -1,0 +1,485 @@
+{
+ "source_file_sha256": "498b05d5e0e07ae5f940882a8b8c2ec4c84eab1970c25cb797956ad827f0ac0a",
+ "source_file_bytes": 2723542,
+ "n_features": 17,
+ "retrieved_at": "2026-09-13",
+ "note": "full geometry NOT redistributed (reuse terms NOT_VERIFIED); re-fetchable from OAPN WFS layer LimitesParquesNacionalesZPP:view_red_oapn_limite_pn",
+ "features": [
+  {
+   "properties": {
+    "Nombre": "Parque Nacional de Monfragüe",
+    "Fecha Declaración": "02/03/2007",
+    "Declaración": "Ley 1/2007, de 2 de marzo",
+    "Tipo Centro": "Parque Nacional",
+    "Ampliación": null,
+    "Reclasificación": null,
+    "Recononimientos internacionales": "Destino Turístico Starlight.",
+    "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-monfrague_tcm30-378974.pdf",
+    "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-monfrague_tcm30-439489.pdf",
+    "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldemonfrague_tcm30-539912.pdf",
+    "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2008%20Monfrag%C3%BCe.pdf",
+    "Superficie oficial (ha)": "18.396,00",
+    "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/monfrague"
+   },
+   "geometry_meta": {
+    "digest": "aef1d04399d023c5eea6904b205a2d9e0e9d0bf2f10f8677411abacb23662a98",
+    "type": "MultiPolygon",
+    "n_points": 4253,
+    "bbox": [
+     -6.10712326,
+     39.70600075,
+     -5.75397498,
+     39.88224587
+    ]
+   }
+  },
+  {
+   "properties": {
+    "Nombre": "Parque Nacional de Aigüestortes i Estany de Sant Maurici",
+    "Fecha Declaración": "21/10/1955",
+    "Declaración": "Decreto de 21 de octubre de 1955",
+    "Tipo Centro": "Parque Nacional",
+    "Ampliación": " Decreto 234/96 del 26 de junio de la Generalitat de Cataluña",
+    "Reclasificación": "Ley 7/88 de 30 de marzo, Ley 22/90 de 28 de diciembre y Decreto 234/96 de 26 de junio de la Generalitat de Cataluña.",
+    "Recononimientos internacionales": "Destino Starlight. Destino turístico y Reserva Starlight.",
+    "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-aiguestortes_tcm30-378967.pdf",
+    "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-aigues_tcm30-439475.pdf",
+    "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldeaiguestortesiestanydesantmaurici_tcm30-539919.pdf",
+    "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2001%20Aig%C3%BCestortes.pdf",
+    "Superficie oficial (ha)": "14.119,00",
+    "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/aiguestortes"
+   },
+   "geometry_meta": {
+    "digest": "709079ce6b326637bfc5afa13c41a5c98c9ce266fe7dee889edf2b7be52f06c9",
+    "type": "MultiPolygon",
+    "n_points": 1946,
+    "bbox": [
+     0.79300832,
+     42.51013214,
+     1.06973216,
+     42.63187268
+    ]
+   }
+  },
+  {
+   "properties": {
+    "Nombre": "Parque Nacional de las Tablas de Daimiel",
+    "Fecha Declaración": "28/06/1973",
+    "Declaración": "Decreto 1874/1973, de 28 de junio (BOE, nº181, de 30 de junio de 1973).",
+    "Tipo Centro": "Parque Nacional",
+    "Ampliación": "Resolución de 21 de enero de 2014, de Parques Nacionales, por el que se amplían los límites del Parque Nacional de las Tablas de Daimiel por incorporación de terrenos colindantes al mismo",
+    "Reclasificación": "Ley 25/1980, de 3 de mayo (Jefatura del Estado), sobre reclasificación del Parque Nacional de las Tablas de Daimiel. (BOE, nº 110, de 7 de mayo de 1980).",
+    "Recononimientos internacionales": null,
+    "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-tablas_tcm30-378980.pdf",
+    "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-tablas_tcm30-439494.pdf",
+    "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldelastablasdedaimiel_tcm30-539910.pdf",
+    "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2014%20Tablas%20de%20Daimiel.pdf",
+    "Superficie oficial (ha)": "3.030,00",
+    "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/daimiel"
+   },
+   "geometry_meta": {
+    "digest": "21c9591c6121c9111eb4f88576c0b50ab2840f66baed2a6fbd561198283da1a7",
+    "type": "MultiPolygon",
+    "n_points": 3473,
+    "bbox": [
+     -3.77373906,
+     39.11077656,
+     -3.64794766,
+     39.18859205
+    ]
+   }
+  },
+  {
+   "properties": {
+    "Nombre": "Parque Nacional de la Caldera de Taburiente",
+    "Fecha Declaración": "06/10/1954",
+    "Declaración": "Decreto del 6 de octubre 1954",
+    "Tipo Centro": "Parque Nacional",
+    "Ampliación": null,
+    "Reclasificación": "Ley 4/81 del 25 de marzo",
+    "Recononimientos internacionales": "Reserva Starlight y Destino Turístico Isla de La Palma.",
+    "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-caldera_tcm30-378970.pdf",
+    "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-caldera_tcm30-439478.pdf",
+    "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldelacalderadetaburiente_tcm30-539908.pdf",
+    "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2004%20Caldera%20de%20Taburiente.pdf",
+    "Superficie oficial (ha)": "4.690,00",
+    "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/taburiente"
+   },
+   "geometry_meta": {
+    "digest": "b5bec7e0e3cf4ebfcb66724b5775d9cf34f19cfe434fa1c11c017f643ad88855",
+    "type": "MultiPolygon",
+    "n_points": 3370,
+    "bbox": [
+     -17.90926108,
+     28.6800811,
+     -17.8321633,
+     28.76226585
+    ]
+   }
+  },
+  {
+   "properties": {
+    "Nombre": "Parque Nacional de la Sierra de las Nieves",
+    "Fecha Declaración": "02/07/2021",
+    "Declaración": "Ley 9/2021, de 1 de Julio",
+    "Tipo Centro": "Parque Nacional",
+    "Ampliación": null,
+    "Reclasificación": null,
+    "Recononimientos internacionales": null,
+    "Informe Socioeconómico 1991-2013": null,
+    "Informe Socioeconómico 2014-2016": null,
+    "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2019sierradelasnieves_tcm30-559605.pdf",
+    "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2012%20Sierra%20de%20las%20Nieves.pdf",
+    "Superficie oficial (ha)": "22.979,76",
+    "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/sierra-de-las-nieves"
+   },
+   "geometry_meta": {
+    "digest": "d3736d9bb1560fee6753319988df6df20c6825f7fe38ddbf68f71ecd6100770b",
+    "type": "MultiPolygon",
+    "n_points": 5430,
+    "bbox": [
+     -5.08477546,
+     36.55448602,
+     -4.87732813,
+     36.79830902
+    ]
+   }
+  },
+  {
+   "properties": {
+    "Nombre": "Parque Nacional de Timanfaya",
+    "Fecha Declaración": "09/08/1974",
+    "Declaración": "Decreto 2615/1974, de 9 de agosto, de creación del P. N. de Timanfaya. BOE, nº 223, 17/09/1974.",
+    "Tipo Centro": "Parque Nacional",
+    "Ampliación": null,
+    "Reclasificación": "Ley 6/1981, de 25 de marzo, de reclasificación del Parque Nacional de Timanfaya. BOE, nº 90 de 15 de abril de 1981",
+    "Recononimientos internacionales": null,
+    "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-timanfaya_tcm30-378982.pdf",
+    "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-timanfaya_tcm30-439496.pdf",
+    "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldetimanfaya_tcm30-539915.pdf",
+    "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022..%20Seguimiento%20...%2016%20Timanfaya.pdf",
+    "Superficie oficial (ha)": "5.107,50",
+    "Web": null
+   },
+   "geometry_meta": {
+    "digest": "1ffb66e8b62eb07567d7ab10268bfea9e81f677c236934bcaa0c4a6d6443f508",
+    "type": "MultiPolygon",
+    "n_points": 8196,
+    "bbox": [
+     -13.83246479,
+     28.9839303,
+     -13.7162564,
+     29.05815854
+    ]
+   }
+  },
+  {
+   "properties": {
+    "Nombre": "Parque Nacional de Sierra Nevada",
+    "Fecha Declaración": "11/01/1999",
+    "Declaración": "Ley 3/1999,11 de enero, por la que se crea el Parque Nacional de Sierra Nevada. BOE, nº 11, 13/01/9",
+    "Tipo Centro": "Parque Nacional",
+    "Ampliación": null,
+    "Reclasificación": null,
+    "Recononimientos internacionales": "Lista Verde de Áreas Protegidas de la UICN.",
+    "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-snevada_tcm30-378979.pdf",
+    "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-snevada_tcm30-439493.pdf",
+    "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldesierranevada_tcm30-539914.pdf",
+    "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2013%20Sierra%20Nevada.pdf",
+    "Superficie oficial (ha)": "85.882,885",
+    "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/sierra-nevada"
+   },
+   "geometry_meta": {
+    "digest": "780fd9df869d03ab414c3bb028d4e003e5d5cabdf7528b6f012a4bd663346540",
+    "type": "MultiPolygon",
+    "n_points": 27855,
+    "bbox": [
+     -3.54760686,
+     36.94061657,
+     -2.66386544,
+     37.21118569
+    ]
+   }
+  },
+  {
+   "properties": {
+    "Nombre": "Parque Nacional Marítimo-Terrestre de las Islas Atlánticas de Galicia",
+    "Fecha Declaración": "01/07/2002",
+    "Declaración": "Ley 15/2002, de 1 de Julio",
+    "Tipo Centro": "Parque Nacional",
+    "Ampliación": null,
+    "Reclasificación": null,
+    "Recononimientos internacionales": "Destino Turístico Starlight.",
+    "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-iatlanticas_tcm30-378973.pdf",
+    "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-iatlanticas_tcm30-439481.pdf",
+    "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldelasislasatlanticasdegalicia_tcm30-539923.pdf",
+    "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2007%20Islas%20Atl%C3%A1nticas.pdf",
+    "Superficie oficial (ha)": "8.480,00",
+    "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/islas-atlanticas"
+   },
+   "geometry_meta": {
+    "digest": "9ebcd2817db0b4fd87486cc3286543f2d9453a9c07dffb90e929bbd5832cad32",
+    "type": "MultiPolygon",
+    "n_points": 907,
+    "bbox": [
+     -9.06633857,
+     42.16486686,
+     -8.77772028,
+     42.62508109
+    ]
+   }
+  },
+  {
+   "properties": {
+    "Nombre": "Parque Nacional de la Sierra de Guadarrama",
+    "Fecha Declaración": "25/06/2013",
+    "Declaración": "Ley 7/2013, del 25 de Junio, de declaración del Parque Nacional de la Sierra de Guadarrama",
+    "Tipo Centro": "Parque Nacional",
+    "Ampliación": null,
+    "Reclasificación": null,
+    "Recononimientos internacionales": null,
+    "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-guadarrama_tcm30-378977.pdf",
+    "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-guadarrama_tcm30-439492.pdf",
+    "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldelasierradeguadarrama_tcm30-539909.pdf",
+    "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2011%20Sierra%20de%20Guadarrama.pdf",
+    "Superficie oficial (ha)": "33.960,00",
+    "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/guadarrama"
+   },
+   "geometry_meta": {
+    "digest": "6abd75c77cff76869726a16a94de72e948a272ccf8a0b65849d0d99658daf881",
+    "type": "MultiPolygon",
+    "n_points": 12930,
+    "bbox": [
+     -4.13936481,
+     40.73734529,
+     -3.73009208,
+     41.03794099
+    ]
+   }
+  },
+  {
+   "properties": {
+    "Nombre": "Parque Nacional de Doñana",
+    "Fecha Declaración": "16/10/1969",
+    "Declaración": "Decreto 2412/1969, de 16 de Octubre, de creación del PN de Doñana",
+    "Tipo Centro": "Parque Nacional",
+    "Ampliación": "Resolución de 6 de febrero de 2004",
+    "Reclasificación": "Ley 91/1978 del 28 de diciembre",
+    "Recononimientos internacionales": "UNESCO - Patrimonio Mundial Natural - Parque Nacional de Doñana. Diploma Europeo del Consejo de Europa. Lista Verde de Áreas Protegidas de la UICN.",
+    "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-donana_tcm30-378971.pdf",
+    "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-donana_tcm30-439479.pdf",
+    "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldedonana_tcm30-539906.pdf",
+    "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2005%20Do%C3%B1ana.pdf",
+    "Superficie oficial (ha)": "54.252,00",
+    "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/donana"
+   },
+   "geometry_meta": {
+    "digest": "9701fc6cb9df2dacaa028f354e1eac0712a50026842fc222fb5940a964b20426",
+    "type": "MultiPolygon",
+    "n_points": 1363,
+    "bbox": [
+     -6.56209163,
+     36.79476382,
+     -6.25152179,
+     37.14232704
+    ]
+   }
+  },
+  {
+   "properties": {
+    "Nombre": "Parque Nacional de los Picos de Europa",
+    "Fecha Declaración": "22/07/1918",
+    "Declaración": "Ley del 24 de julio de 1918",
+    "Tipo Centro": "Parque Nacional",
+    "Ampliación": "Resolución de 04 de febrero de 2015",
+    "Reclasificación": "Ley 16/1995 de 30 de mayo",
+    "Recononimientos internacionales": "UNESCO - Patrimonio Mundial Natural - Hayedos primarios de los Cárpatos y otras regiones de Europa: Hayedo de Cuesta Fría (213 ha) y Hayedo de Canal de Asotín (109 ha).",
+    "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-picos_tcm30-378976.pdf",
+    "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-picos_tcm30-439491.pdf",
+    "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldelospicosdeeuropa_tcm30-539911.pdf",
+    "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2010%20Picos%20de%20Europa.pdf",
+    "Superficie oficial (ha)": "66030,36",
+    "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/picos-europa"
+   },
+   "geometry_meta": {
+    "digest": "ea3399db885468343084c38497af888476c40b7ed503cd9e9df75ebd726b28f1",
+    "type": "MultiPolygon",
+    "n_points": 3741,
+    "bbox": [
+     -5.12065577,
+     43.07461003,
+     -4.61728985,
+     43.31585568
+    ]
+   }
+  },
+  {
+   "properties": {
+    "Nombre": "Parque Nacional de Ordesa y Monte Perdido",
+    "Fecha Declaración": "16/08/1918",
+    "Declaración": "RD 16/08/1918, declaración del Parque Nacional Valle de Ordesa.Gaceta de Madrid, nº250,18/08/1918",
+    "Tipo Centro": "Parque Nacional",
+    "Ampliación": "Ley 52/1982, de 13 de julio de reclasificación y ampliación del Parque Nacional de Ordesa y Monte Perdido.BOE, nº 181, 30 de julio de 1982",
+    "Reclasificación": "Ley 52/1982, de 13 de julio de reclasificación y ampliación del Parque Nacional de Ordesa y Monte Perdido.BOE, nº 181, 30 de julio de 1982",
+    "Recononimientos internacionales": "UNESCO - Patrimonio Mundial Mixto - Pirineos-Monte Perdido. Diploma Europeo del Consejo de Europa a la Gestión Ambiental.",
+    "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-ordesa_tcm30-378975.pdf",
+    "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-ordesa_tcm30-439490.pdf",
+    "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldeordesaymonteperdido_tcm30-539913.pdf",
+    "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2009%20Ordesa.pdf",
+    "Superficie oficial (ha)": "15.696,20",
+    "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/ordesa"
+   },
+   "geometry_meta": {
+    "digest": "dbb4d9294544902f379720a05c84d8a6dbe3ecca20a266db300b4c2409d3e5d1",
+    "type": "MultiPolygon",
+    "n_points": 6585,
+    "bbox": [
+     -0.10458967,
+     42.51530214,
+     0.15086108,
+     42.70394914
+    ]
+   }
+  },
+  {
+   "properties": {
+    "Nombre": "Parque Nacional de Garajonay",
+    "Fecha Declaración": "25/03/1981",
+    "Declaración": "Ley 3/81, de 25 de marzo (Jefatura de Estado), de creación del Parque Nacional de Garajonay",
+    "Tipo Centro": "Parque Nacional",
+    "Ampliación": null,
+    "Reclasificación": "",
+    "Recononimientos internacionales": "UNESCO - Patrimonio Mundial Natural - Parque Nacional de Garajonay.",
+    "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-garajonay_tcm30-378972.pdf",
+    "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-garajonay_tcm30-439480.pdf",
+    "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldegarajonay_tcm30-539907.pdf",
+    "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2006%20Garajonay.pdf",
+    "Superficie oficial (ha)": "3.984,00",
+    "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/garajonay"
+   },
+   "geometry_meta": {
+    "digest": "ef8e57c41b9b318af199728470c79f2d6410114f116b2b1e79cf3e8557e4217a",
+    "type": "MultiPolygon",
+    "n_points": 956,
+    "bbox": [
+     -17.3104905,
+     28.09252609,
+     -17.18787657,
+     28.16625196
+    ]
+   }
+  },
+  {
+   "properties": {
+    "Nombre": "Parque Nacional Marítimo-Terrestre del Archipiélago de Cabrera",
+    "Fecha Declaración": "29/04/1991",
+    "Declaración": "Ley 14/1991 de 29 de Abril",
+    "Tipo Centro": "Parque Nacional",
+    "Ampliación": "Resolución de 7 de febrero de 2019 (BOE 19.02.2019, núm. 43, pp. 15694 a 15704)",
+    "Reclasificación": null,
+    "Recononimientos internacionales": null,
+    "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-cabrera_tcm30-378968.pdf",
+    "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-cabrera_tcm30-439476.pdf",
+    "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldelarchipielagodecabrera_tcm30-539916.pdf",
+    "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2002%20Archipi%C3%A9lago%20de%20Cabrera.pdf",
+    "Superficie oficial (ha)": "90.800,52",
+    "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/cabrera"
+   },
+   "geometry_meta": {
+    "digest": "92e2b5e1dcf0f2a37b4a415ce8250cb42adcfed36baff51abec88fb63b7e8a41",
+    "type": "MultiPolygon",
+    "n_points": 16,
+    "bbox": [
+     2.83224092,
+     38.94880804,
+     3.38225032,
+     39.28215536
+    ]
+   }
+  },
+  {
+   "properties": {
+    "Nombre": "Parque Nacional de Cabañeros",
+    "Fecha Declaración": "20/11/1995",
+    "Declaración": "Ley 33/95 de 20 de noviembre, de declaración del P.N. de Cabañeros (BOE 278, de 21 de noviembre)",
+    "Tipo Centro": "Parque Nacional",
+    "Ampliación": "Resolución de 15 de noviembre de 2005, por la que se hace público el Acuerdo del Consejo de Ministros por el que se amplían los límites del P.N. de Cabañeros por incorporación de terrenos colindantes al mismo (BOE nº293, de 8 de diciembre de 2005)",
+    "Reclasificación": null,
+    "Recononimientos internacionales": null,
+    "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-cabaneros_tcm30-378969.pdf",
+    "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-cabaneros_tcm30-439477.pdf",
+    "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldecabaneros_tcm30-539905.pdf",
+    "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2003%20Caba%C3%B1eros.pdf",
+    "Superficie oficial (ha)": "40.856,00",
+    "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/cabaneros"
+   },
+   "geometry_meta": {
+    "digest": "82755683056b1b7fdfc4a318eb74f75bbf22dc4d329cc8030507a275c307ade4",
+    "type": "MultiPolygon",
+    "n_points": 5940,
+    "bbox": [
+     -4.67873155,
+     39.28118024,
+     -4.24999789,
+     39.5803136
+    ]
+   }
+  },
+  {
+   "properties": {
+    "Nombre": "Parque Nacional del Teide",
+    "Fecha Declaración": "22/01/1954",
+    "Declaración": "Decreto del 22 de Enero de 1954",
+    "Tipo Centro": "Parque Nacional",
+    "Ampliación": "Resolución de 14 de octubre de 1999, de la Secretaría General de Medio Ambiente,  acuerdo por el que se amplían los límites del Parque Nacional del Teide por incorporación de terrenos colindantes al mismo.BOE, nº 310, de 28/04/1999",
+    "Reclasificación": "Ley 5/1981, de 25 de marzo, de reclasificación del Parque Nacional del Teide. BOE, nº 90, de 15 de abril de 1981.",
+    "Recononimientos internacionales": "UNESCO - Patrimonio Mundial Natural - Parque Nacional del Teide. Diploma Europeo del Consejo de Europa. Certificación Starlight como Reserva y  Destino turístico.",
+    "Informe Socioeconómico 1991-2013": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/1991-2013-teide_tcm30-378981.pdf",
+    "Informe Socioeconómico 2014-2016": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/2014-2016-teide_tcm30-439495.pdf",
+    "Informe Socioeconómico 2017-2019": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/parquenacionaldelteide_tcm30-539917.pdf",
+    "Informe Socioeconómico 2020-2022": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/desarrollo-socioeconomico/informes/0%202020-2022.%20Seguimiento%20...%2015%20Teide.pdf",
+    "Superficie oficial (ha)": "18.990,00",
+    "Web": "https://www.miteco.gob.es/es/red-parques-nacionales/nuestros-parques/teide"
+   },
+   "geometry_meta": {
+    "digest": "e35872d4bbd9317324526fd02d3af0ae4af027b2107ccb2c96ef6a62b653b205",
+    "type": "MultiPolygon",
+    "n_points": 12567,
+    "bbox": [
+     -16.73023429,
+     28.18984177,
+     -16.48170466,
+     28.34403215
+    ]
+   }
+  },
+  {
+   "properties": {
+    "Nombre": "Área de Especial Protección del PN Sierra de Guadarrama",
+    "Fecha Declaración": null,
+    "Declaración": "Ley 7/2013, del 25 de Junio, de declaración del Parque Nacional de la Sierra de Guadarrama",
+    "Tipo Centro": "Área de Especial Protección del PN Sierra de Guadarrama",
+    "Ampliación": null,
+    "Reclasificación": null,
+    "Recononimientos internacionales": null,
+    "Informe Socioeconómico 1991-2013": null,
+    "Informe Socioeconómico 2014-2016": null,
+    "Informe Socioeconómico 2017-2019": null,
+    "Informe Socioeconómico 2020-2022": null,
+    "Superficie oficial (ha)": "7.011",
+    "Web": null
+   },
+   "geometry_meta": {
+    "digest": "ae8f81cfa4d2f8f336ef15aa03ecb55aca7fde485c883f0d79b21df834e98f9c",
+    "type": "MultiPolygon",
+    "n_points": 4424,
+    "bbox": [
+     -4.06453297,
+     40.78549755,
+     -3.96838918,
+     40.9058205
+    ]
+   }
+  }
+ ]
+}
