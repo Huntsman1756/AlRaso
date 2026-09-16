@@ -303,6 +303,24 @@ def fetch(
     raise FetchError(f"unsupported fetch recipe {recipe!r}")
 
 
+def _live_ssl_context():
+    """TLS context for the read-only public-document live transport.
+
+    Several Spanish public administration servers still present legacy
+    cipher suites that OpenSSL 3.x rejects at SECLEVEL=2 with a handshake
+    alert (verified: portaljuridic.gencat.cat, 2026-09-16). The transport
+    is verification-only — it fetches published documents and never sends
+    credentials — so SECLEVEL=1 keeps coverage honest without weakening
+    any authenticated channel.
+    """
+    import ssl
+
+    ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+    ctx.load_default_certs()
+    ctx.set_ciphers("DEFAULT:@SECLEVEL=1")
+    return ctx
+
+
 def urllib_transport(
     request: TransportRequest, *, timeout: float = 30.0
 ) -> TransportResponse:
@@ -319,7 +337,9 @@ def urllib_transport(
         headers=dict(request.headers),
     )
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
+        with urllib.request.urlopen(
+            req, timeout=timeout, context=_live_ssl_context()
+        ) as resp:
             return TransportResponse(
                 status=resp.status,
                 body=resp.read(),
