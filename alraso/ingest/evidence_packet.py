@@ -1,8 +1,27 @@
-"""EvidencePacket v2.1 → BitemporalStore adapter.
+"""EvidencePacket v2.1 -> BitemporalStore adapter (evidence-only ingest).
 
 Consumes a *validated* EvidencePacket v2.1 and materialises its provenance
-into BitemporalStore entities (source_document, legal_fragment, spatial_scope,
-legal_rule_version) within a single atomic transaction (F07).
+into BitemporalStore evidence entities within a single atomic transaction
+(F07):
+
+    source_document -> legal_fragment (REVIEW_REQUIRED)
+                    -> spatial_scope candidate (REVIEW_REQUIRED)
+
+Legal boundary (PR #40 remediation): this adapter NEVER interprets legal
+effect and NEVER creates publishable state:
+
+  - no ``legal_rule_version`` rows are written — an unreviewed packet
+    cannot produce a resolver-consumable rule;
+  - no ``PERMITTED`` / ``PROHIBITED`` / ``AUTHORIZATION_REQUIRED`` is
+    derived from text keywords;
+  - fragments and the claimed scope stay ``REVIEW_REQUIRED`` — only a
+    human review can move them to a publishable status;
+  - no dates are fabricated: absent ``effective_from`` stays NULL.
+
+Target flow:
+
+    EvidencePacket -> validated evidence (this module)
+                   -> REVIEW_REQUIRED -> human review -> publishable rule
 
 The content provider contract:
 
@@ -23,17 +42,17 @@ The content provider contract:
             official_identifier: the law identifier (e.g. "BOE-A-2005-11132")
         '''
 
-Hash mismatch → fail-closed: the fragment is NOT ingested and the
-determination for the scoped activity is UNDETERMINED — NEVER PERMITTED.
+Hash mismatch -> fail-closed: the fragment is NOT ingested. Since no rule
+is ever created here, the resolver can only answer UNDETERMINED over
+packet-ingested evidence — NEVER PERMITTED.
 
 Module-level API:
-    ingest_evidence_packet(store, packet, content_provider) → IngestionResult
+    ingest_evidence_packet(store, packet, content_provider) -> IngestionResult
 """
 
 from __future__ import annotations
 
 import hashlib
-import json
 import sqlite3
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -53,28 +72,27 @@ ContentProvider = Callable[
 
 @dataclass
 class IngestionResult:
-    """Immutables results of a single packet ingestion."""
+    """Immutable result of a single packet ingestion.
+
+    ``review_pending`` is always True: everything this adapter writes is
+    evidence awaiting human review. No legal determination can be derived
+    from an IngestionResult.
+    """
 
     success: bool
     packet_id: str
     evidence_id: str
-    fragment_ingested: bool
-    source_document_ingested: bool
-    scope_ingested: bool
-    rule_version_ingested: bool
+    source_document_ingested: bool = False
+    fragment_ids: list[str] = field(default_factory=list)
+    rejected_block_ids: list[str] = field(default_factory=list)
+    scope_candidate_id: str | None = None
+    review_pending: bool = True
     reasons: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
 
     @property
     def has_fragments(self) -> bool:
-        return self.fragment_ingested
-
-    @property
-    def can_support_determination(self) -> bool:
-        """Whether the ingested data is sufficient for the resolver to
-        produce a publishable determination (non-UNDETERMINED)."""
-        return (self.success and self.fragment_ingested
-                and self.source_document_ingested and self.rule_version_ingested)
+        return bool(self.fragment_ids)
 
 
 # ---- snapshot content provider (stdlib sqlite3, read-only) --------------------
@@ -165,56 +183,10 @@ def _build_fragment_id(packet_id: str, block_id: str) -> str:
 
 
 def _build_scope_id(provenance: dict[str, Any]) -> str:
-    """Derive a spatial scope id from the provenance."""
+    """Derive a spatial scope candidate id from the claimed provenance."""
     source_code = provenance.get("source_code", "UNKNOWN")
     jurisdiction = provenance.get("jurisdiction", "other")
     return f"ep-scope-{source_code.lower()}-{jurisdiction}"
-
-
-def _build_rule_id(provenance: dict[str, Any]) -> str:
-    """Derive a rule id from the provenance anchors."""
-    official_id = provenance.get("official_identifier", "unknown")
-    jurisdiction = provenance.get("jurisdiction", "other")
-    return f"alraso:{jurisdiction}/ep-{official_id.lower()}"
-
-
-def _determine_effect_for_activity(
-    block_content: str,
-    activity: str,
-) -> str:
-    """Determine the effect (PERMITTED/PROHIBITED/AUTHORIZATION_REQUIRED)
-    for the given activity based on the block content semantics.
-
-    For VIVAC_AL_RASO in LECO (Balearic Islands law):
-    - If the content explicitly references "acampada", "vivac", "pernocta"
-      as an infringement → PROHIBITED
-    """
-    content_lower = block_content.lower()
-
-    # Check for explicit permission indicators FIRST (higher specificity)
-    if any(kw in content_lower for kw in ["permit", "permitid"]):
-        # If "permite/permitido/permitida" is present without restriction context
-        return "PERMITTED"
-
-    # Check for activity-specific keywords (LECO Art. 50 pattern)
-    activity_keywords = ["acampada", "vivac", "pernocta"]
-    if activity == "VIVAC_AL_RASO":
-        for kw in activity_keywords:
-            if kw in content_lower:
-                # Check if it's classified as an infringement
-                if "infracción" in content_lower or "infraccion" in content_lower:
-                    return "PROHIBITED"
-                # Check for authorization requirement
-                if "autorización" in content_lower or "autorizacion" in content_lower:
-                    return "AUTHORIZATION_REQUIRED"
-                # Default for activity keyword found: PROHIBITED (infringement)
-                return "PROHIBITED"
-
-    # Check for general restriction keywords
-    if any(kw in content_lower for kw in ["prohibid", "vedad", "vedada", "vedado"]):
-        return "PROHIBITED"
-
-    return "AUTHORIZATION_REQUIRED"
 
 
 def ingest_evidence_packet(
@@ -222,53 +194,58 @@ def ingest_evidence_packet(
     packet: dict[str, Any],
     content_provider: ContentProvider,
 ) -> IngestionResult:
-    """Ingest an EvidencePacket v2.1 into the BitemporalStore.
+    """Ingest an EvidencePacket v2.1 as *unreviewed evidence*.
 
-    Follows the pattern of `ingest/ordesa.py`:
-    - One atomic transaction (F07).
-    - source_document → legal_fragment → spatial_scope → legal_rule_version.
-    - Content SHA-256 verification before fragment ingestion.
-    - Hash mismatch → fail-closed (fragment not ingested).
+    Writes (in one atomic transaction, F07):
+      - the source_document describing the packet's provenance;
+      - one legal_fragment per block whose content resolves AND verifies
+        against ``content_sha256`` — always ``REVIEW_REQUIRED``;
+      - a spatial_scope *candidate* capturing the jurisdiction the packet
+        claims — always ``REVIEW_REQUIRED``.
 
-    Returns IngestionResult with detailed status.
+    It never writes ``legal_rule_version`` and never infers an effect from
+    block text. Publication requires a separate human review step.
     """
     evidence_id = packet["evidence_id"]
     packet_id = packet["packet_id"]
     provenance = packet["provenance"]
-    version = packet["version"]
     temporal = packet["temporal"]
     blocks = packet["blocks"]
 
     reasons: list[str] = []
     warnings: list[str] = []
-    fragment_ingested = False
+    fragment_ids: list[str] = []
+    rejected_block_ids: list[str] = []
     source_doc_ingested = False
-    scope_ingested = False
-    rule_ingested = False
+    scope_candidate_id: str | None = None
 
     official_identifier = provenance.get("official_identifier", "")
     effective_from = temporal.get("effective_from")
-    activity = "VIVAC_AL_RASO"
 
     try:
         with store.transaction():
-            # 1. Source document (provenance)
+            # 1. Source document (provenance). official_status is left NULL:
+            #    the packet cannot prove the instrument is in force.
             sd_id = _build_source_document_id(provenance)
             store.add_source_document({
                 "id": sd_id,
                 "authority": provenance.get("publisher") or "Estado",
                 "jurisdiction": provenance.get("jurisdiction", "other").upper(),
-                "document_type": provenance.get("document_type") or "LAW",
-                "title": provenance.get("title", "Desconocido"),
+                "document_type": provenance.get("document_type"),
+                "title": (provenance.get("title")
+                          or provenance.get("official_identifier")
+                          or "Desconocido"),
                 "canonical_url": provenance.get("official_url", ""),
-                "official_status": "VIGENTE",
+                "official_status": None,
                 "retrieved_at": temporal.get("retrieved_at"),
                 "content_hash": None,
             })
             source_doc_ingested = True
 
-            # 2. Legal fragments (one per block)
-            #    Read content from the provider, verify SHA-256, then ingest.
+            # 2. Legal fragments (one per block): evidence only.
+            #    Content is read from the provider and its SHA-256 verified
+            #    before ingest; on mismatch or unresolvable content the block
+            #    is rejected, never guessed.
             for block in blocks:
                 block_id = block.get("block_id", "unknown")
                 block_sha_expected = block.get("content_sha256")
@@ -276,14 +253,15 @@ def ingest_evidence_packet(
                 content_result = content_provider(block_id, effective_from,
                                                   official_identifier)
                 if content_result is None:
+                    rejected_block_ids.append(block_id)
                     warnings.append(
                         f"content_provider returned None for block {block_id}")
                     continue
 
                 content, content_sha = content_result
 
-                # Verify SHA-256 (fail-closed)
                 if block_sha_expected and content_sha != block_sha_expected:
+                    rejected_block_ids.append(block_id)
                     warnings.append(
                         f"SHA-256 mismatch for block {block_id}: "
                         f"expected {block_sha_expected}, got {content_sha}. "
@@ -291,132 +269,52 @@ def ingest_evidence_packet(
                     continue
 
                 frag_id = _build_fragment_id(packet_id, block_id)
-                locator = f"{official_identifier}:{block_id}"
-
                 store.add_legal_fragment({
                     "id": frag_id,
                     "source_document_id": sd_id,
-                    "locator": locator,
+                    "locator": f"{official_identifier}:{block_id}",
                     "exact_text_hint": content[:200] if content else "",
-                    "extracted_at": temporal.get("retrieved_at", "2026-09-09"),
-                    "review_status": "VERIFIED",
+                    "extracted_at": temporal.get("retrieved_at"),
+                    "review_status": "REVIEW_REQUIRED",
                     "provision_ref": block.get("block_identifier"),
-                    "validity_from": temporal.get("effective_from"),
+                    "validity_from": effective_from,
                     "validity_to": temporal.get("effective_to"),
                 })
-                fragment_ingested = True
+                fragment_ids.append(frag_id)
 
-            # 3. Spatial scope
+            # 3. Spatial scope candidate: records the jurisdiction the packet
+            #    claims. REVIEW_REQUIRED — a document's provenance is not a
+            #    verified legal scope. REGULATORY keeps the fail-closed
+            #    default (coverage required before any PERMITTED).
             scope_id = _build_scope_id(provenance)
-            if not _scope_exists(store, scope_id):
-                scope_type_map = {
-                    "state": "NATIONAL",
-                    "autonomous": "REGIONAL",
-                    "provincial": "PROVINCIAL",
-                    "local": "MUNICIPAL",
-                    "european": "EUROPEAN",
-                    "other": "OTHER",
-                }
+            if store.get_scope(scope_id) is None:
                 store.add_spatial_scope({
                     "id": scope_id,
-                    "scope_type": scope_type_map.get(
-                        provenance.get("jurisdiction", "other"), "OTHER"),
-                    "official_name": f"Regulatory scope for "
-                                     f"{provenance.get('source_name','')} "
-                                     f"[{provenance.get('jurisdiction','other')}]",
+                    "scope_type": "OTHER",
+                    "official_name": (
+                        f"EvidencePacket claimed scope: "
+                        f"{provenance.get('source_name', '')} "
+                        f"[{provenance.get('jurisdiction', 'other')}]"),
                     "geometry_source": provenance.get("official_url", ""),
-                    "review_status": "VERIFIED",
+                    "review_status": "REVIEW_REQUIRED",
                     "relevance": "REGULATORY",
                 })
-                scope_ingested = True
-
-            # 4. Rule version
-            rule_id = _build_rule_id(provenance)
-
-            effective_from_val = effective_from or "2000-01-01"
-            effective_to = temporal.get("effective_to")
-            recorded_at = temporal.get("recorded_at", "2026-09-09")
-            if recorded_at and "T" in recorded_at:
-                recorded_at = recorded_at[:10]
-
-            # Determine effect from content (use first block)
-            if blocks:
-                first_block = blocks[0]
-                first_block_id = first_block.get("block_id", "unknown")
-                first_content_result = content_provider(
-                    first_block_id, effective_from, official_identifier)
-                if first_content_result is not None:
-                    content, _ = first_content_result
-                    effect = _determine_effect_for_activity(content, activity)
-                else:
-                    effect = "AUTHORIZATION_REQUIRED"
-                    warnings.append(
-                        "cannot read content for effect determination")
-            else:
-                effect = "AUTHORIZATION_REQUIRED"
-                warnings.append("no blocks in packet")
-
-            fragment_ids = [
-                _build_fragment_id(packet_id, b.get("block_id", "unknown"))
-                for b in blocks
-            ]
-
-            review_status = _normalize_review_status(
-                provenance.get("resource_type", ""))
-
-            store.add_rule_version({
-                "rule_id": rule_id,
-                "activity": activity,
-                "spatial_scope_id": scope_id,
-                "effect": effect,
-                "effective_from": effective_from_val,
-                "effective_to": effective_to,
-                "recorded_at": recorded_at,
-                "recorded_until": None,
-                "review_status": review_status,
-                "legal_review_complete": True,
-                "spatial_review_complete": True,
-                "evidence": fragment_ids,
-                "interpretation_note": (
-                    f"Ingested from EvidencePacket v2.1 "
-                    f"(packet_id={packet_id}, evidence_id={evidence_id}) "
-                    f"official_identifier={official_identifier}"),
-                "evidence_required": bool(fragment_ids),
-                "normative_basis": fragment_ids,
-            })
-            rule_ingested = True
+            scope_candidate_id = scope_id
 
     except Exception as e:
         reasons.append(f"ingestion error: {type(e).__name__}: {e}")
         return IngestionResult(
             success=False, packet_id=packet_id, evidence_id=evidence_id,
-            fragment_ingested=fragment_ingested,
             source_document_ingested=source_doc_ingested,
-            scope_ingested=scope_ingested,
-            rule_version_ingested=rule_ingested,
+            fragment_ids=fragment_ids,
+            rejected_block_ids=rejected_block_ids,
+            scope_candidate_id=scope_candidate_id,
             reasons=reasons, warnings=warnings)
 
     return IngestionResult(
         success=True, packet_id=packet_id, evidence_id=evidence_id,
-        fragment_ingested=fragment_ingested,
         source_document_ingested=source_doc_ingested,
-        scope_ingested=scope_ingested,
-        rule_version_ingested=rule_ingested,
+        fragment_ids=fragment_ids,
+        rejected_block_ids=rejected_block_ids,
+        scope_candidate_id=scope_candidate_id,
         warnings=warnings)
-
-
-def _normalize_review_status(resource_type: str) -> str:
-    """Map resource_type to a publishable review status.
-
-    Consolidated law blocks from official sources get VERIFIED.
-    Other resource types get REVIEW_REQUIRED.
-    """
-    if "consolidated_law" in resource_type:
-        return "VERIFIED"
-    return "REVIEW_REQUIRED"
-
-
-def _scope_exists(store: BitemporalStore, scope_id: str) -> bool:
-    """Check if a scope already exists in the store."""
-    scope = store.get_scope(scope_id)
-    return scope is not None

@@ -1,214 +1,137 @@
 # AlRaso EvidencePacket v2.1 Consumer Proof
 
-**Date:** 2026-09-09  
-**Branch:** `feat/evidence-packet-v2-consumer-proof` (from f9a021a)
+**Date:** 2026-09-09
+**Remediated:** 2026-09-16 (PR #40 review — legal boundary P0 + hermetic tests P1)
+**Branch:** `feat/evidence-packet-v2-consumer` (from `main` 4718b04)
+
+## 0. Remediation note (PR #40 blocking review)
+
+The original proof (branch `feat/evidence-packet-v2-consumer-proof`) crossed
+the legal boundary: the adapter derived a legal effect from text keywords
+(`_determine_effect_for_activity`), wrote a `VERIFIED` regulatory scope from
+document jurisdiction alone, auto-completed `legal_review_complete` /
+`spatial_review_complete`, mapped `consolidated_law` to `VERIFIED`, and
+fabricated `effective_from="2000-01-01"`. It also depended on machine-local
+paths (`G:\_Proyectos\mcp\...`), breaking hermetic CI.
+
+The remediated adapter is **evidence-only**:
+
+```text
+EvidencePacket v2.1
+    -> strict validation (fail-closed)
+    -> content provider (read-only snapshot, SHA-256 verified)
+    -> source_document + legal_fragment (REVIEW_REQUIRED)
+       + spatial_scope candidate (REVIEW_REQUIRED)
+    -> human review (outside this adapter)
+    -> only then a publishable legal_rule_version
+```
+
+It never writes `legal_rule_version`, never infers an effect, never marks
+anything publishable, and never fabricates dates.
 
 ## 1. Objetivo
 
-Implementar el consumo proof de EvidencePacket v2.1 en AlRaso sin modificar el core `official-sources`:
+Implementar el consumo de EvidencePacket v2.1 en AlRaso sin modificar el core
+`official-sources`:
 
-- **M4.1**: Validador estructural estricto del contracto v2.1 (fail-closed, sin defaults).
-- **M4.2**: Adapter que mapea packet → BitemporalStore con verificacion SHA-256 del contenido.
-- **M4.2**: Challenge semantico real con la norma LECO (BOE-A-2005-11132) ingestada desde el snapshot DB.
+- **M4.1**: Validador estructural estricto del contrato v2.1 (fail-closed, sin defaults).
+- **M4.2**: Adapter evidence-only packet → BitemporalStore con verificación SHA-256 del contenido.
+- **M4.2**: Gate de publicación: la evidencia ingerida queda REVIEW_REQUIRED y no es consumible por el resolver hasta revisión humana.
 
 ## 2. Flujo implementado
 
 ```
-JSONL corpus → validator (EvidPacktErr)
+JSONL corpus → validator (EvidencePacketValidationError)
                   ↓ validado
                adapter + content_provider
-                  ↓ (lee snapshot DB, verifica SHA-256)
-               BitemporalStore (source_doc, fragment, scope, rule_version)
+                  ↓ (lee snapshot DB read-only, verifica SHA-256)
+               BitemporalStore:
+                 source_document  (provenance; official_status NULL)
+                 legal_fragment   (REVIEW_REQUIRED)
+                 spatial_scope    (REVIEW_REQUIRED, REGULATORY)
                   ↓
-               Resolver.resolve(VIVAC_AL_RASO)
-                  ↓
-               PROHIBITED (LECO Art. 50 = infraccion leve)
+               Resolver → UNDETERMINED (nada publishable sin revisión humana)
 ```
 
 ### Validador (alraso/official_sources_v2.py)
 
 - Schema vendored como constante SCHEMA_JSON + SHA-256 anclado.
-- Validacion estricta: campos requeridos, tipos, enums, patrones regex.
+- Validación estricta: campos requeridos, tipos, enums, patrones regex.
 - `additionalProperties=false` en cada objeto → campos desconocidos rechazados.
-- `EvidencePacketValidationError` raise con razones estructuradas.
+- `EvidencePacketValidationError` con razones estructuradas.
 - Cero defaults silenciosos.
 
 ### Adapter (alraso/ingest/evidence_packet.py)
 
 - `make_snapshot_content_provider()`: abre DB en modo `file:...?mode=ro` (stdlib sqlite3, solo lectura).
 - Lookup: `consolidated_laws` → `consolidated_law_versions` → `consolidated_law_text_blocks` por `official_block_id`.
-- Verificacion SHA-256 del contenido ANTES de ingesta del fragmento.
-- Mismatch → fragmento NO ingestado, determinacion → UNDETERMINED.
-- Ingesta atomica en una transaccion F07 (BitemporalStore.transaction).
-- Mapeo: provenance → source_document, block → legal_fragment, jurisdiction → spatial_scope, → legal_rule_version (activity=VIVAC_AL_RASO).
-- Deteccion de efecto via heuristicas de contenido: "infraccion" + actividad → PROHIBITED.
+- Verificación SHA-256 del contenido ANTES de ingesta del fragmento.
+- Mismatch → fragmento NO ingerido (rejected_block_ids + warning).
+- Ingesta atómica en una transacción F07 (BitemporalStore.transaction).
+- Mapeo: provenance → source_document, block → legal_fragment REVIEW_REQUIRED, jurisdiction → spatial_scope candidato REVIEW_REQUIRED.
+- **No crea `legal_rule_version`.** La regla publicable la escribe la revisión humana.
 
 ## 3. Casos y resultados de tests
 
-### M4.1 Validator — Positivos (6 tests)
+Tests herméticos: paquetes sintéticos en memoria + snapshot DB generado en
+runtime (`tmp_path`). Sin rutas de máquina, sin red, sin credenciales.
 
-| # | Test | Resultado |
-|---|------|-----------|
-| 1 | Fiscal packet valid | PASS |
-| 2 | Dominio packet valid | PASS |
-| 3 | schema_version == "2.1" | PASS |
-| 4 | Schema SHA-256 anchor matches | PASS |
-| 5 | PacketPayload parse | PASS |
-| 6 | validate_schema_json_sha256 | PASS |
+### M4.1 Validator — Positivos (6 tests): PASS
 
-### M4.1 Validator — Negativos (12 tests)
+### M4.1 Validator — Negativos (11 tests): PASS
+(schema 3.0, sha256 no-hex, campo requerido ausente, campo desconocido,
+enums inválidos: review_status/jurisdiction/block_type/block_id_status/
+effective_to_status, artifacts/blocks no-lista)
 
-| # | Test | Fallo detectado |
-|---|------|-----------------|
-| 1 | schema_version "3.0" | Rejected: enum mismatch |
-| 2 | content_sha256 alterado (char no-hex) | Rejected: pattern mismatch |
-| 3 | Campo requeriente faltante | Rejected: missing required field |
-| 4 | Campo desconocido (additionalProperties) | Rejected: unknown top-level key |
-| 5 | review_status inventado | Rejected: enum mismatch |
-| 6 | jurisdiction inventada | Rejected: enum mismatch |
-| 7 | block_type no existente | Rejected: enum mismatch |
-| 8 | block_id_status no existente | Rejected: enum mismatch |
-| 9 | effective_to_status no existente | Rejected: enum mismatch |
-| 10 | artifacts no es lista | Rejected: type mismatch |
-| 11 | blocks no es lista | Rejected: type mismatch |
+### M4.2 Adapter — evidence ingest (7 tests): PASS
+(ingesta REVIEW_REQUIRED, provenance de fragmento, effective_from ausente →
+NULL, official_status NULL, verificación SHA-256, cero rule_version)
 
-### M4.2 Adapter — Ingesta (6 tests)
+### M4.2 Hash mismatch (3 tests): PASS
+(fragmento rechazado, UNDETERMINED, provider None → UNDETERMINED)
 
-| # | Test | Resultado |
-|---|------|-----------|
-| 1 | Dominio packet ingests successfully | PASS |
-| 2 | Fiscal packet ingests successfully | PASS |
-| 3 | Fragment has correct provenance | PASS |
-| 4 | Content SHA-256 verified before ingest | PASS |
-| 5 | Rule version has normative_basis | PASS |
-| 6 | Effect determined for LECO | PASS (PROHIBITED) |
+### Negativos de frontera legal — obligatorios (3 tests): PASS
+- `"Se permite..."` raw → NUNCA PERMITED (UNDETERMINED).
+- jurisdiction del documento → NUNCA scope VERIFIED (REVIEW_REQUIRED).
+- EvidencePacket sin revisar → NUNCA regla consumible por el resolver
+  (0 filas legal_rule_version, UNDETERMINED).
 
-### M4.2 Adapter — Hash mismatch (3 tests)
+### Gate de revisión humana (3 tests): PASS
+- Regla que cita fragmento REVIEW_REQUIRED → inelegible
+  (EVIDENCE_NOT_PUBLISHABLE), UNDETERMINED.
+- Canal humano (nuevo fragmento VERIFIED + scope VERIFIED + regla
+  human-authored) → PROHIBITED con evidencia trazable.
+- packet_id preservado en la identidad del fragmento.
 
-| # | Test | Resultado |
-|---|------|-----------|
-| 1 | Hash mismatch rejects fragment | PASS (fragment_ingested=False) |
-| 2 | Hash mismatch → UNDETERMINED | PASS |
-| 3 | Missing content_provider → UNDETERMINED | PASS |
+### Negativos end-to-end (2 tests): PASS
+(schema 3.0 antes de ingest; fallo de provider → ingesta rechazada limpia)
 
-### M4.2 Semantic Challenge (3 tests)
+**Total: 35 tests — ALL PASSING, hermetic.**
 
-| # | Test | Resultado |
-|---|------|-----------|
-| 1 | Challenge: resolve PROHIBITED | PASS |
-| 2 | Trace preserves evidence_id/packet_id | PASS |
-| 3 | Dominio involves a50 blocks | PASS |
-
-### M4.2 Negatives end-to-end (3 tests)
-
-| # | Test | Resultado |
-|---|------|-----------|
-| 1 | schema_version 3.0 → rejected before ingest | PASS |
-| 2 | activity_date before effective_from → UNDETERMINED | PASS |
-| 3 | activity_date within window → resolved | PASS |
-
-### Helper functions (7 tests)
-
-| # | Test | Resultado |
-|---|------|-----------|
-| 1 | LECO Art. 50 → PROHIBITED | PASS |
-| 2 | "prohibido" keyword → PROHIBITED | PASS |
-| 3 | "permitido" keyword → PERMITTED | PASS |
-| 4 | "autorizacion" → AUTHORIZATION_REQUIRED | PASS |
-| 5 | Default unknown → AUTHORIZATION_REQUIRED | PASS |
-| 6 | consolidate_law_block → VERIFIED | PASS |
-| 7 | official_document → REVIEW_REQUIRED | PASS |
-
-**Total tests added: 39 — ALL PASSING.**
-
-## 4. Baseline vs Final
-
-### Baseline (f9a021a)
-
-```
-606 passed, 1 failed, 7 skipped
-FAILED: test_git_diff_vs_main_only_allowed_files (pre-existing)
-```
-
-### Final (feat/evidence-packet-v2-consumer-proof, estado reparado 7eafa92)
-
-`` 
-645 passed, 1 failed, 7 skipped
-  39 new tests from tests/test_evidence_packet_v2.py: ALL PASSING
-  FAILED: test_git_diff_vs_main_only_allowed_files (pre-existing at baseline f9a021a)
-`` 
-
-**NEW_FAILURES = 0** (verificado de forma independiente sobre la rama final reparada).
-
-### Nota de reparacion de la rama (2026-09-09)
-
-Durante la ejecucion, una sesion paralela (M5 PWA, worktree dedicado) hizo commit
-accidental de su trabajo (ec22e98) sobre esta rama, quedando intercalado entre la
-base f9a021a y el commit del proof. Reparacion aplicada: la rama quedo como
-f9a021a + cherry-pick del proof (7eafa92), con exactamente los 4 ficheros de este
-proof. El trabajo PWA permanece intacto y publicado en su rama canonica
-feat/m5-offline-pwa (bca1398 + 93a622a, en origin); ec22e98 era un duplicado
-redundante y no se perdio nada.
-
-
-## 5. Hashes anclados
+## 4. Hashes anclados
 
 | Campo | Valor |
 |-------|-------|
 | VENDOR_SCHEMA_SHA256 | `eea5fd0914a3242208c21f5b6c2f62ab6798f8ed908237b6d358de95e9cab665` |
-| Packet fiscal evidence_id | `36d653657d077a1d8593cc894959795347ac078c74ecc45500feb25d9ad34511` |
-| Packet fiscal packet_id | `30030456ddcabdff92422e001730249e5b758e368a6f30bb72d66a61457ab041` |
-| Packet fiscal block a1 SHA-256 | `4bf62e7ab5a2c7cdc84304b204ac3c3d07ffa717d833aba5a76edf70ad9852fe` |
-| Packet dominio evidence_id | `0d2371393ffb94b07ada217633241766228230cbb84fbbcf77aa0c4680069888` |
-| Packet dominio packet_id | `25613c9195ddda8e76614d3434ebcd5131de74699c8a3a21ffb4ccec332d7463` |
-| Packet dominio block a50 SHA-256 | `6df05e04369f9d8875f5b986c4e02e3a8b72911b1a1607ee610f7ab0147957ea` |
 
-## 6. Hallazgos
+Los hashes del corpus externo (`G:\_Proyectos\mcp\m4-alraso\...`) quedaron
+como artefacto de ejecución del 2026-09-09; los tests actuales no dependen de
+ese corpus — la verificación SHA-256 se ejerce sobre contenido sintético cuyo
+hash se calcula en runtime.
 
-### 6.1 LECO — Jurisdiccion y version bitemporal
+## 5. Limitaciones conocidas
 
-El dominio packet (BOE-A-2005-11132) tiene:
-- `provenance.jurisdiction = "state"` (BOE es estatal)
-- `provenance.publisher = "Comunidad Autonoma de las Illes Balears"` (la ley es balear, consolidada en BOE)
-- `version.version_date = "2005-06-30"` (version ORIGINAL del Art. 50, letra f)
-- `effective_from = "2005-06-30"` (honestidad bitemporal: usa la version original, no la consolidacion 2026)
+- El scope candidato registra la jurisdicción *declarada* por el packet; la
+  revisión humana decide el ámbito jurídico real.
+- No hay canal de revisión implementado (las transiciones VERIFIED las
+  escribe un ingest human-gated futuro); el test lo simula con escritura
+  directa.
 
-La DB snapshot tiene 106 bloques para BOE-A-2005-11132 (version 24), y el bloque a50 con hash `6df05e04...` corresponde al Art. 50 original de 2005.
+## 6. Archivos nuevos / modificados
 
-### 6.2 Determinacion del challenge
-
-```
-Actividad: VIVAC_AL_RASO
-Scope: ep-scope-boe-state (regulatory)
-Fecha: 2010-06-15 (dentro de [2005-06-30, open))
-K-date: 2026-09-09
-
-Determinacion: PROHIBITED
-Razon: LECO Art. 50 letra f — "La acampada, el vivac y la pernocta al aire libre, 
-       sin autorizacion o incumpliendo las condiciones" → infraccion leve → PROHIBITED.
-```
-
-La trazabilidad preserva:
-- `evidence_id` del packet verbatim en el resultado.
-- `packet_id` del packet en el campo interpretation_note de la rule_version.
-- Fragment ID: `ep-frag-{packet_id}-a50` con locator `BOE-A-2005-11132:a50`.
-
-### 6.3 Limitaciones y desviaciones
-
-- No se implemento un proveedor de contenido real con coordenadas geograficas; el scope se consulta por scope_id, no por lat/lon. Esto es suficiente para el challenge semantico (query por scope_id).
-- El efecto se determina via heuristicas de texto (keyword matching). Para un sistema de produccion, se usaria un motor de logica juridica mas robusto.
-- Nota: los fallos de test_m5_offline_pwa citados durante la ejecucion pertenecian al estado de working-tree contaminado; en la rama reparada final no existen (ver seccion 4).
-
-## 7. Archivos nuevos / modificados
-
-| Archivo | Estado | Descripcion |
+| Archivo | Estado | Descripción |
 |---------|--------|-------------|
-| `alraso/official_sources_v2.py` | NEW | Validador estricto EvidPacket v2.1, schema vendored |
-| `alraso/ingest/evidence_packet.py` | NEW | Adapter packet → BitemporalStore, content provider snapshot |
-| `tests/test_evidence_packet_v2.py` | NEW | 39 tests: validator, adapter, semantic challenge, negatives |
-
-## 8. Commits
-
-Un commit unico al final: `feat(official-sources): consume EvidencePacket v2.1 normative proof`
-
-No se hace push (constraint del task).
+| `alraso/official_sources_v2.py` | NEW | Validador estricto EvidencePacket v2.1, schema vendored |
+| `alraso/ingest/evidence_packet.py` | NEW | Adapter evidence-only packet → BitemporalStore |
+| `tests/test_evidence_packet_v2.py` | NEW | 35 tests herméticos |
+| `tests/test_m2b_official_boundary.py` | MOD | stanza whitelist de esta rama |
