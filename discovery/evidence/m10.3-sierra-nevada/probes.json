@@ -1,0 +1,66 @@
+{
+  "schema": "alraso.m10.3.probes/v1",
+  "park": "pn-sierra-nevada",
+  "observed_at": "2026-09-17",
+  "runner_network": "es_local",
+  "probes": [
+    {
+      "probe_id": "issue_index",
+      "url": "https://www.juntadeandalucia.es/boja/2011/155/index.html",
+      "reachability_observed": "REACHABLE",
+      "fetch_outcome": "SUCCESS",
+      "http_status": 200,
+      "note": "issue index lists 'Decreto 238/2011, de 12 de julio, por el que se establece la ordenación y gestión de Sierra Nevada' under Consejería de Medio Ambiente, linking /boja/2011/155/3 and d3.pdf"
+    },
+    {
+      "probe_id": "doc_html",
+      "url": "https://www.juntadeandalucia.es/boja/2011/155/3",
+      "reachability_observed": "REACHABLE",
+      "fetch_outcome": "TIMEOUT",
+      "http_status": null,
+      "note": "two attempts (60s/90s) produced 0 bytes on 2026-09-17; PDF surface is the usable channel"
+    },
+    {
+      "probe_id": "doc_pdf",
+      "url": "https://www.juntadeandalucia.es/boja/2011/155/d3.pdf",
+      "reachability_observed": "REACHABLE",
+      "fetch_outcome": "SUCCESS",
+      "http_status": 200,
+      "bytes": 44474989,
+      "sha256": "bc8b8ca1c871d6e7cace1feab7d20a431fa5c9d33ac510a9f9e1a8456631e47b",
+      "note": "bytes NOT committed (size); verbatim UTF-8 text-layer extract committed as boja-238-2011-extract.txt"
+    },
+    {
+      "probe_id": "boe_ley_3_1999_metadatos",
+      "url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-1999-782/metadatos",
+      "reachability_observed": "REACHABLE",
+      "fetch_outcome": "SUCCESS",
+      "evidence_path": "discovery/evidence/m10.3-version/boe/BOE-A-1999-782/",
+      "note": "RESOLVED via m102_version_probe: effective_from=1999-01-14, consolidacion=Finalizado"
+    }
+  ],
+  "secondary_signals": [
+    {
+      "kind": "consolidated_portal",
+      "where": "sedeboja textos-consolidados (BOJA-b-2011-90080 ficha)",
+      "observed": "version list shows only '10/08/2011 - INICIAL' — no later consolidated version"
+    },
+    {
+      "kind": "amendment_process",
+      "where": "BOJA 2022/107/41 (Resolución 30/05/2022)",
+      "observed": "public-info draft of an Orden modifying Anexo II §5.2.3 (competitions: Vuelta Ciclista) — does not touch vivac/acampada provisions"
+    },
+    {
+      "kind": "revision_process",
+      "where": "BOJA 2026/13 (Acuerdo de 12/01/2026 del Consejo de Gobierno)",
+      "observed": "approves the FORMULATION of the PORN/PRUG revision — a revision procedure has started; no replacement plan approved"
+    },
+    {
+      "kind": "implementing_order",
+      "where": "BOJA 2012/6/14 (Orden 12/12/2011)",
+      "observed": "normalized authorization/communication models under Anexo I §5.3 — implements, does not modify"
+    }
+  ],
+  "extract_file": "boja-238-2011-extract.txt",
+  "extract_sha256": "cee5390a579c80a54fe263369e2c4b3116f56fb4a998e35f55b9c0607f4721a0"
+}

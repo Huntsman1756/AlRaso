@@ -1,0 +1,97 @@
+{
+  "review_case_id": "RC-M103-ES-AN-SIERRA-NEVADA-VIVAC",
+  "milestone": "M10.3",
+  "park": {
+    "space_id": "pn-sierra-nevada",
+    "name": "Parque Nacional de Sierra Nevada",
+    "jurisdiction": "ES-AN",
+    "gazette": "BOJA",
+    "managing_authority": "Junta de Andalucía — Consejería competente en medio ambiente / Equipo de Gestión del Espacio Natural"
+  },
+  "activity": "VIVAC_AL_RASO",
+  "proposed_effect": "PERMITTED condicionado (comunicación previa + umbrales) / AUTHORIZATION_REQUIRED si grupo >15 pax o >3 tiendas",
+  "exact_precepts": [
+    {
+      "instrument": "Decreto 238/2011, de 12 de julio",
+      "locator": "Anexo I (PORN) 5.4.5.1.b)",
+      "quote": "El vivaqueo y la acampada nocturna vinculados a travesía de montaña para grupos superiores a 15 personas o que utilicen más de 3 tiendas de campaña.",
+      "role": "sometidas a autorización"
+    },
+    {
+      "instrument": "Decreto 238/2011",
+      "locator": "Anexo I (PORN) 5.4.5.4 introductor + 4.d)1.º-5.º",
+      "quote": "Quedan exceptuadas del régimen de autorización [...] dichas actuaciones deberán ser comunicadas a la Consejería [...] previamente al inicio de su ejecución [...] d) El vivaqueo y la acampada nocturna vinculados a actividades de travesía de montaña para grupos menores de 15 personas y que utilicen menos de 3 tiendas de campaña y cumplan las siguientes condiciones: [...] 4.º No está permitido el vivaqueo ni la acampada nocturna, a menos de dos kilómetros de un núcleo urbano, de un establecimiento de alojamiento turístico o de un refugio, salvo que éste último estuviera completo, ni pernoctar más de una noche en el mismo lugar.",
+      "role": "excepción con comunicación previa + condiciones"
+    },
+    {
+      "instrument": "Decreto 238/2011",
+      "locator": "Anexo II (PRUG PN) 5.2.1.2.d)-e)",
+      "quote": "Se consideran compatibles cuando se realicen en equipamientos públicos, caminos, pistas forestales u otros espacios donde no exista limitación de acceso o de uso: [...] d) El vivaqueo y la acampada nocturna. e) El acceso y utilización de los refugios vivac [...].",
+      "role": "compatibilidad en el PN condicionada a ausencia de limitación de acceso/uso"
+    },
+    {
+      "instrument": "Decreto 238/2011",
+      "locator": "Anexo I (PORN) 5.5.1.1.2",
+      "quote": "El acceso [a la Zona de reserva] está limitado al personal del Parque Nacional en el ejercicio de sus actividades de gestión, al personal ligado a proyectos de investigación debidamente autorizados y a los Cuerpos de Seguridad del Estado en el ejercicio de sus funciones.",
+      "role": "exclusión de facto del vivac en Zonas de Reserva"
+    },
+    {
+      "instrument": "Decreto 238/2011",
+      "locator": "Anexo I (PORN) 5.5.1.2.2",
+      "quote": "La circulación peatonal [...] estará limitada a los caminos, pistas y senderos existentes. En cotas superiores a los 2.000 metros se podrá circular también por las vías de acceso tradicionales [...].",
+      "role": "restricción de circulación en Zona de uso restringido (76% del PN)"
+    }
+  ],
+  "source": {
+    "document_url": "https://www.juntadeandalucia.es/boja/2011/155/3",
+    "pdf_url": "https://www.juntadeandalucia.es/boja/2011/155/d3.pdf",
+    "pdf_sha256": "bc8b8ca1c871d6e7cace1feab7d20a431fa5c9d33ac510a9f9e1a8456631e47b",
+    "pdf_bytes": 44474989,
+    "pdf_redistributed": false,
+    "extract_file": "boja-238-2011-extract.txt",
+    "extract_sha256": "cee5390a579c80a54fe263369e2c4b3116f56fb4a998e35f55b9c0607f4721a0",
+    "issue_index": "https://www.juntadeandalucia.es/boja/2011/155/index.html"
+  },
+  "validity_evidence": {
+    "publication": "BOJA núm. 155, 9 de agosto de 2011",
+    "entry_into_force": "2011-08-10 — 'el día siguiente al de su publicación' (Disposición final segunda), mecánicamente derivable",
+    "prug_duration": "8 años prorrogable 8; el régimen de usos y actividades 'mantendrá su vigencia hasta que sea aprobado el nuevo Plan' (cláusula de continuidad)",
+    "consolidated_check": "Portal consolidado: solo versión 10/08/2011 INICIAL — sin modificaciones consolidadas",
+    "supersession_check": "Acuerdo 12/01/2026 (BOJA 2026/13) = formulación de revisión del PORN/PRUG, NO sustitución; Resolución 30/05/2022 (BOJA 2022/107) = información pública de propuesta de modificación del Anexo II §5.2.3 (competiciones), no afecta al precepto de vivac",
+    "status": "VIGENTE — mecánicamente soportado, pendiente de verificación humana"
+  },
+  "geometry_evidence": {
+    "source": "OAPN zonificación PRUG (digest-only)",
+    "reference": "discovery/evidence/spain-coverage-g0/oapn-zonificacion-prug.digest.json",
+    "features": 442,
+    "normativa_field": "Decreto 238/2011, de 12 de julio (09/08/2011)",
+    "sample_digest": "64be9bccbf7b9e4dcb0548527b63ba5e620a8246a1a8526b3ef4f80bb22e88de",
+    "caveat": "Digest sin coordenadas en store; suficiente como evidencia de fuente, NO como revisión espacial completada"
+  },
+  "conditions_modelled": [
+    "group_size <15 AND tent_count <3 (excepción)",
+    "prior_notification_done (comunicación previa según 5.3.7)",
+    "distance_km_to_urban_nucleus >=2 AND distance_km_to_tourist_lodging >=2 AND (distance_km_to_refuge >=2 OR refuge_full)",
+    "nights_same_location <=1",
+    "zone exclusion NOT in AST — depends on pending spatial review"
+  ],
+  "interpretation_note": "VIVAC_AL_RASO propuesto como PERMITTED condicionado en PN Sierra Nevada. El vivaqueo (<15 pax, <3 tiendas) está exceptuado de autorización pero exige comunicación previa; >15 pax o >3 tiendas requiere autorización. En el PN la compatibilidad está limitada a espacios sin limitación de acceso/uso.",
+  "contrary_or_ambiguous_evidence": [
+    "Laguna literal del precepto: 'superiores a 15' (1.b) vs 'menores de 15' (4.d) — el caso exacto 15 personas / 3 tiendas no queda cubierto por ninguno",
+    "Zona de Uso Restringido (76,08% del PN): circulación limitada a caminos/pistas/senderos — ¿vivac fuera de sendero requiere autorización o queda excluido? El texto no lo cierra",
+    "El PRUG tiene vigencia de 8 años (vence ~2019/2027); la cláusula de continuidad mantiene el régimen, pero un revisor puede querer confirmar prórroga formal",
+    "Resolución 2022 y Acuerdo 2026 muestran revisión en curso — vigencia a verificar de nuevo en fecha de consulta real"
+  ],
+  "proposed_resolver_examples": [
+    {"facts": {"group_size": 4, "tent_count": 1, "prior_notification_done": true, "nights_same_location": 1, "distance_km_to_urban_nucleus": 5, "distance_km_to_tourist_lodging": 5, "distance_km_to_refuge": 3}, "expected_if_approved": "PERMITTED"},
+    {"facts": {"group_size": 20}, "expected_if_approved": "AUTHORIZATION_REQUIRED"},
+    {"facts": {"group_size": 4, "prior_notification_done": false}, "expected_if_approved": "UNDETERMINED/condición incumplida"},
+    {"facts": {}, "expected": "UNDETERMINED — hechos ausentes => fail-closed"},
+    {"facts": "any, pre-review", "expected": "UNDETERMINED/INCOMPLETE — REVIEW_REQUIRED bloquea publicación"}
+  ],
+  "reviewer_decision": "PENDING",
+  "review_status": "REVIEW_REQUIRED",
+  "legal_review_complete": false,
+  "spatial_review_complete": false,
+  "automated_state": "READY_FOR_HUMAN_REVIEW"
+}

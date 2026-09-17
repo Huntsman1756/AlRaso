@@ -1,0 +1,31 @@
+{
+  "schema": "alraso.m10.3.probes/v1",
+  "park": "pn-teide",
+  "observed_at": "2026-09-17",
+  "runner_network": "es_local",
+  "probes": [
+    {
+      "probe_id": "doc_html",
+      "url": "https://www.gobiernodecanarias.org/boc/2025/240/pda/4148.html",
+      "reachability_observed": "REACHABLE",
+      "fetch_outcome": "SUCCESS",
+      "http_status": 200,
+      "bytes": 14939,
+      "sha256": "d49782a4a53c86b159a2808796a4e02035f9184d30225933415e71c90ceb46d6",
+      "evidence_path": "discovery/evidence/spain-coverage-g0/boc-canarias-182-2025.html",
+      "note": "byte-identical to M10.1-P5 fixture; live-verified 2026-09-16 and 2026-09-17 (m10.2-atlas/es-cn)"
+    },
+    {
+      "probe_id": "signed_pdf",
+      "url": "https://sede.gobiernodecanarias.org/boc/boc-a-2025-240-4148.pdf",
+      "reachability_observed": "REACHABLE",
+      "fetch_outcome": "SUCCESS",
+      "http_status": 200,
+      "bytes": 58332199,
+      "sha256": "45df0cd34dd230f777794bf9d112d448d2d69cf4dd207fadaf5c318b87fb3bb5",
+      "note": "sha256 identical to the G0-recorded digest; bytes NOT committed (size/licence); verbatim UTF-8 text-layer extract committed as boja-238-2011-style extract: boc-182-2025-prug-extract.txt"
+    }
+  ],
+  "extract_file": "boc-182-2025-prug-extract.txt",
+  "extract_sha256": "abb0e291356b318a0c59c4732e8be08c297457ee1225f78fe578b5c755e417a5"
+}

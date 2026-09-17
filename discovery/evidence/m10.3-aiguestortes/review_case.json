@@ -1,0 +1,79 @@
+{
+  "review_case_id": "RC-M103-ES-CT-AIGUESTORTES-VIVAC",
+  "milestone": "M10.3",
+  "park": {
+    "space_id": "pn-aiguestortes-i-estany-de-sant-maurici",
+    "name": "Parc Nacional d'Aigüestortes i Estany de Sant Maurici",
+    "jurisdiction": "ES-CT",
+    "gazette": "DOGC",
+    "managing_authority": "Generalitat de Catalunya — Departament de Medi Ambient / administració del Parc Nacional"
+  },
+  "activity": "VIVAC_AL_RASO",
+  "proposed_effect": "PROHIBITED en tot el PN (salvo permisos especiales de estada por investigación/gestión); pernoctación solo en refugios del Annex 2; zonas habilitadas de Estallos/Riumalo están en la ZPP (fuera del scope PN)",
+  "exact_precepts": [
+    {
+      "instrument": "Decret 39/2003, de 4 de febrer (PRUG Aigüestortes)",
+      "locator": "PRUG annex, article 25.4",
+      "quote": "Es prohibeix la pernoctació fora dels refugis detallats a l'annex 2 d'aquest Pla, com també l'acampada i el bivac en tot el territori del Parc Nacional i zona perifèrica de protecció, incloses les zones d'aparcament i, en general, d'ús especial, a excepció de les zones habilitades per a tal fi a Estallos i Riumalo. Queden exemptes de la prohibició aquelles persones que disposin dels permisos especials d'estada justificats per estudis d'investigació, gestió i control del medi natural.",
+      "role": "prohibición park-wide — 'bivac' cubre VIVAC_AL_RASO nominalmente"
+    },
+    {
+      "instrument": "Decret 39/2003",
+      "locator": "Annex 2 — Refugis i cabanes",
+      "quote": "17 refugis/cabanes al PN (Estany Llong*, Centraleta*, Amitges*, Mallafré*, J.M. Blanc*, Ventosa i Calvell*, etc.) + 15 a la ZPP (Colomers*, Colomina*, Restanca*, Saboredo*, Gerber bivac*, pla de la Font*, Gerdar*, etc.). (*) = refugi amb ús públic de pernoctació.",
+      "role": "ámbito positivo de la pernoctación permitida (refugios, no vivac libre)"
+    },
+    {
+      "instrument": "Decret 39/2003",
+      "locator": "Disposició derogatòria",
+      "quote": "Es deroga el Decret 82/1993, de 9 de febrer, pel qual s'aprova el Pla rector d'ús i gestió del Parc Nacional d'Aigüestortes i Estany de Sant Maurici.",
+      "role": "sustitución del PRUG 1993"
+    }
+  ],
+  "source": {
+    "eli_url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2003/02/04/39/dof/cat/xml",
+    "canonical_url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2003/02/04/39",
+    "akn_sha256": "96f9a5452c956337b45284a705de90858173acef43d3a33b2fd8454c7e517792",
+    "doc_key": "es-ct/d/2003/02/04/39",
+    "akn_redistributed": false,
+    "extract_file": "dogc-39-2003-art25-extract.txt",
+    "extract_sha256": "b582e60f35491573a08525bf73115ee19990138552e208ee9c65c3ed01cab962"
+  },
+  "validity_evidence": {
+    "publication": "DOGC núm. 3825, 19/02/2003",
+    "consolidated": "DOGC Socrata/ELI: vigència=Vigent, idVersion 318062 (M10.2-C, RESOLVED — documental)",
+    "entry_into_force": "NO resuelta mecánicamente (sin disposición final de vigencia expresa; M10.2-C effective_from=None). Propuesta provisional: 2003-02-20 (día siguiente a publicación) — DECISIÓN DEL REVISOR",
+    "supersession_check": "Deroga Decret 82/1993 (PRUG anterior). Modificaciones puntuales del PRUG conocidas vía DOGC; la consolidada vigente es la fuente citada — WS-A detalla en README",
+    "status": "VIGENT — mecánicamente soportado vía DOGC consolidado"
+  },
+  "geometry_evidence": {
+    "source": "OAPN zonificación PRUG (digest-only) + límites PN",
+    "reference": "discovery/evidence/spain-coverage-g0/oapn-zonificacion-prug.digest.json",
+    "features": 27,
+    "normativa_field": "Decreto 39/2003, de 4 de febrero (DOGC núm. 3825, 19/02/2003)",
+    "boundary_digest": "709079ce6b326637bfc5afa13c41a5c98c9ce266fe7dee889edf2b7be52f06c9",
+    "structure": "96% del PN es Zona de Uso Restringido (envolvente única ~park-wide); 1 Zona de Reserva (Estany de Trescuro) + 1 Uso Especial (Bony del Graller)",
+    "caveat": "La prohibición 25.4 es territorial park-wide: la resolución no depende de la geometría de zonas para el resultado PROHIBITED, pero los enclaves Estallos/Riumalo (ZPP) y la frontera PN/ZPP no son verificables desde digest-only."
+  },
+  "conditions_modelled": [
+    "PROHIBITED incondicionado en el scope PN — la exención por permiso especial de estada (investigación/gestión/control) es un estatuto documental concedido por la administración, no un hecho de usuario evaluable por el resolver; queda como advertencia del revisor",
+    "zonas habilitadas Estallos/Riumalo — fuera del scope PN (ZPP), no en el AST"
+  ],
+  "interpretation_note": "VIVAC_AL_RASO propuesto como PROHIBITED en todo el PN: el precepto nombra 'bivac' explícitamente y la prohibición de pernoctación es general fuera de los refugios del Annex 2. La única vía legal de vivac en el PN sería el permiso especial de estada (investigación/gestión) — advertida al revisor, no modelada como hecho de usuario.",
+  "contrary_or_ambiguous_evidence": [
+    "El art. 25.4 es de 2003: confirmar en la consolidada DOGC que ninguna modificación posterior (p. ej. normativa de zonas de acampada de Estallos/Riumalo, cambios de gestión) altera el régimen del PN",
+    "La frontera PN/ZPP y las 'zones habilitades' de Estallos/Riumalo no son verificables desde geometría digest-only — un punto en ZPP habilitada NO queda cubierto por la prohibición",
+    "effective_from provisional (2003-02-20) — el decreto no fija vacatio expresa",
+    "'pernoctació fora dels refugis' vs pernocta en cabanas no guardadas del Annex 2 (sin *) — matiz a confirmar"
+  ],
+  "proposed_resolver_examples": [
+    {"facts": {}, "expected_if_approved": "PROHIBITED — regla sin condición, aplica en todo el PN"},
+    {"facts": "titular de permiso especial de estada", "expected_if_approved": "exención documental fuera del resolver — el revisor decide si se modela como regla aparte"},
+    {"facts": "any, pre-review", "expected": "UNDETERMINED/INCOMPLETE — REVIEW_REQUIRED bloquea publicación"}
+  ],
+  "reviewer_decision": "PENDING",
+  "review_status": "REVIEW_REQUIRED",
+  "legal_review_complete": false,
+  "spatial_review_complete": false,
+  "automated_state": "READY_FOR_HUMAN_REVIEW"
+}

@@ -1,0 +1,127 @@
+{
+  "$schema": "alraso/m103-candidate-fixture@1",
+  "fixture_meta": {
+    "name": "M103_CANDIDATE_AIGUESTORTES",
+    "purpose": "M10.3 evidence candidate for pn-aiguestortes-i-estany-de-sant-maurici. NOT product corpus: every rule version is REVIEW_REQUIRED with legal_review_complete=false and spatial_review_complete=false, so the eligibility gate makes all of them non-publishable. Pending human adjudication via docs/validation/m10.3/M10.3-HUMAN-REVIEW.md.",
+    "created": "2026-09-12",
+    "activity_scope": "VIVAC_AL_RASO only — 'bivac' is explicitly named in art. 25.4; no generalization to other activities",
+    "publishable": false
+  },
+  "source_documents": [
+    {
+      "id": "sd-decret-39-2003",
+      "authority": "Generalitat de Catalunya (Departament de Medi Ambient)",
+      "jurisdiction": "ES-CT",
+      "document_type": "DECREE",
+      "title": "Decret 39/2003, de 4 de febrer, pel qual s'aprova el Pla rector d'ús i gestió del Parc Nacional d'Aigüestortes i Estany de Sant Maurici",
+      "canonical_url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2003/02/04/39",
+      "official_status": "VIGENT — DOGC consolidated (Socrata/ELI) idVersion 318062, publication 19/02/2003",
+      "retrieved_at": "2026-09-12",
+      "content_hash": "sha256:96f9a5452c956337b45284a705de90858173acef43d3a33b2fd8454c7e517792 (AKN XML via ELI /xml, byte-identical M10.1/G0 capture, not redistributed)"
+    },
+    {
+      "id": "sd-oapn-gis-aiguestortes",
+      "authority": "OAPN (Organismo Autónomo Parques Nacionales)",
+      "jurisdiction": "ES-NATIONAL",
+      "document_type": "GIS_LAYER",
+      "title": "OAPN zonificación PRUG — Aigüestortes (digest-only, 27 features citing Decreto 39/2003)",
+      "canonical_url": "discovery/evidence/spain-coverage-g0/oapn-zonificacion-prug.digest.json",
+      "official_status": "DIGEST_ONLY — feature digests + attributes, no redistributed geometry",
+      "retrieved_at": "2026-09-12"
+    }
+  ],
+  "legal_fragments": [
+    {
+      "id": "lf-d39-254-prohibicio",
+      "source_document_id": "sd-decret-39-2003",
+      "locator": "PRUG annex, article 25.4",
+      "exact_text_hint": "Es prohibeix la pernoctació fora dels refugis detallats a l'annex 2 d'aquest Pla, com també l'acampada i el bivac en tot el territori del Parc Nacional i zona perifèrica de protecció, incloses les zones d'aparcament i, en general, d'ús especial, a excepció de les zones habilitades per a tal fi a Estallos i Riumalo. Queden exemptes de la prohibició aquelles persones que disposin dels permisos especials d'estada justificats per estudis d'investigació, gestió i control del medi natural.",
+      "extracted_at": "2026-09-12",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "PRUG art. 25.4 — prohibició pernoctació fora de refugis + acampada + bivac",
+      "validity_from": "2003-02-20",
+      "validity_to": null
+    },
+    {
+      "id": "lf-d39-annex2-refugis",
+      "source_document_id": "sd-decret-39-2003",
+      "locator": "PRUG annex 2 — Refugis i cabanes",
+      "exact_text_hint": "Llista de 17 refugis/cabanes al Parc Nacional (Estany Llong, Centraleta, Amitges, Mallafré, J.M. Blanc, Ventosa i Calvell marcats (*) com a 'refugi amb ús públic de pernoctació') i 15 a la zona perifèrica de protecció (Colomers, Colomina, Restanca, Saboredo, Gerber bivac, pla de la Font, Gerdar amb (*)).",
+      "extracted_at": "2026-09-12",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "Annex 2 — l'àmbit 'refugis detallats' de l'art. 25.4",
+      "validity_from": "2003-02-20",
+      "validity_to": null
+    },
+    {
+      "id": "lf-d39-derogatoria",
+      "source_document_id": "sd-decret-39-2003",
+      "locator": "Disposició derogatòria",
+      "exact_text_hint": "Es deroga el Decret 82/1993, de 9 de febrer, pel qual s'aprova el Pla rector d'ús i gestió del Parc Nacional d'Aigüestortes i Estany de Sant Maurici.",
+      "extracted_at": "2026-09-12",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "Disposició derogatòria — PRUG 1993 derogat",
+      "validity_from": "2003-02-20",
+      "validity_to": null
+    }
+  ],
+  "spatial_scopes": [
+    {
+      "id": "ss-pn-aiguestortes",
+      "scope_type": "NATIONAL_PARK",
+      "official_name": "Parc Nacional d'Aigüestortes i Estany de Sant Maurici",
+      "geometry_source": "sd-oapn-gis-aiguestortes",
+      "feature_id": "Parque Nacional de Aigüestortes i Estany de Sant Maurici",
+      "srid_native": 25831,
+      "review_status": "SPATIAL_REVIEW_PENDING_GEOMETRY",
+      "relevance": "REGULATORY"
+    },
+    {
+      "id": "ss-pn-aiguestortes-zonificacio",
+      "scope_type": "ZONING_LAYER",
+      "parent_scope": "ss-pn-aiguestortes",
+      "official_name": "Zonificació PRUG Aigüestortes (25 uso restringido / 1 reserva Estany de Trescuro / 1 uso especial Bony del Graller)",
+      "geometry_source": "sd-oapn-gis-aiguestortes",
+      "feature_id": "digest-layer:27-features",
+      "srid_native": 25831,
+      "review_status": "SPATIAL_REVIEW_PENDING_GEOMETRY",
+      "relevance": "REGULATORY"
+    }
+  ],
+  "legal_rule_versions": [
+    {
+      "rule_id": "alraso:es-ct/pn-aiguestortes/pernocta#vivac-prohibit",
+      "activity": "VIVAC_AL_RASO",
+      "spatial_scope_id": "ss-pn-aiguestortes",
+      "effect": "PROHIBITED",
+      "condition": null,
+      "effective_from": "2003-02-20",
+      "effective_to": null,
+      "recorded_at": "2026-09-12",
+      "recorded_until": null,
+      "review_status": "REVIEW_REQUIRED",
+      "legal_review_complete": false,
+      "spatial_review_complete": false,
+      "evidence": ["lf-d39-254-prohibicio", "lf-d39-annex2-refugis"],
+      "interpretation_note": "PROPOSED (pending human review): art. 25.4 prohibeix pernoctació fora dels refugis de l'annex 2 i bivac/acampada a TOT el territori del PN i ZPP — 'bivac' cobreix VIVAC_AL_RASO directament. Prohibició modelada SENSE condició: l'exempció per permisos especials d'estada (investigació/gestió/control) és un estatut documental atorgat per l'administració, no un fet d'usuari avaluable pel resolver — queda com a advertència del revisor. Zones habilitades d'Estallos i Riumalo són a la ZPP (fora del scope PN). effective_from=2003-02-20 és PROVISIONAL (entrada en vigor per defecte dia següent a publicació DOGC 19/02/2003; el decret no porta disposició final de vigència expressa — M10.2-C va resoldre effective_from=None).",
+      "normative_basis": ["lf-d39-254-prohibicio"]
+    }
+  ],
+  "rule_relations": [],
+  "expected": {
+    "publishability": [
+      {
+        "assert": "NO_RULE_PUBLISHABLE",
+        "note": "Versió REVIEW_REQUIRED + legal_review_complete=false + spatial_review_complete=false => eligibility gate rechaza; resolver devuelve UNDETERMINED/INCOMPLETE per a ss-pn-aiguestortes."
+      }
+    ],
+    "basic_queries": [
+      {
+        "query": {"activity": "VIVAC_AL_RASO", "spatial_scope_id": "ss-pn-aiguestortes", "activity_date": "2026-09-01", "knowledge_date": "2026-09-12"},
+        "expected_legal_status": "UNDETERMINED",
+        "expected_knowledge_status": "INCOMPLETE",
+        "note": "Sense revisió humana no hi ha regla publicable — incloent el cas de prohibició."
+      }
+    ]
+  }
+}
