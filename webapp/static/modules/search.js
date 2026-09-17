@@ -37,7 +37,7 @@ export function createSearchController({ state, onSelectPoint, onRenderPoi }) {
           var btn = document.createElement("button");
           btn.type = "button";
           btn.className = "cta-btn";
-          btn.innerHTML = '<span class="cta-label">' + z.label + '</span>' +
+          btn.innerHTML = '<span class="cta-label">' + esc(z.label) + '</span>' +
             (note ? '<span class="cta-note">' + esc(note) + '</span>' : '');
           btn.setAttribute("aria-label", "Explorar " + z.label);
           btn.addEventListener("click", function () {
@@ -86,7 +86,9 @@ export function createSearchController({ state, onSelectPoint, onRenderPoi }) {
     function render(q) {
       var ql = q.trim().toLowerCase();
       matches = places.filter(function (p) {
-        return !ql || p.name.toLowerCase().indexOf(ql) !== -1 || (p.note || "").toLowerCase().indexOf(ql) !== -1;
+        var name = typeof p.name === "string" ? p.name : "";
+        var note = typeof p.note === "string" ? p.note : "";
+        return !ql || name.toLowerCase().indexOf(ql) !== -1 || note.toLowerCase().indexOf(ql) !== -1;
       });
       box.innerHTML = "";
       active = -1;

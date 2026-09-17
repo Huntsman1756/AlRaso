@@ -21,28 +21,11 @@ PICOS_FIXTURE = TOOLS / "pa_picos_overpass.json"
 CROSSCHECK_JSON = TOOLS / "m81_official_crosscheck_results.json"
 PA_JSON = ROOT / "webapp" / "protected_areas.json"
 SCHEMA_JSON = ROOT / "schemas" / "alraso-m2-protected-areas-v1.schema.json"
+sys.path.insert(0, str(TOOLS))
+import m81_protected_area_build as m81_builder  # noqa: E402
 
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
-
-
-def _build(snapshot_date: str = "2026-09-11") -> Path:
-    """Run the builder from fixtures and return the output path."""
-    out = Path(__file__).parent / f"_m81_pa_test_{snapshot_date.replace('-','')}.json"
-    cmd = [
-        sys.executable, str(BUILD_PY),
-        "--ordesa", str(ORDESA_FIXTURE),
-        "--picos", str(PICOS_FIXTURE),
-        "--snapshot-date", snapshot_date,
-        "--out", str(out),
-    ]
-    result = subprocess.run(cmd, capture_output=True, text=True, cwd=str(ROOT))
-    if result.returncode != 0:
-        raise RuntimeError(
-            f"Builder failed (rc={result.returncode}):\n"
-            f"stdout: {result.stdout}\nstderr: {result.stderr}"
-        )
-    return out
 
 
 def _sha256(path: Path) -> str:
@@ -179,6 +162,10 @@ def test_official_crosscheck_block_present():
 
 def test_check_mode_determinism():
     """Builder --check must exit 0 (byte-identical)."""
+    pytest.importorskip(
+        "shapely",
+        reason="requires the optional geospatial toolchain (pip install -e .[tooling])",
+    )
     cmd = [
         sys.executable, str(BUILD_PY),
         "--ordesa", str(ORDESA_FIXTURE),
@@ -192,6 +179,21 @@ def test_check_mode_determinism():
         f"Check mode failed (rc={result.returncode}):\n"
         f"stdout: {result.stdout}\nstderr: {result.stderr}"
     )
+
+
+def test_check_mode_cleans_up_tempfile_on_failure(tmp_path, monkeypatch):
+    """A failing rebuild must not leak its tmp*.json into the output dir."""
+    doc_path = tmp_path / "doc.json"
+    doc_path.write_text("{}", encoding="utf-8")
+
+    def _explode(args):
+        raise RuntimeError("build exploded")
+
+    monkeypatch.setattr(m81_builder, "build", _explode)
+    with pytest.raises(RuntimeError):
+        m81_builder.check_mode(doc_path, ORDESA_FIXTURE, PICOS_FIXTURE,
+                               "2026-09-11")
+    assert [p.name for p in tmp_path.iterdir()] == ["doc.json"]
 
 
 def test_note_contains_no_legal_scope_disclaimer():

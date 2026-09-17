@@ -453,11 +453,11 @@ export function createLegalController({
       var spec = FACT_INPUTS[f] || { kind: "number", label: f };
       if (spec.kind === "checkbox") {
         var label = document.createElement("label");
-        label.innerHTML = '<input type="checkbox" name="' + f + '"> ' + spec.label;
+        label.innerHTML = '<input type="checkbox" name="' + esc(f) + '"> ' + esc(spec.label);
         box.appendChild(label);
       } else {
         var label = document.createElement("label");
-        label.innerHTML = spec.label + ' <input type="number" name="' + f + '" min="0" style="width:80px">';
+        label.innerHTML = esc(spec.label) + ' <input type="number" name="' + esc(f) + '" min="0" style="width:80px">';
         if (spec.note) {
           var note = document.createElement("span");
           note.className = "fact-note";
@@ -466,7 +466,7 @@ export function createLegalController({
         }
         box.appendChild(label);
       }
-      var el = box.querySelector('[name="' + f + '"]');
+      var el = box.querySelector('[name="' + CSS.escape(f) + '"]');
       el.addEventListener("change", function () { if (state.lat !== null) refresh(); });
     });
   }

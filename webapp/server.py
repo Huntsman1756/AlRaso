@@ -640,12 +640,18 @@ def make_handler(svc: Service):
             self.send_header("Content-Type", ctype)
             self.send_header("Content-Length", str(len(body)))
             self.send_header("Cache-Control", "no-store")
+            self.send_header("X-Content-Type-Options", "nosniff")
             self.end_headers()
             self.wfile.write(body)
 
         def _json(self, status: int, payload) -> None:
             self._send(status, json.dumps(payload, ensure_ascii=False).encode("utf-8"),
                        "application/json; charset=utf-8")
+
+        def send_error(self, code: int, message=None, explain=None) -> None:
+            # The base class emits an HTML error page (and skips _send, losing
+            # the security headers). This server only speaks JSON.
+            self._json(code, {"error": "metodo_o_peticion_no_soportada"})
 
         def do_GET(self):  # noqa: N802
             parsed = urllib.parse.urlsplit(self.path)
