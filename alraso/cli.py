@@ -18,6 +18,7 @@ import argparse
 import json
 import math
 import sys
+from pathlib import Path
 
 from alraso.bitemporal import BitemporalStore
 from alraso.domain import Query
@@ -90,6 +91,33 @@ def cmd_replay(args):
     return 0
 
 
+def cmd_validate_decision(args):
+    from alraso.review_decision import load_json, validate_decision
+
+    case_path = args.case
+    reasons = validate_decision(
+        load_json(args.decision), load_json(case_path),
+        candidate_fixture=(load_json(args.candidate)
+                           if args.candidate else None),
+        case_dir=str(Path(case_path).resolve().parent),
+        repo_root=args.repo_root)
+    json.dump({"valid": not reasons, "reasons": reasons},
+              sys.stdout, indent=2, ensure_ascii=False)
+    sys.stdout.write("\n")
+    return 0 if not reasons else 4
+
+
+def cmd_publish_reviewed(args):
+    from alraso.publish_reviewed import publish_files
+
+    summary = publish_files(
+        args.decision, args.case, args.candidate, args.out,
+        repo_root=args.repo_root)
+    json.dump(summary, sys.stdout, indent=2, ensure_ascii=False)
+    sys.stdout.write("\n")
+    return 0
+
+
 def _new_parser(subparsers, name, help_text):
     return getattr(subparsers, "add_" + "parser")(name, help=help_text)
 
@@ -121,6 +149,26 @@ def build_parser():
     c.add_argument("--db", default=":memory:")
     c.add_argument("--new-knowledge", required=True)
     c.set_defaults(func=cmd_replay)
+
+    d = _new_parser(sub, "validate-decision",
+                    "validate a human ReviewDecision artifact against a review case")
+    d.add_argument("--decision", required=True, help="review decision JSON")
+    d.add_argument("--case", required=True, help="review_case.json")
+    d.add_argument("--candidate", default=None,
+                   help="candidate_fixture.json (required for APPROVE)")
+    d.add_argument("--repo-root", default=None,
+                   help="repository root for repo-relative evidence paths")
+    d.set_defaults(func=cmd_validate_decision)
+
+    e = _new_parser(sub, "publish-reviewed",
+                    "apply an APPROVE decision to a candidate fixture")
+    e.add_argument("--decision", required=True, help="review decision JSON")
+    e.add_argument("--case", required=True, help="review_case.json")
+    e.add_argument("--candidate", required=True, help="candidate_fixture.json")
+    e.add_argument("--out", required=True, help="output fixture path")
+    e.add_argument("--repo-root", default=None,
+                   help="repository root for repo-relative evidence paths")
+    e.set_defaults(func=cmd_publish_reviewed)
     return p
 
 

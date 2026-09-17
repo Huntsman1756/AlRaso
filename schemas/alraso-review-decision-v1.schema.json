@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "alraso/review-decision@1",
+  "title": "AlRaso human ReviewDecision artifact",
+  "description": "Deterministic machine-readable record of an explicit HUMAN legal-review decision over a review case. The artifact binds cryptographically to the exact review case (case_sha256), the exact candidate fixture (candidate_fixture_sha256) and the exact evidence the reviewer claims to have reviewed (reviewed_evidence). It is the only legitimate input to the gated publication path (alraso.publish_reviewed). Nothing in this schema permits an automated system to create a valid APPROVE: reviewer identity, timestamp and evidence hashes must correspond to a real adjudication.",
+  "type": "object",
+  "required": [
+    "schema",
+    "review_case_id",
+    "case_sha256",
+    "decision",
+    "reviewer",
+    "decided_at",
+    "reviewed_evidence",
+    "spatial_disposition",
+    "annotation"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema": {
+      "const": "alraso/review-decision@1"
+    },
+    "review_case_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Must equal review_case.json:review_case_id"
+    },
+    "case_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 of the canonical JSON form of the review case (json.dumps sort_keys, ensure_ascii=False, separators=(',',':'), UTF-8)"
+    },
+    "candidate_fixture_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 of the canonical candidate_fixture.json. REQUIRED for APPROVE; binds approval to exact proposed rule content."
+    },
+    "decision": {
+      "enum": ["APPROVE", "REJECT", "EXTERNAL_REVIEW"]
+    },
+    "reviewer": {
+      "type": "object",
+      "required": ["name", "reference"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human reviewer identity (real person, not a tool)"
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Verifiable reference for the reviewer (credential, contact, attestation id)"
+        },
+        "qualification": {
+          "type": "string",
+          "description": "Optional qualification note (e.g. legal-domain expertise)"
+        }
+      }
+    },
+    "decided_at": {
+      "type": "string",
+      "description": "ISO-8601 timestamp of the human decision"
+    },
+    "reviewed_evidence": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "description": "Map evidence-key -> sha256. Must cover: the case extract file (recomputed on disk), 'source:akn_sha256' or 'source:pdf_sha256' (attestation binding to the case-declared source hash), and the geometry reference file (recomputed). Extra keys allowed for additional reviewed artifacts."
+    },
+    "spatial_disposition": {
+      "enum": ["REVIEWED", "NOT_APPLICABLE", "INCOMPLETE"],
+      "description": "Reviewer disposition of the spatial/geometry question. APPROVE requires REVIEWED or NOT_APPLICABLE."
+    },
+    "annotation": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reviewer's free-text basis for the decision"
+    }
+  }
+}
