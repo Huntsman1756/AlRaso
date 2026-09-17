@@ -17,6 +17,7 @@ from pathlib import Path
 from pipeline.models import FetchOutcome, RunnerNetwork
 from pipeline.refresh.classify import (
     RefreshObservation,
+    RefreshState,
     RefreshVerdict,
     Thresholds,
     classify,
@@ -42,8 +43,10 @@ def observe(
     thresholds: Thresholds,
 ) -> ObserveResult:
     """Record one observation and classify it against the baseline."""
-    counters = store.counters(source_id, surface_id, obs.runner_network)
-    prev = store.latest(source_id, surface_id, doc_id)
+    counters = store.counters(
+        source_id, surface_id, doc_id, obs.runner_network
+    )
+    prev = store.baseline(source_id, surface_id, doc_id)
     verdict = classify(prev, obs, counters, thresholds)
 
     record = SnapshotRecord(
@@ -63,8 +66,13 @@ def observe(
         http_status=obs.http_status,
     )
     store.append(record)
+    if verdict.state is RefreshState.BASELINE_CREATED:
+        # First successful observation pins the baseline pointer. Any
+        # later baseline move requires the explicit human `rebaseline`
+        # tooling action — REBASELINE_REQUIRED records stay evidence-only.
+        store.set_baseline(source_id, surface_id, doc_id)
     store.save_counters(
-        source_id, surface_id, obs.runner_network, counters
+        source_id, surface_id, doc_id, obs.runner_network, counters
     )
 
     packet = None

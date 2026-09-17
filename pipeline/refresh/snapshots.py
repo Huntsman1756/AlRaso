@@ -16,8 +16,8 @@ Layout (local-first, git-friendly, deterministic):
 
 from __future__ import annotations
 
+import hashlib
 import json
-import re
 from dataclasses import dataclass, field, fields
 from pathlib import Path
 from typing import Any
@@ -111,12 +111,23 @@ class Counters:
         self.unreachable = self.absent = self.invalid = 0
 
 
-_DOC_KEY_SAFE = re.compile(r"[^A-Za-z0-9._-]+")
-
-
 def doc_key(doc_id: str) -> str:
-    """Deterministic filesystem-safe key for a document id."""
-    return _DOC_KEY_SAFE.sub("_", doc_id)
+    """Deterministic, injective, filesystem-safe key for a document id.
+
+    Percent-encoding is injective (distinct ids never collide) and the
+    ``q`` prefix guarantees the key can never be ``.``/``..`` or a bare
+    reserved name. Long ids are truncated with a sha256 suffix to stay
+    collision-free inside the filesystem limit.
+    """
+    from urllib.parse import quote
+
+    if not doc_id or doc_id in (".", ".."):
+        raise ValueError(f"invalid doc_id for storage key: {doc_id!r}")
+    key = "q" + quote(doc_id, safe="")
+    if len(key) > 120:
+        digest = hashlib.sha256(doc_id.encode("utf-8")).hexdigest()[:16]
+        key = key[:80] + "-" + digest
+    return key
 
 
 class SnapshotStore:
@@ -126,12 +137,17 @@ class SnapshotStore:
         self.root = Path(root)
 
     def _log_path(self, source_id: str, surface_id: str, doc_id: str) -> Path:
-        return (
+        path = (
             self.root
             / doc_key(source_id)
             / doc_key(surface_id)
             / f"{doc_key(doc_id)}.jsonl"
         )
+        if not path.resolve().is_relative_to(self.root.resolve()):
+            raise ValueError(
+                f"store key escapes root: {source_id}/{surface_id}/{doc_id}"
+            )
+        return path
 
     def append(self, record: SnapshotRecord) -> Path:
         path = self._log_path(
@@ -161,8 +177,13 @@ class SnapshotStore:
     def latest(
         self, source_id: str, surface_id: str, doc_id: str
     ) -> SnapshotRecord | None:
-        """Latest *successful-fetch* snapshot — the comparison baseline.
-        Failure observations never replace baseline evidence."""
+        """Latest *successful-fetch* snapshot.
+
+        Failure observations never replace success evidence. This is the
+        raw last-success record — NOT the comparison baseline; use
+        ``baseline()`` for that so a REBASELINE_REQUIRED record cannot
+        silently become the baseline.
+        """
         ok = [
             r
             for r in self.history(source_id, surface_id, doc_id)
@@ -170,13 +191,83 @@ class SnapshotStore:
         ]
         return ok[-1] if ok else None
 
+    def _baseline_path(
+        self, source_id: str, surface_id: str, doc_id: str
+    ) -> Path:
+        return self._log_path(source_id, surface_id, doc_id).with_suffix(
+            ".baseline.json"
+        )
+
+    def baseline(
+        self, source_id: str, surface_id: str, doc_id: str
+    ) -> SnapshotRecord | None:
+        """Current comparison baseline via an explicit pointer.
+
+        The pointer advances only on BASELINE_CREATED (first success) or
+        on an explicit human ``rebaseline()`` — never implicitly. A
+        canonicalizer bump therefore keeps raising REBASELINE_REQUIRED
+        until a human confirms the new baseline, and a concurrent real
+        content change cannot be absorbed silently.
+        """
+        path = self._baseline_path(source_id, surface_id, doc_id)
+        if not path.is_file():
+            return None
+        index = int(
+            json.loads(path.read_text(encoding="utf-8"))["index"]
+        )
+        hist = self.history(source_id, surface_id, doc_id)
+        if not 0 <= index < len(hist):
+            raise ValueError(
+                f"baseline pointer {index} out of range for "
+                f"{source_id}/{surface_id}/{doc_id} "
+                f"({len(hist)} records) — store corrupted"
+            )
+        return hist[index]
+
+    def set_baseline(
+        self,
+        source_id: str,
+        surface_id: str,
+        doc_id: str,
+        index: int | None = None,
+    ) -> None:
+        """Point the baseline at a history index (default: last record).
+
+        Called internally on BASELINE_CREATED, and by the explicit
+        ``rebaseline`` tooling action — the only two legitimate ways a
+        baseline is created or moved.
+        """
+        hist_len = len(self.history(source_id, surface_id, doc_id))
+        if index is None:
+            index = hist_len - 1
+        if not 0 <= index < hist_len:
+            raise ValueError(
+                f"baseline index {index} out of range "
+                f"({hist_len} records)"
+            )
+        path = self._baseline_path(source_id, surface_id, doc_id)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps({"index": index}, sort_keys=True) + "\n",
+            "utf-8",
+        )
+
     # -- counters -----------------------------------------------------
 
     @staticmethod
     def _counter_key(
-        source_id: str, surface_id: str, runner_network: str
+        source_id: str, surface_id: str, doc_id: str,
+        runner_network: str,
     ) -> str:
-        return f"{source_id}|{surface_id}|{runner_network}"
+        # Per-document persistence counters — a strict refinement of the
+        # spec's "por superficie x runner_network" isolation (a superset
+        # of the required key): pooling across doc_ids on one surface
+        # would misattribute DISAPPEARED_SUSPECTED to whichever doc
+        # crossed the pooled threshold, and interleaved successes of
+        # other docs would erase a genuinely vanished doc's streak.
+        return (
+            f"{source_id}|{surface_id}|{doc_id}|{runner_network}"
+        )
 
     def _counters_path(self) -> Path:
         return self.root / "counters.json"
@@ -188,24 +279,35 @@ class SnapshotStore:
         return json.loads(path.read_text(encoding="utf-8"))
 
     def counters(
-        self, source_id: str, surface_id: str, runner_network: str
+        self,
+        source_id: str,
+        surface_id: str,
+        doc_id: str,
+        runner_network: str,
     ) -> Counters:
         data = self._load_counters()
         return Counters.from_dict(
-            data.get(self._counter_key(source_id, surface_id,
-                                       runner_network), {})
+            data.get(
+                self._counter_key(
+                    source_id, surface_id, doc_id, runner_network
+                ),
+                {},
+            )
         )
 
     def save_counters(
         self,
         source_id: str,
         surface_id: str,
+        doc_id: str,
         runner_network: str,
         counters: Counters,
     ) -> None:
         data = self._load_counters()
         data[
-            self._counter_key(source_id, surface_id, runner_network)
+            self._counter_key(
+                source_id, surface_id, doc_id, runner_network
+            )
         ] = counters.to_dict()
         path = self._counters_path()
         path.parent.mkdir(parents=True, exist_ok=True)

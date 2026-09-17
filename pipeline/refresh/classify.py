@@ -89,7 +89,7 @@ class Thresholds:
     @classmethod
     def from_profile(cls, refresh_cfg: dict[str, Any] | None) -> "Thresholds":
         cfg = refresh_cfg or {}
-        return cls(
+        t = cls(
             absence=int(cfg.get("absence_threshold",
                                 DEFAULT_THRESHOLDS["absence"])),
             invalid=int(cfg.get("invalid_threshold",
@@ -97,6 +97,15 @@ class Thresholds:
             degraded=int(cfg.get("degraded_threshold",
                                  DEFAULT_THRESHOLDS["degraded"])),
         )
+        # Fail closed: a non-positive threshold would alert on the very
+        # first failure — refuse the config rather than silently alert.
+        if min(t.absence, t.invalid, t.degraded) < 1:
+            raise ValueError(
+                "refresh thresholds must be >= 1 "
+                f"(got absence={t.absence} invalid={t.invalid} "
+                f"degraded={t.degraded})"
+            )
+        return t
 
 
 @dataclass(frozen=True)
@@ -240,7 +249,28 @@ def classify(
             ),
         )
 
-    if obs.canonical_sha256 == prev.canonical_sha256:
+    if (obs.canonical_sha256 or "") == prev.canonical_sha256:
+        if not prev.canonical_sha256:
+            # Same canonicalizer id@version but no digest on either side
+            # (unregistered version in replay tooling): raw bytes are
+            # the only comparable evidence. Equal -> SAME; different ->
+            # CHANGED_CONTENT (never transport-only without a canonical
+            # comparison to prove it).
+            if obs.raw_sha256 == prev.raw_sha256:
+                return RefreshVerdict(
+                    RefreshState.SAME,
+                    emits_packet=False,
+                    counters=counters.to_dict(),
+                    detail="canonicalizer digest unavailable; "
+                           "raw sha256 identical",
+                )
+            return RefreshVerdict(
+                RefreshState.CHANGED_CONTENT,
+                emits_packet=True,
+                counters=counters.to_dict(),
+                detail="canonicalizer digest unavailable; "
+                       "raw sha256 changed",
+            )
         transport_same = (
             obs.raw_sha256 == prev.raw_sha256
             and obs.etag == prev.etag

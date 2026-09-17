@@ -62,9 +62,10 @@ def _obs(
         try:
             canon = canonical_sha256(canon_id, canon_ver, body)
         except CanonicalizerError:
-            # bumped/unknown version in a fixture — still needs a digest
-            canon = hashlib.sha256(b"%s@%d|" % (canon_id.encode(),
-                                              canon_ver) + body).hexdigest()
+            # bumped/unknown version: no digest is recorded — never
+            # fabricate one. The classifier short-circuits on the
+            # id/version mismatch before comparing digests.
+            canon = None
     else:
         canon = None
     return RefreshObservation(
@@ -155,6 +156,34 @@ def test_canonicalizer_bump_is_rebaseline_never_change(tmp_path):
     )
     assert res.verdict.state is RefreshState.REBASELINE_REQUIRED
     assert res.packet is None
+
+
+def test_rebaseline_is_manual_not_implicit(tmp_path):
+    """REBASELINE_REQUIRED must never silently promote the bumped
+    observation to baseline (spec: re-baseline manual). Until a human
+    calls set_baseline/rebaseline, every new-canonicalizer observation
+    keeps raising REBASELINE_REQUIRED — a real content change coinciding
+    with the bump cannot be absorbed invisibly."""
+    store = _store(tmp_path)
+    _observe(store, _obs(body=b"v1", canon_ver=1))
+    _observe(store, _obs(body=b"v2", canon_ver=2, at="2026-09-19T10:00:00Z"))
+    # the bumped SUCCESS record was appended as evidence...
+    assert len(store.history("bocyl", "bocyl-doc",
+                             "BOCYL-D-01012026-1")) == 2
+    # ...but the baseline pointer still targets the v1 record
+    assert store.baseline("bocyl", "bocyl-doc",
+                          "BOCYL-D-01012026-1").canonicalizer_version == 1
+    # next observation under the new canonicalizer re-alerts, not SAME
+    res = _observe(
+        store, _obs(body=b"v2", canon_ver=2, at="2026-09-19T11:00:00Z")
+    )
+    assert res.verdict.state is RefreshState.REBASELINE_REQUIRED
+    # explicit human re-baseline → now the new canonicalizer compares
+    store.set_baseline("bocyl", "bocyl-doc", "BOCYL-D-01012026-1")
+    res = _observe(
+        store, _obs(body=b"v2", canon_ver=2, at="2026-09-19T12:00:00Z")
+    )
+    assert res.verdict.state is RefreshState.SAME
 
 
 # ---------------------------------------------------------------------
@@ -299,8 +328,34 @@ def test_counters_isolated_per_runner_network(tmp_path):
     res = _observe(store, _obs(at="2026-09-19T12:00:00Z"))
     assert res.verdict.state is RefreshState.SAME
     # es_local never saw a failure
-    assert store.counters("bocyl", "bocyl-doc", "es_local").unreachable == 0
-    assert store.counters("bocyl", "bocyl-doc", "foreign_ci").unreachable == 2
+    assert store.counters("bocyl", "bocyl-doc", "BOCYL-D-01012026-1",
+                          "es_local").unreachable == 0
+    assert store.counters("bocyl", "bocyl-doc", "BOCYL-D-01012026-1",
+                          "foreign_ci").unreachable == 2
+
+
+def test_counters_isolated_per_doc_id(tmp_path):
+    """Same surface, different doc_ids: pooled counters would alert the
+    wrong doc (FP) or erase a vanished doc's streak (FN). Counters are
+    keyed per document — a strict refinement of surface x runner."""
+    store = _store(tmp_path)
+    for doc in ("doc-A", "doc-B", "doc-C"):
+        _observe(store, _obs(), doc_id=doc)
+    # three DIFFERENT docs each absent once → no doc hits threshold 3
+    for i, doc in enumerate(("doc-A", "doc-B", "doc-C")):
+        res = _observe(store, _absent(at=f"2026-09-19T1{i}:00:00Z"),
+                       doc_id=doc)
+        assert res.verdict.state is RefreshState.ABSENT_OBSERVED
+        assert res.packet is None
+    # and doc-A absent twice more DOES alert on doc-A only
+    _observe(store, _absent(at="2026-09-19T14:00:00Z"), doc_id="doc-A")
+    res = _observe(store, _absent(at="2026-09-19T15:00:00Z"),
+                   doc_id="doc-A")
+    assert res.verdict.state is RefreshState.DISAPPEARED_SUSPECTED
+    assert res.packet is not None
+    # doc-B/doc-C counters unaffected
+    assert store.counters("bocyl", "bocyl-doc", "doc-B",
+                          "es_local").absent == 1
 
 
 def test_success_resets_counters(tmp_path):
@@ -328,8 +383,26 @@ def test_store_append_only_and_doc_key(tmp_path):
     assert store.latest(
         "bocyl", "bocyl-doc", "BOCYL-D-01012026-1"
     ).raw_sha256 == hashlib.sha256(b"v1").hexdigest()
-    # doc_id with slashes/ELI gets a safe deterministic key
-    assert doc_key("es-ct/d/2024/01/01/1") == "es-ct_d_2024_01_01_1"
+    assert store.baseline(
+        "bocyl", "bocyl-doc", "BOCYL-D-01012026-1"
+    ).raw_sha256 == hashlib.sha256(b"v1").hexdigest()
+
+
+def test_doc_key_injective_and_safe(tmp_path):
+    """doc_key must be injective — distinct ids never share an evidence
+    file — and can never escape the store root."""
+    ids = ["a/b", "a:b", "a b", "a_b", "a.b", "..", "."]
+    keys = {}
+    for i in ids:
+        if i in (".", ".."):
+            with pytest.raises(ValueError):
+                doc_key(i)
+            continue
+        keys[i] = doc_key(i)
+    assert len(set(keys.values())) == len(keys)  # no collisions
+    assert all("." not in k[:2] for k in keys.values())
+    # percent-encoded keys cannot contain path separators
+    assert all("/" not in k and "\\" not in k for k in keys.values())
 
 
 def test_snapshot_record_roundtrip(tmp_path):
@@ -388,3 +461,37 @@ def test_unknown_canonicalizer_fails_explicit():
         canonical_bytes("html_volatile", 99, b"x")
     with pytest.raises(CanonicalizerError):
         canonical_bytes("nonexistent", 1, b"x")
+
+
+# ---------------------------------------------------------------------
+# config guards + live body classification (hermetic — bytes only)
+# ---------------------------------------------------------------------
+
+
+def test_thresholds_reject_non_positive():
+    """A threshold of 0 would alert on the first failure — fail closed."""
+    with pytest.raises(ValueError):
+        Thresholds.from_profile({"absence_threshold": 0})
+    with pytest.raises(ValueError):
+        Thresholds.from_profile({"invalid_threshold": -1})
+
+
+def test_live_body_classification_uses_profile_markers():
+    """_classify_live_body mirrors the fetch contract on 2xx bodies:
+    interstitial and soft-404 guards run unconditionally; a configured
+    content_marker must be present — error pages can never be SUCCESS."""
+    from tooling.m102_refresh_run import _classify_live_body
+
+    assert _classify_live_body(
+        b"<html>Radware Captcha Page hcaptcha.com</html>", {}
+    ) is FetchOutcome.CONTENT_MARKER_MISMATCH
+    assert _classify_live_body(
+        b"requested page not found",
+        {"soft_404_marker": "not found"},
+    ) is FetchOutcome.SOFT_404
+    assert _classify_live_body(
+        b"<html>landing page</html>", {"content_marker": "%PDF"}
+    ) is FetchOutcome.CONTENT_MARKER_MISMATCH
+    assert _classify_live_body(
+        b"%PDF-1.4 real bytes", {"content_marker": "%PDF"}
+    ) is FetchOutcome.SUCCESS

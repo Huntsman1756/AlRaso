@@ -58,7 +58,11 @@ from pipeline.providers.fetch import (  # noqa: E402
     TransportError,
     TransportTimeout,
 )
-from pipeline.refresh.canonicalize import canonical_sha256  # noqa: E402
+from pipeline.profiles import load_profile  # noqa: E402
+from pipeline.refresh.canonicalize import (  # noqa: E402
+    CanonicalizerError,
+    canonical_sha256,
+)
 from pipeline.refresh.classify import (  # noqa: E402
     RefreshObservation,
     Thresholds,
@@ -89,13 +93,12 @@ def _step_to_obs(step: dict, scenario_dir: Path,
             canon_sha = canonical_sha256(
                 canon["id"], canon["version"], body
             )
-        except Exception:
-            # canonicalizer version not yet registered (e.g. a simulated
-            # bump): the classifier short-circuits to REBASELINE_REQUIRED
-            # on id/version mismatch, so a placeholder digest is honest.
-            canon_sha = hashlib.sha256(
-                f"{canon['id']}@{canon['version']}|".encode() + body
-            ).hexdigest()
+        except CanonicalizerError:
+            # Unregistered id@version (e.g. a simulated bump): no digest
+            # is recorded — never fabricate one. The classifier
+            # short-circuits to REBASELINE_REQUIRED on the id/version
+            # mismatch before any digest comparison, so None is correct.
+            canon_sha = None
     unreachable = outcome in _UNREACHABLE_OUTCOMES
     return RefreshObservation(
         fetch_outcome=FetchOutcome(outcome),
@@ -223,9 +226,42 @@ def _cmd_gate(args) -> int:
     return 0 if not failures else 1
 
 
+def _classify_live_body(
+    body: bytes, fetch_cfg: dict
+) -> FetchOutcome:
+    """Classify a 2xx response body with the same semantics as the
+    atlas probe + fetch recipes: interstitial and soft-404 guards run
+    unconditionally; a configured content_marker must be present."""
+    from tooling.m102_atlas_probe import _INTERSTITIAL_SIGNATURES
+
+    if any(sig in body for sig in _INTERSTITIAL_SIGNATURES):
+        # WAF/anti-bot interstitial — a soft block, never source content.
+        return FetchOutcome.CONTENT_MARKER_MISMATCH
+    soft = fetch_cfg.get("soft_404_marker")
+    if soft and soft.encode() in body:
+        return FetchOutcome.SOFT_404
+    marker = fetch_cfg.get("content_marker")
+    if marker is not None and marker.encode() not in body:
+        return FetchOutcome.CONTENT_MARKER_MISMATCH
+    return FetchOutcome.SUCCESS
+
+
 def _cmd_live(args) -> int:
-    """One live observation via injected transport (verifier only)."""
-    canon = {"id": args.canonicalizer_id, "version": args.canonicalizer_version}
+    """One live observation via injected transport (verifier only).
+
+    Classification mirrors the fetch contract exactly: a non-2xx is
+    HTTP_ERROR (404/410 feed absence; anything else feeds INVALID), a
+    2xx must survive the interstitial/soft-404/content-marker guards to
+    be SUCCESS. Thresholds and canonicalizer come from the profile's
+    ``refresh`` section.
+    """
+    profile = load_profile(args.profile)
+    fetch_cfg = dict(profile.fetch)
+    refresh_cfg = dict(profile.refresh)
+    canon = {
+        "id": refresh_cfg.get("canonicalizer_id", "identity"),
+        "version": int(refresh_cfg.get("canonicalizer_version", 1)),
+    }
     req = TransportRequest("GET", args.url, headers={})
     try:
         resp = urllib_transport(req, timeout=args.timeout)
@@ -241,18 +277,34 @@ def _cmd_live(args) -> int:
         )
     else:
         body = resp.body
+        if not 200 <= resp.status <= 299:
+            outcome = FetchOutcome.HTTP_ERROR
+        else:
+            outcome = _classify_live_body(body, fetch_cfg)
         obs = RefreshObservation(
-            fetch_outcome=FetchOutcome.SUCCESS,
+            fetch_outcome=outcome,
             reachability_observed=ReachabilityObserved.REACHABLE,
             observed_at=args.observed_at,
             runner_network=args.runner_network,
             http_status=resp.status,
-            raw_sha256=hashlib.sha256(body).hexdigest(),
-            canonical_sha256=canonical_sha256(
-                canon["id"], canon["version"], body
+            raw_sha256=(
+                hashlib.sha256(body).hexdigest()
+                if outcome is FetchOutcome.SUCCESS
+                else None
             ),
-            canonicalizer_id=canon["id"],
-            canonicalizer_version=canon["version"],
+            canonical_sha256=(
+                canonical_sha256(canon["id"], canon["version"], body)
+                if outcome is FetchOutcome.SUCCESS
+                else None
+            ),
+            canonicalizer_id=(
+                canon["id"] if outcome is FetchOutcome.SUCCESS else None
+            ),
+            canonicalizer_version=(
+                canon["version"]
+                if outcome is FetchOutcome.SUCCESS
+                else None
+            ),
             # TransportResponse carries no headers — etag/last_modified
             # stay None (honest: not captured by this transport).
         )
@@ -263,10 +315,37 @@ def _cmd_live(args) -> int:
         surface_id=args.surface_id,
         doc_id=args.doc_id,
         obs=obs,
-        thresholds=Thresholds.from_profile(None),
+        thresholds=Thresholds.from_profile(refresh_cfg),
     )
     print(json.dumps({"state": res.verdict.state.value,
                       "packet": res.packet is not None}, indent=2))
+    return 0
+
+
+def _cmd_rebaseline(args) -> int:
+    """Human gate: pin the baseline at the latest stored record.
+
+    This is the ONLY way a REBASELINE_REQUIRED observation becomes the
+    comparison baseline — spec §C.2 "re-baseline manual". Records the
+    action so the pointer move is auditable.
+    """
+    store = SnapshotStore(args.store)
+    hist = store.history(args.source_id, args.surface_id, args.doc_id)
+    if not hist:
+        print(f"rebaseline: no records for {args.doc_id} — nothing to do")
+        return 1
+    store.set_baseline(args.source_id, args.surface_id, args.doc_id)
+    rec = hist[-1]
+    print(json.dumps({
+        "rebaselined_to": {
+            "doc_id": rec.doc_id,
+            "canonicalizer": (
+                f"{rec.canonicalizer_id}@{rec.canonicalizer_version}"
+            ),
+            "canonical_sha256": rec.canonical_sha256,
+            "observed_at": rec.observed_at,
+        }
+    }, indent=2))
     return 0
 
 
@@ -285,16 +364,27 @@ def main(argv=None) -> int:
 
     lv = sub.add_parser("live", help="one live observation (verifier only)")
     lv.add_argument("--store", required=True)
+    lv.add_argument("--profile", required=True,
+                    help="source profile JSON — supplies refresh "
+                         "thresholds, canonicalizer and fetch markers")
     lv.add_argument("--source-id", required=True)
     lv.add_argument("--surface-id", required=True)
     lv.add_argument("--doc-id", required=True)
     lv.add_argument("--url", required=True)
-    lv.add_argument("--canonicalizer-id", default="identity")
-    lv.add_argument("--canonicalizer-version", type=int, default=1)
     lv.add_argument("--runner-network", default="es_local")
     lv.add_argument("--observed-at", required=True)
     lv.add_argument("--timeout", type=float, default=30.0)
     lv.set_defaults(fn=_cmd_live)
+
+    rb = sub.add_parser(
+        "rebaseline",
+        help="HUMAN GATE: pin baseline at latest stored record",
+    )
+    rb.add_argument("--store", required=True)
+    rb.add_argument("--source-id", required=True)
+    rb.add_argument("--surface-id", required=True)
+    rb.add_argument("--doc-id", required=True)
+    rb.set_defaults(fn=_cmd_rebaseline)
 
     args = ap.parse_args(argv)
     return args.fn(args)
