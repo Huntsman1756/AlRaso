@@ -13,7 +13,11 @@
     "provider": "per_doc_url",
     "recipe": "get_simple",
     "method": "GET",
-    "formats": ["xml", "pdf", "html"],
+    "formats": [
+      "xml",
+      "pdf",
+      "html"
+    ],
     "content_marker": "<?xml",
     "doc_url_template": "https://doe.juntaex.es/pdfs/doe/{YYYY}/{issue}0o/xml/{docId}.xml"
   },
@@ -44,5 +48,12 @@
     "domain_id": "ES-EX",
     "domain_status": "PROVEN",
     "evidence_dir": "discovery/evidence/m10.2-atlas/es-ex/"
+  },
+  "refresh": {
+    "absence_threshold": 3,
+    "invalid_threshold": 3,
+    "degraded_threshold": 3,
+    "canonicalizer_id": "identity",
+    "canonicalizer_version": 1
   }
 }

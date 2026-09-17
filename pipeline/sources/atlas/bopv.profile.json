@@ -13,7 +13,11 @@
     "provider": "per_doc_url",
     "recipe": "get_simple",
     "method": "GET",
-    "formats": ["html", "pdf", "epub"],
+    "formats": [
+      "html",
+      "pdf",
+      "epub"
+    ],
     "content_marker": "bopv",
     "doc_url_template": "https://www.euskadi.eus/bopv2/datos/{YYYY}/{MM}/{YY}{serial}{lang}.shtml"
   },
@@ -44,5 +48,12 @@
     "domain_id": "ES-PV",
     "domain_status": "PROVEN",
     "evidence_dir": "discovery/evidence/m10.2-atlas/es-pv/"
+  },
+  "refresh": {
+    "absence_threshold": 3,
+    "invalid_threshold": 3,
+    "degraded_threshold": 3,
+    "canonicalizer_id": "html_volatile",
+    "canonicalizer_version": 1
   }
 }

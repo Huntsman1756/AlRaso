@@ -7,7 +7,11 @@
     "recipe": "dataset_query",
     "endpoint": "https://transparencia.carm.es/rest-services/services/restFile/BORMIndice.json",
     "doc_id_pattern": "\\d+",
-    "queryable_fields": ["PUBLICACION", "ID_ANUNCIO", "FECHA"],
+    "queryable_fields": [
+      "PUBLICACION",
+      "ID_ANUNCIO",
+      "FECHA"
+    ],
     "fields": [
       "ID_ANUNCIO",
       "PUBLICACION",
@@ -20,7 +24,11 @@
     "provider": "per_doc_url",
     "recipe": "get_simple",
     "method": "GET",
-    "formats": ["pdf", "txt", "html"],
+    "formats": [
+      "pdf",
+      "txt",
+      "html"
+    ],
     "content_marker": "%PDF",
     "doc_url_template": "https://www.borm.es/services/anuncio/{internalId}/pdf"
   },
@@ -50,5 +58,12 @@
     "domain_id": "ES-MC",
     "domain_status": "PROVEN",
     "evidence_dir": "discovery/evidence/m10.2-atlas/es-mc/"
+  },
+  "refresh": {
+    "absence_threshold": 3,
+    "invalid_threshold": 3,
+    "degraded_threshold": 3,
+    "canonicalizer_id": "identity",
+    "canonicalizer_version": 1
   }
 }

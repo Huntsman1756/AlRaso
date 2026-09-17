@@ -150,6 +150,17 @@
         },
         "evidence_dir": { "type": "string" }
       }
+    },
+    "refresh": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "absence_threshold": { "type": "integer" },
+        "invalid_threshold": { "type": "integer" },
+        "degraded_threshold": { "type": "integer" },
+        "canonicalizer_id": { "type": "string", "minLength": 1 },
+        "canonicalizer_version": { "type": "integer" }
+      }
     }
   }
 }

@@ -13,7 +13,10 @@
     "provider": "per_doc_url",
     "recipe": "get_simple",
     "method": "GET",
-    "formats": ["html", "pdf"],
+    "formats": [
+      "html",
+      "pdf"
+    ],
     "content_marker": "BOME-A-",
     "doc_url_template": "https://bomemelilla.es/bome/BOME-B-{YYYY}-{issue}/articulo/{artNum}"
   },
@@ -44,5 +47,12 @@
     "domain_id": "ES-ML",
     "domain_status": "PROVEN",
     "evidence_dir": "discovery/evidence/m10.2-atlas/es-ml/"
+  },
+  "refresh": {
+    "absence_threshold": 3,
+    "invalid_threshold": 3,
+    "degraded_threshold": 3,
+    "canonicalizer_id": "html_volatile",
+    "canonicalizer_version": 1
   }
 }

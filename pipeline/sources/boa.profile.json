@@ -13,7 +13,10 @@
     "provider": "boa_cgi",
     "recipe": "cgi",
     "method": "GET",
-    "formats": ["html", "pdf"],
+    "formats": [
+      "html",
+      "pdf"
+    ],
     "content_marker": "boaseccion",
     "doc_url_template": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?BASE=BOLE&CMD=VERDOC&DOCN={doc_id}&SEC=BUSQUEDA_AVANZADA&SEPARADOR="
   },
@@ -38,5 +41,12 @@
     "derived_from": "discovery/evidence/spain-coverage-g0/source-matrix.json",
     "probed_at": "2026-09-13",
     "caveat": "legacy CGI; consolidated-legislation API NOT_VERIFIED"
+  },
+  "refresh": {
+    "absence_threshold": 3,
+    "invalid_threshold": 3,
+    "degraded_threshold": 3,
+    "canonicalizer_id": "html_volatile",
+    "canonicalizer_version": 1
   }
 }

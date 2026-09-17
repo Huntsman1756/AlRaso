@@ -7,7 +7,11 @@
     "recipe": "dataset_query",
     "endpoint": "https://www.boe.es/datosabiertos/api/boe/sumario/{AAAAMMDD}",
     "doc_id_pattern": "BOE-A-\\d{4}-\\d+",
-    "queryable_fields": ["fecha_publicacion", "seccion", "identificador"],
+    "queryable_fields": [
+      "fecha_publicacion",
+      "seccion",
+      "identificador"
+    ],
     "fields": [
       "identificador",
       "titulo",
@@ -21,7 +25,11 @@
     "provider": "per_doc_url",
     "recipe": "get_simple",
     "method": "GET",
-    "formats": ["xml", "html", "pdf"],
+    "formats": [
+      "xml",
+      "html",
+      "pdf"
+    ],
     "content_marker": "BOE-A-",
     "doc_url_template": "https://www.boe.es/buscar/doc.php?id={doc_id}"
   },
@@ -52,5 +60,12 @@
     "domain_id": "ES",
     "domain_status": "PROVEN",
     "evidence_dir": "discovery/evidence/m10.2-atlas/es/"
+  },
+  "refresh": {
+    "absence_threshold": 3,
+    "invalid_threshold": 3,
+    "degraded_threshold": 3,
+    "canonicalizer_id": "identity",
+    "canonicalizer_version": 1
   }
 }
