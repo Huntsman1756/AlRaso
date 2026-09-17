@@ -1,0 +1,138 @@
+================================================================================
+M8 — EXTRACTO DE EVIDENCIA: PN Sierra de Guadarrama (ámbito CAM) — pernocta/vivac
+================================================================================
+
+FUENTE PRIMARIA (original BOCM):
+  Decreto 18/2020, de 11 de febrero, del Consejo de Gobierno, por el que se
+  aprueba el Plan Rector de Uso y Gestión del Parque Nacional de la Sierra de
+  Guadarrama en el ámbito territorial de la Comunidad de Madrid.
+  BOCM núm. 51 (extraordinario), sábado 29 de febrero de 2020.
+  PDF oficial: https://www.bocm.es/boletin/CM_Orden_BOCM/2020/02/29/BOCM-20200229-1.PDF
+  sha256 (PDF BOCM, 49.024.346 bytes): f34a023e9560c1b48859d2921550c5a22660c4959b68cea1afb843cb9cfa0964
+
+MODIFICACIÓN POSTERIOR:
+  Decreto 238/2023, de 13 de septiembre (BOCM núm. 222, 18/09/2023).
+  PDF: https://www.bocm.es/boletin/CM_Orden_BOCM/2023/09/18/BOCM-20230918-1.PDF
+  sha256: 15616e02bb6d05acb0c07b7cc392a9fa667c5aca7f0fcf31448650288bc66759
+  Modifica arts. 29.2 y 45.2 (senderos autorizados) y añade Anexos X–XII.
+  NO toca el art. 48. Motivo: adecuación a la STSJM 1003/2022.
+
+NULIDADES JUDICIALES (texto consolidado oficial de la Administración,
+parquenacionalsierraguadarrama.es/legislacion — copia local previa en
+discovery/evidence/guadarrama-prug/prug-cam-consolidado-extracto.txt):
+  - STSJM 1135/2021 (07/10/2021, rec. 431/2020): nulidad art. 49 y art. 38.1.x).
+  - STSJM 1003/2022 (04/11/2022, rec. 197/2022, firme 09/02/2023): nulidad del
+    art. 47.b).5; nulidad del art. 48.2 «en el extremo en que fija el límite de
+    altitud en 2.000 metros para la práctica de la actividad de vivac»;
+    nulidad del inciso «existentes» del art. 45.2; nulidad de fichas de
+    zonificación.
+  - STSJM 135/2023 (02/02/2023, rec. 455/2020): nulidad del último inciso del
+    art. 38.1.w).
+
+--------------------------------------------------------------------------------
+ART. 38.1.o) — actividades incompatibles (verbatim consolidado)
+--------------------------------------------------------------------------------
+«o) La acampada libre en cualquier modalidad, así como la pernocta al aire
+libre, incluso bajo resguardos naturales, a excepción de lo especificado en el
+artículo 48. A los efectos del presente PRUG, se entiende por acampada libre la
+instalación eventual para permanecer y pernoctar de tiendas de campaña,
+caravanas u otros elementos de acampada fijos o móviles, incluyendo vehículos
+o remolques de cualquier tipo.»
+
+--------------------------------------------------------------------------------
+ART. 48. La pernocta — a) Vivac (verbatim consolidado; nota (8) = nulidad)
+--------------------------------------------------------------------------------
+«1. A efectos de aplicación del presente PRUG se entiende por vivac o
+vivaquear, el hecho de dormir o descansar durante la noche al raso o
+intemperie, usando o no elementos de abrigo, como saco de dormir o funda de
+vivac o los medios que proporciona el entorno sin alterarlo, sin instalar
+tiendas de campaña, doble techo o similar, siendo esta una actividad asociada
+a la práctica del montañismo.
+
+2. En el ámbito del PRUG únicamente se permitirá el vivac o la pernocta al
+raso en los lugares recogidos en el Anexo III "Cartografía de zonas de
+escalada y áreas donde se permite la pernocta al raso" así como en el entorno
+inmediato de los refugios no guardados existentes en el parque nacional
+siempre que no existan plazas libres en el interior de dichas
+infraestructuras. Asimismo, se permite el vivac fuera del periodo comprendido
+entre el 15 de junio y el 15 de octubre, únicamente en lugares situados por
+encima de la cota de 2.000 metros que no sean Zona de Reserva y en grupos no
+superiores a 5 personas. La Administración gestora podrá establecer
+restricciones excepcionales debido al riesgo de incendios en otras épocas del
+año. (8)
+
+3. En todo caso se exigirá el cumplimiento de las siguientes condiciones:
+a) No se permitirá, salvo expresa autorización, el vivac de grupos organizados
+con más de 10 componentes.
+b) Salvo en caso de emergencia o fuerza mayor, no se podrá permanecer más de
+una noche en la misma zona.
+c) Se prohíbe la apertura de zanjas de drenaje y la acumulación de piedras y/o
+elementos vegetales a modo de parapeto.»
+
+Nota (8) del consolidado (verbatim):
+«Se declara la nulidad del artículo 48.2 en el extremo en que fija el límite
+de altitud en 2.000 metros para la práctica de la actividad de vivac por la
+Sentencia TSJ Madrid 1003/2022, de 4 de noviembre, núm. rec. 197/2022.»
+
+LECTURA CONSERVADORA PROPUESTA (a revisar por humano): tras la nulidad del
+límite de 2.000 m — que no ha sido re-legislado — el vivac queda permitido
+únicamente en las zonas del Anexo III (según capa oficial vigente, que ya
+excluye «Pájaros_Peñalara // Los Llanos» desde diciembre de 2023) y en el
+entorno inmediato de refugios no guardados cuando no haya plazas libres.
+
+--------------------------------------------------------------------------------
+ART. 48.b) Pernocta en refugios / c) Refugio-vivac (resumen)
+--------------------------------------------------------------------------------
+b): refugios guardados del Anexo V, capacidad máxima salvo emergencia.
+c): refugio-vivac = infraestructura abierta, no guardada, accesible a pie;
+    relación en Anexo V; máximo una noche salvo emergencia; prohibido fuego
+    entre 15/06 y 15/10.
+
+--------------------------------------------------------------------------------
+ART. 92.3.e) — ZPP y entornos de Puertos (verbatim consolidado)
+--------------------------------------------------------------------------------
+«e) Pernocta en cualquier modalidad en lugares no habilitados expresamente
+para la acampada, salvo derechos de propiedad, que estará sometida a las
+condiciones del apartado 3 del artículo 48.a)»
+
+Matiz jurídico ABIERTO para el revisor: en la ZPP la pernocta no habilitada
+queda «sometida a las condiciones del art. 48.a.3» — ¿es vivac permitido con
+condiciones (sin restricción de lugar del Anexo III) o sigue siendo
+incompatible? La redacción literal sugiere lo primero; la sistemática
+(38.1.o solo despliega el art. 48 en el ámbito del PRUG) lo segundo.
+
+--------------------------------------------------------------------------------
+ANEXO III — zonas de pernocta al raso (capa oficial IDEM, no el PDF)
+--------------------------------------------------------------------------------
+La forma digital autoritativa del Anexo III es la capa IDEM
+«Zonas de Vivac Anual PNSG» (dataset datos.gob.es spacm_pnzvivac):
+  WFS: https://idem.comunidad.madrid/geoidem/Zonas/ows
+  typeName: Zonas:IDEM_MA_PNSG_ZON_VIVAC_ANUA
+  5 polígonos: Prado Peluca, Yelmo, El Pajaro Pedriza, Las Torres
+               (sector Pedriza) + Zabala (sector Cotos-Peñalara)
+  Modificada en diciembre de 2023 para excluir «Pajaros_Peñalara // Los
+  Llanos» por motivos de conservación (arts. 33.1 y 45.3 PRUG).
+  Licencia: CC-BY 4.0 Comunidad de Madrid.
+  Copia adquirida: IDEM_MA_PNSG_ZON_VIVAC_ANUA.geojson (EPSG:4326)
+
+Régimen administrativo adicional publicado por el parque (NO verbatim PRUG):
+macizo de Peñalara — máx. 15 personas/grupo/día con autorización; vivac con
+perros prohibido. Fuente: web oficial del parque (Regulación del vivac).
+Marcar como condición administrativa, no precepto PRUG.
+
+--------------------------------------------------------------------------------
+REGLA GENERAL CAM (fuera de ENP) — Decreto 26/2025, de 14 de mayo
+--------------------------------------------------------------------------------
+BOCM núm. 121, 22/05/2025. PDF:
+https://www.bocm.es/boletin/CM_Orden_BOCM/2025/05/22/BOCM-20250522-2.PDF
+Art. 3: ámbito = campamentos de turismo y áreas de pernocta de autocaravanas.
+Art. 4 (verbatim): «La acampada libre está prohibida en todo el territorio de
+la Comunidad de Madrid.»
+Disp. derogatoria única: deroga Decreto 3/1993.
+Entrada en vigor: día siguiente a publicación → 2025-05-23.
+
+LAGUNA DEFINICIONAL (cuestión para el revisor): «acampada libre» se define por
+elementos de acampada (tiendas, caravanas, elementos móviles). El vivac puro
+(sin tienda ni doble techo) NO está regulado expresamente por norma general
+CAM fuera de ENP — la página informativa de CAM afirma «vivac permitido fuera
+del PN», pero eso es interpretación, no texto normativo verificado.

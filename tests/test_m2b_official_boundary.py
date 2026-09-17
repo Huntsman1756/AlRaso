@@ -974,6 +974,19 @@ def test_git_diff_vs_main_only_allowed_files():
             or f.startswith("tests/test_publish_reviewed")
             or f.startswith("tests/test_m7_")
         )
+        # M8 Madrid personal-utility vertical (feat/m8-madrid-vertical):
+        # authoritative CAM source inventory, official geometry, evidence
+        # packages and tests. Human-review gating unchanged: candidates stay
+        # REVIEW_REQUIRED/non-publishable.
+        m8_allowed = (
+            f.startswith("discovery/evidence/m8")
+            or f.startswith("docs/validation/m8/")
+            or f.startswith("docs/reports/M8-")
+            or f.startswith("docs/superpowers/specs/2026-09-17-m8")
+            or f.startswith("docs/superpowers/plans/2026-09-17-m8")
+            or f.startswith("tooling/m8_")
+            or f.startswith("tests/test_m8")
+        )
         assert (
             f in allowed
             or m9_allowed
@@ -985,4 +998,5 @@ def test_git_diff_vs_main_only_allowed_files():
             or m10_2a_allowed
             or m10_3_allowed
             or closure_allowed
+            or m8_allowed
         ), f"Unexpected file changed: {f}"
