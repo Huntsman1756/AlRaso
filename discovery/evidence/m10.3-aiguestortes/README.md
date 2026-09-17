@@ -32,14 +32,24 @@ repo: full M10.1 P4 chain (discovery→fetch→parse) + M10.2-C version signal
 - DOGC consolidated (M10.2-C): `vigència=Vigent`, `idVersion=318062`,
   `effective_from=None` — the decree carries **no express entry-into-force
   clause**; only a derogation clause (repeals Decret 82/1993).
+- **PRUG art. 6 (verbatim in extract):** "El Pla rector d'ús i gestió té
+  una vigència de sis anys. A partir del cinquè any s'iniciarà el procés
+  per a la seva revisió." — nominal validity exhausted ~2009; MITECO
+  describes the plan as "prorrogado" but **no extension instrument has
+  been located**. Open validity question for the human reviewer (same
+  pattern as Teide's expired-but-continued 2002 PRUG).
+- Art. 22.3.d: exceptional camping permits for research stays
+  (alternative channel to the 25.4 permit exemption).
 - Provisional `effective_from=2003-02-20` (day-after-publication default)
   is a modelling placeholder for the candidate, flagged for the reviewer.
 
 ## Geometry
 
 - OAPN PRUG-zoning digest: 27 features, `Normativa` cites Decreto 39/2003
-  uniformly. 25 Uso Restringido (one ~park-spanning envelope), 1 Reserva
-  (Estany de Trescuro), 1 Uso Especial (Bony del Graller).
+  uniformly. Actual classes: **1 Uso Restringido envelope ~park-wide
+  (13.559,8 ha ≈96%) + 19 Uso Moderado + 5 Uso Especial + 2 Reserva**
+  (Bony del Graller 283,6 ha; Estany de Trescuro 29,4 ha). No ZPP
+  polygons exist in this layer.
 - PN boundary digest `709079ce6b…06c9` (`oapn-limites-pn.digest.json`).
 - Digest-only (CONTEXT_ONLY per `pipeline/providers/geometry.py`): cannot
   place a point inside/outside the PN or the ZPP enclaves. Art. 25.4 is a
@@ -49,9 +59,9 @@ repo: full M10.1 P4 chain (discovery→fetch→parse) + M10.2-C version signal
 
 ## Files
 
-- `dogc-39-2003-art25-extract.txt` — verbatim art. 25 + normalized
-  Annex 2 refuge list. sha256
-  `b582e60f35491573a08525bf73115ee19990138552e208ee9c65c3ed01cab962`
+- `dogc-39-2003-art25-extract.txt` — verbatim art. 6 (vigència) + art.
+  22.3(d) + art. 25.1–25.8 íntegro + normalized Annex 2 refuge list.
+  sha256 `2dd2b364bf3d4de44f9923967727c1d166ca040dac9c33d9a498dd06af585061`
 - `candidate_fixture.json` — fixture-shaped candidate corpus
   (all `REVIEW_REQUIRED`, non-publishable by construction).
 - `review_case.json` — human-adjudication case (mandate §9 fields).

@@ -25,6 +25,18 @@
     },
     {
       "instrument": "Decret 39/2003",
+      "locator": "PRUG annex, article 22.3.d)",
+      "quote": "L'administració del Parc Nacional podrà concedir permisos excepcionals d'acampada quan estigui justificada la permanència al Parc Nacional per a la realització dels estudis. Els permisos especificaran el paratge permès d'acampada, la durada i altres condicions que s'estimin oportunes. En el cas de grups d'investigació, aquests seran el més reduïts possible.",
+      "role": "vía de permisos excepcionales de acampada para investigación (alternativa a la exención 25.4)"
+    },
+    {
+      "instrument": "Decret 39/2003",
+      "locator": "PRUG annex, article 6 (Vigència)",
+      "quote": "El Pla rector d'ús i gestió té una vigència de sis anys. A partir del cinquè any s'iniciarà el procés per a la seva revisió.",
+      "role": "duración nominal del PRUG — cuestión de validez abierta"
+    },
+    {
+      "instrument": "Decret 39/2003",
       "locator": "Disposició derogatòria",
       "quote": "Es deroga el Decret 82/1993, de 9 de febrer, pel qual s'aprova el Pla rector d'ús i gestió del Parc Nacional d'Aigüestortes i Estany de Sant Maurici.",
       "role": "sustitución del PRUG 1993"
@@ -37,13 +49,14 @@
     "doc_key": "es-ct/d/2003/02/04/39",
     "akn_redistributed": false,
     "extract_file": "dogc-39-2003-art25-extract.txt",
-    "extract_sha256": "b582e60f35491573a08525bf73115ee19990138552e208ee9c65c3ed01cab962"
+    "extract_sha256": "2dd2b364bf3d4de44f9923967727c1d166ca040dac9c33d9a498dd06af585061"
   },
   "validity_evidence": {
     "publication": "DOGC núm. 3825, 19/02/2003",
     "consolidated": "DOGC Socrata/ELI: vigència=Vigent, idVersion 318062 (M10.2-C, RESOLVED — documental)",
     "entry_into_force": "NO resuelta mecánicamente (sin disposición final de vigencia expresa; M10.2-C effective_from=None). Propuesta provisional: 2003-02-20 (día siguiente a publicación) — DECISIÓN DEL REVISOR",
-    "supersession_check": "Deroga Decret 82/1993 (PRUG anterior). Modificaciones puntuales del PRUG conocidas vía DOGC; la consolidada vigente es la fuente citada — WS-A detalla en README",
+    "plan_duration": "ART. 6 (verbatim en extracto): 'El Pla rector d'ús i gestió té una vigència de sis anys. A partir del cinquè any s'iniciarà el procés per a la seva revisió.' — vigencia nominal agotada ~2009; MITECO lo describe como 'prorrogado' pero NO se ha identificado instrumento de prórroga. Cuestión de validez abierta para el revisor.",
+    "supersession_check": "Deroga Decret 82/1993 (PRUG anterior). Consolidada DOGC = Vigent sin array de sustitución; diff artículo-a-artículo vs original no realizado.",
     "status": "VIGENT — mecánicamente soportado vía DOGC consolidado"
   },
   "geometry_evidence": {
@@ -52,7 +65,7 @@
     "features": 27,
     "normativa_field": "Decreto 39/2003, de 4 de febrero (DOGC núm. 3825, 19/02/2003)",
     "boundary_digest": "709079ce6b326637bfc5afa13c41a5c98c9ce266fe7dee889edf2b7be52f06c9",
-    "structure": "96% del PN es Zona de Uso Restringido (envolvente única ~park-wide); 1 Zona de Reserva (Estany de Trescuro) + 1 Uso Especial (Bony del Graller)",
+    "structure": "1 envolvente Uso Restringido ~park-wide (13.559,8 ha ≈96%) + 19 Uso Moderado + 5 Uso Especial + 2 Reserva (Bony del Graller, Estany de Trescuro); sin polígonos ZPP en la capa",
     "caveat": "La prohibición 25.4 es territorial park-wide: la resolución no depende de la geometría de zonas para el resultado PROHIBITED, pero los enclaves Estallos/Riumalo (ZPP) y la frontera PN/ZPP no son verificables desde digest-only."
   },
   "conditions_modelled": [
@@ -64,7 +77,10 @@
     "El art. 25.4 es de 2003: confirmar en la consolidada DOGC que ninguna modificación posterior (p. ej. normativa de zonas de acampada de Estallos/Riumalo, cambios de gestión) altera el régimen del PN",
     "La frontera PN/ZPP y las 'zones habilitades' de Estallos/Riumalo no son verificables desde geometría digest-only — un punto en ZPP habilitada NO queda cubierto por la prohibición",
     "effective_from provisional (2003-02-20) — el decreto no fija vacatio expresa",
-    "'pernoctació fora dels refugis' vs pernocta en cabanas no guardadas del Annex 2 (sin *) — matiz a confirmar"
+    "'pernoctació fora dels refugis' vs pernocta en cabanas no guardadas del Annex 2 (sin *) — matiz a confirmar",
+    "ART. 6: vigencia nominal del PRUG = 6 años (agotada ~2009); no se ha localizado instrumento de prórroga aunque la consolidada figura Vigent y MITECO lo describe como prorrogado",
+    "Art. 22.3.d prevé 'permisos excepcionals d'acampada' para estudios de investigación (además de la exención de 25.4 para permisos de estada) — la interacción exacta entre ambos cauces es del revisor",
+    "Terminología: el plan usa 'zona de protecció exterior' (25.1/25.2) y 'zona perifèrica de protecció' (25.4, Annex 2) — mismo concepto ZPP, verificar uniformidad de ámbito"
   ],
   "proposed_resolver_examples": [
     {"facts": {}, "expected_if_approved": "PROHIBITED — regla sin condición, aplica en todo el PN"},
