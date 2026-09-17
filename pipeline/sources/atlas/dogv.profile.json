@@ -1,0 +1,55 @@
+{
+  "source_id": "dogv",
+  "jurisdiction": "ES-VC",
+  "kind": "gazette+open_data_api",
+  "discovery": {
+    "provider": "dogv_json_api",
+    "recipe": "dataset_query",
+    "endpoint": "https://dogv.gva.es/dogv-portal/dogv?date={YYYY-MM-DD}&lang=es",
+    "doc_id_pattern": "\\d{4}/\\d{5}",
+    "queryable_fields": ["date", "lang"],
+    "fields": [
+      "id",
+      "codigoInsercion",
+      "titulo",
+      "cve",
+      "urlPdf",
+      "fechaPublicacion"
+    ]
+  },
+  "fetch": {
+    "provider": "per_doc_url",
+    "recipe": "get_simple",
+    "method": "GET",
+    "formats": ["pdf", "html"],
+    "content_marker": "%PDF",
+    "doc_url_template": "https://dogv.gva.es/datos/{YYYY}/{MM}/{DD}/pdf/{codigoInsercion_underscored}_{lang}.pdf"
+  },
+  "parse": {
+    "format": "pdf_text"
+  },
+  "versioning": {
+    "strategy": "gazette_publication"
+  },
+  "reachability": {
+    "expected": {
+      "es_local": "REACHABLE",
+      "foreign_ci": "REACHABLE"
+    },
+    "fallback": null
+  },
+  "change_detection": {
+    "method": "/dogv/latest + /dogv/calendar + /disposicion/ultimasDisposiciones",
+    "cadence": "daily"
+  },
+  "provenance": {
+    "derived_from": "discovery/evidence/m10.2-atlas/es-vc/",
+    "probed_at": "2026-09-18",
+    "caveat": "CANDIDATE: discovery provider 'dogv_json_api' interpreter not yet implemented. Missing resources return HTTP 440 JSON error; WAF 403 on URL-encoded slashes in path segments."
+  },
+  "atlas": {
+    "domain_id": "ES-VC",
+    "domain_status": "PROVEN",
+    "evidence_dir": "discovery/evidence/m10.2-atlas/es-vc/"
+  }
+}

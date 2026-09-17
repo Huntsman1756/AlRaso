@@ -1,0 +1,36 @@
+[
+  {
+    "probe_id": "sumario",
+    "surface_id": "doe-sumario",
+    "kind": "sumario",
+    "url": "https://doe.juntaex.es/ultimosdoe/mostrardoe.php?fecha=20251001&t=o",
+    "observed_at": "2026-09-17T04:40:09Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "8a1ca5a34e7fad2603b937737d397f86fb28398b862f772fef1ee6c1eaa72ce0",
+    "bytes": 23782,
+    "content_type": "text/html",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-ex/sumario.body",
+    "detail": ""
+  },
+  {
+    "probe_id": "doc-xml",
+    "surface_id": "doe-doc-xml",
+    "kind": "document",
+    "url": "https://doe.juntaex.es/pdfs/doe/2025/210o/xml/2025060262.xml",
+    "observed_at": "2026-09-17T04:40:09Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "804f24a794b4ee62569d6ef829e23aa07b3c49600fed52074aef8d6d2913ca3a",
+    "bytes": 10412,
+    "content_type": "application/xml",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-ex/doc-xml.body",
+    "detail": ""
+  }
+]

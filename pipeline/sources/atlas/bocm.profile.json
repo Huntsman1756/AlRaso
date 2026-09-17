@@ -1,0 +1,47 @@
+{
+  "source_id": "bocm",
+  "jurisdiction": "ES-MD",
+  "kind": "gazette",
+  "discovery": {
+    "provider": "bocm_sumario",
+    "recipe": "toc_sumario",
+    "endpoint": "https://www.bocm.es/boletin/CM_Boletin_BOCM/{YYYY}/{MM}/{DD}/",
+    "doc_id_pattern": "BOCM-\\d{8}-\\d+",
+    "doc_url_template": "https://www.bocm.es/boletin/CM_Orden_BOCM/{YYYY}/{MM}/{DD}/BOCM-{YYYYMMDD}-{N}.PDF"
+  },
+  "fetch": {
+    "provider": "per_doc_url",
+    "recipe": "get_simple",
+    "method": "GET",
+    "formats": ["pdf", "html"],
+    "content_marker": "%PDF",
+    "doc_url_template": "https://www.bocm.es/boletin/CM_Orden_BOCM/{YYYY}/{MM}/{DD}/BOCM-{YYYYMMDD}-{N}.PDF"
+  },
+  "parse": {
+    "format": "pdf_text"
+  },
+  "versioning": {
+    "strategy": "gazette_publication"
+  },
+  "reachability": {
+    "expected": {
+      "es_local": "REACHABLE",
+      "foreign_ci": "REACHABLE"
+    },
+    "fallback": null
+  },
+  "change_detection": {
+    "method": "daily bulletin download + stable doc id enumeration",
+    "cadence": "daily"
+  },
+  "provenance": {
+    "derived_from": "discovery/evidence/m10.2-atlas/es-md/",
+    "probed_at": "2026-09-18",
+    "caveat": "CANDIDATE: discovery provider 'bocm_sumario' interpreter not yet implemented. Per-announcement XML/JSON-LD reported but not verified."
+  },
+  "atlas": {
+    "domain_id": "ES-MD",
+    "domain_status": "PROVEN",
+    "evidence_dir": "discovery/evidence/m10.2-atlas/es-md/"
+  }
+}

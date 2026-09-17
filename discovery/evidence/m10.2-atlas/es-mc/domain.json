@@ -1,0 +1,35 @@
+{
+  "domain_id": "ES-MC",
+  "gazette_id": "borm",
+  "gazette_name": "Boletín Oficial de la Región de Murcia",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "borm-portal", "kind": "portal",
+     "url": "https://www.borm.es/"},
+    {"surface_id": "borm-services", "kind": "api",
+     "url": "https://www.borm.es/services/{boletin|anuncio}/ano/{YYYY}/numero/{N}/{pdf|txt}",
+     "notes": "REST-ish service; WAF-gated for headless clients"},
+    {"surface_id": "borm-transparencia-index", "kind": "api",
+     "url": "https://transparencia.carm.es/rest-services/services/restFile/BORMIndice.{json|csv|xml|txt}",
+     "notes": "daily-updated official open-data index (PUBLICACION, ID_ANUNCIO, URL_HTML, URL_PDF, ...); catalogued on datosabiertos.regiondemurcia.es (CKAN API verified)"},
+    {"surface_id": "borm-doc", "kind": "document",
+     "url": "https://www.borm.es/services/anuncio/{internalId}/pdf"}
+  ],
+  "discovery_mechanism": "open_data_api (daily index JSON/CSV on transparencia.carm.es)",
+  "fetch_mechanism": "get_simple + User-Agent header",
+  "doc_id_scheme": "internal id + NPE A-DDMMYY-N + publicación seq",
+  "formats": ["pdf", "txt", "html", "json", "csv", "xml"],
+  "parser_family": "pdf_text",
+  "version_signal": "none_verified",
+  "change_detection": {
+    "mechanism": "daily-updated open-data index (JSON/CSV/XML/TXT)",
+    "strength": "strong",
+    "cadence": "daily"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "WAF_BLOCKED"},
+  "fallback": "open-data index (transparencia.carm.es) + CKAN catalog",
+  "license": {"terms": "open-data terms", "url": "https://datosabiertos.regiondemurcia.es/avisolegal"},
+  "candidate_profile": null,
+  "status_evidence": "portal (Angular SPA shell) + open-data index JSON + doc PDF all probed live es_local 2026-09-18. WAF evidence preserved: headless GETs to /services/* and /resources/datosAbiertos/* return Radware/ShieldSquare CAPTCHA interstitial (CONTENT_MARKER_MISMATCH records); plain browser User-Agent yields real PDF (310849B).",
+  "notes": "Radware WAF: headless clients get CAPTCHA (200 + captcha HTML — a soft block, never absence). Browser UA bypasses. Rate-limiting observed on transparencia.carm.es under rapid successive requests."
+}

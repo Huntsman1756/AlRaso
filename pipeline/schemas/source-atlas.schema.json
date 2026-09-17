@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://alraso.dev/schemas/m10.2-a-source-atlas.schema.json",
+  "title": "M10.2-A Source Atlas",
+  "description": "Aggregate atlas document: one domain record per canonical jurisdiction domain (17 CCAA + Ceuta + Melilla + State). Validated by the small explicit stdlib validator in pipeline/profiles.py; this file is also the canonical contract for external JSON Schema checkers. domain_status is demonstrated by evidence, never merely declared — the executable gate in pipeline/atlas.py re-verifies it.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "generated_at", "domains"],
+  "properties": {
+    "version": { "type": "integer" },
+    "generated_at": { "type": "string", "minLength": 1 },
+    "notes": { "type": "string" },
+    "domains": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "domain_id",
+          "gazette_id",
+          "gazette_name",
+          "domain_status",
+          "surfaces",
+          "probes",
+          "discovery_mechanism",
+          "fetch_mechanism",
+          "formats",
+          "parser_family",
+          "version_signal",
+          "change_detection",
+          "reachability_expected",
+          "fallback",
+          "license",
+          "evidence_dir",
+          "status_evidence"
+        ],
+        "properties": {
+          "domain_id": {
+            "type": "string",
+            "pattern": "^ES(-[A-Z]{1,2})?$"
+          },
+          "gazette_id": { "type": "string", "minLength": 1 },
+          "gazette_name": { "type": "string", "minLength": 1 },
+          "domain_status": {
+            "type": "string",
+            "enum": ["PROVEN", "BLOCKED_WITH_EVIDENCE", "UNPROBED"]
+          },
+          "surfaces": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["surface_id", "kind", "url"],
+              "properties": {
+                "surface_id": { "type": "string", "minLength": 1 },
+                "kind": {
+                  "type": "string",
+                  "enum": ["portal", "api", "sumario", "document", "feed", "other"]
+                },
+                "url": { "type": "string", "minLength": 1 },
+                "notes": { "type": "string" }
+              }
+            }
+          },
+          "probes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "probe_id",
+                "surface_id",
+                "kind",
+                "url",
+                "observed_at",
+                "runner_network",
+                "reachability_observed",
+                "fetch_outcome",
+                "http_status",
+                "content_marker_ok",
+                "raw_sha256",
+                "bytes",
+                "content_type",
+                "evidence_path",
+                "detail"
+              ],
+              "properties": {
+                "probe_id": { "type": "string", "minLength": 1 },
+                "surface_id": { "type": "string", "minLength": 1 },
+                "kind": {
+                  "type": "string",
+                  "enum": ["portal", "discovery", "document", "sumario", "api", "feed", "other"]
+                },
+                "url": { "type": "string", "minLength": 1 },
+                "observed_at": { "type": "string", "minLength": 1 },
+                "runner_network": {
+                  "type": "string",
+                  "enum": ["fixture", "es_local", "foreign_ci", "unknown"]
+                },
+                "reachability_observed": {
+                  "type": "string",
+                  "enum": ["REACHABLE", "BLOCKED", "UNREACHABLE", "UNKNOWN"]
+                },
+                "fetch_outcome": {
+                  "type": ["string", "null"],
+                  "enum": [
+                    "SUCCESS",
+                    "HTTP_ERROR",
+                    "SOFT_404",
+                    "CONTENT_MARKER_MISMATCH",
+                    "TIMEOUT",
+                    "TRANSPORT_ERROR",
+                    null
+                  ]
+                },
+                "http_status": { "type": ["integer", "null"] },
+                "content_marker_ok": { "type": ["boolean", "null"] },
+                "raw_sha256": { "type": "string" },
+                "bytes": { "type": ["integer", "null"] },
+                "content_type": { "type": ["string", "null"] },
+                "evidence_path": { "type": "string" },
+                "detail": { "type": "string" }
+              }
+            }
+          },
+          "discovery_mechanism": { "type": "string", "minLength": 1 },
+          "fetch_mechanism": { "type": "string", "minLength": 1 },
+          "doc_id_scheme": { "type": ["string", "null"] },
+          "formats": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "parser_family": { "type": "string", "minLength": 1 },
+          "version_signal": {
+            "type": "string",
+            "enum": ["gazette_publication", "consolidated_api", "none_verified"]
+          },
+          "change_detection": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["mechanism", "strength", "cadence"],
+            "properties": {
+              "mechanism": { "type": "string", "minLength": 1 },
+              "strength": {
+                "type": "string",
+                "enum": ["strong", "medium", "weak", "none"]
+              },
+              "cadence": {
+                "type": "string",
+                "enum": ["daily", "weekly", "monthly", "manual", "unknown"]
+              }
+            }
+          },
+          "reachability_expected": {
+            "type": "object",
+            "additionalProperties": false,
+            "minProperties": 1,
+            "properties": {
+              "es_local": {
+                "type": "string",
+                "enum": ["REACHABLE", "ES_ONLY_SUSPECTED", "WAF_BLOCKED", "UNREACHABLE", "UNKNOWN"]
+              },
+              "foreign_ci": {
+                "type": "string",
+                "enum": ["REACHABLE", "ES_ONLY_SUSPECTED", "WAF_BLOCKED", "UNREACHABLE", "UNKNOWN"]
+              },
+              "fixture": {
+                "type": "string",
+                "enum": ["REACHABLE", "ES_ONLY_SUSPECTED", "WAF_BLOCKED", "UNREACHABLE", "UNKNOWN"]
+              },
+              "unknown": {
+                "type": "string",
+                "enum": ["REACHABLE", "ES_ONLY_SUSPECTED", "WAF_BLOCKED", "UNREACHABLE", "UNKNOWN"]
+              }
+            }
+          },
+          "fallback": { "type": ["string", "null"] },
+          "license": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["terms"],
+            "properties": {
+              "terms": { "type": "string", "minLength": 1 },
+              "url": { "type": "string" }
+            }
+          },
+          "candidate_profile": { "type": ["string", "null"] },
+          "evidence_dir": { "type": "string", "minLength": 1 },
+          "status_evidence": { "type": "string", "minLength": 1 },
+          "notes": { "type": "string" }
+        }
+      }
+    }
+  }
+}

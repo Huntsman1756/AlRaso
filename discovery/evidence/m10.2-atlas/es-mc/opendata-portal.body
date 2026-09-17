@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<!--[if IE 9]> <html lang="es" class="ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="es"  > <!--<![endif]-->
+  <head>
+    <meta charset="utf-8" />
+      <meta name="csrf_field_name" content="_csrf_token" />
+      <meta name="_csrf_token" content="ImI2N2RiNzg4YjMyMmVmMWE1M2Q0YWVjNjM2N2YzZWVkZTdkODY5YTUi.aqtvdQ.j6nyKOz-8S3ivJbivgQ6J3gnVz8" />
+
+      <meta name="generator" content="ckan 2.10.1" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Índices del Boletín Oficial de la Region de Murcia. Año actual - Conjunto de datos - Datos Abiertos en la Region de Murcia</title>
+
+    
+    <link rel="shortcut icon" href="/base/images/ckan.ico" />
+    
+  
+  
+    
+    
+      
+      
+      
+    
+    
+    
+
+    
+
+  
+
+  
+
+
+    
+      
+      
+    
+  
+  <meta property="og:title" content="Índices del Boletín Oficial de la Region de Murcia. Año actual - Datos Abiertos en la Region de Murcia">
+  <meta property="og:description" content="Este fichero contiene los índices correspondientes de los boletines publicados en el ejercicio. Esta información ha sido proporcionada por el Boletín Oficial de la Región de Murcia.">
+
+
+    
+    <link href="/admin/webassets/base/93c09e07_main.css" rel="stylesheet"/>
+<link href="/admin/webassets/ckanext-geoview/f197a782_geo-resource-styles.css" rel="stylesheet"/>
+<link href="/admin/webassets/ckanext-harvest/c95a0af2_harvest_css.css" rel="stylesheet"/>
+<link href="/admin/webassets/ckanext-scheming/728ec589_scheming_css.css" rel="stylesheet"/>
+<link href="/admin/webassets/ckanext-activity/6ac15be0_activity.css" rel="stylesheet"/>
+    
+  </head>
+
+  
+  <body data-site-root="https://datosabiertos.regiondemurcia.es/admin/" data-locale-root="https://datosabiertos.regiondemurcia.es/admin/" >
+
+    
+    <div class="visually-hidden-focusable"><a href="#content">Skip to main content</a></div>
+  
+
+  
+    
+
+ 
+<div class="account-masthead">
+  <div class="container">
+     
+    <nav class="account not-authed" aria-label="Cuenta">
+      <ul class="list-unstyled">
+        
+        <li><a href="/admin/user/login">Iniciar Sesión</a></li>
+         
+      </ul>
+    </nav>
+     
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="container">
+      
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <hgroup class="header-image navbar-left">
+
+      
+      
+      <a class="logo" href="/admin/">
+        <img src="/admin/base/images/ckan-logo.png" alt="Datos Abiertos en la Region de Murcia"
+          title="Datos Abiertos en la Region de Murcia" />
+      </a>
+      
+      
+
+       </hgroup>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-navigation-toggle"
+        aria-controls="main-navigation-toggle" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="fa fa-bars text-white"></span>
+      </button>
+
+      <div class="main-navbar collapse navbar-collapse" id="main-navigation-toggle">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          
+            
+              
+              
+
+		          <li class="active"><a href="/admin/dataset/">Conjuntos de datos</a></li><li><a href="/admin/organization/">Organizaciones</a></li><li><a href="/admin/group/">Grupos</a></li><li><a href="/admin/about">Acerca de</a></li>
+	          
+          </ul>
+
+      
+      
+          <form class="d-flex site-search" action="/admin/dataset/" method="get">
+              <label class="d-none" for="field-sitewide-search">Buscar conjuntos de datos...</label>
+              <input id="field-sitewide-search" class="form-control me-2"  type="text" name="q" placeholder="Búsqueda" aria-label="Buscar conjuntos de datos..."/>
+              <button class="btn" type="submit" aria-label="Enviar"><i class="fa fa-search"></i></button>
+          </form>
+      
+      </div>
+    </nav>
+  </div>
+</header>
+
+  
+    <div class="main">
+      <div id="content" class="container">
+        
+          
+            <div class="flash-messages">
+              
+                
+              
+            </div>
+          
+
+          
+            <div class="toolbar" role="navigation" aria-label="Miga de pan">
+              
+                
+                  <ol class="breadcrumb">
+                    
+<li class="home"><a href="/admin/" aria-label="Inicio"><i class="fa fa-home"></i><span> Inicio</span></a></li>
+                    
+  
+    
+    
+      
+      
+      <li><a href="/admin/organization/">Organizaciones</a></li>
+      <li><a href="/admin/organization/carm">CARM (Comunidad Autónoma...</a></li>
+    
+    <li class="active"><a href="/admin/dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual">Índices del Boletín...</a></li>
+  
+
+                  </ol>
+                
+              
+            </div>
+          
+
+          <div class="row wrapper">
+            
+            
+            
+
+            
+              <aside class="secondary col-md-3">
+                
+                
+
+  
+
+  
+    
+
+  
+    <section class="module module-narrow">
+      <div class="module context-info">
+        <div class="module-content">
+          
+            
+              <h1 class="heading">Índices del Boletín Oficial de la Region de Murcia. Año actual</h1>
+            
+            
+              
+              <div class="nums">
+                <dl>
+                  <dt>Seguidores</dt>
+                  <dd data-module="followers-counter" data-module-id="362e44bc-fb49-46ad-8cda-4061f6d48333" data-module-num_followers="0"><span>0</span></dd>
+                </dl>
+              </div>
+            
+            
+              
+                <div class="follow_button">
+                  
+                </div>
+              
+            
+          
+        </div>
+      </div>
+    </section>
+  
+
+  
+
+  
+    
+      
+      
+
+
+
+
+
+  <div class="module module-narrow module-shallow context-info">
+    
+      <h2 class="module-heading"><i class="fa fa-building"></i> Organización</h2>
+    
+    <section class="module-content">
+      
+      
+        <div class="image">
+          <a href="/admin/organization/carm">
+            <img src="https://transparencia.carm.es/wres/common/img/logoCARMb.png" width="200" alt="carm" />
+          </a>
+        </div>
+      
+      
+      <h1 class="heading">CARM (Comunidad Autónoma de la Región de Murcia)
+        
+      </h1>
+      
+      
+      
+        <p class="description">
+          Comunidad Autónoma de la Región de Murcia
+        </p>
+        <p class="read-more">
+          <a href="/admin/organization/about/carm">leer más</a>
+        </p>
+      
+      
+      
+      
+    </section>
+  </div>
+  
+    
+  
+
+  
+    
+
+  <section class="module module-narrow social">
+    
+      <h2 class="module-heading"><i class="fa fa-share-square"></i> Social</h2>
+    
+    
+      <ul class="nav nav-simple">
+        <li class="nav-item"><a href="https://twitter.com/share?url=https://datosabiertos.regiondemurcia.es/admin/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" target="_blank"><i class="fa-brands fa-twitter-square"></i> Twitter</a></li>
+        <li class="nav-item"><a href="https://www.facebook.com/sharer.php?u=https://datosabiertos.regiondemurcia.es/admin/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" target="_blank"><i class="fa-brands fa-facebook-square"></i> Facebook</a></li>
+      </ul>
+    
+  </section>
+
+  
+
+  
+    
+
+
+  
+      
+        <section class="module module-narrow module-shallow license">
+          
+            <h2 class="module-heading"><i class="fa fa-lock"></i> Licencia</h2>
+          
+          
+            <p class="module-content">
+              
+                
+  
+    
+      <span>No se ha provisto de una licencia</span>
+    
+  
+
+                
+              
+            </p>
+          
+        </section>
+      
+  
+
+  
+
+
+              </aside>
+            
+
+            
+              <div class="primary col-md-9 col-xs-12" role="main">
+                
+                
+                  <article class="module">
+                    
+                      <header class="module-content page-header">
+                        
+                        <ul class="nav nav-tabs">
+                          
+  
+  <li class="active"><a href="/admin/dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual"><i class="fa fa-sitemap"></i> Conjunto de datos</a></li>
+  <li><a href="/admin/dataset/groups/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual"><i class="fa fa-users"></i> Grupos</a></li>
+
+  <li><a href="/admin/dataset/activity/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual"><i class="fa fa-clock"></i> Flujo de Actividad</a></li>
+
+                        </ul>
+                      </header>
+                    
+                    <div class="module-content">
+                      
+                      
+  
+                      
+  
+    
+    <h1>
+      
+        Índices del Boletín Oficial de la Region de Murcia. Año actual
+        
+        
+      
+    </h1>
+    
+      
+        <div class="notes embedded-content">
+          <p>Este fichero contiene los índices correspondientes de los boletines publicados en el ejercicio. Esta información ha sido proporcionada por el Boletín Oficial de la Región de Murcia.</p>
+        </div>
+      
+    
+    
+    <span class="insert-comment-thread"></span>
+  
+
+  
+    
+
+<section id="dataset-resources" class="resources">
+  <h2>Datos y Recursos</h2>
+  
+    
+      
+      <ul class="resource-list">
+        
+  
+    
+    
+
+
+
+<li class="resource-item" data-id="1aa934a4-56a4-4b19-9193-bb9005c8bbc5">
+  
+  <a class="heading" href="/admin/dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual/resource/1aa934a4-56a4-4b19-9193-bb9005c8bbc5" title="Indice de Boletín ejercicio actual">
+    Indice de Boletín ejercicio actual<span class="format-label" property="dc:format" data-format="json">JSON</span>
+    
+
+  </a>
+  
+  
+    <p class="description">
+      
+    </p>
+  
+  
+  
+  <div class="dropdown btn-group">
+    <a href="#" class="btn btn-primary dropdown-toggle" type="button" id="dropdownExplorer" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="fa fa-share"></i>
+      Explorar
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="dropdownExplorer">
+      
+        
+  
+    
+          <li>
+            <a class="dropdown-item" href="/admin/dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual/resource/1aa934a4-56a4-4b19-9193-bb9005c8bbc5">
+              
+                <i class="fa fa-chart-bar"></i>
+                Previsualización
+              
+            </a>
+          </li>
+        
+  
+
+
+
+
+        
+      <li>
+        <a class="dropdown-item resource-url-analytics" href="https://transparencia.carm.es/rest-services/services/restFile/BORMIndice.json" target="_blank" rel="noreferrer">
+          
+            <i class="fa fa-arrow-circle-down"></i>
+            Descargar
+          
+        </a>
+      </li>
+      
+      
+      
+    </ul>
+  </div>
+  
+  
+</li>
+  
+    
+    
+
+
+
+<li class="resource-item" data-id="36552a73-2f7a-48a7-9da8-08360c81c29d">
+  
+  <a class="heading" href="/admin/dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual/resource/36552a73-2f7a-48a7-9da8-08360c81c29d" title="Indice de Boletín ejercicio actual">
+    Indice de Boletín ejercicio actual<span class="format-label" property="dc:format" data-format="csv">CSV</span>
+    
+
+  </a>
+  
+  
+    <p class="description">
+      
+    </p>
+  
+  
+  
+  <div class="dropdown btn-group">
+    <a href="#" class="btn btn-primary dropdown-toggle" type="button" id="dropdownExplorer" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="fa fa-share"></i>
+      Explorar
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="dropdownExplorer">
+      
+        
+  
+    
+          <li>
+            <a class="dropdown-item" href="/admin/dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual/resource/36552a73-2f7a-48a7-9da8-08360c81c29d">
+              
+                <i class="fa fa-chart-bar"></i>
+                Previsualización
+              
+            </a>
+          </li>
+        
+  
+
+
+
+
+        
+      <li>
+        <a class="dropdown-item resource-url-analytics" href="https://transparencia.carm.es/rest-services/services/restFile/BORMIndice.csv" target="_blank" rel="noreferrer">
+          
+            <i class="fa fa-arrow-circle-down"></i>
+            Descargar
+          
+        </a>
+      </li>
+      
+      
+      
+    </ul>
+  </div>
+  
+  
+</li>
+  
+    
+    
+
+
+
+<li class="resource-item" data-id="0417a12b-9231-4f7e-8097-b3ed9d734cb8">
+  
+  <a class="heading" href="/admin/dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual/resource/0417a12b-9231-4f7e-8097-b3ed9d734cb8" title="Indice de Boletín ejercicio actual">
+    Indice de Boletín ejercicio actual<span class="format-label" property="dc:format" data-format="xml">XML</span>
+    
+
+  </a>
+  
+  
+    <p class="description">
+      
+    </p>
+  
+  
+  
+  <div class="dropdown btn-group">
+    <a href="#" class="btn btn-primary dropdown-toggle" type="button" id="dropdownExplorer" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="fa fa-share"></i>
+      Explorar
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="dropdownExplorer">
+      
+        
+  
+    
+          <li>
+            <a class="dropdown-item" href="/admin/dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual/resource/0417a12b-9231-4f7e-8097-b3ed9d734cb8">
+              
+                <i class="fa fa-chart-bar"></i>
+                Previsualización
+              
+            </a>
+          </li>
+        
+  
+
+
+
+
+        
+      <li>
+        <a class="dropdown-item resource-url-analytics" href="https://transparencia.carm.es/rest-services/services/restFile/BORMIndice.xml" target="_blank" rel="noreferrer">
+          
+            <i class="fa fa-arrow-circle-down"></i>
+            Descargar
+          
+        </a>
+      </li>
+      
+      
+      
+    </ul>
+  </div>
+  
+  
+</li>
+  
+    
+    
+
+
+
+<li class="resource-item" data-id="c31de59b-0fed-4de2-802e-c10fc8c2e89f">
+  
+  <a class="heading" href="/admin/dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual/resource/c31de59b-0fed-4de2-802e-c10fc8c2e89f" title="Indice de Boletín ejercicio actual">
+    Indice de Boletín ejercicio actual<span class="format-label" property="dc:format" data-format="txt">TXT</span>
+    
+
+  </a>
+  
+  
+    <p class="description">
+      
+    </p>
+  
+  
+  
+  <div class="dropdown btn-group">
+    <a href="#" class="btn btn-primary dropdown-toggle" type="button" id="dropdownExplorer" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="fa fa-share"></i>
+      Explorar
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="dropdownExplorer">
+      
+        
+  
+    
+          <li>
+            <a class="dropdown-item" href="/admin/dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual/resource/c31de59b-0fed-4de2-802e-c10fc8c2e89f">
+              
+                <i class="fa fa-chart-bar"></i>
+                Previsualización
+              
+            </a>
+          </li>
+        
+  
+
+
+
+
+        
+      <li>
+        <a class="dropdown-item resource-url-analytics" href="https://transparencia.carm.es/rest-services/services/restFile/BORMIndice.txt" target="_blank" rel="noreferrer">
+          
+            <i class="fa fa-arrow-circle-down"></i>
+            Descargar
+          
+        </a>
+      </li>
+      
+      
+      
+    </ul>
+  </div>
+  
+  
+</li>
+  
+
+      </ul>
+    
+  
+</section>
+  
+
+  
+    
+
+  <section class="tags">
+    
+
+
+  <ul class="tag-list">
+    
+      <li>
+        <a class="tag" href="/admin/dataset/?tags=BORM">BORM</a>
+      </li>
+    
+      <li>
+        <a class="tag" href="/admin/dataset/?tags=Bolet%C3%ADn+Ofical">Boletín Ofical</a>
+      </li>
+    
+      <li>
+        <a class="tag" href="/admin/dataset/?tags=%C3%8Dndices">Índices</a>
+      </li>
+    
+  </ul>
+
+  </section>
+
+  
+
+  
+    <section class="additional-info">
+  <h3>Información Adicional</h3>
+  <table class="table table-striped table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th scope="col">Campo</th>
+        <th scope="col">Valor</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        
+
+        
+          <tr>
+            <th scope="row" class="dataset-label">Autor</th>
+            <td class="dataset-details" property="dc:creator"><a href=mailto:carmadmin>None</a></td>
+          </tr>
+        
+
+        
+
+        
+
+        
+        
+          <tr>
+            <th scope="row" class="dataset-label">Última actualización</th>
+            <td class="dataset-details">
+                
+<span class="automatic-local-datetime" data-datetime="2026-09-17T03:15:40+0000">
+    septiembre 17, 2026, 03:15 (UTC)
+</span>
+            </td>
+          </tr>
+        
+        
+          <tr>
+            <th scope="row" class="dataset-label">Creado</th>
+
+            <td class="dataset-details">
+                
+<span class="automatic-local-datetime" data-datetime="2021-02-11T07:52:15+0000">
+    febrero 11, 2021, 07:52 (UTC)
+</span>
+            </td>
+          </tr>
+        
+
+      
+        
+          
+          <tr rel="dc:relation" resource="_:extra">
+            <th scope="row" class="dataset-label" property="rdfs:label">Diccionario de datos</th>
+            <td class="dataset-details" property="rdf:value">PUBLICACION: Indica si es un BOLETIN o SUPLEMENTO, ID_ANUNCIO: identificador del boletín, ID_OBJETO_DIGITAL_ANUNCIO: identificador del anuncio, NUM_PUBLICACION: Número de Publicación, FECHA_PUBLICACION: fecha de publicación, SUMARIO: Contenido literal del sumario, ADMINISTRACION: administración competente, SECCION: sección del anuncio, APARTADO: Apartado del anuncio, ANUNCIANTE: Anunciante, NUM_DISPOSICION: Número de disposición del anuncio, YEAR_PUB: año de publicación, RANGO: Tipo de anuncio, FECHA_DISPOSICION: Fecha de disposición del anuncio, YEAR_DISP: año de disposición, CATEGORIA: categoría del anuncio, NPE: código identificador del boletín, URL_HTML: Dirección web del anuncio, URL_PDF: enlace al anuncio en PDF, PAGINAS: número de páginas de la publicación</td>
+          </tr>
+        
+          
+          <tr rel="dc:relation" resource="_:extra">
+            <th scope="row" class="dataset-label" property="rdfs:label">Data Dictionary URL</th>
+            <td class="dataset-details" property="rdf:value">https://www.borm.es</td>
+          </tr>
+        
+          
+          <tr rel="dc:relation" resource="_:extra">
+            <th scope="row" class="dataset-label" property="rdfs:label">Data Quality</th>
+            <td class="dataset-details" property="rdf:value"></td>
+          </tr>
+        
+          
+          <tr rel="dc:relation" resource="_:extra">
+            <th scope="row" class="dataset-label" property="rdfs:label">Data Quality URL</th>
+            <td class="dataset-details" property="rdf:value"></td>
+          </tr>
+        
+          
+          <tr rel="dc:relation" resource="_:extra">
+            <th scope="row" class="dataset-label" property="rdfs:label">Frequency</th>
+            <td class="dataset-details" property="rdf:value">Diaria (cada día)</td>
+          </tr>
+        
+          
+          <tr rel="dc:relation" resource="_:extra">
+            <th scope="row" class="dataset-label" property="rdfs:label">Granularity</th>
+            <td class="dataset-details" property="rdf:value"></td>
+          </tr>
+        
+          
+          <tr rel="dc:relation" resource="_:extra">
+            <th scope="row" class="dataset-label" property="rdfs:label">TemporalFrom</th>
+            <td class="dataset-details" property="rdf:value"></td>
+          </tr>
+        
+          
+          <tr rel="dc:relation" resource="_:extra">
+            <th scope="row" class="dataset-label" property="rdfs:label">TemporalUntil</th>
+            <td class="dataset-details" property="rdf:value"></td>
+          </tr>
+        
+          
+          <tr rel="dc:relation" resource="_:extra">
+            <th scope="row" class="dataset-label" property="rdfs:label">coolURI</th>
+            <td class="dataset-details" property="rdf:value"></td>
+          </tr>
+        
+          
+          <tr rel="dc:relation" resource="_:extra">
+            <th scope="row" class="dataset-label" property="rdfs:label">langES</th>
+            <td class="dataset-details" property="rdf:value">Español</td>
+          </tr>
+        
+          
+          <tr rel="dc:relation" resource="_:extra">
+            <th scope="row" class="dataset-label" property="rdfs:label">langOtherValue</th>
+            <td class="dataset-details" property="rdf:value"></td>
+          </tr>
+        
+          
+          <tr rel="dc:relation" resource="_:extra">
+            <th scope="row" class="dataset-label" property="rdfs:label">licenseURI</th>
+            <td class="dataset-details" property="rdf:value">https://datosabiertos.regiondemurcia.es/avisolegal</td>
+          </tr>
+        
+          
+          <tr rel="dc:relation" resource="_:extra">
+            <th scope="row" class="dataset-label" property="rdfs:label">nameSpatial</th>
+            <td class="dataset-details" property="rdf:value">Región de Murcia</td>
+          </tr>
+        
+          
+          <tr rel="dc:relation" resource="_:extra">
+            <th scope="row" class="dataset-label" property="rdfs:label">typeSpatial</th>
+            <td class="dataset-details" property="rdf:value">RegionDeMurcia</td>
+          </tr>
+        
+      
+
+      
+    </tbody>
+  </table>
+</section>
+  
+
+
+                    </div>
+                  </article>
+                
+              </div>
+            
+          </div>
+        
+      </div>
+    </div>
+  
+    <footer class="site-footer">
+  <div class="container">
+    
+    <div class="row">
+      <div class="col-md-8 footer-links">
+        
+          <ul class="list-unstyled">
+            
+              <li><a href="/admin/about">Acerca de Datos Abiertos en la Region de Murcia</a></li>
+            
+          </ul>
+          <ul class="list-unstyled">
+            
+              
+              <li><a href="http://docs.ckan.org/en/2.1/api/">API CKAN</a></li>
+              <li><a href="http://www.ckan.org/">CKAN Association</a></li>
+              <li><a href="http://www.opendefinition.org/okd/"><img src="/admin/base/images/od_80x15_blue.png" alt="Open Data"></a></li>
+            
+          </ul>
+        
+      </div>
+      <div class="col-md-4 attribution">
+        
+          <p><strong>Gestionado con </strong> <a class="hide-text ckan-footer-logo" href="http://ckan.org">CKAN</a></p>
+        
+        
+          
+<form class="lang-select" action="/admin/util/redirect" data-module="select-switch" method="POST">
+  
+<input type="hidden" name="_csrf_token" value="ImI2N2RiNzg4YjMyMmVmMWE1M2Q0YWVjNjM2N2YzZWVkZTdkODY5YTUi.aqtvdQ.j6nyKOz-8S3ivJbivgQ6J3gnVz8"/> 
+  <div class="form-group">
+    <label for="field-lang-select">Idioma</label>
+    <select id="field-lang-select" name="url" data-module="autocomplete" data-module-dropdown-class="lang-dropdown" data-module-container-class="lang-container">
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" selected="selected">
+          español
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          English
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          македонски
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          မြန်မာ (မြန်မာ)
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          Türkçe
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          català
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          Deutsch
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          português (Brasil)
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          Nederlands
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          नेपाली
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          slovenčina
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          српски
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          中文 (简体, 中国)
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          Ελληνικά
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          ខ្មែរ
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          română
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          العربية
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          français
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          hrvatski
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          lietuvių
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          italiano
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          Indonesia
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          latviešu
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          עברית
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          íslenska
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          English (Australia)
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          فارسی (ایران)
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          한국어 (대한민국)
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          dansk (Danmark)
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          slovenščina
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          magyar
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          አማርኛ
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          shqip
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          монгол (Монгол)
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          euskara
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          українська
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          Tiếng Việt
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          suomi
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          português (Portugal)
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          norsk
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          bosanski
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          български
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          ไทย
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          polski
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          čeština (Česko)
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          srpski (latinica)
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          galego
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          English (United Kingdom)
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          日本語
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          svenska
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          українська (Україна)
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          norsk bokmål (Norge)
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          Filipino (Pilipinas)
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          中文 (繁體, 台灣)
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          русский
+        </option>
+      
+        <option value="/admin//dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual" >
+          español (Argentina)
+        </option>
+      
+    </select>
+  </div>
+  <button class="btn btn-default d-none " type="submit">Ir</button>
+</form>
+
+
+        
+      </div>
+    </div>
+    
+  </div>
+</footer>
+  
+  
+  
+  
+  
+    
+  
+  
+    
+
+  
+
+      
+
+    
+    
+    <link href="/admin/webassets/vendor/f3b8236b_select2.css" rel="stylesheet"/>
+<link href="/admin/webassets/vendor/d05bf0e7_fontawesome.css" rel="stylesheet"/>
+    <script src="/admin/webassets/vendor/8c3c143a_jquery.js" type="text/javascript"></script>
+<script src="/admin/webassets/vendor/5027b870_vendor.js" type="text/javascript"></script>
+<script src="/admin/webassets/vendor/6d1ad7e6_bootstrap.js" type="text/javascript"></script>
+<script src="/admin/webassets/base/ac37343e_main.js" type="text/javascript"></script>
+<script src="/admin/webassets/base/ea40fb97_ckan.js" type="text/javascript"></script>
+<script src="/admin/webassets/base/cd2c0272_tracking.js" type="text/javascript"></script>
+<script src="/admin/webassets/activity/0fdb5ee0_activity.js" type="text/javascript"></script>
+  </body>
+</html>

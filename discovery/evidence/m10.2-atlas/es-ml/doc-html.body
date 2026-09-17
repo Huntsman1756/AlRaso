@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <title>Artículo BOME-A-2026-852  | BOME</title>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Boletín Oficial de la Ciudad Autónoma de Melilla"/>
+    <meta name="keywords" content="serglobin,bome,melilla,ciudad,autónoma"/>
+    <meta name="author" content="Serglobin SL"/>
+    <link rel="manifest" href="/manifest.json">
+    <link href="/assets/css/plugins.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/css/colors/aqua.css" rel="stylesheet" type="text/css">
+    <link rel="preload" href="/assets/css/fonts/dm.css" as="style" onload="this.rel='stylesheet'">
+    <link rel="stylesheet" href="/assets/custom/build/app-623.css?v=a3aa75d2"><link rel="stylesheet" href="/assets/custom/build/app-app.css?v=a3aa75d2">
+    <script>
+        GA_TRACKING_ID = 'UA-99767688-5';
+    </script>
+    <script>
+        // Frame-busting to prevent site from being loaded within a frame without permission (click-jacking)
+        if (window.top !== window.self) {
+            window.top.location.replace(window.self.location.href);
+        }
+    </script>
+        </head>
+<body>
+<div class="content-wrapper">
+    <header class="wrapper bg-light pt-1">
+    <nav class="navbar navbar-main navbar-expand-lg classic transparent navbar-light">
+        <div class="container flex-lg-row flex-nowrap align-items-center">
+            <div class="navbar-brand w-md-100">
+                <a href="/">
+                    <img src="/images/logo.png" width="450" alt="Comunidad Autónoma de Melilla - Boletín Oficial" />
+                </a>
+            </div>
+            <div class="navbar-collapse offcanvas offcanvas-nav offcanvas-start" id="offcanvas-nav" aria-labelledby="offcanvas-nav-label">
+                <div class="offcanvas-header d-lg-none">
+                    <h3 class="text-white fs-30 mb-0" id="offcanvas-nav-label">Menú</h3>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body ms-lg-auto d-flex flex-column h-100">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">BOMES</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modal-subscription">SUBSCRIPCIÓN</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/preguntas-frecuentes">
+                                FAQ
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/enlaces-de-interes">
+                                ENLACES
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-search">
+                                CVE
+                            </a>
+                        </li>
+                    </ul>
+                                    </div>
+            </div>
+            <div class="navbar-other ms-lg-10">
+                <ul class="navbar-nav flex-row align-items-center ms-auto">
+                    <li class="nav-item d-none d-md-block">
+                        <a href="#" class="btn btn-sm btn-brand rounded-pill" data-bs-toggle="modal" data-bs-target="#modal-search">
+                            <i class="uil uil-search me-2"></i> Buscar
+                        </a>
+                    </li>
+                    <li class="nav-item d-lg-none">
+                        <button class="hamburger"
+                                data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvas-nav"><span></span></button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="modal fade" id="modal-subscription" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h2 class="mb-3 text-start">Subscripción</h2>
+                <p class="lead mb-6 text-start">
+                    Recibe un email cuando se publique un nuevo boletín.
+                    <a class="text-brand hover" href="/preguntas-frecuentes#faq-subscription">Más información</a>
+                </p>
+                <form action="https://bomemelilla.us17.list-manage.com/subscribe/post?u=fdc29325ce351eaae75260161&id=8df1fe83fc"
+                      name="mc-embedded-subscribe-form"
+                      method="post"
+                      target="_blank"
+                      class="text-start mb-3">
+                    <div class="form-floating mb-4">
+                        <input id="mce-EMAIL" type="email" name="EMAIL" class="form-control" required>
+                        <label for="mce-EMAIL">Correo Electrónico</label>
+                    </div>
+                    <input type="hidden" name="b_fdc29325ce351eaae75260161_8df1fe83fc">
+                    <input class="btn btn-brand rounded-pill mb-2" type="submit" value="Subscribirse" name="subscribe" id="mc-embedded-subscribe">
+                </form>
+                <p class="mb-1 text-center">
+                    <a class="hover text-brand" href="https://mailchimp.com/legal/privacy/" target="blank">Política de Privacidad de MailChimp</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="modal fade" id="modal-search" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h2 class="mb-3 text-start">Buscador</h2>
+                <form class="text-start mb-3" action="/buscar" method="get">
+                    <div class="form-floating mb-4">
+                        <input type="date" class="form-control" name="from" id="fechaDesde" value="2026-01-01" pattern="\d{2}-\d{2}-\d{4}">
+                        <label for="fechaDesde">Fecha Desde</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <input type="date" class="form-control" name="to" id="fechaHasta" value="2026-09-17" pattern="\d{2}-\d{2}-\d{4}">
+                        <label for="fechaHasta">Fecha Hasta</label>
+                    </div>
+                    <div class="form-select-wrapper mb-4">
+                        <select name="tipo" class="form-select">
+                            <option value="1" >Sumario de artículo</option>
+                            <option value="2" >Contenido del BOME</option>
+                            <option value="3" >Nº Página del BOME</option>
+                            <option value="4" >Nº Artículo del BOME</option>
+                        </select>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <input id="contenido" name="contenido" type="text" class="form-control" placeholder="Contenido">
+                        <label for="contenido">Contenido</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <input id="cve" name="cve" type="text" class="form-control" placeholder="Nº BOME">
+                        <label for="cve">Nº BOME</label>
+                    </div>
+                    <button type="submit" class="btn btn-brand rounded-pill btn-login w-100 mb-2">Buscar</button>
+                                    </form>
+                <p class="mb-1">
+                    <a href="/buscador-avanzado" class="hover text-orange">Buscador avanzado</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="offcanvas offcanvas-top bg-light" id="offcanvas-search" data-bs-scroll="true">
+    <div class="container d-flex flex-row py-6">
+        <form class="search-form w-100" method="get" action="/buscar-cve" autocomplete="off">
+            <input placeholder="BOME-L-AAAA-NNNN"
+                   title="Formato BOME-L-AAAA-NNNN"
+                   pattern="BOME-[A-Z]{1,2}-\d{4,4}-\d{1,}"
+                   id="search-form"
+                   name="cve"
+                   aria-label="Bome CVE"
+                   type="text"
+                   class="form-control"
+                   required>
+        </form>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+</div>
+
+</header>
+
+        <section class="wrapper bg-soft-primary angled lower-start" id="bome-show">
+        <div class="container pt-10 pb-12 pt-md-14 pb-md-14 text-center">
+            <div class="row">
+                <div class="col-12 mx-auto">
+                    <h2 class="h4 text-uppercase text-primary mb-3">
+                        ARTÍCULO 852 - BOME-A-2026-852
+                    </h2>
+                    <h1 class="display-1 mb-3 text-uppercase">
+                            BOME  Nº 6399 del viernes, 24 de julio de 2026
+
+                    </h1>
+                                                <nav class="d-inline-block" aria-label="breadcrumb">
+        <ol class="breadcrumb breadcrumb-separatorless">
+            <li class="breadcrumb-item text-gray-700 fw-bold">
+                <a href="/" class="text-gray-600">
+                    <i class="uil uil-home"></i> Bomes
+                </a>
+            </li>
+                                                                        <li class="breadcrumb-item text-gray-700 fw-bold">
+                            <a href="/bome/BOME-B-2026-6399"
+                               class="text-gray-600">
+                                Bome BOME-B-2026-6399
+                            </a>
+                        </li>
+                                                                                <li class="breadcrumb-item active text-gray-500" aria-current="true">
+                            Artículo 852
+                        </li>
+                                                        </ol>
+    </nav>
+
+                    <div class="bome-show-actions d-flex flex-row align-items-center justify-content-center flex-wrap mt-2 gap-4">
+                        <a class="btn btn-secondary" href="/bome/BOME-B-2026-6399">
+                            <i class="uil uil-arrow-left fs-25 me-1"></i>
+                            VOLVER AL BOME
+                        </a>
+                                                    <a target="_blank"
+                               class="btn btn-brand btn-blue"
+                               data-bome-tipo="Articulo"
+                               data-bome-name="BOME-A-2026-852"
+                               href="/bome/descargar/BOME-A-2026-852.pdf">
+                                <i class="uil uil-file-download-alt fs-25 me-1"></i>
+                                DESCARGAR ARTÍCULO
+                            </a>
+                                            </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="wrapper" id="bome-show-articulo-content">
+        <div class="container pt-17 pb-15">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="text-center">
+    CIUDAD AUTÓNOMA DE MELILLA - ASAMBLEA DE MELILLA - ASAMBLEA DE MELILLA
+</h3>
+    <div class="intro-sumario">
+        <p class="text-center">
+            Extracto de los acuerdos adoptados por la Excma. Asamblea de Melilla, en sesión resolutiva extraordinaria, de fecha 15 de julio de 2026.
+        </p>
+    </div>
+    <hr class="my-10"/>
+    <div class="wrapper-document-paginator fixed-bottom">
+    <div class="document-paginator" data-first-page="3951" data-last-page="3952">
+        <div class="document-paginator__prev">
+            <i class="uil uil-angle-left"></i>
+        </div>
+        <div class="document-paginator__pages">
+            <input class="current-page"
+                   aria-label="Página actual"
+                   type="number"
+                   min="3951"
+                   max="3952"
+                   value="3951">
+            <span class="separator-page">/</span>
+            <span class="last-page">3952</span>
+        </div>
+        <div class="document-paginator__next">
+            <i class="uil uil-angle-right"></i>
+        </div>
+    </div>
+</div>
+
+<div class="paginas-sumario">
+            <div class="pagina pagina--articulo" id="pagina-3951">
+            <div class="pagina-titulo">
+                <h3 class="fs-18 text-center">
+                    <a class="text-black" href="#pagina-3951"><i class="uil uil-file-blank"></i> Página 3951</a>
+                </h3>
+                                                <h4 class="text-center h6">
+                    <a class="text-brand"
+                       target="_blank"
+                       data-bome-tipo="Pagina"
+                       data-bome-name="BOME-P-2026-3951"
+                       href="/bome/descargar/BOME-P-2026-3951.pdf">
+                        <img src="/images/pdf.png" alt="Descargar página BOME-P-2026-3951"/>
+                        Descargar BOME-P-2026-3951
+                    </a>
+                </h4>
+            </div>
+            <div class="pagina-texto">
+                                    <p style="text-align: justify; line-height: 1;">En cumplimiento de lo preceptuado en el artículo 197 del Real Decreto 2.568/1986 del Reglamento de Organización, Funcionamiento y Régimen Jurídico de las Entidades Locales, de aplicación a tenor del artículo 30 de la Ley Orgánica 2/1995, de 13 de marzo, que aprueba el Estatuto de Autonomía de Melilla, se adjunta para su publicación en el Boletín Oficial de la Ciudad extracto de los acuerdos adoptados por el Pleno de la Asamblea en la sesión <strong>RESOLUTIVA EXTRAORDINARIA </strong>celebrada el <strong>15 DE JULIO DE 2026</strong>.</p><p style="line-height: 1; text-align: justify;"><strong>1.-19966/2026.-   </strong>  APROBACIÓN     ACTAS     SESIONES     ANTERIORES</p><p style="line-height: 1; text-align: justify;"><strong>2. 19966/2026.- </strong>COMUNICACIONES OFICIALES</p><p style="line-height: 1; text-align: justify;"><strong>ASUNTOS   PRESENTADOS   POR   LA   COMISIÓN   PERMANENTE   DE HACIENDA</strong></p><p style="line-height: 1; text-align: justify;">3.-  22588/2026.-  APROBACIÓN  DEL  PLAN  DE  ACCIÓN  DE  LA  AGENDA  URBANA EN  MELILLA  PREVIA  A  APROBACIÓN  POR  PLENO  DE  LA  ASAMBLEA</p><p style="line-height: 1; text-align: justify;">4.-  21972/2026.-  RECONOCIMIENTO  EXTRAJUDICIAL  DE  CRÉDITO DIMANANTE DEL EXPEDIENTE 6061/2025, DE   RESPONSABILIDAD   CONTRACTUAL.</p><p style="line-height: 1; text-align: justify;">5.-  23272/2026.-  RECONOCIMIENTO  EXTRAJUDICIAL  DE  CRÉDITO DIMANANTE DEL EXPEDIENTE 8215/2026, DE   RESPONSABILIDAD   CONTRACTUAL.</p><p style="line-height: 1; text-align: justify;">6.-  23834/2026.-  CONCERTACIÓN  DE  PRÉSTAMO  POR  PARTE  DE  LA  SOCIEDAD PÚBLICA  EMVISMESA  POR  CONCERTACIÓN  DE  OPERACIÓN  DE  CRÉDITO  A LARGO PLAZO.</p><p style="line-height: 1; text-align: justify;">7.-  24342/2026.-  AVAL  DE  LA  CIUDAD  AUTÓNOMA  DE  MELILLA  A  LA  SOCIEDAD PÚBLICA  EMVISMESA  POR  CONCERTACIÓN  DE  OPERACIÓN  DE  CRÉDITO  A LARGO PLAZO.</p><p style="line-height: 1; text-align: justify;"><strong>ASUNTOS   PRESENTADOS   POR   LA   COMISIÓN   PERMANENTE   DE CULTURA, PATRIMONIO CULTURAL Y DEL </strong><br><strong>MAYOR</strong></p><p style="line-height: 1; text-align: justify;">8.  14426/2026.-  CONCESIÓN  DE  LA  PLACA  AL  MÉRITO  SOCIAL  A  LA ASOCIACIÓN   DE   ENFERMOS   DE   ALZHEIMER   Y   FAMILIARES   DE ALZHEIMER</p><p style="line-height: 1; text-align: justify;">9.  22940/2026.-  PROPUESTA  DE  SUSTITUCIÓN  DE  LA  REFERENCIA  A  LA CALLE  “ALFÉREZ  DÍAZ  OTERO”  POR  LA  CALLE  “TENIENTE  BRAGADO”, EN   FAVOR   DEL   HONOR   RECONOCIDO   A   “FERNANDO  BELMONTE MONTALBÁN”.</p><p style="line-height: 1; text-align: justify;"><strong>ASUNTOS   PRESENTADOS   POR   LA   COMISIÓN   PERMANENTE   DE MEDIO AMBIENTE Y NATURALEZA</strong></p><p style="line-height: 1; text-align: justify;">10.  40278/2025.-  MOCIÓN  Nº  26/2026  SOBRE  “MEJORAS  EN  LA  URBANIZACIÓN LOS PINARES</p><p style="line-height: 1; text-align: justify;">11.  36516/2025.-  MOCIÓN  Nº  16/2026  SOBRE  LA  “ACTUACIONES  URGENTES EN  LAS  VIVIENDAS  PREFABRICADAS  DE  HARDU,  CONOCIDAS  COMO  LAS CARACOLAS”.</p><p style="line-height: 1; text-align: justify;">12.  40185/2025.-  MOCIÓN  Nº  23/2026  SOBRE  “MEJORAS  PARA  EL  BARRIO COLON (CABRERIZAS BAJAS)”</p><p style="line-height: 1; text-align: justify;">13.  3784/2025.-  APROBACIÓN  INICIAL,  SI  PROCEDE,  DEL  REGLAMENTO  DE ZONA DE BAJAS EMISIONES</p><p style="line-height: 1; text-align: justify;"><strong>ASUNTO   PRESENTADO    POR    LA    COMISIÓN    PERMANENTE    DE POLÍTICAS     SOCIALES,     SALUD     PÚBLICA     Y     SEGURIDAD CIUDADANA</strong></p><p style="line-height: 1; text-align: justify;">14.   17/2026/CMA.-   “GESTIÓN   DE   48   PLAZAS   EN   EL   CENTRO   DE CUMPLIMIENTO   DE   MEDIDAS   JUDICIALES   DE   INTERNAMIENTO   PARA MENORES INFRACTORES”</p><p style="line-height: 1; text-align: justify;"><strong>ASUNTO   PRESENTADO   POR   LA   COMISIÓN   PERMANENTE   DE EDUCACIÓN, JUVENTUD Y DEPORTE</strong></p><p style="line-height: 1; text-align: justify;">15.  14344/2026.-  DEROGACIÓN  DE  DIVERSAS  DISPOSICIONES  NORMATIVAS EN MATERIA DE JUVENTUD</p>
+                            </div>
+        </div>
+        <hr class="my-8"/>
+            <div class="pagina pagina--articulo" id="pagina-3952">
+            <div class="pagina-titulo">
+                <h3 class="fs-18 text-center">
+                    <a class="text-black" href="#pagina-3952"><i class="uil uil-file-blank"></i> Página 3952</a>
+                </h3>
+                                                <h4 class="text-center h6">
+                    <a class="text-brand"
+                       target="_blank"
+                       data-bome-tipo="Pagina"
+                       data-bome-name="BOME-P-2026-3952"
+                       href="/bome/descargar/BOME-P-2026-3952.pdf">
+                        <img src="/images/pdf.png" alt="Descargar página BOME-P-2026-3952"/>
+                        Descargar BOME-P-2026-3952
+                    </a>
+                </h4>
+            </div>
+            <div class="pagina-texto">
+                                    <p style="line-height: 1; text-align: justify;"> Lo que se comunica para su publicación y general conocimiento, informándose que los acuerdos adoptados constarán íntegramente en las Actas del Pleno de la Asamblea en el Portal de Transparencia de la página web oficial de la Ciudad Autónoma de Melilla (www. melilla.es) de conformidad con el art. 50.4 del Reglamento de la Asamblea (BOME extraordinario nº 10 de 18 de abril de 2018) y el art. 11.2 h) del Reglamento de Transparencia y Acceso a la Información Pública de la Ciudad (BOME nº 5357 de 19 de julio de 2016).</p><p style="line-height: 0.2; padding-left: 40px;"> </p><p style="line-height: 0.2; padding-left: 40px;">Melilla, a 20 de julio de 2026,</p><p style="line-height: 0.2; padding-left: 40px;">El Secretario General Acctal. de la Asamblea,</p><p style="line-height: 0.2; padding-left: 40px;">Decreto nº 23 de fecha 13/02/2025 (BOME Extra nº 9 14/02/2025),</p><p style="line-height: 0.2; padding-left: 40px;">Diego Giner Gutiérrez </p><p style="line-height: 0.2; padding-left: 40px;"> </p>
+                            </div>
+        </div>
+        <hr class="my-8"/>
+    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="progress-wrap">
+    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+    </svg>
+</div>
+<footer class="bg-light">
+    <div class="container py-7">
+    <div class="d-md-flex align-items-center justify-content-between">
+        <p class="mb-2 mb-lg-0">© 2026 Boletín Oficial de Melilla. Todos los derechos reservados.</p>
+        <nav class="nav social social-muted mb-0 text-md-end text-uppercase">
+            <a class="fs-13 text-brand" href="/">Bomes</a>
+            <a class="fs-13 text-brand" href="/buscar">Buscar</a>
+            <a class="fs-13 text-brand" href="/preguntas-frecuentes">FAQ</a>
+            <a class="fs-13 text-brand" href="/politica-cookies">Política de cookies</a>
+        </nav>
+        <!-- /.social -->
+    </div>
+</div>
+
+</footer>
+<script src="/assets/js/plugins.js"></script>
+<script src="/assets/js/theme.js"></script>
+<script src="/assets/custom/build/app-runtime.js?v=a3aa75d2"></script><script src="/assets/custom/build/app-623.js?v=a3aa75d2"></script><script src="/assets/custom/build/app-app.js?v=a3aa75d2"></script>
+</body>
+</html>

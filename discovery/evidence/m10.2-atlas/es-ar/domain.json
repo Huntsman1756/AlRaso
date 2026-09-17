@@ -1,0 +1,29 @@
+{
+  "domain_id": "ES-AR",
+  "gazette_id": "boa",
+  "gazette_name": "Boletín Oficial de Aragón",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "boa-cgi-verdoc", "kind": "document",
+     "url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?BASE=BOLE&CMD=VERDOC&DOCN={docn}&SEC=BUSQUEDA_AVANZADA&SEPARADOR="},
+    {"surface_id": "boa-cgi-search", "kind": "portal",
+     "url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI"}
+  ],
+  "discovery_mechanism": "legacy_cgi (BRSCGI VERDOC by DOCN)",
+  "fetch_mechanism": "cgi",
+  "doc_id_scheme": "DOCN (internal numeric, e.g. 007922169)",
+  "formats": ["html", "pdf"],
+  "parser_family": "boa_html",
+  "version_signal": "gazette_publication",
+  "change_detection": {
+    "mechanism": "cgi bulletin polling",
+    "strength": "weak",
+    "cadence": "daily"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "REACHABLE"},
+  "fallback": null,
+  "license": {"terms": "not_verified", "url": ""},
+  "candidate_profile": "pipeline/sources/boa.profile.json",
+  "status_evidence": "M10.1 pilot P2 chain PASS + fresh doc probe es_local 2026-09-18 (25274B — identical byte count to live verify 2026-09-16). ISO-8859-1 encoding.",
+  "notes": "Consolidated-legislation portal exists; API not verified."
+}

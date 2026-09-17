@@ -1,0 +1,19 @@
+[
+  {
+    "probe_id": "doc",
+    "surface_id": "boa-doc",
+    "kind": "document",
+    "url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?BASE=BOLE&CMD=VERDOC&DOCN=007922169&SEC=BUSQUEDA_AVANZADA&SEPARADOR=",
+    "observed_at": "2026-09-17T04:43:06Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "3c560f0a44447d7d3f8054855efd9e680fad6c5354bed7f7bc0e8b7a35a16ef1",
+    "bytes": 25274,
+    "content_type": "text/html; charset=ISO-8859-1",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-ar/doc.body",
+    "detail": ""
+  }
+]

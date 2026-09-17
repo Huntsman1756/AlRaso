@@ -1,0 +1,36 @@
+[
+  {
+    "probe_id": "sumario",
+    "surface_id": "bon-sumario",
+    "kind": "sumario",
+    "url": "https://bon.navarra.es/es/boletin/-/sumario/2023/244",
+    "observed_at": "2026-09-17T04:39:35Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "6813fdbaf198e914d13a1655e31756d0f1bf04a29330096c489571d5e4e9146f",
+    "bytes": 90193,
+    "content_type": "text/html;charset=UTF-8",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-nc/sumario.body",
+    "detail": ""
+  },
+  {
+    "probe_id": "doc",
+    "surface_id": "bon-doc",
+    "kind": "document",
+    "url": "https://bon.navarra.es/es/anuncio/-/texto/2023/244/0",
+    "observed_at": "2026-09-17T04:39:36Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "b37844533e2dd74cd7fb978bce515c588a9da1d6af51193f23cce8231db0bd9d",
+    "bytes": 206703,
+    "content_type": "text/html;charset=UTF-8",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-nc/doc.body",
+    "detail": ""
+  }
+]

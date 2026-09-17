@@ -1,0 +1,54 @@
+{
+  "source_id": "borm",
+  "jurisdiction": "ES-MC",
+  "kind": "gazette+open_data_api",
+  "discovery": {
+    "provider": "borm_index_api",
+    "recipe": "dataset_query",
+    "endpoint": "https://transparencia.carm.es/rest-services/services/restFile/BORMIndice.json",
+    "doc_id_pattern": "\\d+",
+    "queryable_fields": ["PUBLICACION", "ID_ANUNCIO", "FECHA"],
+    "fields": [
+      "ID_ANUNCIO",
+      "PUBLICACION",
+      "URL_HTML",
+      "URL_PDF",
+      "FECHA_PUBLICACION"
+    ]
+  },
+  "fetch": {
+    "provider": "per_doc_url",
+    "recipe": "get_simple",
+    "method": "GET",
+    "formats": ["pdf", "txt", "html"],
+    "content_marker": "%PDF",
+    "doc_url_template": "https://www.borm.es/services/anuncio/{internalId}/pdf"
+  },
+  "parse": {
+    "format": "pdf_text"
+  },
+  "versioning": {
+    "strategy": "gazette_publication"
+  },
+  "reachability": {
+    "expected": {
+      "es_local": "REACHABLE",
+      "foreign_ci": "WAF_BLOCKED"
+    },
+    "fallback": "open-data index (transparencia.carm.es) + CKAN catalog"
+  },
+  "change_detection": {
+    "method": "daily-updated open-data index (JSON/CSV/XML/TXT)",
+    "cadence": "daily"
+  },
+  "provenance": {
+    "derived_from": "discovery/evidence/m10.2-atlas/es-mc/",
+    "probed_at": "2026-09-18",
+    "caveat": "CANDIDATE: discovery provider 'borm_index_api' interpreter not yet implemented; get_simple recipe does not yet send a User-Agent — Radware WAF on borm.es returns a CAPTCHA interstitial (200 + captcha HTML) to headless clients, which the fetcher must record as CONTENT_MARKER_MISMATCH, never SUCCESS. Plain browser UA retrieves real content."
+  },
+  "atlas": {
+    "domain_id": "ES-MC",
+    "domain_status": "PROVEN",
+    "evidence_dir": "discovery/evidence/m10.2-atlas/es-mc/"
+  }
+}

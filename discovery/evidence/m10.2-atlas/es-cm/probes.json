@@ -1,0 +1,36 @@
+[
+  {
+    "probe_id": "sumario",
+    "surface_id": "docm-sumario",
+    "kind": "sumario",
+    "url": "https://docm.jccm.es/docm/cambiarBoletin.do?fecha=20260916",
+    "observed_at": "2026-09-17T04:40:08Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "672f1824a92ff5f7d08f1159f815eaddf156a68b021ff551e48b8380a202ab2d",
+    "bytes": 53455,
+    "content_type": "text/html;charset=UTF-8",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-cm/sumario.body",
+    "detail": ""
+  },
+  {
+    "probe_id": "doc-pdf",
+    "surface_id": "docm-doc",
+    "kind": "document",
+    "url": "https://docm.jccm.es/docm/descargarArchivo.do?ruta=2026/09/17/pdf/2026_6678.pdf&tipo=rutaDocm",
+    "observed_at": "2026-09-17T04:40:09Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "99d2b2ba326e1852d599e7a55da3f4b22071b49e683e5dca58fc108285814fd9",
+    "bytes": 242944,
+    "content_type": "application/pdf",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-cm/doc-pdf.body",
+    "detail": ""
+  }
+]

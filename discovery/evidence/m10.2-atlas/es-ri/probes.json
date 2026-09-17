@@ -1,0 +1,53 @@
+[
+  {
+    "probe_id": "sumario",
+    "surface_id": "bor-sumario",
+    "kind": "sumario",
+    "url": "https://web.larioja.org/bor-portada/?fecha=2026-09-17",
+    "observed_at": "2026-09-17T04:40:24Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "bfd0233862b2ad2d1453a49924e56dd0c9f48468a4a4c4936752a47e010d9217",
+    "bytes": 68237,
+    "content_type": "text/html; charset=utf-8",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-ri/sumario.body",
+    "detail": ""
+  },
+  {
+    "probe_id": "doc",
+    "surface_id": "bor-doc",
+    "kind": "document",
+    "url": "https://web.larioja.org/bor-portada/boranuncio?n=anu-579777",
+    "observed_at": "2026-09-17T04:40:29Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "642cf357d6e697292c1ff47fed0f8509d48b5d4f0cff44ead35faafce7934f4f",
+    "bytes": 73969,
+    "content_type": "text/html; charset=utf-8",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-ri/doc.body",
+    "detail": ""
+  },
+  {
+    "probe_id": "doc-pdf",
+    "surface_id": "bor-doc-pdf",
+    "kind": "document",
+    "url": "https://ias1.larioja.org/boletin/Bor_Boletin_visor_Servlet?referencia=42238245-1-PDF-579777-X",
+    "observed_at": "2026-09-17T04:40:31Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "be95a2c6d5ced71fc0ad140c485fe6996b983ccc1ee865dd8f56c72e7c82a27b",
+    "bytes": 295779,
+    "content_type": "application/pdf",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-ri/doc-pdf.body",
+    "detail": ""
+  }
+]

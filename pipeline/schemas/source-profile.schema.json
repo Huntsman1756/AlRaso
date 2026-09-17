@@ -138,6 +138,18 @@
         "derived_from": { "type": "string" },
         "probed_at": { "type": "string" }
       }
+    },
+    "atlas": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "domain_id": { "type": "string", "pattern": "^ES(-[A-Z]{1,2})?$" },
+        "domain_status": {
+          "type": "string",
+          "enum": ["PROVEN", "BLOCKED_WITH_EVIDENCE", "UNPROBED"]
+        },
+        "evidence_dir": { "type": "string" }
+      }
     }
   }
 }

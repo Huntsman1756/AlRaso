@@ -1,0 +1,19 @@
+[
+  {
+    "probe_id": "doc-xml",
+    "surface_id": "boc-daily-xml",
+    "kind": "document",
+    "url": "https://boc.cantabria.es/boces/verXmlAction.do?idBlob=46085",
+    "observed_at": "2026-09-17T04:43:06Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "656bf9535b77359788f92a6a7295f04f1b6d7330ee8d94dbde1699bb9b033150",
+    "bytes": 149942,
+    "content_type": "application/xml",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-cb/doc-xml.body",
+    "detail": ""
+  }
+]

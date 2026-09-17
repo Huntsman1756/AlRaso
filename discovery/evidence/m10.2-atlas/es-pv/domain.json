@@ -1,0 +1,37 @@
+{
+  "domain_id": "ES-PV",
+  "gazette_id": "bopv",
+  "gazette_name": "Boletín Oficial del País Vasco / Euskal Herriko Agintaritzaren Aldizkaria (EHAA)",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "bopv-portal", "kind": "portal",
+     "url": "https://www.euskadi.eus/web01-bopv/es/"},
+    {"surface_id": "bopv-ultimo-rss", "kind": "feed",
+     "url": "https://www.euskadi.eus/bopv2/datos/Ultimo.xml"},
+    {"surface_id": "bopv-doc", "kind": "document",
+     "url": "https://www.euskadi.eus/bopv2/datos/{YYYY}/{MM}/{YY}{serial}{lang}.shtml (lang a=es, e=eu; .pdf/.epub same basename)"},
+    {"surface_id": "bopv-api", "kind": "api",
+     "url": "https://opendata.euskadi.eus/api-bopv/?api=bopv",
+     "notes": "documented REST API (Swagger); spec URL not resolved during probe"},
+    {"surface_id": "bopv-dataset", "kind": "api",
+     "url": "https://www.euskadi.eus/web01-a3estand/eu/contenidos/ds_juridicos/publicaciones_bopv/es_def/index.shtml",
+     "notes": "open-data dataset, DCAT RDF, CC BY, daily refresh from 2008"}
+  ],
+  "discovery_mechanism": "rss Ultimo + deterministic per-issue/per-doc file URLs (+ documented API)",
+  "fetch_mechanism": "get_simple",
+  "doc_id_scheme": "{YY}{serial}{lang} filename + issue N.º + per-year sequential disposition number",
+  "formats": ["html", "pdf", "epub", "rss", "rdf"],
+  "parser_family": "NEW:bopv_html",
+  "version_signal": "none_verified",
+  "change_detection": {
+    "mechanism": "RSS Ultimo.xml (per-disposition items) + open-data dataset daily refresh",
+    "strength": "strong",
+    "cadence": "daily"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "REACHABLE"},
+  "fallback": "opendata.euskadi.eus dataset/API",
+  "license": {"terms": "CC BY (open-data dataset)", "url": "https://opendata.euskadi.eus/general/-/informacion-legal-opendata/"},
+  "candidate_profile": null,
+  "status_evidence": "portal + Ultimo.xml feed + doc shtml probed live es_local 2026-09-18 (all 200, evidence stored). Real 404s on bogus doc suffixes — clean discriminator.",
+  "notes": "Bilingual (es suffix 'a', eu 'e'). ELI dataset exists for EHAA (LOD). Legacy Struts .do app for search/consolidated."
+}

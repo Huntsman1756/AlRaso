@@ -1,0 +1,19 @@
+[
+  {
+    "probe_id": "doc-xml",
+    "surface_id": "bocyl-doc",
+    "kind": "document",
+    "url": "https://bocyl.jcyl.es/boletines/2025/12/15/xml/BOCYL-D-15122025-1.xml",
+    "observed_at": "2026-09-17T04:43:05Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": true,
+    "raw_sha256": "f3837c8f0e1ddb350cc14c8b11f94be91ad07f867ffc4152d91e8a7058a3d65e",
+    "bytes": 15473,
+    "content_type": "application/xml",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-cl/doc-xml.body",
+    "detail": ""
+  }
+]

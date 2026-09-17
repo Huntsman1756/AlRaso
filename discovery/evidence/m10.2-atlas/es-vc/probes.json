@@ -1,0 +1,36 @@
+[
+  {
+    "probe_id": "sumario-api",
+    "surface_id": "dogv-api",
+    "kind": "api",
+    "url": "https://dogv.gva.es/dogv-portal/dogv?date=2026-09-15&lang=es",
+    "observed_at": "2026-09-17T04:39:35Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": true,
+    "raw_sha256": "992f8aac383fd6d96fa0f7bb2a38259e3bc27cb3d0c57bef5cbfa7ca1bc6df41",
+    "bytes": 18728,
+    "content_type": "application/json;charset=UTF-8",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-vc/sumario-api.body",
+    "detail": ""
+  },
+  {
+    "probe_id": "doc",
+    "surface_id": "dogv-doc",
+    "kind": "document",
+    "url": "https://dogv.gva.es/datos/2025/11/27/pdf/2025_45694_es.pdf",
+    "observed_at": "2026-09-17T04:39:35Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "23c7f99bc25ed002f08c897db8f8bce7faa5880f1b5debda3f4c0845804665e1",
+    "bytes": 392952,
+    "content_type": "application/pdf",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-vc/doc.body",
+    "detail": ""
+  }
+]

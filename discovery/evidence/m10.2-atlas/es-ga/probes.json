@@ -1,0 +1,53 @@
+[
+  {
+    "probe_id": "portal",
+    "surface_id": "portal",
+    "kind": "portal",
+    "url": "https://www.xunta.gal/diario-oficial-galicia",
+    "observed_at": "2026-09-17T04:36:24Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "acb465eac4e8d9924e686826e732643a60ef2fe4933b6f3f9615e72323ea70ba",
+    "bytes": 43512,
+    "content_type": "text/html; charset=UTF-8",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-ga/portal.body",
+    "detail": ""
+  },
+  {
+    "probe_id": "feed",
+    "surface_id": "feed",
+    "kind": "feed",
+    "url": "https://www.xunta.gal/diario-oficial-galicia/rss/Sumario_gl.rss",
+    "observed_at": "2026-09-17T04:36:24Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "88c07811b39346a817c6ed0da945f24f42a7ea6ba807dafa02e206612b98c009",
+    "bytes": 40357,
+    "content_type": "application/rss+xml",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-ga/feed.body",
+    "detail": ""
+  },
+  {
+    "probe_id": "doc",
+    "surface_id": "doc",
+    "kind": "document",
+    "url": "https://www.xunta.gal/dog/Publicados/2025/20251210/AnuncioG0177-091225-0001_es.html",
+    "observed_at": "2026-09-17T04:36:24Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "52e94e57b34f400b6b360f2ad490f2aabf319691841eee5721d65b6516ebdf4c",
+    "bytes": 13616,
+    "content_type": "text/html; charset=UTF-8",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-ga/doc.body",
+    "detail": ""
+  }
+]

@@ -929,6 +929,24 @@ def test_git_diff_vs_main_only_allowed_files():
             or f == "docs/reports/ALRASO_EVIDENCE_PACKET_V2_CONSUMER_PROOF_2026-09-09.md"
             or f == "tests/test_evidence_packet_v2.py"
         )
+        # M10.2 national source coverage + refresh: design docs only
+        # (spec/plan). Implementation stanzas are added by the M10.2-*
+        # implementation branches themselves — not preauthorized here.
+        m10_2_allowed = (
+            f.startswith("docs/superpowers/specs/2026-09-16-m10.2")
+            or f.startswith("docs/superpowers/plans/2026-09-16-m10.2")
+            or f.startswith("docs/superpowers/plans/2026-09-17-m10.2")
+        )
+        # M10.2-A national source atlas: bounded to atlas profiles/schemas,
+        # m102 probe tooling, m102 contract tests and atlas evidence output.
+        # alraso/, webapp/ and qa/browser/ stay FROZEN (0 lines expected).
+        m10_2a_allowed = (
+            f.startswith("pipeline/sources/atlas/")
+            or f.startswith("pipeline/schemas/source-atlas")
+            or f.startswith("tooling/m102_")
+            or f.startswith("tests/test_m102_")
+            or f.startswith("discovery/evidence/m10.2")
+        )
         assert (
             f in allowed
             or m9_allowed
@@ -936,4 +954,6 @@ def test_git_diff_vs_main_only_allowed_files():
             or m10_allowed
             or m10_1_allowed
             or ep21_allowed
+            or m10_2_allowed
+            or m10_2a_allowed
         ), f"Unexpected file changed: {f}"

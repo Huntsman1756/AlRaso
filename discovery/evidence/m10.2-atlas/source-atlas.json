@@ -1,0 +1,1896 @@
+{
+  "version": 1,
+  "generated_at": "2026-09-17T05:27:29Z",
+  "domains": [
+    {
+      "domain_id": "ES",
+      "gazette_id": "boe",
+      "gazette_name": "Boletín Oficial del Estado",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "boe-sumario-api",
+          "kind": "api",
+          "url": "https://www.boe.es/datosabiertos/api/boe/sumario/{AAAAMMDD}",
+          "notes": "requires Accept: application/json; 400 on plain GET"
+        },
+        {
+          "surface_id": "boe-consolidada-api",
+          "kind": "api",
+          "url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada"
+        },
+        {
+          "surface_id": "boe-doc",
+          "kind": "document",
+          "url": "https://www.boe.es/buscar/doc.php?id=BOE-A-YYYY-NNNNN"
+        },
+        {
+          "surface_id": "boe-eli-resolver",
+          "kind": "portal",
+          "url": "https://www.boe.es/eli/es/..."
+        }
+      ],
+      "discovery_mechanism": "sumario_api + consolidated_api",
+      "fetch_mechanism": "get_simple",
+      "doc_id_scheme": "BOE-A-YYYY-NNNNN + ELI",
+      "formats": [
+        "json",
+        "xml",
+        "html",
+        "pdf"
+      ],
+      "parser_family": "NEW:boe_consolidada_xml",
+      "version_signal": "consolidated_api",
+      "change_detection": {
+        "mechanism": "sumario API daily + legislacion-consolidada fecha_actualizacion from/to",
+        "strength": "strong",
+        "cadence": "daily"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "fallback": "boe.es web UI (buscar/doc.php)",
+      "license": {
+        "terms": "reutilización información pública (datos abiertos BOE)",
+        "url": "https://www.boe.es/datosabiertos/"
+      },
+      "candidate_profile": "pipeline/sources/atlas/boe.profile.json",
+      "status_evidence": "sumario API + doc.php probed live es_local 2026-09-18 (200 JSON/XML, evidence preserved). G0 verified consolidated corpus; caveat: CCAA PRUG decrees are NOT in the consolidated corpus — BOE suffices for state framework laws only.",
+      "notes": "Accept header mandatory on datosabiertos API. Consolidated-corpus absence proves nothing about autonomous gazettes.",
+      "probes": [
+        {
+          "probe_id": "sumario-api",
+          "surface_id": "boe-sumario-api",
+          "kind": "api",
+          "url": "https://www.boe.es/datosabiertos/api/boe/sumario/20260916",
+          "observed_at": "2026-09-17T04:39:16Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": true,
+          "raw_sha256": "6188adbc0b5d4798e1d9dc31ef76c41785fb9df56d0c163b88691eedd1fe9eec",
+          "bytes": 232924,
+          "content_type": "application/json",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es/sumario-api.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "doc",
+          "surface_id": "boe-doc",
+          "kind": "document",
+          "url": "https://www.boe.es/buscar/doc.php?id=BOE-A-2007-21952",
+          "observed_at": "2026-09-17T04:39:16Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "e76b21f04d450c0f64035991bee0243998a8c401ee7816c61f7b493d5d58f741",
+          "bytes": 43460,
+          "content_type": "text/html; charset=UTF-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es/doc.body",
+          "detail": ""
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es/"
+    },
+    {
+      "domain_id": "ES-AN",
+      "gazette_id": "boja",
+      "gazette_name": "Boletín Oficial de la Junta de Andalucía",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "boja-portal",
+          "kind": "portal",
+          "url": "https://www.juntadeandalucia.es/boja"
+        },
+        {
+          "surface_id": "boja-doc-url",
+          "kind": "document",
+          "url": "https://www.juntadeandalucia.es/boja/{YYYY}/{issue}/{doc}"
+        },
+        {
+          "surface_id": "sedeboja-consolidados",
+          "kind": "portal",
+          "url": "https://www.juntadeandalucia.es/sedeboja",
+          "notes": "consolidated-texts portal; no clean API verified"
+        }
+      ],
+      "discovery_mechanism": "issue_index_html (sumario per /boja/{YYYY}/{issue})",
+      "fetch_mechanism": "get_simple",
+      "doc_id_scheme": "(YYYY, issue, doc) URL triple; print id BOJA-b-YYYY-NNNNN",
+      "formats": [
+        "html",
+        "pdf"
+      ],
+      "parser_family": "NEW:boja_html",
+      "version_signal": "none_verified",
+      "change_detection": {
+        "mechanism": "issue index polling",
+        "strength": "medium",
+        "cadence": "daily"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "fallback": "BOE consolidada for the consolidated subset",
+      "license": {
+        "terms": "not_verified",
+        "url": "https://www.juntadeandalucia.es/avisolegal"
+      },
+      "candidate_profile": null,
+      "status_evidence": "portal + document probed live es_local 2026-09-18 (doc /boja/2011/155/41 → 200, 136216B stored; portal 200). G0 probe boja-doc re-confirmed.",
+      "notes": "HEAD requests time out — GET only. Consolidated portal exists but no API verified.",
+      "probes": [
+        {
+          "probe_id": "doc",
+          "surface_id": "boja-doc-url",
+          "kind": "document",
+          "url": "https://www.juntadeandalucia.es/boja/2011/155/41",
+          "observed_at": "2026-09-17T04:38:11Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "c86f05dd8b4801b392d86f8333b6da80b2bd455cf11b4d9a5943ed2253f715e3",
+          "bytes": 136216,
+          "content_type": "text/html; charset=UTF-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-an/doc.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "portal",
+          "surface_id": "boja-portal",
+          "kind": "portal",
+          "url": "https://www.juntadeandalucia.es/boja",
+          "observed_at": "2026-09-17T04:40:48Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "32dd4f24a32ce35310e2a1cafc7a41ca0a139a997a1720a30d6a2be7fa5885a7",
+          "bytes": 133515,
+          "content_type": "text/html; charset=UTF-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-an/portal.body",
+          "detail": ""
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-an/"
+    },
+    {
+      "domain_id": "ES-AR",
+      "gazette_id": "boa",
+      "gazette_name": "Boletín Oficial de Aragón",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "boa-cgi-verdoc",
+          "kind": "document",
+          "url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?BASE=BOLE&CMD=VERDOC&DOCN={docn}&SEC=BUSQUEDA_AVANZADA&SEPARADOR="
+        },
+        {
+          "surface_id": "boa-cgi-search",
+          "kind": "portal",
+          "url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI"
+        }
+      ],
+      "discovery_mechanism": "legacy_cgi (BRSCGI VERDOC by DOCN)",
+      "fetch_mechanism": "cgi",
+      "doc_id_scheme": "DOCN (internal numeric, e.g. 007922169)",
+      "formats": [
+        "html",
+        "pdf"
+      ],
+      "parser_family": "boa_html",
+      "version_signal": "gazette_publication",
+      "change_detection": {
+        "mechanism": "cgi bulletin polling",
+        "strength": "weak",
+        "cadence": "daily"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "fallback": null,
+      "license": {
+        "terms": "not_verified",
+        "url": ""
+      },
+      "candidate_profile": "pipeline/sources/boa.profile.json",
+      "status_evidence": "M10.1 pilot P2 chain PASS + fresh doc probe es_local 2026-09-18 (25274B — identical byte count to live verify 2026-09-16). ISO-8859-1 encoding.",
+      "notes": "Consolidated-legislation portal exists; API not verified.",
+      "probes": [
+        {
+          "probe_id": "doc",
+          "surface_id": "boa-doc",
+          "kind": "document",
+          "url": "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?BASE=BOLE&CMD=VERDOC&DOCN=007922169&SEC=BUSQUEDA_AVANZADA&SEPARADOR=",
+          "observed_at": "2026-09-17T04:43:06Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "3c560f0a44447d7d3f8054855efd9e680fad6c5354bed7f7bc0e8b7a35a16ef1",
+          "bytes": 25274,
+          "content_type": "text/html; charset=ISO-8859-1",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ar/doc.body",
+          "detail": ""
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-ar/"
+    },
+    {
+      "domain_id": "ES-AS",
+      "gazette_id": "bopa",
+      "gazette_name": "Boletín Oficial del Principado de Asturias",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "bopa-portal",
+          "kind": "portal",
+          "url": "https://sede.asturias.es/bopa"
+        },
+        {
+          "surface_id": "bopa-doc-pdf",
+          "kind": "document",
+          "url": "https://sede.asturias.es/bopa/{YYYY}/{MM}/{DD}/{YYYY-NNNNN}.pdf"
+        }
+      ],
+      "discovery_mechanism": "portal search UI (no machine feed verified)",
+      "fetch_mechanism": "get_simple",
+      "doc_id_scheme": "BOPA code YYYY-NNNNN (e.g. 2026-02506)",
+      "formats": [
+        "pdf"
+      ],
+      "parser_family": "pdf_text",
+      "version_signal": "none_verified",
+      "change_detection": {
+        "mechanism": "document URL polling",
+        "strength": "weak",
+        "cadence": "manual"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "fallback": "official park web PDFs (verified M2A)",
+      "license": {
+        "terms": "not_verified",
+        "url": ""
+      },
+      "candidate_profile": null,
+      "status_evidence": "portal (264KB) + doc PDF probed live es_local 2026-09-18; doc bytes NOT redistributed (55.8MB, DIGEST_ONLY) but sha256 a1e374e5dcc12c5d… is byte-identical to the M2A evidence lock — provenance continuity proven.",
+      "notes": "PDF-only gazette; large documents (433pp). No consolidated/version surface observed.",
+      "probes": [
+        {
+          "probe_id": "portal",
+          "surface_id": "bopa-portal",
+          "kind": "portal",
+          "url": "https://sede.asturias.es/bopa",
+          "observed_at": "2026-09-17T04:39:17Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "4cfbddeda656673ae2cc232ad00454383a229c04b3bb59c845ad8096b593ac6b",
+          "bytes": 264391,
+          "content_type": "text/html;charset=UTF-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-as/portal.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "doc-pdf",
+          "surface_id": "bopa-doc-pdf",
+          "kind": "document",
+          "url": "https://sede.asturias.es/bopa/2026/03/30/2026-02506.pdf",
+          "observed_at": "2026-09-17T04:43:50Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "a1e374e5dcc12c5de2de653abf1f4da2635c620a10ac17e4f43ffd709d5210bd",
+          "bytes": 55813114,
+          "content_type": "application/pdf",
+          "evidence_path": "",
+          "detail": "DIGEST_ONLY: body not redistributed"
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-as/"
+    },
+    {
+      "domain_id": "ES-CB",
+      "gazette_id": "boc-cantabria",
+      "gazette_name": "Boletín Oficial de Cantabria",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "boc-toc-post",
+          "kind": "sumario",
+          "url": "POST https://boc.cantabria.es/boces/boletines.do"
+        },
+        {
+          "surface_id": "boc-daily-xml",
+          "kind": "document",
+          "url": "https://boc.cantabria.es/boces/verXmlAction.do?idBlob={N}"
+        },
+        {
+          "surface_id": "boc-anuncio-pdf",
+          "kind": "document",
+          "url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob={N}"
+        }
+      ],
+      "discovery_mechanism": "toc_post (POST boletines.do → TOC html → idBlob/idAnuBlob)",
+      "fetch_mechanism": "post_then_get",
+      "doc_id_scheme": "CVE-YYYY-NNNN + BOC-YYYY-NNNN + idAnuBlob/idBlob",
+      "formats": [
+        "xml",
+        "pdf",
+        "html"
+      ],
+      "parser_family": "boc_daily_xml",
+      "version_signal": "gazette_publication",
+      "change_detection": {
+        "mechanism": "daily XML diff (idBlob diario)",
+        "strength": "medium",
+        "cadence": "daily"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "ES_ONLY_SUSPECTED"
+      },
+      "fallback": "es_local_fetcher",
+      "license": {
+        "terms": "not_verified",
+        "url": ""
+      },
+      "candidate_profile": "pipeline/sources/boc-cantabria.profile.json",
+      "status_evidence": "M10.1 pilot P3 chain PASS + fresh doc probe es_local 2026-09-18 (149942B — identical byte count to live verify 2026-09-16). Geo-fence empirically verified both directions (TimeoutError via foreign fetcher recorded in G0).",
+      "notes": "Hardest transport contract in the set (POST→TOC→GET). ES_ONLY_SUSPECTED for foreign_ci is observed, not assumed.",
+      "probes": [
+        {
+          "probe_id": "doc-xml",
+          "surface_id": "boc-daily-xml",
+          "kind": "document",
+          "url": "https://boc.cantabria.es/boces/verXmlAction.do?idBlob=46085",
+          "observed_at": "2026-09-17T04:43:06Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "656bf9535b77359788f92a6a7295f04f1b6d7330ee8d94dbde1699bb9b033150",
+          "bytes": 149942,
+          "content_type": "application/xml",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-cb/doc-xml.body",
+          "detail": ""
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-cb/"
+    },
+    {
+      "domain_id": "ES-CE",
+      "gazette_id": "bocce",
+      "gazette_name": "Boletín Oficial de la Ciudad de Ceuta",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "bocce-portal",
+          "kind": "portal",
+          "url": "https://www.ceuta.es/ceuta/bocce"
+        },
+        {
+          "surface_id": "bocce-category",
+          "kind": "sumario",
+          "url": "https://www.ceuta.es/ceuta/component/jdownloads/viewcategory/{catid}-{month}?Itemid=534"
+        },
+        {
+          "surface_id": "bocce-issue-pdf",
+          "kind": "document",
+          "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/{catid}-{month}/{id}-bocce-{issue}-{DD-MM-YYYY}?Itemid=0"
+        }
+      ],
+      "discovery_mechanism": "html_category_scrape (jDownloads year→month→issue links)",
+      "fetch_mechanism": "get_simple",
+      "doc_id_scheme": null,
+      "formats": [
+        "pdf"
+      ],
+      "parser_family": "pdf_text",
+      "version_signal": "none_verified",
+      "change_detection": {
+        "mechanism": "monthly category page polling (jDownloads RSS endpoint exists but channel is empty)",
+        "strength": "weak",
+        "cadence": "weekly"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "fallback": null,
+      "license": {
+        "terms": "restrictive aviso-legal: contents property of Ciudad Autónoma de Ceuta, no reproduction without express authorization (art. 13 LPI official-text exemption applies)",
+        "url": "https://www.ceuta.es/ceuta/aviso-legal"
+      },
+      "candidate_profile": null,
+      "status_evidence": "portal + month category + issue PDF + RSS all probed live es_local 2026-09-18 (issue PDF 632489B application/pdf stored; RSS endpoint returns empty channel — documented). Issue-level acquisition is automatable; dispositions exist only inside issue PDFs.",
+      "notes": "LIMITATION: no document-level addressing — internal jDownloads IDs are sequential, not derivable from issue numbers; discovery requires scraping category HTML. Cadence Tue/Fri + extras. Archive 1926–2026.",
+      "probes": [
+        {
+          "probe_id": "portal",
+          "surface_id": "portal",
+          "kind": "portal",
+          "url": "https://www.ceuta.es/ceuta/bocce",
+          "observed_at": "2026-09-17T04:36:42Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "5ada82e7cc9bfb669b04c86268960eac4ed7fe0064f8022d065ea83eea5aa9e5",
+          "bytes": 70153,
+          "content_type": "text/html; charset=utf-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ce/portal.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "category",
+          "surface_id": "category",
+          "kind": "sumario",
+          "url": "https://www.ceuta.es/ceuta/component/jdownloads/viewcategory/1978-julio?Itemid=534",
+          "observed_at": "2026-09-17T04:36:43Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "3d718ad3d1ed00f9f40f6d06168a47f0c6d75b5a862e193e754cba3a0c6020bf",
+          "bytes": 48492,
+          "content_type": "text/html; charset=utf-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ce/category.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "issue-pdf",
+          "surface_id": "issue-pdf",
+          "kind": "document",
+          "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1978-julio/23202-bocce-6632-07-07-2026?Itemid=0",
+          "observed_at": "2026-09-17T04:36:43Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "4327ce0d17b606579ecdbd7266320e0d6d4e61c812b1bb020808db485a901af6",
+          "bytes": 632489,
+          "content_type": "application/pdf",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ce/issue-pdf.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "rss",
+          "surface_id": "rss",
+          "kind": "feed",
+          "url": "https://www.ceuta.es/ceuta/component/jdownloads/viewcategory/1978-julio?format=feed&Itemid=534",
+          "observed_at": "2026-09-17T04:36:44Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "3dc9157d4660edb00a4f0adc4897e11675a3d4b240ea6e75ac7b21f8ca83200f",
+          "bytes": 1077,
+          "content_type": "application/rss+xml; charset=utf-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ce/rss.body",
+          "detail": ""
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-ce/"
+    },
+    {
+      "domain_id": "ES-CL",
+      "gazette_id": "bocyl",
+      "gazette_name": "Boletín Oficial de Castilla y León",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "bocyl-opendatasoft",
+          "kind": "api",
+          "url": "https://jcyl.opendatasoft.com/api/explore/v2.1/catalog/datasets/bocyl/records"
+        },
+        {
+          "surface_id": "bocyl-doc-url",
+          "kind": "document",
+          "url": "https://bocyl.jcyl.es/boletines/{YYYY}/{MM}/{DD}/{ext}/BOCYL-D-{DDMMYYYY}-{N}.{ext}"
+        }
+      ],
+      "discovery_mechanism": "opendatasoft_dataset_query",
+      "fetch_mechanism": "get_simple",
+      "doc_id_scheme": "BOCYL-D-DDMMYYYY-N",
+      "formats": [
+        "xml",
+        "html",
+        "pdf",
+        "json"
+      ],
+      "parser_family": "bocyl_xml",
+      "version_signal": "gazette_publication",
+      "change_detection": {
+        "mechanism": "opendatasoft dataset daily + stable doc URLs",
+        "strength": "strong",
+        "cadence": "daily"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "fallback": null,
+      "license": {
+        "terms": "datos abiertos JCyL (dataset-level)",
+        "url": ""
+      },
+      "candidate_profile": "pipeline/sources/bocyl.profile.json",
+      "status_evidence": "M10.1 pilot P1 chain PASS + fresh doc probe es_local 2026-09-18 (15473B — identical byte count to live verify 2026-09-16).",
+      "notes": "Per-disposition XML excludes long annexes (PRUG ~430pp PDF-only) — annex_format pdf_text declared in profile.",
+      "probes": [
+        {
+          "probe_id": "doc-xml",
+          "surface_id": "bocyl-doc",
+          "kind": "document",
+          "url": "https://bocyl.jcyl.es/boletines/2025/12/15/xml/BOCYL-D-15122025-1.xml",
+          "observed_at": "2026-09-17T04:43:05Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": true,
+          "raw_sha256": "f3837c8f0e1ddb350cc14c8b11f94be91ad07f867ffc4152d91e8a7058a3d65e",
+          "bytes": 15473,
+          "content_type": "application/xml",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-cl/doc-xml.body",
+          "detail": ""
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-cl/"
+    },
+    {
+      "domain_id": "ES-CM",
+      "gazette_id": "docm",
+      "gazette_name": "Diario Oficial de Castilla-La Mancha",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "docm-portal",
+          "kind": "portal",
+          "url": "https://docm.jccm.es/"
+        },
+        {
+          "surface_id": "docm-sumario",
+          "kind": "sumario",
+          "url": "https://docm.jccm.es/docm/cambiarBoletin.do?fecha={YYYYMMDD}"
+        },
+        {
+          "surface_id": "docm-doc-pdf",
+          "kind": "document",
+          "url": "https://docm.jccm.es/docm/descargarArchivo.do?ruta={YYYY}/{MM}/{DD}/pdf/{YYYY}_{NNNN}.pdf&tipo=rutaDocm"
+        },
+        {
+          "surface_id": "docm-eli",
+          "kind": "portal",
+          "url": "https://docm.jccm.es/docm/eli/es-cm"
+        }
+      ],
+      "discovery_mechanism": "toc_sumario (date-param sumario → per-doc ruta paths)",
+      "fetch_mechanism": "get_simple",
+      "doc_id_scheme": "NID YYYY/NNNN + internal idDisposicion + ELI",
+      "formats": [
+        "pdf",
+        "html"
+      ],
+      "parser_family": "pdf_text",
+      "version_signal": "none_verified",
+      "change_detection": {
+        "mechanism": "date-param sumario polling + email alertas service",
+        "strength": "medium",
+        "cadence": "daily"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "fallback": "legacy host docm.castillalamancha.es/portaldocm (same app)",
+      "license": {
+        "terms": "aviso legal JCCM",
+        "url": "https://www.castillalamancha.es/avisolegal"
+      },
+      "candidate_profile": null,
+      "status_evidence": "sumario by date (Núm. 178, 2026-09-16) + doc PDF probed live es_local 2026-09-18 (242944B application/pdf stored).",
+      "notes": "detalleDocumento.do returned HTTP 500 to headless fetcher — possibly anti-bot; sumario/PDF paths clean. ELI resolver exists.",
+      "probes": [
+        {
+          "probe_id": "sumario",
+          "surface_id": "docm-sumario",
+          "kind": "sumario",
+          "url": "https://docm.jccm.es/docm/cambiarBoletin.do?fecha=20260916",
+          "observed_at": "2026-09-17T04:40:08Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "672f1824a92ff5f7d08f1159f815eaddf156a68b021ff551e48b8380a202ab2d",
+          "bytes": 53455,
+          "content_type": "text/html;charset=UTF-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-cm/sumario.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "doc-pdf",
+          "surface_id": "docm-doc",
+          "kind": "document",
+          "url": "https://docm.jccm.es/docm/descargarArchivo.do?ruta=2026/09/17/pdf/2026_6678.pdf&tipo=rutaDocm",
+          "observed_at": "2026-09-17T04:40:09Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "99d2b2ba326e1852d599e7a55da3f4b22071b49e683e5dca58fc108285814fd9",
+          "bytes": 242944,
+          "content_type": "application/pdf",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-cm/doc-pdf.body",
+          "detail": ""
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-cm/"
+    },
+    {
+      "domain_id": "ES-CN",
+      "gazette_id": "boc-canarias",
+      "gazette_name": "Boletín Oficial de Canarias",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "boc-cn-doc",
+          "kind": "document",
+          "url": "https://www.gobiernodecanarias.org/boc/{YYYY}/{NNN}/[pda/]{NNNN}.html"
+        },
+        {
+          "surface_id": "boc-cn-signed-pdf",
+          "kind": "document",
+          "url": "https://sede.gobiernodecanarias.org/boc/boc-a-{YYYY}-{NNN}-{NNNN}.pdf"
+        },
+        {
+          "surface_id": "boc-cn-archive",
+          "kind": "portal",
+          "url": "https://www.gobiernodecanarias.org/boc/"
+        }
+      ],
+      "discovery_mechanism": "stable_url_by_id",
+      "fetch_mechanism": "get_simple",
+      "doc_id_scheme": "BOC-A-YYYY-NNN-NNNN",
+      "formats": [
+        "html",
+        "pdf"
+      ],
+      "parser_family": "boc_canarias_html",
+      "version_signal": "gazette_publication",
+      "change_detection": {
+        "mechanism": "stable-id archive polling",
+        "strength": "medium",
+        "cadence": "weekly"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "fallback": null,
+      "license": {
+        "terms": "not_verified",
+        "url": ""
+      },
+      "candidate_profile": "pipeline/sources/boc-canarias.profile.json",
+      "status_evidence": "M10.1 pilot P5 chain PASS + fresh doc probe es_local 2026-09-18 (14939B — identical byte count to live verify 2026-09-16). Pipeline fetch contract (pipeline/providers/fetch.py) requires content_marker — markerless 200s never reach SUCCESS there.",
+      "notes": "Signed-PDF bytes not redistributable (DIGEST_ONLY); full text via pdf_text extract.",
+      "probes": [
+        {
+          "probe_id": "doc",
+          "surface_id": "boc-cn-doc",
+          "kind": "document",
+          "url": "https://www.gobiernodecanarias.org/boc/2025/240/pda/4148.html",
+          "observed_at": "2026-09-17T04:43:08Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "d49782a4a53c86b159a2808796a4e02035f9184d30225933415e71c90ceb46d6",
+          "bytes": 14939,
+          "content_type": "text/html",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-cn/doc.body",
+          "detail": ""
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-cn/"
+    },
+    {
+      "domain_id": "ES-CT",
+      "gazette_id": "dogc",
+      "gazette_name": "Diari Oficial de la Generalitat de Catalunya",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "dogc-socrata",
+          "kind": "api",
+          "url": "https://analisi.transparenciacatalunya.cat/resource/n6hn-rmy7.json"
+        },
+        {
+          "surface_id": "dogc-eli",
+          "kind": "document",
+          "url": "https://portaljuridic.gencat.cat/eli/es-ct/d/{YYYY}/{MM}/{DD}/{N}/dof/{lang}/{format}"
+        },
+        {
+          "surface_id": "dogc-portal",
+          "kind": "portal",
+          "url": "https://dogc.gencat.cat"
+        }
+      ],
+      "discovery_mechanism": "socrata (dataset with vigència field + ELI links)",
+      "fetch_mechanism": "get_simple",
+      "doc_id_scheme": "ELI es-ct/d/YYYY/MM/DD/N + portaldogc idNumber/idVersion",
+      "formats": [
+        "xml",
+        "html",
+        "pdf",
+        "rdf",
+        "turtle",
+        "json"
+      ],
+      "parser_family": "akn",
+      "version_signal": "consolidated_api",
+      "change_detection": {
+        "mechanism": "socrata dataset + vigència field + ELI idVersion",
+        "strength": "strong",
+        "cadence": "daily"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "fallback": null,
+      "license": {
+        "terms": "reutilización Generalitat (verificar por dataset; API pública Socrata)",
+        "url": ""
+      },
+      "candidate_profile": "pipeline/sources/dogc.profile.json",
+      "status_evidence": "M10.1 pilot P4 chain PASS + fresh doc probe es_local 2026-09-18 (114653B AKN XML — identical byte count to live verify 2026-09-16).",
+      "notes": "portaljuridic.gencat.cat requires legacy TLS (SECLEVEL=1) — transport constraint recorded in P4. vigència/idVersion surfaces verified; RESOLVED logic is M10.2-C scope.",
+      "probes": [
+        {
+          "probe_id": "doc-akn",
+          "surface_id": "dogc-eli",
+          "kind": "document",
+          "url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2003/02/04/39/dof/cat/xml",
+          "observed_at": "2026-09-17T04:43:07Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "96f9a5452c956337b45284a705de90858173acef43d3a33b2fd8454c7e517792",
+          "bytes": 114653,
+          "content_type": "text/xml; charset=UTF-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ct/doc-akn.body",
+          "detail": ""
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-ct/"
+    },
+    {
+      "domain_id": "ES-EX",
+      "gazette_id": "doe",
+      "gazette_name": "Diario Oficial de Extremadura",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "doe-portal",
+          "kind": "portal",
+          "url": "https://doe.juntaex.es/"
+        },
+        {
+          "surface_id": "doe-sumario",
+          "kind": "sumario",
+          "url": "https://doe.juntaex.es/ultimosdoe/mostrardoe.php?fecha={YYYYMMDD}&t=o"
+        },
+        {
+          "surface_id": "doe-doc-xml",
+          "kind": "document",
+          "url": "https://doe.juntaex.es/pdfs/doe/{YYYY}/{N*10}o/xml/{docId}.xml"
+        },
+        {
+          "surface_id": "doe-doc-pdf",
+          "kind": "document",
+          "url": "https://doe.juntaex.es/pdfs/doe/{YYYY}/{N*10}o/{file}.pdf"
+        },
+        {
+          "surface_id": "doe-rss",
+          "kind": "feed",
+          "url": "https://doe.juntaex.es/rss/rss.php?seccion={0-6}"
+        }
+      ],
+      "discovery_mechanism": "toc_sumario (date-param) + per-section RSS",
+      "fetch_mechanism": "get_simple",
+      "doc_id_scheme": "YYYY+7d numeric / YYYY+DE+5d (decreto-ley) + ELI es-ex",
+      "formats": [
+        "pdf",
+        "html",
+        "xml"
+      ],
+      "parser_family": "NEW:doe_xml",
+      "version_signal": "none_verified",
+      "change_detection": {
+        "mechanism": "per-section RSS + predictable per-day URL tree",
+        "strength": "strong",
+        "cadence": "daily"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "fallback": null,
+      "license": {
+        "terms": "aviso legal DOE",
+        "url": "https://doe.juntaex.es/aviso/avisolegal.pdf"
+      },
+      "candidate_profile": null,
+      "status_evidence": "sumario (Núm. 189, 2025-10-01) + doc XML probed live es_local 2026-09-18 (10412B application/xml stored — real per-document XML confirmed).",
+      "notes": "Signed PDFs (FNMT seal) are official; HTML marked 'carece de valor jurídico'. Non-issue dates return soft-empty 200.",
+      "probes": [
+        {
+          "probe_id": "sumario",
+          "surface_id": "doe-sumario",
+          "kind": "sumario",
+          "url": "https://doe.juntaex.es/ultimosdoe/mostrardoe.php?fecha=20251001&t=o",
+          "observed_at": "2026-09-17T04:40:09Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "8a1ca5a34e7fad2603b937737d397f86fb28398b862f772fef1ee6c1eaa72ce0",
+          "bytes": 23782,
+          "content_type": "text/html",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ex/sumario.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "doc-xml",
+          "surface_id": "doe-doc-xml",
+          "kind": "document",
+          "url": "https://doe.juntaex.es/pdfs/doe/2025/210o/xml/2025060262.xml",
+          "observed_at": "2026-09-17T04:40:09Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "804f24a794b4ee62569d6ef829e23aa07b3c49600fed52074aef8d6d2913ca3a",
+          "bytes": 10412,
+          "content_type": "application/xml",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ex/doc-xml.body",
+          "detail": ""
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-ex/"
+    },
+    {
+      "domain_id": "ES-GA",
+      "gazette_id": "dog",
+      "gazette_name": "Diario Oficial de Galicia",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "dog-portal",
+          "kind": "portal",
+          "url": "https://www.xunta.gal/diario-oficial-galicia"
+        },
+        {
+          "surface_id": "dog-sumario-rss",
+          "kind": "feed",
+          "url": "https://www.xunta.gal/diario-oficial-galicia/rss/Sumario_gl.rss"
+        },
+        {
+          "surface_id": "dog-doc",
+          "kind": "document",
+          "url": "https://www.xunta.gal/dog/Publicados/{YYYY}/{YYYYMMDD}/Anuncio{XXXX}-{DDMMYY}-{SEQ}_{lang}.html"
+        },
+        {
+          "surface_id": "dog-eli",
+          "kind": "document",
+          "url": "https://www.xunta.gal/diario-oficial-galicia/eli/es-ga/{rango}/{yyyy}/{m}/{d}/{num}/dof/{glg|spa}/{html|pdf}"
+        }
+      ],
+      "discovery_mechanism": "rss_sumario + deterministic /dog/Publicados/ date tree",
+      "fetch_mechanism": "get_simple",
+      "doc_id_scheme": "AnuncioXXXX-DDMMYY-SEQ + issue DOG Núm. + ELI es-ga",
+      "formats": [
+        "html",
+        "pdf",
+        "rss"
+      ],
+      "parser_family": "NEW:dog_html",
+      "version_signal": "none_verified",
+      "change_detection": {
+        "mechanism": "RSS set (sumario + secciones + rangos + taxonomías) + per-day URL tree",
+        "strength": "strong",
+        "cadence": "daily"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "fallback": null,
+      "license": {
+        "terms": "free reuse with source attribution, no denaturalization",
+        "url": "https://www.xunta.gal/aviso-legal-do-portal-da-xunta"
+      },
+      "candidate_profile": null,
+      "status_evidence": "portal + Sumario_gl.rss + doc HTML probed live es_local 2026-09-18 (all 200, evidence stored).",
+      "notes": "No public REST API confirmed; consolidated-law portal lex.gal exists but not machine-verified. Struts .do stack; real 404s on static doc URLs.",
+      "probes": [
+        {
+          "probe_id": "portal",
+          "surface_id": "portal",
+          "kind": "portal",
+          "url": "https://www.xunta.gal/diario-oficial-galicia",
+          "observed_at": "2026-09-17T04:36:24Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "acb465eac4e8d9924e686826e732643a60ef2fe4933b6f3f9615e72323ea70ba",
+          "bytes": 43512,
+          "content_type": "text/html; charset=UTF-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ga/portal.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "feed",
+          "surface_id": "feed",
+          "kind": "feed",
+          "url": "https://www.xunta.gal/diario-oficial-galicia/rss/Sumario_gl.rss",
+          "observed_at": "2026-09-17T04:36:24Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "88c07811b39346a817c6ed0da945f24f42a7ea6ba807dafa02e206612b98c009",
+          "bytes": 40357,
+          "content_type": "application/rss+xml",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ga/feed.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "doc",
+          "surface_id": "doc",
+          "kind": "document",
+          "url": "https://www.xunta.gal/dog/Publicados/2025/20251210/AnuncioG0177-091225-0001_es.html",
+          "observed_at": "2026-09-17T04:36:24Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "52e94e57b34f400b6b360f2ad490f2aabf319691841eee5721d65b6516ebdf4c",
+          "bytes": 13616,
+          "content_type": "text/html; charset=UTF-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ga/doc.body",
+          "detail": ""
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-ga/"
+    },
+    {
+      "domain_id": "ES-IB",
+      "gazette_id": "boib",
+      "gazette_name": "Butlletí Oficial de les Illes Balears",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "boib-portal",
+          "kind": "portal",
+          "url": "https://www.caib.es/eboibfront/"
+        },
+        {
+          "surface_id": "boib-rss",
+          "kind": "feed",
+          "url": "https://www.caib.es/eboibfront/indexrss.do?lang=es"
+        },
+        {
+          "surface_id": "boib-doc",
+          "kind": "document",
+          "url": "https://www.caib.es/eboibfront/{lang}/{YYYY}/{issueInternalId}/{docId}/{slug}[ /xml ]"
+        },
+        {
+          "surface_id": "boib-pdf",
+          "kind": "document",
+          "url": "https://www.caib.es/eboibfront/pdf/{lang}/{YYYY}/{numero}/{pdfFileId}"
+        }
+      ],
+      "discovery_mechanism": "rss + month calendar → issue internalId → per-doc docId",
+      "fetch_mechanism": "get_simple",
+      "doc_id_scheme": "docId + 'Número de registro' per-year + ELI es-ib",
+      "formats": [
+        "html",
+        "pdf",
+        "xml"
+      ],
+      "parser_family": "NEW:boib_rdfxml",
+      "version_signal": "none_verified",
+      "change_detection": {
+        "mechanism": "RSS per issue + month calendars",
+        "strength": "strong",
+        "cadence": "daily"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "fallback": "illesbalears.cat mirror",
+      "license": {
+        "terms": "CAIB aviso legal / reuse terms",
+        "url": "https://www.caib.es/govern/external/infoLegal.do?lang=es"
+      },
+      "candidate_profile": null,
+      "status_evidence": "portal + RSS + doc RDF/XML probed live es_local 2026-09-18 (doc /xml → 200 text/xml, 15883B stored — Dublin Core + ELI metadata confirmed).",
+      "notes": "PDFs digitally signed (/ByteRange). Bogus doc URLs return HTTP 500 — clean discriminator, no soft-404. boib.caib.es vhost uses legacy TLS (OpenSSL 1.0.2k) — use www.caib.es. Search POST form has 'robots' honeypot field.",
+      "probes": [
+        {
+          "probe_id": "portal",
+          "surface_id": "boib-portal",
+          "kind": "portal",
+          "url": "https://www.caib.es/eboibfront/",
+          "observed_at": "2026-09-17T04:39:50Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "c22bb20a1164d451636e217fbdd321850ebf7f865caf5fc395b20104c0f2e4ab",
+          "bytes": 58631,
+          "content_type": "text/html;charset=UTF-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ib/portal.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "rss",
+          "surface_id": "boib-rss",
+          "kind": "feed",
+          "url": "https://www.caib.es/eboibfront/indexrss.do?lang=es",
+          "observed_at": "2026-09-17T04:39:51Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "4abda27f882b90c78ffaba78fea9d4fd39e3ec2a83c023bbfc9325dfa1974afd",
+          "bytes": 5466,
+          "content_type": "application/rss+xml; charset=UTF-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ib/rss.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "doc-xml",
+          "surface_id": "boib-doc",
+          "kind": "document",
+          "url": "https://www.caib.es/eboibfront/es/2026/12328/719793/resolucion-de-la-consejera-de-trabajo-funcion-publ/xml",
+          "observed_at": "2026-09-17T04:39:51Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "c258d227f06cd5a2b89e3328fefd95e32d15b29c3d2ab2edef255e2ee93e07fe",
+          "bytes": 15883,
+          "content_type": "text/xml",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ib/doc-xml.body",
+          "detail": ""
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-ib/"
+    },
+    {
+      "domain_id": "ES-MC",
+      "gazette_id": "borm",
+      "gazette_name": "Boletín Oficial de la Región de Murcia",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "borm-portal",
+          "kind": "portal",
+          "url": "https://www.borm.es/"
+        },
+        {
+          "surface_id": "borm-services",
+          "kind": "api",
+          "url": "https://www.borm.es/services/{boletin|anuncio}/ano/{YYYY}/numero/{N}/{pdf|txt}",
+          "notes": "REST-ish service; WAF-gated for headless clients"
+        },
+        {
+          "surface_id": "borm-transparencia-index",
+          "kind": "api",
+          "url": "https://transparencia.carm.es/rest-services/services/restFile/BORMIndice.{json|csv|xml|txt}",
+          "notes": "daily-updated official open-data index (PUBLICACION, ID_ANUNCIO, URL_HTML, URL_PDF, ...); catalogued on datosabiertos.regiondemurcia.es (CKAN API verified)"
+        },
+        {
+          "surface_id": "borm-doc",
+          "kind": "document",
+          "url": "https://www.borm.es/services/anuncio/{internalId}/pdf"
+        }
+      ],
+      "discovery_mechanism": "open_data_api (daily index JSON/CSV on transparencia.carm.es)",
+      "fetch_mechanism": "get_simple + User-Agent header",
+      "doc_id_scheme": "internal id + NPE A-DDMMYY-N + publicación seq",
+      "formats": [
+        "pdf",
+        "txt",
+        "html",
+        "json",
+        "csv",
+        "xml"
+      ],
+      "parser_family": "pdf_text",
+      "version_signal": "none_verified",
+      "change_detection": {
+        "mechanism": "daily-updated open-data index (JSON/CSV/XML/TXT)",
+        "strength": "strong",
+        "cadence": "daily"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "WAF_BLOCKED"
+      },
+      "fallback": "open-data index (transparencia.carm.es) + CKAN catalog",
+      "license": {
+        "terms": "open-data terms",
+        "url": "https://datosabiertos.regiondemurcia.es/avisolegal"
+      },
+      "candidate_profile": null,
+      "status_evidence": "portal (Angular SPA shell) + open-data index JSON + doc PDF all probed live es_local 2026-09-18. WAF evidence preserved: headless GETs to /services/* and /resources/datosAbiertos/* return Radware/ShieldSquare CAPTCHA interstitial (CONTENT_MARKER_MISMATCH records); plain browser User-Agent yields real PDF (310849B).",
+      "notes": "Radware WAF: headless clients get CAPTCHA (200 + captcha HTML — a soft block, never absence). Browser UA bypasses. Rate-limiting observed on transparencia.carm.es under rapid successive requests.",
+      "probes": [
+        {
+          "probe_id": "portal",
+          "surface_id": "borm-portal",
+          "kind": "portal",
+          "url": "https://www.borm.es/",
+          "observed_at": "2026-09-17T04:40:32Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "0c3c736823b2e66366c6845cb974f5fa50616f9d3414c37187a75b741fc5ddc0",
+          "bytes": 11364,
+          "content_type": "text/html",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-mc/portal.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "opendata-portal",
+          "surface_id": "borm-opendata",
+          "kind": "api",
+          "url": "https://datosabiertos.regiondemurcia.es/admin/dataset/indices-del-boletin-oficial-de-la-region-de-murcia-ano-actual",
+          "observed_at": "2026-09-17T04:41:25Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "7f6a0969ea496a04d108bd2dd716b1234a19d20f9e5f226db1ee4f6018a0fe7c",
+          "bytes": 32999,
+          "content_type": "text/html; charset=utf-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-mc/opendata-portal.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "doc-pdf-ua",
+          "surface_id": "borm-doc",
+          "kind": "document",
+          "url": "https://www.borm.es/services/anuncio/837953/pdf",
+          "observed_at": "2026-09-17T04:42:14Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "f29d462e596b10a66985912a786ff7e5e98a526673ef6d2e13e8fb3056e28a9e",
+          "bytes": 310849,
+          "content_type": "application/pdf",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-mc/doc-pdf-ua.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "doc-pdf",
+          "surface_id": "borm-doc",
+          "kind": "document",
+          "url": "https://www.borm.es/services/anuncio/837953/pdf",
+          "observed_at": "2026-09-17T04:43:46Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "CONTENT_MARKER_MISMATCH",
+          "http_status": 200,
+          "content_marker_ok": false,
+          "raw_sha256": "c8b3804f58a8514f904dd92801caab03e7da1655d448d326fba20738e51a7c3b",
+          "bytes": 15062,
+          "content_type": "text/html; charset=UTF-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-mc/doc-pdf.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "index-csv",
+          "surface_id": "borm-dataindex",
+          "kind": "api",
+          "url": "https://www.borm.es/resources/datosAbiertos/csv/DA_INDICES_2026.csv",
+          "observed_at": "2026-09-17T04:43:47Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "CONTENT_MARKER_MISMATCH",
+          "http_status": 200,
+          "content_marker_ok": false,
+          "raw_sha256": "2727dff32c57625c4fd95bc65c7e942dbfbb714f1095b519d45cdcb53a40d54e",
+          "bytes": 15082,
+          "content_type": "text/html; charset=UTF-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-mc/index-csv.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "index-json",
+          "surface_id": "borm-transparencia-index",
+          "kind": "api",
+          "url": "https://transparencia.carm.es/rest-services/services/restFile/BORMIndice.json",
+          "observed_at": "2026-09-17T04:54:06Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "f119a9c41e01783ef98079314433869b9a6e54850068e4b2541313ccc20805e6",
+          "bytes": 2696137,
+          "content_type": "application/json;charset=utf-8",
+          "evidence_path": "",
+          "detail": "DIGEST_ONLY: body not redistributed"
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-mc/"
+    },
+    {
+      "domain_id": "ES-MD",
+      "gazette_id": "bocm",
+      "gazette_name": "Boletín Oficial de la Comunidad de Madrid",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "bocm-portal",
+          "kind": "portal",
+          "url": "https://www.bocm.es"
+        },
+        {
+          "surface_id": "bocm-doc-pdf",
+          "kind": "document",
+          "url": "https://www.bocm.es/boletin/CM_Orden_BOCM/{YYYY}/{MM}/{DD}/BOCM-{YYYYMMDD}-{N}.PDF"
+        }
+      ],
+      "discovery_mechanism": "portal sumario + stable doc URLs",
+      "fetch_mechanism": "get_simple",
+      "doc_id_scheme": "BOCM-YYYYMMDD-N",
+      "formats": [
+        "pdf",
+        "html",
+        "epub"
+      ],
+      "parser_family": "pdf_text",
+      "version_signal": "none_verified",
+      "change_detection": {
+        "mechanism": "daily bulletin download + per-announcement formats",
+        "strength": "medium",
+        "cadence": "daily"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "fallback": null,
+      "license": {
+        "terms": "not_verified",
+        "url": ""
+      },
+      "candidate_profile": null,
+      "status_evidence": "doc PDF probed live es_local 2026-09-18 (145310B application/pdf stored; re-confirms G0 bocm-doc probe).",
+      "notes": "Per-announcement XML/JSON-LD reported since 2026-01 but NOT verified — parser family may upgrade once confirmed.",
+      "probes": [
+        {
+          "probe_id": "doc",
+          "surface_id": "bocm-doc-pdf",
+          "kind": "document",
+          "url": "https://www.bocm.es/boletin/CM_Orden_BOCM/2025/12/19/BOCM-20251219-1.PDF",
+          "observed_at": "2026-09-17T04:38:17Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "7ffdbc69586b0e2a6296bdc4f2c75dbcbaa4517cf4ce9c4b2a93b5903979cdb7",
+          "bytes": 145310,
+          "content_type": "application/pdf",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-md/doc.body",
+          "detail": ""
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-md/"
+    },
+    {
+      "domain_id": "ES-ML",
+      "gazette_id": "bome",
+      "gazette_name": "Boletín Oficial de Melilla",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "bome-portal",
+          "kind": "portal",
+          "url": "https://bomemelilla.es/"
+        },
+        {
+          "surface_id": "bome-rss",
+          "kind": "feed",
+          "url": "https://bomemelilla.es/rss",
+          "notes": "populated RSS 2.0; item <link> values are broken short URLs — construct canonical BOME-B-{year}-{num} instead"
+        },
+        {
+          "surface_id": "bome-issue",
+          "kind": "sumario",
+          "url": "https://bomemelilla.es/bome/BOME-B-{YYYY}-{issue}"
+        },
+        {
+          "surface_id": "bome-article",
+          "kind": "document",
+          "url": "https://bomemelilla.es/bome/BOME-B-{YYYY}-{issue}/articulo/{artNum} and /bome/descargar/BOME-A-{YYYY}-{artNum}.pdf"
+        }
+      ],
+      "discovery_mechanism": "rss + stable CVE-keyed URLs",
+      "fetch_mechanism": "get_simple",
+      "doc_id_scheme": "BOME-A-YYYY-N (article), BOME-B-YYYY-N (issue), BOME-S/P + BX/SX/AX/PX (extraordinary)",
+      "formats": [
+        "html",
+        "pdf"
+      ],
+      "parser_family": "NEW:bome_html",
+      "version_signal": "none_verified",
+      "change_detection": {
+        "mechanism": "RSS + predictable CVE URLs",
+        "strength": "strong",
+        "cadence": "daily"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "fallback": "legacy JSP portal melilla.es (pre-2018 archive)",
+      "license": {
+        "terms": "no explicit reuse license (art. 13 LPI official-text exemption)",
+        "url": "https://www.melilla.es/melillaportal/contenedor.jsp?seccion=aviso_legal.jsp"
+      },
+      "candidate_profile": null,
+      "status_evidence": "portal + RSS + article HTML + article PDF all probed live es_local 2026-09-18 (doc HTML 21929B, PDF 91874B stored). Best-in-class document-level addressing: every disposition has stable CVE BOME-A-YYYY-N.",
+      "notes": "Cadence Tue/Fri + frequent extras. Pre-2018 material on legacy portal with opaque internal IDs (scrape-only).",
+      "probes": [
+        {
+          "probe_id": "portal",
+          "surface_id": "portal",
+          "kind": "portal",
+          "url": "https://bomemelilla.es/",
+          "observed_at": "2026-09-17T04:36:25Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "69276a22cbe2d18accc8d0b73562645d2b25a47dc6f472ef8de59c31de0a1acb",
+          "bytes": 63215,
+          "content_type": "text/html; charset=UTF-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ml/portal.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "feed",
+          "surface_id": "feed",
+          "kind": "feed",
+          "url": "https://bomemelilla.es/rss",
+          "observed_at": "2026-09-17T04:36:25Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "0e94f5db74a980d9a70a8a224b93d60ff88368cac15a40acc3eee8f2cc2037bb",
+          "bytes": 431813,
+          "content_type": "text/xml; charset=UTF-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ml/feed.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "doc-html",
+          "surface_id": "doc-html",
+          "kind": "document",
+          "url": "https://bomemelilla.es/bome/BOME-B-2026-6399/articulo/852",
+          "observed_at": "2026-09-17T04:36:26Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "95a87de167cf4ac7d5301ed4ff7daecc086df9054619b1d4a9976cfbd3f56451",
+          "bytes": 21929,
+          "content_type": "text/html; charset=UTF-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ml/doc-html.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "doc-pdf",
+          "surface_id": "doc-pdf",
+          "kind": "document",
+          "url": "https://bomemelilla.es/bome/descargar/BOME-A-2026-852.pdf",
+          "observed_at": "2026-09-17T04:36:26Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "e002fdf419852e11fd09e8d5786827a076f6ffa5c77fec4ea2246662da68b5e3",
+          "bytes": 91874,
+          "content_type": "application/pdf",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ml/doc-pdf.body",
+          "detail": ""
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-ml/"
+    },
+    {
+      "domain_id": "ES-NC",
+      "gazette_id": "bon",
+      "gazette_name": "Boletín Oficial de Navarra",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "bon-portal",
+          "kind": "portal",
+          "url": "https://bon.navarra.es"
+        },
+        {
+          "surface_id": "bon-sumario",
+          "kind": "sumario",
+          "url": "https://bon.navarra.es/es/boletin/-/sumario/{YYYY}/{numero}"
+        },
+        {
+          "surface_id": "bon-doc",
+          "kind": "document",
+          "url": "https://bon.navarra.es/es/anuncio/-/texto/{YYYY}/{numero}/{ordinal}"
+        },
+        {
+          "surface_id": "bon-doc-pdf",
+          "kind": "document",
+          "url": "Liferay portlet resource URL (DetalleAnuncioPortlet descargarArchivo; codigoAnuncio+numero+anyo+idioma)"
+        }
+      ],
+      "discovery_mechanism": "toc_sumario (friendly-URL sumario → ordinal doc pages)",
+      "fetch_mechanism": "get_simple (+ Liferay portlet resource for PDF)",
+      "doc_id_scheme": "(año, número boletín, ordinal/codigoAnuncio); norm cites e.g. DECRETO FORAL 238/2023",
+      "formats": [
+        "html",
+        "pdf"
+      ],
+      "parser_family": "NEW:bon_html",
+      "version_signal": "none_verified",
+      "change_detection": {
+        "mechanism": "/es/ultimo + predictable date/issue URLs",
+        "strength": "medium",
+        "cadence": "daily"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "fallback": null,
+      "license": {
+        "terms": "aviso legal Gobierno de Navarra",
+        "url": "https://www.navarra.es/es/aviso-legal"
+      },
+      "candidate_profile": null,
+      "status_evidence": "sumario (BON 244/2023) + doc HTML probed live es_local 2026-09-18 (206703B stored, full text rendered).",
+      "notes": "SOFT-404 confirmed: bogus friendly URLs return HTTP 200 empty shell — content_marker mandatory. PDFs are the electronically signed official edition (Decreto Foral 58/2009).",
+      "probes": [
+        {
+          "probe_id": "sumario",
+          "surface_id": "bon-sumario",
+          "kind": "sumario",
+          "url": "https://bon.navarra.es/es/boletin/-/sumario/2023/244",
+          "observed_at": "2026-09-17T04:39:35Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "6813fdbaf198e914d13a1655e31756d0f1bf04a29330096c489571d5e4e9146f",
+          "bytes": 90193,
+          "content_type": "text/html;charset=UTF-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-nc/sumario.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "doc",
+          "surface_id": "bon-doc",
+          "kind": "document",
+          "url": "https://bon.navarra.es/es/anuncio/-/texto/2023/244/0",
+          "observed_at": "2026-09-17T04:39:36Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "b37844533e2dd74cd7fb978bce515c588a9da1d6af51193f23cce8231db0bd9d",
+          "bytes": 206703,
+          "content_type": "text/html;charset=UTF-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-nc/doc.body",
+          "detail": ""
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-nc/"
+    },
+    {
+      "domain_id": "ES-PV",
+      "gazette_id": "bopv",
+      "gazette_name": "Boletín Oficial del País Vasco / Euskal Herriko Agintaritzaren Aldizkaria (EHAA)",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "bopv-portal",
+          "kind": "portal",
+          "url": "https://www.euskadi.eus/web01-bopv/es/"
+        },
+        {
+          "surface_id": "bopv-ultimo-rss",
+          "kind": "feed",
+          "url": "https://www.euskadi.eus/bopv2/datos/Ultimo.xml"
+        },
+        {
+          "surface_id": "bopv-doc",
+          "kind": "document",
+          "url": "https://www.euskadi.eus/bopv2/datos/{YYYY}/{MM}/{YY}{serial}{lang}.shtml (lang a=es, e=eu; .pdf/.epub same basename)"
+        },
+        {
+          "surface_id": "bopv-api",
+          "kind": "api",
+          "url": "https://opendata.euskadi.eus/api-bopv/?api=bopv",
+          "notes": "documented REST API (Swagger); spec URL not resolved during probe"
+        },
+        {
+          "surface_id": "bopv-dataset",
+          "kind": "api",
+          "url": "https://www.euskadi.eus/web01-a3estand/eu/contenidos/ds_juridicos/publicaciones_bopv/es_def/index.shtml",
+          "notes": "open-data dataset, DCAT RDF, CC BY, daily refresh from 2008"
+        }
+      ],
+      "discovery_mechanism": "rss Ultimo + deterministic per-issue/per-doc file URLs (+ documented API)",
+      "fetch_mechanism": "get_simple",
+      "doc_id_scheme": "{YY}{serial}{lang} filename + issue N.º + per-year sequential disposition number",
+      "formats": [
+        "html",
+        "pdf",
+        "epub",
+        "rss",
+        "rdf"
+      ],
+      "parser_family": "NEW:bopv_html",
+      "version_signal": "none_verified",
+      "change_detection": {
+        "mechanism": "RSS Ultimo.xml (per-disposition items) + open-data dataset daily refresh",
+        "strength": "strong",
+        "cadence": "daily"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "fallback": "opendata.euskadi.eus dataset/API",
+      "license": {
+        "terms": "CC BY (open-data dataset)",
+        "url": "https://opendata.euskadi.eus/general/-/informacion-legal-opendata/"
+      },
+      "candidate_profile": null,
+      "status_evidence": "portal + Ultimo.xml feed + doc shtml probed live es_local 2026-09-18 (all 200, evidence stored). Real 404s on bogus doc suffixes — clean discriminator.",
+      "notes": "Bilingual (es suffix 'a', eu 'e'). ELI dataset exists for EHAA (LOD). Legacy Struts .do app for search/consolidated.",
+      "probes": [
+        {
+          "probe_id": "portal",
+          "surface_id": "portal",
+          "kind": "portal",
+          "url": "https://www.euskadi.eus/web01-bopv/es/",
+          "observed_at": "2026-09-17T04:36:02Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "7cec5cfc85ffa8fa4d41f44f56d49a63ec9ce28fce80292016bc7af61b187219",
+          "bytes": 20451,
+          "content_type": "text/html; charset=ISO-8859-1",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-pv/portal.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "feed",
+          "surface_id": "feed",
+          "kind": "feed",
+          "url": "https://www.euskadi.eus/bopv2/datos/Ultimo.xml",
+          "observed_at": "2026-09-17T04:36:02Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "816d86272d51db382b6aaba33177ad2f2d7cb4237ae328d53e597bc95ff75b39",
+          "bytes": 10227,
+          "content_type": "application/xml",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-pv/feed.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "doc",
+          "surface_id": "doc",
+          "kind": "document",
+          "url": "https://www.euskadi.eus/bopv2/datos/2025/10/2504100a.shtml",
+          "observed_at": "2026-09-17T04:36:03Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "d7c617d3d6a701654e316c46b1d293f1cfd0667ee97007f6af0a02a0174ad57e",
+          "bytes": 61330,
+          "content_type": "text/html; charset=ISO-8859-1",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-pv/doc.body",
+          "detail": ""
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-pv/"
+    },
+    {
+      "domain_id": "ES-RI",
+      "gazette_id": "bor",
+      "gazette_name": "Boletín Oficial de La Rioja",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "bor-portal",
+          "kind": "portal",
+          "url": "https://web.larioja.org/bor-portada/"
+        },
+        {
+          "surface_id": "bor-sumario",
+          "kind": "sumario",
+          "url": "https://web.larioja.org/bor-portada/?fecha={YYYY-MM-DD}"
+        },
+        {
+          "surface_id": "bor-doc",
+          "kind": "document",
+          "url": "https://web.larioja.org/bor-portada/boranuncio?n=anu-{numericId}"
+        },
+        {
+          "surface_id": "bor-doc-pdf",
+          "kind": "document",
+          "url": "https://ias1.larioja.org/boletin/Bor_Boletin_visor_Servlet?referencia={expediente}-{pag}-PDF-{id}-X"
+        }
+      ],
+      "discovery_mechanism": "toc_sumario (date-param issue listing) + faceted searcher /bor-portada/bor",
+      "fetch_mechanism": "get_simple",
+      "doc_id_scheme": "anu-NNNNNN + referencia {expediente}-{pag}-{HTML|PDF}-{id}-X + Núm. Registro YYYY/NNNN",
+      "formats": [
+        "html",
+        "pdf"
+      ],
+      "parser_family": "NEW:bor_html",
+      "version_signal": "none_verified",
+      "change_detection": {
+        "mechanism": "daily ?fecha= URL + searcher",
+        "strength": "medium",
+        "cadence": "daily"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "fallback": null,
+      "license": {
+        "terms": "aviso legal larioja.org",
+        "url": ""
+      },
+      "candidate_profile": null,
+      "status_evidence": "sumario (BOR 179, 2026-09-17) + doc HTML + official PDF probed live es_local 2026-09-18 (PDF 295779B application/pdf stored).",
+      "notes": "Portada shell needs JS; boranuncio/search pages server-rendered and scrape cleanly. Non-issue dates → soft-empty 'No hay ningún BOR publicado'. PDF host is ias1.larioja.org (not iana1).",
+      "probes": [
+        {
+          "probe_id": "sumario",
+          "surface_id": "bor-sumario",
+          "kind": "sumario",
+          "url": "https://web.larioja.org/bor-portada/?fecha=2026-09-17",
+          "observed_at": "2026-09-17T04:40:24Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "bfd0233862b2ad2d1453a49924e56dd0c9f48468a4a4c4936752a47e010d9217",
+          "bytes": 68237,
+          "content_type": "text/html; charset=utf-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ri/sumario.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "doc",
+          "surface_id": "bor-doc",
+          "kind": "document",
+          "url": "https://web.larioja.org/bor-portada/boranuncio?n=anu-579777",
+          "observed_at": "2026-09-17T04:40:29Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "642cf357d6e697292c1ff47fed0f8509d48b5d4f0cff44ead35faafce7934f4f",
+          "bytes": 73969,
+          "content_type": "text/html; charset=utf-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ri/doc.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "doc-pdf",
+          "surface_id": "bor-doc-pdf",
+          "kind": "document",
+          "url": "https://ias1.larioja.org/boletin/Bor_Boletin_visor_Servlet?referencia=42238245-1-PDF-579777-X",
+          "observed_at": "2026-09-17T04:40:31Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "be95a2c6d5ced71fc0ad140c485fe6996b983ccc1ee865dd8f56c72e7c82a27b",
+          "bytes": 295779,
+          "content_type": "application/pdf",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-ri/doc-pdf.body",
+          "detail": ""
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-ri/"
+    },
+    {
+      "domain_id": "ES-VC",
+      "gazette_id": "dogv",
+      "gazette_name": "Diari Oficial de la Generalitat Valenciana",
+      "domain_status": "PROVEN",
+      "surfaces": [
+        {
+          "surface_id": "dogv-api",
+          "kind": "api",
+          "url": "https://dogv.gva.es/dogv-portal/dogv?date={YYYY-MM-DD}&lang=es",
+          "notes": "JSON REST behind the Angular SPA: daily sumario, /latest, /calendar, /disposicion/{id}"
+        },
+        {
+          "surface_id": "dogv-doc-pdf",
+          "kind": "document",
+          "url": "https://dogv.gva.es/datos/{YYYY}/{MM}/{DD}/pdf/{codigoInsercion_underscored}_{lang}.pdf"
+        },
+        {
+          "surface_id": "dogv-eli",
+          "kind": "document",
+          "url": "https://dogv.gva.es/es/eli/es-vc/d/{yyyy}/{mm}/{dd}/{n}"
+        }
+      ],
+      "discovery_mechanism": "open_data_api (JSON REST: dogv?date= / latest / calendar)",
+      "fetch_mechanism": "get_simple",
+      "doc_id_scheme": "internal id + codigoInsercion YYYY/NNNNN + CVE DOGV-[C|V]-YYYY-NNNNN + ELI es-vc",
+      "formats": [
+        "json",
+        "html",
+        "pdf"
+      ],
+      "parser_family": "NEW:dogv_json",
+      "version_signal": "none_verified",
+      "change_detection": {
+        "mechanism": "/dogv/latest + /dogv/calendar + /disposicion/ultimasDisposiciones",
+        "strength": "strong",
+        "cadence": "daily"
+      },
+      "reachability_expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "fallback": null,
+      "license": {
+        "terms": "avis legal GVA",
+        "url": "https://dogv.gva.es/es/avis-legal"
+      },
+      "candidate_profile": null,
+      "status_evidence": "sumario JSON API + doc PDF probed live es_local 2026-09-18 (disposiciones[] payload 18728B; PDF 392952B stored).",
+      "notes": "Missing-resource → HTTP 440 JSON error (clean discriminator). WAF 403 on URL-encoded slashes in path params — keep codigoInsercion slashes out of path segments.",
+      "probes": [
+        {
+          "probe_id": "sumario-api",
+          "surface_id": "dogv-api",
+          "kind": "api",
+          "url": "https://dogv.gva.es/dogv-portal/dogv?date=2026-09-15&lang=es",
+          "observed_at": "2026-09-17T04:39:35Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": true,
+          "raw_sha256": "992f8aac383fd6d96fa0f7bb2a38259e3bc27cb3d0c57bef5cbfa7ca1bc6df41",
+          "bytes": 18728,
+          "content_type": "application/json;charset=UTF-8",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-vc/sumario-api.body",
+          "detail": ""
+        },
+        {
+          "probe_id": "doc",
+          "surface_id": "dogv-doc",
+          "kind": "document",
+          "url": "https://dogv.gva.es/datos/2025/11/27/pdf/2025_45694_es.pdf",
+          "observed_at": "2026-09-17T04:39:35Z",
+          "runner_network": "es_local",
+          "reachability_observed": "REACHABLE",
+          "fetch_outcome": "SUCCESS",
+          "http_status": 200,
+          "content_marker_ok": null,
+          "raw_sha256": "23c7f99bc25ed002f08c897db8f8bce7faa5880f1b5debda3f4c0845804665e1",
+          "bytes": 392952,
+          "content_type": "application/pdf",
+          "evidence_path": "discovery/evidence/m10.2-atlas/es-vc/doc.body",
+          "detail": ""
+        }
+      ],
+      "evidence_dir": "discovery/evidence/m10.2-atlas/es-vc/"
+    }
+  ],
+  "notes": "M10.2-A National Source Atlas — evidence-only, no legal ingestion. domain_status is verified by the executable gate (pipeline.atlas.check_gate), not by declaration."
+}

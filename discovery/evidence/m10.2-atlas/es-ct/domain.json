@@ -1,0 +1,31 @@
+{
+  "domain_id": "ES-CT",
+  "gazette_id": "dogc",
+  "gazette_name": "Diari Oficial de la Generalitat de Catalunya",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "dogc-socrata", "kind": "api",
+     "url": "https://analisi.transparenciacatalunya.cat/resource/n6hn-rmy7.json"},
+    {"surface_id": "dogc-eli", "kind": "document",
+     "url": "https://portaljuridic.gencat.cat/eli/es-ct/d/{YYYY}/{MM}/{DD}/{N}/dof/{lang}/{format}"},
+    {"surface_id": "dogc-portal", "kind": "portal",
+     "url": "https://dogc.gencat.cat"}
+  ],
+  "discovery_mechanism": "socrata (dataset with vigència field + ELI links)",
+  "fetch_mechanism": "get_simple",
+  "doc_id_scheme": "ELI es-ct/d/YYYY/MM/DD/N + portaldogc idNumber/idVersion",
+  "formats": ["xml", "html", "pdf", "rdf", "turtle", "json"],
+  "parser_family": "akn",
+  "version_signal": "consolidated_api",
+  "change_detection": {
+    "mechanism": "socrata dataset + vigència field + ELI idVersion",
+    "strength": "strong",
+    "cadence": "daily"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "REACHABLE"},
+  "fallback": null,
+  "license": {"terms": "reutilización Generalitat (verificar por dataset; API pública Socrata)", "url": ""},
+  "candidate_profile": "pipeline/sources/dogc.profile.json",
+  "status_evidence": "M10.1 pilot P4 chain PASS + fresh doc probe es_local 2026-09-18 (114653B AKN XML — identical byte count to live verify 2026-09-16).",
+  "notes": "portaljuridic.gencat.cat requires legacy TLS (SECLEVEL=1) — transport constraint recorded in P4. vigència/idVersion surfaces verified; RESOLVED logic is M10.2-C scope."
+}

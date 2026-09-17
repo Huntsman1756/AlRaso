@@ -1,0 +1,32 @@
+{
+  "domain_id": "ES-VC",
+  "gazette_id": "dogv",
+  "gazette_name": "Diari Oficial de la Generalitat Valenciana",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "dogv-api", "kind": "api",
+     "url": "https://dogv.gva.es/dogv-portal/dogv?date={YYYY-MM-DD}&lang=es",
+     "notes": "JSON REST behind the Angular SPA: daily sumario, /latest, /calendar, /disposicion/{id}"},
+    {"surface_id": "dogv-doc-pdf", "kind": "document",
+     "url": "https://dogv.gva.es/datos/{YYYY}/{MM}/{DD}/pdf/{codigoInsercion_underscored}_{lang}.pdf"},
+    {"surface_id": "dogv-eli", "kind": "document",
+     "url": "https://dogv.gva.es/es/eli/es-vc/d/{yyyy}/{mm}/{dd}/{n}"}
+  ],
+  "discovery_mechanism": "open_data_api (JSON REST: dogv?date= / latest / calendar)",
+  "fetch_mechanism": "get_simple",
+  "doc_id_scheme": "internal id + codigoInsercion YYYY/NNNNN + CVE DOGV-[C|V]-YYYY-NNNNN + ELI es-vc",
+  "formats": ["json", "html", "pdf"],
+  "parser_family": "NEW:dogv_json",
+  "version_signal": "none_verified",
+  "change_detection": {
+    "mechanism": "/dogv/latest + /dogv/calendar + /disposicion/ultimasDisposiciones",
+    "strength": "strong",
+    "cadence": "daily"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "REACHABLE"},
+  "fallback": null,
+  "license": {"terms": "avis legal GVA", "url": "https://dogv.gva.es/es/avis-legal"},
+  "candidate_profile": null,
+  "status_evidence": "sumario JSON API + doc PDF probed live es_local 2026-09-18 (disposiciones[] payload 18728B; PDF 392952B stored).",
+  "notes": "Missing-resource → HTTP 440 JSON error (clean discriminator). WAF 403 on URL-encoded slashes in path params — keep codigoInsercion slashes out of path segments."
+}

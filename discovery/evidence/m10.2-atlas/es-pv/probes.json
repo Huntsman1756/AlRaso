@@ -1,0 +1,53 @@
+[
+  {
+    "probe_id": "portal",
+    "surface_id": "portal",
+    "kind": "portal",
+    "url": "https://www.euskadi.eus/web01-bopv/es/",
+    "observed_at": "2026-09-17T04:36:02Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "7cec5cfc85ffa8fa4d41f44f56d49a63ec9ce28fce80292016bc7af61b187219",
+    "bytes": 20451,
+    "content_type": "text/html; charset=ISO-8859-1",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-pv/portal.body",
+    "detail": ""
+  },
+  {
+    "probe_id": "feed",
+    "surface_id": "feed",
+    "kind": "feed",
+    "url": "https://www.euskadi.eus/bopv2/datos/Ultimo.xml",
+    "observed_at": "2026-09-17T04:36:02Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "816d86272d51db382b6aaba33177ad2f2d7cb4237ae328d53e597bc95ff75b39",
+    "bytes": 10227,
+    "content_type": "application/xml",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-pv/feed.body",
+    "detail": ""
+  },
+  {
+    "probe_id": "doc",
+    "surface_id": "doc",
+    "kind": "document",
+    "url": "https://www.euskadi.eus/bopv2/datos/2025/10/2504100a.shtml",
+    "observed_at": "2026-09-17T04:36:03Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "d7c617d3d6a701654e316c46b1d293f1cfd0667ee97007f6af0a02a0174ad57e",
+    "bytes": 61330,
+    "content_type": "text/html; charset=ISO-8859-1",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-pv/doc.body",
+    "detail": ""
+  }
+]

@@ -1,0 +1,34 @@
+{
+  "domain_id": "ES-CE",
+  "gazette_id": "bocce",
+  "gazette_name": "Boletín Oficial de la Ciudad de Ceuta",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "bocce-portal", "kind": "portal",
+     "url": "https://www.ceuta.es/ceuta/bocce"},
+    {"surface_id": "bocce-category", "kind": "sumario",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/viewcategory/{catid}-{month}?Itemid=534"},
+    {"surface_id": "bocce-issue-pdf", "kind": "document",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/{catid}-{month}/{id}-bocce-{issue}-{DD-MM-YYYY}?Itemid=0"}
+  ],
+  "discovery_mechanism": "html_category_scrape (jDownloads year→month→issue links)",
+  "fetch_mechanism": "get_simple",
+  "doc_id_scheme": null,
+  "formats": ["pdf"],
+  "parser_family": "pdf_text",
+  "version_signal": "none_verified",
+  "change_detection": {
+    "mechanism": "monthly category page polling (jDownloads RSS endpoint exists but channel is empty)",
+    "strength": "weak",
+    "cadence": "weekly"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "REACHABLE"},
+  "fallback": null,
+  "license": {
+    "terms": "restrictive aviso-legal: contents property of Ciudad Autónoma de Ceuta, no reproduction without express authorization (art. 13 LPI official-text exemption applies)",
+    "url": "https://www.ceuta.es/ceuta/aviso-legal"
+  },
+  "candidate_profile": null,
+  "status_evidence": "portal + month category + issue PDF + RSS all probed live es_local 2026-09-18 (issue PDF 632489B application/pdf stored; RSS endpoint returns empty channel — documented). Issue-level acquisition is automatable; dispositions exist only inside issue PDFs.",
+  "notes": "LIMITATION: no document-level addressing — internal jDownloads IDs are sequential, not derivable from issue numbers; discovery requires scraping category HTML. Cadence Tue/Fri + extras. Archive 1926–2026."
+}

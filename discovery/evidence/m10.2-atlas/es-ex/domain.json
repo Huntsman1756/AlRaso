@@ -1,0 +1,35 @@
+{
+  "domain_id": "ES-EX",
+  "gazette_id": "doe",
+  "gazette_name": "Diario Oficial de Extremadura",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "doe-portal", "kind": "portal",
+     "url": "https://doe.juntaex.es/"},
+    {"surface_id": "doe-sumario", "kind": "sumario",
+     "url": "https://doe.juntaex.es/ultimosdoe/mostrardoe.php?fecha={YYYYMMDD}&t=o"},
+    {"surface_id": "doe-doc-xml", "kind": "document",
+     "url": "https://doe.juntaex.es/pdfs/doe/{YYYY}/{N*10}o/xml/{docId}.xml"},
+    {"surface_id": "doe-doc-pdf", "kind": "document",
+     "url": "https://doe.juntaex.es/pdfs/doe/{YYYY}/{N*10}o/{file}.pdf"},
+    {"surface_id": "doe-rss", "kind": "feed",
+     "url": "https://doe.juntaex.es/rss/rss.php?seccion={0-6}"}
+  ],
+  "discovery_mechanism": "toc_sumario (date-param) + per-section RSS",
+  "fetch_mechanism": "get_simple",
+  "doc_id_scheme": "YYYY+7d numeric / YYYY+DE+5d (decreto-ley) + ELI es-ex",
+  "formats": ["pdf", "html", "xml"],
+  "parser_family": "NEW:doe_xml",
+  "version_signal": "none_verified",
+  "change_detection": {
+    "mechanism": "per-section RSS + predictable per-day URL tree",
+    "strength": "strong",
+    "cadence": "daily"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "REACHABLE"},
+  "fallback": null,
+  "license": {"terms": "aviso legal DOE", "url": "https://doe.juntaex.es/aviso/avisolegal.pdf"},
+  "candidate_profile": null,
+  "status_evidence": "sumario (Núm. 189, 2025-10-01) + doc XML probed live es_local 2026-09-18 (10412B application/xml stored — real per-document XML confirmed).",
+  "notes": "Signed PDFs (FNMT seal) are official; HTML marked 'carece de valor jurídico'. Non-issue dates return soft-empty 200."
+}
