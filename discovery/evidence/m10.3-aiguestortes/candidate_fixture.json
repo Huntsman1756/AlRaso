@@ -54,6 +54,28 @@
       "validity_to": null
     },
     {
+      "id": "lf-d39-art6-vigencia",
+      "source_document_id": "sd-decret-39-2003",
+      "locator": "PRUG annex, article 6 (Vigència)",
+      "exact_text_hint": "El Pla rector d'ús i gestió té una vigència de sis anys. A partir del cinquè any s'iniciarà el procés per a la seva revisió.",
+      "extracted_at": "2026-09-12",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "PRUG art. 6 — vigència 6 anys; pròrroga no localitzada",
+      "validity_from": "2003-02-20",
+      "validity_to": null
+    },
+    {
+      "id": "lf-d39-223d-permisos",
+      "source_document_id": "sd-decret-39-2003",
+      "locator": "PRUG annex, article 22.3.d)",
+      "exact_text_hint": "L'administració del Parc Nacional podrà concedir permisos excepcionals d'acampada quan estigui justificada la permanència al Parc Nacional per a la realització dels estudis.",
+      "extracted_at": "2026-09-12",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "PRUG art. 22.3.d — permisos excepcionals d'acampada (investigació)",
+      "validity_from": "2003-02-20",
+      "validity_to": null
+    },
+    {
       "id": "lf-d39-derogatoria",
       "source_document_id": "sd-decret-39-2003",
       "locator": "Disposició derogatòria",
@@ -80,7 +102,7 @@
       "id": "ss-pn-aiguestortes-zonificacio",
       "scope_type": "PARK_SECTOR",
       "parent_scope": "ss-pn-aiguestortes",
-      "official_name": "Zonificació PRUG Aigüestortes (25 uso restringido / 1 reserva Estany de Trescuro / 1 uso especial Bony del Graller)",
+      "official_name": "Zonificació PRUG Aigüestortes (1 envolvente uso restringido ~park-wide / 19 moderado / 5 especial / 2 reserva: Bony del Graller, Estany de Trescuro)",
       "geometry_source": "sd-oapn-gis-aiguestortes",
       "feature_id": "digest-layer:27-features",
       "srid_native": 25831,
@@ -102,7 +124,7 @@
       "review_status": "REVIEW_REQUIRED",
       "legal_review_complete": false,
       "spatial_review_complete": false,
-      "evidence": ["lf-d39-254-prohibicio", "lf-d39-annex2-refugis"],
+      "evidence": ["lf-d39-254-prohibicio", "lf-d39-annex2-refugis", "lf-d39-art6-vigencia"],
       "interpretation_note": "PROPOSED (pending human review): art. 25.4 prohibeix pernoctació fora dels refugis de l'annex 2 i bivac/acampada a TOT el territori del PN i ZPP — 'bivac' cobreix VIVAC_AL_RASO directament. Prohibició modelada SENSE condició: l'exempció per permisos especials d'estada (investigació/gestió/control) és un estatut documental atorgat per l'administració, no un fet d'usuari avaluable pel resolver — queda com a advertència del revisor. Zones habilitades d'Estallos i Riumalo són a la ZPP (fora del scope PN). effective_from=2003-02-20 és PROVISIONAL (entrada en vigor per defecte dia següent a publicació DOGC 19/02/2003; el decret no porta disposició final de vigència expressa — M10.2-C va resoldre effective_from=None).",
       "normative_basis": ["lf-d39-254-prohibicio"]
     }
