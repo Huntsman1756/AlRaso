@@ -42,6 +42,17 @@ from pipeline.providers.fetch import (
 
 ROOT = Path(__file__).resolve().parents[1]
 
+# WAF/anti-bot interstitial signatures observed in live probes (BORM
+# returned "Radware Captcha Page" + hCaptcha). A 2xx carrying any of
+# these is a soft block — CONTENT_MARKER_MISMATCH, never SUCCESS.
+_INTERSTITIAL_SIGNATURES = (
+    b"Radware Captcha",
+    b"hcaptcha.com",
+    b"ShieldSquare",
+    b"cf-chl-bypass",
+    b"Just a moment...",  # Cloudflare challenge title
+)
+
 
 def _utc_now_iso() -> str:
     import datetime as dt
@@ -107,6 +118,11 @@ def record_probe(
 
         if not 200 <= (http_status or 0) <= 299:
             outcome = "HTTP_ERROR"
+            marker_ok = False
+        elif any(sig in body for sig in _INTERSTITIAL_SIGNATURES):
+            # WAF/anti-bot interstitial (e.g. Radware/hCaptcha): a soft
+            # block, never source content — regardless of markers.
+            outcome = "CONTENT_MARKER_MISMATCH"
             marker_ok = False
         elif soft_404_marker and soft_404_marker in body:
             outcome = "SOFT_404"

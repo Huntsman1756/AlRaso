@@ -7,12 +7,17 @@ It never fetches anything (live attempts live only in
 
 ``domain_status`` is demonstrated, not declared:
 
-- ``PROVEN`` requires at least one probe with
-  ``reachability_observed=REACHABLE`` whose recorded ``raw_sha256`` matches
-  the stored evidence bytes — the gate re-hashes the files.
-- ``BLOCKED_WITH_EVIDENCE`` requires identified official surface(s), at
-  least one recorded probe attempt, and a non-empty ``status_evidence``
-  limitation description.
+- ``PROVEN`` requires identified surface(s) and at least one probe with
+  ``reachability_observed=REACHABLE`` *and* ``fetch_outcome=SUCCESS`` from
+  a real runner network, whose recorded ``raw_sha256`` matches the stored
+  evidence bytes — the gate re-hashes the files. A REACHABLE probe with a
+  non-SUCCESS outcome (CAPTCHA interstitial, HTTP_ERROR, SOFT_404) is
+  reachability evidence only, never proof of source content.
+- ``BLOCKED_WITH_EVIDENCE`` requires identified official surface(s), a
+  non-empty ``status_evidence`` limitation description, and at least one
+  probe that constitutes verifiable evidence: either a recorded
+  ``raw_sha256`` matching stored bytes, or an ``UNREACHABLE`` observation
+  with a transport detail — never a bare declaration.
 - ``UNPROBED`` never satisfies the gate.
 """
 
@@ -93,6 +98,26 @@ def _verify_probe_evidence(
     return None
 
 
+_SYNTHETIC_RUNNERS = frozenset({"", "unknown", "fixture"})
+
+
+def _real_runner(probe: Mapping[str, Any]) -> bool:
+    """A probe only proves live reachability when it was recorded on a
+    real runner network — 'fixture'/'unknown'/absent values are not."""
+    return (probe.get("runner_network") or "") not in _SYNTHETIC_RUNNERS
+
+
+def _verifiable_probe(probe: Mapping[str, Any], repo_root: Path) -> bool:
+    """Probe constitutes reproducible evidence: verified stored bytes,
+    or an UNREACHABLE observation carrying a transport detail."""
+    if probe.get("raw_sha256") and probe.get("evidence_path"):
+        return _verify_probe_evidence(probe, repo_root) is None
+    return (
+        probe.get("reachability_observed") == "UNREACHABLE"
+        and bool(probe.get("detail"))
+    )
+
+
 def _check_domain(
     record: Mapping[str, Any], repo_root: Path
 ) -> tuple[str, str]:
@@ -103,12 +128,22 @@ def _check_domain(
     if status == "UNPROBED":
         return "FAIL", "UNPROBED never satisfies the exit gate"
 
+    if not record["surfaces"]:
+        return "FAIL", f"{status} requires ≥1 identified official surface"
+
     if status == "BLOCKED_WITH_EVIDENCE":
-        if not record["surfaces"]:
-            return "FAIL", "BLOCKED_WITH_EVIDENCE requires ≥1 identified surface"
         if not record["probes"]:
             return "FAIL", "BLOCKED_WITH_EVIDENCE requires ≥1 probe attempt"
-        return "PASS", "limitation documented with evidence"
+        if not record.get("status_evidence"):
+            return "FAIL", "BLOCKED_WITH_EVIDENCE requires limitation detail"
+        if not any(
+            _verifiable_probe(p, repo_root) for p in record["probes"]
+        ):
+            return "FAIL", (
+                "BLOCKED_WITH_EVIDENCE requires ≥1 probe with verifiable "
+                "evidence (verified bytes or UNREACHABLE observation)"
+            )
+        return "PASS", "limitation documented with verified evidence"
 
     # PROVEN — a REACHABLE response that is not a successful fetch (e.g.
     # HTTP_ERROR, CONTENT_MARKER_MISMATCH on a CAPTCHA interstitial,
@@ -118,6 +153,7 @@ def _check_domain(
         for p in record["probes"]
         if p["reachability_observed"] == "REACHABLE"
         and p["fetch_outcome"] == "SUCCESS"
+        and _real_runner(p)
     ]
     if not reachable:
         return "FAIL", "PROVEN requires ≥1 REACHABLE+SUCCESS probe"

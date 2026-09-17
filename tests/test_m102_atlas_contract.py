@@ -46,7 +46,7 @@ def _probe(probe_id="p1", sha="", outcome="SUCCESS", reach="REACHABLE"):
         "kind": "portal",
         "url": "https://example.es/boletin",
         "observed_at": "2026-09-18T08:00:00Z",
-        "runner_network": "unknown",
+        "runner_network": "es_local",
         "reachability_observed": reach,
         "fetch_outcome": outcome,
         "http_status": 200 if reach == "REACHABLE" else None,
@@ -283,8 +283,9 @@ def test_gate_accepts_blocked_with_evidence(tmp_path):
         ceuta["probes"] = [
             _probe(sha="", outcome="TIMEOUT", reach="UNREACHABLE")
         ]
+        ceuta["probes"][0]["detail"] = "TransportTimeout after 30s"
         ceuta["status_evidence"] = (
-            "portal reachable? no — timeout from runner_network=unknown; "
+            "portal reachable? no — timeout from runner_network=es_local; "
             "no machine-readable document surface identified"
         )
 
@@ -332,7 +333,7 @@ def test_probe_writer_records_and_verifies(tmp_path):
         http_status=200,
         content_type="text/html",
         marker=b"BOLETIN",
-        runner_network="fixture",
+        runner_network="es_local",
         now=lambda: "2026-09-18T00:00:00Z",
     )
     assert rec["raw_sha256"] == hashlib.sha256(body).hexdigest()
@@ -368,3 +369,64 @@ def test_probe_writer_soft_404_and_marker_miss(tmp_path):
     assert rec["fetch_outcome"] == "SOFT_404"
     assert rec["reachability_observed"] == "REACHABLE"
     assert rec["content_marker_ok"] is False
+
+
+def test_probe_writer_interstitial_is_never_success(tmp_path):
+    """A WAF/anti-bot interstitial (Radware/hCaptcha/Cloudflare) is a
+    soft block: CONTENT_MARKER_MISMATCH even with no marker configured."""
+    from tooling.m102_atlas_probe import record_probe
+
+    for sig in (b"Radware Captcha Page", b"hcaptcha.com",
+                b"Just a moment..."):
+        rec = record_probe(
+            evidence_dir=tmp_path,
+            domain_id="ES-XX",
+            probe_id=f"waf-{sig[:6].hex()}",
+            surface_id="doc",
+            kind="document",
+            url="https://example.test/doc/1",
+            body=b"<html><title>" + sig + b"</title></html>",
+            http_status=200,
+            content_type="text/html",
+            marker=None,
+            runner_network="es_local",
+            now=lambda: "2026-09-18T00:00:00Z",
+        )
+        assert rec["fetch_outcome"] == "CONTENT_MARKER_MISMATCH", sig
+        assert rec["reachability_observed"] == "REACHABLE"
+
+
+# -------------------------------------------------------------------
+# Real shipped artifact — gate + offline replay (hermetic, no network)
+# -------------------------------------------------------------------
+
+EVIDENCE_ROOT = ROOT / "discovery" / "evidence" / "m10.2-atlas"
+SHIPPED_ATLAS = EVIDENCE_ROOT / "source-atlas.json"
+
+
+def test_shipped_atlas_gate_passes():
+    """The committed atlas must satisfy the executable exit gate with
+    repo-local evidence — 20/20 PROVEN|BLOCKED_WITH_EVIDENCE, 0 UNPROBED."""
+    from pipeline.atlas import load_atlas
+
+    atlas = load_atlas(SHIPPED_ATLAS)
+    ok, rows = check_gate(atlas, repo_root=ROOT)
+    assert ok, [r for r in rows if r[1] != "PASS"]
+    assert len(atlas["domains"]) == 20
+    assert not any(
+        d["domain_status"] == "UNPROBED" for d in atlas["domains"]
+    )
+
+
+def test_shipped_evidence_offline_replay():
+    """Every committed domain probe log verifies against stored bytes."""
+    from tooling.m102_atlas_probe import verify_probe_log
+
+    dirs = sorted(p for p in EVIDENCE_ROOT.iterdir() if p.is_dir())
+    assert len(dirs) == 20
+    failures = []
+    for d in dirs:
+        ok, rows = verify_probe_log(d)
+        if not ok:
+            failures.extend((d.name, r) for r in rows if r[1] == "FAIL")
+    assert not failures, failures

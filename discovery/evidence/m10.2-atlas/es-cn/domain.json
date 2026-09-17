@@ -26,6 +26,6 @@
   "fallback": null,
   "license": {"terms": "not_verified", "url": ""},
   "candidate_profile": "pipeline/sources/boc-canarias.profile.json",
-  "status_evidence": "M10.1 pilot P5 chain PASS + fresh doc probe es_local 2026-09-18 (14939B — identical byte count to live verify 2026-09-16). Soft-404 guard verified: markerless 200s never reach SUCCESS.",
+  "status_evidence": "M10.1 pilot P5 chain PASS + fresh doc probe es_local 2026-09-18 (14939B — identical byte count to live verify 2026-09-16). Pipeline fetch contract (pipeline/providers/fetch.py) requires content_marker — markerless 200s never reach SUCCESS there.",
   "notes": "Signed-PDF bytes not redistributable (DIGEST_ONLY); full text via pdf_text extract."
 }
