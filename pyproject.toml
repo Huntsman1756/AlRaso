@@ -5,8 +5,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "alraso"
-version = "0.2.1"
-description = "AlRaso pure bitemporal geospatial legal resolver (Milestone 1 pilot, Ordesa)"
+version = "0.3.0rc1"
+description = "AlRaso fail-closed bitemporal geospatial legal resolver (vivac in Spanish protected areas)"
 readme = "README.md"
 requires-python = ">=3.11"
 license = "Apache-2.0"

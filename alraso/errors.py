@@ -59,6 +59,19 @@ class SpatialResolutionError(AlRasoError):
     reason_code = "SPATIAL_RESOLUTION_ERROR"
 
 
+# ---- human review decisions ----------------------------------------------------
+class InvalidDecision(AlRasoError):
+    """A ReviewDecision artifact failed structural or binding validation."""
+
+    reason_code = "INVALID_REVIEW_DECISION"
+
+
+class DecisionNotApproved(AlRasoError):
+    """Publication was requested on a decision that is not APPROVE."""
+
+    reason_code = "REVIEW_DECISION_NOT_APPROVED"
+
+
 # ---- engine errors (subclass the legacy EngineError taxonomy too) -------------
 class EngineFailure(AlRasoError):
     reason_code = "ENGINE_FAILURE"

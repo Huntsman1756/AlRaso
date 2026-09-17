@@ -14,6 +14,8 @@ El **motor jurídico** es una capa bitemporal fail-closed que solo publica `PERM
 
 Además, **NORM_VALIDITY_COVERAGE**: toda versión de regla exige que su base normativa cubra `activity_date`; sin ella, fail-closed a `UNDETERMINED`. El modelo de garantía completo (3 clases: motor, corpus, interpretación) está en [`docs/LEGAL-ASSURANCE-MODEL.md`](docs/LEGAL-ASSURANCE-MODEL.md).
 
+Versión actual del paquete: `0.3.0rc1` (**release candidate**, no estable) — notas en [`docs/releases/v0.3.0-rc1.md`](docs/releases/v0.3.0-rc1.md). La revisión jurídica humana de los candidatos M10.3 y la validación independiente M7 siguen **pendientes**.
+
 ## Pruébalo
 
 ```powershell
@@ -78,7 +80,9 @@ alraso/
   spatial.py          protocolo SpatialProvider + impl in-memory (ray casting)
   ingest/ordesa.py    carga transaccional del fixture empaquetado
   resolver.py         resolve(): pipeline completo + invariante PERMITTED + replay
-  cli.py              CLI: load-ordesa | resolve | replay
+  review_decision.py  artefacto ReviewDecision humano: schema + validador fail-closed
+  publish_reviewed.py publicación gateada de candidatos (solo decision=APPROVE válida)
+  cli.py              CLI: load-ordesa | resolve | replay | validate-decision | publish-reviewed
   resources/          fixture de aceptación Ordesa (paquete incluido)
 
 webapp/

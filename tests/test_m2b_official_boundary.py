@@ -957,6 +957,23 @@ def test_git_diff_vs_main_only_allowed_files():
             or f.startswith("docs/reports/M10.3-")
             or f == "tests/test_m103_candidates.py"
         )
+        # Final closure sprint (feat/final-closure-sprint): human-review
+        # decision pipeline (fail-closed ReviewDecision artifact + gated
+        # publication path), M7 execution-readiness tooling (holdout sealing,
+        # reviewer bundle, blindness verification) and release-candidate
+        # preparation. NO new legal rules may be published by this work.
+        closure_allowed = (
+            f.startswith("alraso/review_decision")
+            or f.startswith("alraso/publish_reviewed")
+            or f.startswith("schemas/alraso-review-decision")
+            or f.startswith("tooling/m7_")
+            or f.startswith("tooling/review_decision")
+            or f.startswith("docs/validation/m7/")
+            or f.startswith("docs/releases/")
+            or f.startswith("tests/test_review_decision")
+            or f.startswith("tests/test_publish_reviewed")
+            or f.startswith("tests/test_m7_")
+        )
         assert (
             f in allowed
             or m9_allowed
@@ -967,4 +984,5 @@ def test_git_diff_vs_main_only_allowed_files():
             or m10_2_allowed
             or m10_2a_allowed
             or m10_3_allowed
+            or closure_allowed
         ), f"Unexpected file changed: {f}"
