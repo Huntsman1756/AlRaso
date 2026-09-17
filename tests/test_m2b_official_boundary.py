@@ -936,6 +936,7 @@ def test_git_diff_vs_main_only_allowed_files():
             f.startswith("docs/superpowers/specs/2026-09-16-m10.2")
             or f.startswith("docs/superpowers/plans/2026-09-16-m10.2")
             or f.startswith("docs/superpowers/plans/2026-09-17-m10.2")
+            or f.startswith("docs/superpowers/plans/2026-09-18-m10.2")
         )
         # M10.2-A national source atlas: bounded to atlas profiles/schemas,
         # m102 probe tooling, m102 contract tests and atlas evidence output.

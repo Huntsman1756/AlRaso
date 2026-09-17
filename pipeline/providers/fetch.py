@@ -66,6 +66,11 @@ class TransportResponse:
     status: int
     body: bytes
     content_type: str | None = None
+    # Final URL after redirects, when the transport captures it. None
+    # means "not captured" — callers must never assume it equals the
+    # request URL. (DOGC ELI resolution needs it: idNumber/idVersion
+    # arrive via the redirect to the AkomaNtoso servlet.)
+    effective_url: str | None = None
 
 
 # A transport is any callable TransportRequest → TransportResponse that
@@ -344,6 +349,7 @@ def urllib_transport(
                 status=resp.status,
                 body=resp.read(),
                 content_type=resp.headers.get("Content-Type"),
+                effective_url=resp.geturl(),
             )
     except urllib.error.HTTPError as exc:
         # An HTTP error status IS a response: server was reached.

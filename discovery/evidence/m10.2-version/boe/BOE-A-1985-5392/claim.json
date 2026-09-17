@@ -1,0 +1,27 @@
+{
+  "consolidated_state": "Finalizado",
+  "doc_id": "BOE-A-1985-5392",
+  "effective_from": "1985-04-23",
+  "effective_to": null,
+  "publication_date": "1985-04-03",
+  "recorded_at": "2026-09-17T13:53:13Z",
+  "recorded_until": null,
+  "resolver_evidence": {
+    "endpoint": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-1985-5392/metadatos",
+    "estatus_anulacion": "N",
+    "estatus_derogacion": "N",
+    "fecha_actualizacion": "20260827T062148Z",
+    "fetch_outcome": "SUCCESS",
+    "identificador": "BOE-A-1985-5392",
+    "response_sha256": "75daefa5c89251ef7d8f012ee84e0287561f0106cbefe31240193ea0f07ae43d",
+    "retrieved_at": "2026-09-17T13:53:13Z",
+    "runner_network": "es_local",
+    "signal": "document_version_only",
+    "signal_source": "boe_metadatos",
+    "strategy": "consolidated_api",
+    "url_eli": "https://www.boe.es/eli/es/l/1985/04/02/7",
+    "vigencia_agotada": "N"
+  },
+  "status": "RESOLVED",
+  "supersession": []
+}

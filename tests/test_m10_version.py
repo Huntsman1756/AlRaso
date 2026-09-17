@@ -110,7 +110,10 @@ def test_fragment_without_date_stays_null():
     assert claim.resolver_evidence["fragment"]
 
 
-def test_consolidated_api_is_an_honest_stub():
+def test_consolidated_api_without_evidence_fails_closed():
+    """M10.2-C: consolidated_api is real for verified signal sources, but
+    absent evidence must still fail closed to REQUIRES_MANUAL_REVIEW —
+    never a fabricated claim."""
     profile = SourceProfile(
         source_id="x",
         jurisdiction="ES-CT",
@@ -124,7 +127,8 @@ def test_consolidated_api_is_an_honest_stub():
     claim = resolve(profile, _doc_ref(), clock=lambda: FIXED_NOW)
     assert claim.status is VersionClaimStatus.REQUIRES_MANUAL_REVIEW
     assert claim.effective_from is None
-    assert "consolidated_api" in claim.resolver_evidence["note"]
+    assert "consolidated" in claim.resolver_evidence[
+        "manual_review_reason"]
 
 
 def test_unknown_strategy_fails_explicit():

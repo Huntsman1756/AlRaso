@@ -38,7 +38,8 @@
     "annex_format": "pdf_text"
   },
   "versioning": {
-    "strategy": "consolidated_api"
+    "strategy": "consolidated_api",
+    "signal_source": "boe_metadatos"
   },
   "reachability": {
     "expected": {

@@ -39,7 +39,8 @@
     "format": "akn"
   },
   "versioning": {
-    "strategy": "gazette_publication"
+    "strategy": "consolidated_api",
+    "signal_source": "dogc_socrata_eli"
   },
   "reachability": {
     "expected": {
@@ -55,7 +56,7 @@
   "provenance": {
     "derived_from": "discovery/evidence/spain-coverage-g0/source-matrix.json + access-matrix.json + live Socrata capture 2026-09-16",
     "probed_at": "2026-09-13",
-    "caveat": "ELI /xml redirects to Akoma Ntoso rendering; consolidated text (vigencia) is a separate surface — version resolution stays gazette_publication"
+    "caveat": "ELI /xml redirects to portaldogc AkomaNtoso servlet carrying idNumber/idVersion in the effective URL (transport must expose effective_url). Socrata vig_ncia_de_la_norma + idVersion resolve the DOCUMENT VERSION only — RESOLVED is never legal truth."
   },
   "refresh": {
     "absence_threshold": 3,

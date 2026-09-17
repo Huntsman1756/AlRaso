@@ -1,0 +1,27 @@
+{
+  "consolidated_state": "Finalizado",
+  "doc_id": "BOE-A-2007-21490",
+  "effective_from": "2007-12-15",
+  "effective_to": null,
+  "publication_date": "2007-12-14",
+  "recorded_at": "2026-09-17T13:53:13Z",
+  "recorded_until": null,
+  "resolver_evidence": {
+    "endpoint": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2007-21490/metadatos",
+    "estatus_anulacion": "N",
+    "estatus_derogacion": "N",
+    "fecha_actualizacion": "20260313T122740Z",
+    "fetch_outcome": "SUCCESS",
+    "identificador": "BOE-A-2007-21490",
+    "response_sha256": "fc8163f75c103f3f81898c4f2e7e52b85dc9983a77ceccaef356bec83e3f655f",
+    "retrieved_at": "2026-09-17T13:53:13Z",
+    "runner_network": "es_local",
+    "signal": "document_version_only",
+    "signal_source": "boe_metadatos",
+    "strategy": "consolidated_api",
+    "url_eli": "https://www.boe.es/eli/es/l/2007/12/13/42",
+    "vigencia_agotada": "N"
+  },
+  "status": "RESOLVED",
+  "supersession": []
+}
