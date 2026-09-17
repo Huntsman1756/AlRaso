@@ -1,0 +1,26 @@
+{
+  "consolidated_state": "Vigent",
+  "doc_id": "es-ct/d/2003/02/04/39",
+  "effective_from": null,
+  "effective_to": null,
+  "publication_date": "2003-02-19",
+  "recorded_at": "2026-09-17T14:08:31Z",
+  "recorded_until": null,
+  "resolver_evidence": {
+    "data_del_document": "2003-02-04T00:00:00.000",
+    "eli": "es-ct/d/2003/02/04/39",
+    "endpoint": "https://portaljuridic.gencat.cat/eli/es-ct/d/2003/02/04/39/dof/cat/xml",
+    "fetch_outcome": "SUCCESS",
+    "id_number": "309790",
+    "id_version": "318062",
+    "response_sha256": "96f9a5452c956337b45284a705de90858173acef43d3a33b2fd8454c7e517792",
+    "retrieved_at": "2026-09-17T14:08:31Z",
+    "runner_network": "es_local",
+    "signal": "document_version_only",
+    "signal_source": "dogc_socrata_eli",
+    "strategy": "consolidated_api",
+    "vigencia": "Vigent"
+  },
+  "status": "RESOLVED",
+  "supersession": []
+}

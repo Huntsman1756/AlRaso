@@ -1,0 +1,40 @@
+{
+    "status": {
+        "code": "200",
+        "text": "ok"
+    },
+    "data": [
+        {
+            "fecha_actualizacion": "20260827T062148Z",
+            "identificador": "BOE-A-1985-5392",
+            "ambito": {
+                "codigo": "1",
+                "texto": "Estatal"
+            },
+            "departamento": {
+                "codigo": "7723",
+                "texto": "Jefatura del Estado"
+            },
+            "rango": {
+                "codigo": "1300",
+                "texto": "Ley"
+            },
+            "fecha_disposicion": "19850402",
+            "numero_oficial": "7\/1985",
+            "titulo": "Ley 7\/1985, de 2 de abril, Reguladora de las Bases del R\u00e9gimen Local",
+            "diario": "Bolet\u00edn Oficial del Estado",
+            "fecha_publicacion": "19850403",
+            "diario_numero": "80",
+            "fecha_vigencia": "19850423",
+            "estatus_derogacion": "N",
+            "estatus_anulacion": "N",
+            "vigencia_agotada": "N",
+            "estado_consolidacion": {
+                "codigo": "3",
+                "texto": "Finalizado"
+            },
+            "url_eli": "https:\/\/www.boe.es\/eli\/es\/l\/1985\/04\/02\/7",
+            "url_html_consolidada": "https:\/\/www.boe.es\/buscar\/act.php?id=BOE-A-1985-5392"
+        }
+    ]
+}

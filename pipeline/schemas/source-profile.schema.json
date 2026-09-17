@@ -86,6 +86,10 @@
         "strategy": {
           "type": "string",
           "enum": ["gazette_publication", "consolidated_api"]
+        },
+        "signal_source": {
+          "type": "string",
+          "enum": ["boe_metadatos", "dogc_socrata_eli"]
         }
       }
     },

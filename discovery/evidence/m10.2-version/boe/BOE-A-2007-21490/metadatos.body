@@ -1,0 +1,40 @@
+{
+    "status": {
+        "code": "200",
+        "text": "ok"
+    },
+    "data": [
+        {
+            "fecha_actualizacion": "20260313T122740Z",
+            "identificador": "BOE-A-2007-21490",
+            "ambito": {
+                "codigo": "1",
+                "texto": "Estatal"
+            },
+            "departamento": {
+                "codigo": "7723",
+                "texto": "Jefatura del Estado"
+            },
+            "rango": {
+                "codigo": "1300",
+                "texto": "Ley"
+            },
+            "fecha_disposicion": "20071213",
+            "numero_oficial": "42\/2007",
+            "titulo": "Ley 42\/2007, de 13 de diciembre, del Patrimonio Natural y de la Biodiversidad.",
+            "diario": "Bolet\u00edn Oficial del Estado",
+            "fecha_publicacion": "20071214",
+            "diario_numero": "299",
+            "fecha_vigencia": "20071215",
+            "estatus_derogacion": "N",
+            "estatus_anulacion": "N",
+            "vigencia_agotada": "N",
+            "estado_consolidacion": {
+                "codigo": "3",
+                "texto": "Finalizado"
+            },
+            "url_eli": "https:\/\/www.boe.es\/eli\/es\/l\/2007\/12\/13\/42",
+            "url_html_consolidada": "https:\/\/www.boe.es\/buscar\/act.php?id=BOE-A-2007-21490"
+        }
+    ]
+}

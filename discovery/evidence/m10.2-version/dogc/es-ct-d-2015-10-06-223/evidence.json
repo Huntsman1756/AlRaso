@@ -1,0 +1,75 @@
+{
+  "bundle": {
+    "body_file": "eli.body",
+    "endpoint": "https://portaljuridic.gencat.cat/eli/es-ct/d/2015/10/06/223/dof/cat/xml",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "payload": {
+      "eli_redirect": {
+        "effective_url": "https://portaldogc.gencat.cat/utilsEADOP/AppJava/AkomaNtoso?idNumber=705207&idVersion=1793598&format=xml",
+        "http_status": 200,
+        "request_url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2015/10/06/223/dof/cat/xml",
+        "response_sha256": "4df33d94e21842335a41b8db5cd98c698bae84ca6d1ddb78d567c4295a6de98e"
+      },
+      "socrata": {
+        "body_file": "socrata.body",
+        "endpoint": "https://analisi.transparenciacatalunya.cat/resource/n6hn-rmy7.json?$limit=1&$where=t_tol_de_la_norma%20like%20'%25223/2015%25'",
+        "fetch_outcome": "SUCCESS",
+        "http_status": 200,
+        "response_sha256": "15d1bbfcb70a819604a116a119ac12534432adf3b96b6425c3e1eb9544e21bef",
+        "retrieved_at": "2026-09-17T14:08:32Z"
+      },
+      "socrata_row": {
+        "any": "2015",
+        "data_de_publicaci_del_diari": "2015-10-15T00:00:00.000",
+        "data_del_document": "2015-10-06T00:00:00.000",
+        "diari_oficial": "DOGC",
+        "format_html": {
+          "url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2015/10/06/223/dof/cat/html"
+        },
+        "format_pdf": {
+          "url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2015/10/06/223/dof/cat/pdf"
+        },
+        "format_rdf": {
+          "url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2015/10/06/223/dof/cat/rdf"
+        },
+        "format_turtle": {
+          "url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2015/10/06/223/dof/cat/turtle"
+        },
+        "n_mero_de_control": "15286040",
+        "n_mero_de_diari": "6976",
+        "rang_de_norma": "Decret",
+        "t_tol_de_la_norma": "DECRET 223/2015, de 6 d'octubre, pel qual s'aproven els Estatuts de l'Agència per a la Competitivitat de l'Empresa.",
+        "t_tol_de_la_norma_es": "DECRETO 223/2015, de 6 de octubre, por el que se aprueban los Estatutos de la Agencia para la Competitividad de la Empresa.",
+        "url_es_format_rdf": {
+          "url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2015/10/06/223/dof/spa/rdf"
+        },
+        "url_es_format_turtle": {
+          "url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2015/10/06/223/dof/spa/turtle"
+        },
+        "url_es_format_xml": {
+          "url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2015/10/06/223/dof/spa/xml"
+        },
+        "url_es_formato_html": {
+          "url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2015/10/06/223/dof/spa/html"
+        },
+        "url_es_formato_pdf": {
+          "url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2015/10/06/223/dof/spa/pdf"
+        },
+        "url_format_xml": {
+          "url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2015/10/06/223/dof/cat/xml"
+        },
+        "url_ltima_versi_format_html": {
+          "url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2015/10/06/223"
+        },
+        "vig_ncia_de_la_norma": "Vigent"
+      }
+    },
+    "response_sha256": "4df33d94e21842335a41b8db5cd98c698bae84ca6d1ddb78d567c4295a6de98e",
+    "retrieved_at": "2026-09-17T14:08:32Z",
+    "runner_network": "es_local",
+    "signal_source": "dogc_socrata_eli"
+  },
+  "doc_id": "es-ct/d/2015/10/06/223",
+  "published_on": "2015-10-08"
+}
