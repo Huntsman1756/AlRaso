@@ -1,0 +1,36 @@
+[
+  {
+    "probe_id": "portal",
+    "surface_id": "bopa-portal",
+    "kind": "portal",
+    "url": "https://sede.asturias.es/bopa",
+    "observed_at": "2026-09-17T04:39:17Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "4cfbddeda656673ae2cc232ad00454383a229c04b3bb59c845ad8096b593ac6b",
+    "bytes": 264391,
+    "content_type": "text/html;charset=UTF-8",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-as/portal.body",
+    "detail": ""
+  },
+  {
+    "probe_id": "doc-pdf",
+    "surface_id": "bopa-doc-pdf",
+    "kind": "document",
+    "url": "https://sede.asturias.es/bopa/2026/03/30/2026-02506.pdf",
+    "observed_at": "2026-09-17T04:43:50Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "a1e374e5dcc12c5de2de653abf1f4da2635c620a10ac17e4f43ffd709d5210bd",
+    "bytes": 55813114,
+    "content_type": "application/pdf",
+    "evidence_path": "",
+    "detail": "DIGEST_ONLY: body not redistributed"
+  }
+]

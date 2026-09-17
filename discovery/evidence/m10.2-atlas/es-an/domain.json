@@ -1,0 +1,35 @@
+{
+  "domain_id": "ES-AN",
+  "gazette_id": "boja",
+  "gazette_name": "Boletín Oficial de la Junta de Andalucía",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "boja-portal", "kind": "portal",
+     "url": "https://www.juntadeandalucia.es/boja"},
+    {"surface_id": "boja-doc-url", "kind": "document",
+     "url": "https://www.juntadeandalucia.es/boja/{YYYY}/{issue}/{doc}"},
+    {"surface_id": "sedeboja-consolidados", "kind": "portal",
+     "url": "https://www.juntadeandalucia.es/sedeboja",
+     "notes": "consolidated-texts portal; no clean API verified"}
+  ],
+  "discovery_mechanism": "issue_index_html (sumario per /boja/{YYYY}/{issue})",
+  "fetch_mechanism": "get_simple",
+  "doc_id_scheme": "(YYYY, issue, doc) URL triple; print id BOJA-b-YYYY-NNNNN",
+  "formats": ["html", "pdf"],
+  "parser_family": "NEW:boja_html",
+  "version_signal": "none_verified",
+  "change_detection": {
+    "mechanism": "issue index polling",
+    "strength": "medium",
+    "cadence": "daily"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "REACHABLE"},
+  "fallback": "BOE consolidada for the consolidated subset",
+  "license": {
+    "terms": "not_verified",
+    "url": "https://www.juntadeandalucia.es/avisolegal"
+  },
+  "candidate_profile": null,
+  "status_evidence": "portal + document probed live es_local 2026-09-18 (doc /boja/2011/155/41 → 200, 136216B stored; portal 200). G0 probe boja-doc re-confirmed.",
+  "notes": "HEAD requests time out — GET only. Consolidated portal exists but no API verified."
+}

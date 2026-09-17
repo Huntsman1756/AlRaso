@@ -1,0 +1,29 @@
+{
+  "domain_id": "ES-AS",
+  "gazette_id": "bopa",
+  "gazette_name": "Boletín Oficial del Principado de Asturias",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "bopa-portal", "kind": "portal",
+     "url": "https://sede.asturias.es/bopa"},
+    {"surface_id": "bopa-doc-pdf", "kind": "document",
+     "url": "https://sede.asturias.es/bopa/{YYYY}/{MM}/{DD}/{YYYY-NNNNN}.pdf"}
+  ],
+  "discovery_mechanism": "portal search UI (no machine feed verified)",
+  "fetch_mechanism": "get_simple",
+  "doc_id_scheme": "BOPA code YYYY-NNNNN (e.g. 2026-02506)",
+  "formats": ["pdf"],
+  "parser_family": "pdf_text",
+  "version_signal": "none_verified",
+  "change_detection": {
+    "mechanism": "document URL polling",
+    "strength": "weak",
+    "cadence": "manual"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "REACHABLE"},
+  "fallback": "official park web PDFs (verified M2A)",
+  "license": {"terms": "not_verified", "url": ""},
+  "candidate_profile": null,
+  "status_evidence": "portal (264KB) + doc PDF probed live es_local 2026-09-18; doc bytes NOT redistributed (55.8MB, DIGEST_ONLY) but sha256 a1e374e5dcc12c5d… is byte-identical to the M2A evidence lock — provenance continuity proven.",
+  "notes": "PDF-only gazette; large documents (433pp). No consolidated/version surface observed."
+}

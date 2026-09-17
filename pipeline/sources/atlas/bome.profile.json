@@ -1,0 +1,48 @@
+{
+  "source_id": "bome",
+  "jurisdiction": "ES-ML",
+  "kind": "gazette",
+  "discovery": {
+    "provider": "rss_items",
+    "recipe": "rss_feed",
+    "endpoint": "https://bomemelilla.es/rss",
+    "doc_id_pattern": "BOME-A-\\d{4}-\\d+",
+    "doc_url_template": "https://bomemelilla.es/bome/BOME-B-{YYYY}-{issue}/articulo/{artNum}"
+  },
+  "fetch": {
+    "provider": "per_doc_url",
+    "recipe": "get_simple",
+    "method": "GET",
+    "formats": ["html", "pdf"],
+    "content_marker": "BOME-A-",
+    "doc_url_template": "https://bomemelilla.es/bome/BOME-B-{YYYY}-{issue}/articulo/{artNum}"
+  },
+  "parse": {
+    "format": "bome_html",
+    "annex_format": "pdf_text"
+  },
+  "versioning": {
+    "strategy": "gazette_publication"
+  },
+  "reachability": {
+    "expected": {
+      "es_local": "REACHABLE",
+      "foreign_ci": "REACHABLE"
+    },
+    "fallback": "legacy JSP portal melilla.es (pre-2018 archive)"
+  },
+  "change_detection": {
+    "method": "RSS + predictable CVE-keyed URLs",
+    "cadence": "daily"
+  },
+  "provenance": {
+    "derived_from": "discovery/evidence/m10.2-atlas/es-ml/",
+    "probed_at": "2026-09-18",
+    "caveat": "CANDIDATE: generic 'rss_items' discovery interpreter not yet implemented. RSS item <link> values are broken short URLs — construct canonical BOME-B-{year}-{num} instead. Issue BOME-B/article BOME-A CVEs."
+  },
+  "atlas": {
+    "domain_id": "ES-ML",
+    "domain_status": "PROVEN",
+    "evidence_dir": "discovery/evidence/m10.2-atlas/es-ml/"
+  }
+}

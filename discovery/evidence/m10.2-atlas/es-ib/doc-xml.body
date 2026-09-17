@@ -1,0 +1,123 @@
+<rdf:RDF
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:env="https://www.caib.es/eboibfront/rdf/schema/enviament/1.0/"
+    xmlns:eli="https://www.caib.es/eboibfront/rdf/schema/eli/1.0/"
+    xmlns:rann="https://www.caib.es/eboibfront/rdf/schema/relAnnexe/1.0/" > 
+  <rdf:Description rdf:about="https://www.caib.es/eboibfront/es/2026/12328/719793/resolucion-de-la-consejera-de-trabajo-funcion-publ#annexe_320129">
+    <dc:description>CAIB</dc:description>
+    <rann:accesRdf rdf:resource="https://www.caib.es/eboibfront/es/2026/12328/719793/resolucion-de-la-consejera-de-trabajo-funcion-publ/320129/rdf"/>
+    <rann:annexe rdf:resource="https://www.caib.es/eboibfront/es/2026/12328/719793/resolucion-de-la-consejera-de-trabajo-funcion-publ/320129"/>
+    <rann:lang>es</rann:lang>
+    <rdf:type rdf:resource="https://www.caib.es/eboibfront/rdf/schema/relAnnexe/1.0/"/>
+    <rann:idAnnexe>320129</rann:idAnnexe>
+    <dc:creator>CAIB</dc:creator>
+    <dc:language>es</dc:language>
+    <dc:publisher>CAIB</dc:publisher>
+    <dc:date>2026-09-15</dc:date>
+    <dc:format>text/html</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A0">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Bag"/>
+    <rdf:_1 rdf:resource="https://www.caib.es/eboibfront/es/2026/12328/719793/resolucion-de-la-consejera-de-trabajo-funcion-publ#annexe_320129"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.caib.es/eboibfront/es/2026/12328/719793/resolucion-de-la-consejera-de-trabajo-funcion-publ/xml">
+    <env:tipusPublicacio rdf:resource="https://www.caib.es/eboibfront/es/tipus-publicacio/85"/>
+    <env:lang>es</env:lang>
+    <env:dataRegistre>2026-09-11</env:dataRegistre>
+    <env:organisme rdf:resource="https://www.caib.es/eboibfront/es/organisme/1085"/>
+    <env:enviatTo rdf:resource="https://www.caib.es/eboibfront/es/2026/12328"/>
+    <env:idEnviament>719793</env:idEnviament>
+    <env:numPaginaFinal rdf:parseType="Literal">50600</env:numPaginaFinal>
+    <dc:language>es</dc:language>
+    <env:dataPublicacio>2026-09-15</env:dataPublicacio>
+    <rdf:type rdf:resource="https://www.caib.es/eboibfront/rdf/schema/enviament/1.0/"/>
+    <env:sumariEnviament rdf:parseType="Literal">![CDATA[Resolución de la consejera de Trabajo, Función Pública y Diálogo Social por la que se nombra funcionario de carrera del cuerpo facultativo superior, escala de ingeniería, especialidad náutica y transporte marítimo  de la Administración de la Comunidad Autónoma de las Illes Balears, la persona aspirante que ha superado, por el turno libre para la isla de Mallorca, las pruebas selectivas convocadas por Resolución de 15 de octubre de 2025 y se le adjudica un puesto de trabajo]]</env:sumariEnviament>
+    <dc:format>text/html</dc:format>
+    <dc:creator>CAIB</dc:creator>
+    <env:annexes rdf:nodeID="A0"/>
+    <env:html rdf:resource="https://www.caib.es/eboibfront/es/2026/12328/719793/resolucion-de-la-consejera-de-trabajo-funcion-publ/"/>
+    <dc:description>CAIB</dc:description>
+    <env:seccio rdf:resource="https://www.caib.es/eboibfront/es/seccio/481"/>
+    <env:numeroRegistre>667012</env:numeroRegistre>
+    <dc:publisher>CAIB</dc:publisher>
+    <env:numPaginaInicial rdf:parseType="Literal">50598</env:numPaginaInicial>
+    <env:ordre rdf:parseType="Literal">10</env:ordre>
+    <env:contingut rdf:parseType="Literal">![CDATA[&lt;p style="text-align:justify"&gt;&lt;strong&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;Antecedentes&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;1. Mediante Resolución de la consejera de Trabajo, Función Pública y Diálogo Social de 15 de octubre de 2025 se aprobaron la convocatoria, bases y ejercicios y se designó al Tribunal Calificador de las pruebas selectivas para el ingreso, por el turno libre, en el cuerpo facultativo superior, escala de ingeniería, especialidad náutica y transporte marítimo de la Administración especial de la Comunidad Autónoma de las Illes Balears (BOIB núm. 139, de 21 de octubre).&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;2. En fecha 22 de agosto de 2026 se publicó en el BOIB núm. 105 la Resolución de la consejera de Trabajo, Función Pública y Diálogo Social de 19 de agosto de 2026 por la que se aprueba la lista de aspirantes que han superado las pruebas selectivas para el ingreso, por el turno libre, en el cuerpo facultativo superior, escala de ingeniería, especialidad náutica y transporte marítimo para la isla de Mallorca de la Administración de la Comunidad Autónoma de las Illes Balears y se ofrecen los puestos de trabajo. &lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;Una vez que la persona aspirante que ha superado el proceso selectivo ha presentado la solicitud y se ha comprobado el cumplimiento de los requisitos, debe ser nombrada personal funcionario de carrera del cuerpo facultativo superior, escala de ingeniería, especialidad náutica y transporte marítimo de la Administración de la Comunidad Autónoma de las Illes Balears.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;strong&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;Fundamentos de derecho&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;1. La Ley 39/2015, de 1 de octubre, del procedimiento administrativo común de las administraciones públicas&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;2. La Ley 3/2007, de 27 de marzo, de la función pública de la comunidad autónoma de las Illes Balears.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;3. La Ley 3/2003, de 26 de marzo, de régimen jurídico de la Administración de la comunidad autónoma de las Illes Balears.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;4. El Decreto 27/1994, de 11 de marzo, por el que se aprueba el Reglamento de ingreso del personal al servicio de la comunidad autónoma.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;5. El artículo 5.2 del anexo del Decreto 31/2012, de 13 de abril, por el que se aprueban los Estatutos de la Escuela Balear de Administración Pública.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;6. El Decreto 10/2025, de 14 de julio, de la presidenta de las Illes Balears, por el que se establecen las competencias y la estructura orgánica básica de las consejerías de la Administración de la Comunidad Autónoma de las Illes Balears y posteriores modificaciones.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;7. La base 15 de la Resolución de la consejera de Trabajo, Función Pública y Diálogo Social de 15 de octubre de 2025 por la que se aprueban la convocatoria, bases y ejercicios y se designó al Tribunal Calificador de las pruebas selectivas para el ingreso, por el turno libre, en el cuerpo facultativo superior, escala de ingeniería, especialidad náutica y transporte marítimo de la Administración especial de la Comunidad Autónoma de las Illes Balears.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;Por todo ello, dicto la siguiente&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:center"&gt;&lt;strong&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;Resolución&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;1. Nomenar personal funcionari de carrera del cos facultatiu superior, escala d'enginyeria, especialitat nàutica i transport marítim, per a l'illa de Mallorca, de l'Administració de la Comunitat Autònoma de les Illes Balears la persona següent:&lt;/span&gt;&lt;/p&gt;
+
+&lt;div style="page-break-after:always"&gt;&lt;span style="display:none"&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;
+
+&lt;table border="1" cellpadding="1" cellspacing="0" style="border-collapse:collapse; margin-bottom:10px; margin-top:10px; width:100%"&gt;
+	&lt;thead&gt;
+		&lt;tr&gt;
+			&lt;th style="text-align:center"&gt;&lt;span style="font-size:10px"&gt;&lt;span style="font-family:&amp;quot;Times New Roman&amp;quot;,Times,serif"&gt;&lt;strong&gt;DNI&lt;/strong&gt;&lt;/span&gt;&lt;/span&gt;&lt;/th&gt;
+			&lt;th style="text-align:center"&gt;&lt;span style="font-size:10px"&gt;&lt;span style="font-family:&amp;quot;Times New Roman&amp;quot;,Times,serif"&gt;&lt;strong&gt;APELLIDOS, NOMBRE&lt;/strong&gt;&lt;/span&gt;&lt;/span&gt;&lt;/th&gt;
+			&lt;th style="text-align:center"&gt;&lt;span style="font-size:10px"&gt;&lt;span style="font-family:&amp;quot;Times New Roman&amp;quot;,Times,serif"&gt;&lt;strong&gt;POSICIÓN&lt;/strong&gt;&lt;/span&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+		&lt;tr&gt;
+			&lt;td style="text-align:center"&gt;&lt;span style="font-size:10px"&gt;&lt;span style="font-family:&amp;quot;Times New Roman&amp;quot;,Times,serif"&gt;***5692*&lt;/span&gt;&lt;/span&gt;&lt;/td&gt;
+			&lt;td style="text-align:left"&gt;&lt;span style="font-size:10px"&gt;&lt;span style="font-family:&amp;quot;Times New Roman&amp;quot;,Times,serif"&gt;ISERTE MONELL, JOSEP&lt;/span&gt;&lt;/span&gt;&lt;/td&gt;
+			&lt;td style="text-align:center"&gt;&lt;span style="font-size:10px"&gt;&lt;span style="font-family:&amp;quot;Times New Roman&amp;quot;,Times,serif"&gt;1&lt;/span&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;2. Adjudicar el puesto de trabajo, de acuerdo con lo que se indica en el anexo de esta Resolución, a la persona aspirante que ha superado las pruebas selectivas para el ingreso, por el turno libre, en el cuerpo facultativo superior, escala de ingeniería, especialidad náutica y transporte marítimo, para la isla de Mallorca, de la Administración especial de la Comunidad Autónoma de las Illes Balears, después de haber presentado la documentación pertinente, de acuerdo con la petición de destino efectuada y la puntuación obtenida en el proceso selectivo.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;3. La toma de posesión debe efectuarse en la conselleria correspondiente, en el plazo de tres días hábiles a contar a partir del día siguiente de la publicación de esta Resolución en el &lt;em&gt;B&lt;/em&gt;&lt;em&gt;oletín &lt;/em&gt;&lt;em&gt;Oficial de l&lt;/em&gt;&lt;em&gt;a&lt;/em&gt;&lt;em&gt;s Illes Balears&lt;/em&gt;.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;Antes de tomar posesión del puesto adjudicado, la persona interesada deberá hacer constar que no ocupa ningún puesto de trabajo ni que realiza ninguna actividad en el sector público de las que se comprenden en el artículo 1 de la Ley 53/1984, de 26 de diciembre, de incompatibilidades del personal al servicio de las administraciones públicas.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;4. Si realiza alguna actividad privada, incluidas las de carácter profesional, deberá declararlo en el plazo de diez días hábiles a contar desde el día siguiente de la toma de posesión, a fin de que el órgano competente acuerde la declaración de compatibilidad o de incompatibilidad.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;5. Una vez publicado el nombramiento, para adquirir la condición de funcionario de carrera debe efectuarse el juramento o la promesa de acatar la Constitución, el Estatuto de Autonomía de la Comunidad Autónoma de las Illes Balears y el ordenamiento vigente y tomar posesión en el plazo reglamentario.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;6. Declarar desistidas de su solicitud por caducidad y excluidas del procedimiento, a las personas que no han presentado el escrito de elección de los puestos de trabajo ofrecidos, por orden de preferencia, y la documentación acreditativa del cumplimiento de los requisitos, de acuerdo con la base 14 de la convocatoria. &lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;7. Publicar esta resolución en el &lt;em&gt;B&lt;/em&gt;&lt;em&gt;oletín&lt;/em&gt;&lt;em&gt; Oficial de l&lt;/em&gt;&lt;em&gt;a&lt;/em&gt;&lt;em&gt;s Illes Balears&lt;/em&gt;, en el Portal del Opositor (http://oposicions.caib.es) y en la Sede electrónica (www.caib.es).&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;strong&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;Interposición de recursos&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;Contra esta Resolución, que pone fin a la vía administrativa, se puede interponer un recurso potestativo de reposición ante la consejera de Trabajo, Función Pública y Diálogo Social en el plazo de un mes, a contar a partir del día siguiente de su publicación, de acuerdo con los artículos 123 y 124 de la Ley 39/2015, de 1 de octubre, del procedimiento administrativo común, y el artículo 57 de la Ley 3/2003, de régimen jurídico de la Administración de la Comunidad Autónoma de las Illes Balears.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;También se puede interponer un recurso contencioso administrativo ante la Sala de lo Contencioso Administrativo del Tribunal Superior de Justicia de las Illes Balears, en el plazo de dos meses a contar a partir del día siguiente de la publicación de la resolución, de acuerdo con los artículos 8.2 y 46.1 de la Ley 29/1998, de 13 de julio, reguladora de la jurisdicción contencioso-administrativa.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style="text-align:justify"&gt; &lt;/p&gt;
+
+&lt;p style="text-align:center"&gt;&lt;em&gt;(Firmado electrónicamente: 10 de septiembre de 2026)&lt;/em&gt;&lt;/p&gt;
+
+&lt;p style="text-align:center"&gt;&lt;strong&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;La consejera de Trabajo, Función Pública y Diálogo Social&lt;span style="display:block; line-height:1.6; margin-bottom:0px; margin-top:0px"&gt; &lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span style="font-family:Times New Roman,Times,serif; font-size:12px"&gt;Catalina Teresa Cabrer González&lt;/span&gt;&lt;/p&gt;
+]]</env:contingut>
+    <dc:date>2026-09-15</dc:date>
+  </rdf:Description>
+</rdf:RDF>

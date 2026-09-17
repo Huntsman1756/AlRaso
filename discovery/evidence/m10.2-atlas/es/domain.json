@@ -1,0 +1,37 @@
+{
+  "domain_id": "ES",
+  "gazette_id": "boe",
+  "gazette_name": "Boletín Oficial del Estado",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "boe-sumario-api", "kind": "api",
+     "url": "https://www.boe.es/datosabiertos/api/boe/sumario/{AAAAMMDD}",
+     "notes": "requires Accept: application/json; 400 on plain GET"},
+    {"surface_id": "boe-consolidada-api", "kind": "api",
+     "url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada"},
+    {"surface_id": "boe-doc", "kind": "document",
+     "url": "https://www.boe.es/buscar/doc.php?id=BOE-A-YYYY-NNNNN"},
+    {"surface_id": "boe-eli-resolver", "kind": "portal",
+     "url": "https://www.boe.es/eli/es/..."}
+  ],
+  "discovery_mechanism": "sumario_api + consolidated_api",
+  "fetch_mechanism": "get_simple",
+  "doc_id_scheme": "BOE-A-YYYY-NNNNN + ELI",
+  "formats": ["json", "xml", "html", "pdf"],
+  "parser_family": "NEW:boe_consolidada_xml",
+  "version_signal": "consolidated_api",
+  "change_detection": {
+    "mechanism": "sumario API daily + legislacion-consolidada fecha_actualizacion from/to",
+    "strength": "strong",
+    "cadence": "daily"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "REACHABLE"},
+  "fallback": "boe.es web UI (buscar/doc.php)",
+  "license": {
+    "terms": "reutilización información pública (datos abiertos BOE)",
+    "url": "https://www.boe.es/datosabiertos/"
+  },
+  "candidate_profile": "pipeline/sources/atlas/boe.profile.json",
+  "status_evidence": "sumario API + doc.php probed live es_local 2026-09-18 (200 JSON/XML, evidence preserved). G0 verified consolidated corpus; caveat: CCAA PRUG decrees are NOT in the consolidated corpus — BOE suffices for state framework laws only.",
+  "notes": "Accept header mandatory on datosabiertos API. Consolidated-corpus absence proves nothing about autonomous gazettes."
+}

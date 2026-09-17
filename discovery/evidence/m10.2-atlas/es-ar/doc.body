@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+<title>Bolet&iacute;n Oficial de Arag&oacute;n</title>
+<meta content="text/html; charset="iso88591" httpequiv="contenttype">
+<meta property="og:title" content="Inicio. BOA">
+<meta name="author" content="Gobierno de Arag&oacute;n" />
+<meta name="description" content="BOA, Bolet&iacute;n Oficial de Arag&oacute;n" />
+<meta name="keywords" content="Arag&oacute;n, Bolet&iacute;n, aragon, gobierno, oficial, movil, BOA">
+<link rel="copyright" href="https://www.boa.aragon.es/#/accesibilidad">
+<meta property="og:image" content="https://www.boa.aragon.es/boaicon.png">
+<meta property="og:description" content="BOA, Bolet&iacute;n Oficial de Arag&oacute;n">
+<meta name="viewport" content="width=devicewidth, initialscale=1">
+<meta content="Web oficial del bolet&iacute;n oficial de Arag&oacute;n" lang="es-ES" name="description">
+<link class="lfr-css-file" data-senna-track="temporary" href="/EBOA/css/bootstrap.min.css" id="liferayThemeCSS" rel="stylesheet" type="text/css">
+<link class="lfr-css-file" data-senna-track="temporary" href="/EBOA/css/boa2020.css" id="liferayThemeCSS" rel="stylesheet" type="text/css">
+<link class="lfr-css-file" data-senna-track="temporary" href="/styles/aragones.css?browserId=other&amp;themeId=aragontheme_WAR_aragontheme&amp;minifierType=css&amp;languageId=es_ES&amp;b=7101&amp;t=1563878574547" id="liferayThemeCSS" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Global site tag (gtag.js)  Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA10737939822"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA10737939822');
+</script>
+</head>
+<body>
+<div class="container-fluid dga-view" id="wrapper">
+<header id="banner" aria-label="Cabecera" role="banner" tabindex="-1">
+<div class="navbar container">
+<div id="heading">
+<h1 class="site-title">
+<a href="/" class="logo-dga">
+<img src="/images/logo-dga-color.svg" alt="Gobierno de Arag&oacute;n. Ir a la p&aacute;gina principal del portal.">
+</a>
+</h1>
+</div>
+<div>
+<div class="col-md-1 col-sm-1 col-xs-1"></div>
+<div>
+<div class="topnav" id="myTopnav">
+<nav class="dropdown">
+<button class="dropbtn">BUSCAR EN BOA 
+<i class="fa fa-caret-down">
+</i>
+</button>
+<div class="dropdown-content">
+<a href="/#/busquedafecha">B&Uacute;SQUEDA POR FECHA</a>
+<a href="/#/calendarios">B&Uacute;SQUEDA POR CALENDARIO</a>
+<a href="/#/busquedaboletin">B&Uacute;SQUEDA AVANZADA</a>
+<a href="/#/BOA-leyes">B&Uacute;SQUEDA DE LEYES</a>
+<a href="/#/boaextraordinario">BOLETINES EXTRAORDINARIOS</a>
+<a href="/#/ayudabuscar">AYUDA</a>
+</div>
+</nav>
+<nav class="dropdown">
+<button class="dropbtn">PUBLICAR EN EL BOA 
+<i class="fa fa-caret-down">
+</i>
+</button>
+<div class="dropdown-content">
+<a href="/#/publicacionesBOA">PUBLICAR TEXTOS</a>
+<a href="/#/pagoanuncios">PAGO DE ANUNCIOS</a>
+<a href="/#/ayudapublicacion">AYUDA</a>
+</div>
+</nav>
+<nav class="dropdown">
+<button class="dropbtn">LEGISLACI&Oacute;N
+<i class="fa fa-caret-down">
+</i>
+</button>
+<div class="dropdown-content">
+<a href="/#/legislacionconsolidada">LEGISLACI&Oacute;N CONSOLIDADA</a>
+<a href="https://www.derechoaragones.es">DERECHO ARAGON&Eacute;S</a>
+<a href="/#/elidata">ELI ARAG&Oacute;N</a>
+<a href="/#/textoslegales">TEXTOS LEGALES</a>
+<a href="/#/tecnicanormativa">T&Eacute;CNICA NORMATIVA</a>
+</div>
+</nav>
+<nav class="dropdown">
+<button class="dropbtn">SERVICIOS
+<i class="fa fa-caret-down">
+</i>
+</button>
+<div class="dropdown-content">
+<a href="/#/info">INFORMACI&Oacute;N GENERAL</a>
+<a href="/#/ayuda">AYUDA</a>
+<a href="/#/suscripciones">BOA A LA CARTA</a>
+<a href="https://twitter.com/BOAdeldia">TWITTER</a>
+<a href="/#/rss">RSS</a>
+<a href="/#/calidad">CARTA DE SERVICIOS</a>
+<a href="/#/transparencia">TRANSPARENCIA</a>
+<a href="/#/comprobarAutenticidad">COMPROBAR AUTENTICIDAD</a>
+<a href="/#/traducir">TRADUCCIONES</a>
+<a href="/#/opendata">OPEN DATA BOA</a>
+<a href="/#/appboa">APP BOA</a>
+<a href="/#/bloqueo">DERECHO AL OLVIDO</a>
+</div>
+</nav>
+<a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+<div>
+<div class="line col-md-2 col-sm-2 col-xs-2"></div>
+<div class="name" style="margin-top: 2%; float: right;">Bolet&iacute;n Oficial de Arag&oacute;n</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<div class="right">
+<div id="readspeaker_button1" class="rs_skip rsbtn rs_preserve">
+<a rel="nofollow" class="rsbtn_play" accesskey="L" title="Escucha esta p&aacute;gina utilizando ReadSpeaker" href="//app-eu.readspeaker.com/cgi-bin/rsent?customerid=9222&lang=es_es&readid=leelo&url=">
+<span class="rsbtn_left rsimg rspart">
+<span class="rsbtn_text">
+<span>Escuchar</span>
+</span>
+</span>
+<span class="rsbtn_right rsimg rsplay rspart"></span>
+</a>
+</div>
+</div>
+<div id="leelo" class="container">
+<br/>	 
+ <h1>Bolet&iacute;n Oficial de Arag&oacute;n - Documento completo</h1>
+<div class="margintop-separator-big"> <p class="boaseccion">DECRETO 16/2022, de 26 de enero, del Gobierno de Aragón, por el que se modifica el Decreto 49/2015, de 8 de abril, del Gobierno de Aragón por el que se aprueba el Plan Rector de Uso y
+Gestión del Parque Nacional de Ordesa y Monte Perdido y su Zona Periférica de Protección. </p>
+</div> <div class="margintop-separator"> <span>Publicado el 08/02/2022 (N&ordm; 26)</span> </div> <div class="margintop-separator-small"> <span>Secci&oacute;n: I. Disposiciones Generales </span> </div> <div class="margintop-separator-small">
+<span>Emisor: DEPARTAMENTO DE AGRICULTURA, GANADERÍA Y MEDIO AMBIENTE</span> </div> <div> <div class="right"> <script type="text/javascript">
+if ('Registros' == 'Registros'){
+document.write('<span><a id="pdf11BRBOLE100292351      " href="BRSCGI?CMD=VEROBJ&MLKOB=1205403022828&type=pdf" title="Ver pdf del bolet&iacute;n completo" target="_new" class="rspkr_add_drlink"><img src="/EBOA/img2020/Registros.png" border="10" alt="Registros" title="Ver PDF"/></a></span>');
+}else{
+if ('Registros' == 'Firma Registros'){      
+document.write('<span><a id="sign1205403"  href="BRSCGI?CMD=VEROBJ&MLKOB=1205403022828" title="Descargar firma" ><img src="/EBOA/img2020/Registros.png" border="10" alt="Registros" title="Descargar firma"></a></span>');
+}else{ 
+Base = 'BRBOLE100292351      '.replace(/\s+$/,''); 
+}
+}  
+</script><script type="text/javascript">
+if('Registros'=='Boletin' || 'Registros'=='Boletin') {
+  document.write('<a id="pdf1'+Base+'" href="BRSCGI?CMD=VEROBJ&MLKOB=1205403022828&type=pdf" title="Ver pdf del bolet&iacute;n completo" target="_new" class="rspkr_add_drlink"><img src="/EBOA/img2020/Registros.png"  alt="Registros en formato pdf" title="Ver PDF de Bolet&iacute;n completo"/></a>');
+  document.write("<span id='f1"+Base+"'>&nbsp;</span>");
+  if (Base == "BOLT")
+  document.write('<a  id="pdfT1'+Base+'" href="BRSCGI?CMD=VEROBJ&MLKOB=1205403022828" title="Ver pdf del bolet&iacute;n completo" target="_new"><img src="Bolet&iacute;n.png" alt="Registros en formato pdf"/></a>');
+  document.write("<span id='stomo1"+Base+"'>&nbsp;</span>");
+}else if ('Registros'=='Firma Boletin' || 'Registros'=='Firma Boletin'){
+ahref = document.createElement("a");
+ahref.target="_NEW";
+ahref.setAttribute("href","BRSCGI?CMD=VEROBJ&MLKOB=1205403022828");
+img = document.createElement("img");
+img.src = "/EBOA/img2020/Registros.png";
+img.title = "Descargar firma";
+ahref.appendChild(img);
+referencia[referencia.length] = ahref;
+}else if ('Registros'=='Firma Tomo'){
+ahref = document.createElement("a");
+ahref.target="_NEW";
+ahref.setAttribute("href","BRSCGI?CMD=VEROBJ&MLKOB=1205403022828");
+img = document.createElement("img");
+img.src= "/EBOA/img2020/Registros.png";
+ahref.appendChild(img);
+referencia[referencia.length] = ahref;
+}
+</script><script type="text/javascript"> 
+if ('Registros' == 'Registros'){
+//no hacemos nada en este caso
+}else{
+document.write("</table>"); 
+ if('Registros'=='Firma Bolet&iacute;n' || 'Registros'=='Firma Bolet&iacute;n') {
+	   for (f=0;f<referencia.length;f++)
+		document.getElementById('f' + (f+ 1)+ Base).appendChild(referencia[f]); 
+ }else  if('Registros'=='Firma Tomo') {
+	   for (f=0;f<referencia.length;f++)
+			document.getElementById('stomo' + (f+ 1)+ Base).appendChild(referencia[f]);
+ }
+	referencia = [];
+}
+</script><script type="text/javascript">
+if ('Firma Registros' == 'Registros'){
+document.write('<span><a id="pdf12BRBOLE100292351      " href="BRSCGI?CMD=VEROBJ&MLKOB=1205404032828&type=pdf" title="Ver pdf del bolet&iacute;n completo" target="_new" class="rspkr_add_drlink"><img src="/EBOA/img2020/Firma Registros.png" border="10" alt="Firma Registros" title="Ver PDF"/></a></span>');
+}else{
+if ('Firma Registros' == 'Firma Registros'){      
+document.write('<span><a id="sign1205404"  href="BRSCGI?CMD=VEROBJ&MLKOB=1205404032828" title="Descargar firma" ><img src="/EBOA/img2020/Firma Registros.png" border="10" alt="Firma Registros" title="Descargar firma"></a></span>');
+}else{ 
+Base = 'BRBOLE100292351      '.replace(/\s+$/,''); 
+}
+}  
+</script><script type="text/javascript">
+if('Firma Registros'=='Boletin' || 'Firma Registros'=='Boletin') {
+  document.write('<a id="pdf1'+Base+'" href="BRSCGI?CMD=VEROBJ&MLKOB=1205404032828&type=pdf" title="Ver pdf del bolet&iacute;n completo" target="_new" class="rspkr_add_drlink"><img src="/EBOA/img2020/Firma Registros.png"  alt="Firma Registros en formato pdf" title="Ver PDF de Bolet&iacute;n completo"/></a>');
+  document.write("<span id='f1"+Base+"'>&nbsp;</span>");
+  if (Base == "BOLT")
+  document.write('<a  id="pdfT1'+Base+'" href="BRSCGI?CMD=VEROBJ&MLKOB=1205404032828" title="Ver pdf del bolet&iacute;n completo" target="_new"><img src="Bolet&iacute;n.png" alt="Firma Registros en formato pdf"/></a>');
+  document.write("<span id='stomo1"+Base+"'>&nbsp;</span>");
+}else if ('Firma Registros'=='Firma Boletin' || 'Firma Registros'=='Firma Boletin'){
+ahref = document.createElement("a");
+ahref.target="_NEW";
+ahref.setAttribute("href","BRSCGI?CMD=VEROBJ&MLKOB=1205404032828");
+img = document.createElement("img");
+img.src = "/EBOA/img2020/Firma Registros.png";
+img.title = "Descargar firma";
+ahref.appendChild(img);
+referencia[referencia.length] = ahref;
+}else if ('Firma Registros'=='Firma Tomo'){
+ahref = document.createElement("a");
+ahref.target="_NEW";
+ahref.setAttribute("href","BRSCGI?CMD=VEROBJ&MLKOB=1205404032828");
+img = document.createElement("img");
+img.src= "/EBOA/img2020/Firma Registros.png";
+ahref.appendChild(img);
+referencia[referencia.length] = ahref;
+}
+</script><script type="text/javascript"> 
+if ('Firma Registros' == 'Registros'){
+//no hacemos nada en este caso
+}else{
+document.write("</table>"); 
+ if('Firma Registros'=='Firma Bolet&iacute;n' || 'Firma Registros'=='Firma Bolet&iacute;n') {
+	   for (f=0;f<referencia.length;f++)
+		document.getElementById('f' + (f+ 1)+ Base).appendChild(referencia[f]); 
+ }else  if('Firma Registros'=='Firma Tomo') {
+	   for (f=0;f<referencia.length;f++)
+			document.getElementById('stomo' + (f+ 1)+ Base).appendChild(referencia[f]);
+ }
+	referencia = [];
+}
+</script>              
+</div> <div class="boa"> <hr/> </div> </div> <div> <span class="negrita">Texto completo:</span> <p><P>La Constitución española configura la protección del medio ambiente como uno de los principios rectores de la política social y económica,
+encomendando a los poderes públicos la obligación de velar por la utilización racional de todos los recursos naturales con el fin de proteger y mejorar la calidad de vida y defender y restaurar el medio ambiente.
+<P>El Estatuto de Autonomía de Aragón, aprobado por Ley Orgánica 5/2007, de 20 de abril, establece en el artículo 71.21.ª la competencia exclusiva de la Comunidad Autónoma de Aragón en materia de "espacios naturales protegidos, que incluye la
+regulación y declaración de las figuras de protección, la delimitación, la planificación y la gestión de los mismos y de los hábitats protegidos situados en Aragón". Igualmente atribuye a la Comunidad Autónoma, en su artículo 71.22.ª en relación con
+el artículo 75.3, competencia compartida en el desarrollo legislativo y ejecución de la legislación básica sobre protección del medio ambiente, que, en todo caso, incluye la regulación del sistema de intervención administrativa de los planes,
+programas, proyectos, instalaciones y actividades susceptibles de afectar al medio ambiente, la regulación de los recursos naturales, flora y fauna y la biodiversidad; y atribuye competencia exclusiva para establecer normas adicionales a la
+legislación básica sobre protección del medio ambiente y paisaje.
+<P>La Ley 30/2014, de 3 de diciembre, de Parques Nacionales, normativa básica estatal, establece en su artículo 21.1 que la gestión y organización de los parques nacionales corresponde directamente a las comunidades autónomas en cuyos territorios
+estén situados.
+<P>Por su parte, el artículo 20 de esta Ley indica que en cada uno de los parques nacionales se elaborará y aprobará, con carácter específico, por el órgano de la administración competente en la planificación y gestión de estos espacios, un Plan
+Rector de Uso y Gestión que será su instrumento de planificación ordinaria. En virtud de dicha disposición, y mediante Decreto 49/2015, de 8 de abril, del Gobierno de Aragón, fue aprobado el Plan Rector de Uso y Gestión del Parque Nacional de Ordesa
+y Monte Perdido y su Zona Periférica de Protección.
+<P>La primera modificación puntual aprobada mediante el presente Decreto hace referencia al régimen de sobrevuelo y aterrizaje en el Parque Nacional.
+<P>En este sentido, el apartado 9.1.1 del citado Plan Rector que ahora se modifica, considera como actividad incompatible el aterrizaje en el parque nacional y el sobrevuelo del espacio aéreo situado sobre él de aeronaves o artefactos con o sin
+motor delimitando los niveles de vuelo, y los límites laterales. No obstante, exceptúa, dentro del parque nacional "(...)  los casos de emergencia, seguridad y salvamento y aquellos justificados por motivos de gestión del parque nacional o los
+autorizados para el mantenimiento y suministro de los refugios de montaña. En las zonas periféricas de protección quedan excluidos de la prohibición los vuelos que se autoricen por razones científicas o divulgativas, de emergencia (rescates o
+incendios forestales) y los necesarios para el abastecimiento, limpieza, mantenimiento y reparación de refugios de montaña y bordas o cabañas utilizadas por los pastores".
+<P>Por su parte, el apartado 11.8 del Plan Rector establece como órgano competente para otorgar las autorizaciones excepcionales de sobrevuelo y aterrizaje en el parque nacional, justificadas por motivos de gestión del parque o para el mantenimiento
+y suministro de los refugios de montaña, a la Dirección del Organismo Autónomo Parques Nacionales, previo informe de la dirección del parque nacional. Y en el caso de sobrevuelo y aterrizaje en la zona periférica de protección por razones
+científicas o divulgativas o para abastecimiento o mantenimiento de refugios de montaña y bordas o cabañas de pastores, el órgano competente para otorgar su autorización se atribuye a la Dirección General competente en materia de Espacios Naturales
+Protegidos.
+<P>En este marco, se hace necesario modificar el órgano competente al que se le atribuye el otorgamiento de las autorizaciones excepcionales de sobrevuelo y aterrizaje en el interior del Parque Nacional justificadas por motivos de gestión del parque
+o para el mantenimiento y suministro de los refugios de montaña, las cuales, a partir de ahora, corresponderán a la Dirección General competente en materia de Espacios Naturales Protegidos, previo informe de la Dirección del Parque Nacional; y no,
+por el contrario, a la Dirección del Organismo Autónomo Parques Nacionales, previo informe de la dirección del Parque Nacional, como estaba regulado hasta ahora.
+<P>La necesaria modificación del régimen de autorizaciones trae causa de la regulación aeronáutica del sobrevuelo en espacios protegidos a la que alude el artículo 19 del Real Decreto 1180/2018, de 21 de septiembre, por el que se desarrolla el
+Reglamento del aire y disposiciones operativas comunes para los servicios y procedimientos de navegación aérea y se modifican el Real Decreto 57/2002, de 18 de enero, por el que se aprueba el Reglamento de Circulación Aérea; el Real Decreto
+862/2009, de 14 de mayo, por el que se aprueban las normas técnicas de diseño y operación de aeródromos de uso público y el Reglamento de certificación y verificación de aeropuertos y otros aeródromos de uso público; el Real Decreto 931/2010, de 23
+de julio, por el que se regula el procedimiento de certificación de proveedores civiles de servicios de navegación aérea y su control normativo; y el Reglamento de la Circulación Aérea Operativa, aprobado por Real Decreto 601/2016, de 2 de
+diciembre.
+<P>Es precisamente esta previsión normativa la que indica que a partir de ahora las autorizaciones para sobrevuelo serán otorgadas por el órgano gestor de la Comunidad Autónoma. Además, en el Parque Nacional los sobrevuelos de aeronaves de Estado
+españolas cuando sea inexcusable para el cumplimiento de las misiones encomendadas o por razones de emergencias y de los vuelos para la realización de operaciones aéreas especiales u otros vuelos de emergencia destinados a atender a la población
+local del entorno serán autorizados por la autoridad aeronáutica competente militar, cuando se trate de aeronaves militares, o por el Departamento competente sobre la actividad en relación con el resto de las aeronaves del Estado, previa
+comunicación al gestor del espacio protegido.
+<P>En segundo lugar, la otra modificación puntual del Plan Rector de Uso y Gestión del Parque Nacional de Ordesa y Monte Perdido y su Zona Periférica de Protección que se efectúa mediante la aprobación del presente Decreto se circunscribe al régimen
+de pernocta de los visitantes en el sector de Ordesa.
+<P>La modificación se ciñe al apartado 9.2.1.3 del anexo, donde se regula la pernocta tanto en el refugio de Góriz y su entorno como en las zonas de vivac y acampada del sector Ordesa. A la vista de los acuerdos de 29 de mayo de 2020, de la Junta
+Rectora del Parque Nacional, y de 11 de noviembre de 2020, del Patronato del Parque Nacional, la nueva regulación restringe el régimen de acampada y vivac en el sector de Ordesa a cualquier cota, estableciendo, como excepción un cupo para la Zona de
+Uso Moderado de Góriz en los casos de aforo completo del refugio.
+<P>El Departamento de Agricultura, Ganadería y Medio Ambiente, en virtud del Decreto 25/2020, de 26 de febrero, del Gobierno de Aragón, por el que se aprueba su estructura orgánica, tiene atribuidas las competencias sobre la Red de Espacios
+Naturales Protegidos, incluyendo el Parque Nacional de Ordesa y Monte Perdido.
+<P>En su virtud, a propuesta del Consejero de Agricultura, Ganadería y Medio Ambiente, y previa deliberación del Gobierno de Aragón, en su reunión celebrada el día 26 de enero de 2022, dispongo:
+<P>Artículo único. Modificación del Decreto 49/2015, de 8 de abril, del Gobierno de Aragón, por el que se aprueba el Plan Rector de Uso y Gestión del Parque Nacional de Ordesa y Monte Perdido y su Zona Periférica de Protección.
+<P>1. Se sustituyen los tres primeros párrafos del apartado 9.2.1.3.1 del anexo por los párrafos siguientes:
+<P>9.2.1.3.1. Vivac y acampada nocturna.
+<P>La actividad del vivac o acampada nocturna queda prohibida en el sector Ordesa, con la excepción, hasta el 31 de diciembre de 2023, de un cupo de 90 personas que se establece para la Zona de Uso Moderado de Góriz en los casos de aforo completo
+del refugio. A partir de esa fecha dicho cupo quedará reducido a 50 personas. En todo caso, la pernocta no excederá de tres noches.
+<P>En el resto de sectores del Parque Nacional esta actividad queda restringida a los terrenos por encima de las siguientes cotas de altitud, estableciendo que la pernocta en un mismo sector no excederá de tres noches:
+<P>Añisclo: 1.650 m. (Fuenblanca)
+<P>Escuaín: 1.800 m. (La Ralla)
+<P>Pineta: 2.550 m. (Por encima del Balcón de Pineta)
+<P>2. Se modifica el apartado 9.2.1.3.2 del anexo, letra a), y letra i) que queda redactado en los términos siguientes:
+<P>9.2.1.3.2. Pernocta en refugios.
+<P>La gestión del refugio de montaña de Góriz se ajustará a lo establecido en la Resolución del Director del Instituto Aragonés de Gestión Ambiental, de 9 de septiembre de 2019, referente a la modificación de la Orden de la Consejería de Medio
+Ambiente del Gobierno de Aragón, de fecha 10 de diciembre de 2003, por la que se aprueba el expediente de ocupación de 1.566 m² de terreno del Monte U.P. 67 que contiene el refugio de Góriz y sus instalaciones complementarias, la Resolución de 11 de
+junio de 2007 del Director General del Instituto Aragonés de Gestión Ambiental que modifica el pliego de condiciones de la anterior y amplía la ocupación del citado monte a 1.758 m² de terreno y lo establecido en el convenio de colaboración firmado
+entre distintas administraciones de fecha 10 de abril de 2003.
+<P>3. La letra i) del apartado 9.2.1.3.2 del anexo, se redenomina letra c).
+<P>4. Se modifica la tabla del apartado 11.8 del anexo en lo relativo a sobrevuelo y aterrizaje en el Parque Nacional, quedando redactado en los términos siguientes:
+<P>"Régimen de autorizaciones:
+<P>Disposición derogatoria única. Derogación normativa.
+<P>Quedan derogadas las disposiciones de igual o inferior rango en lo que se opongan a lo previsto en el presente Decreto.
+<P>Disposición final primera. Facultad de desarrollo.
+<P>Se faculta a la persona titular del departamento con competencias en materia de medio ambiente para dictar las disposiciones complementarias necesarias para el desarrollo de este Decreto.
+<P>Disposición final segunda. Entrada en vigor.
+<P>El presente Decreto entrará en vigor el día siguiente al de su publicación en el "Boletín Oficial de Aragón".
+<P>Zaragoza, 26 de enero de 2022.
+<P>El Presidente del Gobierno de Aragón, JAVIER LAMBÁN MONTAÑÉS
+<P>El Consejero de Agricultura, Ganadería y
+<P>Medio Ambiente,
+<P>JOAQUÍN OLONA BLASCO </p>
+</div>
+<br/></div>
+ <script src="//cdn1.readspeaker.com/script/9222/webReader/webReader.js?pids=wr&dload=GoogleTranslate,DocReader.AutoAdd" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+window.rsConf = {general: {usePost: true}};
+window.rsDocReaderConf = {lang: 'es_es', img_alt: 'Escuchar este documento utilizando el ReadSpeaker docReader', img_href: '/EBOA/img2020/Escuchar.png'};
+//-->
+</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-107379398-22"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-107379398-22');
+</script>
+<!--SCRIPT NECESARIO PARA FUNCIONALIDAD SUBMENUS HEADER -->
+<script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script>
+function myFunction() {
+var x = document.getElementById("myTopnav");
+if (x.className === "topnav") {
+x.className += " responsive";
+} else {
+x.className = "topnav";
+}
+}
+</script>
+<footer id="footer" role="contentinfo" class="footer" tabindex="-1" aria-label="Enlaces relevantes del portal"> 
+<div class="portlet-boundary portlet-boundary_com_liferay_journal_content_web_portlet_JournalContentPortlet_ portlet-static portlet-static-end portlet-barebone portlet-journal-content " id="p_p_id_com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_footerContentBottom_">
+<span id="p_com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_footerContentBottom"></span>
+<section>             
+<div class=" portlet-content-container"> 
+<div class="portlet-body">       
+<div class="clearfix journal-content-article" data-analytics-asset-id="247214" data-analytics-asset-title="Footer" data-analytics-asset-type="web-content">         
+<div class="footer__links">
+<ul class="footer__links__list col-xs-12 col-sm-12 col-md-12 rrss">
+<li class="col-xs-2 col-sm-2 col-md-2" style="margin-left: 5%;">
+<a href="https://www.aragon.es/-/aviso-legal-1" class="footerLink">Aviso Legal</a>
+</li>
+<li class="col-xs-4 col-sm-2 col-md-2">
+<a href="https://www.aragon.es/-/politica-de-privacidad" class="footerLink">Pol&iacute;tica de privacidad</a>
+</li>
+<li class="col-xs-3 col-sm-2 col-md-2">
+<a href="/#/accesibilidad" class="footerLink" style="margin-left: 20%;">Accesibilidad</a>
+</li>
+<li class="col-xs-2 col-sm-2 col-md-2">
+<a href="/#/mapa-web" class="footerLink">Mapa web</a>
+</li>
+<li class="col-xs-1 col-sm-1 col-md-2" style="max-width: 14%; margin-right:  0.2rem;">
+<a href="/#/ayuda" class="footerLink">Ayuda</a>
+</li>
+<li class="col-xs-1 col-sm-2 col-md-2" style="max-width: 3%;">
+<a data-ng-href="mailto:boa@aragon.es" href="mailto:boa@aragon.es" class="footerLink">Contacto</a>
+</li>
+</ul>
+</div>
+<div class="content-metadata-asset-addon-entries"></div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</footer>
+</div>
+</body></html><!--MMDEND [verdoc] HITA={HITA} ... HITP={HITP} ... HITN={HITN} ... href:obnseq=[href:obnseq] ... [obdesc] ... [grdesc]-->

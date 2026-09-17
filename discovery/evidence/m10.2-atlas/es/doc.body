@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="Description" content="BOE-A-2007-21952 Orden APU/3731/2007, de 11 de diciembre, por la que se convoca proceso selectivo para ingreso, por el sistema general de acceso libre, en el Cuerpo de Gestión de Sistemas e Informática de la Administración del Estado mediante el sistema de concurso-oposición, en el marco del proceso de consolidación del empleo temporal, en el ámbito del Ministerio de Educación y Ciencia y sus organismos autónomos." />
+    <title>BOE-A-2007-21952 Orden APU/3731/2007, de 11 de diciembre, por la que se convoca proceso selectivo para ingreso, por el sistema general de acceso libre, en el Cuerpo de Gestión de Sistemas e Informática de la Administración del Estado mediante el sistema de concurso-oposición, en el marco del proceso de consolidación del empleo temporal, en el ámbito del Ministerio de Educación y Ciencia y sus organismos autónomos.</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <base target="_top" />
+    <link type="text/css" href="/estilos/boe.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/estilos/diario-boe.css" type="text/css">
+    <link rel="stylesheet" href="/estilos/texto.css" type="text/css">
+  
+    <link rel="canonical" href="https://www.boe.es/buscar/doc.php?id=BOE-A-2007-21952"/>
+    <!--[if lt IE 10]>
+    <link rel="stylesheet" type="text/css" href="/estilos/boe_ie9.css" />
+    <![endif]-->
+    <!--[if lt IE 9]>
+    <link rel="stylesheet" type="text/css" href="/estilos/boe_ie8.css" />
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div id="header">
+      <h1 class="fuera">Agencia Estatal Bolet&iacute;n Oficial del Estado</h1>
+      <ul class="fuera">
+        <li><a accesskey="c" href="#contenedor" tabindex="-1">Ir a contenido</a></li>
+        <li><a accesskey="5" href="/diario_boe/" tabindex="-1">Consultar el diario oficial BOE</a></li>
+      </ul>
+      <div id="logosInicio">
+        <span id="logoPresidenciaMovil"><a href="https://www.mpr.gob.es/" title="Ir al Ministerio de la Presidencia"><img src="/imagenes/logoMPRmovil.png" srcset="/imagenes/logoMPRmovil.svg" alt="Ministerio de la Presidencia"></a></span>
+        <span id="logoPresidencia"><a href="https://www.mpr.gob.es/" title="Ir al Ministerio de la Presidencia"><img src="/imagenes/logoMPR.png" srcset="/imagenes/logoMPR.svg" alt="Ministerio de la Presidencia"></a></span>
+
+        <span id="logoAgencia"><a accesskey="1" href="/" title="Ir a la p&aacute;gina de inicio"><img src="/imagenes/logoBOE.gif" srcset="/imagenes/logoBOE.svg" alt="Agencia Estatal Bolet&iacute;n Oficial del Estado"></a></span>
+        
+      </div> <!-- #logosInicio -->
+    </div> <!-- #header -->
+    <div id="top" class="banda-menu">
+    <div class="menu-wrapper">
+      <div id="logo-movil-boe-container">
+        <a href="/" title="Ir a la p&aacute;gina de inicio"><img alt="Agencia Estatal Bolet&iacute;n Oficial del Estado" src="/imagenes/logoBlanco128.png"></a>
+      </div>
+      <ul class="menu">
+        <li class="menu-item menu-idiomas">
+          <div id="selector-idioma">
+            <span class="fuera">Idioma actual:</span>
+            <input id="activar-idiomas" type="checkbox" class="fuera">
+            <label class="idioma-actual" for="activar-idiomas" title="Idiomas: Haga clic o utilice barra espaciadora para abrir o cerrar opciones"><span class="descripcion-idioma pc tablet">Castellano</span><span class="fuera"> / </span><span class="descripcion-idioma movil">es</span><span class="triangulo"><span></span></span></label>
+            <p class="fuera">Puede seleccionar otro idioma:</p>
+            <ul id="lista-idiomas">
+              <li><a href="doc.php?lang=es&amp;id=BOE-A-2007-21952" lang="es" hreflang="es"><span aria-hidden="true" class="idioma"><abbr title="espa&ntilde;ol/castellano">es</abbr><span class="fuera"> / </span><em>Castellano</em></span></a></li>
+              <li><a href="doc.php?lang=ca&amp;id=BOE-A-2007-21952" lang="ca" hreflang="ca"><span aria-hidden="true" class="idioma"><abbr title="catal&agrave;">ca</abbr><span class="fuera"> / </span><em>Catal&agrave;</em></span></a></li>
+              <li><a href="doc.php?lang=gl&amp;id=BOE-A-2007-21952" lang="gl" hreflang="gl"><span aria-hidden="true" class="idioma"><abbr title="galego">gl</abbr><span class="fuera"> / </span><em>Galego</em></span></a></li>
+              <li><a href="doc.php?lang=eu&amp;id=BOE-A-2007-21952" lang="eu" hreflang="eu"><span aria-hidden="true" class="idioma"><abbr title="euskara">eu</abbr><span class="fuera"> / </span><em>Euskara</em></span></a></li>
+              <li><a href="doc.php?lang=va&amp;id=BOE-A-2007-21952" lang="ca-valencia" hreflang="ca-valencia"><span aria-hidden="true" class="idioma"><abbr title="valenci&agrave;">va</abbr><span class="fuera"> / </span><em>Valenci&agrave;</em></span></a></li>
+              <li><a href="doc.php?lang=en&amp;id=BOE-A-2007-21952" lang="en" hreflang="en"><span aria-hidden="true" class="idioma"><abbr title="english">en</abbr><span class="fuera"> / </span><em>English</em></span></a></li>
+              <li><a href="doc.php?lang=fr&amp;id=BOE-A-2007-21952" lang="fr" hreflang="fr"><span aria-hidden="true" class="idioma"><abbr title="fran&ccedil;ais">fr</abbr><span class="fuera"> / </span><em>Fran&ccedil;ais</em></span></a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="menu-item resto">
+          <a accesskey="4" href="/buscar/"><span class="botonBuscar">Buscar</span></a>
+        </li>
+        <li class="menu-item resto">
+          <a href="/mi_boe/">
+            <span class="botonMiBOE">Mi BOE <span class="luz">Desconectado.<br/>Pulse para acceder al servicio 'Mi BOE'</span></span>
+          </a>
+        </li>
+        <li class="menu-item movil buscar">
+          <a href="/buscar/">
+            <img alt="Buscar" src="/imagenes/logoBuscar.png" srcset="/imagenes/logoBuscar.svg">
+          </a>
+        </li>
+        <li class="menu-item movil">
+          <a href="/mi_boe/">
+            <img alt="Mi BOE" src="/imagenes/logoMiBOE.png" srcset="/imagenes/logoMiBOE.svg">
+          </a>
+        </li>
+        <li class="menu-item menu-menu"><!--  -->
+          <input id="activar-menu" name="activar" type="checkbox" title="Desplegar men&uacute;" class="fuera">
+          <label class="click-desplegar resto" for="activar-menu" title="Men&uacute;: Haga clic o utilice barra espaciadora para abrir o cerrar opciones">Men&uacute;
+            <span></span>
+            <span></span>
+            <span></span>
+          </label>
+          <input id="activar-menu-movil" name="activar" type="checkbox" title="Desplegar men&uacute;">
+          <label class="click-desplegar movil" for="activar-menu-movil"><em>Men&uacute;</em>
+            <span></span>
+            <span></span>
+            <span></span>
+          </label>
+          <div class="menu-container">
+            <ul class="menu-item-list">
+              <li class="menu-item first">
+                <p><a href="/index.php#diarios" class="inline">Diarios Oficiales</a></p>
+                <ul class="sub-menu">
+                  <li><a href="/diario_boe">BOE</a></li>
+                  <li><a href="/diario_borme">BORME</a></li>
+                  <li><a href="/legislacion/otros_diarios_oficiales.php">Otros diarios oficiales</a></li>
+                </ul>
+              </li>
+              <li class="menu-item">
+                <p><a href="/index.php#juridico">Informaci&oacute;n Jur&iacute;dica</a></p>
+                <ul class="sub-menu">
+                  <li><a href="/legislacion/">Todo el Derecho</a></li>
+                  <li><a href="/biblioteca_juridica/">Biblioteca Jur&iacute;dica Digital</a></li>
+                </ul>
+              </li>
+              <li class="menu-item last">
+                <p><a href="/index.php#servicios-adicionales">Otros servicios</a></p>
+                <ul class="sub-menu">
+                  <li><a href="/notificaciones">Notificaciones</a></li>
+                  <li><a href="/edictos_judiciales">Edictos judiciales</a></li>
+                  <li><a href="https://subastas.boe.es">Portal de subastas</a></li>
+                  <li><a href="/anuncios">Anunciantes</a></li>
+                  <li><a href="/datosabiertos/api/api.php">Datos abiertos</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div> <!-- .menu-container -->
+        </li><!--  -->
+      </ul>
+    </div> <!-- .menu-wrapper -->
+    </div> <!-- .banda-menu -->
+    <div id="franjaMigas">
+      <div class="contMigas">
+        <span class="fraseMigas">Est&aacute; <abbr title="usted">Vd.</abbr> en</span>
+        <ul class="migas">
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/buscar/">Buscar</a></li>        <li class="destino">Documento BOE-A-2007-21952</li>
+        </ul>
+        <div id="solapa">
+        </div><!-- solapa -->
+      </div><!-- contMigas -->
+    </div> <!-- #franjaMigas -->
+    <div id="contenedor">
+      <div id="contenido" class="poolBdatos">
+<h2 class="fuera">Documento BOE-A-2007-21952</h2>
+<div class="enlacesDoc" id="barraSep">
+  <h3 class="documento-tit">Orden APU/3731/2007, de 11 de diciembre, por la que se convoca proceso selectivo para ingreso, por el sistema general de acceso libre, en el Cuerpo de Gestión de Sistemas e Informática de la Administración del Estado mediante el sistema de concurso-oposición, en el marco del proceso de consolidación del empleo temporal, en el ámbito del Ministerio de Educación y Ciencia y sus organismos autónomos.</h3>
+  <div class="metadatosDoc">
+    <div class="metadatos">
+      <dl>
+        <dt>Publicado en:</dt>
+        <dd>«<abbr title="Boletín Oficial del Estado">BOE</abbr>» <abbr title="número">núm.</abbr> 304, de 20 de diciembre de 2007, páginas 52479 a 52483 (5 <abbr title="páginas">págs.</abbr>)</dd>
+        <dt>Sección:</dt>
+        <dd>II. Autoridades y personal<span> - B. Oposiciones y concursos</span></dd>
+        <dt>Departamento:</dt>
+        <dd>Ministerio de Administraciones Públicas</dd>
+        <dt>Referencia:</dt>
+        <dd>BOE-A-2007-21952</dd>
+      </dl>
+    </div>
+    <ul class="enlaces-doc">
+      <li class="tit-enlaces">Otros formatos:</li>
+      <li class="puntoPDF2">
+        <a title="Documento PDF de la publicación original" href="/boe/dias/2007/12/20/pdfs/A52479-52483.pdf">PDF</a>
+      </li>
+      <li class="puntoXML">
+        <a target="_blank" title="Texto y metadatos en formato XML" href="/diario_boe/xml.php?id=BOE-A-2007-21952">XML</a>
+      </li>
+    </ul>
+  </div>
+  <!-- .metadatosDoc -->
+</div>
+<!-- .enlacesDoc -->
+<div id="DOdocText">
+  <h4>TEXTO ORIGINAL</h4>
+  <div id="textoxslt">
+    <p class="parrafo">
+El Real Decreto 120/2007, de 2 de febrero, por el que se aprueba la oferta de empleo público para el año 2007, establece, en su artículo 11, que los procesos selectivos de consolidación pendientes de ser convocados, lo harán en el primer semestre del presente año.
+En consecuencia, esta Secretaría General, en uso de las competencias que le están atribuidas por delegación en el epígrafe I, apartado tercero, punto 1.2. uno, de la Orden APU/3308/2004, de 7 de octubre («Boletín Oficial del Estado» del 14), acuerda convocar proceso selectivo para ingreso en la Cuerpo de Gestión de Sistemas e Informática de la Administración del Estado en el marco del proceso de consolidación del empleo temporal en el ámbito del Ministerio de Educación y Ciencia y sus Organismos Autónomos.
+La presente convocatoria tiene en cuenta el principio de igualdad de trato entre hombres y mujeres por lo que se refiere al acceso al empleo, de acuerdo con lo que establece el art.º 14 de la Constitución Española, la Ley Orgánica 3/2007, de 22 de marzo y el Acuerdo de Consejo de Ministros de 4 de marzo de 2005, por el que se aprueba el Plan para la Igualdad de Género en la Administración General del Estado, y se desarrollará de acuerdo con las siguientes:
+</p>
+    <p class="centro_negrita">
+Bases comunes
+</p>
+    <p class="parrafo">
+Las bases comunes por las que se regirá la presente convocatoria son las establecidas en la Orden APU/3416/2007, de 14 de noviembre (Boletín Oficial del Estado núm. 284 de 27 de noviembre de 2007).
+</p>
+    <p class="centro_negrita">
+Bases específicas
+</p>
+    <p class="centro_redonda">
+1. Descripción de las plazas
+</p>
+    <p class="parrafo_2">
+Se convoca proceso selectivo para cubrir 2 plazas del Cuerpo de Gestión de Sistemas e Informática de la Administración del Estado Código 1177 por el sistema general de acceso libre.
+</p>
+    <p class="parrafo">
+Las plazas que se convocan en las presentes pruebas selectivas quedan distribuidas según se indica en el anexo I.
+</p>
+    <p class="centro_redonda">
+2. Proceso selectivo
+</p>
+    <p class="parrafo_2">
+El proceso selectivo se realizará mediante el sistema de concurso-oposición, con las valoraciones, ejercicios y puntuaciones que se especifican en el anexo II.
+</p>
+    <p class="parrafo">
+El primer ejercicio de la fase de oposición se realizará transcurridos cuatro meses, al menos, desde la fecha de publicación de la presente convocatoria.
+</p>
+    <p class="centro_redonda">
+3. Programas
+</p>
+    <p class="parrafo_2">
+El programa que ha de regir el proceso selectivo es el que figura como anexo III a esta convocatoria.
+</p>
+    <p class="centro_redonda">
+4. Titulación
+</p>
+    <p class="parrafo_2">
+Estar en posesión o en condiciones de obtener el título de Diplomado Universitario, Ingeniero Técnico, Arquitecto Técnico o Grado.
+</p>
+    <p class="parrafo">
+En el caso de titulaciones obtenidas en el extranjero se deberá estar en posesión de la credencial que acredite su homologación.
+</p>
+    <p class="centro_redonda">
+5. Solicitudes
+</p>
+    <p class="parrafo_2">
+5.1 Quienes deseen participar en estas pruebas selectivas deberán hacerlo constar en el modelo de solicitud 790 que será facilitado gratuitamente en Internet en la pagina web www.060.es
+</p>
+    <p class="parrafo">
+La presentación de solicitudes se realizara en el plazo de veinte días naturales contados a partir del día siguiente al de la fecha de publicación de esta convocatoria en el Boletín Oficial del Estado.
+5.2 Las solicitudes podrán presentarse en el registro del Ministerio de Educación y Ciencia, c/ Los Madrazo, números 15-17, de Madrid, así como en los registros de las Delegaciones y Subdelegaciones del Gobierno de la Administración General del Estado, sin perjuicio de lo dispuesto en el apartado duodécimo de la Orden APU/3416/2007, de 14 de noviembre, por la que se establecen las bases comunes que regirán los procesos selectivos para ingreso o acceso en cuerpos o escalas de la Administración General del Estado.
+La solicitud se cumplimentará de acuerdo con las instrucciones del anexo V.
+</p>
+    <p class="centro_redonda">
+6. Tribunal
+</p>
+    <p class="parrafo_2">
+6.1 El Tribunal calificador de este proceso selectivo es el que figura como anexo IV a esta convocatoria.
+</p>
+    <p class="parrafo">
+6.2 El Tribunal, de acuerdo con el artículo 14 de la Constitución Española, velará por el estricto cumplimiento del principio de igualdad de oportunidades entre ambos sexos.
+6.3 A efectos de comunicaciones y demás incidencias, el Tribunal tendrá su sede en el Ministerio de Educación y Ciencia, calle Alcalá n.º 36, 4.ª planta, 28014 Madrid, teléfono 91 701 83 79, dirección de correo electrónico juan.murillo@mec.es.
+6.4 La pertenencia a los órganos de selección será siempre a título individual, no pudiendo ostentarse ésta, en representación o por cuenta de nadie.
+</p>
+    <p class="centro_redonda">
+7. Desarrollo del proceso selectivo
+</p>
+    <p class="parrafo_2">
+7.1 El orden de actuación de los opositores se iniciará alfabéticamente por el primero de la letra «B», según lo establecido en la Resolución de la Secretaría General para la Administración Pública de 17 de enero de 2007 (Boletín Oficial del Estado de 26 de enero).
+</p>
+    <p class="parrafo">
+7.2 La fecha de la realización del primer ejercicio coincidirá con la del mismo ejercicio de las pruebas selectivas convocadas para la consolidación de empleo temporal del Cuerpo de Gestión de Sistemas e Informática de la Administración del Estado en los ámbitos de los Ministerios de Educación y Ciencia, Economía y Hacienda y Defensa.
+</p>
+    <p class="centro_redonda">
+8. Superación del proceso selectivo
+</p>
+    <p class="parrafo_2">
+8.1 De acuerdo con lo establecido en el artículo 10 de la Ley 7/2007, de 12 de abril, del Estatuto Básico del Empleado Público, el cese de los funcionarios interinos que desempeñan los puestos de trabajo ofertados en la presente convocatoria se producirá cuando finalice la causa que dio lugar a su nombramiento.
+</p>
+    <p class="parrafo">
+8.2 Los funcionarios interinos al servicio de la Administración del Estado que superen el proceso selectivo y no tomen posesión de la plaza obtenida cesarán en la plaza que ocupan interinamente, según Acuerdo de la Comisión Superior de Personal de 17 de julio de 1997, sobre proceso de consolidación de empleo temporal.
+</p>
+    <p class="centro_redonda">
+9. Norma final
+</p>
+    <p class="parrafo_2">
+Al presente proceso selectivo le serán de aplicación la Ley 7/2007, de 12 de abril, del Estatuto Básico del Empleado Público; el resto de la legislación vigente en la materia y lo dispuesto en la presente convocatoria.
+</p>
+    <p class="parrafo">
+Contra la presente convocatoria, podrá interponerse, con carácter potestativo, recurso de reposición ante el señor Ministro de Administraciones Públicas en el plazo de un mes desde su publicación o bien recurso contencioso-administrativo, en el plazo de dos meses desde su publicación, ante el órgano jurisdiccional competente, de conformidad con lo dispuesto en la Ley 30/1992, de 26 de noviembre, de Régimen Jurídico de las Administraciones Públicas y del Procedimiento Administrativo Común, y en la Ley 29/1998, de 13 de julio, reguladora de la Jurisdicción Contencioso-Administrativa, significándose, que en caso de interponer recurso de reposición, no se podrá interponer recurso contencioso-administrativo hasta que aquel sea resuelto expresamente o se haya producido la desestimación presunta del mismo.
+</p>
+    <p class="parrafo">
+Asimismo, la Administración podrá, en su caso, proceder a la revisión de las resoluciones del Tribunal, conforme a lo previsto en la citada Ley 30/1992, de 26 de noviembre.
+</p>
+    <p class="parrafo_2">
+Madrid, 11 de diciembre de 2007.-La Ministra de Administraciones Públicas, P. D. (Orden APU/3308/2004, de 7 de octubre), la Secretaria General para la Administración Pública, Mercedes Elvira del Palacio Tascón.
+</p>
+    <p class="centro_negrita">
+ANEXO I
+Distribución territorial de las plazas objeto de la convocatoria afectadas por el proceso de consolidación de empleo temporal en el ámbito del Ministerio de Educación y Ciencia y sus Organismos Autónomos</p>
+    <table class="tabla">
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_izq">N.º de Orden</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Localidad</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">N.º de plazas</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_izq">1
+2</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Cantoblanco/Madrid (CSIC) 	
+Madrid (Dirección Gral. Investigación)	</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">1
+1</p>
+        </td>
+      </tr>
+    </table>
+    <p class="centro_negrita">ANEXO II
+Descripción del proceso selectivo
+</p>
+    <p class="parrafo">
+El proceso selectivo constará de dos fases. Una fase de oposición y otra fase de concurso. La fase de concurso sólo se valorará a los aspirantes que hayan superado la fase de oposición.
+La calificación final del proceso vendrá determinada por la suma de las puntuaciones obtenidas en la fase de oposición y en la de concurso.
+</p>
+    <p class="parrafo">
+1. Fase de oposición: constará de dos ejercicios, ambos eliminatorios.
+Primer ejercicio: consistirá en el desarrollo por escrito de dos temas, uno de la parte común y otro del programa de la parte específica, a escoger entre cuatro, dos de la parte común y dos del programa de la parte específica, que serán seleccionados al azar en el momento del inicio de la prueba.
+</p>
+    <p class="parrafo">
+El tiempo de realización del ejercicio será de dos horas.
+El ejercicio será leído posteriormente ante el Tribunal en sesión pública, quien podrá hacer al aspirante las preguntas que considere oportunas relacionadas con los temas expuestos durante un tiempo máximo de quince minutos y lo calificará valorando los conocimientos, la claridad y el orden de ideas y la calidad de expresión escrita, así como su forma de presentación o exposición.
+Este ejercicio se calificará de 0 a 40 puntos siendo necesario obtener un mínimo de 20 puntos para superarlo y acceder al segundo ejercicio.
+Segundo ejercicio de carácter práctico: consistirá en la resolución de un caso práctico planteado por el Tribunal relacionado con los temas del programa de la parte específica.
+El tiempo para la realización de este ejercicio será de dos horas.
+El ejercicio será leído posteriormente en sesión pública ante el Tribunal quien podrá dialogar con el opositor sobre extremos relacionados con el ejercicio durante un período máximo de quince minutos. En esta prueba se valorará el rigor analítico, la sistemática y la claridad de ideas en orden a la elaboración de una propuesta razonada.
+Este ejercicio se calificará de 0 a 60 puntos, siendo necesario obtener un mínimo de 30 puntos para superarlo.
+</p>
+    <p class="parrafo">
+Una vez superados los dos ejercicios, la calificación final de esta fase será la resultante de sumar las puntuaciones obtenidas en los dos ejercicios. Dicha fase podrá ser superada por un número de aspirantes superior al de plazas convocadas.
+</p>
+    <p class="parrafo">
+Finalizada la fase de oposición, el Tribunal hará pública, en la sede del Tribunal señalada en la base 6.3 y en aquellos otros lugares que estime oportunos, la relación de aspirantes aprobados con indicación de la puntuación final obtenida en esta fase.
+Los aspirantes que hayan superado la fase de oposición dispondrán de un plazo de veinte días naturales, a partir del día siguiente al de la publicación de la relación de aprobados, para aportar la documentación acreditativa de los méritos alegados.
+</p>
+    <p class="parrafo">
+2. Fase de concurso: En esta fase, que sólo se aplicará a quienes hayan superado la fase de oposición, se valorarán, hasta un máximo de 45 puntos, los siguientes méritos referidos a la fecha de finalización del plazo de presentación de solicitudes:
+A) Los servicios efectivos prestados en el Ministerio de Educación y Ciencia y sus Organismos Autónomos, con vínculo de carácter temporal o interino, de acuerdo con la siguiente progresión:
+1 año: 5,75 puntos.
+</p>
+    <p class="parrafo">
+2 años: 11,50 puntos.
+3 años: 17,25 puntos.
+4 años: 23 puntos.
+5 años: 28,75 puntos.
+6 años: 34,5 puntos.
+7 años o más: 40 puntos.
+</p>
+    <p class="parrafo_2">
+La valoración de los servicios prestados como mérito en la fase de concurso únicamente se realizará si el aspirante tiene la condición de funcionario interino del subgrupo A2 en el Ministerio de Educación y Ciencia y sus Organismos Autónomos, o la ha tenido en los últimos 3 años, a la fecha de la finalización del plazo de presentación de solicitudes.
+</p>
+    <p class="parrafo">
+Los servicios prestados se valorarán teniendo en cuenta los años completos, con arreglo a la siguientes circunstancias:
+</p>
+    <p class="parrafo">
+Para el tiempo prestado como personal funcionario interino: Los servicios prestados con este carácter.
+</p>
+    <p class="parrafo">
+Para el tiempo prestado como personal laboral temporal: Los servicios prestados con este carácter, con excepción de los períodos de excedencia forzosa y suspensión de contrato, excepto por incapacidad temporal y maternidad.
+B) La posesión de titulación académica superior a la exigida para la participación en las pruebas selectivas, 5 puntos.
+Los funcionarios interinos del subgrupo A2 a que se refiere la letra A) del apartado 2 en caso de solicitar puntuación en la fase de concurso, deberán presentar certificación expedida por Unidad de Personal correspondiente del Ministerio de Educación y Ciencia.
+La certificación será expedida en el modelo que figura como Anexo VI a esta convocatoria, haciendo mención expresa, entre otros extremos, de lo siguiente:
+</p>
+    <p class="parrafo">
+La condición de funcionario interino del subgrupo A2 (antiguo grupo B) el aspirante, a la fecha de finalización del plazo de presentación de solicitudes, o durante los tres años inmediatamente anteriores a esta misma fecha, siempre referido al ámbito señalado en la letra A) del apartado 2.
+</p>
+    <p class="parrafo">
+Antigüedad como personal laboral temporal o funcionario interino, referida al día de finalización del plazo de presentación de solicitudes.
+Titulación académica que acredite previamente ante esa unidad.
+</p>
+    <p class="parrafo_2">
+La no presentación del anexo VI o, en su caso, de los documentos justificativos de los méritos, por el aspirante, supondrá la no valoración en la fase de concurso del mérito correspondiente.
+</p>
+    <p class="parrafo">
+La lista provisional que contenga la valoración de los méritos de la fase de concurso se hará pública una vez finalizada la fase de oposición, en el lugar indicado en la base 6.3.
+Los aspirantes dispondrán de un plazo de diez días hábiles, contados a partir del siguiente al de la publicación de esta relación provisional, para alegar las rectificaciones que estimen oportunas respecto a la puntuación otorgada en los méritos de la fase de concurso.
+El orden definitivo del proceso selectivo vendrá determinado por la suma de las puntuaciones obtenidas en las fases de oposición y de concurso. En caso de empate, el orden se establecerá atendiendo a los siguientes criterios:
+</p>
+    <p class="parrafo">
+La mayor puntuación en la fase de oposición.
+</p>
+    <p class="parrafo">
+La mayor puntuación en el segundo ejercicio.
+La mayor puntuación en el primer ejercicio.
+La mayor puntuación en la fase de concurso.
+La mayor puntuación alcanzada en el mérito antigüedad.
+</p>
+    <p class="parrafo_2">
+En ningún caso la puntuación obtenida en la fase de concurso podrá aplicarse para superar los ejercicios de la fase de oposición.
+</p>
+    <p class="parrafo">
+No podrá declararse que han superado el proceso selectivo un número de aspirantes superior al de plazas convocadas.
+Los aspirantes que tengan la condición de funcionarios de Organismos Internacionales estarán exentos de la realización de aquellos ejercicios que la Comisión Permanente de Homologación considere que tienen por objeto acreditar conocimientos ya exigidos para el desempeño de sus puestos de origen en el Organismo Internacional correspondiente.
+</p>
+    <p class="centro_negrita">
+ANEXO III
+Temas comunes
+</p>
+    <p class="parrafo">
+Tema 1. La Constitución española de 1978. Características, estructura, principios y valores fundamentales. Los derechos fundamentales y su especial protección.
+Tema 2. La Corona: atribuciones y competencias. Las Cortes Generales: composición y funciones.
+Tema 3. El Gobierno. Composición, designación, funciones y relaciones con el resto de los poderes del Estado.
+Tema 4. La Administración Pública: principios constitucionales. La Administración General del Estado y su organización periférica. La organización territorial del Estado. Las Comunidades Autónomas. Distribución competencial. Los conflictos de competencias. Las coordinación entre las distintas administraciones públicas.
+Tema 5. El Derecho Administrativo. Concepto y fuentes.
+Tema 6. La Ley 30/1992, de Régimen jurídico de las Administraciones Públicas y del procedimiento administrativo común, modificada por la Ley 4/1999.
+Tema 7. Régimen jurídico del personal al servicio de las Administraciones públicas. Deberes y derechos de los funcionarios públicos.
+Tema 8. El contrato administrativo. Concepto, tipos, principios, características y elementos. Adjudicación. Ejecución.
+Tema 9. Presupuestos Generales del Estado. Estructura. El ciclo presupuestario: elaboración, ejecución y control.
+Tema 10. Políticas de igualdad de género. Normativa vigente.
+</p>
+    <p class="centro_negrita">
+Temas específicos
+</p>
+    <p class="parrafo">
+Tema 1. Tecnologías actuales de ordenadores: de los dispositivos PDA a los superordenadores y arquitecturas escalables (gris, cluster, MPP, SMP). Base tecnológica. Componentes, funcionalidades y capacidades.
+Tema 2. Conceptos de sistemas operativos. Estructuras, componentes y funciones. Características y evolución. Administración de memoria. Procesos y subprocesos. Entrada/salida. Sistemas de archivo. Sistemas multiprocesador.
+Tema 3. Lenguajes actuales de programación. Características técnicas. Especialidad funcional. Productividad. Estandarización.
+Tema 4. Concepto y componentes de un entorno de bases de datos. Utilización de bases de datos en la Organización: sistemas OLTP, MIS, DSS, y almacenes de datos.
+Tema 5. Sistemas de gestión de bases de datos relacionales. Antecedentes históricos. Características y elementos constitutivos. El lenguaje SQL. Estándares de conectividad: ODBC y JDBC. Tecnología ADO.NET.
+Tema 6. Arquitecturas cliente-servidor. Tipología. Componentes. Interacción entre los componentes. Ventajas e inconvenientes.
+Tema 7. Minería de datos. Aplicación a la resolución de problemas de gestión. Tecnología y algoritmos. Procesamiento analítico en línea (OLAP).
+Tema 8. Características técnicas y funcionales de los sistemas operativos: Windows, Linux y Unix.
+Tema 9. Estructuras de datos: Tablas, listas y árboles. Algoritmos: Ordenación, Búsqueda, Recursión, Grafos. Organizaciones de ficheros.
+Tema 10. Lenguajes de marca o etiqueta. Características y funcionalidades. SGML, HTML, XML y sus derivaciones. Lenguajes de script.
+Tema 11. Modelización conceptual. Elementos: entidades, atributos, relaciones, identificadores, roles. Reglas de modelización. Validación y construcción de modelos de datos.
+Tema 12. Técnicas de evaluación de alternativas y análisis de viabilidad. Personal, procedimientos, datos, software y hardware. Criterios.
+Tema 13. Diseño del interfaz de usuario. Interacción hombre-máquina. Concepto. Principios de diseño de interfaces. Presentación de la información. Asistencia y ayuda al usuario. Evaluación de interfaces.
+Tema 14. Diseño de bases de datos. La arquitectura ANSI/SPARC. El modelo lógico relacional. Normalización. Diseño lógico. Diseño físico. Problemas de concurrencia de acceso: lectura sucia, lectura fantasma y bloqueo. Mecanismos de resolución de conflictos.
+Tema 15. Diseño de programas. Diagramas estructurados. Análisis de transformación. Análisis de transacción. Cohesión y acoplamiento.
+Tema 16. Construcción del sistema. Preparación de la instalación. Estándares de documentación. Manuales de usuario y manuales técnicos. Formación de usuarios y personal técnico: métodos y materiales.
+Tema 17. Pruebas. Planificación y documentación. Pruebas de caja negra. Pruebas de caja blanca. Utilización de datos de prueba. Pruebas de software, hardware, procedimientos y datos.
+Tema 18. Instalación y cambio. Estrategias de sustitución. Recepción e instalación. Evaluación post-implementación. Mantenimiento.
+Tema 19. Análisis y diseño orientado a objetos. Concepto. Elementos. El proceso unificado de software. El lenguaje de modelado unificado (UML).
+Tema 20. La arquitectura J2EE. La plataforma. Net.
+Tema 21. Control de calidad en el desarrollo de software.
+Tema 22. Estructura y organización de un departamento de sistemas de información. Planificación física de un centro de tratamiento de la información. Vulnerabilidades, riesgo y protección. Instalaciones. Dimensionamiento de equipos. Factores a considerar.
+Tema 23. Gestión de librerías de programas. Gestión de medios magnéticos. Controles de cambios. Los lenguajes de control de trabajos. Las técnicas y herramientas de operación automática.
+Tema 24. Gestión de la atención a clientes y usuarios: Centros de contacto, CRM. Arquitectura multicanal. IVR.
+Tema 25. Control de la ejecución de los trabajos. Evaluación del rendimiento. Planificación de la capacidad. Análisis de la carga. Herramientas y técnicas utilizables.
+Tema 26. Seguridad física de un sistema de información. Riesgos, amenazas y vulnerabilidades. Medidas de protección y aseguramiento. Auditoría de seguridad física.
+Tema 27. Seguridad lógica de un sistema de información. Riesgos, amenazas y vulnerabilidades. Medidas de protección y aseguramiento. Auditoría de seguridad lógica.
+Tema 28. Presupuestación y control de costes de un proyecto informático. Técnicas de selección de proyectos alternativos: Payback, VAN y TIR.
+Tema 29. Documática. Archivo electrónico de documentos. Organización funcional de los sistemas documáticos. Optimización de consultas y recuperación de la información.
+Tema 30. La protección de datos personales. La Ley Orgánica 15/1999, de Protección de Datos de Carácter Personal. El Real Decreto 994/1999, de Medidas de Seguridad y normativa derivada. La Agencia de Protección de Datos: estructura, competencias y funciones.
+Tema 31. Elementos básicos de telecomunicación. Características de canal. Codificación. Modulación. Multiplexación. Interfaces y protocolos. Jerarquías digitales.
+Tema 32. Conmutación. Conmutación de circuitos y paquetes. X25. Frame Relay, ATM. Integración voz-datos sobre FR, IP, ATM. Protocolos de encaminamiento. Ethernet conmutada. MPLS.
+Tema 33. La seguridad en redes. Control de accesos. Técnicas criptográficas. Mecanismos de firma digital. Intrusiones. Cortafuegos. Redes privadas virtuales.
+Tema 34. La red Internet: arquitectura de red. Principios de funcionamiento. Servicios: evolución, estado actual y tendencias.
+Tema 35. La Ley 32/2003 general de telecomunicaciones. La Comisión del Mercado de las Telecomunicaciones: Organización, funciones y competencias.
+Tema 36. Tecnología XDSL. Concepto. Características técnicas. Normativa reguladora. Telecomunicaciones por cable: características y normativa reguladora.
+Tema 37. Comunicaciones de voz. Tecnologías VoIP.
+Tema 38. Comunicaciones móviles. Telefonía sin hilos y DECT. Paging. Radiotelefonía privada. Sistemas celulares. Trunking. GSM, GPRS y UMTS.
+Tema 39. Redes inalámbricas: protocolos 802.11x Wi-Fi. Características funcionales y técnicas. Modos de operación. Seguridad. Normativa reguladora.
+Tema 40. Comunicaciones emergentes: IP móvil y PLC (Power Line Communications). Características Técnicas. Modos de operación. Seguridad. Normativa reguladora. Ventajas e inconvenientes
+</p>
+    <p class="centro_negrita">
+ANEXO IV
+Tribunal calificador
+</p>
+    <p class="parrafo">
+Tribunal titular:
+</p>
+    <p class="parrafo">
+Presidenta: Azucena Holgado de Soto. Cuerpo de Gestión del INEM.
+</p>
+    <p class="parrafo">
+Secretaria: Rosa Lorenzo García. Cuerpo de Gestión Admón. Civil del Estado.
+Vocales:
+</p>
+    <p class="parrafo">
+Ana María Crespo de las Casas. Cuerpo de Catedráticos de la Universidad Complutense.
+</p>
+    <p class="parrafo">
+Antonio Guillamón Fernández. Cuerpo de Catedráticos de la UNED.
+M. José Fernández Frial. Cuerpo Superior Sistemas Tec. Información Admón. del Estado.
+</p>
+    <p class="parrafo_2">
+Tribunal suplente:
+</p>
+    <p class="parrafo">
+Presidenta: Rosario Fátima Penco García. Cuerpo de Gestión Admón. Civil del Estado.
+</p>
+    <p class="parrafo">
+Secretaria: Jesús Garrido Domínguez. Cuerpo de Gestión de Admón. Civil del Estado.
+Vocales:
+</p>
+    <p class="parrafo">
+Carmen González García. Cuerpo de Catedráticos de la Universidad de Castilla-La Mancha.
+</p>
+    <p class="parrafo">
+Juan Manuel Bolaños Ladrón de Guevara. Cuerpo de Gestión de Sistemas e Informática de la Admón. del Estado.
+José Luis Cereceda González. Escala de Técnicos Especialistas Grado Medio OPIS.
+</p>
+    <p class="parrafo_2">
+El Tribunal podrá disponer la incorporación a sus trabajos de asesores especialistas para todos o alguno de los ejercicios.
+</p>
+    <p class="centro_negrita">
+ANEXO V
+Instrucciones para cumplimentar la solicitud
+</p>
+    <p class="parrafo">
+Este apartado se rellenará según lo establecido en la solicitud de admisión a pruebas selectivas en la Administración Pública y liquidación de tasas de derechos de examen (modelo 790) y en las siguientes instrucciones particulares.
+</p>
+    <p class="parrafo">
+En el recuadro 15, «Cuerpo o Escala», se consignará «Cuerpo de Gestión de Sistemas e Informática de la Administración del Estado y en el recuadro correspondiente a código que figura a su lado «1177»
+</p>
+    <p class="parrafo">
+En el recuadro 17, «Forma de acceso», los aspirantes que estén prestando servicios como funcionarios interinos el subgrupo A2 en el Ministerio de Educación y Ciencia consignarán necesariamente la letra»A». El resto de los aspirantes consignarán la letra «B».
+En el recuadro 18, «Ministerio/Organo/Entidad convocante», se consignará «Secretaria General para la Administración Pública».
+En el recuadro 19, se consignará la fecha del Boletín Oficial del Estado en el que haya sido publicada la convocatoria.
+En el recuadro 20, «Provincia de examen», se consignará «Madrid»
+En el recuadro 21, «Minusvalía», los aspirantes con discapacidad podrán indicar el porcentaje de minusvalía que tengan acreditado, y solicitar, expresándolo en el recuadro 23, las posibles adaptaciones de tiempo y medios para la realización de los ejercicios en que esta adaptación sea necesaria.
+En el recuadro 24, «Títulos académicos oficiales», se consignará el que se posea y que habilite para presentarse a estas pruebas:
+</p>
+    <p class="parrafo">
+El importe de la tasa por derechos de examen será de 20,30 €.
+</p>
+    <p class="parrafo">
+El ingreso del importe correspondiente a los derechos de examen se efectuará, junto con la presentación de la solicitud, en cualquier banco, caja de ahorros o cooperativa de crédito de las que actúan como entidades colaboradoras en la recaudación tributaria. En la solicitud deberá constar que se ha realizado el correspondiente ingreso de los derechos de examen, mediante validación de la entidad colaboradora en la que se realice el ingreso, a través de certificación mecánica, o en su defecto, sello y firma autorizada de la misma en el espacio reservado a estos efectos.
+Las solicitudes suscritas en el extranjero podrán cursarse a través de las representaciones diplomáticas o consulares españolas correspondientes. A las mismas se acompañará el comprobante bancario de haber ingresado los derechos de examen en la cuenta corriente número 0104 0301 28 030203779 del Banco Bilbao Vizcaya Argentaria a nombre de «Tesoro Público. Ministerio de Educación y Ciencia. Derechos de examen». El ingreso podrá efectuarse directamente en cualquier oficina del Banco Bilbao Vizcaya Argentaria mediante transferencia desde cualquier entidad bancaria.</p>
+    <p class="caja gris info">Aquí aparece una imagen en el original. Consulte el documento PDF de esta disposición.</p>
+  </div>
+  <!-- #textoxslt -->
+</div>
+<!-- #DOdocText -->
+<p class="linkSubir"><a href="#top">subir</a></p>
+      </div> <!-- .pool -->
+    </div> <!-- #contenedor -->
+    <div id="pie">
+      <div id="menuPie">
+        <div class="otros-enlaces">
+          <div class="grupo-otros-enlaces">
+          	<div class="lista-pie">
+          	<ul>
+            <li><div class="enlace"><a href="/contactar/" accesskey="3">Contactar</a></div></li>
+            <li><div class="enlace"><a href="/informacion/index.php">Sobre la sede electr&oacute;nica</a></div></li>
+            <li><div class="enlace"><a href="/informacion/mapa_web/" accesskey="2">Mapa</a></div></li>
+            <li><div class="enlace"><a href="/informacion/aviso_legal/index.php">Aviso legal</a></div></li>
+            <li><div class="enlace"><a href="/informacion/accesibilidad/" accesskey="0">Accesibilidad</a></div></li>
+            <li><div class="enlace"><a href="/informacion/index.php#proteccion-de-datos">Protecci&oacute;n de datos</a></div></li>
+            <li><div class="enlace"><a href="/informacion/sistema_interno_informacion.php">Sistema Interno de Informaci&oacute;n</a></div></li>
+            <li><div class="enlace"><a href="/informacion/tutoriales/">Tutoriales</a></div></li>
+            <li><div class="enlace"><a href="/transparencia/empleo/">Empleo en la AEBOE</a></div></li>
+            </ul>
+            </div>
+          </div>
+          <div class="espacio"></div>
+          <div class="grupo-otros-enlaces">
+          	<div class="lista-pie">
+          	<ul>
+            <li><div class="enlace icono"><a href="/rss/" lang="es" title="RSS"><img src="/imagenes/home/rss_32.png" srcset="/imagenes/home/rss_32.svg" alt="RSS"></a></div></li>
+            <li><div class="enlace icono"><a href="/redes_sociales?pag=tw" lang="es" title="boegob, el BOE en X"><img src="/imagenes/home/twitter_32.png" srcset="/imagenes/home/twitter_32.svg"  alt="X"></a></div></li>
+            <li><div class="enlace icono"><a href="/redes_sociales?pag=fb" lang="es" title="El BOE en Facebook"><img src="/imagenes/home/facebook_32.png" srcset="/imagenes/home/facebook_32.svg" alt="Facebook"></a></div></li>
+            <li><div class="enlace icono"><a href="/redes_sociales?pag=ln" lang="es" title="El BOE en LinkedIn"><img src="/imagenes/home/linkedin_32.png" srcset="/imagenes/home/linkedin_32.svg" alt="LinkedIn"></a></div></li>
+            <li><div class="enlace icono"><a href="/redes_sociales?pag=yt" lang="es" title="El BOE en YouTube"><img src="/imagenes/home/youtube_32.png" srcset="/imagenes/home/youtube_32.svg" alt="YouTube"></a></div></li>
+            </ul>
+            </div>
+          </div>
+        </div> <!-- .franjaMenu -->
+      </div> <!-- #menuPie -->
+      <div class="franja-pie">
+        <p class="nombre-organismo">Agencia Estatal Bolet&iacute;n Oficial del Estado</p>
+        <p class="direccion-organismo"><abbr title="Avenida">Avda.</abbr> de Manoteras, 54 - 28050 Madrid</p>
+      </div>
+    </div> <!-- #pie -->
+    <script src="/js/desplegable.js"></script>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+{
+  "domain_id": "ES-IB",
+  "gazette_id": "boib",
+  "gazette_name": "Butlletí Oficial de les Illes Balears",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "boib-portal", "kind": "portal",
+     "url": "https://www.caib.es/eboibfront/"},
+    {"surface_id": "boib-rss", "kind": "feed",
+     "url": "https://www.caib.es/eboibfront/indexrss.do?lang=es"},
+    {"surface_id": "boib-doc", "kind": "document",
+     "url": "https://www.caib.es/eboibfront/{lang}/{YYYY}/{issueInternalId}/{docId}/{slug}[ /xml ]"},
+    {"surface_id": "boib-pdf", "kind": "document",
+     "url": "https://www.caib.es/eboibfront/pdf/{lang}/{YYYY}/{numero}/{pdfFileId}"}
+  ],
+  "discovery_mechanism": "rss + month calendar → issue internalId → per-doc docId",
+  "fetch_mechanism": "get_simple",
+  "doc_id_scheme": "docId + 'Número de registro' per-year + ELI es-ib",
+  "formats": ["html", "pdf", "xml"],
+  "parser_family": "NEW:boib_rdfxml",
+  "version_signal": "none_verified",
+  "change_detection": {
+    "mechanism": "RSS per issue + month calendars",
+    "strength": "strong",
+    "cadence": "daily"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "REACHABLE"},
+  "fallback": "illesbalears.cat mirror",
+  "license": {"terms": "CAIB aviso legal / reuse terms", "url": "https://www.caib.es/govern/external/infoLegal.do?lang=es"},
+  "candidate_profile": null,
+  "status_evidence": "portal + RSS + doc RDF/XML probed live es_local 2026-09-18 (doc /xml → 200 text/xml, 15883B stored — Dublin Core + ELI metadata confirmed).",
+  "notes": "PDFs digitally signed (/ByteRange). Bogus doc URLs return HTTP 500 — clean discriminator, no soft-404. boib.caib.es vhost uses legacy TLS (OpenSSL 1.0.2k) — use www.caib.es. Search POST form has 'robots' honeypot field."
+}

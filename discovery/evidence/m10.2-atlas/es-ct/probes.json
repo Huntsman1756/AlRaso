@@ -1,0 +1,19 @@
+[
+  {
+    "probe_id": "doc-akn",
+    "surface_id": "dogc-eli",
+    "kind": "document",
+    "url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2003/02/04/39/dof/cat/xml",
+    "observed_at": "2026-09-17T04:43:07Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "96f9a5452c956337b45284a705de90858173acef43d3a33b2fd8454c7e517792",
+    "bytes": 114653,
+    "content_type": "text/xml; charset=UTF-8",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-ct/doc-akn.body",
+    "detail": ""
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "domain_id": "ES-CB",
+  "gazette_id": "boc-cantabria",
+  "gazette_name": "Boletín Oficial de Cantabria",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "boc-toc-post", "kind": "sumario",
+     "url": "POST https://boc.cantabria.es/boces/boletines.do"},
+    {"surface_id": "boc-daily-xml", "kind": "document",
+     "url": "https://boc.cantabria.es/boces/verXmlAction.do?idBlob={N}"},
+    {"surface_id": "boc-anuncio-pdf", "kind": "document",
+     "url": "https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob={N}"}
+  ],
+  "discovery_mechanism": "toc_post (POST boletines.do → TOC html → idBlob/idAnuBlob)",
+  "fetch_mechanism": "post_then_get",
+  "doc_id_scheme": "CVE-YYYY-NNNN + BOC-YYYY-NNNN + idAnuBlob/idBlob",
+  "formats": ["xml", "pdf", "html"],
+  "parser_family": "boc_daily_xml",
+  "version_signal": "gazette_publication",
+  "change_detection": {
+    "mechanism": "daily XML diff (idBlob diario)",
+    "strength": "medium",
+    "cadence": "daily"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "ES_ONLY_SUSPECTED"},
+  "fallback": "es_local_fetcher",
+  "license": {"terms": "not_verified", "url": ""},
+  "candidate_profile": "pipeline/sources/boc-cantabria.profile.json",
+  "status_evidence": "M10.1 pilot P3 chain PASS + fresh doc probe es_local 2026-09-18 (149942B — identical byte count to live verify 2026-09-16). Geo-fence empirically verified both directions (TimeoutError via foreign fetcher recorded in G0).",
+  "notes": "Hardest transport contract in the set (POST→TOC→GET). ES_ONLY_SUSPECTED for foreign_ci is observed, not assumed."
+}

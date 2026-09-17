@@ -1,0 +1,19 @@
+[
+  {
+    "probe_id": "doc",
+    "surface_id": "boc-cn-doc",
+    "kind": "document",
+    "url": "https://www.gobiernodecanarias.org/boc/2025/240/pda/4148.html",
+    "observed_at": "2026-09-17T04:43:08Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "d49782a4a53c86b159a2808796a4e02035f9184d30225933415e71c90ceb46d6",
+    "bytes": 14939,
+    "content_type": "text/html",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-cn/doc.body",
+    "detail": ""
+  }
+]

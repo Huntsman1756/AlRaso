@@ -1,0 +1,56 @@
+{
+  "source_id": "boe",
+  "jurisdiction": "ES",
+  "kind": "gazette+open_data_api",
+  "discovery": {
+    "provider": "boe_sumario_api",
+    "recipe": "dataset_query",
+    "endpoint": "https://www.boe.es/datosabiertos/api/boe/sumario/{AAAAMMDD}",
+    "doc_id_pattern": "BOE-A-\\d{4}-\\d+",
+    "queryable_fields": ["fecha_publicacion", "seccion", "identificador"],
+    "fields": [
+      "identificador",
+      "titulo",
+      "url_pdf",
+      "url_xml",
+      "url_epub",
+      "fecha_publicacion"
+    ]
+  },
+  "fetch": {
+    "provider": "per_doc_url",
+    "recipe": "get_simple",
+    "method": "GET",
+    "formats": ["xml", "html", "pdf"],
+    "content_marker": "BOE-A-",
+    "doc_url_template": "https://www.boe.es/buscar/doc.php?id={doc_id}"
+  },
+  "parse": {
+    "format": "boe_xml",
+    "annex_format": "pdf_text"
+  },
+  "versioning": {
+    "strategy": "consolidated_api"
+  },
+  "reachability": {
+    "expected": {
+      "es_local": "REACHABLE",
+      "foreign_ci": "REACHABLE"
+    },
+    "fallback": "boe.es web UI (buscar/doc.php)"
+  },
+  "change_detection": {
+    "method": "sumario API daily + legislacion-consolidada fecha_actualizacion window",
+    "cadence": "daily"
+  },
+  "provenance": {
+    "derived_from": "discovery/evidence/m10.2-atlas/es/",
+    "probed_at": "2026-09-18",
+    "caveat": "CANDIDATE: discovery provider 'boe_sumario_api' interpreter not yet implemented. datosabiertos API requires Accept: application/json. Consolidated corpus does not cover autonomous-community instruments — absence proves nothing."
+  },
+  "atlas": {
+    "domain_id": "ES",
+    "domain_status": "PROVEN",
+    "evidence_dir": "discovery/evidence/m10.2-atlas/es/"
+  }
+}

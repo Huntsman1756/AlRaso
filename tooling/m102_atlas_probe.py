@@ -66,6 +66,7 @@ def record_probe(
     now=lambda: _utc_now_iso(),
     detail: str = "",
     transport_error: str | None = None,
+    store_body: bool = True,
 ) -> dict:
     """Record one probe observation and persist the raw body.
 
@@ -101,7 +102,8 @@ def record_probe(
     else:
         sha = hashlib.sha256(body).hexdigest()
         body_name = f"{probe_id}.body"
-        (evidence_dir / body_name).write_bytes(body)
+        if store_body:
+            (evidence_dir / body_name).write_bytes(body)
 
         if not 200 <= (http_status or 0) <= 299:
             outcome = "HTTP_ERROR"
@@ -133,12 +135,25 @@ def record_probe(
             "raw_sha256": sha,
             "bytes": len(body),
             "content_type": content_type,
-            "evidence_path": str(
-                (evidence_dir / body_name).relative_to(ROOT)
-            ).replace("\\", "/")
-            if evidence_dir.resolve().is_relative_to(ROOT.resolve())
-            else body_name,
-            "detail": detail,
+            "evidence_path": (
+                str(
+                    (evidence_dir.resolve() / body_name).relative_to(
+                        ROOT.resolve()
+                    )
+                ).replace("\\", "/")
+                if (evidence_dir.resolve() / body_name).is_relative_to(
+                    ROOT.resolve()
+                )
+                else body_name
+            )
+            if store_body
+            else "",
+            "detail": (
+                detail + ("; " if detail else "")
+                + "DIGEST_ONLY: body not redistributed"
+                if not store_body
+                else detail
+            ),
         }
 
     log_path = evidence_dir / "probes.json"
@@ -168,6 +183,11 @@ def verify_probe_log(evidence_dir: Path) -> tuple[bool, list[tuple[str, str, str
             rows.append((rec["probe_id"], "PASS",
                          f"no-response observation: {rec['fetch_outcome']}"))
             continue
+        if not rel:
+            rows.append((rec["probe_id"], "PASS",
+                         f"digest-only: sha256 {rec['raw_sha256'][:16]}… "
+                         "recorded, body not redistributed"))
+            continue
         candidates = [evidence_dir / Path(rel).name, ROOT / rel]
         body_path = next((c for c in candidates if c.is_file()), None)
         if body_path is None:
@@ -187,7 +207,11 @@ def verify_probe_log(evidence_dir: Path) -> tuple[bool, list[tuple[str, str, str
 
 
 def _cmd_probe(args) -> int:
-    request = TransportRequest("GET", args.url)
+    headers = {}
+    for h in args.header or ():
+        name, _, value = h.partition(":")
+        headers[name.strip()] = value.strip()
+    request = TransportRequest("GET", args.url, headers=headers)
     try:
         resp = urllib_transport(request, timeout=args.timeout)
     except TransportTimeout as exc:
@@ -236,8 +260,41 @@ def _cmd_probe(args) -> int:
                 args.soft_404_marker.encode() if args.soft_404_marker else None
             ),
             runner_network=args.runner_network,
+            store_body=not args.digest_only,
         )
     print(json.dumps(rec, indent=2, ensure_ascii=False))
+    return 0
+
+
+def _cmd_build(args) -> int:
+    """Assemble source-atlas.json: per-domain domain.json + probes.json."""
+    base = args.evidence_root.resolve()
+    domains = []
+    for domain_json in sorted(base.glob("*/domain.json")):
+        record = json.loads(domain_json.read_text(encoding="utf-8"))
+        probes_log = domain_json.parent / "probes.json"
+        record["probes"] = (
+            json.loads(probes_log.read_text(encoding="utf-8"))
+            if probes_log.is_file()
+            else []
+        )
+        record["evidence_dir"] = str(
+            domain_json.parent.resolve().relative_to(ROOT)
+        ).replace("\\", "/") + "/"
+        domains.append(record)
+    atlas = {
+        "version": 1,
+        "generated_at": _utc_now_iso(),
+        "domains": domains,
+        "notes": "M10.2-A National Source Atlas — evidence-only, no legal "
+                 "ingestion. domain_status is verified by the executable "
+                 "gate (pipeline.atlas.check_gate), not by declaration.",
+    }
+    out = base / "source-atlas.json"
+    out.write_text(
+        json.dumps(atlas, indent=2, ensure_ascii=False) + "\n", "utf-8"
+    )
+    print(f"wrote {out} ({len(domains)} domains)")
     return 0
 
 
@@ -268,6 +325,52 @@ def _cmd_gate(args) -> int:
     return 0 if ok else 1
 
 
+def _cmd_matrices(args) -> int:
+    """Derive family-clustering, reachability/fallback and
+    change-detection matrices deterministically from the atlas."""
+    atlas = load_atlas(args.atlas)
+    families: dict[str, list[str]] = {}
+    reach: list[dict[str, Any]] = []
+    change: dict[str, list[str]] = {}
+    for d in atlas["domains"]:
+        did = d["domain_id"]
+        families.setdefault(d["discovery_mechanism"], []).append(did)
+        observed = {
+            p["runner_network"]: p["reachability_observed"]
+            for p in d.get("probes", [])
+            if p.get("reachability_observed")
+        }
+        reach.append({
+            "domain_id": did,
+            "expected": d.get("reachability_expected", {}),
+            "observed": observed,
+            "fallback": d.get("fallback"),
+        })
+        cd = d.get("change_detection") or {}
+        change.setdefault(
+            f"{cd.get('mechanism', '?')} [{cd.get('strength', '?')}]",
+            [],
+        ).append(did)
+    out = {
+        "generated_at": _utc_now_iso(),
+        "family_clustering": {
+            k: sorted(v) for k, v in sorted(families.items())
+        },
+        "reachability_fallback": sorted(
+            reach, key=lambda r: r["domain_id"]
+        ),
+        "change_detection": {
+            k: sorted(v) for k, v in sorted(change.items())
+        },
+    }
+    out_path = args.atlas.parent / "matrices.json"
+    out_path.write_text(
+        json.dumps(out, indent=2, ensure_ascii=False) + "\n", "utf-8"
+    )
+    print(f"wrote {out_path}")
+    return 0
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="m102_atlas_probe")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -283,9 +386,18 @@ def main(argv=None) -> int:
     p.add_argument("--url", required=True)
     p.add_argument("--marker")
     p.add_argument("--soft-404-marker")
+    p.add_argument("--header", action="append",
+                   help="HTTP request header 'Name: value' (repeatable)")
     p.add_argument("--runner-network", default="unknown")
+    p.add_argument("--digest-only", action="store_true",
+                   help="record sha256+bytes but do not store the body")
     p.add_argument("--timeout", type=float, default=30.0)
     p.set_defaults(fn=_cmd_probe)
+
+    b = sub.add_parser("build", help="assemble source-atlas.json from "
+                                     "per-domain evidence dirs")
+    b.add_argument("--evidence-root", required=True, type=Path)
+    b.set_defaults(fn=_cmd_build)
 
     v = sub.add_parser("verify", help="offline digest verification")
     v.add_argument("--evidence-dir", required=True, type=Path)
@@ -295,6 +407,11 @@ def main(argv=None) -> int:
     g.add_argument("--atlas", required=True, type=Path)
     g.add_argument("--repo-root", type=Path)
     g.set_defaults(fn=_cmd_gate)
+
+    m = sub.add_parser("matrices", help="derive family/reachability/"
+                                        "change-detection matrices")
+    m.add_argument("--atlas", required=True, type=Path)
+    m.set_defaults(fn=_cmd_matrices)
 
     args = ap.parse_args(argv)
     return args.fn(args)

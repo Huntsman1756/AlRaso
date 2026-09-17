@@ -1,0 +1,36 @@
+[
+  {
+    "probe_id": "doc",
+    "surface_id": "boja-doc-url",
+    "kind": "document",
+    "url": "https://www.juntadeandalucia.es/boja/2011/155/41",
+    "observed_at": "2026-09-17T04:38:11Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "c86f05dd8b4801b392d86f8333b6da80b2bd455cf11b4d9a5943ed2253f715e3",
+    "bytes": 136216,
+    "content_type": "text/html; charset=UTF-8",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-an/doc.body",
+    "detail": ""
+  },
+  {
+    "probe_id": "portal",
+    "surface_id": "boja-portal",
+    "kind": "portal",
+    "url": "https://www.juntadeandalucia.es/boja",
+    "observed_at": "2026-09-17T04:40:48Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "32dd4f24a32ce35310e2a1cafc7a41ca0a139a997a1720a30d6a2be7fa5885a7",
+    "bytes": 133515,
+    "content_type": "text/html; charset=UTF-8",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-an/portal.body",
+    "detail": ""
+  }
+]

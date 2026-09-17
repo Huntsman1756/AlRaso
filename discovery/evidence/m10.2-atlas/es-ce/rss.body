@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="Joomla! - Open Source Content Management" -->
+<?xml-stylesheet href="https://www.ceuta.es/ceuta/components/com_jdownloads/jdownloads_fe.css" type="text/css"?>
+<?xml-stylesheet href="https://www.ceuta.es/ceuta/components/com_jdownloads/assets/rating/css/ajaxvote.css" type="text/css"?>
+<?xml-stylesheet href="/ceuta/media/system/css/modal.css" type="text/css"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Ciudad Autónoma de Ceuta - Documentos - julio</title>
+		<description><![CDATA[Portal Oficial del Ayuntamiento de Ceuta - Boletines, Actas Plenarias, Presupuestos, Planes de la Ciudad, etc..]]></description>
+		<link>https://www.ceuta.es</link>
+		<lastBuildDate>Thu, 17 Sep 2026 06:36:45 +0200</lastBuildDate>
+		<generator>Joomla! - Open Source Content Management</generator>
+		<atom:link rel="self" type="application/rss+xml" href="https://www.ceuta.es/ceuta/component/jdownloads/viewcategory/1978-julio?format=feed&amp;type=rss"/>
+		<language>es-es</language>
+	</channel>
+</rss>

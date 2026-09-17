@@ -1,0 +1,29 @@
+{
+  "domain_id": "ES-CL",
+  "gazette_id": "bocyl",
+  "gazette_name": "Boletín Oficial de Castilla y León",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "bocyl-opendatasoft", "kind": "api",
+     "url": "https://jcyl.opendatasoft.com/api/explore/v2.1/catalog/datasets/bocyl/records"},
+    {"surface_id": "bocyl-doc-url", "kind": "document",
+     "url": "https://bocyl.jcyl.es/boletines/{YYYY}/{MM}/{DD}/{ext}/BOCYL-D-{DDMMYYYY}-{N}.{ext}"}
+  ],
+  "discovery_mechanism": "opendatasoft_dataset_query",
+  "fetch_mechanism": "get_simple",
+  "doc_id_scheme": "BOCYL-D-DDMMYYYY-N",
+  "formats": ["xml", "html", "pdf", "json"],
+  "parser_family": "bocyl_xml",
+  "version_signal": "gazette_publication",
+  "change_detection": {
+    "mechanism": "opendatasoft dataset daily + stable doc URLs",
+    "strength": "strong",
+    "cadence": "daily"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "REACHABLE"},
+  "fallback": null,
+  "license": {"terms": "datos abiertos JCyL (dataset-level)", "url": ""},
+  "candidate_profile": "pipeline/sources/bocyl.profile.json",
+  "status_evidence": "M10.1 pilot P1 chain PASS + fresh doc probe es_local 2026-09-18 (15473B — identical byte count to live verify 2026-09-16).",
+  "notes": "Per-disposition XML excludes long annexes (PRUG ~430pp PDF-only) — annex_format pdf_text declared in profile."
+}

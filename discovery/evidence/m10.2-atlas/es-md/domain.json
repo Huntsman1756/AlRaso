@@ -1,0 +1,29 @@
+{
+  "domain_id": "ES-MD",
+  "gazette_id": "bocm",
+  "gazette_name": "Boletín Oficial de la Comunidad de Madrid",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "bocm-portal", "kind": "portal",
+     "url": "https://www.bocm.es"},
+    {"surface_id": "bocm-doc-pdf", "kind": "document",
+     "url": "https://www.bocm.es/boletin/CM_Orden_BOCM/{YYYY}/{MM}/{DD}/BOCM-{YYYYMMDD}-{N}.PDF"}
+  ],
+  "discovery_mechanism": "portal sumario + stable doc URLs",
+  "fetch_mechanism": "get_simple",
+  "doc_id_scheme": "BOCM-YYYYMMDD-N",
+  "formats": ["pdf", "html", "epub"],
+  "parser_family": "pdf_text",
+  "version_signal": "none_verified",
+  "change_detection": {
+    "mechanism": "daily bulletin download + per-announcement formats",
+    "strength": "medium",
+    "cadence": "daily"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "REACHABLE"},
+  "fallback": null,
+  "license": {"terms": "not_verified", "url": ""},
+  "candidate_profile": null,
+  "status_evidence": "doc PDF probed live es_local 2026-09-18 (145310B application/pdf stored; re-confirms G0 bocm-doc probe).",
+  "notes": "Per-announcement XML/JSON-LD reported since 2026-01 but NOT verified — parser family may upgrade once confirmed."
+}

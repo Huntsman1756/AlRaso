@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" version="2.0">
+  <channel>
+    <title>BOIB</title>
+    <link>https://www.caib.es/eboibfront/index.do?lang=es</link>
+    <description>El Boletín Oficial del Gobierno las Islas Baleares clasifica sus canales por año de publicación</description>
+    <image>
+      <title>Imagen del Govern de les Illes Balears</title>
+      <url>https://www.caib.es/imgs/governillesbalears.png</url>
+      <link>https://www.caib.es/imgs/governillesbalears.png</link>
+      <description>WEB_RSSIMG</description>
+    </image>
+    <item>
+      <title>BOIB Núm 115/2026</title>
+      <link>https://www.caib.es/eboibfront/es/2026/12328</link>
+      <description />
+      <pubDate>Tue, 15 Sep 2026 06:30:00 GMT</pubDate>
+      <guid>https://www.caib.es/eboibfront/es/2026/12328</guid>
+      <dc:creator>CAIB</dc:creator>
+      <dc:date>2026-09-15T06:30:00Z</dc:date>
+    </item>
+    <item>
+      <title>BOIB Núm 114/2026</title>
+      <link>https://www.caib.es/eboibfront/es/2026/12327</link>
+      <description />
+      <pubDate>Sat, 12 Sep 2026 06:30:00 GMT</pubDate>
+      <guid>https://www.caib.es/eboibfront/es/2026/12327</guid>
+      <dc:creator>CAIB</dc:creator>
+      <dc:date>2026-09-12T06:30:00Z</dc:date>
+    </item>
+    <item>
+      <title>BOIB Núm 113/2026</title>
+      <link>https://www.caib.es/eboibfront/es/2026/12326</link>
+      <description />
+      <pubDate>Thu, 10 Sep 2026 06:30:00 GMT</pubDate>
+      <guid>https://www.caib.es/eboibfront/es/2026/12326</guid>
+      <dc:creator>CAIB</dc:creator>
+      <dc:date>2026-09-10T06:30:00Z</dc:date>
+    </item>
+    <item>
+      <title>BOIB Núm 112/2026</title>
+      <link>https://www.caib.es/eboibfront/es/2026/12325</link>
+      <description />
+      <pubDate>Tue, 08 Sep 2026 06:30:00 GMT</pubDate>
+      <guid>https://www.caib.es/eboibfront/es/2026/12325</guid>
+      <dc:creator>CAIB</dc:creator>
+      <dc:date>2026-09-08T06:30:00Z</dc:date>
+    </item>
+    <item>
+      <title>BOIB Núm 111/2026</title>
+      <link>https://www.caib.es/eboibfront/es/2026/12324</link>
+      <description />
+      <pubDate>Sat, 05 Sep 2026 06:30:00 GMT</pubDate>
+      <guid>https://www.caib.es/eboibfront/es/2026/12324</guid>
+      <dc:creator>CAIB</dc:creator>
+      <dc:date>2026-09-05T06:30:00Z</dc:date>
+    </item>
+    <item>
+      <title>BOIB Núm 110/2026</title>
+      <link>https://www.caib.es/eboibfront/es/2026/12323</link>
+      <description />
+      <pubDate>Thu, 03 Sep 2026 06:30:00 GMT</pubDate>
+      <guid>https://www.caib.es/eboibfront/es/2026/12323</guid>
+      <dc:creator>CAIB</dc:creator>
+      <dc:date>2026-09-03T06:30:00Z</dc:date>
+    </item>
+    <item>
+      <title>BOIB Núm 109/2026</title>
+      <link>https://www.caib.es/eboibfront/es/2026/12322</link>
+      <description />
+      <pubDate>Tue, 01 Sep 2026 06:30:00 GMT</pubDate>
+      <guid>https://www.caib.es/eboibfront/es/2026/12322</guid>
+      <dc:creator>CAIB</dc:creator>
+      <dc:date>2026-09-01T06:30:00Z</dc:date>
+    </item>
+    <item>
+      <title>BOIB Núm 108/2026</title>
+      <link>https://www.caib.es/eboibfront/es/2026/12321</link>
+      <description />
+      <pubDate>Sat, 29 Aug 2026 06:30:00 GMT</pubDate>
+      <guid>https://www.caib.es/eboibfront/es/2026/12321</guid>
+      <dc:creator>CAIB</dc:creator>
+      <dc:date>2026-08-29T06:30:00Z</dc:date>
+    </item>
+    <item>
+      <title>BOIB Núm 107/2026</title>
+      <link>https://www.caib.es/eboibfront/es/2026/12320</link>
+      <description />
+      <pubDate>Thu, 27 Aug 2026 06:30:00 GMT</pubDate>
+      <guid>https://www.caib.es/eboibfront/es/2026/12320</guid>
+      <dc:creator>CAIB</dc:creator>
+      <dc:date>2026-08-27T06:30:00Z</dc:date>
+    </item>
+    <item>
+      <title>BOIB Núm 106/2026</title>
+      <link>https://www.caib.es/eboibfront/es/2026/12319</link>
+      <description />
+      <pubDate>Tue, 25 Aug 2026 06:30:00 GMT</pubDate>
+      <guid>https://www.caib.es/eboibfront/es/2026/12319</guid>
+      <dc:creator>CAIB</dc:creator>
+      <dc:date>2026-08-25T06:30:00Z</dc:date>
+    </item>
+    <item>
+      <title>BOIB Núm 105/2026</title>
+      <link>https://www.caib.es/eboibfront/es/2026/12318</link>
+      <description />
+      <pubDate>Sat, 22 Aug 2026 06:30:00 GMT</pubDate>
+      <guid>https://www.caib.es/eboibfront/es/2026/12318</guid>
+      <dc:creator>CAIB</dc:creator>
+      <dc:date>2026-08-22T06:30:00Z</dc:date>
+    </item>
+    <item>
+      <title>BOIB Núm 104/2026</title>
+      <link>https://www.caib.es/eboibfront/es/2026/12317</link>
+      <description />
+      <pubDate>Thu, 20 Aug 2026 06:30:00 GMT</pubDate>
+      <guid>https://www.caib.es/eboibfront/es/2026/12317</guid>
+      <dc:creator>CAIB</dc:creator>
+      <dc:date>2026-08-20T06:30:00Z</dc:date>
+    </item>
+    <item>
+      <title>BOIB Núm 103/2026</title>
+      <link>https://www.caib.es/eboibfront/es/2026/12316</link>
+      <description />
+      <pubDate>Tue, 18 Aug 2026 06:30:00 GMT</pubDate>
+      <guid>https://www.caib.es/eboibfront/es/2026/12316</guid>
+      <dc:creator>CAIB</dc:creator>
+      <dc:date>2026-08-18T06:30:00Z</dc:date>
+    </item>
+  </channel>
+</rss>
+

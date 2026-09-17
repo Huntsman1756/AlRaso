@@ -1,0 +1,349 @@
+{
+  "generated_at": "2026-09-17T05:01:28Z",
+  "family_clustering": {
+    "html_category_scrape (jDownloads year→month→issue links)": [
+      "ES-CE"
+    ],
+    "issue_index_html (sumario per /boja/{YYYY}/{issue})": [
+      "ES-AN"
+    ],
+    "legacy_cgi (BRSCGI VERDOC by DOCN)": [
+      "ES-AR"
+    ],
+    "open_data_api (JSON REST: dogv?date= / latest / calendar)": [
+      "ES-VC"
+    ],
+    "open_data_api (daily index JSON/CSV on transparencia.carm.es)": [
+      "ES-MC"
+    ],
+    "opendatasoft_dataset_query": [
+      "ES-CL"
+    ],
+    "portal search UI (no machine feed verified)": [
+      "ES-AS"
+    ],
+    "portal sumario + stable doc URLs": [
+      "ES-MD"
+    ],
+    "rss + month calendar → issue internalId → per-doc docId": [
+      "ES-IB"
+    ],
+    "rss + stable CVE-keyed URLs": [
+      "ES-ML"
+    ],
+    "rss Ultimo + deterministic per-issue/per-doc file URLs (+ documented API)": [
+      "ES-PV"
+    ],
+    "rss_sumario + deterministic /dog/Publicados/ date tree": [
+      "ES-GA"
+    ],
+    "socrata (dataset with vigència field + ELI links)": [
+      "ES-CT"
+    ],
+    "stable_url_by_id": [
+      "ES-CN"
+    ],
+    "sumario_api + consolidated_api": [
+      "ES"
+    ],
+    "toc_post (POST boletines.do → TOC html → idBlob/idAnuBlob)": [
+      "ES-CB"
+    ],
+    "toc_sumario (date-param issue listing) + faceted searcher /bor-portada/bor": [
+      "ES-RI"
+    ],
+    "toc_sumario (date-param sumario → per-doc ruta paths)": [
+      "ES-CM"
+    ],
+    "toc_sumario (date-param) + per-section RSS": [
+      "ES-EX"
+    ],
+    "toc_sumario (friendly-URL sumario → ordinal doc pages)": [
+      "ES-NC"
+    ]
+  },
+  "reachability_fallback": [
+    {
+      "domain_id": "ES",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": "boe.es web UI (buscar/doc.php)"
+    },
+    {
+      "domain_id": "ES-AN",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": "BOE consolidada for the consolidated subset"
+    },
+    {
+      "domain_id": "ES-AR",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": null
+    },
+    {
+      "domain_id": "ES-AS",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": "official park web PDFs (verified M2A)"
+    },
+    {
+      "domain_id": "ES-CB",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "ES_ONLY_SUSPECTED"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": "es_local_fetcher"
+    },
+    {
+      "domain_id": "ES-CE",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": null
+    },
+    {
+      "domain_id": "ES-CL",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": null
+    },
+    {
+      "domain_id": "ES-CM",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": "legacy host docm.castillalamancha.es/portaldocm (same app)"
+    },
+    {
+      "domain_id": "ES-CN",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": null
+    },
+    {
+      "domain_id": "ES-CT",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": null
+    },
+    {
+      "domain_id": "ES-EX",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": null
+    },
+    {
+      "domain_id": "ES-GA",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": null
+    },
+    {
+      "domain_id": "ES-IB",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": "illesbalears.cat mirror"
+    },
+    {
+      "domain_id": "ES-MC",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "WAF_BLOCKED"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": "open-data index (transparencia.carm.es) + CKAN catalog"
+    },
+    {
+      "domain_id": "ES-MD",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": null
+    },
+    {
+      "domain_id": "ES-ML",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": "legacy JSP portal melilla.es (pre-2018 archive)"
+    },
+    {
+      "domain_id": "ES-NC",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": null
+    },
+    {
+      "domain_id": "ES-PV",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": "opendata.euskadi.eus dataset/API"
+    },
+    {
+      "domain_id": "ES-RI",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": null
+    },
+    {
+      "domain_id": "ES-VC",
+      "expected": {
+        "es_local": "REACHABLE",
+        "foreign_ci": "REACHABLE"
+      },
+      "observed": {
+        "es_local": "REACHABLE"
+      },
+      "fallback": null
+    }
+  ],
+  "change_detection": {
+    "/dogv/latest + /dogv/calendar + /disposicion/ultimasDisposiciones [strong]": [
+      "ES-VC"
+    ],
+    "/es/ultimo + predictable date/issue URLs [medium]": [
+      "ES-NC"
+    ],
+    "RSS + predictable CVE URLs [strong]": [
+      "ES-ML"
+    ],
+    "RSS Ultimo.xml (per-disposition items) + open-data dataset daily refresh [strong]": [
+      "ES-PV"
+    ],
+    "RSS per issue + month calendars [strong]": [
+      "ES-IB"
+    ],
+    "RSS set (sumario + secciones + rangos + taxonomías) + per-day URL tree [strong]": [
+      "ES-GA"
+    ],
+    "cgi bulletin polling [weak]": [
+      "ES-AR"
+    ],
+    "daily ?fecha= URL + searcher [medium]": [
+      "ES-RI"
+    ],
+    "daily XML diff (idBlob diario) [medium]": [
+      "ES-CB"
+    ],
+    "daily bulletin download + per-announcement formats [medium]": [
+      "ES-MD"
+    ],
+    "daily-updated open-data index (JSON/CSV/XML/TXT) [strong]": [
+      "ES-MC"
+    ],
+    "date-param sumario polling + email alertas service [medium]": [
+      "ES-CM"
+    ],
+    "document URL polling [weak]": [
+      "ES-AS"
+    ],
+    "issue index polling [medium]": [
+      "ES-AN"
+    ],
+    "monthly category page polling (jDownloads RSS endpoint exists but channel is empty) [weak]": [
+      "ES-CE"
+    ],
+    "opendatasoft dataset daily + stable doc URLs [strong]": [
+      "ES-CL"
+    ],
+    "per-section RSS + predictable per-day URL tree [strong]": [
+      "ES-EX"
+    ],
+    "socrata dataset + vigència field + ELI idVersion [strong]": [
+      "ES-CT"
+    ],
+    "stable-id archive polling [medium]": [
+      "ES-CN"
+    ],
+    "sumario API daily + legislacion-consolidada fecha_actualizacion from/to [strong]": [
+      "ES"
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "domain_id": "ES-RI",
+  "gazette_id": "bor",
+  "gazette_name": "Boletín Oficial de La Rioja",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "bor-portal", "kind": "portal",
+     "url": "https://web.larioja.org/bor-portada/"},
+    {"surface_id": "bor-sumario", "kind": "sumario",
+     "url": "https://web.larioja.org/bor-portada/?fecha={YYYY-MM-DD}"},
+    {"surface_id": "bor-doc", "kind": "document",
+     "url": "https://web.larioja.org/bor-portada/boranuncio?n=anu-{numericId}"},
+    {"surface_id": "bor-doc-pdf", "kind": "document",
+     "url": "https://ias1.larioja.org/boletin/Bor_Boletin_visor_Servlet?referencia={expediente}-{pag}-PDF-{id}-X"}
+  ],
+  "discovery_mechanism": "toc_sumario (date-param issue listing) + faceted searcher /bor-portada/bor",
+  "fetch_mechanism": "get_simple",
+  "doc_id_scheme": "anu-NNNNNN + referencia {expediente}-{pag}-{HTML|PDF}-{id}-X + Núm. Registro YYYY/NNNN",
+  "formats": ["html", "pdf"],
+  "parser_family": "NEW:bor_html",
+  "version_signal": "none_verified",
+  "change_detection": {
+    "mechanism": "daily ?fecha= URL + searcher",
+    "strength": "medium",
+    "cadence": "daily"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "REACHABLE"},
+  "fallback": null,
+  "license": {"terms": "aviso legal larioja.org", "url": ""},
+  "candidate_profile": null,
+  "status_evidence": "sumario (BOR 179, 2026-09-17) + doc HTML + official PDF probed live es_local 2026-09-18 (PDF 295779B application/pdf stored).",
+  "notes": "Portada shell needs JS; boranuncio/search pages server-rendered and scrape cleanly. Non-issue dates → soft-empty 'No hay ningún BOR publicado'. PDF host is ias1.larioja.org (not iana1)."
+}

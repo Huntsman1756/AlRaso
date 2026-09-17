@@ -1,0 +1,33 @@
+{
+  "domain_id": "ES-GA",
+  "gazette_id": "dog",
+  "gazette_name": "Diario Oficial de Galicia",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "dog-portal", "kind": "portal",
+     "url": "https://www.xunta.gal/diario-oficial-galicia"},
+    {"surface_id": "dog-sumario-rss", "kind": "feed",
+     "url": "https://www.xunta.gal/diario-oficial-galicia/rss/Sumario_gl.rss"},
+    {"surface_id": "dog-doc", "kind": "document",
+     "url": "https://www.xunta.gal/dog/Publicados/{YYYY}/{YYYYMMDD}/Anuncio{XXXX}-{DDMMYY}-{SEQ}_{lang}.html"},
+    {"surface_id": "dog-eli", "kind": "document",
+     "url": "https://www.xunta.gal/diario-oficial-galicia/eli/es-ga/{rango}/{yyyy}/{m}/{d}/{num}/dof/{glg|spa}/{html|pdf}"}
+  ],
+  "discovery_mechanism": "rss_sumario + deterministic /dog/Publicados/ date tree",
+  "fetch_mechanism": "get_simple",
+  "doc_id_scheme": "AnuncioXXXX-DDMMYY-SEQ + issue DOG Núm. + ELI es-ga",
+  "formats": ["html", "pdf", "rss"],
+  "parser_family": "NEW:dog_html",
+  "version_signal": "none_verified",
+  "change_detection": {
+    "mechanism": "RSS set (sumario + secciones + rangos + taxonomías) + per-day URL tree",
+    "strength": "strong",
+    "cadence": "daily"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "REACHABLE"},
+  "fallback": null,
+  "license": {"terms": "free reuse with source attribution, no denaturalization", "url": "https://www.xunta.gal/aviso-legal-do-portal-da-xunta"},
+  "candidate_profile": null,
+  "status_evidence": "portal + Sumario_gl.rss + doc HTML probed live es_local 2026-09-18 (all 200, evidence stored).",
+  "notes": "No public REST API confirmed; consolidated-law portal lex.gal exists but not machine-verified. Struts .do stack; real 404s on static doc URLs."
+}

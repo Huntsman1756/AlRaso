@@ -1,0 +1,430 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es-es" lang="es-es">
+
+<head>
+    <script type="text/javascript">
+var siteurl='/ceuta/';
+var tmplurl='/ceuta/templates/ja_minisite/';
+var isRTL = false;
+</script>
+
+  <base href="https://www.ceuta.es/ceuta/component/jdownloads/viewcategory/1978-julio" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="keywords" content="ceuta, ayuntamiento, ciudad autonoma, estrecho gibraltar, bocce, boletin, actas plenarias, real decreto, estatuto, autonomia, presupuestos, plan, sebta, septa, ceuti, caballa" />
+  <meta name="description" content="Portal Oficial del Ayuntamiento de Ceuta - Boletines, Actas Plenarias, Presupuestos, Planes de la Ciudad, etc.." />
+  <meta name="generator" content="Joomla! - Open Source Content Management" />
+  <title>Documentos - julio</title>
+  <link rel="stylesheet" href="/ceuta/components/com_jdownloads/jdownloads_fe.css" type="text/css" media=""  />
+  <link rel="stylesheet" href="/ceuta/components/com_jdownloads/assets/rating/css/ajaxvote.css" type="text/css" media=""  />
+  <link rel="stylesheet" href="/ceuta/media/system/css/modal.css" type="text/css" media=""  />
+  <link rel="stylesheet" href="/ceuta/templates/system/css/system.css" type="text/css" media=""  />
+  <link rel="stylesheet" href="/ceuta/templates/system/css/general.css" type="text/css" media=""  />
+  <link rel="stylesheet" href="/ceuta/plugins/content/plg_jathumbnail/style.css" type="text/css" media=""  />
+  <link rel="stylesheet" href="/ceuta/plugins/system/jat3/jat3/base-themes/default/css/css3.css" type="text/css" media=""  />
+  <link rel="stylesheet" href="/ceuta/plugins/system/jat3/jat3/base-themes/default/css/addons.css" type="text/css" media=""  />
+  <link rel="stylesheet" href="/ceuta/plugins/system/jat3/jat3/base-themes/default/css/layout.css" type="text/css" media=""  />
+  <link rel="stylesheet" href="/ceuta/plugins/system/jat3/jat3/base-themes/default/css/template.css" type="text/css" media=""  />
+  <link rel="stylesheet" href="/ceuta/plugins/system/jat3/jat3/base-themes/default/css/usertools.css" type="text/css" media=""  />
+  <link rel="stylesheet" href="/ceuta/plugins/system/jat3/jat3/base-themes/default/css/menu/mega.css" type="text/css" media=""  />
+  <link rel="stylesheet" href="/ceuta/templates/ja_minisite/css/typo.css" type="text/css" media=""  />
+  <link rel="stylesheet" href="/ceuta/templates/ja_minisite/css/css3.css" type="text/css" media=""  />
+  <link rel="stylesheet" href="/ceuta/templates/ja_minisite/css/layout.css" type="text/css" media=""  />
+  <link rel="stylesheet" href="/ceuta/templates/ja_minisite/css/template.css" type="text/css" media=""  />
+  <link rel="stylesheet" href="/ceuta/templates/ja_minisite/css/menu/mega.css" type="text/css" media=""  />
+  <link rel="stylesheet" href="/ceuta/templates/ja_minisite/themes/old_blue/css/template.css" type="text/css" media=""  />
+  <link rel="stylesheet" href="/ceuta/templates/ja_minisite/themes/old_blue/css/menu/mega.css" type="text/css" media=""  />
+  <script type="text/javascript" src="/ceuta/plugins/system/jch_optimize/assets/ceuta/gz/30/c5ea5a3bed1e10bc59a4b6a842372d0b.js"></script>
+  <script type="text/javascript">
+var live_site = "https://www.ceuta.es/ceuta/";function openWindow (url) {
+        fenster = window.open(url, "_blank", "width=550, height=480, STATUS=YES, DIRECTORIES=NO, MENUBAR=NO, SCROLLBARS=YES, RESIZABLE=NO");
+        fenster.focus();
+        }
+		window.addEvent('domready', function() {
+
+			SqueezeBox.initialize({});
+			SqueezeBox.assign($$('a.modal'), {
+				parse: 'rel'
+			});
+		});window.addEvent('domready', function() {
+			$$('.hasTip').each(function(el) {
+				var title = el.get('title');
+				if (title) {
+					var parts = title.split('::', 2);
+					el.store('tip:title', parts[0]);
+					el.store('tip:text', parts[1]);
+				}
+			});
+			var JTooltips = new Tips($$('.hasTip'), { maxTitleChars: 50, fixed: false});
+		});
+  </script>
+
+<!--[if ie]><link href="/ceuta/plugins/system/jat3/jat3/base-themes/default/css/template-ie.css" type="text/css" rel="stylesheet" /><![endif]--> 
+<!--[if ie 7]><link href="/ceuta/plugins/system/jat3/jat3/base-themes/default/css/template-ie7.css" type="text/css" rel="stylesheet" /><![endif]--> 
+<!--[if ie 7]><link href="/ceuta/templates/ja_minisite/css/template-ie7.css" type="text/css" rel="stylesheet" /><![endif]--> 
+
+
+
+
+<link href="/ceuta/plugins/system/jat3/jat3/base-themes/default/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    
+    <style type="text/css">
+/*dynamic css*/
+
+    body.bd .main {width: 940px;}
+    body.bd #ja-wrapper {min-width: 940px;}
+</style>
+<!-- Google analytics tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XSX6N6M3EP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XSX6N6M3EP');
+</script>
+<!-- FIN Google analytics tag (gtag.js) -->
+
+<script type='text/javascript'>
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-32855573-1']);
+	_gaq.push(['_trackPageview']);
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+</head>
+
+<body id="bd" class="bd fs3 com_jdownloads">
+<a name="Top" id="Top"></a>
+<div id="ja-wrapper">
+
+
+    <iframe 	id="blockrandom"
+	name="WebsCeuta"
+	title="WebsCeuta"
+	src="https://www.ceuta.es/webs/index.html"
+	width="100%"
+	height="25"
+	scrolling="no"
+	align="top"
+	frameborder="0"
+	class="wrapper">
+	No Iframes</iframe>
+
+	            <div id="ja-header"
+            	class="wrap ">
+                   <div class="main clearfix">
+           
+		<h1 class="logo">
+		<a href="/ceuta/index.php" title="Ciudad Autónoma de Ceuta"><span>Ciudad Autónoma de Ceuta</span></a>
+	</h1>
+		
+	<div class="tollfree">
+		
+	</div>
+    
+             <div id="ja-search">
+           <form action="/ceuta/component/jdownloads/" method="post" class="search">
+		<label for="mod-search-searchword">Buscar...</label><input name="searchword" id="mod-search-searchword" maxlength="20"  class="inputbox" type="text" size="30" value="Introduzca su búsqueda..."  onblur="if (this.value=='') this.value='Introduzca su búsqueda...';" onfocus="if (this.value=='Introduzca su búsqueda...') this.value='';" /><input type="image" value="Buscar..." class="button" src="/ceuta/templates/ja_minisite/images/searchButton.png" onclick="this.form.searchword.focus();"/>	<input type="hidden" name="task" value="search" />
+	<input type="hidden" name="option" value="com_search" />
+	<input type="hidden" name="Itemid" value="534" />
+</form>
+
+         </div>
+        
+	
+	            </div>
+                        </div>            <div id="ja-mainnav"
+            	class="wrap ">
+                   <div class="main clearfix">
+           <div class="ja-megamenu clearfix" id="ja-megamenu">
+<ul class="megamenu level0"><li  class="mega first active"><a href="https://www.ceuta.es/ceuta/"  class="mega first active" id="menu101" title="Inicio"><span class="has-image" style="background-image:url(/ceuta/images/web/home-2.png);"><span class="menu-title">Inicio</span></span></a></li><li  class="mega haschild"><a href="#"  class="mega haschild" id="menu528" title="La Institución"><span class="menu-title">La Institución</span></a><div class="childcontent cols1 ">
+<div class="childcontent-inner-wrap">
+<div class="childcontent-inner clearfix"><div class="megacol column1 first" style="width: 200px;"><ul class="megamenu level1"><li  class="mega first"><a href="/ceuta/la-institucion/palacio-autonomico"  class="mega first" id="menu529" title="Palacio Autónomico"><span class="menu-title">Palacio Autónomico</span></a></li><li  class="mega"><a href="/ceuta/la-institucion/estatuto-de-autonomia"  class="mega" id="menu530" title="Estatuto de Autonomía"><span class="menu-title">Estatuto de Autonomía</span></a></li><li  class="mega"><a href="/ceuta/la-institucion/reales-decretos"  class="mega" id="menu531" title="Reales Decretos"><span class="menu-title">Reales Decretos</span></a></li><li  class="mega"><a href="/ceuta/la-institucion/normativa"  class="mega" id="menu533" title="Normativa"><span class="menu-title">Normativa</span></a></li><li  class="mega"><a href="/ceuta/la-institucion/participacion-publica"  class="mega" id="menu1007" title="Participación Pública en Proyectos Normativos"><span class="menu-title">Participación Pública en Proyectos Normativos</span></a></li><li  class="mega"><a href="/ceuta/la-institucion/emblemas-institucionales"  class="mega" id="menu532" title="Emblemas Institucionales"><span class="menu-title">Emblemas Institucionales</span></a></li><li  class="mega"><a href="/ceuta/la-institucion/manual-corporativo"  class="mega" id="menu637" title="Manual del Escudo"><span class="menu-title">Manual del Escudo</span></a></li><li  class="mega last"><a href="/ceuta/la-institucion/directorio"  class="mega last" id="menu960" title="Directorio"><span class="menu-title">Directorio</span></a></li></ul></div></div>
+</div></div></li><li  class="mega haschild"><a href="/ceuta/transparencia"  class="mega haschild" id="menu1109" title="Transparencia"><span class="menu-title">Transparencia</span></a><div class="childcontent cols3 ">
+<div class="childcontent-inner-wrap">
+<div class="childcontent-inner clearfix"><div class="megacol column1 first" style="width: 200px;"><ul class="megamenu level1"><li  class="mega first group"><div class="group"><div class="group-title"><a href="#"  class="mega first group" id="menu1117" title="Institucional"><span class="menu-title">Institucional</span></a></div><div class="group-content"><ul class="megamenu level1"><li  class="mega first"><a href="/ceuta/institucional/agenda-presidente"  class="mega first" id="menu1115" title="Agenda Presidencia"><span class="menu-title">Agenda Presidencia</span></a></li><li  class="mega"><a href="/ceuta/institucional/estructura-organizativa"  class="mega" id="menu1116" title="Estructura Organizativa y Funciones"><span class="menu-title">Estructura Organizativa y Funciones</span></a></li><li  class="mega"><a href="https://www.ceuta.es/gobiernodeceuta/index.php/el-gobierno/el-equipo" target="_blank"  class="mega" id="menu1111" title="Curriculum Vitae"><span class="menu-title">Curriculum Vitae</span></a></li><li  class="mega"><a href="/ceuta/institucional/registro-de-intereses"  class="mega" id="menu1112" title="Registro de Intereses"><span class="menu-title">Registro de Intereses</span></a></li><li  class="mega"><a href="/ceuta/institucional/retribuciones"  class="mega" id="menu1113" title="Retribuciones"><span class="menu-title">Retribuciones</span></a></li><li  class="mega"><a href="https://sede.ceuta.es/controlador/controlador?cmd=temas&amp;modulo=tramites" target="_blank"  class="mega" id="menu1114" title="Catálogo de trámites y servicios"><span class="menu-title">Catálogo de trámites y servicios</span></a></li><li  class="mega last"><a href="/ceuta/transparencia/institucional/planes-de-la-ciudad"  class="mega last" id="menu606" title="Planes de la Ciudad"><span class="menu-title">Planes de la Ciudad</span></a></li></ul></div></div></li></ul></div><div class="megacol column2" style="width: 230px;"><ul class="megamenu level1"><li  class="mega first group"><div class="group"><div class="group-title"><a href="#"  class="mega first group" id="menu1118" title="Económica"><span class="menu-title">Económica</span></a></div><div class="group-content cols2"><div class="megacol column1 first" style="width: 200px;"><ul class="megamenu level1"><li  class="mega first"><a href="/ceuta/economica/presupuestos"  class="mega first" id="menu638" title="Presupuestos"><span class="menu-title">Presupuestos</span></a></li><li  class="mega"><a href="/ceuta/economica/2024-02-26-12-08-21"  class="mega" id="menu1103" title="Cuentas Generales"><span class="menu-title">Cuentas Generales</span></a></li><li  class="mega"><a href="/ceuta/transparencia/económica/encargos-a-medios-propios"  class="mega" id="menu1110" title="Encargos a medios propios"><span class="menu-title">Encargos a medios propios</span></a></li><li  class="mega"><a href="/ceuta/economica/grupos-políticos"  class="mega" id="menu1124" title="Aportaciones a grupos políticos"><span class="menu-title">Aportaciones a grupos políticos</span></a></li><li  class="mega"><a href="/ceuta/economica/periodo-medio-de-pago"  class="mega" id="menu1126" title="Periodo medio de pago"><span class="menu-title">Periodo medio de pago</span></a></li><li  class="mega"><a href="/ceuta/economica/sindicatos"  class="mega" id="menu1128" title="Sindicatos"><span class="menu-title">Sindicatos</span></a></li></ul></div><div class="megacol column2 last" style="width: 200px;"><ul class="megamenu level1"><li  class="mega first"><a href="/ceuta/economica/contratos"  class="mega first" id="menu1130" title="Contratos"><span class="menu-title">Contratos</span></a></li><li  class="mega"><a href="/ceuta/economica/compatibilidades-concedidas"  class="mega" id="menu1133" title="Compatibilidades concedidas"><span class="menu-title">Compatibilidades concedidas</span></a></li><li  class="mega"><a href="/ceuta/economica/convenios"  class="mega" id="menu1135" title="Convenios"><span class="menu-title">Convenios</span></a></li><li  class="mega"><a href="/ceuta/economica/ofertas-de-empleo-público"  class="mega" id="menu1137" title="Ofertas de Empleo Público"><span class="menu-title">Ofertas de Empleo Público</span></a></li><li  class="mega"><a href="https://www.infosubvenciones.es/bdnstrans/GE/es/concesiones/consulta?tipoAdmon=A&amp;organos=6130,373,6776,364,6777,375,371,6778,4856,5460,3874,6131,374,4857,5461,367,366,6779,4858,3875,5462,369,3876,6782,5463,4860,6132,6133,6134,363,6773,6135,6136,6137" target="_blank"  class="mega" id="menu1139" title="Subvenciones"><span class="menu-title">Subvenciones</span></a></li><li  class="mega"><a href="/ceuta/transparencia/económica/fiscalizaciones"  class="mega" id="menu1140" title="Fiscalizaciones"><span class="menu-title">Fiscalizaciones</span></a></li></ul></div></div></div></li></ul></div><div class="megacol column3 last" style="width: 230px;"><ul class="megamenu level1"><li  class="mega first group"><div class="group"><div class="group-title"><a href="#"  class="mega first group" id="menu1141" title="Normativa"><span class="menu-title">Normativa</span></a></div><div class="group-content cols2"><div class="megacol column1 first" style="width: 200px;"><ul class="megamenu level1"><li  class="mega first"><a href="/ceuta/transparencia/normativa/rpt"  class="mega first" id="menu1144" title="Relación de puestos de trabajo RPT"><span class="menu-title">Relación de puestos de trabajo RPT</span></a></li><li  class="mega"><a href="/ceuta/transparencia/normativa/defensor-del-pueblo"  class="mega" id="menu1142" title="Defensor del Pueblo"><span class="menu-title">Defensor del Pueblo</span></a></li></ul></div><div class="megacol column2 last" style="width: 200px;"><ul class="megamenu level1"><li  class="mega first pdf"><a href="https://www.ceuta.es/ceuta/images/servicios/transparencia/Documentos/ReclamacionesConsejoTrans.pdf" target="_blank"  class="mega first pdf" id="menu1153" title="Reclamaciones Consejo de Transparencia"><span class="menu-title">Reclamaciones Consejo de Transparencia</span></a></li><li  class="mega"><a href="/ceuta/normativa-trans/solicitudes-de-información-pública"  class="mega" id="menu1158" title="Solicitudes de Información Pública"><span class="menu-title">Solicitudes de Información Pública</span></a></li></ul></div></div></div></li></ul></div></div>
+</div></div></li><li  class="mega haschild"><a href="/ceuta/documentos"  class="mega haschild" id="menu534" title="Documentos"><span class="menu-title">Documentos</span></a><div class="childcontent cols2 ">
+<div class="childcontent-inner-wrap">
+<div class="childcontent-inner clearfix"><div class="megacol column1 first" style="width: 200px;"><ul class="megamenu level1"><li  class="mega first group"><div class="group"><div class="group-title"><a href="#"  class="mega first group" id="menu823" title="Secciones"><span class="menu-title">Secciones</span></a></div><div class="group-content"><ul class="megamenu level1"><li  class="mega first"><a href="/ceuta/documentos/secciones/bocces"  class="mega first" id="menu861" title="BOCCE"><span class="menu-title">BOCCE</span></a></li><li  class="mega"><a href="/ceuta/documentos/secciones/actas-plenarias"  class="mega" id="menu605" title="Actas Plenarias"><span class="menu-title">Actas Plenarias</span></a></li><li  class="mega"><a href="/ceuta/documentos/secciones/actas-mesa-asamblea"  class="mega" id="menu986" title="Actas Mesa Asamblea"><span class="menu-title">Actas Mesa Asamblea</span></a></li><li  class="mega"><a href="/ceuta/documentos/secciones/acuerdos-plenarios"  class="mega" id="menu932" title="Acuerdos Plenarios"><span class="menu-title">Acuerdos Plenarios</span></a></li><li  class="mega"><a href="/ceuta/documentos/secciones/actas-c-gobierno"  class="mega" id="menu951" title="Actas C. Gobierno"><span class="menu-title">Actas C. Gobierno</span></a></li><li  class="mega"><a href="/ceuta/documentos/secciones/memoria-socioeconómica-y-laboral"  class="mega" id="menu708" title="Memoria Socioeconómica y Laboral"><span class="menu-title">Memoria Socioeconómica y Laboral</span></a></li><li  class="mega"><a href="/ceuta/documentos/secciones/dictámenes-e-informes"  class="mega" id="menu709" title="Dictámenes e Informes"><span class="menu-title">Dictámenes e Informes</span></a></li><li  class="mega"><a href="/ceuta/documentos/secciones/guía-de-subvenciones"  class="mega" id="menu910" title="Guía de Subvenciones"><span class="menu-title">Guía de Subvenciones</span></a></li><li  class="mega last pdf"><a href="http://www.ceuta.es/ceuta/images/documentos/Institucional/GUIA_FISCALIZACION.pdf" target="_blank"  class="mega last pdf" id="menu1008" title="Guía de Fiscalización"><span class="menu-title">Guía de Fiscalización</span></a></li></ul></div></div></li></ul></div><div class="megacol column2 last" style="width: 230px;"><ul class="megamenu level1"><li  class="mega first group"><div class="group"><div class="group-title"><a href="#"  class="mega first group" id="menu822" title="Últimos Documentos"><span class="menu-title">Últimos Documentos</span></a></div><div class="group-content">	<div class="ja-moduletable moduletablemenu  clearfix" id="Mod170">
+						<div class="ja-box-ct clearfix">
+		<div class="menu"><div class="jdown" style="text-align:"left;"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="18" height="18" border="0" alt="" /> <a href="/ceuta/component/jdownloads/viewdownload/1968-2026/23265-acta-c-gob-26-09-03e?Itemid=">Acta_C.Gob_26-09-03E </a></div><div class="jdown" style="text-align:"left;"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="18" height="18" border="0" alt="" /> <a href="/ceuta/component/jdownloads/viewdownload/1968-2026/23266-acta-c-gob-26-09-01o?Itemid=">Acta_C.Gob_26-09-01O </a></div><div class="jdown" style="text-align:"left;"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="18" height="18" border="0" alt="" /> <a href="/ceuta/component/jdownloads/viewdownload/1970-2026/23264-agendapresidente-06-2026?Itemid=">AgendaPresidente_06-2026 </a></div><div class="jdown" style="text-align:"left;"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="18" height="18" border="0" alt="" /> <a href="/ceuta/component/jdownloads/viewdownload/1980-septiembre/23263-bocce-6652-15-09-2026?Itemid=">BOCCE_6652_15-09-2026 </a></div><div class="jdown" style="text-align:"left;"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="18" height="18" border="0" alt="" /> <a href="/ceuta/component/jdownloads/viewdownload/1980-septiembre/23262-bocce-extra43-11-09-2026?Itemid=">BOCCE_Extra43_11-09-2026 </a></div><div class="jdown" style="text-align:"left;"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="18" height="18" border="0" alt="" /> <a href="/ceuta/component/jdownloads/viewdownload/1980-septiembre/23261-bocce-6651-11-09-2026?Itemid=">BOCCE_6651_11-09-2026 </a></div>        </div>
+		</div>
+    </div>
+	</div></div></li></ul></div></div>
+</div></div></li><li  class="mega last haschild"><a href="#"  class="mega last haschild" id="menu536" title="Servicios y Áreas"><span class="menu-title">Servicios y Áreas</span></a><div class="childcontent cols2 ">
+<div class="childcontent-inner-wrap">
+<div class="childcontent-inner clearfix"><div class="megacol column1 first" style="width: 190px;"><ul class="megamenu level1"><li  class="mega first"><a href="/ceuta/por-servicios/sanidad-y-consumo"  class="mega first" id="menu547" title="Sanidad y Consumo"><span class="menu-title">Sanidad y Consumo</span></a></li><li  class="mega"><a href="/ceuta/educacion"  class="mega" id="menu817" title="Educación"><span class="menu-title">Educación</span></a></li><li  class="mega"><a href="/ceuta/biblioteca"  class="mega" id="menu766" title="Biblioteca"><span class="menu-title">Biblioteca</span></a></li><li  class="mega"><a href="/ceuta/novedades"  class="mega" id="menu548" title="Juventud"><span class="menu-title">Juventud</span></a></li><li  class="mega"><a href="/ceuta/cultura"  class="mega" id="menu802" title="Cultura"><span class="menu-title">Cultura</span></a></li><li  class="mega"><a href="/ceuta/archivo"  class="mega" id="menu816" title="Archivo"><span class="menu-title">Archivo</span></a></li><li  class="mega"><a href="/ceuta/museos"  class="mega" id="menu546" title="Museos"><span class="menu-title">Museos</span></a></li><li  class="mega"><a href="/ceuta/idiomas"  class="mega" id="menu943" title="Instituto de Idiomas"><span class="menu-title">Instituto de Idiomas</span></a></li><li  class="mega"><a href="/ceuta/cam"  class="mega" id="menu849" title="Centro Asesor de la Mujer"><span class="menu-title">Centro Asesor de la Mujer</span></a></li><li  class="mega"><a href="/ceuta/carta-servicios"  class="mega" id="menu1028" title="Medio Ambiente"><span class="menu-title">Medio Ambiente</span></a></li></ul></div><div class="megacol column2 last" style="width: 190px;"><ul class="megamenu level1"><li  class="mega first"><a href="/ceuta/pgou"  class="mega first" id="menu868" title="PGOU"><span class="menu-title">PGOU</span></a></li><li  class="mega"><a href="/ceuta/por-servicios/callejero-de-ceuta"  class="mega" id="menu707" title="Callejero de Ceuta"><span class="menu-title">Callejero de Ceuta</span></a></li><li  class="mega"><a href="/ceuta/por-servicios/tablon"  class="mega" id="menu890" title="Tablón de anuncios"><span class="menu-title">Tablón de anuncios</span></a></li><li  class="mega"><a href="/ceuta/tesoreria"  class="mega" id="menu903" title="Tesorería"><span class="menu-title">Tesorería</span></a></li><li  class="mega new"><a href="https://sede.ceuta.es"  class="mega new" id="menu924" title="Sede Electrónica"><span class="menu-title">Sede Electrónica</span></a></li><li  class="mega"><a href="/ceuta/conoce_otace"  class="mega" id="menu975" title="OTACE"><span class="menu-title">OTACE</span></a></li><li  class="mega"><a href="https://conservatoriodeceuta.es/" target="_blank"  class="mega" id="menu1042" title="Conservatorio de Música"><span class="menu-title">Conservatorio de Música</span></a></li><li  class="mega"><a href="/ceuta/cita-previa"  class="mega" id="menu1040" title="Cita Previa"><span class="menu-title">Cita Previa</span></a></li><li  class="mega"><a href="/ceuta/fondos-next-generation"  class="mega" id="menu1084" title="Fondos Next Generation"><span class="menu-title">Fondos Next Generation</span></a></li></ul></div></div>
+</div></div></li></ul>
+</div>            <script type="text/javascript">
+                var megamenu = new jaMegaMenuMoo ('ja-megamenu', {
+                    'bgopacity': 0,
+                    'delayHide': 300,
+                    'slide'    : 1,
+                    'fading'   : 0,
+                    'direction': 'down',
+                    'action'   : 'mouseover',
+                    'tips'     : false,
+                    'duration' : 300,
+                    'hidestyle': 'fastwhenshow'
+                });
+            </script>
+            <!-- jdoc:include type="menu" level="0" / -->
+
+<ul class="no-display">
+    <li><a href="#ja-content" title="Skip to content">Skip to content</a></li>
+</ul>            </div>
+                        </div>
+                        <div id="ja-breadcrums"
+            	class="wrap ">
+                   <div class="main clearfix">
+           <div class="ja-breadcrums">
+	<!--strong>You are here</strong--> 
+</div>
+
+<p class="ja-day">
+	  <span class="day">Jueves</span><span class="date">17 </span><span class="month">Septiembre </span><span class="year">2026</span>	</p>
+
+<ul class="no-display">
+	<li><a href="#ja-content" title="Skip to content">Skip to content</a></li>
+</ul>            </div>
+                        </div>
+            
+    <!-- MAIN CONTAINER -->
+    <div id="ja-container" class="wrap ja-r1">
+               <div class="main clearfix">
+                   <div id="ja-mainbody" style="width:74.5%">
+            <!-- CONTENT -->
+            <div id="ja-main" style="width:100%">
+            <div class="inner clearfix">
+
+                
+<div id="system-message-container">
+</div>
+                
+                <div id="ja-contentwrap" class="clearfix ">
+                    <div id="ja-content" class="column" style="width:100%">
+                        <div id="ja-current-content" class="column" style="width:100%">
+                            
+                                                        <div id="ja-content-main" class="ja-content-main clearfix">
+                                <div class="componentheading">Documentos</div>
+<table class="jd_top_navi" width="100%" style="border-bottom: 1px solid #cccccc;">
+<tr valign="top" border="0px">
+<td style="padding:5px;"><a href="/ceuta/documentos"><img src="/ceuta/components/com_jdownloads/assets/images/home_fe24.png" width="24" height="24" border="0" alt="" /></a> <a href="/ceuta/documentos">Inicio</a></td>
+<td style="padding:5px;"><a href="javascript:history.back()"><img src="http://www.ceuta.es/ceuta/components/com_jdownloads/assets/images/Up-24px.png" width="24" height="24" border="0" alt=""></a><a href="javascript:history.back()">Anterior</a></td>
+<td style="padding:5px;" align="right" valign="bottom"></td>
+</tr>
+</table><table class="jd_cat_subheader" width="100%">
+<tr>
+<td width="50%" valign="top">
+<b>Categoría: julio</b>
+</td>
+<td width="50%" valign="top" colspan="2">
+<div class="jd_page_nav" style="text-align:right"> </div>
+</td>
+</tr>
+</table>
+
+<tr><form name="down1978" action="/ceuta/component/jdownloads/summary?Itemid=534"
+                    onsubmit="return pruefen(1978,'Por favor seleccione al menos un archivo antes de continuar. No hay ningún archivo seleccionado para la descarga.');" method="post">
+                    <td width="89%" align="right"><b>Seleccionar todos los archivos:</b></td>
+                    <td width="11%" align="center"><input type="checkbox" name="toggle"
+                    value="" onclick="checkAlle(18,1978);" /></td></tr>
+<div style="background-color:#EFEFEF; padding:6px;">Archivos:</div>
+<div width="85%" style="padding:3px; background-color:#F5F5F5; position:relative;">
+<a href="/ceuta/component/jdownloads/finish/1978-julio/23233-bocce-extra37-31-07-2026?Itemid=534"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="32" height="32" border="0" alt="" /></a> <a target="_blank" href="/ceuta/component/jdownloads/finish/1978-julio/23233-bocce-extra37-31-07-2026?Itemid=534" title="Download" class="jd_download_url">BOCCE_Extra37_31-07-2026</a>     
+          <div width="5%" style="position:absolute; right:43px; top:8px;"><input type="checkbox" id="cb0" name="cb_arr[]" value="23233" onclick="istChecked(this.checked,1978);"/></div>
+</div>
+<div width="100%" style="padding:1px; background-color:#F5F5F5;">
+<hr color="#999999"/></div>
+<div width="85%" style="padding:3px; background-color:#F5F5F5; position:relative;">
+<a href="/ceuta/component/jdownloads/finish/1978-julio/23231-bocce-extra36-30-07-2026?Itemid=534"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="32" height="32" border="0" alt="" /></a> <a target="_blank" href="/ceuta/component/jdownloads/finish/1978-julio/23231-bocce-extra36-30-07-2026?Itemid=534" title="Download" class="jd_download_url">BOCCE_Extra36_30-07-2026</a>     
+          <div width="5%" style="position:absolute; right:43px; top:8px;"><input type="checkbox" id="cb1" name="cb_arr[]" value="23231" onclick="istChecked(this.checked,1978);"/></div>
+</div>
+<div width="100%" style="padding:1px; background-color:#F5F5F5;">
+<hr color="#999999"/></div>
+<div width="85%" style="padding:3px; background-color:#F5F5F5; position:relative;">
+<a href="/ceuta/component/jdownloads/finish/1978-julio/23226-bocce-extra35-21-07-2026?Itemid=534"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="32" height="32" border="0" alt="" /></a> <a target="_blank" href="/ceuta/component/jdownloads/finish/1978-julio/23226-bocce-extra35-21-07-2026?Itemid=534" title="Download" class="jd_download_url">BOCCE_Extra35_21-07-2026</a>     
+          <div width="5%" style="position:absolute; right:43px; top:8px;"><input type="checkbox" id="cb2" name="cb_arr[]" value="23226" onclick="istChecked(this.checked,1978);"/></div>
+</div>
+<div width="100%" style="padding:1px; background-color:#F5F5F5;">
+<hr color="#999999"/></div>
+<div width="85%" style="padding:3px; background-color:#F5F5F5; position:relative;">
+<a href="/ceuta/component/jdownloads/finish/1978-julio/23219-bocce-extra34-16-07-2026?Itemid=534"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="32" height="32" border="0" alt="" /></a> <a target="_blank" href="/ceuta/component/jdownloads/finish/1978-julio/23219-bocce-extra34-16-07-2026?Itemid=534" title="Download" class="jd_download_url">BOCCE_Extra34_16-07-2026</a>     
+          <div width="5%" style="position:absolute; right:43px; top:8px;"><input type="checkbox" id="cb3" name="cb_arr[]" value="23219" onclick="istChecked(this.checked,1978);"/></div>
+</div>
+<div width="100%" style="padding:1px; background-color:#F5F5F5;">
+<hr color="#999999"/></div>
+<div width="85%" style="padding:3px; background-color:#F5F5F5; position:relative;">
+<a href="/ceuta/component/jdownloads/finish/1978-julio/23205-bocce-extra33-09-07-2026?Itemid=534"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="32" height="32" border="0" alt="" /></a> <a target="_blank" href="/ceuta/component/jdownloads/finish/1978-julio/23205-bocce-extra33-09-07-2026?Itemid=534" title="Download" class="jd_download_url">BOCCE_Extra33_09-07-2026</a>     
+          <div width="5%" style="position:absolute; right:43px; top:8px;"><input type="checkbox" id="cb4" name="cb_arr[]" value="23205" onclick="istChecked(this.checked,1978);"/></div>
+</div>
+<div width="100%" style="padding:1px; background-color:#F5F5F5;">
+<hr color="#999999"/></div>
+<div width="85%" style="padding:3px; background-color:#F5F5F5; position:relative;">
+<a href="/ceuta/component/jdownloads/finish/1978-julio/23204-bocce-extra32-08-07-2026?Itemid=534"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="32" height="32" border="0" alt="" /></a> <a target="_blank" href="/ceuta/component/jdownloads/finish/1978-julio/23204-bocce-extra32-08-07-2026?Itemid=534" title="Download" class="jd_download_url">BOCCE_Extra32_08-07-2026</a>     
+          <div width="5%" style="position:absolute; right:43px; top:8px;"><input type="checkbox" id="cb5" name="cb_arr[]" value="23204" onclick="istChecked(this.checked,1978);"/></div>
+</div>
+<div width="100%" style="padding:1px; background-color:#F5F5F5;">
+<hr color="#999999"/></div>
+<div width="85%" style="padding:3px; background-color:#F5F5F5; position:relative;">
+<a href="/ceuta/component/jdownloads/finish/1978-julio/23203-bocce-extra31-07-07-2026?Itemid=534"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="32" height="32" border="0" alt="" /></a> <a target="_blank" href="/ceuta/component/jdownloads/finish/1978-julio/23203-bocce-extra31-07-07-2026?Itemid=534" title="Download" class="jd_download_url">BOCCE_Extra31_07-07-2026</a>     
+          <div width="5%" style="position:absolute; right:43px; top:8px;"><input type="checkbox" id="cb6" name="cb_arr[]" value="23203" onclick="istChecked(this.checked,1978);"/></div>
+</div>
+<div width="100%" style="padding:1px; background-color:#F5F5F5;">
+<hr color="#999999"/></div>
+<div width="85%" style="padding:3px; background-color:#F5F5F5; position:relative;">
+<a href="/ceuta/component/jdownloads/finish/1978-julio/23201-bocce-extra30-03-07-2026?Itemid=534"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="32" height="32" border="0" alt="" /></a> <a target="_blank" href="/ceuta/component/jdownloads/finish/1978-julio/23201-bocce-extra30-03-07-2026?Itemid=534" title="Download" class="jd_download_url">BOCCE_Extra30_03-07-2026</a>     
+          <div width="5%" style="position:absolute; right:43px; top:8px;"><input type="checkbox" id="cb7" name="cb_arr[]" value="23201" onclick="istChecked(this.checked,1978);"/></div>
+</div>
+<div width="100%" style="padding:1px; background-color:#F5F5F5;">
+<hr color="#999999"/></div>
+<div width="85%" style="padding:3px; background-color:#F5F5F5; position:relative;">
+<a href="/ceuta/component/jdownloads/finish/1978-julio/23199-bocce-extra29-01-07-2026?Itemid=534"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="32" height="32" border="0" alt="" /></a> <a target="_blank" href="/ceuta/component/jdownloads/finish/1978-julio/23199-bocce-extra29-01-07-2026?Itemid=534" title="Download" class="jd_download_url">BOCCE_Extra29_01-07-2026</a>     
+          <div width="5%" style="position:absolute; right:43px; top:8px;"><input type="checkbox" id="cb8" name="cb_arr[]" value="23199" onclick="istChecked(this.checked,1978);"/></div>
+</div>
+<div width="100%" style="padding:1px; background-color:#F5F5F5;">
+<hr color="#999999"/></div>
+<div width="85%" style="padding:3px; background-color:#F5F5F5; position:relative;">
+<a href="/ceuta/component/jdownloads/finish/1978-julio/23232-bocce-6639-31-07-2026?Itemid=534"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="32" height="32" border="0" alt="" /></a> <a target="_blank" href="/ceuta/component/jdownloads/finish/1978-julio/23232-bocce-6639-31-07-2026?Itemid=534" title="Download" class="jd_download_url">BOCCE_6639_31-07-2026</a>     
+          <div width="5%" style="position:absolute; right:43px; top:8px;"><input type="checkbox" id="cb9" name="cb_arr[]" value="23232" onclick="istChecked(this.checked,1978);"/></div>
+</div>
+<div width="100%" style="padding:1px; background-color:#F5F5F5;">
+<hr color="#999999"/></div>
+<div width="85%" style="padding:3px; background-color:#F5F5F5; position:relative;">
+<a href="/ceuta/component/jdownloads/finish/1978-julio/23228-bocce-6638-28-07-2026?Itemid=534"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="32" height="32" border="0" alt="" /></a> <a target="_blank" href="/ceuta/component/jdownloads/finish/1978-julio/23228-bocce-6638-28-07-2026?Itemid=534" title="Download" class="jd_download_url">BOCCE_6638_28-07-2026</a>     
+          <div width="5%" style="position:absolute; right:43px; top:8px;"><input type="checkbox" id="cb10" name="cb_arr[]" value="23228" onclick="istChecked(this.checked,1978);"/></div>
+</div>
+<div width="100%" style="padding:1px; background-color:#F5F5F5;">
+<hr color="#999999"/></div>
+<div width="85%" style="padding:3px; background-color:#F5F5F5; position:relative;">
+<a href="/ceuta/component/jdownloads/finish/1978-julio/23227-bocce-6637-24-07-2026?Itemid=534"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="32" height="32" border="0" alt="" /></a> <a target="_blank" href="/ceuta/component/jdownloads/finish/1978-julio/23227-bocce-6637-24-07-2026?Itemid=534" title="Download" class="jd_download_url">BOCCE_6637_24-07-2026</a>     
+          <div width="5%" style="position:absolute; right:43px; top:8px;"><input type="checkbox" id="cb11" name="cb_arr[]" value="23227" onclick="istChecked(this.checked,1978);"/></div>
+</div>
+<div width="100%" style="padding:1px; background-color:#F5F5F5;">
+<hr color="#999999"/></div>
+<div width="85%" style="padding:3px; background-color:#F5F5F5; position:relative;">
+<a href="/ceuta/component/jdownloads/finish/1978-julio/23230-bocce-6636-21-07-2026?Itemid=534"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="32" height="32" border="0" alt="" /></a> <a target="_blank" href="/ceuta/component/jdownloads/finish/1978-julio/23230-bocce-6636-21-07-2026?Itemid=534" title="Download" class="jd_download_url">BOCCE_6636_21-07-2026</a>     
+          <div width="5%" style="position:absolute; right:43px; top:8px;"><input type="checkbox" id="cb12" name="cb_arr[]" value="23230" onclick="istChecked(this.checked,1978);"/></div>
+</div>
+<div width="100%" style="padding:1px; background-color:#F5F5F5;">
+<hr color="#999999"/></div>
+<div width="85%" style="padding:3px; background-color:#F5F5F5; position:relative;">
+<a href="/ceuta/component/jdownloads/finish/1978-julio/23220-bocce-6635-17-07-2026?Itemid=534"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="32" height="32" border="0" alt="" /></a> <a target="_blank" href="/ceuta/component/jdownloads/finish/1978-julio/23220-bocce-6635-17-07-2026?Itemid=534" title="Download" class="jd_download_url">BOCCE_6635_17-07-2026</a>     
+          <div width="5%" style="position:absolute; right:43px; top:8px;"><input type="checkbox" id="cb13" name="cb_arr[]" value="23220" onclick="istChecked(this.checked,1978);"/></div>
+</div>
+<div width="100%" style="padding:1px; background-color:#F5F5F5;">
+<hr color="#999999"/></div>
+<div width="85%" style="padding:3px; background-color:#F5F5F5; position:relative;">
+<a href="/ceuta/component/jdownloads/finish/1978-julio/23208-bocce-6634-14-07-2026?Itemid=534"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="32" height="32" border="0" alt="" /></a> <a target="_blank" href="/ceuta/component/jdownloads/finish/1978-julio/23208-bocce-6634-14-07-2026?Itemid=534" title="Download" class="jd_download_url">BOCCE_6634_14-07-2026</a>     
+          <div width="5%" style="position:absolute; right:43px; top:8px;"><input type="checkbox" id="cb14" name="cb_arr[]" value="23208" onclick="istChecked(this.checked,1978);"/></div>
+</div>
+<div width="100%" style="padding:1px; background-color:#F5F5F5;">
+<hr color="#999999"/></div>
+<div width="85%" style="padding:3px; background-color:#F5F5F5; position:relative;">
+<a href="/ceuta/component/jdownloads/finish/1978-julio/23206-bocce-6633-10-07-2026?Itemid=534"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="32" height="32" border="0" alt="" /></a> <a target="_blank" href="/ceuta/component/jdownloads/finish/1978-julio/23206-bocce-6633-10-07-2026?Itemid=534" title="Download" class="jd_download_url">BOCCE_6633_10-07-2026</a>     
+          <div width="5%" style="position:absolute; right:43px; top:8px;"><input type="checkbox" id="cb15" name="cb_arr[]" value="23206" onclick="istChecked(this.checked,1978);"/></div>
+</div>
+<div width="100%" style="padding:1px; background-color:#F5F5F5;">
+<hr color="#999999"/></div>
+<div width="85%" style="padding:3px; background-color:#F5F5F5; position:relative;">
+<a href="/ceuta/component/jdownloads/finish/1978-julio/23202-bocce-6632-07-07-2026?Itemid=534"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="32" height="32" border="0" alt="" /></a> <a target="_blank" href="/ceuta/component/jdownloads/finish/1978-julio/23202-bocce-6632-07-07-2026?Itemid=534" title="Download" class="jd_download_url">BOCCE_6632_07-07-2026</a>     
+          <div width="5%" style="position:absolute; right:43px; top:8px;"><input type="checkbox" id="cb16" name="cb_arr[]" value="23202" onclick="istChecked(this.checked,1978);"/></div>
+</div>
+<div width="100%" style="padding:1px; background-color:#F5F5F5;">
+<hr color="#999999"/></div>
+<div width="85%" style="padding:3px; background-color:#F5F5F5; position:relative;">
+<a href="/ceuta/component/jdownloads/finish/1978-julio/23200-bocce-6631-03-07-2026?Itemid=534"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="32" height="32" border="0" alt="" /></a> <a target="_blank" href="/ceuta/component/jdownloads/finish/1978-julio/23200-bocce-6631-03-07-2026?Itemid=534" title="Download" class="jd_download_url">BOCCE_6631_03-07-2026</a>     
+          <div width="5%" style="position:absolute; right:43px; top:8px;"><input type="checkbox" id="cb17" name="cb_arr[]" value="23200" onclick="istChecked(this.checked,1978);"/></div>
+</div>
+<div width="100%" style="padding:1px; background-color:#F5F5F5;">
+<hr color="#999999"/></div>
+<input type="hidden" name="boxchecked" value=""/> 
+<div style="text-align:right"><input class="button" type="submit" name="weiter" value="Continuar"/></div><input type="hidden" name="catid" value="1978"/><input type="hidden" name="7eb3960540b77061af8b315811df205b" value="1" /></form><table class="jd_footer" align="right" width="100%">              
+<tr>
+<td width="100%" valign="top">
+
+</td>
+</tr>
+</table>
+                            </div>
+                            
+                                                    </div>
+
+                                            </div>
+
+                    
+                </div>
+
+                            </div>
+            </div>
+            <!-- //CONTENT -->
+            
+        </div>
+                <!-- RIGHT COLUMN-->
+        <div id="ja-right" class="column sidebar" style="width:25.5%">
+
+            
+                        <div class="ja-colswrap clearfix ja-r1">
+                
+                                <div id="ja-right2" class="ja-col  column" style="width:100%">
+                    	<div class="ja-moduletable moduletable  clearfix" id="Mod140">
+						<h3><span>Últimos Documentos</span></h3>
+				<div class="ja-box-ct clearfix">
+		<div class=""><div class="jdown" style="text-align:"left;"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="18" height="18" border="0" alt="" /> <a href="/ceuta/component/jdownloads/viewdownload/1968-2026/23265-acta-c-gob-26-09-03e?Itemid=">Acta_C.Gob_26-09-03E </a></div><div class="jdown" style="text-align:"left;"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="18" height="18" border="0" alt="" /> <a href="/ceuta/component/jdownloads/viewdownload/1968-2026/23266-acta-c-gob-26-09-01o?Itemid=">Acta_C.Gob_26-09-01O </a></div><div class="jdown" style="text-align:"left;"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="18" height="18" border="0" alt="" /> <a href="/ceuta/component/jdownloads/viewdownload/1970-2026/23264-agendapresidente-06-2026?Itemid=">AgendaPresidente_06-2026 </a></div><div class="jdown" style="text-align:"left;"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="18" height="18" border="0" alt="" /> <a href="/ceuta/component/jdownloads/viewdownload/1980-septiembre/23263-bocce-6652-15-09-2026?Itemid=">BOCCE_6652_15-09-2026 </a></div><div class="jdown" style="text-align:"left;"><img src="https://www.ceuta.es/ceuta/images/jdownloads/fileimages/pdf.png" align="top" width="18" height="18" border="0" alt="" /> <a href="/ceuta/component/jdownloads/viewdownload/1980-septiembre/23262-bocce-extra43-11-09-2026?Itemid=">BOCCE_Extra43_11-09-2026 </a></div>        </div>
+		</div>
+    </div>
+		<div class="ja-moduletable moduletable  clearfix" id="Mod137">
+						<h3><span>Enlaces</span></h3>
+				<div class="ja-box-ct clearfix">
+		
+
+<div class="custom"  >
+	<p style="text-align: center;"><a title="Sede Electrónica" href="https://sede.ceuta.es" target="_self"><img title="Sede Electrónica" src="/ceuta/images/banners/SEDE.png" alt="Sede Electrónica" width="198" height="65" /></a></p>
+<p style="text-align: center;"><a title="Cita Previa" href="/ceuta/cita-previa" target="_self"><img title="Cita Previa" src="/ceuta/images/banners/CitaPrevia_BANNER_01.png" alt="Cita Previa" width="198" height="65" /></a></p>
+<p style="text-align: center;"><a style="text-align: center;" title="Perfil del Contratante" href="https://contrataciondelestado.es/" target="_blank"><img title="Perfil del Contratante" src="/ceuta/images/banners/CONTRATACION.png" alt="Perfil del Contratante" width="198" height="65" /></a></p>
+<p style="text-align: center;"><a style="text-align: center;" title="Portal de Transparencia" href="/ceuta/transparencia" target="_self"><img title="Portal de Transparencia" src="/ceuta/images/banners/TRANSPARENCIA.png" alt="Portal de Transparencia" width="198" height="65" /></a></p>
+<p style="text-align: center;"><a title="Entradas Online" href="https://es.patronbase.com/_Ceuta/Productions" target="_blank"><img title="Entradas Online" src="/ceuta/images/banners/entradas.jpg" alt="Entradas Online" width="198" height="47" /></a></p>
+<p style="text-align: center;"><a href="https://viveceuta.es/" target="_blank"><img src="/ceuta/images/banners/viveceuta.gif" width="198" height="66" title="Vive Ceuta" alt="Vive Ceuta" /></a></p>
+<p style="text-align: center;"><a href="http://planintegralceuta.com/" target="_blank"><img src="/ceuta/images/banners/oficina-proyectos-BANNER.jpg" width="200" height="113" title="Oficina Técnica de Proyectos" alt="Oficina Técnica de Proyectos" /></a></p></div>
+		</div>
+    </div>
+	                </div>
+                            </div>
+                                </div>
+        <!-- //RIGHT COLUMN-->
+                        </div>
+                </div>
+        <!-- //MAIN CONTAINER -->
+
+                <div id="ja-navhelper"
+            	class="wrap ">
+                   <div class="main clearfix">
+           <ul class="ja-links">
+		<li class="top"><a href="#Top" title="Back to Top">Subir</a></li>
+</ul>            </div>
+                        </div>
+            <div id="ja-footer"
+            	class="wrap ">
+                   <div class="main clearfix">
+               
+	
+	<div class="ja-copyright">
+		<small><p>Copyright &#169; 2026 Ciudad Autónoma de Ceuta. Todos los derechos reservados. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diseñado por Área de Telecomunicaciones y Sociedad de la Información &nbsp;&nbsp;<img src='/ceuta/images/web/tsi.png' alt='TSI' width='47' height='21' align='middle' style='vertical-align:middle' title='TSI'/><br><a href=aviso-legal style='color:#999;'>Aviso Legal</a> - <a href=politica-privacidad style='color:#999;'>Política de Privacidad</a></p> </small>
+<small> </small>
+	</div>
+	
+		
+
+            </div>
+                        </div>
+</div>
+
+
+
+</body>
+
+</html>

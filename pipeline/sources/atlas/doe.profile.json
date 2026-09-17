@@ -1,0 +1,48 @@
+{
+  "source_id": "doe",
+  "jurisdiction": "ES-EX",
+  "kind": "gazette",
+  "discovery": {
+    "provider": "doe_sumario",
+    "recipe": "toc_sumario",
+    "endpoint": "https://doe.juntaex.es/ultimosdoe/mostrardoe.php?fecha={YYYYMMDD}&t=o",
+    "doc_id_pattern": "\\d{12,13}",
+    "doc_url_template": "https://doe.juntaex.es/pdfs/doe/{YYYY}/{issue}0o/xml/{docId}.xml"
+  },
+  "fetch": {
+    "provider": "per_doc_url",
+    "recipe": "get_simple",
+    "method": "GET",
+    "formats": ["xml", "pdf", "html"],
+    "content_marker": "<?xml",
+    "doc_url_template": "https://doe.juntaex.es/pdfs/doe/{YYYY}/{issue}0o/xml/{docId}.xml"
+  },
+  "parse": {
+    "format": "doe_xml",
+    "annex_format": "pdf_text"
+  },
+  "versioning": {
+    "strategy": "gazette_publication"
+  },
+  "reachability": {
+    "expected": {
+      "es_local": "REACHABLE",
+      "foreign_ci": "REACHABLE"
+    },
+    "fallback": null
+  },
+  "change_detection": {
+    "method": "per-section RSS + predictable per-day URL tree",
+    "cadence": "daily"
+  },
+  "provenance": {
+    "derived_from": "discovery/evidence/m10.2-atlas/es-ex/",
+    "probed_at": "2026-09-18",
+    "caveat": "CANDIDATE: discovery provider 'doe_sumario' interpreter not yet implemented. Non-issue dates return soft-empty 200 (marker guard required). Signed FNMT-sealed PDF is the official edition."
+  },
+  "atlas": {
+    "domain_id": "ES-EX",
+    "domain_status": "PROVEN",
+    "evidence_dir": "discovery/evidence/m10.2-atlas/es-ex/"
+  }
+}

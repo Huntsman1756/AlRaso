@@ -1,0 +1,34 @@
+{
+  "domain_id": "ES-ML",
+  "gazette_id": "bome",
+  "gazette_name": "Boletín Oficial de Melilla",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "bome-portal", "kind": "portal",
+     "url": "https://bomemelilla.es/"},
+    {"surface_id": "bome-rss", "kind": "feed",
+     "url": "https://bomemelilla.es/rss",
+     "notes": "populated RSS 2.0; item <link> values are broken short URLs — construct canonical BOME-B-{year}-{num} instead"},
+    {"surface_id": "bome-issue", "kind": "sumario",
+     "url": "https://bomemelilla.es/bome/BOME-B-{YYYY}-{issue}"},
+    {"surface_id": "bome-article", "kind": "document",
+     "url": "https://bomemelilla.es/bome/BOME-B-{YYYY}-{issue}/articulo/{artNum} and /bome/descargar/BOME-A-{YYYY}-{artNum}.pdf"}
+  ],
+  "discovery_mechanism": "rss + stable CVE-keyed URLs",
+  "fetch_mechanism": "get_simple",
+  "doc_id_scheme": "BOME-A-YYYY-N (article), BOME-B-YYYY-N (issue), BOME-S/P + BX/SX/AX/PX (extraordinary)",
+  "formats": ["html", "pdf"],
+  "parser_family": "NEW:bome_html",
+  "version_signal": "none_verified",
+  "change_detection": {
+    "mechanism": "RSS + predictable CVE URLs",
+    "strength": "strong",
+    "cadence": "daily"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "REACHABLE"},
+  "fallback": "legacy JSP portal melilla.es (pre-2018 archive)",
+  "license": {"terms": "no explicit reuse license (art. 13 LPI official-text exemption)", "url": "https://www.melilla.es/melillaportal/contenedor.jsp?seccion=aviso_legal.jsp"},
+  "candidate_profile": null,
+  "status_evidence": "portal + RSS + article HTML + article PDF all probed live es_local 2026-09-18 (doc HTML 21929B, PDF 91874B stored). Best-in-class document-level addressing: every disposition has stable CVE BOME-A-YYYY-N.",
+  "notes": "Cadence Tue/Fri + frequent extras. Pre-2018 material on legacy portal with opaque internal IDs (scrape-only)."
+}

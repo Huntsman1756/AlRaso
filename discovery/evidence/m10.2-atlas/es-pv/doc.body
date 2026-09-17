@@ -1,0 +1,379 @@
+
+
+
+
+
+
+<div class="prinColLeft"><!-- Panel Calendario -->
+<h2 class='tituGeneral'>Consulta</h2><div class='busqsimpCal'>            
+<!-- Modif 16/07/2014: incluye r48-calendario.js, para asegurar que existe func resizeIframe() que adapta calendario -->
+<script language="JavaScript" type="text/javascript" src="/appcont/servibopvi/scripts/r48-calendario.js"></script>
+<script language="JavaScript" type="text/javascript">
+    document.write("<iframe id='calendarioBOPV' name='calendarioBOPV' frameborder=0 scrolling=no width=100% src='/bopv2/datos/CalUltimo.shtml' onLoad='resizeIframe();'></iframe>");
+</script>
+<!--Modif 20/03/2017: no se debe usar noscript por accesibilidad-->
+<!--
+<noscript>	
+     <form name="calendarioBusqueda" id="calendarioBusqueda" action="/p43aBOPVWebWar/IrACalendario.do" method="post">
+     		<input type="hidden" name="idiomaCalendario" id="idiomaCalendario" value="es"> 	 
+	     <div class="formuBuscarFecha">
+	         <div><label>Consultar el sumario:</label></div>
+	         <div class="clr"></div>
+	         <div><input type="text" name="fechaBOPV" id="fechaBOPV" class="buscarFecha" value="dd/mm/aaaa" maxlength="10" size="10"/>     
+	              <input type="submit" name="btnIrACalendario" id="btnIrACalendario" value="Buscar" class="btnBuscarFecha"/></div>
+	     </div>
+     </form>
+</noscript> 
+-->
+</div>	
+
+<div class="clr"></div>
+<!-- Panel Consulta simple -->
+<h2 class="tituGeneral">Consulta simple</h2>
+<div class="formuSimple">
+
+
+<form name="avanzada" id="formConsultaSimple" action="/p43aBOPVWebWar/realizarBusquedaAvanzada.do?submit=cargar" method="post">
+ 	<input type="hidden" name="tipoBusqueda" value="1" />  
+	<input type="hidden" name="paginaActual" value="1" />
+	<input type="hidden" name="busquedaBRS" value="false" />
+	<input type="hidden" name="seccionSeleccionado" value="-1" />
+	<input type="hidden" name="rangoSeleccionado" value="-1" />
+	<input type="hidden" name="organoEmisorSeleccionado" value="" />
+	<input type="hidden" name="descriptorSeleccionado" value="" />
+	<input type="hidden" name="idioma" value="1" />	
+	<div><input type="text" name="textoDisposicion" id="textoDisposicionID" class="buscarPrinci" title="Consulta simple" />
+<script language="JavaScript" type="text/javascript">
+	function fnContarResultados( ){
+		var urlCount="/p43aBOPVWebWar/realizarBusquedaAvanzada.do";
+		var parametrosurl="idioma=1&R01HNoPortal=true&submit=Contar&textoDisposicion="+$('#textoDisposicionID').val();
+		var respuesta=$.ajax( {
+			async: true,
+			url: urlCount,
+	        crossDomain: true,
+	        type: 'GET',
+   	        data: parametrosurl,
+   	        dataType: 'jsonp', 
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				alert('Error al obtener numero total de registros');
+			},
+			success:function (data, textStatus, jqXHR) {
+				if (data.count!=0 && data.count!='Error') {
+					$('#formConsultaSimple').submit();
+				} else {
+					if (data.count==0) {
+						alert('No se han encontrado resultados');
+					}
+				}
+			}
+		} );
+	}
+   document.write("<a href='javascript:fnContarResultados()'><img src='/appcont/servibopvi/images/buscarPrinci.gif' alt='Buscar' /></a>");
+</script>
+	</div>
+<!--Modif 20/03/2017: no se debe usar noscript por accesibilidad-->
+<!--  
+<noscript>	
+		<input type="image" name="buscar" src="/appcont/servibopvi/images/buscarPrinci.gif" /></div>
+</noscript>
+--> 
+</form>
+	
+	<div class="clr"></div>
+</div>
+ 
+<!-- Panel Servicios -->
+<div class="clr"></div>
+<h2 class="tituServicio">Servicios</h2>
+<ul class="menuIzqda">
+	<!-- <li><a href="/y22-izapide/es/x43kToolkitWar/form/fdp?language=es&procedureId=0101003">Solicitar una publicación</a></li> -->
+	<li><a href="/peticion_servicios/solicitud-publicacion-en-el-bopv/web01-tramite/es/#pills_applyProcedure_X882756436804FB272423EA8621BBF774517FB0F">Solicitar una publicación</a></li>
+	
+		<li><a href="/web01-bopv/es/p43aBOPVWebWar/buscarAvanzada.do?idioma=es&tipoBusqueda=2">Consulta avanzada</a></li>
+	
+	<li><a href="/web01-bopv/es/p43aBOPVWebWar/listarTextosConsol.do?idioma=es&submit=">Textos consolidados</a></li>
+ 	<li><a href="/web01-bopv/es/p43aBOPVWebWar/difuEntradaUsuario.do?idioma=es&submit=cargar">Difusi&oacute;n selectiva</a></li>
+ 	<li class="lastItm"><a href="/web01-bopv/es/p43aFirmaAsuntoWar/consultaBoletines.do?idioma=1&amp;method=cargar">Verificaci&oacute;n Bolet&iacute;n Electr&oacute;nico</a></li>
+</ul>
+
+<br />
+<p class="bopvEnlacerss"><a href="/bopv2/datos/Ultimo.xml">&Uacute;ltimo bolet&iacute;n</a> <a href="/bopv2/datos/Ultimo.xml"><img src="/appcont/servibopvi/images/rss.png" alt="" border="0" /> RSS</a>
+</p>
+</div><div class="prinColCenter"><div class="colCentralinterior">
+      <div class="BOPVDisCabecera"><img src="/appcont/servibopvi/images/bopv_anuncio_c.png" alt="Boletin Oficial del País Vasco"/></div>
+      <h2 class="tituGeneral">N.º <span>186</span>, miércoles 1 de octubre de  2025</h2><div class="enlaceSumario"><a href="s25_0186.shtml">									
+														Ir al sumario
+										</a></div><div class="clr"><br/></div>
+      <div>
+        <ul class="listaFormatos">Otros formatos: <li class="formatoPdf"><a href="2504100a.pdf" target="_blank" title="Este enlace se abrirá en nueva ventana">
+													PDF 
+													<span>							
+																(221 KB - 15 Pág.)
+															</span></a></li> <li class="formatoePub"><a href="2504100a.epub" target="_blank" title="Este enlace se abrirá en nueva ventana">
+													EPUB 
+													<span>							
+																(132 KB)</span></a></li> <li class="formatoBilingue"><a href="/web01-bopv/es/p43aBOPVWebWar/VerParalelo.do
+									?cd2025004100">Texto bilingüe</a></li>
+        </ul>
+      </div>
+      <p class="otrosFormatos">
+							El contenido de los otros formatos que aquí se muestran, se ha obtenido mediante una transformación del documento electrónico PDF oficial y auténtico
+					</p><script>
+$(document).ready(function(){
+if ($("#bopvNumOrden").length) {
+	var $selectorCapaImprimir = $("#capaBotonImprimir");
+	if ($("#capaBotonImprimir", $("div.bopvBloquedcha")).length==0) {
+		$selectorCapaImprimir =	$("#capaBotonImprimir");
+	} else {
+		$selectorCapaImprimir = $("#capaBotonImprimir", $("div.bopvBloquedcha"));
+	}
+	$selectorCapaImprimir.prepend("<div style='float:right;'><span class='bopvanalisisdoc'><a href='#' onclick='javascript:modalWinCas(); return false;' title='Este enlace se abrirá en nueva ventana'>Análisis documental</a></span></div>");
+}
+});
+</script>
+<!-- Panel Boton Imprimir -->
+<script language="JavaScript" type="text/javascript">	
+	document.write("<div id='capaBotonImprimir' class='bopvImprimir'>");
+	document.write("<a href='#'>");
+	document.write("<img src='/appcont/servibopvi/images/imprimir.png' alt='Imprimir' border='0' onclick='javascript:self.print();'/>");
+	document.write("</a>");		
+	document.write("</div>");
+</script><h3 class="BOPVDerogada">
+      </h3>
+      <h4 class="BOPVSeccion">OTRAS DISPOSICIONES</h4>
+      <h4 class="BOPVSubseccion">
+      </h4>
+      <h5 class="BOPVOrganismo">DEPARTAMENTO DE ECONOMÍA, TRABAJO Y EMPLEO<br/></h5>
+      <h5 class="BOPVOrden">4100</h5>
+      <p class="BOPVTitulo">ORDEN de 10 de septiembre de 2025, del vicepresidente segundo del Gobierno y consejero de Economía, Trabajo y Empleo, por la que se convocan, para el ejercicio 2025, ayudas para la asistencia técnica en las empresas de economía social de Euskadi.</p>
+      <p class="BOPVDetalle">El Plan Estratégico de Subvenciones del Departamento de Economía, Trabajo y Empleo para el periodo 2025-2028, aprobado por Orden de 14 de febrero de 2025, del vicepresidente segundo del Gobierno y consejero de Economía, Trabajo y Empleo, y la Memoria del Presupuesto 2025 del Gobierno Vasco mantienen las líneas subvencionales del ejercicio anterior. El citado Plan Estratégico de Subvenciones se encuentra publicado en la página web del Gobierno Vasco, «<a href="https://www.euskadi.eus" target="_blank">www.euskadi.eus</a>», dentro del espacio dedicado al departamento, y en la sección «Planes y proyectos». Por su relevancia empresarial se continúa facilitando la implantación de herramientas de gestión avanzada a través de la asistencia técnica en las Empresas de Economía Social de Euskadi.</p>
+      <p class="BOPVDetalle">La administración y gobernanza de las empresas de Economía Social, en términos generales, no requiere de una especificidad diferente de la aplicada al resto de las empresas. Por tanto, un eficiente desempeño de la gestión redundará en la cuenta de resultados propia y en el beneficio de las personas socias, que en el caso de la economía social son también trabajadoras de esta. Mediante la presente Orden se fomenta el uso de las mejores utilidades existentes para la gobernanza económico-financiera.</p>
+      <p class="BOPVDetalle">A su vez, el fomento de la sostenibilidad medioambiental y el impulso de la digitalización de las empresas son referencia preferente en las políticas públicas exigidas por la Unión Europea. Por ello, desde hace años la Dirección de Economía Social oferta ayudas para su implementación en las empresas vascas de economía social, con notable éxito analizados los resultados de ejercicios anteriores.</p>
+      <p class="BOPVDetalle">En consecuencia, habiéndose aprobado la Ley 8/2024, de 20 de diciembre, por la que se aprueban los Presupuestos Generales de la Comunidad Autónoma de Euskadi para el ejercicio 2025, comprobada la existencia de crédito presupuestario suficiente para financiar la convocatoria y oído el Consejo Superior de Cooperativas de Euskadi, de acuerdo a las competencias que me atribuye el Decreto 323/2024, de 5 de noviembre, por el que se establece la estructura orgánica y funcional del Departamento de Economía, Trabajo y Empleo,</p>
+      <h6 class="BOPVClave">RESUELVO:</h6>
+      <p class="BOPVDetalle">Artículo único.&#x2013; Aprobación de las bases y convocatoria de las ayudas.</p>
+      <p class="BOPVDetalle">Aprobar las bases de las ayudas para la asistencia técnica en empresas de Economía Social de Euskadi para el ejercicio 2025 que se recogen en el anexo de la presente Orden, y efectuar su convocatoria.</p>
+      <h6 class="BOPVDisposicionTitulo">DISPOSICIÓN FINAL PRIMERA.&#x2013; Normativa aplicable.</h6>
+      <p class="BOPVDetalle">Las subvenciones a que se refiere esta Orden se sujetan a lo dispuesto en la Ley 20/2023, de 21 de diciembre, Reguladora del Régimen de Subvenciones, en los preceptos básicos de la Ley 38/2003, de 17 de noviembre, General de Subvenciones (a su vez desarrollada por Real Decreto 887/2006, de 21 de julio, por el que se aprueba el Reglamento de la Ley General de Subvenciones) y en la Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Común de las Administraciones Públicas.</p>
+      <h6 class="BOPVDisposicionTitulo">DISPOSICIÓN FINAL SEGUNDA.&#x2013; Recursos.</h6>
+      <p class="BOPVDetalle">Contra la presente Orden, que agota la vía administrativa, cabe interponer recurso potestativo de reposición ante el vicepresidente segundo del Gobierno y consejero de Economía, Trabajo y Empleo en el plazo de un mes, contado a partir del día siguiente al de su publicación en el Boletín Oficial del País Vasco, de conformidad con lo dispuesto en los artículos 112 y siguientes de la Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Común de las Administraciones Públicas, o directamente recurso contencioso-administrativo ante la Sala de lo Contencioso-Administrativo del Tribunal Superior de Justicia del País Vasco en el plazo de dos meses, contados desde el día siguiente al de su publicación en el Boletín Oficial del País Vasco, conforme a lo establecido en los artículos 10.1.a) y 46.1 de la Ley 29/1998, de 13 de julio, reguladora de la Jurisdicción Contencioso-Administrativa.</p>
+      <h6 class="BOPVDisposicionTitulo">DISPOSICIÓN FINAL TERCERA&#x2013;. Efectos.</h6>
+      <p class="BOPVDetalle">La presente Orden surtirá efectos el día siguiente al de su publicación en el Boletín Oficial del País Vasco.</p>
+      <p class="BOPVFirmaLugFec">En Vitoria-Gasteiz, a 10 de septiembre de 2025.</p>
+      <p class="BOPVFirmaPuesto">El vicepresidente segundo del Gobierno y consejero de Economía, Trabajo y Empleo,</p>
+      <p class="BOPVFirmaNombre">MIGUEL TORRES LORENZO.</p>
+      <h6 class="BOPVClave">ANEXO</h6>
+      <p class="BOPVDetalle">Base 1.&#x2013; Objeto.</p>
+      <p class="BOPVDetalle">Es objeto de la presente Orden, convocar para el ejercicio 2025, en los términos que se recogen en las siguientes bases, las ayudas que el Gobierno Vasco, a través del Departamento de Economía, Trabajo y Empleo, otorgará para facilitar la asistencia técnica encaminada a la mejora de la gestión de las Sociedades Cooperativas y de las Sociedades Laborales.</p>
+      <p class="BOPVDetalle">Base 2.&#x2013; Actuaciones subvencionables.</p>
+      <p class="BOPVDetalle">1.&#x2013; Las ayudas previstas en la presente Orden tendrán la consideración de subvenciones dirigidas a financiar los gastos que directamente se deriven de alguna de las siguientes actividades:</p>
+      <p class="BOPVDetalle">a) Elaboración e implantación de un Plan de Gestión Anual o del Cuadro de Mando Integral, que incluya la estructura económico-financiera de la empresa.</p>
+      <p class="BOPVDetalle">b) Asesoramiento específico en gestión comercial de las Cooperativas y Sociedades Laborales.</p>
+      <p class="BOPVDetalle">c) Contratación de servicios especializados de apoyo a la Gerencia para el desempeño de funciones gerenciales o directivas, o relacionados con las distintas áreas de actividad en cooperativas y sociedades laborales, con el fin de favorecer la profesionalización de estas como factor clave para mantener y mejorar su posición competitiva en el mercado.</p>
+      <p class="BOPVDetalle">d) Realización de acciones que se consideren como Planes de Reactivación de empresas en dificultades, que incluya recomendaciones concretas para mejorar la competitividad de la empresa y, en su caso, su acceso a la financiación.</p>
+      <p class="BOPVDetalle">e) La implantación de nuevas herramientas de transformación de las organizaciones hacia modelos organizativos más flexibles, sistemas conciliación y de desarrollo de las personas en las entidades de economía social.</p>
+      <p class="BOPVDetalle">f) La implantación de herramientas para la digitalización de las empresas. Serán subvencionables aquellas acciones que permitan adoptar tecnologías digitales para transformar los procesos y las operaciones de la organización mediante aplicaciones y programas que facilitan el proceso de automatizar diversas tareas, como la búsqueda de información, organización de datos en formato digital que puedan ser almacenados, compartidos o manipulados de manera electrónica.</p>
+      <p class="BOPVDetalle">g) La implantación de acciones de mejora en materia medioambiental que reduzcan el impacto negativo de la actividad de las empresas en el medio ambiente.</p>
+      <p class="BOPVDetalle">h) La realización por parte de las máximas entidades representativas de la Economía Social del estudio económico financiero previo necesario para la prestación de garantías a sus entidades asociadas.</p>
+      <p class="BOPVDetalle">i) Análisis de las barreras jurídicas que desincentivan la creación y transformación de empresas de Economía Social.</p>
+      <p class="BOPVDetalle">2.&#x2013; Las acciones deberán iniciarse en el año 2025. En las acciones de la letra h) del apartado anterior, se entenderá como fecha de inicio de la acción, la de la firma del convenio por parte de las máximas entidades representativas de la Economía Social con la entidad que vaya a realizar la prestación de garantías a sus entidades asociadas.</p>
+      <p class="BOPVDetalle">3.&#x2013; Las acciones deben estar concluidas, como máximo, en el primer trimestre de 2026.</p>
+      <p class="BOPVDetalle">4.&#x2013; Solo se podrá conceder una subvención por entidad solicitante y para la realización de una sola actividad subvencionable, con la salvedad recogida en la base 5.2.</p>
+      <p class="BOPVDetalle">5.&#x2013; A los efectos de lo recogido en la base 2.1.e), se considerarán nuevas herramientas de transformación de las organizaciones aquellas que, partiendo de la centralidad de las personas como eje vertebrador esencial de las empresas, implante alguno de los siguientes modelos:</p>
+      <p class="BOPVDetalle">a) Modelos organizativos flexibles y en red: convertir el modelo tradicional de empresa, piramidal, taylorista, en organizaciones más flexibles para adaptarse a las modificaciones del entorno.</p>
+      <p class="BOPVDetalle">b) Sistemas de gestión de la conciliación: herramientas que combinen los intereses sociales, empresariales y personales.</p>
+      <p class="BOPVDetalle">c) Modelo de desarrollo de personas: herramientas que permitan conocer las capacidades de las personas, detectar sus áreas de mejora e identificar oportunidades de crecimiento dentro de su papel en la empresa presente y futuro.</p>
+      <p class="BOPVDetalle">d) Herramientas avanzadas de gestión de conflictos.</p>
+      <p class="BOPVDetalle">Base 3.&#x2013; Gastos subvencionables</p>
+      <p class="BOPVDetalle">De conformidad con lo establecido en el artículo 30.1 de la Ley 20/2023, de 21 de diciembre, Reguladora del Régimen de Subvenciones, los gastos subvencionables en los casos de las letras a), b), d), e) f), g) y i) de la base 2.1 serán los gastos de asesoría o los de las entidades consultoras que sean necesarios para la realización del proyecto subvencionado. Para el caso h) e i) de dicha base 2.1, los gastos necesarios para la realización del estudio económico financiero previo a la constitución de garantías o estudios normativos. En relación con el apartado c) de la base 2.1, los gastos de contratación de los servicios mencionados.</p>
+      <p class="BOPVDetalle">Base 4.&#x2013; Recursos económicos, procedimiento de adjudicación y límite en la concesión.</p>
+      <p class="BOPVDetalle">1.&#x2013; A los efectos del cumplimiento del objeto de esta Orden, se destinará un importe global máximo de cuatrocientos cuarenta mil euros (440.000) euros, distribuidos mediante un crédito de pago para el ejercicio 2025 de doscientos sesenta y cuatro mil (264.000) euros, y un crédito de compromiso de ciento setenta y seis mil (176.000) euros, correspondientes al ejercicio 2026.</p>
+      <p class="BOPVDetalle">2.&#x2013; En la adjudicación de las ayudas se seguirá un procedimiento de concurrencia competitiva distinto del concurso, en el que todas las solicitudes formuladas en tiempo y forma que acrediten reunir los requisitos objetivos y subjetivos exigidos podrán acceder a las ayudas objeto de la convocatoria. A tal efecto se calculará la cuantía correspondiente a cada solicitud atendiendo los límites porcentuales y cuantitativos máximos previstos en la base 11 de esta Orden.</p>
+      <p class="BOPVDetalle">3.&#x2013; Si la dotación económica expresada en el apartado 1 de esta base alcanzase para dar cobertura a la totalidad de las cuantías inicialmente calculadas con arreglo a lo señalado en el apartado anterior, se asignarán las subvenciones por los correspondientes importes equivalentes.</p>
+      <p class="BOPVDetalle">4.&#x2013; En el caso de que la dotación económica no alcanzase para dar cobertura a la totalidad de las cuantías inicialmente calculadas, y hubiera saldo excedentario para atender al colectivo de entidades beneficiarias en alguno de los colectivos definidos en la base 5.1 y en el otro faltaran recursos para cubrir todas las resoluciones estimatorias, se destinará el saldo excedentario a cubrir las necesidades del otro grupo.</p>
+      <p class="BOPVDetalle">5.&#x2013; De no producirse ninguna de las posibilidades anteriores, se procederá a aplicar una reducción proporcional de los respectivos montantes calculados, independientemente para grupo.</p>
+      <p class="BOPVDetalle">Base 5.&#x2013; Entidades beneficiarias.</p>
+      <p class="BOPVDetalle">1.&#x2013; Podrán acogerse a las ayudas previstas en la presente Orden las entidades que desarrollen su actividad principalmente en la Comunidad Autónoma Vasca, en los siguientes términos:</p>
+      <p class="BOPVDetalle">a) Cooperativas y las Sociedades Laborales: para las actividades comprendidas entre la base 2.1.a), y 2.1.g).</p>
+      <p class="BOPVDetalle">b) Entidades asociativas de empresas de Economía Social.</p>
+      <p class="BOPVDetalle">2.&#x2013; Las entidades asociativas representativas de empresas de Economía Social podrán presentar una solicitud que agrupe a empresas asociadas para la realización de alguno de los instrumentos de gestión subvencionados. En este supuesto, la realización de la actividad subvencionada habrá de resultar gratuita para las entidades asociadas o federadas, haciéndose cargo del coste no soportado por la administración la propia entidad asociativa. Para el cálculo de la cuantía a conceder, se tendrán en cuenta las empresas o entidades que cumplan con todos los requisitos, generales o particulares, según la línea particular por la que soliciten la ayuda.</p>
+      <p class="BOPVDetalle">3.&#x2013; En los casos de la base 2.1.a), f), y g) las cooperativas o sociedades laborales beneficiarias habrán de haber sido constituidas o transformadas dentro de los cinco últimos años; dicho plazo será de 15 años para los casos de la base 2.1.d).</p>
+      <p class="BOPVDetalle">4.&#x2013; En los casos de la base 2.1.a), c) y e), habrán de contar con menos de 100 personas trabajadoras en la empresa. En los casos de la base 2.1.f) y g), habrán de contar con menos de 10 personas trabajadoras en la empresa.</p>
+      <p class="BOPVDetalle">5.&#x2013; En los casos de la base 2.1.a), b), c), d), e), f), y g) habrán de contar con el asesoramiento de una entidad consultora externa o entidad representativa de Economía Social.</p>
+      <p class="BOPVDetalle">6.&#x2013; En los casos de la base 2.1.a), b), c), d), e), f) y g) no podrán haber recibido anteriormente ayudas públicas para implantar instrumentos de gestión similares.</p>
+      <p class="BOPVDetalle">7.&#x2013; A los efectos de lo recogido en la base 2.1.d), se considerarán empresas en dificultades aquellas que acrediten un nivel creciente de pérdidas, una disminución del volumen de negocios, el incremento de las existencias, exceso de capacidad, disminución del margen bruto de autofinanciación, endeudamiento creciente, aumento de los gastos financieros, debilitamiento o desaparición de su activo neto.</p>
+      <p class="BOPVDetalle">Base 6.&#x2013; Requisitos de las entidades solicitantes.</p>
+      <p class="BOPVDetalle">1.&#x2013; Para acceder a la condición de beneficiarias de las ayudas convocadas en la presente Orden, las entidades solicitantes deberán cumplir los siguientes requisitos:</p>
+      <p class="BOPVDetalle">a) Acreditar que se halla al corriente en el cumplimiento de las obligaciones tributarias y frente a la Seguridad Social. Así como de las relativas al reintegro de las subvenciones. Todo ello de conformidad con lo establecido en la Orden de 13 de febrero de 2023, del consejero de Economía y Hacienda, sobre acreditación del cumplimiento de dichas obligaciones, en el marco de las ayudas y subvenciones que se otorguen con cargo a los Presupuestos Generales de Euskadi.</p>
+      <p class="BOPVDetalle">b) No estar sancionada administrativa o penalmente con la pérdida de la posibilidad de obtención de ayudas o subvenciones públicas o no estar incursa en ninguna prohibición que le inhabilite para ello.</p>
+      <p class="BOPVDetalle">c) No estar sancionada administrativa o penalmente por incurrir en discriminación por razón de sexo o por incumplimiento de la normativa en materia de igualdad de mujeres y hombres.</p>
+      <p class="BOPVDetalle">d) Comunicar la solicitud y, en su caso, la obtención de subvenciones o ayudas, ingresos o recursos para la misma finalidad, procedente de cualesquiera administraciones o entes tanto públicos como privados.</p>
+      <p class="BOPVDetalle">e) En su caso, declarar responsablemente las ayudas de minimis durante cualquier periodo de tres años. En el caso de solicitudes conjuntas, cada empresa o entidad incluida en dicha solicitud habrá de declarar responsablemente la situación propia en que se encuentra.</p>
+      <p class="BOPVDetalle">f) Tener un plan de igualdad vigente, en el caso de ser obligatorio según la normativa del Estado. Así como disponer de medidas para prevenir y combatir el acoso sexual o acoso por razón de sexo y garantizar los derechos de las personas LGTBI en los términos establecidos por la legislación del Estado en materia de igualdad de mujeres y hombres, para las empresas de más de 50 personas trabajadoras.</p>
+      <p class="BOPVDetalle">g) Incorporar los medios específicos para que la cooperativa sea un ámbito libre de violencias sexistas para las sociedades cooperativas de más de 50 personas socias.</p>
+      <p class="BOPVDetalle">h) Manifestar su compromiso de no incurrir en deslocalización empresarial en los términos del artículo 49 de la Ley 20/2023, de 21 de diciembre, Reguladora del Régimen de Subvenciones.</p>
+      <p class="BOPVDetalle">i) No hallarse sujetas a alguna orden de recuperación de ayudas pendiente tras una decisión previa de la Comisión Europea que haya declarado una ayuda ilegal e incompatible con el mercado interior.</p>
+      <p class="BOPVDetalle">j) No tener la consideración de empresa en crisis, de acuerdo con las Directrices Comunitarias sobre Ayudas Estatales de Salvamento y de Reestructuración de empresas no financieras en crisis (DOUE 2014/C 249/01).</p>
+      <p class="BOPVDetalle">k) No hallarse incursa en ninguna de las circunstancias previstas en los apartados 1, 2, 3 y 4 del artículo 13 de la Ley 20/2023, de 21 de diciembre, Reguladora del Régimen de Subvenciones.</p>
+      <p class="BOPVDetalle">2.&#x2013; El cumplimiento de los requisitos del apartado anterior se ha de mantener tanto para acceder a la condición de entidad beneficiaria como para mantenerse en ella hasta la liquidación de la subvención concedida. En el caso de los requisitos de estar al corriente de las obligaciones tributarias y de la Seguridad Social y de pago de obligaciones por reintegro de subvenciones; se verificará su cumplimiento tanto en el momento de efectuar la concesión como en el de realizar los pagos.</p>
+      <p class="BOPVDetalle">Base 7.&#x2013; Entidades consultoras.</p>
+      <p class="BOPVDetalle">Las entidades consultoras, personas físicas o jurídicas de reconocida solvencia en la materia, a que se refieren las bases 3 y 5 deberán reunir los siguientes requisitos:</p>
+      <p class="BOPVDetalle">a) Desarrollar su actividad principalmente en la Comunidad Autónoma de Euskadi.</p>
+      <p class="BOPVDetalle">b) Estar centrada su actividad en consultoría empresarial.</p>
+      <p class="BOPVDetalle">c) Contar con titulados o tituladas superiores, en los centros de trabajo radicados en Euskadi, con experiencia acreditada, especialmente en empresas de Economía Social para todos los casos excepto el recogido en la base 2.1.b). A los efectos de la base 2.1.d), se deberá acreditar la experiencia en el análisis de empresas de economía social en dificultades y con riesgo de desaparecer.</p>
+      <p class="BOPVDetalle">d) El consultor o la consultora responsable del trabajo deberá acreditar una permanencia mínima de tres años en la empresa consultora.</p>
+      <p class="BOPVDetalle">e) Las personas consultoras y/o las empresas de consultoría a las que pertenezcan, no podrán tener vinculación ni accionarial, ni de participaciones, directa o indirectamente, con las entidades solicitantes de ayudas. Este requisito no será aplicable en el caso de las entidades de la base 5.1.b).</p>
+      <p class="BOPVDetalle">Base 8.&#x2013; Presentación de solicitudes.</p>
+      <p class="BOPVDetalle">1.&#x2013; Las solicitudes deberán presentarse únicamente a través de medios electrónicos según el modelo de solicitud, debidamente cumplimentado en todos sus términos, y adjuntando la documentación exigida en la base siguiente, tal y como señala el artículo 14.2 de la Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Común de las Administraciones Públicas. Así, el modelo de la solicitud estará disponible en la sede electrónica siguiente: <a href="https://www.euskadi.eus/servicios/0036523" target="_blank">https://www.euskadi.eus/servicios/0036523</a></p>
+      <p class="BOPVDetalle">2.&#x2013; El plazo de presentación de solicitudes será de un mes y se iniciará a partir del día siguiente al de la publicación de la presente Orden en el Boletín Oficial del País Vasco.</p>
+      <p class="BOPVDetalle">3.&#x2013; Las entidades solicitantes podrán presentar la solicitud, junto con la documentación que se acompañe, en euskera o castellano, a su elección. Así mismo, a lo largo del procedimiento, se utilizará el idioma elegido por la persona o entidad solicitante, tal y como establece el artículo 6.1 de la Ley 10/1982, de 24 de noviembre, básica de normalización del uso del Euskera.</p>
+      <p class="BOPVDetalle">4.&#x2013; Las especificaciones referidas a la tramitación electrónica contenidas en la convocatoria también estarán disponibles en la siguiente dirección electrónica: <a href="https://www.euskadi.eus/servicios/0036523" target="_blank">https://www.euskadi.eus/servicios/0036523</a></p>
+      <p class="BOPVDetalle">5.&#x2013; Los trámites posteriores a la solicitud, incluidas las notificaciones, se realizarán a través de «Mi carpeta» de la Sede electrónica de la Administración Pública de Euskadi <a href="https://www.euskadi.eus/micarpeta" target="_blank">https://www.euskadi.eus/micarpeta</a></p>
+      <p class="BOPVDetalle">6.&#x2013; Las entidades interesadas deberán disponer de un certificado y firma electrónica admitida en la sede electrónica de la Administración Pública de la Comunidad Autónoma de Euskadi para realizar todos los trámites de este procedimiento. Los medios de identificación y firma electrónica admitidos están accesibles en la siguiente dirección: <a href="https://www.euskadi.eus/certificados-electronicos" target="_blank">https://www.euskadi.eus/certificados-electronicos</a></p>
+      <p class="BOPVDetalle">7.&#x2013; Se podrá tramitar todo el procedimiento a través de un representante, para lo cual la representación deberá inscribirse en el Registro electrónico de Apoderamientos de Euskadi, accesible en la siguiente dirección: <a href="https://www.euskadi.eus/representantes" target="_blank">https://www.euskadi.eus/representantes</a></p>
+      <p class="BOPVDetalle">8.&#x2013; La presentación de la solicitud comporta la autorización para que la Dirección de Economía Social obtenga de forma directa la acreditación de los requisitos relativos al cumplimiento de las obligaciones tributarias y para con la Seguridad Social, en caso de oposición, la entidad solicitante deberá aportar las correspondientes certificaciones expedidas por las instancias administrativas de la autoridad hacendística y de la Seguridad Social competentes.</p>
+      <p class="BOPVDetalle">Base 9.&#x2013; Documentación preceptiva.</p>
+      <p class="BOPVDetalle">1.&#x2013; Las solicitudes para acogerse a las ayudas previstas en la presente Orden deberán acompañarse de la siguiente documentación:</p>
+      <p class="BOPVDetalle">a) Memoria justificativa y plan de trabajo previsto para la realización de las actuaciones subvencionables; incluyendo la duración, metodología y el presupuesto estimado y detallado.</p>
+      <p class="BOPVDetalle">b) Además, las solicitudes relativas a todas las actividades de la base 2.1 excepto las recogidas en la base 2.1.h) y 2.1.i) deberán remitir también:</p>
+      <p class="BOPVDetalle">&#x2013; Acreditación del compromiso de apoyo y colaboración de una entidad de las referidas en la base 7 de esta Orden, mediante el correspondiente contrato o pedido en firme, acompañada de los justificantes que acrediten que la citada entidad cumple los requisitos establecidos en la base mencionada.</p>
+      <p class="BOPVDetalle">&#x2013; Balance económico y Cuenta de Resultados del ejercicio 2024.</p>
+      <p class="BOPVDetalle">&#x2013; Currículo del consultor o de la consultora o de la persona responsable del trabajo de asesoramiento.</p>
+      <p class="BOPVDetalle">c) Declaración responsable de la entidad solicitante en la que se acreditarán los siguientes aspectos:</p>
+      <p class="BOPVDetalle">&#x2013; Que no tiene vinculación ni accionarial, ni de participaciones, directa o indirectamente con la empresa de Consultoría o persona física consultora, excepto en el caso de las entidades de la base 5.1.b).</p>
+      <p class="BOPVDetalle">&#x2013; Que ha declarado las ayudas que haya solicitado y/o recibido con el mismo objeto y finalidad concedida de administraciones públicas o entidades privadas.</p>
+      <p class="BOPVDetalle">&#x2013; Que no ha recibido ninguna sanción penal o administrativa que le imposibilite obtener subvenciones o ayudas públicas.</p>
+      <p class="BOPVDetalle">&#x2013; Que no está incursa en ninguna prohibición legal que la inhabilite para obtener subvenciones o ayudas públicas con mención expresa a las que se hayan producido por discriminación de sexo.</p>
+      <p class="BOPVDetalle">&#x2013; Que se compromete a no incurrir en deslocalización empresarial, en los términos del artículo 49 de la Ley 20/2023, de 21 de diciembre, Reguladora del Régimen de Subvenciones.</p>
+      <p class="BOPVDetalle">&#x2013; Que se compromete a no incurrir en sobrefinanciación para la actividad para la que se solicita subvención en base a la presente Orden.</p>
+      <p class="BOPVDetalle">&#x2013; Que ha declarado la obtención de alguna subvención sujeta al régimen de minimis durante cualquier periodo de tres años.</p>
+      <p class="BOPVDetalle">&#x2013; Que tiene un plan de igualdad vigente en caso de ser obligatorio según la normativa del Estado. Este requisito se verificará de oficio mediante la consulta posterior al Registro de Convenios y Acuerdos Colectivos de Trabajo y Planes de Igualdad del País Vasco. Así como que dispone de medidas para prevenir y combatir el acoso sexual o acoso por razón de sexo y garantizar los derechos de las personas LGTBI en los términos establecidos por la legislación del Estado en materia de igualdad de mujeres y hombres para las empresas de más de 50 personas trabajadoras.</p>
+      <p class="BOPVDetalle">&#x2013; Que no está sujeta a ninguna orden de recuperación de ayudas pendiente tras una decisión previa de la Comisión Europea que haya declarado una ayuda ilegal e incompatible con el mercado interior.</p>
+      <p class="BOPVDetalle">&#x2013; Que se cumple con los requisitos establecidos en la legislación vigente.</p>
+      <p class="BOPVDetalle">&#x2013; Que son ciertos y completos los datos de la solicitud, así como toda la documentación que se presenta y que se asume la responsabilidad de la veracidad de estos.</p>
+      <p class="BOPVDetalle">d) Para el caso de la base 2.1.h) y 2.1.i) cuando el importe del gasto subvencionable supere la cuantía que para el contrato menor de servicios establece el artículo 118 en la Ley 9/2017, de 8 de noviembre, de Contratos del Sector Público, la elección entre las ofertas presentadas se realizará conforme a criterios de eficiencia y economía, debiendo justificarse expresamente en una memoria la elección cuando no recaiga en la propuesta económica más ventajosa.</p>
+      <p class="BOPVDetalle">2.&#x2013; Con anterioridad a la propuesta de resolución de concesión de la subvención, y en un plazo no superior a quince (15) días, se deberá requerir la presentación de la documentación que acredite el cumplimiento de los requisitos mencionados en la declaración responsable citada en la letra c) del apartado 1 de esta base 9, en aquellos casos en los que sea posible la acreditación positiva de los mismos.</p>
+      <p class="BOPVDetalle">Base 10.&#x2013; Subsanación de los defectos de la solicitud.</p>
+      <p class="BOPVDetalle">1.&#x2013; Si las solicitudes de subvención no vinieran cumplimentadas en todos sus términos o no fueran acompañadas de la documentación preceptiva, se requerirá a la entidad solicitante para que, en un plazo de diez (10) días, subsane la falta o acompañe los documentos preceptivos, con indicación de que, si así no lo hiciera, se le tendrá por desistida de su petición, estando obligada la Administración a dictar resolución expresa sobre esta solicitud, así como a notificarla, de conformidad con lo dispuesto en los artículos 21.1 y 68.1 de la Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Común de las Administraciones Públicas.</p>
+      <p class="BOPVDetalle">2.&#x2013; En el caso de que una entidad pretendiese presentar presencialmente la solicitud, se le indicará la obligación de su presentación electrónica. A estos efectos, se considerará como fecha de presentación de la solicitud aquella en la que haya sido efectivamente efectuada por tal cauce.</p>
+      <p class="BOPVDetalle">Base 11.&#x2013; Cuantía de las subvenciones.</p>
+      <p class="BOPVDetalle">1.&#x2013; Las cuantías de las subvenciones serán las siguientes:</p>
+      <p class="BOPVDetalle">a) Para las acciones previstas en las letras a), b), d), e), f), y g) de la base 2.1 de esta Orden: el 75 % del coste de la actividad de la consultora, con un máximo de seis mil (6.000) euros para la entidad beneficiaria directa cuando supere las diez personas socias según las condiciones establecidas en la base 5.4 de la presente Orden, y de tres mil (3.000) euros cuando la entidad beneficiaria tenga diez o menos personas socias.</p>
+      <p class="BOPVDetalle">&#x2013; En el caso de que para estas acciones la entidad beneficiaria fuera alguna de las definidas en la base 5.1.b), el cálculo para la determinación de la cuantía se realizará individualmente por cada entidad recogida en la solicitud conjunta, en las mismas condiciones de este mismo apartado. En ningún caso por el presente concepto podrá la entidad beneficiaria superar los 30.000 euros de subvención.</p>
+      <p class="BOPVDetalle">b) Para las acciones previstas en la letra c) de la base 2.1 de esta Orden: el 50 % del coste de la actividad de la persona o entidad contratada, con un máximo de diez mil (10.000) euros para la entidad beneficiaria directa.</p>
+      <p class="BOPVDetalle">c) En el caso de las actividades de la base 2.1.h) y 2.1.i), la cuantía a conceder será el 75 % del coste de la actividad de la consultora, con un máximo de veinte mil (20.000) euros para cada actividad subvencionada.</p>
+      <p class="BOPVDetalle">Base 12.&#x2013; Compatibilidad con otras subvenciones o ayudas.</p>
+      <p class="BOPVDetalle">1.&#x2013; Las subvenciones objeto de la presente Orden son compatibles con aquellas otras que, con el mismo objeto y finalidad, pudieran ser otorgadas por esta u otras Administraciones o entes públicos. En cualquier caso, el importe de las subvenciones no podrá superar el coste total de la actividad objeto de subvención, ni el importe máximo previsto en la base 11 de esta Orden.</p>
+      <p class="BOPVDetalle">2.&#x2013; Cuando las ayudas de la presente Orden concurran con cualesquiera otras que por el mismo motivo y finalidad perciba la entidad beneficiaria de esta u otras Administraciones o entes públicos, si la suma de estas superase el coste total de la actividad objeto de subvención, o el importe máximo previsto en la base 11 de esta Orden, se declarará la incompatibilidad de dicho exceso, reduciéndose el importe de la ayuda a conceder por el Departamento de Economía, Trabajo y Empleo.</p>
+      <p class="BOPVDetalle">3.&#x2013; Se considerará incompatible cualquier ayuda de la presente Orden con aquellas que gestiona la propia Dirección de Economía Social dentro de la Orden de Emprender en economía social para la convocatoria en el ejercicio 2025.</p>
+      <p class="BOPVDetalle">Base 13.&#x2013; Gestión, resolución, plazo y procedimiento de publicidad.</p>
+      <p class="BOPVDetalle">1.&#x2013; La Dirección de Economía Social será el órgano competente para la gestión de las ayudas previstas en la presente Orden.</p>
+      <p class="BOPVDetalle">2.&#x2013; La viceconsejera de Trabajo y Seguridad Social, a propuesta del órgano gestor, Dirección de Economía Social, emitirá y notificará una única resolución que resolverá el procedimiento y acordará las ayudas concedidas y denegadas. Dicha resolución única se notificará individualmente a los solicitantes según lo establecido en la Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Común de las Administraciones Públicas.</p>
+      <p class="BOPVDetalle">Dicha resolución no agota la vía administrativa y contra ella cabe interponer recurso de alzada ante el vicepresidente segundo del Gobierno y consejero de Economía, Trabajo y Empleo en el plazo de un mes, contado a partir del día siguiente a aquel en que tenga lugar la notificación, conforme a lo dispuesto en los artículos 121 y 122 de la Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Común de las Administraciones Públicas.</p>
+      <p class="BOPVDetalle">La resolución, además de contener la entidad solicitante o relación de solicitantes a quienes se concede la subvención, hará constar, en su caso, de manera expresa, el objeto, importe, forma y plazos de pago, forma de justificación, disposición a cuyo amparo se hubiere otorgado y demás condiciones y requisitos exigidos por las bases reguladoras de subvención, así como la desestimación del resto de las solicitudes.</p>
+      <p class="BOPVDetalle">3.&#x2013; El plazo máximo para dictar la resolución del procedimiento y notificar la resolución a las entidades interesadas será de seis meses a contar desde que esta Orden surta efectos. El transcurso de dicho plazo sin haberse notificado la resolución legitima a las entidades interesadas para entender desestimada sus solicitudes, conforme lo prevenido en el artículo 22.5 de la Ley 20/2023, de 21 de diciembre, Reguladora del Régimen de Subvenciones, a los efectos de la interposición del recurso administrativo de alzada señalado en el apartado 2 de esta base.</p>
+      <p class="BOPVDetalle">4.&#x2013; A fin de dar cumplimiento al principio de publicidad, y sin perjuicio de la notificación expresa e individualizada de la resolución de concesión, mediante resolución de la Viceconsejera de Trabajo y Seguridad Social se publicará en el tablón de anuncios de la sede electrónica del Gobierno Vasco la relación de las entidades que hayan resultado beneficiarias de las subvenciones concedidas al amparo de la presente disposición, con expresión de las cuantías percibidas, así como la de aquellas respecto de las que se haya procedido a modificar la subvención concedida (<a href="https://www.euskadi.eus/tablon-electronico-anuncios/" target="_blank">https://www.euskadi.eus/tablon-electronico-anuncios/</a>)</p>
+      <p class="BOPVDetalle">Base 14.&#x2013; Forma de pago y justificación de la subvención.</p>
+      <p class="BOPVDetalle">1.&#x2013; El sistema de pago de las subvenciones será fraccionado, abonándose el 60 % con cargo al ejercicio presupuestario 2025, si transcurrido el plazo indicado en el artículo 15.a) no ha mediado renuncia, y el 40 % restante con cargo al ejercicio 2026, una vez que la Dirección de Economía Social certifique que se han justificado todos los gastos generados por las actividades subvencionadas.</p>
+      <p class="BOPVDetalle">2.&#x2013; Para hacer efectivo el segundo pago de la subvención, la entidad beneficiaria deberá aportar cuenta justificativa simplificada de la subvención concedida, que contendrá la siguiente información:</p>
+      <p class="BOPVDetalle">a) Memoria técnica justificativa de las actividades realizadas y de los resultados obtenidos. Declaración de las actividades realizadas y su coste con el desglose de cada uno de los gastos incurridos.</p>
+      <p class="BOPVDetalle">b) Memoria económica justificativa de los gastos e ingresos totales de las actividades subvencionadas por la Dirección de Economía Social como por otras entidades públicas o privadas, teniendo en cuenta que los gastos subvencionables deberán cumplir los requisitos contenidos en el artículo 30 de la Ley 20/2023, de 21 de diciembre, LRRS. La relación clasificada de los gastos e ingresos totales se acreditarán mediante facturas y demás documentos de valor probatorios equivalente con validez en el tráfico mercantil o con eficacia administrativa.</p>
+      <p class="BOPVDetalle">c) En su caso, carta de pago de reintegro en el supuesto de remanentes no aplicados, así como intereses derivados de los mismos.</p>
+      <p class="BOPVDetalle">d) Documentos justificativos de que se ha hecho constar en cuanta publicidad se efectúe de las actividades subvencionadas la financiación de la Dirección de Economía Social.</p>
+      <p class="BOPVDetalle">3.&#x2013; El plazo para la presentación de la documentación mencionada en el punto anterior será de 3 meses desde la finalización de las acciones subvencionadas y, en todo caso, con anterioridad al 30 de junio de 2026.</p>
+      <p class="BOPVDetalle">4.&#x2013; Los gastos a justificar serán los correspondientes a los gastos explicitados en el proyecto de solicitud. En la memoria técnica justificativa se indicarán y se justificarán las desviaciones acaecidas en relación con el presupuesto presentado en las solicitudes de subvención.</p>
+      <p class="BOPVDetalle">5.&#x2013; En los casos en los que el coste total definitivo del proyecto sufra una modificación respecto de aquel que se tomó en consideración para calcular la subvención, o cuando la cantidad justificada mediante documentos acreditativos del gasto (facturas, recibos etc.) fuese inferior a la ayuda concedida, se efectuará la correspondiente y proporcional disminución en el montante de la subvención.</p>
+      <p class="BOPVDetalle">6.&#x2013; Para que la Administración pueda realizar el pago de las ayudas, la persona o entidad beneficiaria deberá constar en el Registro de Terceros de la Oficina de Control Económico del Departamento de Hacienda y Finanzas del Gobierno Vasco. En caso de que la persona no esté registrada o quiera modificar los datos bancarios existentes en el Registro de terceros del Departamento de Hacienda y Finanzas, deberá cumplimentar formulario según modelo establecido en <a href="https://www.euskadi.eus/altaterceros" target="_blank">https://www.euskadi.eus/altaterceros</a></p>
+      <p class="BOPVDetalle">7.&#x2013; No se efectuará ningún pago en tanto la entidad beneficiaria no se halle al corriente en el cumplimiento de sus obligaciones tributarias y frente a la Seguridad Social o sea deudor por resolución de procedimiento de reintegro.</p>
+      <p class="BOPVDetalle">Base 15.&#x2013; Obligaciones de las entidades beneficiarias.</p>
+      <p class="BOPVDetalle">Las entidades beneficiarias habrán de cumplir con las siguientes obligaciones:</p>
+      <p class="BOPVDetalle">a) Aceptar la subvención concedida. En tal sentido, si en el plazo de quince (15) días desde la fecha de la notificación de concesión de la subvención la entidad beneficiaria no renuncia expresamente y por escrito a la misma, se entenderá que esta queda aceptada.</p>
+      <p class="BOPVDetalle">b) Realizar la actividad para el destino concreto para el que ha sido concedida.</p>
+      <p class="BOPVDetalle">c) Realizar el «Alta/Modificación de datos de terceros» en el Registro de Terceros del Departamento de Hacienda y Finanzas para poder materializar el abono de la ayuda concedida, en la siguiente dirección: <a href="https://www.euskadi.net/altaterceros" target="_blank">https://www.euskadi.net/altaterceros</a></p>
+      <p class="BOPVDetalle">d) Justificar ante el Departamento de Economía, Trabajo y Empleo el cumplimiento de los requisitos y condiciones.</p>
+      <p class="BOPVDetalle">e) El sometimiento a las actuaciones de comprobación a efectuar por el Departamento de Economía, Trabajo y Empleo y a las de control que corresponden a la Oficina de Control Económico, además de a las previstas por la normativa específica del Tribunal Vasco de Cuentas Públicas y a las que puedan realizar otros órganos de control por razón de la financiación.</p>
+      <p class="BOPVDetalle">f) Comunicar al Departamento de Economía, Trabajo y Empleo la obtención de subvenciones o ayudas, ingresos o recursos para la misma finalidad, procedente de cualesquiera administraciones o entes, tanto públicos como privados. Esta comunicación deberá efectuarse tan pronto como se conozca y, en todo caso, con anterioridad o en el momento de la justificación de la aplicación dada a los fondos percibidos.</p>
+      <p class="BOPVDetalle">g) Comunicar, por escrito, al Departamento de Economía, Trabajo y Empleo la modificación de cualquier circunstancia tanto objetiva como subjetiva que hubiese sido tenida en cuenta para la concesión de la subvención. Esta comunicación deberá efectuarse tan pronto como se conozca y, en todo caso, con anterioridad o en el momento de la justificación de la aplicación dada a los fondos percibidos.</p>
+      <p class="BOPVDetalle">h) Acreditar que se halla al corriente en el cumplimiento de sus obligaciones tributarias y frente a la Seguridad Social, así como de las relativas al reintegro de las subvenciones, de la forma que se determina en la Orden de 13 de febrero de 2023, del consejero de Economía y Hacienda, sobre acreditación del cumplimiento de obligaciones tributarias y frente a la Seguridad Social, así como de las relativas al reintegro de subvenciones, en el marco de las ayudas y subvenciones que se otorguen con cargo a los Presupuestos Generales de Euskadi.</p>
+      <p class="BOPVDetalle">i) Conservar los documentos justificativos de la aplicación de los fondos recibidos, incluidos los documentos electrónicos, en tanto puedan ser objeto de las actuaciones de comprobación y control.</p>
+      <p class="BOPVDetalle">j) Proceder al reintegro de los fondos percibidos o el exceso del obtenido sobre el coste subvencionado de la actividad o actuación desarrollada, en su caso.</p>
+      <p class="BOPVDetalle">k) Realizar un uso del lenguaje y de las imágenes respetuoso con la perspectiva interseccional y, especialmente, con la vertiente de sexo y género en toda la documentación y materiales que requiera la actividad o proyecto objeto de subvención.</p>
+      <p class="BOPVDetalle">l) Garantizar los derechos lingüísticos de la ciudadanía y, en especial, el uso del euskera en las publicaciones, anuncios y publicidad relacionados con la actuación subvencionada.</p>
+      <p class="BOPVDetalle">m) Tener un plan de igualdad vigente, en el caso de ser obligatorio según la normativa del Estado. Así como disponer de medidas para prevenir y combatir el acoso sexual o acoso por razón de sexo y garantizar los derechos de las personas LGTBI en los términos establecidos por la legislación del Estado en materia de igualdad de mujeres y hombres, para las empresas de más de 50 personas trabajadoras.</p>
+      <p class="BOPVDetalle">n) Dar la adecuada publicidad del carácter público de la financiación de programas, actividades, inversiones o actuaciones de cualquier tipo que sean objeto de subvención, en los términos establecidos en la legislación de transparencia.</p>
+      <p class="BOPVDetalle">o) Cualquier otra obligación exigible conforme a lo previsto en los artículos 14, 27 y 42 de la Ley 20/2023, de 21 de diciembre, Reguladora del Régimen de Subvenciones.</p>
+      <p class="BOPVDetalle">Base 16.&#x2013; Modificación de la subvención concedida.</p>
+      <p class="BOPVDetalle">1.&#x2013; Toda alteración de las condiciones tenidas en cuenta para la concesión de la subvención, podrá dar lugar a la modificación de la resolución de concesión, siempre que se cumpla con los requisitos enumerados a continuación en relación con el artículo 25 de la Ley 20/2023, de 21 de diciembre, Reguladora del Régimen de Subvenciones:</p>
+      <p class="BOPVDetalle">a) Que, en caso de obedecer a instancia de parte, la comunicación por la persona beneficiaria se realice, en cumplimiento de la obligación recogida en el base 15.g), tan pronto como la conozca y, en todo caso, con anterioridad a la justificación de la aplicación dada a los fondos percibidos.</p>
+      <p class="BOPVDetalle">b) Que no comporte incremento del importe.</p>
+      <p class="BOPVDetalle">c) Que la actividad o conducta efectivamente realizada o que se vaya a realizar esté prevista dentro del objeto de estas bases.</p>
+      <p class="BOPVDetalle">d) Que las circunstancias que justifiquen la modificación no hayan dependido de la voluntad de la persona beneficiaria.</p>
+      <p class="BOPVDetalle">e) Que los nuevos elementos y circunstancias que motiven la modificación, de haber concurrido en la concesión inicial, no hubiesen determinado la denegación de la subvención, y que la alteración no sea de tal magnitud que suponga una variación sustancial del proyecto inicialmente aprobado.</p>
+      <p class="BOPVDetalle">f) Que no dañe derechos de terceros.</p>
+      <p class="BOPVDetalle">A estos efectos, viceconsejera de Trabajo y Seguridad Social dictará la oportuna resolución de liquidación, en la que se reajustarán los importes de las subvenciones concedidas y se procederá, por parte de las entidades beneficiarias, a la devolución de los importes recibidos en exceso.</p>
+      <p class="BOPVDetalle">2.&#x2013; En el supuesto de que, habiendo percibido la persona beneficiaria el importe total o parcial de la subvención concedida, la modificación conllevase minoración de su importe, se seguirá lo previsto en el artículo 40 de la Ley 20/2023, de 21 de diciembre, Reguladora del Régimen de Subvenciones.</p>
+      <p class="BOPVDetalle">Base 17.&#x2013; Incumplimientos y responsabilidades.</p>
+      <p class="BOPVDetalle">1.&#x2013; El incumplimiento por la entidad beneficiaria de cualquiera de los requisitos establecidos en la presente Orden, en el artículo 36 de la Ley 20/2023 de 21 de diciembre, Reguladora del Régimen de Subvenciones, y demás normativa de aplicación, así como se incumpliera las condiciones que, en su caso, se establezcan en la resolución de la concesión; determinará, previa tramitación del oportuno expediente incoado al efecto por la Dirección de Economía Social y audiencia a la entidad interesada por un periodo de quince días, la pérdida de la subvención y la obligación de reintegrar a la Tesorería General del Gobierno Vasco en el plazo de dos meses las cantidades percibidas, más el interés de demora aplicable en materia de subvenciones.</p>
+      <p class="BOPVDetalle">2.&#x2013; Atendiendo al artículo 36.3 de la Ley 20/2023, de 21 de diciembre, Reguladora del Régimen de Subvenciones, para la graduación de los incumplimientos y respondiendo siempre al principio de proporcionalidad, se establece que, cuando la entidad beneficiaria ejecute, al menos, el 60 % del presupuesto inicialmente presentado, procederá el reintegro o, en su caso, el pago parcial y la pérdida del derecho al cobro proporcional correspondiente a la parte de actuación no realizada, siempre que el cumplimiento de los objetivos del proyecto o fase del proyecto se aproxime de modo significativo al cumplimiento total y se acredite una actuación inequívocamente tendente a la satisfacción de sus compromisos por parte de la entidad beneficiaria.</p>
+      <p class="BOPVDetalle">3.&#x2013; En los supuestos constitutivos de infracción administrativa, se aplicará el régimen de infracciones y sanciones administrativas en materia de subvenciones regulado en el Título IV de la Ley 20/2023, de 21 de diciembre, Reguladora del Régimen de Subvenciones.</p>
+      <p class="BOPVDetalle">Base 18.&#x2013; Procedimiento de reintegro.</p>
+      <p class="BOPVDetalle">En los supuestos de incumplimiento previstos en la base anterior el procedimiento para el reintegro de las ayudas percibidas será el siguiente:</p>
+      <p class="BOPVDetalle">a) La viceconsejera de Trabajo y Seguridad Social dictará la correspondiente resolución en la que se comunicará a la entidad beneficiaria el inicio del procedimiento de reintegro y las causas que lo fundamentan, concediéndole un plazo de quince (15) días para que formule las alegaciones que estime oportunas.</p>
+      <p class="BOPVDetalle">b) Recibidas las alegaciones o transcurrido el plazo sin que se hubiesen formulado, la viceconsejera de Trabajo y Seguridad Social dictará resolución por la que se declare la obligación, en su caso, de reintegrar a la Tesorería General del País Vasco las cantidades que procedan en un plazo máximo de dos meses a contar desde la notificación de esta resolución. Este plazo se considerará como plazo de período voluntario.</p>
+      <p class="BOPVDetalle">El plazo máximo para resolver el procedimiento de reintegro será de doce meses.</p>
+      <p class="BOPVDetalle">c) La falta de reintegro en periodo voluntario será puesta en conocimiento de la Viceconsejería de Política Financiera y Presupuestos del Departamento de Hacienda y Finanzas del Gobierno Vasco a fin de que se proceda por la vía de apremio, según lo dispuesto en la normativa legal aplicable.</p>
+      <p class="BOPVDetalle">Base 19.&#x2013; Protección de datos.</p>
+      <p class="BOPVDetalle">1.&#x2013; Los datos de carácter personal recogidos en la aplicación de la presente Orden, serán tratados de conformidad con lo dispuesto en la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales y demás normativa aplicable al efecto.</p>
+      <p class="BOPVDetalle">2.&#x2013; Para obtener información detallada sobre Protección de Datos puede acceder a la siguiente dirección: <a href="https://www.euskadi.eus/rgpd/0036523" target="_blank">https://www.euskadi.eus/rgpd/0036523</a></p>
+      <p class="BOPVDetalle">Base 20.&#x2013; Unión Europea.</p>
+      <p class="BOPVDetalle">1.&#x2013; Las ayudas o subvenciones concedidas al amparo de las bases 2.1. y 5.1.a) contempladas en la presente Orden estarán sujetas al Reglamento (UE) n.º 2023/2831 de la Comisión, de 13 de diciembre de 2023, relativo a la aplicación de los artículos 107 y 108 del Tratado de Funcionamiento de la Unión Europea a las ayudas de minimis (DOUE, L, de 15-12-2023).</p>
+      <p class="BOPVDetalle">2.&#x2013; El solicitante de la ayuda deberá declarar sobre otras ayudas de minimis percibidas en los tres años previos, con objeto de probar que la nueva ayuda de minimis no supera el límite máximo establecido en el Reglamento.</p>
+      <div class="clr"><br/></div><input type="hidden" name="bopvNumOrden" id="bopvNumOrden" value="2025004100"></input><!-- Panel Calificación -->          
+<script language="JavaScript" type="text/javascript">
+function modalWinCas() {
+var nOrden;
+//if (parent.document.getElementById("bopvNumOrden").value == ""){
+if (document.getElementById("bopvNumOrden").value == ""){
+	//Modif 03/04/2018: correccion analisis docum desde busqueda. Intenta sin parent, y con parent. 
+	//nOrden=parent.document.URL;
+	//var lastPosition = nOrden.lastIndexOf('/bopv2/datos/');
+	nOrden = document.URL;
+	var lastPosition = nOrden.lastIndexOf('/bopv2/datos/');
+	if (lastPosition==-1 && parent){
+		nOrden = parent.document.URL;	
+		lastPosition = nOrden.lastIndexOf('/bopv2/datos/');
+	}
+	if (lastPosition!=-1){
+		lastPosition = lastPosition + '/bopv2/datos/'.length;
+		nOrden=nOrden.substr(lastPosition,4)+'0'+nOrden.substr(lastPosition+10,5);
+	}
+}else {
+	//nOrden = parent.document.getElementById("bopvNumOrden").value;
+	if ($("#bopvNumOrden").length){
+		nOrden=$("#bopvNumOrden").val();
+	} else {
+		nOrden = document.getElementById("bopvNumOrden").value;
+	}
+}
+var w="600";
+var h="300";
+if (typeof screen!='undefined') {
+ w = screen.availWidth/2;
+ h = screen.availHeight/2;
+}
+if (window.showModalDialog) {
+window.showModalDialog("/p43aBOPVWebWar/VerCalificacion.do?nOrden=" + nOrden + "&idioma=es&R01HNoPortal=true","calificacion",
+"dialogWidth:"+w+"px;dialogHeight:"+h+"px;location:no;resizable=yes");
+} else {
+window.open("/p43aBOPVWebWar/VerCalificacion.do?nOrden=" + nOrden + "&idioma=es&R01HNoPortal=true","calificacion",
+"height="+h+"px,width="+w+"px,toolbar=no,directories=no,status=no,menubar=no,scrollbars=no,location=no,resizable=yes,modal=yes");
+}
+}
+</script> 
+<span class="bopvanalisisdoc">
+<a href="#" onclick="javascript:modalWinCas(); return false;" title="Este enlace se abrirá en nueva ventana">Análisis documental</a>
+</span>
+<div class="BOPVDisPie"><br/></div>
+    </div></div><script type="text/javascript" src="/appcont/servibopvi/scripts/r48-jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/appcont/servibopvi/scripts/r48-jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="/appcont/servibopvi/scripts/r48-calendario.js"></script>

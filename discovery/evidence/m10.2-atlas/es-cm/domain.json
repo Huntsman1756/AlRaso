@@ -1,0 +1,33 @@
+{
+  "domain_id": "ES-CM",
+  "gazette_id": "docm",
+  "gazette_name": "Diario Oficial de Castilla-La Mancha",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "docm-portal", "kind": "portal",
+     "url": "https://docm.jccm.es/"},
+    {"surface_id": "docm-sumario", "kind": "sumario",
+     "url": "https://docm.jccm.es/docm/cambiarBoletin.do?fecha={YYYYMMDD}"},
+    {"surface_id": "docm-doc-pdf", "kind": "document",
+     "url": "https://docm.jccm.es/docm/descargarArchivo.do?ruta={YYYY}/{MM}/{DD}/pdf/{YYYY}_{NNNN}.pdf&tipo=rutaDocm"},
+    {"surface_id": "docm-eli", "kind": "portal",
+     "url": "https://docm.jccm.es/docm/eli/es-cm"}
+  ],
+  "discovery_mechanism": "toc_sumario (date-param sumario → per-doc ruta paths)",
+  "fetch_mechanism": "get_simple",
+  "doc_id_scheme": "NID YYYY/NNNN + internal idDisposicion + ELI",
+  "formats": ["pdf", "html"],
+  "parser_family": "pdf_text",
+  "version_signal": "none_verified",
+  "change_detection": {
+    "mechanism": "date-param sumario polling + email alertas service",
+    "strength": "medium",
+    "cadence": "daily"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "REACHABLE"},
+  "fallback": "legacy host docm.castillalamancha.es/portaldocm (same app)",
+  "license": {"terms": "aviso legal JCCM", "url": "https://www.castillalamancha.es/avisolegal"},
+  "candidate_profile": null,
+  "status_evidence": "sumario by date (Núm. 178, 2026-09-16) + doc PDF probed live es_local 2026-09-18 (242944B application/pdf stored).",
+  "notes": "detalleDocumento.do returned HTTP 500 to headless fetcher — possibly anti-bot; sumario/PDF paths clean. ELI resolver exists."
+}

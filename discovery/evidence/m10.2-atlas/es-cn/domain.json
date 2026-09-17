@@ -1,0 +1,31 @@
+{
+  "domain_id": "ES-CN",
+  "gazette_id": "boc-canarias",
+  "gazette_name": "Boletín Oficial de Canarias",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "boc-cn-doc", "kind": "document",
+     "url": "https://www.gobiernodecanarias.org/boc/{YYYY}/{NNN}/[pda/]{NNNN}.html"},
+    {"surface_id": "boc-cn-signed-pdf", "kind": "document",
+     "url": "https://sede.gobiernodecanarias.org/boc/boc-a-{YYYY}-{NNN}-{NNNN}.pdf"},
+    {"surface_id": "boc-cn-archive", "kind": "portal",
+     "url": "https://www.gobiernodecanarias.org/boc/"}
+  ],
+  "discovery_mechanism": "stable_url_by_id",
+  "fetch_mechanism": "get_simple",
+  "doc_id_scheme": "BOC-A-YYYY-NNN-NNNN",
+  "formats": ["html", "pdf"],
+  "parser_family": "boc_canarias_html",
+  "version_signal": "gazette_publication",
+  "change_detection": {
+    "mechanism": "stable-id archive polling",
+    "strength": "medium",
+    "cadence": "weekly"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "REACHABLE"},
+  "fallback": null,
+  "license": {"terms": "not_verified", "url": ""},
+  "candidate_profile": "pipeline/sources/boc-canarias.profile.json",
+  "status_evidence": "M10.1 pilot P5 chain PASS + fresh doc probe es_local 2026-09-18 (14939B — identical byte count to live verify 2026-09-16). Soft-404 guard verified: markerless 200s never reach SUCCESS.",
+  "notes": "Signed-PDF bytes not redistributable (DIGEST_ONLY); full text via pdf_text extract."
+}

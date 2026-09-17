@@ -1,0 +1,33 @@
+{
+  "domain_id": "ES-NC",
+  "gazette_id": "bon",
+  "gazette_name": "Boletín Oficial de Navarra",
+  "domain_status": "PROVEN",
+  "surfaces": [
+    {"surface_id": "bon-portal", "kind": "portal",
+     "url": "https://bon.navarra.es"},
+    {"surface_id": "bon-sumario", "kind": "sumario",
+     "url": "https://bon.navarra.es/es/boletin/-/sumario/{YYYY}/{numero}"},
+    {"surface_id": "bon-doc", "kind": "document",
+     "url": "https://bon.navarra.es/es/anuncio/-/texto/{YYYY}/{numero}/{ordinal}"},
+    {"surface_id": "bon-doc-pdf", "kind": "document",
+     "url": "Liferay portlet resource URL (DetalleAnuncioPortlet descargarArchivo; codigoAnuncio+numero+anyo+idioma)"}
+  ],
+  "discovery_mechanism": "toc_sumario (friendly-URL sumario → ordinal doc pages)",
+  "fetch_mechanism": "get_simple (+ Liferay portlet resource for PDF)",
+  "doc_id_scheme": "(año, número boletín, ordinal/codigoAnuncio); norm cites e.g. DECRETO FORAL 238/2023",
+  "formats": ["html", "pdf"],
+  "parser_family": "NEW:bon_html",
+  "version_signal": "none_verified",
+  "change_detection": {
+    "mechanism": "/es/ultimo + predictable date/issue URLs",
+    "strength": "medium",
+    "cadence": "daily"
+  },
+  "reachability_expected": {"es_local": "REACHABLE", "foreign_ci": "REACHABLE"},
+  "fallback": null,
+  "license": {"terms": "aviso legal Gobierno de Navarra", "url": "https://www.navarra.es/es/aviso-legal"},
+  "candidate_profile": null,
+  "status_evidence": "sumario (BON 244/2023) + doc HTML probed live es_local 2026-09-18 (206703B stored, full text rendered).",
+  "notes": "SOFT-404 confirmed: bogus friendly URLs return HTTP 200 empty shell — content_marker mandatory. PDFs are the electronically signed official edition (Decreto Foral 58/2009)."
+}

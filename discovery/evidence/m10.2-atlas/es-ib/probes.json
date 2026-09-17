@@ -1,0 +1,53 @@
+[
+  {
+    "probe_id": "portal",
+    "surface_id": "boib-portal",
+    "kind": "portal",
+    "url": "https://www.caib.es/eboibfront/",
+    "observed_at": "2026-09-17T04:39:50Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "c22bb20a1164d451636e217fbdd321850ebf7f865caf5fc395b20104c0f2e4ab",
+    "bytes": 58631,
+    "content_type": "text/html;charset=UTF-8",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-ib/portal.body",
+    "detail": ""
+  },
+  {
+    "probe_id": "rss",
+    "surface_id": "boib-rss",
+    "kind": "feed",
+    "url": "https://www.caib.es/eboibfront/indexrss.do?lang=es",
+    "observed_at": "2026-09-17T04:39:51Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "4abda27f882b90c78ffaba78fea9d4fd39e3ec2a83c023bbfc9325dfa1974afd",
+    "bytes": 5466,
+    "content_type": "application/rss+xml; charset=UTF-8",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-ib/rss.body",
+    "detail": ""
+  },
+  {
+    "probe_id": "doc-xml",
+    "surface_id": "boib-doc",
+    "kind": "document",
+    "url": "https://www.caib.es/eboibfront/es/2026/12328/719793/resolucion-de-la-consejera-de-trabajo-funcion-publ/xml",
+    "observed_at": "2026-09-17T04:39:51Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "c258d227f06cd5a2b89e3328fefd95e32d15b29c3d2ab2edef255e2ee93e07fe",
+    "bytes": 15883,
+    "content_type": "text/xml",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-ib/doc-xml.body",
+    "detail": ""
+  }
+]

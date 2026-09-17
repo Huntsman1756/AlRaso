@@ -1,0 +1,19 @@
+[
+  {
+    "probe_id": "doc",
+    "surface_id": "bocm-doc-pdf",
+    "kind": "document",
+    "url": "https://www.bocm.es/boletin/CM_Orden_BOCM/2025/12/19/BOCM-20251219-1.PDF",
+    "observed_at": "2026-09-17T04:38:17Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "7ffdbc69586b0e2a6296bdc4f2c75dbcbaa4517cf4ce9c4b2a93b5903979cdb7",
+    "bytes": 145310,
+    "content_type": "application/pdf",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es-md/doc.body",
+    "detail": ""
+  }
+]

@@ -1,0 +1,36 @@
+[
+  {
+    "probe_id": "sumario-api",
+    "surface_id": "boe-sumario-api",
+    "kind": "api",
+    "url": "https://www.boe.es/datosabiertos/api/boe/sumario/20260916",
+    "observed_at": "2026-09-17T04:39:16Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": true,
+    "raw_sha256": "6188adbc0b5d4798e1d9dc31ef76c41785fb9df56d0c163b88691eedd1fe9eec",
+    "bytes": 232924,
+    "content_type": "application/json",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es/sumario-api.body",
+    "detail": ""
+  },
+  {
+    "probe_id": "doc",
+    "surface_id": "boe-doc",
+    "kind": "document",
+    "url": "https://www.boe.es/buscar/doc.php?id=BOE-A-2007-21952",
+    "observed_at": "2026-09-17T04:39:16Z",
+    "runner_network": "es_local",
+    "reachability_observed": "REACHABLE",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "content_marker_ok": null,
+    "raw_sha256": "e76b21f04d450c0f64035991bee0243998a8c401ee7816c61f7b493d5d58f741",
+    "bytes": 43460,
+    "content_type": "text/html; charset=UTF-8",
+    "evidence_path": "discovery/evidence/m10.2-atlas/es/doc.body",
+    "detail": ""
+  }
+]

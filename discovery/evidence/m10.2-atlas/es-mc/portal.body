@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es" data-ng-app="BormApp">
+<head>
+	<title>Sede Electrónica del Boletín Oficial de la Región de Murcia</title>
+	
+	<meta name="google-site-verification" content="zjUBcjStVhysvi2ANOAn6-FG7aKKif43J62Ifad9JjA" />
+	
+	<!-- META ROBOTS -->
+	<meta name="robots" content="index,follow,all">  
+	
+	<!-- METAS GENÉRICAS -->
+	<meta charset="utf-8">
+	
+	<base href="/">
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="title" content="Sede Electrónica del Boletín Oficial de la Región de Murcia"> 
+	<meta name="description" content="Sede Electrónica del Boletín Oficial de la Región de Murcia"> 
+	<meta name="author" content="borm">
+
+	<!-- CARGA DE FUENTES -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css?family=Coiny" rel="stylesheet"> 
+	
+	<!-- CSS -->
+	<link rel="stylesheet"	href="resources/css/main.css" media="screen">
+	<link rel="stylesheet"  href="resources/css/bootstrap.min.css" media="screen">
+	<link rel="stylesheet"	href="resources/css/estilos.css" media="screen">
+	<link rel="stylesheet"	href="resources/css/imprimir.css" media="print">
+	<link rel="stylesheet"  href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	<link rel="stylesheet"	href="resources/css/bootstrap-datetimepicker.css" /> <!-- datepiker -->
+	<link rel="stylesheet"	href="resources/css/bootstrap-select.min.css"  > <!-- select -->
+	<!-- Propio --> 
+	<link rel="stylesheet"	href="resources/css/site.css">
+	<link rel="stylesheet"	href="resources/css/jquery-ui.css">
+	 
+	
+	<!-- Estilos  -->
+	<link rel="stylesheet"	href="bower_components/metisMenu/dist/metisMenu.min.css">
+	<link rel="stylesheet"	href="bower_components/angular-loading-bar/build/loading-bar.min.css">
+	<link rel="stylesheet"	href="resources/css/bootstrap-year-calendar.min.css">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	
+	<!-- FAVICON -->
+	<link rel="icon" type="image/png" href="resources/images/favicon.png" />
+	<!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.png" /><![endif]-->
+	<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+	<link rel="apple-touch-icon" href="resources/images/favicon.png" />
+	
+	<!-- PLUGINS GENERALES -->
+	<script src="resources/js/jquery.js"></script>
+	  
+	<script src="resources/js/jquery-ui.js"></script>
+	  
+	<script src="resources/js/moment.min.js"></script> <!-- datepiker -->
+	<script src="resources/js/es.js"></script> <!-- datepiker -->
+	<script src="resources/js/bootstrap.min.js"></script>
+	<script src="resources/js/bootstrap-hover-dropdown.min.js"></script>
+	<script src="resources/js/bootstrap-datetimepicker.min.js"></script> <!-- datepiker -->
+	<script src="resources/js/bootstrap-select.min.js"></script> <!-- select -->
+	<script src="resources/js/defaults-es_ES.js"></script> 
+	
+	<!-- Javascript -->
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script src="bower_components/json3/lib/json3.min.js"></script>
+	<script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+	<script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
+	<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+	<script src="bower_components/moment/min/moment-with-locales.min.js"></script>
+	<script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+	<script src="bower_components/angular-translate/angular-translate.min.js"></script>
+	<script src="bower_components/angular-dynamic-locale/dist/tmhDynamicLocale.js"></script>
+	
+	<script src="https://code.angularjs.org/1.6.6/i18n/angular-locale_es-es.js"></script>
+	<script src="resources/js/bootstrap-year-calendar.min.js"></script>
+	<script src="scripts/i18n/messages_es.js"></script>
+	<script src="scripts/i18n/messages_en.js"></script>
+	
+	<!-- Application Modules -->
+	<script src="scripts/app.js"></script>
+	<script src="scripts/boletines/controllers/boletinController.js"></script>
+	<script src="scripts/suplementos/controllers/suplementoController.js"></script>
+	<script src="scripts/buzonSugerencias/controllers/sugerenciaController.js"></script>
+	<script src="scripts/homeBorm/controllers/homeController.js"></script>
+	<script src="scripts/sumario/controllers/sumarioController.js"></script>
+	<script src="scripts/anunciantes/controllers/anunciantesController.js"></script>
+	<script src="scripts/anunciante/controllers/anuncianteController.js"></script>
+	<script src="scripts/anuncio/controllers/anuncioController.js"></script>
+	<script src="scripts/calendario/controllers/calendarioController.js"></script>
+	<script src="scripts/sumarioSuplementos/controllers/sumarioSuplementoController.js"></script>
+	<script src="scripts/ayuntamientos/controllers/ayuntamientosController.js"></script>
+	<script src="scripts/ayuntamiento/controllers/ayuntamientoController.js"></script>
+	<script src="scripts/noticias/controllers/noticiasController.js"></script>
+	<script src="scripts/masVisitado/controllers/masVisitadoController.js"></script>
+	<script src="scripts/normativaGeneral/controllers/normativaGeneralController.js"></script>
+	<script src="scripts/plantillasEncuestas/controllers/plantillasEncuestasController.js"></script>
+	<script src="scripts/preguntasFrecuentes/controllers/preguntasFrecuentesController.js"></script>
+	<script src="scripts/calendarioSede/controllers/calendarioSedeController.js"></script>
+	<script src="scripts/directorio/controllers/directorioController.js"></script>
+	<script src="scripts/datosAbiertos/controllers/datosAbiertosController.js"></script>
+	<script src="scripts/suscripcion/controllers/suscripcionController.js"></script>
+	<script src="scripts/normativa/controllers/normativaController.js"></script>
+	<script src="scripts/enlaces/controllers/enlacesController.js"></script>
+	<script src="scripts/buscador/controllers/buscadorController.js"></script>
+	<script src="scripts/rss/controllers/rssController.js"></script>
+	<script src="scripts/suscripcion/controllers/loginController.js"></script>
+	<script src="scripts/buzonInformante/controllers/buzonInformanteController.js"></script>
+
+
+	<!-- Application Services -->
+	<script src="scripts/buzonSugerencias/services/sugerenciaService.js"></script>
+	<script src="scripts/suscripcion/services/suscripcionService.js"></script>
+	<script src="scripts/suscripcion/services/passwordService.js"></script>
+
+	<!-- Application Factories -->
+	<script src="scripts/suplementos/factories/suplementoFactory.js"></script>
+	<script src="scripts/boletines/factories/boletinFactory.js"></script>
+	<script src="scripts/buzonSugerencias/factories/sugerenciaFactory.js"></script>
+	<script src="scripts/sumario/factories/sumarioFactory.js"></script>
+	<script src="scripts/anuncio/factories/anuncioFactory.js"></script>
+	<script src="scripts/calendario/factories/calendarioFactory.js"></script>
+	<script src="scripts/sumarioSuplementos/factories/sumarioSuplementoFactory.js"></script>
+	<script src="scripts/ayuntamientos/factories/ayuntamientosFactory.js"></script>
+	<script src="scripts/noticias/factories/noticiasFactory.js"></script>
+	<script src="scripts/normativaGeneral/factories/normativaGeneralFactory.js"></script>
+	<script src="scripts/noticias/factories/noticiasFactory.js"></script>
+	<script src="scripts/plantillasEncuestas/factories/plantillasEncuestasFactory.js"></script>
+	<script src="scripts/preguntasFrecuentes/factories/preguntasFrecuentesFactory.js"></script>
+	<script src="scripts/calendarioSede/factories/calendarioSedeFactory.js"></script>
+	<script src="scripts/normativa/factories/normativaFactory.js"></script>
+	<script src="scripts/enlaces/factories/enlacesFactory.js"></script>
+	<script src="scripts/suscripcion/factories/suscripcionFactory.js"></script>
+	<script src="scripts/buscador/factories/buscadorFactory.js"></script>
+	<script src="scripts/rss/factories/rssFactory.js"></script>
+	<script src="scripts/eli/factories/eliFactory.js"></script>
+	
+	<!-- Commons Services -->
+	<script src="scripts/commons/services/alertsService.js"></script>
+	<script src="scripts/commons/services/deviceService.js"></script>
+	<script src="scripts/commons/services/breadCrumbService.js"></script>
+	
+	<!-- Interceptors -->
+	<script src="scripts/commons/factories/httpResponseErrorHandlerFactory.js"></script>
+		
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23666061-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	
+	  gtag('config', 'UA-23666061-1');
+	</script>
+	
+	<script>
+		/**
+		* Función que realiza un seguimiento de un clic en un enlace saliente en Analytics.
+		* Esta función toma una cadena de URL válida como argumento y la utiliza
+		* como la etiqueta del evento. Configurar el método de transporte como "beacon" permite que el hit se envíe
+		* con "navigator.sendBeacon" en el navegador que lo admita.
+		*/
+		var trackOutboundLink = function(url) {
+		  gtag('event', 'clic', {
+		    'event_category': 'saliente',
+		    'event_label': url,
+		    'transport_type': 'beacon',
+		    'event_callback': ''
+		  });
+		}
+	</script>
+		
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	
+<script>var __uzdbm_1 = "0b1f5421-938f-4c6d-8fe0-670476a01b9b";var __uzdbm_2 = "ODc4ODRlOGQtZGk0cS00NTU2LTk0NmItODY0ZjZiYTk0OTVkJDgxLjQ0LjE0OC4yMDE=";var __uzdbm_3 = "7f90000b1f5421-938f-4c6d-8fe0-670476a01b9b1-17896200330380-003c682d8efbac2a8b810";var __uzdbm_4 = "false";var __uzdbm_5 = "uzmx";var __uzdbm_6 = "7fc000274301dd-26aa-427f-8271-01c646398db01-17896200330380-005b041585c7e012e7010";var __uzdbm_7 = "borm.es";</script> <script>   (function (w, d, e, u, c, g, a, b) {     w["SSJSConnectorObj"] = w["SSJSConnectorObj"] || {       ss_cid: c,       domain_info: "auto",     };     w[g] = function (i, j) {       w["SSJSConnectorObj"][i] = j;     };     a = d.createElement(e);     a.async = true;     if (       navigator.userAgent.indexOf('MSIE') !== -1 ||       navigator.appVersion.indexOf('Trident/') > -1     ) {       u = u.replace("/advanced/", "/advanced/ie/");     }     a.src = u;     b = d.getElementsByTagName(e)[0];     b.parentNode.insertBefore(a, b);   })(     window, document, "script", "https://www.borm.es/18f5227b-e27b-445a-a53f-f845fbe69b40/stormcaster.js", "di4s", "ssConf"   );   ssConf("c1", "https://www.borm.es");   ssConf("c3", "c99a4269-161c-4242-a3f0-28d44fa6ce24");   ssConf("au", "borm.es");   ssConf("cu", "validate.perfdrive.com, ssc"); </script></head>
+
+<body>
+	<h1 class="hidden">UNO</h1>
+	<a class="hidden" href="https://www.borm.es/#/home/mapaWeb" title="map">Mapa web</a>
+	<a class="hidden" href="https://www.borm.es/accesibilidad.html" title="Accessibility">Accesibilidad</a>
+	
+	<div>
+		<div data-ui-view></div>
+	</div>
+</body>
+
+</html>

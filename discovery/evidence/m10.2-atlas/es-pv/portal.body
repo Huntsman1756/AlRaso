@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+
+
+
+
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<!-- Directiva para la previsualizacización de la plantilla, se borrar, de las páginas -->
+
+
+<!-- Area visual que contiene parametros del head en cada idioma:title description metas Este VA es OBLIGATORIO!!!! y tiene que estar en la seccion HEAD	-->
+
+
+<!--:************************************************************:-->
+<!--: Euskadi.net: Eusko Jaurlaritza - Gobierno Vasco            :-->
+<!--: Created by:                                                :-->
+<!--:     EJIE, S.A. Eusko Jaurlaritzaren Informatika Elkartea   :-->
+<!--:     Avda. Mediterraneo, 14                                 :-->
+<!--:     01010 Vitoria-Gasteiz                                  :-->
+<!--:************************************************************:-->
+<link href="/r01commonresources/styles/r01ClaimStyle.css" rel="stylesheet" type="text/css" />
+
+<script><!-- Matomo Tag Manager -->
+var _mtm = window._mtm = window._mtm || [];
+_mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
+(function() {
+var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+g.async=true; g.src='https://webanalytics.aws.euskadi.eus/js/container_GmXKgPFG.js'; s.parentNode.insertBefore(g,s);
+})();<!-- End Matomo Tag Manager --></script>
+
+<script>
+<!-- GTM -->
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-Q22T');
+<!-- End GTM-->
+</script>
+
+
+
+		<!-- **** IE only StyleSheet resources for all AV type **** -->
+		<link rel="schema.dc" href="http://purl.org/dc/elements/1.1/" />
+<meta name="dc.description" content="Boletín Oficial del Pais Vasco" />
+<meta name="dc.title" content="Bolet&#237;n Oficial del Pais Vasco" />
+<meta name="dc.language" content="es" />
+<meta name="dc.date" content="" />
+<meta name="dc.identifier" content="es_r01gtpd0187314e638a2f1680af06565c25bdf4409" />
+<meta name="dc.creator" content="r01epd0122e4ed314423e0db04c97a47b5baa317f,r01eD8D7C1E64FE2825A79B634CE8FAD03FFBA38D58D,r01epd013ea6decc4c1635fd7a7d870bbfaf659de,r01e00000fe4e66771ba470b8b16eead1a456352e" />
+
+	<title>Bolet&#237;n Oficial del Pais Vasco</title>
+
+        <!-- **** MetaTags **** -->
+        <meta name="author" content="Eusko Jaurlaritza - Gobierno Vasco" />
+		<meta name="robots" content="noindex"/>
+		<meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+"@context":"https://schema.org",
+"@type":"GovernmentOrganization",
+"name":"Basque Administration Web Portal",
+"url":"https://www.euskadi.eus/",
+"logo":"https://www.euskadi.eus/images/web01-2014_euskadieus_logo_menu_01.gif"
+}
+</script>
+<script type='text/javascript'>
+	function setGDPRCookie(value) {
+		var request = new XMLHttpRequest();
+		request.open("GET", "/r01commonresources/portal/common/r01setGdprCookie.txt?now="+Date.now()+"&value="+value);
+		request.send();
+	}
+</script>
+
+        <!-- **** JavaScript for the PageTags **** -->
+        <script type='text/javascript'>
+              var r01gIsAdminPage='false';
+              var r01gLang='es';
+              var r01gPortalCode='web01';
+              var r01gPageCode='bopv';
+		</script>
+		<!-- **** Script resources for all AV type **** -->
+		<script type='text/javascript' src='/scripts/web01-bopvVAScripts.sjs'></script>
+		<!-- **** StyleSheet resources for all AV instances **** -->
+		<link rel='stylesheet' type='text/css' href='/styles/web01-bopvVAStyles.scss' />
+
+
+	<!-- **** StyleSheet/Javascript resources for content **** -->
+<script type="text/javascript">
+var r01ServerTime = new Date('Thursday, September 17, 2026');
+var r01AttachPrefix = ' ';
+var file = ' '
+var r01OpendataContacts = '/ / / /';
+</script>
+<script type="text/javascript" src="/r01commonresources/scripts/jwplayer714/jwplayer.js"></script>
+<script type="text/javascript">try{if(typeof(jwplayer) != undefined)jwplayer.key="UtbXfJfGtRz4EyBhra0W7sy9aeOQC/0r+jCiTg==";}catch(e){}</script>
+<link rel="stylesheet" type="text/css" href="/r01commonresources/scripts/jwplayer714/r01jwplayer_patch.css" />
+
+		<!-- **** StyleSheet/Javascript TYPE resources for content **** -->
+
+<script type="text/javascript" src="/r01commonresources/r01gContainerVA/scripts/r01gContentCommonScripts.js"></script>
+<link rel="stylesheet" type="text/css" href="/r01commonresources/r01gContainerVA/styles/r01gContentCommonScripts.css" />
+
+<!--
+	Este fichero js se encarga de solucionar los problemas con url
+	1. - Adjuntos o imagenes con path relativo al documento  que con url amigables no se resuelven
+	2. - Directivas SSI para pagina y portal que no se resuelven en ficheros .html
+ -->
+<script type="text/javascript" src="/r01customresources/r01gContainerVA/scripts/r01gUrlSanitize.js"></script>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="apple-touch-icon" sizes="57x57" href="/images/ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/images/ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/ico/favicon-16x16.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/images/ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,700italic,300,300italic' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="/styles/web01-app_reset.css" media="screen" />
+<link rel="stylesheet" href="/styles/web01-app_screen.css" media="screen" />
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" href="/styles/web01-app_ie.css" media="screen" />
+<![endif]-->
+<link rel="stylesheet" media="only screen and (max-width: 768px)" href="/styles/web01-app_mugikorra.css" />
+<link rel="stylesheet" href="/styles/web01-app_print.css" media="print">
+<link href="/styles/web01-app_agintaritzaren_aldizkaria.css" rel="stylesheet" type="text/css" />  
+</head>
+<body class="r01PrintablePage web01-bopv"><!-- Fichero que se carga despues del tag body en las paginas de portal -->
+
+
+
+<header role="banner" class="app_estilo_komunak">
+  <!-- Goiburua -->
+  
+  
+<!-- ************** INIT Visual Area: r01gEditorVA ************** -->
+        <!--@@<xml id='1000'><avInst oid='r01gpd014912d589d61becdb4c105f6d7a187b459' type='r01gEditorVA' /></xml>@@--><p><a title="Acceso por teclado:S" class="lasterbideak" accesskey="S" href="#main" style="letter-spacing: 0px;">Ir al contenido</a></p>
+<nav aria-label="Navegaci&oacute;n principal de Euskadi.eus" id="nabigazio_nagusia">
+<div id="pattern" class="pattern">
+<div class="offcanvas-top">
+<div class="o-content">
+<ul aria-label="Opciones principales" class="zutabeak">
+<li class="o-content-zutabe"><strong>euskadi.eus</strong>
+<ul>
+<li><a href="/inicio/">P&aacute;gina de inicio</a></li>
+<li><a href="/temas/">Temas</a></li>
+<li><a href="/gobierno-vasco/inicio/">Gobierno Vasco</a></li>
+<li><a href="/gobierno-vasco/tramites-servicios/">Tr&aacute;mites</a></li>
+</ul>
+</li>
+<li class="o-content-zutabe"><strong>Herramientas</strong>
+<ul>
+<li><a href="/gobierno-vasco/zuzenean-atencion-ciudadana/">Contacto</a></li>
+<li class="inv_mugik"><a href="/busqueda/">Buscador</a></li>
+<li class="inv_mugik"><a href="/informacion/-/mapa-web-euskadieus/">Mapa web</a></li>
+<li class="inv_screen ikus_mugik bila_mugik"><form accept-charset="UTF-8" method="get" action="/busqueda"><input type="hidden" value="Home_mugikorra" name="cat" /> <label class="inv" for="home_bilaketa_mugikorra">Buscar en euskadi.eus</label> <input id="home_bilaketa_mugikorra" title="Buscar en Euskadi.eus" name="q" placeholder="Buscar en euskadi.eus" type="text" /> <input class="submit botoiak" type="submit" value="Buscar" /></form></li>
+</ul>
+</li>
+<li class="o-content-zutabe"><strong>Informaci&oacute;n general</strong>
+<ul>
+<li><a href="/informacion/-/accesibilidad-euskadieus/">Accesibilidad</a></li>
+<li><a href="/informacion/-/informacion-legal/">Informaci&oacute;n legal</a></li>
+<!--<li><a href="/gobierno-vasco/-/gobierno-abierto/">Gobierno abierto</a></li>-->
+<li><a href="/informacion/-/politica-cookies-euskadieus/">Pol&iacute;tica de cookies</a></li>
+<li><a href="/sede-electronica/">Sede Electr&oacute;nica</a></li>
+</ul>
+</li>
+<li class="o-content-zutabe hizkuntza_aldaketa_mgk"><strong>Idioma</strong></li>
+</ul>
+</div>
+</div>
+</div>
+<div aria-label="Cambio de idioma" class="goib_hizkuntza"></div>
+<div aria-label="Enlaces r&aacute;pidos" class="goib_estekak">
+<ul>
+<li class="scontainer"><form id="bilaketa_orokorra" class="searchbox" accept-charset="UTF-8" method="get" name="bilaketa_orokorra" action="/busqueda/"><input type="hidden" value="Goiburua" name="cat" /> <label class="inv" for="search-input-header">Buscar en euskadi.eus</label> <input onmouseup="buttonUp();" onkeyup="buttonUp();" id="search-input-header" title="Buscar en Euskadi.eus" class="searchbox-input" name="q" placeholder="Buscar en euskadi.eus" autocomplete="off" type="search" /> <input class="searchbox-submit" type="submit" value="Buscar" /> <span class="searchbox-icon">Buscar</span></form></li>
+<li class="goib_kontaktu"><a href="/gobierno-vasco/zuzenean-atencion-ciudadana/">Contacto</a></li>
+<li class="goib_kontaktu"><a href="/mi-carpeta/web01-sede/es/">Mi carpeta</a></li>
+</ul>
+</div>
+</nav>
+<!-- ************** END Visual Area: r01gEditorVA ************** -->
+
+  <!-- AMAIERA Goiburua-->
+</header>
+<!-- Ogi-papurrak -->
+
+
+<!-- ************** INIT Visual Area: r01gEditorVA ************** -->
+        <!--@@<xml id='1010'><avInst oid='r01g0pd014a15393b9c53f1475cea300b252ab68bb' type='r01gEditorVA' /></xml>@@-->
+<!-- ************** END Visual Area: r01gEditorVA ************** -->
+
+<!-- AMAIERA ogi-papurrak-->
+<main class="edukiontzia" role="main">
+  <div class="lan_arlo_goiburu app_estilo_komunak" >
+    <!-- EJ Logoa -->
+    
+    
+<!-- ************** INIT Visual Area: r01gEditorVA ************** -->
+        <!--@@<xml id='1020'><avInst oid='r01gtpd0186e9a34abe3ec494df01a7711ff378abe' type='r01gEditorVA' /></xml>@@--><div id="r01gEditoreditor_bopv" class="r01gEditor r01gEditoreditor_bopv"><h1><a href="/web01-bopv/es/bopv2/datos/Ultimo.shtml">Bolet&iacute;n Oficial del Pa&iacute;s Vasco</a></h1></div>
+<!-- ************** END Visual Area: r01gEditorVA ************** -->
+
+    <!-- AMAIERA EJ Logoa-->
+    <!-- EJ Menua -->
+    
+    
+<!-- ************** INIT Visual Area: r01gEditorVA ************** -->
+        <!--@@<xml id='1030'><avInst oid='r01gtpd15adb31a87819180e4c61cfde9caceb38ab' type='r01gEditorVA' /></xml>@@--><p class="barne_logoa"><a title="Acceder a la p&aacute;gina de inicio de la Sede electr&oacute;nica" href="/sede-electronica/">Sede electr&oacute;nica</a></p>
+<!-- ************** END Visual Area: r01gEditorVA ************** -->
+
+    <!-- AMAIERA EJ Menua-->
+  </div>
+  <div class="bilaketa bilaketa_eduki app_edukiontzi">
+  
+  
+<!-- ************** INIT Visual Area: r01gEditorVA ************** -->
+        <!--@@<xml id='1100'><avInst oid='r01g0pd014a15393b9c53f1475cea300b252ab68bb' type='r01gEditorVA' /></xml>@@-->
+<!-- ************** END Visual Area: r01gEditorVA ************** -->
+
+  <!-- Edukia ta bilaketak-->
+  
+  
+<!-- ************** INIT Visual Area: r01gContainerVA ************** -->
+        <!--@@<xml id='2000'><avInst oid='r01gtpd186e43bd5f2559219827abafdca1173e594' type='r01gContainerVA' /></xml>@@--><!-- Es un CONTENIDO CARGADO POR URL -->
+<div id="containercont_edukiontzi_bopv" class="r01gContainer  r01gContainercont_edukiontzi_bopv r01  r01  r01 _ ">
+     				</div>	<!-- ************** END Visual Area: r01gContainerVA ************** -->
+
+  <!-- AMAIERA Edukia-->
+  
+  
+<!-- ************** INIT Visual Area: r01gEditorVA ************** -->
+        <!--@@<xml id='3000'><avInst oid='r01g0pd014a15393b9c53f1475cea300b252ab68bb' type='r01gEditorVA' /></xml>@@-->
+<!-- ************** END Visual Area: r01gEditorVA ************** -->
+
+  </div>
+</main>
+<footer role="contentinfo" class="app_estilo_komunak">
+  <!-- Orri-oina -->
+  
+  
+<!-- ************** INIT Visual Area: r01gEditorVA ************** -->
+        <!--@@<xml id='9000'><avInst oid='r01gpd01464ce2d87b18e212acd0da4668f685ced' type='r01gEditorVA' /></xml>@@--><div class="beheko_estekak">
+<h2 class="inv">Servicios mas demandados en Euskadi.eus</h2>
+<div>
+<h3>Informaci&oacute;n general</h3>
+<ul>
+<li><a href="/gobierno-vasco/zuzenean-atencion-ciudadana/">Contacto</a></li>
+<li><a href="/informacion/-/mapa-web-euskadieus/">Mapa web</a></li>
+<li><a href="/informacion/-/accesibilidad-euskadieus/">Accesibilidad</a></li>
+<li><a href="/sede-electronica/">Sede Electr&oacute;nica</a></li>
+<li><a href="/informacion/-/informacion-legal/">Informaci&oacute;n Legal</a></li>
+<li><a href="/informacion/-/politica-cookies-euskadieus/">Pol&iacute;tica de cookies</a></li>
+</ul>
+</div>
+<div>
+<h3>Gobierno Vasco</h3>
+<ul>
+<li><a href="/gobierno-vasco/inicio/">P&aacute;gina de inicio</a></li>
+<li><a href="/gobierno-vasco/-/conoce-el-gobierno-vasco/">Conoce el Gobierno</a></li>
+<li><a href="/gobierno-vasco/-/departamentos-y-entidades-del-gobierno-vasco/">Departamentos y entidades</a></li>
+<!--<li><a href="/gobierno-vasco/noticias-eventos/">Noticias y eventos</a></li>--><!--<li><a href="/gobierno-vasco/tramites-servicios/">Tr&aacute;mites</a></li>-->
+<li><a href="/gobierno-vasco/zuzenean-atencion-ciudadana/">Atenci&oacute;n ciudadana</a></li>
+<li><a href="/gobierno-vasco/-/gobierno-abierto/">Gobierno abierto</a></li>
+<li><a href="https://www.gardena.euskadi.eus/inicio/">Gardena, portal de transparencia</a></li>
+</ul>
+</div>
+<div>
+<h3>Tr&aacute;mites y servicios</h3>
+<ul>
+<li><a href="/micarpeta/">Mi carpeta</a></li>
+<li><a href="/gobierno-vasco/tramites-servicios/?r01kQry=tT:ayuda_subvencion;cO:r01epd0122e4ed314423e0db04c97a47b5baa317f,r01epd0122e4edf39923e0db0b11fff216b637726;mA:documentLanguage.EQ.es,procedureCollection.EQ.0,procedureStatus.EQ.16;pp:r01PageSize.20;p:Inter,Inter_portal&amp;r01SearchEngine=meta">Ayudas y subvenciones</a></li>
+<li><a href="https://www.contratacion.euskadi.eus/inicio/">Contrataciones</a></li>
+<li><a href="/mipago/">Mi pago</a></li>
+<li><a href="https://www.euskalmet.euskadi.eus/inicio/">Meteorolog&iacute;a</a></li>
+<li><a href="https://www.trafikoa.eus/">Estado del tr&aacute;fico</a></li>
+<li><a href="/gobierno-vasco/estadistica/">Estad&iacute;stica</a></li>
+</ul>
+</div>
+<div class="azkena">
+<h3>Boletines oficiales</h3>
+<ul>
+<li><a href="https://www.euskadi.eus/bopv">Bolet&iacute;n Oficial del Pa&iacute;s Vasco</a></li>
+<li><a title="Este enlace se abrira en una nueva ventana" href="http://www.araba.eus/botha/" target="_blank">Bolet&iacute;n Oficial de &Aacute;lava</a></li>
+<li><a title="Este enlace se abrira en una nueva ventana" href="http://apps.bizkaia.eus/BT00/" target="_blank">Bolet&iacute;n Oficial de Bizkaia</a></li>
+<li><a title="Este enlace se abrira en una nueva ventana" href="https://egoitza.gipuzkoa.eus/es/BOG" target="_blank">Bolet&iacute;n Oficial de Gipuzkoa</a></li>
+<li><a title="Este enlace se abrira en una nueva ventana" href="http://www.boe.es/" target="_blank">Bolet&iacute;n Oficial del Estado</a></li>
+<li><a title="Este enlace se abrira en una nueva ventana" href="http://eur-lex.europa.eu/oj/direct-access.html?locale=es" target="_blank">Diario Oficial de la Uni&oacute;n Europea</a></li>
+</ul>
+</div>
+</div>
+<div class="oina"><img aria-hidden="true" alt="Euskadi berria - Gobierno Vasco" src="/images/web01-eusko-jaurlaritza-harmarria.svg" />
+<div>
+<p>Sitio web desarrollado y gestionado por el <a href="/gobierno-vasco/servicio-web/inicio/">Servicio Web del Gobierno Vasco</a></p>
+</div>
+<h3 class="inv">Gizarte sareak</h3>
+<div class="gizarte_sareak">
+<ul>
+<li><a target="_blank" href="https://twitter.com/Gob_eus"><span class="inv">X - Twitter (se abre en nueva ventana)</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-twitter-x" viewbox="0 0 16 16"> <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"></path> </svg></a></li>
+<li><a target="_blank" href="https://www.facebook.com/EuskoJaurlaritza"><span class="inv">Facebook (se abre en nueva ventana)</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-facebook" viewbox="0 0 16 16"> <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"></path> </svg></a></li>
+<li><a target="_blank" href="https://www.linkedin.com/company/eusko-jaurlaritza-gobierno-vasco"><span class="inv">Linkedin (se abre en nueva ventana)</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-linkedin" viewbox="0 0 16 16"> <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"></path> </svg></a></li>
+</ul>
+</div>
+<div>
+<h3 class="inv">Contacto</h3>
+<ul>
+<li><a class="bb_hizkuntza" href="/hasiera/" lang="eu">Euskarazko bertsioa</a></li>
+<li><a class="arreta" href="/gobierno-vasco/zuzenean-atencion-ciudadana/">Contacto</a></li>
+<li class="scrollup-p"><a class="scrollup" href="#nabigazio_nagusia">Volver arriba</a></li>
+</ul>
+</div>
+</div>
+<!--<div class="feedback_eman_behekoa"><a href="/contactar/-/valora-euskadi-eus/">Valora euskadi.eus!</a></div>-->
+<!-- ************** END Visual Area: r01gEditorVA ************** -->
+
+  <!-- Hizkuntza aldaketa -->
+  
+  
+<!-- ************** INIT Visual Area: r01gLangSelectorVA ************** -->
+        <!--@@<xml id='9100'><avInst oid='r01gtpd0186ea537e0e3ec494d898082f50a26ba8a' type='r01gLangSelectorVA' /></xml>@@-->
+<ul id="lang-selectorhizkuntza_aldaketa_bopv" class="r01gLangSelector_custom"><li class="r01gFirstLang"><a href="/web01-bopv/eu/bopv2/datos/Azkena.shtml" hreflang="eu" xml:lang="eu" class="r01gLangUnSelected" lang="eu"><abbr xml:lang="eu" lang="eu" title="">EU</abbr></a></li><li class="r01gLastLang"><span class="r01gLangSelected"><abbr title="">ES</abbr></span></li></ul>
+<!-- ************** END Visual Area: r01gLangSelectorVA ************** -->
+
+  <!-- AMAIERA Hizkuntza aldaketa -->
+</footer>
+<script type="text/javascript" src="/scripts/web01-aplikazioak.sjs"></script>
+<script type="text/javascript" src="/scripts/web01-bopv_lang.js"></script>
+<!-- #include virtual='/r01commonresources/html/r01Claim.shtml' -->
+<!-- REGLAS PARA insertar el CLAIM -->
+<!-- *************************************************** -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

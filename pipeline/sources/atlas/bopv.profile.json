@@ -1,0 +1,48 @@
+{
+  "source_id": "bopv",
+  "jurisdiction": "ES-PV",
+  "kind": "gazette+open_data_api",
+  "discovery": {
+    "provider": "rss_items",
+    "recipe": "rss_feed",
+    "endpoint": "https://www.euskadi.eus/bopv2/datos/Ultimo.xml",
+    "doc_id_pattern": "\\d{6}[a-z]\\.(shtml|pdf|epub)",
+    "doc_url_template": "https://www.euskadi.eus/bopv2/datos/{YYYY}/{MM}/{YY}{serial}{lang}.{ext}"
+  },
+  "fetch": {
+    "provider": "per_doc_url",
+    "recipe": "get_simple",
+    "method": "GET",
+    "formats": ["html", "pdf", "epub"],
+    "content_marker": "bopv",
+    "doc_url_template": "https://www.euskadi.eus/bopv2/datos/{YYYY}/{MM}/{YY}{serial}{lang}.shtml"
+  },
+  "parse": {
+    "format": "bopv_html",
+    "annex_format": "pdf_text"
+  },
+  "versioning": {
+    "strategy": "gazette_publication"
+  },
+  "reachability": {
+    "expected": {
+      "es_local": "REACHABLE",
+      "foreign_ci": "REACHABLE"
+    },
+    "fallback": "opendata.euskadi.eus dataset/API"
+  },
+  "change_detection": {
+    "method": "RSS Ultimo.xml per-disposition items + open-data dataset daily refresh",
+    "cadence": "daily"
+  },
+  "provenance": {
+    "derived_from": "discovery/evidence/m10.2-atlas/es-pv/",
+    "probed_at": "2026-09-18",
+    "caveat": "CANDIDATE: generic 'rss_items' discovery interpreter not yet implemented. Bilingual suffix a=es/e=eu. Real 404s on bogus doc suffixes."
+  },
+  "atlas": {
+    "domain_id": "ES-PV",
+    "domain_status": "PROVEN",
+    "evidence_dir": "discovery/evidence/m10.2-atlas/es-pv/"
+  }
+}
