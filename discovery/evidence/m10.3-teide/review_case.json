@@ -1,0 +1,93 @@
+{
+  "review_case_id": "RC-M103-ES-CN-TEIDE-VIVAC",
+  "milestone": "M10.3",
+  "park": {
+    "space_id": "pn-teide",
+    "name": "Parque Nacional del Teide",
+    "jurisdiction": "ES-CN",
+    "gazette": "BOC Canarias",
+    "managing_authority": "Gobierno de Canarias / administración gestora del parque nacional"
+  },
+  "activity": "VIVAC_AL_RASO",
+  "proposed_effect": "PERMITTED condicionado (>2.500 msnm, 4 áreas nombradas, comunicación previa con cupos, 1 noche/área, travesía máx 2 noches) / PROHIBITED fuera de ese ámbito",
+  "exact_precepts": [
+    {
+      "instrument": "Decreto 182/2025, de 1 de diciembre (PRUG PN Teide, Anexo I)",
+      "locator": "§6.3.2.7 VIVAC",
+      "quote": "La práctica del vivac sólo se podrá realizar en las zonas establecidas por encima de 2.500 msnm. Requerirá comunicación previa a través de la correspondiente aplicación electrónica, basada en un sistema de reserva con cupos establecidos y condicionantes específicos. [...] a. Teide: 7 personas (15 mientras Refugio de Altavista cerrado). b. Montaña Blanca: 20. c. Pico Viejo: 20. d. Montaña Guajara: 20. La administración gestora delimitará las zonas concretas de práctica de vivac dentro de estas áreas. Se limitará la práctica del vivac a una noche en un área determinada. Se podrá realizar una travesía [...] máximo de dos noches de vivac consecutivas siempre que sean en diferentes áreas.",
+      "role": "régimen completo del vivac"
+    },
+    {
+      "instrument": "Decreto 182/2025",
+      "locator": "§6.2.1.l), m), ff)",
+      "quote": "l. La acampada. m. La pernoctación en vehículos. [...] ff. El acceso, estancia o tránsito por zonas clasificadas como prohibidas al público general, zonas de reserva y de uso restringido fuera de la red de senderos, o por tramos de senderos cerrados temporalmente y señalizados por la administración gestora.",
+      "role": "incompatibles generales — acampada prohibida (actividad distinta del vivac regulado); acceso fuera de senderos en zonas reserva/restringido prohibido"
+    },
+    {
+      "instrument": "Decreto 182/2025",
+      "locator": "§5 zonificación",
+      "quote": "En las zonas de uso restringido el acceso público se permite únicamente por los senderos autorizados, estando prohibido, salvo regulación expresa en el Plan Rector de Uso y Gestión, por el resto del territorio.",
+      "role": "régimen de acceso zonal"
+    },
+    {
+      "instrument": "Decreto 182/2025",
+      "locator": "Dispositivo Cuarto + §8.2",
+      "quote": "El Plan Rector de Uso y Gestión del Parque Nacional del Teide entrará en vigor a los 15 días de su publicación en el Boletín Oficial de Canarias. [...] El presente PRUG tendrá una vigencia de 10 años [...] se prorrogará automáticamente hasta la entrada en vigor del que le sustituya.",
+      "role": "vigencia"
+    }
+  ],
+  "source": {
+    "document_url": "https://www.gobiernodecanarias.org/boc/2025/240/pda/4148.html",
+    "pdf_url": "https://sede.gobiernodecanarias.org/boc/boc-a-2025-240-4148.pdf",
+    "stable_id": "BOC-A-2025-240-4148",
+    "html_sha256": "d49782a4a53c86b159a2808796a4e02035f9184d30225933415e71c90ceb46d6",
+    "pdf_sha256": "45df0cd34dd230f777794bf9d112d448d2d69cf4dd207fadaf5c318b87fb3bb5",
+    "pdf_redistributed": false,
+    "extract_file": "boc-182-2025-prug-extract.txt",
+    "extract_sha256": "abb0e291356b318a0c59c4732e8be08c297457ee1225f78fe578b5c755e417a5"
+  },
+  "validity_evidence": {
+    "publication": "BOC núm. 240, 3 de diciembre de 2025",
+    "entry_into_force": "2025-12-18 — publicación 03/12/2025 + 15 días (Disp. Cuarto); computación de vacatio a confirmar por el revisor",
+    "prug_duration": "10 años + prórroga automática hasta sustitución (§8.2)",
+    "corrections": "Decreto 12/2026 (BOC 40, 27/02/2026): corrección de error material en Anexo 9.6 Cronograma (zona despegue parapente) — NO afecta a §6.3.2.7; consolidado libroazul marca 'c.e. BOC 40, de 27.2.2026'",
+    "supersession_check": "Es el PRUG vigente actual (sustituye al anterior PRUG de 2002); urgencia declarada por Resolución 359/2025 (BOC 229)",
+    "status": "VIGENTE — mecánicamente soportado, pendiente de verificación humana"
+  },
+  "geometry_evidence": {
+    "source": "OAPN zonificación PRUG (digest-only)",
+    "reference": "discovery/evidence/spain-coverage-g0/oapn-zonificacion-prug.digest.json",
+    "features": 49,
+    "normativa_field": "Decreto 182/2025, de 1 de diciembre,(BOIC núm. 240, 03/12/2025)",
+    "boundary_digest": "e35872d4bbd9317324526fd02d3af0ae4af027b2107ccb2c96ef6a62b653b205",
+    "caveat": "Las 4 áreas de vivac nombradas no tienen delimitación en el decreto (delegada a la administración gestora); el digest OAPN no permite vincularlas a polígonos concretos — cada área cae en envolventes de varias zonas de clase distinta. Criterio altimétrico >2.500 msnm tampoco evaluable desde digest."
+  },
+  "conditions_modelled": [
+    "altitude_m > 2500 (estricto — 'por encima de 2.500 msnm'; exactamente 2500 es gap literal)",
+    "vivac_area in {TEIDE, MONTANA_BLANCA, PICO_VIEJO, MONTANA_GUAJARA}",
+    "prior_notification_done (comunicación previa vía sistema de reserva)",
+    "nights_same_area <= 1",
+    "traverse_consecutive_vivac_nights <= 2 (áreas diferentes)",
+    "cupos (7/15/20/20) y estado del Refugio de Altavista = hechos operativos externos, no modelados como regla"
+  ],
+  "interpretation_note": "VIVAC_AL_RASO propuesto como PERMITTED condicionado dentro del ámbito §6.3.2.7 y PROHIBITED fuera de él (lectura restrictiva de 'sólo se podrá realizar'). La acampada queda prohibida por §6.2.1.l pero NO se generaliza a regla ACAMPADA en esta muestra.",
+  "contrary_or_ambiguous_evidence": [
+    "La delimitación concreta de las zonas de vivac está delegada a la administración gestora: el ámbito espacial exacto no es mecánicamente derivable del decreto",
+    "Cupo temporal de Teide (15) depende del estado operativo del Refugio de Altavista — hecho vivo no cerrable como dato legal",
+    "¿'vivac' del §6.3.2.7 cubre tienda ligera? El decreto separa 'acampada' (prohibida) de 'vivac' (regulado) — la frontera semántica la debe fijar el revisor",
+    "La fecha exacta de entrada en vigor (15 días tras publicación) está computada, no leída literalmente",
+    "Umbral literal: 'por encima de 2.500 msnm' modelado como >2500; el caso exacto 2500 m queda fuera de ambas reglas propuestas (gap a resolver)"
+  ],
+  "proposed_resolver_examples": [
+    {"facts": {"altitude_m": 3550, "vivac_area": "TEIDE", "prior_notification_done": true, "nights_same_area": 1, "traverse_consecutive_vivac_nights": 1}, "expected_if_approved": "PERMITTED"},
+    {"facts": {"altitude_m": 2000, "vivac_area": "TEIDE", "prior_notification_done": true, "nights_same_area": 1, "traverse_consecutive_vivac_nights": 1}, "expected_if_approved": "PROHIBITED"},
+    {"facts": {"altitude_m": 2800, "vivac_area": "OTRA", "prior_notification_done": true, "nights_same_area": 1, "traverse_consecutive_vivac_nights": 1}, "expected_if_approved": "PROHIBITED"},
+    {"facts": {}, "expected": "UNDETERMINED — hechos ausentes => fail-closed"},
+    {"facts": "any, pre-review", "expected": "UNDETERMINED/INCOMPLETE — REVIEW_REQUIRED bloquea publicación"}
+  ],
+  "reviewer_decision": "PENDING",
+  "review_status": "REVIEW_REQUIRED",
+  "legal_review_complete": false,
+  "spatial_review_complete": false,
+  "automated_state": "READY_FOR_HUMAN_REVIEW"
+}

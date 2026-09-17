@@ -1,0 +1,54 @@
+{
+  "bundle": {
+    "body_file": "metadatos.body",
+    "endpoint": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-1999-782/metadatos",
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "payload": {
+      "data": [
+        {
+          "ambito": {
+            "codigo": "1",
+            "texto": "Estatal"
+          },
+          "departamento": {
+            "codigo": "7723",
+            "texto": "Jefatura del Estado"
+          },
+          "diario": "Boletín Oficial del Estado",
+          "diario_numero": "11",
+          "estado_consolidacion": {
+            "codigo": "3",
+            "texto": "Finalizado"
+          },
+          "estatus_anulacion": "N",
+          "estatus_derogacion": "N",
+          "fecha_actualizacion": "20251218T180313Z",
+          "fecha_disposicion": "19990111",
+          "fecha_publicacion": "19990113",
+          "fecha_vigencia": "19990114",
+          "identificador": "BOE-A-1999-782",
+          "numero_oficial": "3/1999",
+          "rango": {
+            "codigo": "1300",
+            "texto": "Ley"
+          },
+          "titulo": "Ley 3/1999, de 11 de enero, por la que se crea el Parque Nacional de Sierra Nevada.",
+          "url_eli": "https://www.boe.es/eli/es/l/1999/01/11/3",
+          "url_html_consolidada": "https://www.boe.es/buscar/act.php?id=BOE-A-1999-782",
+          "vigencia_agotada": "N"
+        }
+      ],
+      "status": {
+        "code": "200",
+        "text": "ok"
+      }
+    },
+    "response_sha256": "521985bd8b2e03c3e54ffd24100b452cab0e35265959b9b0112c1fa5b8474eb8",
+    "retrieved_at": "2026-09-17T17:12:55Z",
+    "runner_network": "es_local",
+    "signal_source": "boe_metadatos"
+  },
+  "doc_id": "BOE-A-1999-782",
+  "published_on": "1999-01-13"
+}

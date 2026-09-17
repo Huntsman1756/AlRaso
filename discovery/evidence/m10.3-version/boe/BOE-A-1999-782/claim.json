@@ -1,0 +1,27 @@
+{
+  "consolidated_state": "Finalizado",
+  "doc_id": "BOE-A-1999-782",
+  "effective_from": "1999-01-14",
+  "effective_to": null,
+  "publication_date": "1999-01-13",
+  "recorded_at": "2026-09-17T17:12:55Z",
+  "recorded_until": null,
+  "resolver_evidence": {
+    "endpoint": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-1999-782/metadatos",
+    "estatus_anulacion": "N",
+    "estatus_derogacion": "N",
+    "fecha_actualizacion": "20251218T180313Z",
+    "fetch_outcome": "SUCCESS",
+    "identificador": "BOE-A-1999-782",
+    "response_sha256": "521985bd8b2e03c3e54ffd24100b452cab0e35265959b9b0112c1fa5b8474eb8",
+    "retrieved_at": "2026-09-17T17:12:55Z",
+    "runner_network": "es_local",
+    "signal": "document_version_only",
+    "signal_source": "boe_metadatos",
+    "strategy": "consolidated_api",
+    "url_eli": "https://www.boe.es/eli/es/l/1999/01/11/3",
+    "vigencia_agotada": "N"
+  },
+  "status": "RESOLVED",
+  "supersession": []
+}

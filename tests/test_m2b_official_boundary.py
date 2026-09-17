@@ -948,6 +948,15 @@ def test_git_diff_vs_main_only_allowed_files():
             or f.startswith("tests/test_m102_")
             or f.startswith("discovery/evidence/m10.2")
         )
+        # M10.3 final legal-scaling milestone: three-area evidence packages
+        # (candidates REVIEW_REQUIRED, non-publishable), human-review doc,
+        # candidate safety tests. alraso/, webapp/ and qa/browser/ FROZEN.
+        m10_3_allowed = (
+            f.startswith("discovery/evidence/m10.3")
+            or f.startswith("docs/validation/m10.3/")
+            or f.startswith("docs/reports/M10.3-")
+            or f == "tests/test_m103_candidates.py"
+        )
         assert (
             f in allowed
             or m9_allowed
@@ -957,4 +966,5 @@ def test_git_diff_vs_main_only_allowed_files():
             or ep21_allowed
             or m10_2_allowed
             or m10_2a_allowed
+            or m10_3_allowed
         ), f"Unexpected file changed: {f}"

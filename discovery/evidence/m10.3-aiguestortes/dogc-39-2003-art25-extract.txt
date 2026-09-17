@@ -1,0 +1,28 @@
+===== PLA ESPECIAL (Decret 39/2003) — article 25 (règim refugis/pernoctació/acampada/bivac), 25.1-25.8 =====
+
+P> <P ALIGN="JUSTIFY">25.1 Es prohibeixen les marxes a cavall i la circulació de trineus en tot el territori del Parc Nacional. A la zona de protecció exterior, només estan permeses per les pistes i camins existents.</P> <P ALIGN="JUSTIFY">25.2 La circulació de bicicletes queda circumscrita a la pista d’accés d’Espot a l’Estany de Sant Maurici i a la pista que dóna accés des de la Palanca de La Molina al pla d’Aigüestortes dins el Parc Nacional, i a les pistes per a vehicles de quatre rodes existents a la zona de protecció exterior.</P> <P ALIGN="JUSTIFY">25.3 No està permesa la circulació amb motos de neu, quads de neu, o semblants.</P> <P ALIGN="JUSTIFY">25.4 Es prohibeix la pernoctació fora dels refugis detallats a l’annex 2 d’aquest Pla, com també l’acampada i el bivac en tot el territori del Parc Nacional i zona perifèrica de protecció, incloses les zones d’aparcament i, en general, d’ús especial, a excepció de les zones habilitades per a tal fi a Estallos i Riumalo. Queden exemptes de la prohibició aquelles persones que disposin dels permisos especials d’estada justificats per estudis d’investigació, gestió i control del medi natural.</P> <P ALIGN="JUSTIFY">25.5 Les entitats titulars dels refugis de muntanya hauran de disposar dels mitjans necessaris per a la depuració de les aigües residuals que produeixin les seves instal·lacions i hauran d’assegurar l’evacuació dels residus sòlids que es generin als seus voltants.</P> <P ALIGN="JUSTIFY">25.6 No es poden construir nous refugis de muntanya. Els refugis existents poden ser adaptats i millorats. </P> <P ALIGN="JUSTIFY">25.7 Està prohibit l’aterratge d’aeronaus i el sobrevol de l’espai aeri d’avionetes, velers, ultralleugers, helicòpters i artefactes sense motor, com ara globus, ales delta, parapent i similars. S’exceptuen els casos d’emergència i aquells justificats pel manteniment i subministrament dels refugis de muntanya, que podran dur-se a terme sota control de l’administració del Parc Nacional.</P> <P ALIGN="JUSTIFY">25.8 Es prohibeixen les competicions esportives dins el Parc Nacional a excepció de les relacionades a l’annex 3, que podran ser autoritzades sota prohibició de sobrevol.</P> <P ALIGN="JUSTIFY">
+
+
+===== ANNEX 2 — Refugis i cabanes (transcripció normalitzada; (*) = refugi amb ús públic de pernoctació) =====
+
+Parc Nacional:
+1. Refugi d'Estany Llong. (*)  2. Refugi de la Centraleta. (*)  3. Borda de Ramon.
+4. Refugi guardès Aigüestortes.  5. Casa de l'Andorró.  6. Cabana de Sant Esperit.
+7. Refugi d'Amitges. (*)  8. Refugi E. Mallafré. (*)  9. Refugi J. M. Blanc. (*)
+10. Refugi Ventosa i Calvell. (*)  11. Cabana de la Solaneta.  12. Xalet de l'Hidroelèctrica.
+13. Cabana dels Pallers.  14. Xalet d'Estany Negre.  15. Cabana del Portarró.
+16. Cabana de Llebreta.  17. Cabana d'Amitges.
+
+Zona perifèrica de protecció:
+1. Refugi de Colomers. (*)  2. Refugi de la Colomina. (*)  3. Refugi dera Restanca. (*)
+4. Refugi de Saboredo. (*)  5. Refugi bivac del Gerber. (*)  6. Refugi del pla de la Font. (*)
+7. Refugi de Gerdar. (*)  8. Refugi de Quatre Pins.  9. Cabana de les Cabanyeres.
+10. Cabana de Sendrosa.  11. Cabana de la Borda de Pei.  12. Cabana de la Borda de Cassos.
+13. Cabana de la Borda de Gaspar.  14. Cabana de la Montanyeta.  15. Cabana de Llubriqueto.
+
+(*) Refugi amb ús públic de pernoctació.
+
+NOTE: Annex 2 text transcribed from the AKN capture (sha256
+96f9a5452c956337b45284a705de90858173acef43d3a33b2fd8454c7e517792); source
+markup contains mixed-encoding apostrophes normalized here. Human reviewer
+should verify against the official text if a name matters.

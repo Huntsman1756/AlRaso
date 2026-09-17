@@ -1,0 +1,260 @@
+{
+  "$schema": "alraso/m103-candidate-fixture@1",
+  "fixture_meta": {
+    "name": "M103_CANDIDATE_SIERRA_NEVADA",
+    "purpose": "M10.3 evidence candidate for pn-sierra-nevada. NOT product corpus: every rule version is REVIEW_REQUIRED with legal_review_complete=false and spatial_review_complete=false, so the eligibility gate makes all of them non-publishable. Pending human adjudication via docs/validation/m10.3/M10.3-HUMAN-REVIEW.md.",
+    "created": "2026-09-12",
+    "activity_scope": "VIVAC_AL_RASO only — no automatic generalization to FUNDA_VIVAC / TIENDA_NOCTURNA / TARP / ACAMPADA / VEHICULO",
+    "publishable": false
+  },
+  "source_documents": [
+    {
+      "id": "sd-decreto-238-2011",
+      "authority": "Junta de Andalucía (Consejería de Medio Ambiente)",
+      "jurisdiction": "ES-AN",
+      "document_type": "DECREE",
+      "title": "Decreto 238/2011, de 12 de julio, por el que se establece la ordenación y gestión de Sierra Nevada",
+      "canonical_url": "https://www.juntadeandalucia.es/boja/2011/155/3",
+      "official_status": "VIGENTE — sedeboja consolidated shows only INICIAL version (10/08/2011); Acuerdo 12/01/2026 (BOJA 2026/13) merely initiates PORN/PRUG review, no replacement instrument identified",
+      "retrieved_at": "2026-09-12",
+      "content_hash": "sha256:bc8b8ca1c871d6e7cace1feab7d20a431fa5c9d33ac510a9f9e1a8456631e47b (official PDF https://www.juntadeandalucia.es/boja/2011/155/d3.pdf, 44474989 bytes, not redistributed)"
+    },
+    {
+      "id": "sd-ley-3-1999",
+      "authority": "Estado (Cortes Generales)",
+      "jurisdiction": "ES-NATIONAL",
+      "document_type": "LAW",
+      "title": "Ley 3/1999, de 11 de enero, por la que se crea el Parque Nacional de Sierra Nevada",
+      "canonical_url": "https://www.boe.es/eli/es/l/1999/01/11/3",
+      "boe_id": "BOE-A-1999-782",
+      "official_status": "VIGENTE",
+      "retrieved_at": "2026-09-12"
+    },
+    {
+      "id": "sd-oapn-gis-sierra-nevada",
+      "authority": "OAPN (Organismo Autónomo Parques Nacionales)",
+      "jurisdiction": "ES-NATIONAL",
+      "document_type": "GIS_LAYER",
+      "title": "OAPN zonificación PRUG — Sierra Nevada (digest-only extract, 442 features citing Decreto 238/2011)",
+      "canonical_url": "discovery/evidence/spain-coverage-g0/oapn-zonificacion-prug.digest.json",
+      "official_status": "DIGEST_ONLY — feature digests + attributes, no redistributed geometry",
+      "retrieved_at": "2026-09-12"
+    },
+    {
+      "id": "sd-boja-2026-13-acuerdo",
+      "authority": "Junta de Andalucía",
+      "jurisdiction": "ES-AN",
+      "document_type": "ADMINISTRATIVE_AGREEMENT",
+      "title": "Acuerdo de 12 de enero de 2026 — formulación/inicio de revisión del PORN y PRUGs de Sierra Nevada",
+      "canonical_url": "https://www.juntadeandalucia.es/boja/2026/13",
+      "official_status": "CONTEXT — initiation of plan review only; NOT a replacement instrument",
+      "retrieved_at": "2026-09-12"
+    }
+  ],
+  "legal_fragments": [
+    {
+      "id": "lf-d238-df2-vigencia",
+      "source_document_id": "sd-decreto-238-2011",
+      "locator": "Disposición final segunda (entrada en vigor)",
+      "exact_text_hint": "El presente Decreto entrará en vigor el día siguiente al de su publicación en el Boletín Oficial de la Junta de Andalucía.",
+      "extracted_at": "2026-09-12",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "Disposición final segunda",
+      "validity_from": "2011-08-10",
+      "validity_to": null
+    },
+    {
+      "id": "lf-d238-art4-prug-vigencia",
+      "source_document_id": "sd-decreto-238-2011",
+      "locator": "Art. 4 / parte dispositiva — vigencia PRUG y continuidad del régimen de usos",
+      "exact_text_hint": "El Plan Rector de Uso y Gestión (PRUG) tendrá una vigencia de ocho años, susceptible de ser prorrogada por un plazo no superior a otros ocho años. Sin perjuicio de su posible prórroga, el régimen de usos y actividades previstos en el Plan mantendrá su vigencia hasta que sea aprobado el nuevo Plan.",
+      "extracted_at": "2026-09-12",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "Art. 4 y dispositiva PRUG (vigencia + continuidad)",
+      "validity_from": "2011-08-10",
+      "validity_to": null
+    },
+    {
+      "id": "lf-porn-545-1b-autorizacion",
+      "source_document_id": "sd-decreto-238-2011",
+      "locator": "Anexo I (PORN) epígrafe 5.4.5, apartado 1.b)",
+      "exact_text_hint": "El vivaqueo y la acampada nocturna vinculados a travesía de montaña para grupos superiores a 15 personas o que utilicen más de 3 tiendas de campaña.",
+      "extracted_at": "2026-09-12",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "PORN 5.4.5.1.b) — sometidas a autorización",
+      "validity_from": "2011-08-10",
+      "validity_to": null
+    },
+    {
+      "id": "lf-porn-545-4d-excepcion",
+      "source_document_id": "sd-decreto-238-2011",
+      "locator": "Anexo I (PORN) epígrafe 5.4.5, apartado 4.d) con introductor de 4 (comunicación previa)",
+      "exact_text_hint": "Quedan exceptuadas del régimen de autorización, las actuaciones que a continuación se relacionan cuando se realicen en las condiciones establecidas en este Plan. A efectos de control y seguimiento, dichas actuaciones deberán ser comunicadas a la Consejería competente en materia de medio ambiente previamente al inicio de su ejecución en la forma y plazo previstos en el epígrafe 5.3.7. [...] d) El vivaqueo y la acampada nocturna vinculados a actividades de travesía de montaña para grupos menores de 15 personas y que utilicen menos de 3 tiendas de campaña y cumplan las siguientes condiciones: 1.º [def. vivaquear] 2.º [def. acampada nocturna] 3.º En la comunicación [...] deberá indicarse el número máximo de personas e instalaciones [...] itinerario y las zonas [...]. 4.º No está permitido el vivaqueo ni la acampada nocturna, a menos de dos kilómetros de un núcleo urbano, de un establecimiento de alojamiento turístico o de un refugio, salvo que éste último estuviera completo, ni pernoctar más de una noche en el mismo lugar. 5.º [residuos]",
+      "extracted_at": "2026-09-12",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "PORN 5.4.5.4.d) 1.º-5.º — exceptuado con comunicación previa + condiciones",
+      "validity_from": "2011-08-10",
+      "validity_to": null
+    },
+    {
+      "id": "lf-porn-545-7n-caravanas",
+      "source_document_id": "sd-decreto-238-2011",
+      "locator": "Anexo I (PORN) epígrafe 5.4.5, apartado 7.n)",
+      "exact_text_hint": "Pernocta en caravanas/autocaravanas fuera de lugares habilitados — prohibida (aplica al Espacio Natural completo).",
+      "extracted_at": "2026-09-12",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "PORN 5.4.5.7.n) — prohibición pernocta en caravanas",
+      "validity_from": "2011-08-10",
+      "validity_to": null
+    },
+    {
+      "id": "lf-prug-pn-521-montanismo",
+      "source_document_id": "sd-decreto-238-2011",
+      "locator": "Anexo II (PRUG PN) epígrafe 5.2.1, apartado 2.d)-e)",
+      "exact_text_hint": "Se consideran compatibles cuando se realicen en equipamientos públicos, caminos, pistas forestales u otros espacios donde no exista limitación de acceso o de uso: a) El senderismo. b) El alpinismo o escalada clásica. c) El esquí de travesía. d) El vivaqueo y la acampada nocturna. e) El acceso y utilización de los refugios vivac, así como de los refugios guardados [...].",
+      "extracted_at": "2026-09-12",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "PRUG PN 5.2.1.2.d)-e) — vivaqueo/acampada compatible donde no exista limitación de acceso o uso",
+      "validity_from": "2011-08-10",
+      "validity_to": null
+    },
+    {
+      "id": "lf-prug-pn-4256o-incompatible",
+      "source_document_id": "sd-decreto-238-2011",
+      "locator": "Anexo II (PRUG PN) epígrafe 4.2.5, apartado 6.o)",
+      "exact_text_hint": "Usos público incompatibles en el Parque Nacional: o) la pernocta en caravanas/autocaravanas fuera de lugares habilitados.",
+      "extracted_at": "2026-09-12",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "PRUG PN 4.2.5.6.o) — incompatible",
+      "validity_from": "2011-08-10",
+      "validity_to": null
+    },
+    {
+      "id": "lf-porn-5511-zona-reserva",
+      "source_document_id": "sd-decreto-238-2011",
+      "locator": "Anexo I (PORN) epígrafe 5.5.1.1 — Zona de reserva del Parque Nacional",
+      "exact_text_hint": "2. El acceso está limitado al personal del Parque Nacional en el ejercicio de sus actividades de gestión, al personal ligado a proyectos de investigación debidamente autorizados y a los Cuerpos de Seguridad del Estado en el ejercicio de sus funciones.",
+      "extracted_at": "2026-09-12",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "PORN 5.5.1.1.2 — Zona de reserva: sin acceso público",
+      "validity_from": "2011-08-10",
+      "validity_to": null
+    },
+    {
+      "id": "lf-porn-5512-uso-restringido",
+      "source_document_id": "sd-decreto-238-2011",
+      "locator": "Anexo I (PORN) epígrafe 5.5.1.2 — Zona de uso restringido del Parque Nacional",
+      "exact_text_hint": "2. La circulación peatonal es libre cuando esté relacionada con los aprovechamientos tradicionales debidamente autorizados, y en los restantes casos estará limitada a los caminos, pistas y senderos existentes. En cotas superiores a los 2.000 metros se podrá circular también por las vías de acceso tradicionales actualmente existentes aunque no constituyan senderos. En condiciones invernales se podrán realizar recorridos a pie y esquí de travesía sobre los terrenos nevados.",
+      "extracted_at": "2026-09-12",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "PORN 5.5.1.2.2 — Zona de uso restringido: circulación limitada a caminos/pistas/senderos",
+      "validity_from": "2011-08-10",
+      "validity_to": null
+    }
+  ],
+  "spatial_scopes": [
+    {
+      "id": "ss-es-an-sierra-nevada-espacio-natural",
+      "scope_type": "PROTECTED_AREA",
+      "official_name": "Espacio Natural Sierra Nevada (PN + PNat)",
+      "geometry_source": "sd-oapn-gis-sierra-nevada",
+      "feature_id": "Sierra Nevada",
+      "srid_native": 25830,
+      "review_status": "SPATIAL_REVIEW_PENDING_GEOMETRY",
+      "relevance": "REGULATORY"
+    },
+    {
+      "id": "ss-pn-sierra-nevada",
+      "scope_type": "NATIONAL_PARK",
+      "parent_scope": "ss-es-an-sierra-nevada-espacio-natural",
+      "official_name": "Parque Nacional de Sierra Nevada",
+      "geometry_source": "sd-oapn-gis-sierra-nevada",
+      "feature_id": "Parque Nacional de Sierra Nevada",
+      "srid_native": 25830,
+      "review_status": "SPATIAL_REVIEW_PENDING_GEOMETRY",
+      "relevance": "REGULATORY"
+    },
+    {
+      "id": "ss-pn-sierra-nevada-zonificacion-prug",
+      "scope_type": "PARK_SECTOR",
+      "parent_scope": "ss-pn-sierra-nevada",
+      "official_name": "Zonificación PRUG PN Sierra Nevada (reserva / uso restringido / uso moderado / uso especial)",
+      "geometry_source": "sd-oapn-gis-sierra-nevada",
+      "feature_id": "digest:64be9bccbf7b9e4dcb0548527b63ba5e620a8246a1a8526b3ef4f80bb22e88de (+441 features)",
+      "srid_native": 25830,
+      "review_status": "SPATIAL_REVIEW_PENDING_GEOMETRY",
+      "relevance": "REGULATORY"
+    }
+  ],
+  "legal_rule_versions": [
+    {
+      "rule_id": "alraso:es-an/pn-sierra-nevada/pernocta#vivac-exento-comunicacion",
+      "activity": "VIVAC_AL_RASO",
+      "spatial_scope_id": "ss-pn-sierra-nevada",
+      "effect": "PERMITTED",
+      "condition": {
+        "all": [
+          {"field": "group_size", "op": "lt", "value": 15},
+          {"field": "tent_count", "op": "lt", "value": 3},
+          {"field": "prior_notification_done", "op": "is_true"},
+          {"field": "nights_same_location", "op": "lte", "value": 1},
+          {"field": "distance_km_to_urban_nucleus", "op": "gte", "value": 2},
+          {"field": "distance_km_to_tourist_lodging", "op": "gte", "value": 2},
+          {"any": [
+            {"field": "distance_km_to_refuge", "op": "gte", "value": 2},
+            {"field": "refuge_full", "op": "is_true"}
+          ]}
+        ]
+      },
+      "effective_from": "2011-08-10",
+      "effective_to": null,
+      "recorded_at": "2026-09-12",
+      "recorded_until": null,
+      "review_status": "REVIEW_REQUIRED",
+      "legal_review_complete": false,
+      "spatial_review_complete": false,
+      "evidence": ["lf-porn-545-4d-excepcion", "lf-prug-pn-521-montanismo", "lf-d238-df2-vigencia"],
+      "interpretation_note": "PROPOSED (pending human review): vivaqueo <15 pax y <3 tiendas exceptuado de autorización si hay comunicación previa (PORN 5.4.5.4 introductor + 5.3.7) y se cumplen distancias/1 noche/residuos; compatible en el PN solo 'donde no exista limitación de acceso o de uso' (PRUG 5.2.1.2.d) — excluye Zonas de Reserva (PORN 5.5.1.1.2: sin acceso público) y plantea duda en Zona de Uso Restringido (circulación limitada a caminos, 5.5.1.2.2). La zona no entra en el AST de condiciones: depende de geometría de zonificación con revisión espacial pendiente. Boundary literal: 'superiores a 15' vs 'menores de 15' deja el caso =15 pax /=3 tiendas fuera de ambos preceptos — posible laguna normativa para el revisor.",
+      "normative_basis": ["lf-porn-545-4d-excepcion", "lf-prug-pn-521-montanismo"]
+    },
+    {
+      "rule_id": "alraso:es-an/pn-sierra-nevada/pernocta#vivac-autorizacion-grupo",
+      "activity": "VIVAC_AL_RASO",
+      "spatial_scope_id": "ss-pn-sierra-nevada",
+      "effect": "AUTHORIZATION_REQUIRED",
+      "condition": {
+        "any": [
+          {"field": "group_size", "op": "gt", "value": 15},
+          {"field": "tent_count", "op": "gt", "value": 3}
+        ]
+      },
+      "effective_from": "2011-08-10",
+      "effective_to": null,
+      "recorded_at": "2026-09-12",
+      "recorded_until": null,
+      "review_status": "REVIEW_REQUIRED",
+      "legal_review_complete": false,
+      "spatial_review_complete": false,
+      "evidence": ["lf-porn-545-1b-autorizacion"],
+      "interpretation_note": "PROPOSED (pending human review): PORN 5.4.5.1.b somete a autorización el vivaqueo/acampada nocturna de travesía para grupos 'superiores a 15 personas' o 'más de 3 tiendas'. El caso exacto 15 pax / 3 tiendas no queda cubierto ni por 1.b ni por 4.d (laguna literal a resolver por el revisor humano).",
+      "normative_basis": ["lf-porn-545-1b-autorizacion"]
+    }
+  ],
+  "rule_relations": [],
+  "expected": {
+    "publishability": [
+      {
+        "assert": "NO_RULE_PUBLISHABLE",
+        "note": "Toda versión REVIEW_REQUIRED + legal_review_complete=false + spatial_review_complete=false => eligibility gate rechaza; resolver devuelve UNDETERMINED/INCOMPLETE para cualquier consulta en ss-pn-sierra-nevada."
+      }
+    ],
+    "basic_queries": [
+      {
+        "query": {"activity": "VIVAC_AL_RASO", "spatial_scope_id": "ss-pn-sierra-nevada", "activity_date": "2026-09-01", "knowledge_date": "2026-09-12"},
+        "expected_legal_status": "UNDETERMINED",
+        "expected_knowledge_status": "INCOMPLETE",
+        "note": "Sin revisión humana no hay regla publicable: fail-closed, nunca PERMITTED por ausencia de prohibición."
+      }
+    ]
+  }
+}
