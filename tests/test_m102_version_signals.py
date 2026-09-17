@@ -216,6 +216,25 @@ def test_boe_signal_source_mismatch_manual():
                 ).status is MANUAL
 
 
+def test_boe_non_mapping_nested_fields_manual_not_crash():
+    """Truthy non-dict nested fields must fail closed — never crash."""
+    p = copy.deepcopy(BOE_PAYLOAD)
+    p["status"] = "ok"
+    assert _boe(_boe_bundle(payload=p)).status is MANUAL
+    p = copy.deepcopy(BOE_PAYLOAD)
+    p["data"][0]["estado_consolidacion"] = "Finalizado"
+    assert _boe(_boe_bundle(payload=p)).status is MANUAL
+
+
+def test_boe_lenient_date_shape_manual():
+    """strptime would silently accept 1-2 digit %m/%d — the resolver
+    requires the exact compact shape."""
+    for bad in ("200715", "2007125", "2007-12-15", "garbage"):
+        p = copy.deepcopy(BOE_PAYLOAD)
+        p["data"][0]["fecha_vigencia"] = bad
+        assert _boe(_boe_bundle(payload=p)).status is MANUAL, bad
+
+
 # ---------------------------------------------------------------------
 # DOGC
 # ---------------------------------------------------------------------
@@ -272,6 +291,53 @@ def test_dogc_redirect_not_captured_manual():
     assert _dogc(_dogc_bundle(redirect=r)).status is MANUAL
 
 
+def test_dogc_request_url_binding():
+    """The redirect observation must belong to THIS document: a bundle
+    pairing the row of doc A with the ELI fetch of doc B fails closed."""
+    r = dict(DOGC_REDIRECT, request_url=(
+        "https://portaljuridic.gencat.cat/eli/es-ct/d/2003/05/27/139"
+        "/dof/cat/xml"))
+    assert _dogc(_dogc_bundle(redirect=r)).status is MANUAL
+
+
+def test_dogc_effective_url_host_anchored():
+    """idNumber/idVersion params on an arbitrary host prove nothing."""
+    r = dict(DOGC_REDIRECT, effective_url=(
+        "https://attacker.example/x?idNumber=309790&idVersion=318062"))
+    assert _dogc(_dogc_bundle(redirect=r)).status is MANUAL
+
+
+def test_dogc_idversion_strict_digits():
+    r = dict(DOGC_REDIRECT, effective_url=(
+        DOGC_REDIRECT["effective_url"].replace("318062", "318062abc")))
+    assert _dogc(_dogc_bundle(redirect=r)).status is MANUAL
+
+
+def test_dogc_eli_tail_anchored():
+    """…/39junk must not capture as doc …/39."""
+    row = copy.deepcopy(DOGC_ROW)
+    row["url_format_xml"] = {"url": (
+        "https://portaljuridic.gencat.cat/eli/es-ct/d/2003/02/04/39junk"
+        "/dof/cat/xml")}
+    assert _dogc(_dogc_bundle(row=row)).status is MANUAL
+
+
+def test_dogc_url_format_xml_as_plain_string():
+    """Socrata variants serialize URL columns as bare strings — still a
+    valid structured ELI binding."""
+    row = copy.deepcopy(DOGC_ROW)
+    row["url_format_xml"] = (
+        "https://portaljuridic.gencat.cat/eli/es-ct/d/2003/02/04/39"
+        "/dof/cat/xml")
+    assert _dogc(_dogc_bundle(row=row)).status is RESOLVED
+
+
+def test_dogc_malformed_publication_date_manual():
+    row = copy.deepcopy(DOGC_ROW)
+    row["data_de_publicaci_del_diari"] = "garbage"
+    assert _dogc(_dogc_bundle(row=row)).status is MANUAL
+
+
 # ---------------------------------------------------------------------
 # global invariants
 # ---------------------------------------------------------------------
@@ -310,3 +376,34 @@ def test_resolved_claim_is_document_version_only():
         assert "legal_review_complete" not in d
         assert "spatial_review_complete" not in d
         assert claim.resolver_evidence["signal"] == "document_version_only"
+
+
+def test_preregistered_date_never_merges_into_resolved():
+    """A preregistered effective_from must not attach to a RESOLVED
+    claim — on RESOLVED only the mechanical signal is authoritative."""
+    ev = {
+        "consolidated": _dogc_bundle(),
+        "effective_from": "2003-02-19",
+        "fragment": "disposicion final primera",
+    }
+    claim = resolve(_P("dogc_socrata_eli"), _dogc_doc(),
+                    clock=lambda: FIXED_NOW, structured_evidence=ev)
+    assert claim.status is RESOLVED
+    assert claim.effective_from is None
+
+
+def test_preregistered_date_on_manual_claim_is_stamped():
+    """On a fail-closed claim a preregistered date may attach — with an
+    explicit channel stamp so provenance cannot be confused."""
+    ev = {
+        "consolidated": _boe_bundle(fetch_outcome="TIMEOUT",
+                                    payload=None),
+        "effective_from": "2007-12-15",
+        "fragment": "entrara en vigor el dia siguiente",
+    }
+    claim = resolve(_P("boe_metadatos"), _boe_doc(),
+                    clock=lambda: FIXED_NOW, structured_evidence=ev)
+    assert claim.status is MANUAL
+    assert claim.effective_from == "2007-12-15"
+    assert claim.resolver_evidence["effective_from_channel"] == (
+        "preregistered")

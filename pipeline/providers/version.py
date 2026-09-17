@@ -132,11 +132,20 @@ def _manual(
     )
 
 
+_BOE_DATE_SHAPE = re.compile(r"\d{8}(T\d{6}Z)?")
+
+
 def _boe_date(raw: Any) -> str | None:
-    """BOE compact date/datetime → ISO date, or None if malformed."""
+    """BOE compact date/datetime → ISO date, or None if malformed.
+
+    Strict shape first (strptime accepts 1-2 digit %m/%d silently):
+    exactly YYYYMMDD or YYYYMMDDTHHMMSSZ.
+    """
     if not isinstance(raw, str):
         return None
     raw = raw.strip()
+    if not _BOE_DATE_SHAPE.fullmatch(raw):
+        return None
     for fmt in ("%Y%m%dT%H%M%SZ", "%Y%m%d"):
         try:
             return dt.datetime.strptime(raw, fmt).date().isoformat()
@@ -163,11 +172,12 @@ def _resolve_boe_metadatos(
     payload = bundle.get("payload")
     if not isinstance(payload, Mapping):
         return _manual(doc_ref, now, evidence, "payload not a mapping")
-    status = payload.get("status") or {}
-    if str(status.get("code")) != "200":
+    status = payload.get("status")
+    if not isinstance(status, Mapping) or str(status.get("code")) != "200":
+        code = status.get("code") if isinstance(status, Mapping) else status
         return _manual(
             doc_ref, now, evidence,
-            f"api status {status.get('code')!r} != 200",
+            f"api status {code!r} != 200",
         )
     data = payload.get("data")
     if not isinstance(data, list) or not data or not isinstance(
@@ -198,9 +208,13 @@ def _resolve_boe_metadatos(
         return _manual(
             doc_ref, now, evidence, "fecha_vigencia missing/malformed"
         )
-    estado = row.get("estado_consolidacion") or {}
+    estado = row.get("estado_consolidacion")
     vigencia_agotada = row.get("vigencia_agotada")
-    if not estado.get("texto") or vigencia_agotada not in ("S", "N"):
+    if (
+        not isinstance(estado, Mapping)
+        or not estado.get("texto")
+        or vigencia_agotada not in ("S", "N")
+    ):
         return _manual(
             doc_ref, now, evidence,
             "estado_consolidacion/vigencia_agotada missing/malformed",
@@ -214,9 +228,9 @@ def _resolve_boe_metadatos(
         publication_date=fecha_publicacion,
         status=VersionClaimStatus.RESOLVED,
         resolver_evidence={
+            **evidence,
             "strategy": "consolidated_api",
             "signal": "document_version_only",
-            **evidence,
             "identificador": ident,
             "fecha_actualizacion": fecha_actualizacion,
             "vigencia_agotada": vigencia_agotada,
@@ -228,9 +242,13 @@ def _resolve_boe_metadatos(
 
 
 _ELIFE_FMT = re.compile(
-    r"^https://portaljuridic\.gencat\.cat/eli/(es-ct/d/\d{4}/\d{2}/\d{2}/\d+)"
+    r"^https://portaljuridic\.gencat\.cat/eli/"
+    r"(es-ct/d/\d{4}/\d{2}/\d{2}/\d+)(?:[/?]|$)"
 )
-_ID_PAIR = re.compile(r"[?&]idNumber=(\d+)&idVersion=(\d+)\b")
+_AKN_SERVLET = (
+    "https://portaldogc.gencat.cat/utilsEADOP/AppJava/AkomaNtoso"
+)
+_ID_PAIR = re.compile(r"[?&]idNumber=(\d+)&idVersion=(\d+)(?=&|$)")
 
 
 def _resolve_dogc_socrata_eli(
@@ -259,7 +277,9 @@ def _resolve_dogc_socrata_eli(
             "socrata_row/eli_redirect missing or malformed",
         )
 
-    eli_url = (row.get("url_format_xml") or {}).get("url")
+    eli_url = row.get("url_format_xml")
+    if isinstance(eli_url, Mapping):
+        eli_url = eli_url.get("url")
     m = _ELIFE_FMT.match(str(eli_url))
     if not m:
         return _manual(
@@ -278,7 +298,34 @@ def _resolve_dogc_socrata_eli(
             doc_ref, now, evidence, "vig_ncia_de_la_norma missing"
         )
 
+    pub_raw = row.get("data_de_publicaci_del_diari")
+    try:
+        publication_date = dt.date.fromisoformat(
+            str(pub_raw)[:10]
+        ).isoformat()
+    except (TypeError, ValueError):
+        return _manual(
+            doc_ref, now, evidence,
+            f"data_de_publicaci_del_diari {pub_raw!r} malformed",
+        )
+
+    # Bind the redirect observation to THIS document: the request must
+    # have been the row's own ELI, and the effective URL must be the
+    # official AkomaNtoso servlet — never an arbitrary URL carrying
+    # idNumber/idVersion look-alike params.
+    req_m = _ELIFE_FMT.match(str(redirect.get("request_url")))
+    if not req_m or req_m.group(1) != doc_ref.doc_id:
+        return _manual(
+            doc_ref, now, evidence,
+            "eli_redirect.request_url does not match this document's ELI",
+        )
     effective_url = redirect.get("effective_url")
+    if not str(effective_url).startswith(_AKN_SERVLET):
+        return _manual(
+            doc_ref, now, evidence,
+            f"effective_url {effective_url!r} is not the official "
+            "AkomaNtoso servlet",
+        )
     vmatch = _ID_PAIR.search(str(effective_url))
     if not vmatch:
         return _manual(
@@ -292,16 +339,12 @@ def _resolve_dogc_socrata_eli(
         recorded_at=now,
         consolidated_state=vigencia.strip(),
         effective_from=None,  # no structured effective-date field — never
-        publication_date=(
-            str(row["data_de_publicaci_del_diari"])[:10]
-            if isinstance(row.get("data_de_publicaci_del_diari"), str)
-            else doc_ref.published_on
-        ),
+        publication_date=publication_date,
         status=VersionClaimStatus.RESOLVED,
         resolver_evidence={
+            **evidence,
             "strategy": "consolidated_api",
             "signal": "document_version_only",
-            **evidence,
             "eli": m.group(1),
             "id_number": vmatch.group(1),
             "id_version": vmatch.group(2),
@@ -332,19 +375,46 @@ def _consolidated_api(
         }
         or None
     )
+
+    def _fin(claim: VersionClaim) -> VersionClaim:
+        """Attach a preregistered date to a NON-RESOLVED claim only —
+        stamped so the channel can never be confused with the
+        mechanical signal."""
+        if (
+            effective_from is None
+            or claim.effective_from is not None
+            or claim.status is VersionClaimStatus.RESOLVED
+        ):
+            return claim
+        return VersionClaim(
+            doc_id=claim.doc_id,
+            recorded_at=claim.recorded_at,
+            consolidated_state=claim.consolidated_state,
+            effective_from=effective_from,
+            effective_to=claim.effective_to,
+            publication_date=claim.publication_date,
+            supersession=claim.supersession,
+            resolver_evidence={
+                **claim.resolver_evidence,
+                "effective_from_channel": "preregistered",
+            },
+            recorded_until=claim.recorded_until,
+            status=claim.status,
+        )
+
     bundle = (structured_evidence or {}).get("consolidated")
     base_evidence = {**extra}
     if not isinstance(bundle, Mapping):
-        return _manual(
+        return _fin(_manual(
             doc_ref, now, base_evidence,
             "no consolidated evidence bundle supplied",
-        )
+        ))
     missing = [k for k in _CONSOLIDATED_REQUIRED_KEYS if k not in bundle]
     if missing:
-        return _manual(
+        return _fin(_manual(
             doc_ref, now, base_evidence,
             f"evidence bundle missing keys {missing}",
-        )
+        ))
     evidence = {
         **base_evidence,
         "signal_source": bundle["signal_source"],
@@ -355,46 +425,30 @@ def _consolidated_api(
         "fetch_outcome": bundle["fetch_outcome"],
     }
     if bundle["signal_source"] != signal_source:
-        return _manual(
+        return _fin(_manual(
             doc_ref, now, evidence,
             f"evidence signal_source {bundle['signal_source']!r} != "
             f"profile {signal_source!r}",
-        )
+        ))
     if bundle["fetch_outcome"] != "SUCCESS":
-        return _manual(
+        return _fin(_manual(
             doc_ref, now, evidence,
             f"fetch_outcome {bundle['fetch_outcome']!r} — signal fetch "
             "failed, no version resolvable",
-        )
+        ))
 
     if signal_source == "boe_metadatos":
-        claim = _resolve_boe_metadatos(
+        return _fin(_resolve_boe_metadatos(
             doc_ref, now=now, bundle=bundle, evidence=evidence
-        )
-    elif signal_source == "dogc_socrata_eli":
-        claim = _resolve_dogc_socrata_eli(
+        ))
+    if signal_source == "dogc_socrata_eli":
+        return _fin(_resolve_dogc_socrata_eli(
             doc_ref, now=now, bundle=bundle, evidence=evidence
-        )
-    else:
-        return _manual(
-            doc_ref, now, evidence,
-            f"unknown consolidated signal_source {signal_source!r}",
-        )
-    if effective_from is not None and claim.effective_from is None:
-        # Preregistered structured evidence may still supply a date.
-        claim = VersionClaim(
-            doc_id=claim.doc_id,
-            recorded_at=claim.recorded_at,
-            consolidated_state=claim.consolidated_state,
-            effective_from=effective_from,
-            effective_to=claim.effective_to,
-            publication_date=claim.publication_date,
-            supersession=claim.supersession,
-            resolver_evidence=claim.resolver_evidence,
-            recorded_until=claim.recorded_until,
-            status=claim.status,
-        )
-    return claim
+        ))
+    return _fin(_manual(
+        doc_ref, now, evidence,
+        f"unknown consolidated signal_source {signal_source!r}",
+    ))
 
 
 _STRATEGIES = {

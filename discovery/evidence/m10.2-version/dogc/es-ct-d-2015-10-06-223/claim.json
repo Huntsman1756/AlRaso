@@ -4,7 +4,7 @@
   "effective_from": null,
   "effective_to": null,
   "publication_date": "2015-10-15",
-  "recorded_at": "2026-09-17T13:53:48Z",
+  "recorded_at": "2026-09-17T14:08:32Z",
   "recorded_until": null,
   "resolver_evidence": {
     "data_del_document": "2015-10-06T00:00:00.000",
@@ -14,7 +14,7 @@
     "id_number": "705207",
     "id_version": "1793598",
     "response_sha256": "4df33d94e21842335a41b8db5cd98c698bae84ca6d1ddb78d567c4295a6de98e",
-    "retrieved_at": "2026-09-17T13:53:48Z",
+    "retrieved_at": "2026-09-17T14:08:32Z",
     "runner_network": "es_local",
     "signal": "document_version_only",
     "signal_source": "dogc_socrata_eli",

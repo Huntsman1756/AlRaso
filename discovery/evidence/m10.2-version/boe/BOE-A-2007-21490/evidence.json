@@ -1,5 +1,6 @@
 {
   "bundle": {
+    "body_file": "metadatos.body",
     "endpoint": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2007-21490/metadatos",
     "fetch_outcome": "SUCCESS",
     "http_status": 200,
@@ -44,7 +45,7 @@
       }
     },
     "response_sha256": "fc8163f75c103f3f81898c4f2e7e52b85dc9983a77ceccaef356bec83e3f655f",
-    "retrieved_at": "2026-09-17T13:53:13Z",
+    "retrieved_at": "2026-09-17T14:08:20Z",
     "runner_network": "es_local",
     "signal_source": "boe_metadatos"
   },

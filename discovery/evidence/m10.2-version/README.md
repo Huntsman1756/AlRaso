@@ -3,8 +3,11 @@
 Live-verified mechanical document-version signals, captured `es_local`
 2026-09-18 by `tooling/m102_version_probe.py probe`. Each directory
 holds `evidence.json` (request, endpoint, retrieved_at, response
-sha256, http_status, runner_network, payload) + `claim.json` (the
-resolved `VersionClaim`).
+sha256, http_status, runner_network, payload), the raw response bodies
+(`metadatos.body`; `socrata.body` + `eli.body` for DOGC) so every
+recorded sha256 is re-checkable, and `claim.json` (the resolved
+`VersionClaim`). The gate re-derives each claim from the recorded
+bundle — `claim.json` is never trusted.
 
 `RESOLVED` means ONLY "the document version was mechanically resolved"
 — it asserts nothing about legal validity, applicability, or

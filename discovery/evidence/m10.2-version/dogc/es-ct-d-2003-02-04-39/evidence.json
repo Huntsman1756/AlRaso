@@ -1,5 +1,6 @@
 {
   "bundle": {
+    "body_file": "eli.body",
     "endpoint": "https://portaljuridic.gencat.cat/eli/es-ct/d/2003/02/04/39/dof/cat/xml",
     "fetch_outcome": "SUCCESS",
     "http_status": 200,
@@ -7,7 +8,16 @@
       "eli_redirect": {
         "effective_url": "https://portaldogc.gencat.cat/utilsEADOP/AppJava/AkomaNtoso?idNumber=309790&idVersion=318062&format=xml",
         "http_status": 200,
-        "request_url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2003/02/04/39/dof/cat/xml"
+        "request_url": "https://portaljuridic.gencat.cat/eli/es-ct/d/2003/02/04/39/dof/cat/xml",
+        "response_sha256": "96f9a5452c956337b45284a705de90858173acef43d3a33b2fd8454c7e517792"
+      },
+      "socrata": {
+        "body_file": "socrata.body",
+        "endpoint": "https://analisi.transparenciacatalunya.cat/resource/n6hn-rmy7.json?$limit=1&$where=t_tol_de_la_norma%20like%20'%2539/2003%25'",
+        "fetch_outcome": "SUCCESS",
+        "http_status": 200,
+        "response_sha256": "2dbeef0df9216e17941cfc6c348954bbf41e690aa978bf1c282cf88c0cb6d241",
+        "retrieved_at": "2026-09-17T14:08:31Z"
       },
       "socrata_row": {
         "any": "2003",
@@ -56,7 +66,7 @@
       }
     },
     "response_sha256": "96f9a5452c956337b45284a705de90858173acef43d3a33b2fd8454c7e517792",
-    "retrieved_at": "2026-09-17T13:53:41Z",
+    "retrieved_at": "2026-09-17T14:08:31Z",
     "runner_network": "es_local",
     "signal_source": "dogc_socrata_eli"
   },
