@@ -154,6 +154,16 @@
   ],
   "spatial_scopes": [
     {
+      "id": "ss-es-an-sierra-nevada-espacio-natural",
+      "scope_type": "PROTECTED_AREA",
+      "official_name": "Espacio Natural Sierra Nevada (PN + PNat)",
+      "geometry_source": "sd-oapn-gis-sierra-nevada",
+      "feature_id": "Sierra Nevada",
+      "srid_native": 25830,
+      "review_status": "SPATIAL_REVIEW_PENDING_GEOMETRY",
+      "relevance": "REGULATORY"
+    },
+    {
       "id": "ss-pn-sierra-nevada",
       "scope_type": "NATIONAL_PARK",
       "parent_scope": "ss-es-an-sierra-nevada-espacio-natural",
@@ -166,7 +176,7 @@
     },
     {
       "id": "ss-pn-sierra-nevada-zonificacion-prug",
-      "scope_type": "ZONING_LAYER",
+      "scope_type": "PARK_SECTOR",
       "parent_scope": "ss-pn-sierra-nevada",
       "official_name": "Zonificación PRUG PN Sierra Nevada (reserva / uso restringido / uso moderado / uso especial)",
       "geometry_source": "sd-oapn-gis-sierra-nevada",

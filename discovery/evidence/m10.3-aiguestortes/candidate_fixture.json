@@ -78,7 +78,7 @@
     },
     {
       "id": "ss-pn-aiguestortes-zonificacio",
-      "scope_type": "ZONING_LAYER",
+      "scope_type": "PARK_SECTOR",
       "parent_scope": "ss-pn-aiguestortes",
       "official_name": "Zonificació PRUG Aigüestortes (25 uso restringido / 1 reserva Estany de Trescuro / 1 uso especial Bony del Graller)",
       "geometry_source": "sd-oapn-gis-aiguestortes",

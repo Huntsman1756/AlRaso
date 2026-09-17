@@ -110,7 +110,7 @@
     },
     {
       "id": "ss-pn-teide-zonificacion-prug",
-      "scope_type": "ZONING_LAYER",
+      "scope_type": "PARK_SECTOR",
       "parent_scope": "ss-pn-teide",
       "official_name": "Zonificación PRUG PN Teide (reserva / uso restringido / otros)",
       "geometry_source": "sd-oapn-gis-teide",
@@ -121,7 +121,7 @@
     },
     {
       "id": "ss-pn-teide-areas-vivac",
-      "scope_type": "ACTIVITY_ZONE",
+      "scope_type": "PARK_SECTOR",
       "parent_scope": "ss-pn-teide",
       "official_name": "Áreas de vivac §6.3.2.7 (Teide, Montaña Blanca, Pico Viejo, Montaña Guajara) — delimitación concreta delegada a la administración gestora, NO delimitada en el decreto",
       "geometry_source": null,
