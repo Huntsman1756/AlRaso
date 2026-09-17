@@ -935,6 +935,7 @@ def test_git_diff_vs_main_only_allowed_files():
         m10_2_allowed = (
             f.startswith("docs/superpowers/specs/2026-09-16-m10.2")
             or f.startswith("docs/superpowers/plans/2026-09-16-m10.2")
+            or f.startswith("docs/superpowers/plans/2026-09-17-m10.2")
         )
         assert (
             f in allowed
