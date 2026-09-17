@@ -238,6 +238,25 @@ def test_gate_proven_requires_reachable_probe(tmp_path):
     assert any(r[0] == "ES" and r[1] == "FAIL" for r in rows)
 
 
+def test_gate_proven_rejects_reachable_non_success(tmp_path):
+    """REACHABLE + CONTENT_MARKER_MISMATCH (e.g. a CAPTCHA interstitial
+    with verified bytes) is reachability evidence, never PROVEN."""
+
+    def mutate(domains):
+        body = b"<html>Radware Captcha Page</html>"
+        sha = _write_body(tmp_path, "ev/ES-AR/captcha.body", body)
+        ar = domains[CANONICAL_DOMAINS.index("ES-AR")]
+        ar["probes"] = [
+            _probe(sha=sha, outcome="CONTENT_MARKER_MISMATCH")
+        ]
+        ar["probes"][0]["evidence_path"] = "ev/ES-AR/captcha.body"
+
+    ok, rows = check_gate(_full_atlas(tmp_path, mutate=mutate),
+                          repo_root=tmp_path)
+    assert not ok
+    assert any(r[0] == "ES-AR" and r[1] == "FAIL" for r in rows)
+
+
 def test_gate_proven_requires_verified_evidence_bytes(tmp_path):
     def mutate(domains):
         domains[1]["probes"][0]["raw_sha256"] = "0" * 64  # digest mismatch

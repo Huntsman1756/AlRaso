@@ -110,12 +110,17 @@ def _check_domain(
             return "FAIL", "BLOCKED_WITH_EVIDENCE requires ≥1 probe attempt"
         return "PASS", "limitation documented with evidence"
 
-    # PROVEN
+    # PROVEN — a REACHABLE response that is not a successful fetch (e.g.
+    # HTTP_ERROR, CONTENT_MARKER_MISMATCH on a CAPTCHA interstitial,
+    # SOFT_404) is reachability evidence, never proof of source content.
     reachable = [
-        p for p in record["probes"] if p["reachability_observed"] == "REACHABLE"
+        p
+        for p in record["probes"]
+        if p["reachability_observed"] == "REACHABLE"
+        and p["fetch_outcome"] == "SUCCESS"
     ]
     if not reachable:
-        return "FAIL", "PROVEN requires ≥1 REACHABLE probe"
+        return "FAIL", "PROVEN requires ≥1 REACHABLE+SUCCESS probe"
     for probe in reachable:
         problem = _verify_probe_evidence(probe, repo_root)
         if problem is None:
