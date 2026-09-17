@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://alraso.dev/schemas/m10.2-snapshot-record.schema.json",
+  "title": "M10.2-B SnapshotRecord",
+  "description": "Versioned evidence record for refresh comparison (spec C.2). Validated by the stdlib structural validator in pipeline/profiles.py.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_id",
+    "surface_id",
+    "doc_id",
+    "raw_sha256",
+    "canonical_sha256",
+    "canonicalizer_id",
+    "canonicalizer_version",
+    "fetch_outcome",
+    "reachability_observed",
+    "observed_at",
+    "runner_network"
+  ],
+  "properties": {
+    "source_id": { "type": "string", "minLength": 1 },
+    "surface_id": { "type": "string", "minLength": 1 },
+    "doc_id": { "type": "string", "minLength": 1 },
+    "raw_sha256": { "type": "string" },
+    "canonical_sha256": { "type": "string" },
+    "canonicalizer_id": { "type": "string" },
+    "canonicalizer_version": { "type": "integer" },
+    "fetch_outcome": {
+      "type": ["string", "null"],
+      "enum": [
+        "SUCCESS", "HTTP_ERROR", "SOFT_404", "CONTENT_MARKER_MISMATCH",
+        "TIMEOUT", "TRANSPORT_ERROR", null
+      ]
+    },
+    "reachability_observed": {
+      "type": "string",
+      "enum": ["REACHABLE", "BLOCKED", "UNREACHABLE", "UNKNOWN"]
+    },
+    "observed_at": { "type": "string", "minLength": 1 },
+    "runner_network": {
+      "type": "string",
+      "enum": ["fixture", "es_local", "foreign_ci", "unknown"]
+    },
+    "etag": { "type": ["string", "null"] },
+    "last_modified": { "type": ["string", "null"] },
+    "http_status": { "type": ["integer", "null"] }
+  }
+}

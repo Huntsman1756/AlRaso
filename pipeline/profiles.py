@@ -164,6 +164,7 @@ class SourceProfile:
         default_factory=lambda: _EMPTY_MAP
     )
     provenance: Mapping[str, Any] = field(default_factory=lambda: _EMPTY_MAP)
+    refresh: Mapping[str, Any] = field(default_factory=lambda: _EMPTY_MAP)
 
 
 def load_profile(path: str | Path) -> SourceProfile:
@@ -186,4 +187,5 @@ def load_profile(path: str | Path) -> SourceProfile:
         reachability=_freeze(data["reachability"]),
         change_detection=_freeze(data.get("change_detection", {})),
         provenance=_freeze(data.get("provenance", {})),
+        refresh=_freeze(data.get("refresh", {})),
     )

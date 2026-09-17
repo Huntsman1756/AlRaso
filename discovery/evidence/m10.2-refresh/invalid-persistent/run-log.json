@@ -1,0 +1,77 @@
+{
+  "scenario": "invalid-persistent",
+  "source_id": "borm",
+  "surface_id": "borm-doc",
+  "canonicalizer": {
+    "id": "identity",
+    "version": 1
+  },
+  "thresholds": {
+    "absence": 3,
+    "invalid": 3,
+    "degraded": 3
+  },
+  "steps": [
+    {
+      "step": 0,
+      "doc_id": "BORM-2",
+      "outcome": "SUCCESS",
+      "state": "BASELINE_CREATED",
+      "emits_packet": false,
+      "counters": {
+        "unreachable": 0,
+        "absent": 0,
+        "invalid": 0
+      },
+      "detail": "FIRST_OBSERVATION -> baseline persisted, no packet"
+    },
+    {
+      "step": 1,
+      "doc_id": "BORM-2",
+      "outcome": "CONTENT_MARKER_MISMATCH",
+      "state": "INVALID",
+      "emits_packet": false,
+      "counters": {
+        "unreachable": 0,
+        "absent": 0,
+        "invalid": 1
+      },
+      "detail": "invalid observation x1 (threshold 3)"
+    },
+    {
+      "step": 2,
+      "doc_id": "BORM-2",
+      "outcome": "CONTENT_MARKER_MISMATCH",
+      "state": "INVALID",
+      "emits_packet": false,
+      "counters": {
+        "unreachable": 0,
+        "absent": 0,
+        "invalid": 2
+      },
+      "detail": "invalid observation x2 (threshold 3)"
+    },
+    {
+      "step": 3,
+      "doc_id": "BORM-2",
+      "outcome": "CONTENT_MARKER_MISMATCH",
+      "state": "INVALID",
+      "emits_packet": true,
+      "counters": {
+        "unreachable": 0,
+        "absent": 0,
+        "invalid": 3
+      },
+      "detail": "invalid observation x3 (threshold 3)"
+    }
+  ],
+  "final_states": [
+    "BASELINE_CREATED",
+    "INVALID",
+    "INVALID",
+    "INVALID"
+  ],
+  "packets_emitted": [
+    "INVALID"
+  ]
+}

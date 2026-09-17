@@ -1,0 +1,43 @@
+{
+  "counters": {
+    "absent": 0,
+    "invalid": 0,
+    "unreachable": 0
+  },
+  "detail": "canonical sha256 changed under the same canonicalizer",
+  "doc_id": "es-ct/d/2026/01/01/1",
+  "new_snapshot": {
+    "canonical_sha256": "faea35803da8d0ed4a980731f646920874c8d23c34d075884f8ddb4bdd18a104",
+    "canonicalizer_id": "identity",
+    "canonicalizer_version": 1,
+    "etag": null,
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "last_modified": null,
+    "raw_sha256": "faea35803da8d0ed4a980731f646920874c8d23c34d075884f8ddb4bdd18a104",
+    "reachability_observed": "REACHABLE"
+  },
+  "observed_at": "2026-09-18T02:00:00Z",
+  "outcome": "CHANGED_CONTENT",
+  "packet_kind": "content_change",
+  "prev_snapshot": {
+    "canonical_sha256": "71cd240bff6722ac85a2a51d5b68ac50e54ff22d7b0fa3cc74979cc61acd1bba",
+    "canonicalizer_id": "identity",
+    "canonicalizer_version": 1,
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "observed_at": "2026-09-18T01:00:00Z",
+    "raw_sha256": "71cd240bff6722ac85a2a51d5b68ac50e54ff22d7b0fa3cc74979cc61acd1bba",
+    "reachability_observed": "REACHABLE",
+    "runner_network": "es_local"
+  },
+  "publication_readiness": "NO",
+  "runner_network": "es_local",
+  "source_id": "dogc",
+  "surface_id": "dogc-eli",
+  "thresholds": {
+    "absence": 3,
+    "degraded": 3,
+    "invalid": 3
+  }
+}

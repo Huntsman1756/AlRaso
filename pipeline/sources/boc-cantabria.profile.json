@@ -12,7 +12,13 @@
       "Content-Type": "application/x-www-form-urlencoded"
     },
     "doc_id_pattern": "BOC-YYYY-NNNN",
-    "ids": ["CVE-YYYY-NNNN", "numExpediente YYYY-NNNN", "BOC-YYYY-NNNN", "idAnuBlob", "idBlob"]
+    "ids": [
+      "CVE-YYYY-NNNN",
+      "numExpediente YYYY-NNNN",
+      "BOC-YYYY-NNNN",
+      "idAnuBlob",
+      "idBlob"
+    ]
   },
   "fetch": {
     "provider": "boc_daily_xml",
@@ -24,7 +30,10 @@
       "Content-Type": "application/x-www-form-urlencoded"
     },
     "response_url_pattern": "verXmlAction\\.do\\?idBlob=\\d+",
-    "formats": ["xml", "pdf"],
+    "formats": [
+      "xml",
+      "pdf"
+    ],
     "content_marker": "<disposicion",
     "soft_404_marker": "No hay documento"
   },
@@ -50,5 +59,12 @@
     "derived_from": "discovery/evidence/spain-coverage-g0/source-matrix.json + access-matrix.json + boc-cantabria-toc-20260804-post.html",
     "probed_at": "2026-09-13",
     "caveat": "ES-only source: foreign fetchers timed out in G0 — UNREACHABLE+TIMEOUT != absent; daily XML carries all disposiciones, per-disposition PDFs behind idAnuBlob"
+  },
+  "refresh": {
+    "absence_threshold": 3,
+    "invalid_threshold": 3,
+    "degraded_threshold": 3,
+    "canonicalizer_id": "identity",
+    "canonicalizer_version": 1
   }
 }

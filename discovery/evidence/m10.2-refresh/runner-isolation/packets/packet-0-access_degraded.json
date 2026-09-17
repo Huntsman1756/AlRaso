@@ -1,0 +1,43 @@
+{
+  "counters": {
+    "absent": 0,
+    "invalid": 0,
+    "unreachable": 3
+  },
+  "detail": "UNREACHABLE x3 >= degraded_threshold 3",
+  "doc_id": "DOGV-1",
+  "new_snapshot": {
+    "canonical_sha256": null,
+    "canonicalizer_id": null,
+    "canonicalizer_version": null,
+    "etag": null,
+    "fetch_outcome": "TIMEOUT",
+    "http_status": null,
+    "last_modified": null,
+    "raw_sha256": null,
+    "reachability_observed": "UNREACHABLE"
+  },
+  "observed_at": "2026-09-18T04:00:00Z",
+  "outcome": "ACCESS_DEGRADED",
+  "packet_kind": "alert",
+  "prev_snapshot": {
+    "canonical_sha256": "4f6363de4fd652ed0dcc8b8ee4358d00d8d557e610862b072eb371fd00b92ae5",
+    "canonicalizer_id": "identity",
+    "canonicalizer_version": 1,
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "observed_at": "2026-09-18T01:00:00Z",
+    "raw_sha256": "4f6363de4fd652ed0dcc8b8ee4358d00d8d557e610862b072eb371fd00b92ae5",
+    "reachability_observed": "REACHABLE",
+    "runner_network": "es_local"
+  },
+  "publication_readiness": "NO",
+  "runner_network": "foreign_ci",
+  "source_id": "dogv",
+  "surface_id": "dogv-api",
+  "thresholds": {
+    "absence": 3,
+    "degraded": 3,
+    "invalid": 3
+  }
+}

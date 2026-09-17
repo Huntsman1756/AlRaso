@@ -8,7 +8,11 @@
     "endpoint": "https://analisi.transparenciacatalunya.cat/resource/n6hn-rmy7.json",
     "query_template": "$where=rang_de_norma='Decret' AND t_tol_de_la_norma like '%{query_key}%'",
     "doc_id_pattern": "ELI es-ct/d/YYYY/MM/DD/N",
-    "queryable_fields": ["t_tol_de_la_norma", "t_tol_de_la_norma_es", "rang_de_norma"],
+    "queryable_fields": [
+      "t_tol_de_la_norma",
+      "t_tol_de_la_norma_es",
+      "rang_de_norma"
+    ],
     "fields": [
       "n_mero_de_control",
       "t_tol_de_la_norma",
@@ -24,7 +28,11 @@
     "provider": "eli_resolver",
     "recipe": "get_simple",
     "method": "GET",
-    "formats": ["xml", "html", "pdf"],
+    "formats": [
+      "xml",
+      "html",
+      "pdf"
+    ],
     "content_marker": "<akomaNtoso"
   },
   "parse": {
@@ -48,5 +56,12 @@
     "derived_from": "discovery/evidence/spain-coverage-g0/source-matrix.json + access-matrix.json + live Socrata capture 2026-09-16",
     "probed_at": "2026-09-13",
     "caveat": "ELI /xml redirects to Akoma Ntoso rendering; consolidated text (vigencia) is a separate surface — version resolution stays gazette_publication"
+  },
+  "refresh": {
+    "absence_threshold": 3,
+    "invalid_threshold": 3,
+    "degraded_threshold": 3,
+    "canonicalizer_id": "identity",
+    "canonicalizer_version": 1
   }
 }

@@ -1,0 +1,43 @@
+{
+  "counters": {
+    "absent": 3,
+    "invalid": 0,
+    "unreachable": 0
+  },
+  "detail": "reachable absence x3 >= absence_threshold 3; prior evidence preserved",
+  "doc_id": "BOCM-20260101-1",
+  "new_snapshot": {
+    "canonical_sha256": "f27fbf90230916b81e7fbb78adbed46d6b1215b96711f119f911ec912e60530e",
+    "canonicalizer_id": "identity",
+    "canonicalizer_version": 1,
+    "etag": null,
+    "fetch_outcome": "HTTP_ERROR",
+    "http_status": 410,
+    "last_modified": null,
+    "raw_sha256": "f27fbf90230916b81e7fbb78adbed46d6b1215b96711f119f911ec912e60530e",
+    "reachability_observed": "REACHABLE"
+  },
+  "observed_at": "2026-09-18T04:00:00Z",
+  "outcome": "DISAPPEARED_SUSPECTED",
+  "packet_kind": "alert",
+  "prev_snapshot": {
+    "canonical_sha256": "6dde02b7e1b0675c24e3f8b1394f46f7a5db6e023876658a3f8e4cc1fd64d0cf",
+    "canonicalizer_id": "identity",
+    "canonicalizer_version": 1,
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "observed_at": "2026-09-18T01:00:00Z",
+    "raw_sha256": "6dde02b7e1b0675c24e3f8b1394f46f7a5db6e023876658a3f8e4cc1fd64d0cf",
+    "reachability_observed": "REACHABLE",
+    "runner_network": "es_local"
+  },
+  "publication_readiness": "NO",
+  "runner_network": "es_local",
+  "source_id": "bocm",
+  "surface_id": "bocm-doc",
+  "thresholds": {
+    "absence": 3,
+    "degraded": 3,
+    "invalid": 3
+  }
+}
