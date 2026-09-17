@@ -138,6 +138,36 @@ def test_http_layer_rejects_unknown_paths_and_serves_api(monkeypatch):
         server.parse_resolve_params({"lat": "", "lon": ""})
 
 
+def test_http_responses_send_nosniff():
+    # Every response (API JSON and static) goes through Handler._send; the
+    # header must be set there so no content-type sniffing is possible.
+    src = (ROOT / "webapp" / "server.py").read_text(encoding="utf-8-sig")
+    send_body = src.split("def _send", 1)[1].split("def ", 1)[0]
+    assert 'send_header("X-Content-Type-Options", "nosniff")' in send_body
+
+
+def test_index_html_attributes_are_wellformed():
+    # Regression: a `"` inside a double-quoted attribute silently truncates it
+    # (the search placeholder once rendered as just "Busca ").
+    from html.parser import HTMLParser
+
+    class _Collector(HTMLParser):
+        def __init__(self):
+            super().__init__(convert_charrefs=True)
+            self.attrs_by_id = {}
+
+        def handle_starttag(self, tag, attrs):
+            d = dict(attrs)
+            if "id" in d:
+                self.attrs_by_id.setdefault(d["id"], d)
+
+    collector = _Collector()
+    collector.feed(
+        (ROOT / "webapp" / "static" / "index.html").read_text(encoding="utf-8"))
+    q = collector.attrs_by_id["q"]
+    assert q["placeholder"] == "Busca «Góriz» o escribe 42.6627, 0.0160"
+
+
 def test_map_style_url_defaults_to_openfreemap_without_key(monkeypatch):
     monkeypatch.delenv("ALRASO_MAP_STYLE_URL", raising=False)
     assert server.map_style_url() == "https://tiles.openfreemap.org/styles/positron"

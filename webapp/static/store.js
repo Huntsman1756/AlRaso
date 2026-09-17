@@ -57,6 +57,14 @@
     return true;
   }
 
+  function _placeValid(p) {
+    if (!p || typeof p !== "object") return false;
+    if (typeof p.lat !== "number" || !isFinite(p.lat) || p.lat < -90 || p.lat > 90) return false;
+    if (typeof p.lon !== "number" || !isFinite(p.lon) || p.lon < -180 || p.lon > 180) return false;
+    if (p.name !== undefined && typeof p.name !== "string") return false;
+    return true;
+  }
+
   function _outingValid(o) {
     if (!o || typeof o !== "object") return false;
     if (typeof o.id !== "string" || !o.id) return false;
@@ -65,6 +73,7 @@
     if (o.status && o.status !== "PLANNED" && o.status !== "COMPLETED") return false;
     if (o.places !== undefined) {
       if (!Array.isArray(o.places)) return false;
+      if (!o.places.every(_placeValid)) return false;
     }
     return true;
   }

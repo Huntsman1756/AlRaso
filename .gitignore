@@ -62,3 +62,16 @@ qa/browser/.m9-runs/
 discovery/evidence/m3a-*/
 tooling/m3a_*
 tooling/_*.py
+
+# OpenCode orchestration runtime state
+.opencode/handoff.md
+.opencode/model-backups/
+.opencode/model-switch.lock
+.opencode/model-*.tmp
+
+# Local git worktrees / personal helper scripts (never part of the public repo)
+.worktrees/
+scripts/
+
+# Builder --check temp-file leftovers (leak fixed; ignore any stragglers)
+webapp/tmp*.json

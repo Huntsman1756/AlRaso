@@ -22,6 +22,7 @@ ANCHORS_JSON = TOOLS / "poi_anchors.json"
 DORMANT_JSON = TOOLS / "poi_dormant_protected_area.json"
 POIS_JSON = ROOT / "webapp" / "pois.json"
 sys.path.insert(0, str(TOOLS))
+import m8_poi_build  # noqa: E402
 from m8_poi_build import _resolve_display_name  # noqa: E402
 
 
@@ -234,6 +235,21 @@ def test_builder_determinism():
     assert _sha256(out1) == _sha256(out2), (
         f"Build outputs differ!\n  out1: {_sha256(out1)}\n  out2: {_sha256(out2)}"
     )
+
+
+def test_check_mode_cleans_up_tempfile_on_failure(tmp_path, monkeypatch):
+    """A failing rebuild must not leak its tmp*.json into the output dir."""
+    doc_path = tmp_path / "doc.json"
+    doc_path.write_text("{}", encoding="utf-8")
+
+    def _explode(args):
+        raise RuntimeError("build exploded")
+
+    monkeypatch.setattr(m8_poi_build, "build", _explode)
+    with pytest.raises(RuntimeError):
+        m8_poi_build.check_mode(doc_path, FIXTURES / "overpass_ordesa.json",
+                                FIXTURES / "overpass_picos.json", "2026-09-11")
+    assert [p.name for p in tmp_path.iterdir()] == ["doc.json"]
 
 
 # ── Source digests ───────────────────────────────────────────────────────────
