@@ -478,24 +478,25 @@ def check_mode(doc_path: Path, ordesa: Path, picos: Path, snapshot_date: str) ->
     ) as tmp:
         tmp_path = Path(tmp.name)
 
-    args = argparse.Namespace(
-        ordesa=str(ordesa),
-        picos=str(picos),
-        snapshot_date=snapshot_date,
-        out=str(tmp_path),
-        check=True,
-    )
-    new_doc = build(args)
-    new_content = json.dumps(new_doc, indent=2, ensure_ascii=False) + "\n"
-    tmp_path.write_bytes(new_content.encode("utf-8"))
+    try:
+        args = argparse.Namespace(
+            ordesa=str(ordesa),
+            picos=str(picos),
+            snapshot_date=snapshot_date,
+            out=str(tmp_path),
+            check=True,
+        )
+        new_doc = build(args)
+        new_content = json.dumps(new_doc, indent=2, ensure_ascii=False) + "\n"
+        tmp_path.write_bytes(new_content.encode("utf-8"))
 
-    committed = doc_path.read_bytes()
-    regenerated = tmp_path.read_bytes()
+        committed = doc_path.read_bytes()
+        regenerated = tmp_path.read_bytes()
+    finally:
+        tmp_path.unlink(missing_ok=True)
 
     committed_sha = _sha256_file(doc_path)
     regenerated_sha = hashlib.sha256(regenerated).hexdigest()
-
-    tmp_path.unlink(missing_ok=True)
 
     if committed == regenerated:
         return True

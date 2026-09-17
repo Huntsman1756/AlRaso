@@ -63,7 +63,7 @@
       "guard_threshold_pct": 5,
       "guard_passed": true
     },
-    "builder_self_sha256": "e1a3215fd5cd3ed23350886b6e6f04822272ef193404a4b162446c08928200ad",
+    "builder_self_sha256": "4fa39631aa3b03492af2b4375082b25f3a0786635d99ddde672aeaf8759b6f54",
     "fixture_digests": {
       "ordesa_fixture_sha256": "618f81a202e4c8d7fb702ae8208d53d53bb8e064dff0ce9d20dcc04e43fabb4b",
       "picos_fixture_sha256": "bb5d852d0aac85e44c99e495e17fb830d1eda9d8af3f2d108377797101c0e6cd"

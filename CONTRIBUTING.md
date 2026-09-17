@@ -30,7 +30,9 @@ Abre http://127.0.0.1:8765. El servidor usa solo stdlib; MapLibre está vendoriz
 python -m pytest -q
 ```
 
-La suite es hermética: sin red, sin motor externo. 580 passed / 8 skipped (al día de hoy).
+La suite es hermética: sin red, sin motor externo. Algunos tests dependen de extras
+opcionales (`tooling`, `dem`, `axiom`); sin ellos se saltan con motivo explícito.
+GitHub Actions es la fuente de verdad para el recuento actual de tests.
 
 ## Gates de CI
 
