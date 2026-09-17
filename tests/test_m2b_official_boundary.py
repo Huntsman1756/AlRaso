@@ -954,6 +954,7 @@ def test_git_diff_vs_main_only_allowed_files():
         m10_3_allowed = (
             f.startswith("discovery/evidence/m10.3")
             or f.startswith("docs/validation/m10.3/")
+            or f.startswith("docs/reports/M10.3-")
             or f == "tests/test_m103_candidates.py"
         )
         assert (

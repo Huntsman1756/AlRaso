@@ -42,6 +42,7 @@ python -m alraso replay  --db ordesa.db --new-knowledge 2028-01-01             #
 | Góriz (ZUM, PN Ordesa) | VERIFIED (geometría) / RULE BLOCKED | geometría oficial identity-proven (IoU `0.999844`, Hausdorff `0,005 m`); regla NO publicable (trigger vivo no verificable) → determinación UNDETERMINED |
 | Picos de Europa | PARTIAL | 3 decretos autonómicos (BOCyL D 17/2025, BOPA D 21/2026, BOC D 57/2026) con regla art. 51 por CCAA; fixtures Phase B cargados; frontera CCAA por IGN/CNIG BDDAE/INSPIRE con guard de 100 m (incertidumbre oficial ~40 m); GISCO retirado del runtime; PARTIAL: excepciones del art. 51 no codificadas (vivac en pared, invierno en Vega La Sotin, tiendas por meteorología adversa). Existen casos interiores que actualmente resuelven PERMITTED bajo los hechos codificados —por ejemplo un caso interior de Cantabria por encima de 1800 m—, pero la cobertura global permanece PARTIAL porque existen excepciones del art. 51 todavía no modeladas |
 | Ordesa (resto) | PARTIAL | fixture M1 cargado, geometría de sectores pendiente (SPATIAL_REVIEW_PENDING_GEOMETRY) |
+| Aigüestortes / Teide / Sierra Nevada | REVIEW_PENDING | M10.3: paquetes de evidencia completos con interpretación PROPUESTA (`docs/validation/m10.3/M10.3-HUMAN-REVIEW.md`); todas las reglas candidatas `REVIEW_REQUIRED`, no publicables hasta revisión humana — el resolver devuelve UNDETERMINED |
 | Resto del mapa | UNKNOWN | "no sabemos; eso no es una prohibición" |
 
 **Góriz — distinción tres vías** (evidencia espacial ≠ conclusión legal pública):

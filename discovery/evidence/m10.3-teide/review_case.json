@@ -63,7 +63,7 @@
     "caveat": "Las 4 áreas de vivac nombradas no tienen delimitación en el decreto (delegada a la administración gestora); el digest OAPN no permite vincularlas a polígonos concretos — cada área cae en envolventes de varias zonas de clase distinta. Criterio altimétrico >2.500 msnm tampoco evaluable desde digest."
   },
   "conditions_modelled": [
-    "altitude_m >= 2500",
+    "altitude_m > 2500 (estricto — 'por encima de 2.500 msnm'; exactamente 2500 es gap literal)",
     "vivac_area in {TEIDE, MONTANA_BLANCA, PICO_VIEJO, MONTANA_GUAJARA}",
     "prior_notification_done (comunicación previa vía sistema de reserva)",
     "nights_same_area <= 1",
@@ -75,7 +75,8 @@
     "La delimitación concreta de las zonas de vivac está delegada a la administración gestora: el ámbito espacial exacto no es mecánicamente derivable del decreto",
     "Cupo temporal de Teide (15) depende del estado operativo del Refugio de Altavista — hecho vivo no cerrable como dato legal",
     "¿'vivac' del §6.3.2.7 cubre tienda ligera? El decreto separa 'acampada' (prohibida) de 'vivac' (regulado) — la frontera semántica la debe fijar el revisor",
-    "La fecha exacta de entrada en vigor (15 días tras publicación) está computada, no leída literalmente"
+    "La fecha exacta de entrada en vigor (15 días tras publicación) está computada, no leída literalmente",
+    "Umbral literal: 'por encima de 2.500 msnm' modelado como >2500; el caso exacto 2500 m queda fuera de ambas reglas propuestas (gap a resolver)"
   ],
   "proposed_resolver_examples": [
     {"facts": {"altitude_m": 3550, "vivac_area": "TEIDE", "prior_notification_done": true, "nights_same_area": 1, "traverse_consecutive_vivac_nights": 1}, "expected_if_approved": "PERMITTED"},

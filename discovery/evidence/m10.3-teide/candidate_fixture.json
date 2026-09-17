@@ -139,7 +139,7 @@
       "effect": "PERMITTED",
       "condition": {
         "all": [
-          {"field": "altitude_m", "op": "gte", "value": 2500},
+          {"field": "altitude_m", "op": "gt", "value": 2500},
           {"field": "prior_notification_done", "op": "is_true"},
           {"field": "vivac_area", "op": "in", "value": ["TEIDE", "MONTANA_BLANCA", "PICO_VIEJO", "MONTANA_GUAJARA"]},
           {"field": "nights_same_area", "op": "lte", "value": 1},
@@ -154,7 +154,7 @@
       "legal_review_complete": false,
       "spatial_review_complete": false,
       "evidence": ["lf-d182-6327-vivac", "lf-d182-disp-cuarto-vigencia"],
-      "interpretation_note": "PROPOSED (pending human review): vivac solo en las 4 áreas nombradas >2.500 msnm, con comunicación previa vía sistema de reserva con cupos (Teide 7 — 15 mientras Refugio Altavista cerrado —, M. Blanca 20, P. Viejo 20, M. Guajara 20), máx 1 noche por área y máx 2 noches consecutivas en travesía en áreas diferentes. La delimitación concreta de zonas de vivac está delegada a la administración gestora: geometría de las áreas NO establecida en el decreto => scope ss-pn-teide-areas-vivac queda SPATIAL_REVIEW_PENDING_GEOMETRY y el cupo/estado del refugio es hecho operativo externo no modelado como regla.",
+      "interpretation_note": "PROPOSED (pending human review): vivac solo en las 4 áreas nombradas 'por encima de 2.500 msnm' (umbral estricto: altitude_m > 2500; exactamente 2500 queda fuera de ambos preceptos — gap literal a resolver por el revisor), con comunicación previa vía sistema de reserva con cupos (Teide 7 — 15 mientras Refugio Altavista cerrado —, M. Blanca 20, P. Viejo 20, M. Guajara 20), máx 1 noche por área y máx 2 noches consecutivas en travesía en áreas diferentes. La delimitación concreta de zonas de vivac está delegada a la administración gestora: geometría de las áreas NO establecida en el decreto => scope ss-pn-teide-areas-vivac queda SPATIAL_REVIEW_PENDING_GEOMETRY y el cupo/estado del refugio es hecho operativo externo no modelado como regla.",
       "normative_basis": ["lf-d182-6327-vivac"]
     },
     {
