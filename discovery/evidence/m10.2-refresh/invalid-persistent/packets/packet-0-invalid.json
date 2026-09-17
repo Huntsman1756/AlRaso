@@ -1,0 +1,43 @@
+{
+  "counters": {
+    "absent": 0,
+    "invalid": 3,
+    "unreachable": 0
+  },
+  "detail": "invalid observation x3 (threshold 3)",
+  "doc_id": "BORM-2",
+  "new_snapshot": {
+    "canonical_sha256": "a8e48df470e8eab5e2b50d5e6809a2de7bd2ab7919d0c8067cff600f605578dd",
+    "canonicalizer_id": "identity",
+    "canonicalizer_version": 1,
+    "etag": null,
+    "fetch_outcome": "CONTENT_MARKER_MISMATCH",
+    "http_status": 200,
+    "last_modified": null,
+    "raw_sha256": "a8e48df470e8eab5e2b50d5e6809a2de7bd2ab7919d0c8067cff600f605578dd",
+    "reachability_observed": "REACHABLE"
+  },
+  "observed_at": "2026-09-18T04:00:00Z",
+  "outcome": "INVALID",
+  "packet_kind": "alert",
+  "prev_snapshot": {
+    "canonical_sha256": "ed92b0a44bb774a5963e657ad8c27df6ab9ca0e2b9acfa649a72c0ebefa33ef0",
+    "canonicalizer_id": "identity",
+    "canonicalizer_version": 1,
+    "fetch_outcome": "SUCCESS",
+    "http_status": 200,
+    "observed_at": "2026-09-18T01:00:00Z",
+    "raw_sha256": "ed92b0a44bb774a5963e657ad8c27df6ab9ca0e2b9acfa649a72c0ebefa33ef0",
+    "reachability_observed": "REACHABLE",
+    "runner_network": "es_local"
+  },
+  "publication_readiness": "NO",
+  "runner_network": "es_local",
+  "source_id": "borm",
+  "surface_id": "borm-doc",
+  "thresholds": {
+    "absence": 3,
+    "degraded": 3,
+    "invalid": 3
+  }
+}

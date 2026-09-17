@@ -1,0 +1,47 @@
+{
+  "scenario": "canonicalizer-bump",
+  "source_id": "bocyl",
+  "surface_id": "bocyl-doc",
+  "canonicalizer": {
+    "id": "identity",
+    "version": 1
+  },
+  "thresholds": {
+    "absence": 3,
+    "invalid": 3,
+    "degraded": 3
+  },
+  "steps": [
+    {
+      "step": 0,
+      "doc_id": "BOCYL-D-01012026-2",
+      "outcome": "SUCCESS",
+      "state": "BASELINE_CREATED",
+      "emits_packet": false,
+      "counters": {
+        "unreachable": 0,
+        "absent": 0,
+        "invalid": 0
+      },
+      "detail": "FIRST_OBSERVATION -> baseline persisted, no packet"
+    },
+    {
+      "step": 1,
+      "doc_id": "BOCYL-D-01012026-2",
+      "outcome": "SUCCESS",
+      "state": "REBASELINE_REQUIRED",
+      "emits_packet": false,
+      "counters": {
+        "unreachable": 0,
+        "absent": 0,
+        "invalid": 0
+      },
+      "detail": "canonicalizer identity@1 -> identity@2: manual re-baseline; never a content change"
+    }
+  ],
+  "final_states": [
+    "BASELINE_CREATED",
+    "REBASELINE_REQUIRED"
+  ],
+  "packets_emitted": []
+}

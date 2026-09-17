@@ -1,0 +1,47 @@
+{
+  "scenario": "transport-only",
+  "source_id": "boc-canarias",
+  "surface_id": "boc-cn-doc",
+  "canonicalizer": {
+    "id": "html_volatile",
+    "version": 1
+  },
+  "thresholds": {
+    "absence": 3,
+    "invalid": 3,
+    "degraded": 3
+  },
+  "steps": [
+    {
+      "step": 0,
+      "doc_id": "BOC-A-2026-001-0001",
+      "outcome": "SUCCESS",
+      "state": "BASELINE_CREATED",
+      "emits_packet": false,
+      "counters": {
+        "unreachable": 0,
+        "absent": 0,
+        "invalid": 0
+      },
+      "detail": "FIRST_OBSERVATION -> baseline persisted, no packet"
+    },
+    {
+      "step": 1,
+      "doc_id": "BOC-A-2026-001-0001",
+      "outcome": "SUCCESS",
+      "state": "CHANGED_TRANSPORT_ONLY",
+      "emits_packet": false,
+      "counters": {
+        "unreachable": 0,
+        "absent": 0,
+        "invalid": 0
+      },
+      "detail": "canonical identical; raw bytes or etag/last_modified changed — transport-level only"
+    }
+  ],
+  "final_states": [
+    "BASELINE_CREATED",
+    "CHANGED_TRANSPORT_ONLY"
+  ],
+  "packets_emitted": []
+}

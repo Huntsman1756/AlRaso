@@ -1,0 +1,77 @@
+{
+  "scenario": "absence-404",
+  "source_id": "bocm",
+  "surface_id": "bocm-doc",
+  "canonicalizer": {
+    "id": "identity",
+    "version": 1
+  },
+  "thresholds": {
+    "absence": 3,
+    "invalid": 3,
+    "degraded": 3
+  },
+  "steps": [
+    {
+      "step": 0,
+      "doc_id": "BOCM-20260101-1",
+      "outcome": "SUCCESS",
+      "state": "BASELINE_CREATED",
+      "emits_packet": false,
+      "counters": {
+        "unreachable": 0,
+        "absent": 0,
+        "invalid": 0
+      },
+      "detail": "FIRST_OBSERVATION -> baseline persisted, no packet"
+    },
+    {
+      "step": 1,
+      "doc_id": "BOCM-20260101-1",
+      "outcome": "HTTP_ERROR",
+      "state": "ABSENT_OBSERVED",
+      "emits_packet": false,
+      "counters": {
+        "unreachable": 0,
+        "absent": 1,
+        "invalid": 0
+      },
+      "detail": "reachable absence x1 (threshold 3)"
+    },
+    {
+      "step": 2,
+      "doc_id": "BOCM-20260101-1",
+      "outcome": "HTTP_ERROR",
+      "state": "ABSENT_OBSERVED",
+      "emits_packet": false,
+      "counters": {
+        "unreachable": 0,
+        "absent": 2,
+        "invalid": 0
+      },
+      "detail": "reachable absence x2 (threshold 3)"
+    },
+    {
+      "step": 3,
+      "doc_id": "BOCM-20260101-1",
+      "outcome": "HTTP_ERROR",
+      "state": "DISAPPEARED_SUSPECTED",
+      "emits_packet": true,
+      "counters": {
+        "unreachable": 0,
+        "absent": 3,
+        "invalid": 0
+      },
+      "detail": "reachable absence x3 >= absence_threshold 3; prior evidence preserved"
+    }
+  ],
+  "final_states": [
+    "BASELINE_CREATED",
+    "ABSENT_OBSERVED",
+    "ABSENT_OBSERVED",
+    "DISAPPEARED_SUSPECTED"
+  ],
+  "packets_emitted": [
+    "DISAPPEARED_SUSPECTED"
+  ]
+}

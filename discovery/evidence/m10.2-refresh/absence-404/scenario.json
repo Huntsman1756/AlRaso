@@ -1,0 +1,50 @@
+{
+  "source_id": "bocm",
+  "surface_id": "bocm-doc",
+  "canonicalizer": {
+    "id": "identity",
+    "version": 1
+  },
+  "steps": [
+    {
+      "doc_id": "BOCM-20260101-1",
+      "outcome": "SUCCESS",
+      "body": "v1.pdf",
+      "http_status": 200,
+      "observed_at": "2026-09-18T01:00:00Z"
+    },
+    {
+      "doc_id": "BOCM-20260101-1",
+      "outcome": "HTTP_ERROR",
+      "http_status": 404,
+      "body": "e404.html",
+      "observed_at": "2026-09-18T02:00:00Z"
+    },
+    {
+      "doc_id": "BOCM-20260101-1",
+      "outcome": "HTTP_ERROR",
+      "http_status": 404,
+      "body": "e404.html",
+      "observed_at": "2026-09-18T03:00:00Z"
+    },
+    {
+      "doc_id": "BOCM-20260101-1",
+      "outcome": "HTTP_ERROR",
+      "http_status": 410,
+      "body": "e410.html",
+      "observed_at": "2026-09-18T04:00:00Z"
+    }
+  ],
+  "expect": {
+    "final_states": [
+      "BASELINE_CREATED",
+      "ABSENT_OBSERVED",
+      "ABSENT_OBSERVED",
+      "DISAPPEARED_SUSPECTED"
+    ],
+    "packets": [
+      "DISAPPEARED_SUSPECTED"
+    ]
+  },
+  "name": "absence-404"
+}

@@ -1,0 +1,49 @@
+{
+  "scenario": "changed-content",
+  "source_id": "dogc",
+  "surface_id": "dogc-eli",
+  "canonicalizer": {
+    "id": "identity",
+    "version": 1
+  },
+  "thresholds": {
+    "absence": 3,
+    "invalid": 3,
+    "degraded": 3
+  },
+  "steps": [
+    {
+      "step": 0,
+      "doc_id": "es-ct/d/2026/01/01/1",
+      "outcome": "SUCCESS",
+      "state": "BASELINE_CREATED",
+      "emits_packet": false,
+      "counters": {
+        "unreachable": 0,
+        "absent": 0,
+        "invalid": 0
+      },
+      "detail": "FIRST_OBSERVATION -> baseline persisted, no packet"
+    },
+    {
+      "step": 1,
+      "doc_id": "es-ct/d/2026/01/01/1",
+      "outcome": "SUCCESS",
+      "state": "CHANGED_CONTENT",
+      "emits_packet": true,
+      "counters": {
+        "unreachable": 0,
+        "absent": 0,
+        "invalid": 0
+      },
+      "detail": "canonical sha256 changed under the same canonicalizer"
+    }
+  ],
+  "final_states": [
+    "BASELINE_CREATED",
+    "CHANGED_CONTENT"
+  ],
+  "packets_emitted": [
+    "CHANGED_CONTENT"
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "scenario": "unreachable-degraded",
+  "source_id": "borm",
+  "surface_id": "borm-doc",
+  "canonicalizer": {
+    "id": "identity",
+    "version": 1
+  },
+  "thresholds": {
+    "absence": 3,
+    "invalid": 3,
+    "degraded": 3
+  },
+  "steps": [
+    {
+      "step": 0,
+      "doc_id": "BORM-1",
+      "outcome": "SUCCESS",
+      "state": "BASELINE_CREATED",
+      "emits_packet": false,
+      "counters": {
+        "unreachable": 0,
+        "absent": 0,
+        "invalid": 0
+      },
+      "detail": "FIRST_OBSERVATION -> baseline persisted, no packet"
+    },
+    {
+      "step": 1,
+      "doc_id": "BORM-1",
+      "outcome": "TIMEOUT",
+      "state": "UNREACHABLE",
+      "emits_packet": false,
+      "counters": {
+        "unreachable": 1,
+        "absent": 0,
+        "invalid": 0
+      },
+      "detail": "UNREACHABLE x1 — never absence"
+    },
+    {
+      "step": 2,
+      "doc_id": "BORM-1",
+      "outcome": "TRANSPORT_ERROR",
+      "state": "UNREACHABLE",
+      "emits_packet": false,
+      "counters": {
+        "unreachable": 2,
+        "absent": 0,
+        "invalid": 0
+      },
+      "detail": "UNREACHABLE x2 — never absence"
+    },
+    {
+      "step": 3,
+      "doc_id": "BORM-1",
+      "outcome": "TIMEOUT",
+      "state": "ACCESS_DEGRADED",
+      "emits_packet": true,
+      "counters": {
+        "unreachable": 3,
+        "absent": 0,
+        "invalid": 0
+      },
+      "detail": "UNREACHABLE x3 >= degraded_threshold 3"
+    }
+  ],
+  "final_states": [
+    "BASELINE_CREATED",
+    "UNREACHABLE",
+    "UNREACHABLE",
+    "ACCESS_DEGRADED"
+  ],
+  "packets_emitted": [
+    "ACCESS_DEGRADED"
+  ]
+}
