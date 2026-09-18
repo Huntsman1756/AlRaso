@@ -93,8 +93,9 @@ def test_duplicate_ingest_rejected_without_partial_state():
     s = new_store()
     load_ordesa(s)
     before = s.conn.execute("SELECT COUNT(*) FROM legal_rule_version").fetchone()[0]
-    with pytest.raises(sqlite3.IntegrityError):
-        load_ordesa(s)          # duplicate primary keys
+    from alraso.errors import InvalidRule
+    with pytest.raises((sqlite3.IntegrityError, InvalidRule)):
+        load_ordesa(s)          # duplicate rule-version redeclare -> rejected
     after = s.conn.execute("SELECT COUNT(*) FROM legal_rule_version").fetchone()[0]
     assert after == before      # explicit rejection, no ambiguity
     r = Resolver(s)

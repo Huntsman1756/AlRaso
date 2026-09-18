@@ -1,12 +1,12 @@
 {
  "$schema": "alraso-corpus-candidate-v1",
  "fixture_meta": {
-  "name": "M8_CANDIDATE_GUADARRAMA_CM_V2B",
-  "purpose": "M8 Madrid vertical — evidence candidate for PN Sierra de Guadarrama (CAM side). NOT product corpus: every rule version is REVIEW_REQUIRED with legal_review_complete=false and spatial_review_complete=false, so the eligibility gate makes all of them non-publishable. Pending human adjudication.",
-  "created": "2026-09-17",
-  "activity_scope": "VIVAC_AL_RASO only — art. 38.1.o acampada/pernocta captured as fragment evidence, NOT generalized into an ACAMPADA rule; CAM general rule (D 26/2025) captured as context fragment only",
+  "name": "M8_CANDIDATE_GUADARRAMA_V2B_A_ANEXO3",
+  "purpose": "Rama A separable: permiso vivac Anexo III (art. 48.a.2 primera parte + 48.a.3). Publicable de forma independiente: un permiso no requiere que el cierre residual este adjudicado.",
+  "created": "2026-09-18",
   "publishable": false,
-  "remodel": "v2b post-REJECT: ramas art. 48 explicitas (A Anexo III, B refugio, C estacional post-nulidad, D prohibicion con excepciones declaradas, E AUTH>10, F restriccion dinamica fuego). Requiere resolver M8-D2 (CONDITIONAL-over-restriction + date_in_range)."
+  "activity_scope": "VIVAC_AL_RASO only — art. 38.1.o acampada/pernocta captured as fragment evidence, NOT generalized into an ACAMPADA rule; CAM general rule (D 26/2025) captured as context fragment only",
+  "remodel": "v2b split: unidad de adjudicacion = conjunto juridicamente inseparable (sustituye al fixture v2b combinado)"
  },
  "source_documents": [
   {
@@ -153,26 +153,6 @@
    "srid_native": 25830,
    "review_status": "SPATIAL_REVIEW_PENDING",
    "relevance": "REGULATORY"
-  },
-  {
-   "id": "ss-pnsg-zpp-cm",
-   "scope_type": "PARK_SECTOR",
-   "official_name": "Zona Periférica de Protección del PNSG (ámbito CAM)",
-   "geometry_source": "sd-idem-pn-boundary-cm",
-   "feature_id": "Zona Periférica de Protección del Parque Nacional de la Sierra de Guadarrama",
-   "srid_native": 25830,
-   "review_status": "SPATIAL_REVIEW_PENDING",
-   "relevance": "REGULATORY"
-  },
-  {
-   "id": "ss-pnsg-reserva-cm",
-   "scope_type": "PARK_SECTOR",
-   "official_name": "Zonas de Reserva PRUG PNSG (lado Comunidad de Madrid)",
-   "geometry_source": "sd-idem-pn-boundary-cm",
-   "feature_id": "IDEM_MA_PNSG_RESERVA_CM.geojson — subset derivado de IDEM_MA_PNSG_ZONIFICACION (DS_ZONIF=Zona de Reserva AND DS_PROV=MADRID, 11 features, geometria oficial sin modificar)",
-   "srid_native": 25830,
-   "review_status": "SPATIAL_REVIEW_PENDING",
-   "relevance": "REGULATORY"
   }
  ],
  "legal_rule_versions": [
@@ -207,332 +187,19 @@
     "lf-d18-48a3-condiciones",
     "lf-d18-48a1-def-vivac"
    ],
-   "interpretation_note": "RAMA A (v2b): vivac permitido en las 5 zonas oficiales Anexo III sujeto a las condiciones generales del art. 48.a.3 (<=1 noche por zona; grupos organizados <=10). Sin facts de usuario => CONDITIONAL (permiso sujeto a condicion declarable), nunca PROHIBITED por ausencia de fact.",
+   "interpretation_note": "RAMA A: vivac permitido en las 5 zonas oficiales Anexo III sujeto a art. 48.a.3 (<=1 noche/zona, grupos organizados <=10). Los facts son declarados por el usuario; su consumo queda marcado DEPENDS_ON_DECLARED_FACTS. Sin facts => CONDITIONAL, nunca PROHIBITED por ausencia de fact.",
    "normative_basis": [
     "lf-d18-48a2-ambito",
     "lf-d18-48a3-condiciones"
-   ]
-  },
-  {
-   "rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-anexo3-gt10",
-   "activity": "VIVAC_AL_RASO",
-   "spatial_scope_id": "ss-pnsg-vivac-anexo3",
-   "effect": "AUTHORIZATION_REQUIRED",
-   "condition": {
-    "field": "group_size",
-    "op": "gt",
-    "value": 10
-   },
-   "effective_from": "2020-03-01",
-   "effective_to": null,
-   "recorded_at": "2026-09-18",
-   "recorded_until": null,
-   "review_status": "REVIEW_REQUIRED",
-   "legal_review_complete": false,
-   "spatial_review_complete": false,
-   "evidence": [
-    "lf-d18-48a3-condiciones",
-    "lf-d18-48a2-ambito"
-   ],
-   "interpretation_note": "RAMA E (v2b): grupos organizados >10 en zonas Anexo III requieren autorizacion expresa (art. 48.a.3.a) — AUTHORIZATION_REQUIRED, no PROHIBITED. Sin group_size => UNDETERMINED (fail-closed, no puede distinguirse permiso de autorizacion).",
-   "normative_basis": [
-    "lf-d18-48a3-condiciones",
-    "lf-d18-48a2-ambito"
-   ]
-  },
-  {
-   "rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-refugio",
-   "activity": "VIVAC_AL_RASO",
-   "spatial_scope_id": "ss-pnsg-pn-cm",
-   "effect": "PERMITTED",
-   "condition": {
-    "all": [
-     {
-      "field": "near_unguarded_refuge",
-      "op": "is_true"
-     },
-     {
-      "field": "refuge_has_free_places",
-      "op": "is_false"
-     },
-     {
-      "field": "nights_same_zone",
-      "op": "lte",
-      "value": 1
-     },
-     {
-      "field": "group_size",
-      "op": "lte",
-      "value": 10
-     }
-    ]
-   },
-   "effective_from": "2020-03-01",
-   "effective_to": null,
-   "recorded_at": "2026-09-18",
-   "recorded_until": null,
-   "review_status": "REVIEW_REQUIRED",
-   "legal_review_complete": false,
-   "spatial_review_complete": false,
-   "evidence": [
-    "lf-d18-48a2-ambito",
-    "lf-d18-48a3-condiciones"
-   ],
-   "interpretation_note": "RAMA B (v2b): entorno inmediato de refugio no guardado cuando no existen plazas libres en el interior (art. 48.a.2). Sin delimitacion oficial del entorno => hechos declarables por el usuario (near_unguarded_refuge, refuge_has_free_places). Facts ausentes => CONDITIONAL sobre la prohibicion general, NUNCA PROHIBITED por ausencia del fact.",
-   "normative_basis": [
-    "lf-d18-48a2-ambito",
-    "lf-d18-48a3-condiciones"
-   ]
-  },
-  {
-   "rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-estacional",
-   "activity": "VIVAC_AL_RASO",
-   "spatial_scope_id": "ss-pnsg-pn-cm",
-   "effect": "PERMITTED",
-   "condition": {
-    "all": [
-     {
-      "not": {
-       "field": "activity_date",
-       "op": "date_in_range",
-       "value": [
-        "06-15",
-        "10-15"
-       ]
-      }
-     },
-     {
-      "field": "group_size",
-      "op": "lte",
-      "value": 5
-     },
-     {
-      "field": "nights_same_zone",
-      "op": "lte",
-      "value": 1
-     }
-    ]
-   },
-   "effective_from": "2020-03-01",
-   "effective_to": null,
-   "recorded_at": "2026-09-18",
-   "recorded_until": null,
-   "review_status": "REVIEW_REQUIRED",
-   "legal_review_complete": false,
-   "spatial_review_complete": false,
-   "evidence": [
-    "lf-d18-48a2-ambito",
-    "lf-d18-48a3-condiciones"
-   ],
-   "interpretation_note": "RAMA C (v2b): clausula estacional del art. 48.a.2 TRAS la nulidad parcial (STSJM 1003/2022 anulo SOLO el extremo del limite de 2.000 m): vivac fuera del periodo 15/6-15/10, en lugares que no sean Zona de Reserva (excluida via scope+OVERRIDES, no por fact), grupos <=5, condiciones generales 48.a.3. La fecha es derivada de la query (activity_date), no un fact de usuario.",
-   "normative_basis": [
-    "lf-d18-48a2-ambito",
-    "lf-d18-48a3-condiciones"
-   ]
-  },
-  {
-   "rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-prohibido-pn",
-   "activity": "VIVAC_AL_RASO",
-   "spatial_scope_id": "ss-pnsg-pn-cm",
-   "effect": "PROHIBITED",
-   "condition": null,
-   "effective_from": "2020-03-01",
-   "effective_to": null,
-   "recorded_at": "2026-09-18",
-   "recorded_until": null,
-   "review_status": "REVIEW_REQUIRED",
-   "legal_review_complete": false,
-   "spatial_review_complete": false,
-   "evidence": [
-    "lf-d18-381o-incompatible",
-    "lf-d18-48a2-ambito"
-   ],
-   "interpretation_note": "RAMA D (v2b): cierre del regimen — art. 38.1.o + «unicamente se permitira» del 48.a.2. PROHIBITED incondicional; TODAS las excepciones estan representadas como reglas con OVERRIDES declarado (A, B, C, E). Cuando una excepcion queda undetermined por facts ausentes, el resultado es CONDITIONAL, no PROHIBITED.",
-   "normative_basis": [
-    "lf-d18-381o-incompatible",
-    "lf-d18-48a2-ambito"
-   ]
-  },
-  {
-   "rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-prohibido-reserva",
-   "activity": "VIVAC_AL_RASO",
-   "spatial_scope_id": "ss-pnsg-reserva-cm",
-   "effect": "PROHIBITED",
-   "condition": null,
-   "effective_from": "2020-03-01",
-   "effective_to": null,
-   "recorded_at": "2026-09-18",
-   "recorded_until": null,
-   "review_status": "REVIEW_REQUIRED",
-   "legal_review_complete": false,
-   "spatial_review_complete": false,
-   "evidence": [
-    "lf-d18-48a2-ambito",
-    "lf-d18-381o-incompatible"
-   ],
-   "interpretation_note": "Zona de Reserva: la clausula estacional excluye expresamente la Reserva («que no sean Zona de Reserva»); ninguna modalidad de vivac del art. 48 la alcanza => PROHIBITED incondicional. Geometria: subset derivado de la zonificacion oficial IDEM (lado CAM).",
-   "normative_basis": [
-    "lf-d18-48a2-ambito",
-    "lf-d18-381o-incompatible"
    ]
   }
  ],
- "rule_relations": [
-  {
-   "relation_id": "rel-vivac-anexo3-over-prohibido",
-   "relation_type": "OVERRIDES",
-   "from_rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-anexo3",
-   "to_rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-prohibido-pn",
-   "from_effect": null,
-   "to_effect": null,
-   "effective_from": "2020-03-01",
-   "effective_to": null,
-   "recorded_at": "2026-09-18",
-   "recorded_until": null,
-   "review_status": "REVIEW_REQUIRED",
-   "legal_review_complete": false,
-   "human_verified": false,
-   "ai_proposed": true,
-   "evidence": [
-    "lf-d18-48a2-ambito",
-    "lf-d18-381o-incompatible"
-   ],
-   "normative_basis": [
-    "lf-d18-48a2-ambito"
-   ]
-  },
-  {
-   "relation_id": "rel-vivac-refugio-over-prohibido",
-   "relation_type": "OVERRIDES",
-   "from_rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-refugio",
-   "to_rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-prohibido-pn",
-   "from_effect": null,
-   "to_effect": null,
-   "effective_from": "2020-03-01",
-   "effective_to": null,
-   "recorded_at": "2026-09-18",
-   "recorded_until": null,
-   "review_status": "REVIEW_REQUIRED",
-   "legal_review_complete": false,
-   "human_verified": false,
-   "ai_proposed": true,
-   "evidence": [
-    "lf-d18-48a2-ambito",
-    "lf-d18-381o-incompatible"
-   ],
-   "normative_basis": [
-    "lf-d18-48a2-ambito"
-   ]
-  },
-  {
-   "relation_id": "rel-vivac-estacional-over-prohibido",
-   "relation_type": "OVERRIDES",
-   "from_rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-estacional",
-   "to_rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-prohibido-pn",
-   "from_effect": null,
-   "to_effect": null,
-   "effective_from": "2020-03-01",
-   "effective_to": null,
-   "recorded_at": "2026-09-18",
-   "recorded_until": null,
-   "review_status": "REVIEW_REQUIRED",
-   "legal_review_complete": false,
-   "human_verified": false,
-   "ai_proposed": true,
-   "evidence": [
-    "lf-d18-48a2-ambito",
-    "lf-d18-381o-incompatible"
-   ],
-   "normative_basis": [
-    "lf-d18-48a2-ambito"
-   ]
-  },
-  {
-   "relation_id": "rel-vivac-gt10-over-prohibido",
-   "relation_type": "OVERRIDES",
-   "from_rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-anexo3-gt10",
-   "to_rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-prohibido-pn",
-   "from_effect": null,
-   "to_effect": null,
-   "effective_from": "2020-03-01",
-   "effective_to": null,
-   "recorded_at": "2026-09-18",
-   "recorded_until": null,
-   "review_status": "REVIEW_REQUIRED",
-   "legal_review_complete": false,
-   "human_verified": false,
-   "ai_proposed": true,
-   "evidence": [
-    "lf-d18-48a3-condiciones",
-    "lf-d18-381o-incompatible"
-   ],
-   "normative_basis": [
-    "lf-d18-48a3-condiciones"
-   ]
-  },
-  {
-   "relation_id": "rel-reserva-over-refugio",
-   "relation_type": "OVERRIDES",
-   "from_rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-prohibido-reserva",
-   "to_rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-refugio",
-   "from_effect": null,
-   "to_effect": null,
-   "effective_from": "2020-03-01",
-   "effective_to": null,
-   "recorded_at": "2026-09-18",
-   "recorded_until": null,
-   "review_status": "REVIEW_REQUIRED",
-   "legal_review_complete": false,
-   "human_verified": false,
-   "ai_proposed": true,
-   "evidence": [
-    "lf-d18-48a2-ambito"
-   ],
-   "normative_basis": [
-    "lf-d18-48a2-ambito"
-   ]
-  },
-  {
-   "relation_id": "rel-reserva-over-estacional",
-   "relation_type": "OVERRIDES",
-   "from_rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-prohibido-reserva",
-   "to_rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-estacional",
-   "from_effect": null,
-   "to_effect": null,
-   "effective_from": "2020-03-01",
-   "effective_to": null,
-   "recorded_at": "2026-09-18",
-   "recorded_until": null,
-   "review_status": "REVIEW_REQUIRED",
-   "legal_review_complete": false,
-   "human_verified": false,
-   "ai_proposed": true,
-   "evidence": [
-    "lf-d18-48a2-ambito"
-   ],
-   "normative_basis": [
-    "lf-d18-48a2-ambito"
-   ]
-  }
- ],
+ "rule_relations": [],
  "expected": {
   "publishability": [
    {
     "assert": "NO_RULE_PUBLISHABLE",
     "note": "Toda versión REVIEW_REQUIRED + legal_review_complete=false + spatial_review_complete=false => eligibility gate rechaza; resolver devuelve UNDETERMINED/INCOMPLETE para cualquier consulta."
-   }
-  ],
-  "basic_queries": [
-   {
-    "query": {
-     "activity": "VIVAC_AL_RASO",
-     "spatial_scope_id": "ss-pnsg-vivac-anexo3",
-     "activity_date": "2026-09-17",
-     "knowledge_date": "2026-09-17"
-    },
-    "expected_legal_status": "UNDETERMINED",
-    "expected_knowledge_status": "INCOMPLETE",
-    "note": "Sin revisión humana no hay regla publicable."
    }
   ]
  },

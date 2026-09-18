@@ -461,6 +461,22 @@ class BitemporalStore:
     def add_source_document(self, d: dict[str, Any]) -> None:
         if not d.get("id") or not d.get("title"):
             raise InvalidRule("source_document requires id and title")
+        # Split-fixture publication (M8-D2): independently adjudicated
+        # fixtures may cite the same document. Identical redeclaration is a
+        # no-op; divergence is rejected — never silently overwritten.
+        existing = self.conn.execute(
+            "SELECT authority,jurisdiction,document_type,title,canonical_url,"
+            "official_status,retrieved_at,content_hash "
+            "FROM source_document WHERE id=?", (d["id"],)).fetchone()
+        if existing is not None:
+            incoming = (d.get("authority"), d.get("jurisdiction"),
+                        d.get("document_type"), d["title"],
+                        d.get("canonical_url"), d.get("official_status"),
+                        d.get("retrieved_at"), d.get("content_hash"))
+            if tuple(existing) == incoming:
+                return
+            raise InvalidRule(
+                f"source_document {d['id']!r} redeclared with divergent metadata")
         self.conn.execute(
             "INSERT INTO source_document (id,authority,jurisdiction,document_type,title,"
             "canonical_url,official_status,retrieved_at,content_hash) "
@@ -496,6 +512,21 @@ class BitemporalStore:
         if validity_from is not None and validity_to is not None:
             if validity_to < validity_from:
                 raise InvalidRule("validity_to precedes validity_from")
+        # Split-fixture publication (M8-D2): identical redeclaration is a
+        # no-op; divergence is rejected — never silently overwritten.
+        existing = self.conn.execute(
+            "SELECT source_document_id,locator,exact_text_hint,extracted_at,"
+            "review_status,provision_ref,validity_from,validity_to "
+            "FROM legal_fragment WHERE id=?", (d["id"],)).fetchone()
+        if existing is not None:
+            incoming = (d["source_document_id"], d["locator"],
+                        d.get("exact_text_hint"), d.get("extracted_at"),
+                        review_status, provision_ref if provision_ref else None,
+                        validity_from, validity_to)
+            if tuple(existing) == incoming:
+                return
+            raise InvalidRule(
+                f"legal_fragment {d['id']!r} redeclared with divergent metadata")
         self.conn.execute(
             "INSERT INTO legal_fragment (id,source_document_id,locator,exact_text_hint,"
             "extracted_at,review_status,provision_ref,validity_from,validity_to) VALUES "
@@ -517,6 +548,23 @@ class BitemporalStore:
         if relevance not in SCOPE_RELEVANCES:
             raise InvalidScope(f"unknown relevance {relevance!r} "
                                f"(expected one of {sorted(SCOPE_RELEVANCES)})")
+        # Split-fixture publication (M8-D2): two independently adjudicated
+        # fixtures may declare the same scope row. A byte-identical
+        # redeclaration is a no-op; ANY divergence is rejected — adjudicated
+        # metadata is never silently overwritten or widened.
+        existing = self.conn.execute(
+            "SELECT scope_type,parent_scope,official_name,geometry_source,"
+            "feature_id,srid_native,review_status,relevance "
+            "FROM spatial_scope WHERE id=?", (d["id"],)).fetchone()
+        if existing is not None:
+            incoming = (d["scope_type"], d.get("parent_scope"), d["official_name"],
+                        d.get("geometry_source"), d.get("feature_id"),
+                        d.get("srid_native"), d.get("review_status"), relevance)
+            if tuple(existing) == incoming:
+                return
+            raise InvalidScope(
+                f"spatial_scope {d['id']!r} redeclared with divergent metadata "
+                f"(existing {tuple(existing)!r} vs {incoming!r})")
         self.conn.execute(
             "INSERT INTO spatial_scope (id,scope_type,parent_scope,official_name,"
             "geometry_source,feature_id,srid_native,review_status,relevance) "
@@ -548,6 +596,19 @@ class BitemporalStore:
         evidence = d.get("evidence", [])
         if not isinstance(evidence, list) or any(not isinstance(e, str) for e in evidence):
             raise InvalidRule("evidence must be a list of fragment ids")
+        # Natural-key redeclare (M8-D2): metadata rows dedupe identically,
+        # but a rule VERSION is adjudicated content — re-declaring the same
+        # lineage slot (same rule/scope/validity/recorded_at) is an explicit
+        # rejection, never a silent duplicate or silent overwrite.
+        dup = self.conn.execute(
+            "SELECT 1 FROM legal_rule_version WHERE rule_id=? AND activity=? "
+            "AND spatial_scope_id=? AND effective_from=? AND recorded_at=?",
+            (d["rule_id"], d["activity"], d["spatial_scope_id"],
+             d["effective_from"], d["recorded_at"])).fetchone()
+        if dup is not None:
+            raise InvalidRule(
+                f"duplicate rule version redeclare: {d['rule_id']!r} "
+                f"@{d['spatial_scope_id']!r} from {d['effective_from']}")
         review_status = d.get("review_status", "REVIEW_REQUIRED")
         # F01: a version claiming a publishable review state must show its
         # review work; the store refuses to encode publishable-but-unreviewed.

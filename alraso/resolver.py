@@ -49,6 +49,7 @@ import json
 import sqlite3
 from typing import Any
 
+from alraso import conditions
 from alraso.bitemporal import (
     BitemporalStore,
     PUBLISHABLE_REVIEW_STATUSES,
@@ -89,6 +90,7 @@ from alraso.errors import (
     REASON_CONDITIONAL_UNVERIFIED,
     REASON_OPERATIONAL_BLOCK,
     REASON_BOUNDARY_AMBIGUOUS,
+    REASON_DEPENDS_DECLARED_FACTS,
 )
 from alraso.precedence import (
     Judgment,
@@ -188,10 +190,18 @@ class Resolver:
         parse_date_strict(query.activity_date, field="activity_date")
         parse_date_strict(query.knowledge_date, field="knowledge_date")
         facts = validate_facts(query.facts)
-        # Derived fact (deterministic, documented): the query's own
-        # activity_date is exposed so temporal conditions (op date_in_range)
-        # can gate rules on the season. It is injected AFTER strict fact
-        # validation and always reflects the query — never a caller claim.
+        # Derived facts (deterministic, documented — never caller claims):
+        #   * activity_date: the query's own date, so temporal conditions
+        #     (op date_in_range) gate rules on the season;
+        #   * scope:<scope_id>: membership facts resolved from geometry —
+        #     True for hit scopes, False for provider-catalog misses.
+        # Caller-supplied keys in the derived namespace are stripped, never
+        # trusted: a user cannot declare themselves inside/outside a scope.
+        caller_fact_keys = {k for k in facts
+                            if k != "activity_date" and not k.startswith("scope:")}
+        for k in [k for k in facts
+                  if k == "activity_date" or k.startswith("scope:")]:
+            del facts[k]
         facts["activity_date"] = query.activity_date
 
         result = ResolveResult(legal_status=LegalStatus.UNDETERMINED,
@@ -213,6 +223,14 @@ class Resolver:
         result.applicable_scope = [h.as_dict() for h in hits]
         scope_ids = [h.scope_id for h in hits]
         trace.append({"stage": "spatial", "scope_ids": scope_ids})
+
+        # Derived spatial membership facts: True for hit scopes, False for
+        # catalog misses. Scopes outside the provider catalog are NOT
+        # injected — conditions on them fail closed to MissingFact.
+        hit_ids = set(scope_ids)
+        catalog = getattr(self.spatial, "scope_ids", None)
+        for sid in sorted(hit_ids | (set(catalog()) if callable(catalog) else set())):
+            facts[f"scope:{sid}"] = sid in hit_ids
 
         # (2b) boundary ambiguity gate (M8-E, preregistered policy): a hit on
         # a REGULATORY scope's edge is ambiguous membership — it can never
@@ -444,6 +462,7 @@ class Resolver:
             result.basis = _basis(scope_ids, [v.seq for v in cond_versions],
                                   fragment_ids=self._fragments_of(result.evidence))
             result.basis["source_document_ids"] = self._documents_of(result.evidence)
+            self._note_declared_facts(result, engine_result, caller_fact_keys)
             self._record(result, query, record)
             return result
 
@@ -461,6 +480,7 @@ class Resolver:
             result.reason_codes = [REASON_NO_ACTIVE_RULE]
             result.precedence_trace = trace
             result.basis = _basis(scope_ids)
+            self._note_declared_facts(result, engine_result, caller_fact_keys)
             self._record(result, query, record)
             return result
 
@@ -553,6 +573,7 @@ class Resolver:
             if dyn_codes:
                 result.reason_codes = list(dict.fromkeys(
                     result.reason_codes + dyn_codes))
+            self._note_declared_facts(result, engine_result, caller_fact_keys)
             self._record(result, query, record)
             return result
 
@@ -618,6 +639,7 @@ class Resolver:
         result.basis = _basis(scope_ids, [v.seq for v in participating], used_rel_seqs,
                               frag_ids)
         result.basis["source_document_ids"] = doc_ids
+        self._note_declared_facts(result, engine_result, caller_fact_keys)
         self._record(result, query, record)
         return result
 
@@ -640,6 +662,29 @@ class Resolver:
         return []
 
     # ---- evidence helpers --------------------------------------------------------------
+    @staticmethod
+    def _note_declared_facts(result: ResolveResult, engine_result,
+                             caller_keys: set[str]) -> None:
+        """M8-D2 provenance: if the outcome rests on caller-declared facts
+        (not observable by the system — e.g. refuge occupancy), the answer
+        must say so. Derived facts (activity_date, scope:*) never count as
+        declared. Facts that were absent are reported via MISSING_FACT /
+        CONDITIONAL, not here."""
+        consumed: set[str] = set()
+        for j in engine_result.judgments:
+            for c in j.conditions:
+                ast = c.get("ast")
+                if ast:
+                    consumed |= conditions.referenced_fields(ast)
+        declared = sorted(consumed & caller_keys)
+        if not declared:
+            return
+        result.reason_codes = list(dict.fromkeys(
+            result.reason_codes + [REASON_DEPENDS_DECLARED_FACTS]))
+        result.warnings.append(
+            "determinacion basada en hechos declarados por el usuario, no "
+            "verificables por AlRaso: " + ", ".join(declared))
+
     def _evidence_for(self, versions: list[VersionRow]) -> list[dict[str, Any]]:
         ids: list[str] = []
         for v in versions:
