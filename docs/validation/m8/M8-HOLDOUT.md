@@ -1,6 +1,9 @@
 # M8-F — Holdout ciego Madrid (preregistrado)
 
-Estado: `M8_F_SEALED-v1` (2026-09-18, custodio declarado no-independiente) ·
+Estado: `M8_F_SEALED-v2` (2026-09-18T15:07:42Z, manifest v2 en
+`holdout-manifest-v2.json`, ligado a `m8d3-pre-human @ 85588c1`,
+`holdout_sha256 = 89e7f66a…` — mismos casos que v1, digest verificado
+idéntico; custodio declarado no-independiente) ·
 **BASELINE v1 INVALIDADO para evaluación primaria**: tras el REJECT de
 `RC-M8-ES-MD-GUADARRAMA-VIVAC` el resolver cambió materialmente
 (`0.3.0rc1-m8d` → `0.3.0rc1-m8d2`: CONDITIONAL-over-restriction, op
