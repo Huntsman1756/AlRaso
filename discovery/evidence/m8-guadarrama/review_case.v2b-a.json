@@ -1,0 +1,141 @@
+{
+ "milestone": "M8-D2",
+ "park": {
+  "space_id": "pn-sierra-guadarrama-cm",
+  "name": "Parque Nacional de la Sierra de Guadarrama (ámbito Comunidad de Madrid)",
+  "jurisdiction": "ES-MD",
+  "gazette": "BOCM",
+  "managing_authority": "Comunidad de Madrid — Organismo Autónomo Parque Nacional Sierra de Guadarrama"
+ },
+ "activity": "VIVAC_AL_RASO",
+ "exact_precepts": [
+  {
+   "instrument": "Decreto 18/2020, de 11 de febrero (PRUG-PNSG ámbito CAM)",
+   "locator": "Art. 48. a) Vivac",
+   "quote": "1. A efectos de aplicación del presente PRUG se entiende por vivac o vivaquear, el hecho de dormir o descansar durante la noche al raso o intemperie, usando o no elementos de abrigo, como saco de dormir o funda de vivac o los medios que proporciona el entorno sin alterarlo, sin instalar tiendas de campaña, doble techo o similar, siendo esta una actividad asociada a la práctica del montañismo. 2. En el ámbito del PRUG únicamente se permitirá el vivac o la pernocta al raso en los lugares recogidos en el Anexo III [...] así como en el entorno inmediato de los refugios no guardados existentes en el parque nacional siempre que no existan plazas libres en el interior de dichas infraestructuras. [...] 3. En todo caso se exigirá el cumplimiento de las siguientes condiciones: a) No se permitirá, salvo expresa autorización, el vivac de grupos organizados con más de 10 componentes. b) Salvo en caso de emergencia o fuerza mayor, no se podrá permanecer más de una noche en la misma zona. c) Se prohíbe la apertura de zanjas de drenaje y la acumulación de piedras y/o elementos vegetales a modo de parapeto.",
+   "role": "régimen completo del vivac — definición, ámbito espacial y condiciones"
+  },
+  {
+   "instrument": "Decreto 18/2020",
+   "locator": "Art. 38.1.o)",
+   "quote": "o) La acampada libre en cualquier modalidad, así como la pernocta al aire libre, incluso bajo resguardos naturales, a excepción de lo especificado en el artículo 48.",
+   "role": "actividad incompatible residual — cierre del régimen"
+  },
+  {
+   "instrument": "Decreto 18/2020",
+   "locator": "Art. 92.3.e)",
+   "quote": "e) Pernocta en cualquier modalidad en lugares no habilitados expresamente para la acampada, salvo derechos de propiedad, que estará sometida a las condiciones del apartado 3 del artículo 48.a)",
+   "role": "régimen ZPP y entornos de Puertos — interpretación abierta (ver cuestiones)"
+  },
+  {
+   "instrument": "Texto consolidado oficial (parquenacionalsierraguadarrama.es)",
+   "locator": "Nota (8) al art. 48",
+   "quote": "Se declara la nulidad del artículo 48.2 en el extremo en que fija el límite de altitud en 2.000 metros para la práctica de la actividad de vivac por la Sentencia TSJ Madrid 1003/2022, de 4 de noviembre, núm. rec. 197/2022.",
+   "role": "nulidad judicial — la cláusula de altitud NO es derecho vigente; nulidad no re-legislada"
+  },
+  {
+   "instrument": "Decreto 26/2025, de 14 de mayo (regla general CAM, fuera de ENP)",
+   "locator": "Arts. 3, 4 y Disp. Derogatoria",
+   "quote": "Art. 4. La acampada libre está prohibida en todo el territorio de la Comunidad de Madrid. [...] Disp. Derogatoria: Queda derogado el Decreto 3/1993. [...] Disp. Final 2ª: entrará en vigor el día siguiente al de su publicación (2025-05-23).",
+   "role": "regla general regional — definición de acampada por 'elementos de acampada'; el vivac puro es laguna definicional"
+  }
+ ],
+ "source": {
+  "document_url": "https://www.bocm.es/boletin/CM_Orden_BOCM/2020/02/29/BOCM-20200229-1.PDF",
+  "consolidated_url": "https://parquenacionalsierraguadarrama.es/legislacion/",
+  "stable_id": "Decreto 18/2020 — BOCM núm. 51 extraordinario, 29/02/2020",
+  "pdf_sha256": "f34a023e9560c1b48859d2921550c5a22660c4959b68cea1afb843cb9cfa0964",
+  "pdf_redistributed": false,
+  "extract_file": "prug-d18-2020-art48-extract.txt",
+  "extract_sha256": "d6bffd66b47b78b93bbd98bafb0747557fc89723d1b9390c31f51ebb960ac627",
+  "modification": "Decreto 238/2023 (BOCM 222, 18/09/2023) sha256 15616e02bb6d05acb0c07b7cc392a9fa667c5aca7f0fcf31448650288bc66759 — arts. 29.2/45.2 + Anexos X-XII; NO toca art. 48",
+  "general_rule": "Decreto 26/2025 (BOCM 121, 22/05/2025) — art. 4 prohibición acampada libre CAM"
+ },
+ "validity_evidence": {
+  "publication": "BOCM núm. 51 extraordinario, 29 de febrero de 2020",
+  "entry_into_force": "2020-03-01 (disp. final — día siguiente a publicación; computada, a confirmar)",
+  "judicial_status": "STSJM 1003/2022 anula parcialmente art. 48.a.2 (límite 2.000 m); STSJM 1135/2021 y 135/2023 anulan otros preceptos no relativos al vivac",
+  "supersession_check": "PRUG vigente; modificado por Decreto 238/2023 sin tocar art. 48",
+  "status": "VIGENTE con nulidades parciales — mecánicamente soportado, pendiente de verificación humana"
+ },
+ "geometry_evidence": {
+  "source": "IDEM WFS oficial Comunidad de Madrid (geoidem) — geometría real, NO digest",
+  "retrieved": "2026-09-17",
+  "license": "CC-BY 4.0 Comunidad de Madrid",
+  "layers": {
+   "vivac_zones": {
+    "typeName": "Zonas:IDEM_MA_PNSG_ZON_VIVAC_ANUA",
+    "file": "IDEM_MA_PNSG_ZON_VIVAC_ANUA.geojson",
+    "sha256": "b6fa71b24927a5a44229e0363773c67e309a773c9e20649fa5d710f9f63958b6",
+    "features": 5,
+    "zones": [
+     "Prado Peluca",
+     "Yelmo",
+     "El Pajaro Pedriza",
+     "Las Torres",
+     "Zabala"
+    ],
+    "note": "Capa modificada en dic/2023: excluye 'Pájaros_Peñalara // Los Llanos' (arts. 33.1 y 45.3 PRUG)"
+   },
+   "pn_boundary_cm": {
+    "typeName": "LugaresProtegidos:IDEM_MA_PN_GUADARRAMA_CM",
+    "file": "IDEM_MA_PN_GUADARRAMA_CM.geojson",
+    "sha256": "d64025a17861c33dc9a84bed082c8cbb75b4446ad5c44bcb686646436ccfb833",
+    "features": 2,
+    "note": "PN-CM = 1 polígono simple (4174 vértices); ZPP-CM = MultiPolygon 2 partes con 7 anillos interiores — los huecos no son representables fielmente en el modelo de anillos actual; ZPP se deja como evidencia sin geometría en el fixture"
+   },
+   "zonificacion_prug": {
+    "typeName": "Zonas:IDEM_MA_PNSG_ZONIFICACION",
+    "file": "IDEM_MA_PNSG_ZONIFICACION.geojson",
+    "sha256": "ab84aa9fd7d064523fdcd332ad6ea37e105f09fd4a6b553893c35731906aea1f",
+    "features": 165,
+    "note": "14 Zona de Reserva — relevante para la cláusula de altitud (anulada); conservada como evidencia de contexto"
+   }
+  },
+  "caveat": "El 'entorno inmediato de los refugios no guardados' (art. 48.a.2) carece de delimitación oficial publicada — sub-scope no cerrable mecánicamente. La condición 'siempre que no existan plazas libres en el interior' es un hecho operativo no modelable."
+ },
+ "reviewer_decision": "PENDING",
+ "review_status": "REVIEW_REQUIRED",
+ "legal_review_complete": false,
+ "spatial_review_complete": false,
+ "automated_state": "READY_FOR_HUMAN_REVIEW",
+ "review_case_id": "RC-M8-ES-MD-GUADARRAMA-VIVAC-V2B-A",
+ "proposed_effect": "PERMITTED condicionado en zonas Anexo III (nights<=1, group_size<=10)",
+ "conditions_modelled": [
+  "nights_same_zone <= 1 (48.a.3.b)",
+  "group_size <= 10 (48.a.3.a; >10 viaja en la rama E del fixture cierre)",
+  "restricciones dinamicas fuego/Penalara verificadas como overlay"
+ ],
+ "interpretation_note": "Permiso textual directo del art. 48.a.2 primera parte. Los facts son declarados por el usuario: toda determinacion que los consume queda marcada DEPENDS_ON_DECLARED_FACTS. Sin facts => CONDITIONAL.",
+ "contrary_or_ambiguous_evidence": [
+  "Riesgo incendio y regimen Penalara son restricciones operativas dinamicas (verified=false): nunca afirman permiso incondicional."
+ ],
+ "proposed_resolver_examples": [
+  {
+   "facts": {
+    "pt": "zona anexo3",
+    "nights_same_zone": 1,
+    "group_size": 4
+   },
+   "expected_if_approved": "CONDITIONAL (fuego sin verificar)"
+  },
+  {
+   "facts": {
+    "pt": "zona anexo3"
+   },
+   "expected_if_approved": "CONDITIONAL/UNDETERMINED, nunca PROHIBITED"
+  }
+ ],
+ "adjudication_items": [
+  {
+   "item": "vivac-permitido-anexo3",
+   "proposition": "El vivac esta permitido en las zonas del Anexo III (capa oficial IDEM, 5 poligonos) sujeto a las condiciones del art. 48.a.3.",
+   "proposed": "APPROVE"
+  },
+  {
+   "item": "geometria-idem-como-anexo3",
+   "proposition": "La capa oficial IDEM ZON_VIVAC_ANUA (sha256 b6fa71b2) es el referente operativo del Anexo III.",
+   "proposed": "APPROVE"
+  }
+ ]
+}

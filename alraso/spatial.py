@@ -207,6 +207,13 @@ class InMemorySpatialProvider:
             "parts": parts, "parent": parent,
         }
 
+    def scope_ids(self) -> list[str]:
+        """The complete catalog of scopes this provider can determine
+        membership for. The resolver uses it to expose derived
+        ``scope:<id>`` facts (True for hits, False for catalog misses);
+        scopes outside the catalog stay unknown, never assumed absent."""
+        return sorted(self._scopes)
+
     def resolve(self, lat: float, lon: float) -> list[ScopeHit]:
         hits = []
         for sid, meta in self._scopes.items():
