@@ -230,6 +230,17 @@ def _fixture_rings(fx: dict) -> list[list[tuple[float, float]]]:
             for ring in fx["geometry"]["rings_latlon"]]
 
 
+def _fixture_parts(fx: dict) -> list[list[list[tuple[float, float]]]]:
+    """Scope geometry as parts ``[exterior, *holes]`` — supports the
+    holes-capable ``parts_latlon`` form and falls back to legacy
+    ``rings_latlon`` (each ring = exterior-only part)."""
+    geo = fx["geometry"]
+    if "parts_latlon" in geo:
+        return [[[(float(lat), float(lon)) for lat, lon in ring]
+                 for ring in part] for part in geo["parts_latlon"]]
+    return [[ring] for ring in _fixture_rings(fx)]
+
+
 # Picos Phase B: el fixture tiene varios scopes, cada uno con su geometria bajo
 # "geometry[<clave>]". Mapea scope_id -> clave de geometria (unica por scope).
 _PICOS_GEOM_KEY = {
@@ -308,12 +319,13 @@ class Service:
             provider = InMemorySpatialProvider()
             scope = self.fx_goriz["spatial_scopes"][0]
             provider.add_scope(scope["id"], scope["official_name"], scope["scope_type"],
-                               _fixture_rings(self.fx_goriz))
+                               parts=_fixture_parts(self.fx_goriz))
             # Picos: varios scopes (parque = contexto; CCAA = regulatorio) con geometria propia.
             for sc in self.fx_picos["spatial_scopes"]:
                 rings = _picos_scope_rings(self.fx_picos, sc["id"])
                 if rings:
-                    provider.add_scope(sc["id"], sc["official_name"], sc["scope_type"], rings)
+                    provider.add_scope(sc["id"], sc["official_name"], sc["scope_type"],
+                                       parts=[[r] for r in rings])
             resolver = Resolver(store, spatial=provider)
             self._local.resolver = resolver
         return resolver

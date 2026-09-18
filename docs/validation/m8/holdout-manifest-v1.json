@@ -1,0 +1,11 @@
+{
+  "schema": "alraso-m8-holdout-manifest-v1",
+  "protocol": "M8-HOLDOUT.md",
+  "status": "PENDING",
+  "custodian": "PENDING",
+  "commitment_sha256": "PENDING",
+  "sealed_at": null,
+  "case_count": null,
+  "strata_counts": null,
+  "note": "PENDING is not a commitment. A placeholder sha256 does not count as a real seal — see M8-HOLDOUT.md section 4 for the human sealing procedure."
+}

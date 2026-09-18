@@ -986,6 +986,10 @@ def test_git_diff_vs_main_only_allowed_files():
             or f.startswith("docs/superpowers/plans/2026-09-17-m8")
             or f.startswith("tooling/m8_")
             or f.startswith("tests/test_m8")
+            # M8 P0 spatial correctness: interior rings/holes + the
+            # preregistered boundary policy (M8-PREREG §10).
+            or f == "alraso/spatial.py"
+            or f == "tests/test_spatial_holes.py"
         )
         assert (
             f in allowed

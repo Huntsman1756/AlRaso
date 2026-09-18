@@ -92,7 +92,27 @@ no un score artificial.
 `M8-E` resolución por punto + decisión de vocabulario · `M8-F` holdout ·
 `M8-G` smoke de usuario real ("¿puedo dormir aquí esta noche?").
 
-## 10. Registro de ejecución
+## 10. Semántica espacial preregistrada (P0 — antes de M8-E)
+
+Política fijada **antes** de implementar el resolver de puntos:
+
+- **Modelo**: cada scope es un conjunto de partes `[exterior, *holes]`
+  (semántica GeoJSON Polygon/MultiPolygon). Dentro = dentro de un exterior
+  y dentro de ningún hole de esa parte. Los holes NUNCA se aproximan ni se
+  rellenan.
+- **Boundary**: un punto a distancia ≤ `_EDGE_EPS` (1e-9 grados ≈ 0.1 mm)
+  de cualquier arista — exterior o interior — es **ambiguo**. El scope se
+  devuelve con `ScopeHit.on_boundary=True`. Un hit boundary-flagged NO
+  puede sostener por sí solo una determinación favorable ni desfavorable:
+  degrada a `UNDETERMINED`. Los hits no flaggeados son definitivos.
+- **Serialización**: las fixtures aceptan `parts_latlon`
+  (`[[ext, h1, ...], [ext2, ...]]` con pares (lat,lon)) además del formato
+  legacy `rings_latlon` (cada anillo = parte exterior independiente).
+  `parts_from_geojson` convierte Polygon/MultiPolygon sin pérdida.
+- **Fail-closed**: geometría ausente, malformada o de tipo no soportado →
+  `SpatialFactsError` → el resolver degrada a `UNDETERMINED`.
+
+## 11. Registro de ejecución
 
 | Fecha | Salida | Estado |
 |---|---|---|
