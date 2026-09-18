@@ -1,0 +1,51 @@
+EXTRACTO VERIFICADO — Decreto 15/2011, de 1 de febrero, por el que se regula la
+planificación de usos y actividades en los parques naturales de Andalucía
+Fuente: BOJA núm. 30, de febrero de 2011 — https://www.juntadeandalucia.es/boja/2011/30/3
+Verificado contra texto HTML oficial BOJA el 2026-09-18.
+Ámbito: PARQUES NATURALES (su aplicación dentro del Parque Nacional depende de la
+Disposición transitoria única de la Ley 9/2021 — inferencia para el revisor).
+
+=== Artículo 3. Definiciones (letras e y j) ===
+
+e) Acampada nocturna: la modalidad de pernocta que consiste en instalar una tienda de
+   campaña ligera (la que sirve exclusivamente para dormir) al anochecer, una hora antes
+   de la puesta de sol, hasta el amanecer, una hora después de su salida al día siguiente.
+
+j) Vivaquear: dormir o descansar durante la noche al raso o intemperie, usando o no
+   elementos de abrigo, como saco de dormir, funda de vivac o los medios que proporciona
+   el entorno sin alterarlo.
+
+=== Artículo 9. Actividades sujetas a comunicación previa (apartado 1, letra c) ===
+
+1. Quedan exceptuadas del régimen de autorización las actuaciones de uso público, turismo
+   activo y ecoturismo que a continuación se relacionan, cuando se realicen en las
+   condiciones establecidas en este Decreto. A efectos de control y seguimiento dichas
+   actuaciones deberán ser comunicadas a la Consejería competente en materia de medio
+   ambiente previamente al inicio de su ejecución en la forma y plazo previstos en el
+   artículo 33 de este Decreto.
+   [...]
+   c) El vivaqueo y la acampada nocturna vinculados a actividades de travesía de montaña.
+   1.º En la comunicación para la realización de esta actividad deberá indicarse el número
+       máximo de personas e instalaciones, o materiales, utilizados para pernoctar, así
+       como el itinerario y las zonas en que se prevé realizar el vivaqueo. El grupo no
+       podrá estar constituido por más de 15 personas, ni utilizar más de 3 tiendas de
+       campaña, debiendo obtener autorización administrativa en caso contrario.
+   2.º No está permitido el vivaqueo ni la acampada nocturna a menos de dos kilómetros de
+       un núcleo urbano, de un establecimiento de alojamiento turístico o de un refugio,
+       salvo que este último estuviera completo, ni pernoctar más de una noche en el mismo
+       lugar.
+   3.º Los participantes serán responsables de la recogida de los residuos generados por
+       la actividad, debiendo depositarlos en los lugares habilitados para ello.
+
+=== Anexo (actividades sometidas a autorización, apartado 4) ===
+
+"4. El vivaqueo y la acampada nocturna vinculados a travesía de montaña para grupos
+    superiores a 15 personas o que utilicen más de 3 tiendas de campaña."
+
+=== Observaciones de evidencia ===
+- Misma arquitectura que el PORN de Sierra Nevada (Decreto 238/2011 5.4.5): comunicación
+  previa con umbrales 15 pax/3 tiendas, distancias 2 km, 1 noche por lugar, residuos.
+- A diferencia del PORN de Sierra Nevada, el art. 9.1.c.1.º del Decreto 15/2011 sí cubre
+  el caso límite: "El grupo no podrá estar constituido por más de 15 personas, ni utilizar
+  más de 3 tiendas [...] debiendo obtener autorización administrativa en caso contrario"
+  → 15 pax/3 tiendas quedan en comunicación; >15/>3 en autorización. Sin laguna.

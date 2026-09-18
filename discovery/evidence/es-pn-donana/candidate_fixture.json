@@ -1,0 +1,236 @@
+{
+  "$schema": "alraso/m103-candidate-fixture@1",
+  "fixture_meta": {
+    "name": "ESPN_CANDIDATE_DONANA",
+    "purpose": "Post-M10.3 evidence candidate for pn-donana (programa es-pn-coverage). NOT product corpus: every rule version is REVIEW_REQUIRED with legal_review_complete=false and spatial_review_complete=false, so the eligibility gate makes all of them non-publishable.",
+    "created": "2026-09-18",
+    "activity_scope": "VIVAC_AL_RASO y ACAMPADA solamente — 'pernocta al aire libre' del art. 44.c) Ley 8/1999; sin generalización a vehículos, caravanas o acampada organizada.",
+    "publishable": false
+  },
+  "source_documents": [
+    {
+      "id": "sd-ley-8-1999",
+      "authority": "Junta de Andalucía (Parlamento de Andalucía)",
+      "jurisdiction": "ES-AN",
+      "document_type": "LAW",
+      "title": "Ley 8/1999, de 27 de octubre, del Espacio Natural de Doñana",
+      "canonical_url": "https://www.boe.es/eli/es-an/l/1999/10/27/8",
+      "boe_id": "BOE-A-1999-23524",
+      "official_status": "VIGENTE — STC 331/2005 (BOE-T-2006-413) declaró inconstitucional únicamente el art. 16.7; art. 44 intacto",
+      "retrieved_at": "2026-09-18"
+    },
+    {
+      "id": "sd-ley-91-1978",
+      "authority": "Estado (Cortes Generales)",
+      "jurisdiction": "ES-NATIONAL",
+      "document_type": "LAW",
+      "title": "Ley 91/1978, de 28 de diciembre, del Parque Nacional de Doñana (reclasificación)",
+      "canonical_url": "https://www.boe.es/eli/es/l/1978/12/28/91",
+      "boe_id": "BOE-A-1979-932",
+      "official_status": "VIGENTE",
+      "retrieved_at": "2026-09-18"
+    },
+    {
+      "id": "sd-decreto-2412-1969",
+      "authority": "Estado (Gobierno)",
+      "jurisdiction": "ES-NATIONAL",
+      "document_type": "DECREE",
+      "title": "Decreto 2412/1969, de 16 de octubre, de creación del Parque Nacional de Doñana",
+      "canonical_url": "https://www.boe.es/eli/es/d/1969/10/16/2412",
+      "boe_id": "BOE-A-1969-1252",
+      "official_status": "VIGENTE (corrección de errores BOE-A-1969-1370)",
+      "retrieved_at": "2026-09-18"
+    },
+    {
+      "id": "sd-decreto-142-2016",
+      "authority": "Junta de Andalucía (Consejo de Gobierno)",
+      "jurisdiction": "ES-AN",
+      "document_type": "DECREE",
+      "title": "Decreto 142/2016, de 2 de agosto — ampliación PNat Doñana, ZEC Doñana Norte y Oeste, y aprobación del PORN y PRUG del Espacio Natural Doñana",
+      "canonical_url": "https://www.juntadeandalucia.es/boja/2016/185/1",
+      "official_status": "VIGENTE CON ANULACIONES PARCIALES — STSJ Andalucía 21/11/2018 anuló epígrafes 8.4.4.1.b), 8.4.4.2, 8.4.4.3, 8.4.4.6.a)-b), 8.4.4.9, 8.4.4.10.a).3 y 8.6.2.1.2.n) del PORN y 6.2.1.p)/6.2.2.h) del PRUG; ninguno identificado como precepto de acampada/pernocta",
+      "retrieved_at": "2026-09-18"
+    },
+    {
+      "id": "sd-psup-2024",
+      "authority": "Junta de Andalucía (Consejería de Sostenibilidad y Medio Ambiente)",
+      "jurisdiction": "ES-AN",
+      "document_type": "ORDER",
+      "title": "Orden de 28 de junio de 2024 — Programa Sectorial de Uso Público del Espacio Natural Doñana (Anexo II = Ordenación de actividades)",
+      "canonical_url": "https://www.juntadeandalucia.es/eboja/2024/152/BOJA24-152-00114-47841-01_00304789.pdf",
+      "official_status": "VIGENTE — instrumento de desarrollo del PORN/PRUG; Anexo II (condiciones operativas de acampada) NO extraído verbatim — pendiente para el revisor",
+      "retrieved_at": "2026-09-18"
+    },
+    {
+      "id": "sd-decreto-26-2018",
+      "authority": "Junta de Andalucía",
+      "jurisdiction": "ES-AN",
+      "document_type": "DECREE",
+      "title": "Decreto 26/2018, de 23 de enero, de ordenación de los campamentos de turismo",
+      "canonical_url": "https://www.juntadeandalucia.es/boja/2018/27/1",
+      "official_status": "VIGENTE",
+      "retrieved_at": "2026-09-18"
+    },
+    {
+      "id": "sd-oapn-gis-donana",
+      "authority": "OAPN (Organismo Autónomo Parques Nacionales)",
+      "jurisdiction": "ES-NATIONAL",
+      "document_type": "GIS_LAYER",
+      "title": "OAPN límites PN — feature 'Parque Nacional de Doñana' (digest-only, licencia no verificada)",
+      "canonical_url": "discovery/evidence/es-pn-coverage/oapn-limites-pn-features.json",
+      "official_status": "DIGEST_ONLY — sin geometría redistribuida",
+      "retrieved_at": "2026-09-18"
+    }
+  ],
+  "legal_fragments": [
+    {
+      "id": "lf-ley8-44c-pernocta",
+      "source_document_id": "sd-ley-8-1999",
+      "locator": "Art. 44.c)",
+      "exact_text_hint": "La acampada y pernocta al aire libre, excepto las autorizadas para eventos científicos, divulgativos o culturales.",
+      "extracted_at": "2026-09-18",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "Ley 8/1999 art. 44.c) — infracción administrativa en todo el Espacio Natural Doñana",
+      "validity_from": "1999-12-15",
+      "validity_to": null
+    },
+    {
+      "id": "lf-ley8-44b-circulacion",
+      "source_document_id": "sd-ley-8-1999",
+      "locator": "Art. 44.b)",
+      "exact_text_hint": "La circulación a pie, con tracción animal o con medios motorizados fuera de los lugares habilitados para ello en el Plan Rector de Uso y Gestión, y que se realice sin la autorización expedida por el órgano administrativo competente del Espacio Natural Doñana.",
+      "extracted_at": "2026-09-18",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "Ley 8/1999 art. 44.b) — contexto: circulación fuera de lugares habilitados",
+      "validity_from": "1999-12-15",
+      "validity_to": null
+    },
+    {
+      "id": "lf-d26-2018-art15-acampada",
+      "source_document_id": "sd-decreto-26-2018",
+      "locator": "Art. 1.5",
+      "exact_text_hint": "Se prohíbe con carácter general la acampada y pernocta con fines vacacionales o de ocio fuera de los campamentos de turismo.",
+      "extracted_at": "2026-09-18",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "Decreto 26/2018 art. 1.5 — prohibición general acampada vacacional",
+      "validity_from": "2018-02-08",
+      "validity_to": null
+    },
+    {
+      "id": "lf-d142-2016-vigencia",
+      "source_document_id": "sd-decreto-142-2016",
+      "locator": "Parte dispositiva — aprobación PORN (Anexo V) y PRUG (Anexo VI) Espacio Natural Doñana",
+      "exact_text_hint": "Se aprueban el Plan de Ordenación de los Recursos Naturales y el Plan Rector de Uso y Gestión del Espacio Natural Doñana (BOJA núm. 185, 26/09/2016).",
+      "extracted_at": "2026-09-18",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "Decreto 142/2016 — instrumento de planificación vigente (con anulaciones parciales STSJ 2018)",
+      "validity_from": "2016-09-27",
+      "validity_to": null
+    },
+    {
+      "id": "lf-psup-2024-ordenacion",
+      "source_document_id": "sd-psup-2024",
+      "locator": "Art. único.2 — Ordenación de actividades (Anexo II)",
+      "exact_text_hint": "Se aprueba la Ordenación de actividades del Programa Sectorial de Uso Público del Espacio Natural Doñana que figura como Anexo II. [El Anexo II contiene las condiciones operativas de la acampada — texto NO extraído verbatim; lectura pendiente del revisor]",
+      "extracted_at": "2026-09-18",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "Orden 28/06/2024 Anexo II — ordenación operativa de la acampada (pendiente)",
+      "validity_from": "2024-08-07",
+      "validity_to": null
+    }
+  ],
+  "spatial_scopes": [
+    {
+      "id": "ss-es-an-donana-espacio-natural",
+      "scope_type": "PROTECTED_AREA",
+      "official_name": "Espacio Natural de Doñana (figura integradora: PN + PNat + zonas)",
+      "geometry_source": "sd-oapn-gis-donana",
+      "feature_id": "Parque Nacional de Doñana",
+      "srid_native": 25830,
+      "review_status": "SPATIAL_REVIEW_PENDING_GEOMETRY",
+      "relevance": "REGULATORY",
+      "note": "El Espacio Natural integra PN+PNat+zonas; el layer OAPN solo aporta el límite del PN. Geometría del Espacio Natural completo pendiente (DERA Junta de Andalucía)."
+    },
+    {
+      "id": "ss-pn-donana",
+      "scope_type": "NATIONAL_PARK",
+      "parent_scope": "ss-es-an-donana-espacio-natural",
+      "official_name": "Parque Nacional de Doñana",
+      "geometry_source": "sd-oapn-gis-donana",
+      "feature_id": "Parque Nacional de Doñana",
+      "srid_native": 25830,
+      "review_status": "SPATIAL_REVIEW_PENDING_GEOMETRY",
+      "relevance": "REGULATORY"
+    }
+  ],
+  "legal_rule_versions": [
+    {
+      "rule_id": "alraso:es-an/pn-donana/pernocta#vivac-prohibido",
+      "activity": "VIVAC_AL_RASO",
+      "spatial_scope_id": "ss-pn-donana",
+      "effect": "PROHIBITED",
+      "condition": null,
+      "effective_from": "1999-12-15",
+      "effective_to": null,
+      "recorded_at": "2026-09-18",
+      "recorded_until": null,
+      "review_status": "REVIEW_REQUIRED",
+      "legal_review_complete": false,
+      "spatial_review_complete": false,
+      "evidence": ["lf-ley8-44c-pernocta", "lf-d142-2016-vigencia"],
+      "interpretation_note": "PROPOSED (pending human review): art. 44.c) Ley 8/1999 tipifica como infracción 'la acampada y pernocta al aire libre' en TODO el Espacio Natural Doñana (que integra el PN), salvo autorización para eventos científicos/divulgativos/culturales. INFERENCIA A ADJUDICAR: 'vivac' no existe como término en la ley; VIVAC_AL_RASO se subsume en 'pernocta al aire libre' — el revisor debe confirmar esta subsumción y si la excepción de eventos se modela como vía de autorización.",
+      "normative_basis": ["lf-ley8-44c-pernocta"]
+    },
+    {
+      "rule_id": "alraso:es-an/pn-donana/pernocta#acampada-evento-autorizable",
+      "activity": "ACAMPADA",
+      "spatial_scope_id": "ss-es-an-donana-espacio-natural",
+      "effect": "AUTHORIZATION_REQUIRED",
+      "condition": {"field": "event_type", "op": "in", "value": ["scientific", "divulgative", "cultural"]},
+      "effective_from": "1999-12-15",
+      "effective_to": null,
+      "recorded_at": "2026-09-18",
+      "recorded_until": null,
+      "review_status": "REVIEW_REQUIRED",
+      "legal_review_complete": false,
+      "spatial_review_complete": false,
+      "evidence": ["lf-ley8-44c-pernocta", "lf-psup-2024-ordenacion"],
+      "interpretation_note": "PROPOSED (pending human review): la excepción del art. 44.c) abre vía de autorización solo para eventos científicos, divulgativos o culturales. El PSUP 2024 (Anexo II) ordena operativamente la acampada autorizable — texto no extraído; el revisor debe leerlo antes de cerrar condiciones. Sin autorización o fuera de esos tipos: infracción (ver regla prohibida).",
+      "normative_basis": ["lf-ley8-44c-pernocta", "lf-psup-2024-ordenacion"]
+    },
+    {
+      "rule_id": "alraso:es-an/pn-donana/pernocta#acampada-vacacional-prohibida",
+      "activity": "ACAMPADA",
+      "spatial_scope_id": "ss-es-an-donana-espacio-natural",
+      "effect": "PROHIBITED",
+      "condition": {"field": "purpose", "op": "in", "value": ["vacacional", "ocio"]},
+      "effective_from": "2018-02-08",
+      "effective_to": null,
+      "recorded_at": "2026-09-18",
+      "recorded_until": null,
+      "review_status": "REVIEW_REQUIRED",
+      "legal_review_complete": false,
+      "spatial_review_complete": false,
+      "evidence": ["lf-d26-2018-art15-acampada"],
+      "interpretation_note": "PROPOSED (pending human review): Decreto 26/2018 art. 1.5 prohíbe con carácter general la acampada/pernocta 'con fines vacacionales o de ocio' fuera de campamentos de turismo (ámbito autonómico, no solo ENP). Caveat de calificación: el vivaqueo de travesía podría no ser 'fines vacacionales o de ocio' — el revisor decide si aplica.",
+      "normative_basis": ["lf-d26-2018-art15-acampada"]
+    }
+  ],
+  "rule_relations": [],
+  "expected": {
+    "publishability": [
+      {
+        "assert": "NO_RULE_PUBLISHABLE",
+        "note": "Toda versión REVIEW_REQUIRED + legal/spatial review incompletos => eligibility gate rechaza; resolver devuelve UNDETERMINED/INCOMPLETE para cualquier consulta en ss-pn-donana o ss-es-an-donana-espacio-natural."
+      }
+    ],
+    "basic_queries": [
+      {
+        "query": {"activity": "VIVAC_AL_RASO", "spatial_scope_id": "ss-pn-donana", "activity_date": "2026-09-01", "knowledge_date": "2026-09-18"},
+        "expected_legal_status": "UNDETERMINED",
+        "expected_knowledge_status": "INCOMPLETE",
+        "note": "Sin revisión humana no hay regla publicable: fail-closed. Nunca PROHIBITED automático tampoco — la regla candidata no es publicable."
+      }
+    ]
+  }
+}

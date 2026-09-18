@@ -1,0 +1,43 @@
+{
+  "schema": "alraso/evidence-probes/v1",
+  "package": "es-pn-sierra-nieves",
+  "probed_at": "2026-09-18",
+  "probes": [
+    {
+      "source": "BOE texto — Ley 9/2021",
+      "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2021-10958",
+      "method": "GET HTML→text",
+      "result": "REACHABLE — art. 13.4.a) verificado verbatim; 'acampada' única ocurrencia; 'pernocta'/'vivac' ausentes"
+    },
+    {
+      "source": "BOJA HTML — Decreto 15/2011",
+      "url": "https://www.juntadeandalucia.es/boja/2011/30/3",
+      "method": "GET HTML→text",
+      "result": "REACHABLE — art. 9.1.c) + definiciones 3.e)/3.j) + Anexo.4 verificados verbatim"
+    },
+    {
+      "source": "BOJA PDF — Decreto 162/2018 (PORN ámbito + PRUG PNat)",
+      "url": "https://www.juntadeandalucia.es/boja/2018/184/BOJA18-184-00384-14951-01_00142234.pdf",
+      "method": "GET PDF (15.259.272 bytes) + extracción de texto",
+      "result": "REACHABLE — sha256 aca31c83…0f42faf; PORN 9.4.3.3.d)/5.d) y PRUG 5.2.5.4 verificados verbatim (páginas boletín 307–309, 393–394)"
+    },
+    {
+      "source": "BOJA — Acuerdo 21/05/2025 (formulación PRUG Espacio Natural)",
+      "url": "https://www.juntadeandalucia.es/boja/2025/98/32",
+      "method": "GET (vía investigación)",
+      "result": "REFERENCED — solo formulación; PRUG no vigente"
+    },
+    {
+      "source": "OAPN WFS — límites PN",
+      "url": "https://sigred.oapn.es/geoserverOAPN/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=view_red_oapn_limite_pn&outputFormat=application%2Fjson",
+      "method": "GET GeoJSON",
+      "result": "REACHABLE — 17 features; layer sha256 2d94b12e9b…f151f36f; licencia NOT_VERIFIED → digest+props only"
+    }
+  ],
+  "not_verified": [
+    "Geometría del PNat y del Espacio Natural completo — DERA pendiente",
+    "Existencia de 'lugares previstos' para acampada en el PN (Ley 9/2021 art. 13.4.a) — depende de instrumentos",
+    "Resolución del recurso TS 2-30-19 contra la declaración — no localizada",
+    "Resolución específica de zonas de acampada (art. 8.2 Decreto 15/2011) para Sierra de las Nieves — no encontrada"
+  ]
+}

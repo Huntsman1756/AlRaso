@@ -1,0 +1,30 @@
+EXTRACTO VERIFICADO — Ley 8/1999, de 27 de octubre, del Espacio Natural de Doñana
+Fuente: BOE-A-1999-23524 — https://www.boe.es/diario_boe/txt.php?id=BOE-A-1999-23524
+ELI: https://www.boe.es/eli/es-an/l/1999/10/27/8
+Verificado contra texto BOE el 2026-09-18. Publicación: BOJA núm. 137, 25/11/1999; BOE 10/12/1999. Entrada en vigor: 15/12/1999.
+Nota: STC 331/2005, de 15 de diciembre (BOE-T-2006-413), declaró inconstitucional ÚNICAMENTE el art. 16.7; el art. 44 no resultó afectado.
+
+=== Artículo 44. Infracciones administrativas respecto de otras actividades humanas en el Espacio Natural Doñana ===
+
+Son infracciones administrativas respecto a otras actividades humanas no enunciadas en los
+artículos precedentes y que se lleven a efecto en el territorio del Espacio Natural Doñana las
+siguientes acciones u omisiones:
+
+    a) [armas/utensilios no autorizados]
+    b) La circulación a pie, con tracción animal o con medios motorizados fuera de los lugares
+       habilitados para ello en el Plan Rector de Uso y Gestión, y que se realice sin la
+       autorización expedida por el órgano administrativo competente del Espacio Natural Doñana.
+    c) La acampada y pernocta al aire libre, excepto las autorizadas para eventos científicos,
+       divulgativos o culturales.
+    d) Hacer fuego al aire libre, sin la previa autorización administrativa.
+    e) La producción de cualquier ruido o reclamo de atracción para fauna no autorizado y que
+       altere el comportamiento de las especies o moleste a las personas.
+    […]
+
+=== Observaciones de evidencia ===
+- El término "vivac"/"vivaqueo" NO aparece en la Ley 8/1999. La actividad VIVAC_AL_RASO queda
+  subsumida en "pernocta al aire libre" (inferencia a adjudicar por el revisor humano).
+- La excepción ("excepto las autorizadas para eventos científicos, divulgativos o culturales")
+  abre una vía de autorización, no un permiso general.
+- Ámbito: "territorio del Espacio Natural Doñana" — figura integradora que incluye el Parque
+  Nacional, sus zonas de protección y el Parque Natural (art. 2 de la propia ley).

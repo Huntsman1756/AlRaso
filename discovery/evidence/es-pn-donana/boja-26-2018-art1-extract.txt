@@ -1,0 +1,29 @@
+EXTRACTO VERIFICADO — Decreto 26/2018, de 23 de enero, por el que se ordenan los campamentos
+de turismo en la Comunidad Autónoma de Andalucía
+Fuente: BOJA núm. 27, de 7/02/2018 — https://www.juntadeandalucia.es/boja/2018/27/1
+Verificado contra texto HTML oficial BOJA el 2026-09-18.
+
+=== Artículo 1. Objeto y ámbito de aplicación (apartados 4 y 5) ===
+
+4. Quedan excluidos del ámbito de aplicación de este Decreto los siguientes supuestos:
+    a) Los campamentos que faciliten albergue a contingentes particulares, tales como los
+       campamentos juveniles, los albergues y colonias de vacaciones escolares u otros
+       similares en los que la prestación del servicio de alojamiento sea ocasional y sin
+       ánimo de lucro.
+    b) Las zonas de estacionamiento para autocaravanas, caravanas y campers en vías urbanas
+       o carreteras.
+    c) Las acampadas organizadas para dar alojamiento, con carácter puntual, a las personas
+       asistentes a algún tipo de evento (como los de naturaleza deportiva o cultural), cuya
+       actividad se limite al período de celebración de tal evento.
+    d) Los campamentos de turismo de carácter privado, destinados al uso único y exclusivo
+       de las personas pertenecientes o socias de la entidad titular de los mismos.
+5. Se prohíbe con carácter general la acampada y pernocta con fines vacacionales o de ocio
+   fuera de los campamentos de turismo.
+
+=== Observaciones de evidencia ===
+- Prohibición autonómica GENERAL (no específica de espacios protegidos): acampada/pernocta
+  "con fines vacacionales o de ocio" fuera de campamentos de turismo.
+- Caveat de alcance: el vivaqueo vinculado a travesía de montaña podría no ser "fines
+  vacacionales o de ocio" — cuestión de calificación para el revisor humano. En Doñana el
+  precepto operativo principal es el art. 44.c) de la Ley 8/1999 (ámbito Espacio Natural,
+  sin restricción de finalidad).

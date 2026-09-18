@@ -1,0 +1,43 @@
+{
+  "schema": "alraso/evidence-probes/v1",
+  "package": "es-pn-donana",
+  "probed_at": "2026-09-18",
+  "probes": [
+    {
+      "source": "BOE texto — Ley 8/1999",
+      "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-1999-23524",
+      "method": "GET HTML→text",
+      "result": "REACHABLE — art. 44.c) verificado verbatim ('La acampada y pernocta al aire libre, excepto las autorizadas para eventos científicos, divulgativos o culturales.')"
+    },
+    {
+      "source": "BOE ELI — Ley 91/1978",
+      "url": "https://www.boe.es/eli/es/l/1978/12/28/91",
+      "method": "GET",
+      "result": "REACHABLE — BOE-A-1979-932; reclasificación PN Doñana"
+    },
+    {
+      "source": "BOJA HTML — Decreto 26/2018",
+      "url": "https://www.juntadeandalucia.es/boja/2018/27/1",
+      "method": "GET HTML→text",
+      "result": "REACHABLE — art. 1.5 verificado verbatim"
+    },
+    {
+      "source": "BOJA — Decreto 142/2016 (PORN+PRUG Espacio Natural Doñana)",
+      "url": "https://www.juntadeandalucia.es/boja/2016/185/1",
+      "method": "GET (índice) + referencias oficiales cruzadas (STSJ 1106/2018, ficha Junta)",
+      "result": "REACHABLE como emisión; anexos V/VI NO recorridos íntegramente — verbatim de acampada/pernocta en planes NO verificado exhaustivamente (flag honesto)"
+    },
+    {
+      "source": "OAPN WFS — límites PN",
+      "url": "https://sigred.oapn.es/geoserverOAPN/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=view_red_oapn_limite_pn&outputFormat=application%2Fjson",
+      "method": "GET GeoJSON",
+      "result": "REACHABLE — 17 features; layer sha256 2d94b12e9b…f151f36f; licencia NOT_VERIFIED → digest+props only"
+    }
+  ],
+  "not_verified": [
+    "Anexo II PSUP 2024 (condiciones operativas de la acampada) — no extraído",
+    "Texto íntegro de epígrafes PORN/PRUG Decreto 142/2016 sobre acampada/pernocta",
+    "Geometría del Espacio Natural completo (PN+PNat+zonas) — DERA pendiente",
+    "Resoluciones anuales de tránsito rociero (acampada fuera de lugares señalizados)"
+  ]
+}

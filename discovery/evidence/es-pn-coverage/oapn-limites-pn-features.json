@@ -1,0 +1,178 @@
+{
+ "source": "sigred.oapn.es/geoserverOAPN WFS view_red_oapn_limite_pn",
+ "fetched": "2026-09-18",
+ "layer_sha256": "2d94b12e9b313172b0080e413f61e018c48bbd4aaa5a80828d2de315f151f36f",
+ "license": "not_verified — geometry NOT redistributed; digests+properties only (G0 policy)",
+ "features": [
+  {
+   "nombre": "Parque Nacional de Monfragüe",
+   "declaracion": "Ley 1/2007, de 2 de marzo",
+   "fecha_declaracion": "02/03/2007",
+   "ampliacion": null,
+   "reclasificacion": null,
+   "superficie_ha": "18.396,00",
+   "geom_type": "MultiPolygon",
+   "feature_sha256": "c2f5d793b66250855d73976c2d60eb19a365e281148fbd02d13dbf1b681d28fc"
+  },
+  {
+   "nombre": "Parque Nacional de Aigüestortes i Estany de Sant Maurici",
+   "declaracion": "Decreto de 21 de octubre de 1955",
+   "fecha_declaracion": "21/10/1955",
+   "ampliacion": " Decreto 234/96 del 26 de junio de la Generalitat de Cataluña",
+   "reclasificacion": "Ley 7/88 de 30 de marzo, Ley 22/90 de 28 de diciembre y Decreto 234/96 de 26 de junio de la Generalitat de Cataluña.",
+   "superficie_ha": "14.119,00",
+   "geom_type": "MultiPolygon",
+   "feature_sha256": "797d565c0cc743112e5ff5922922586fd9d5beeed83cd6870528ef57105f5bd4"
+  },
+  {
+   "nombre": "Parque Nacional de las Tablas de Daimiel",
+   "declaracion": "Decreto 1874/1973, de 28 de junio (BOE, nº181, de 30 de junio de 1973).",
+   "fecha_declaracion": "28/06/1973",
+   "ampliacion": "Resolución de 21 de enero de 2014, de Parques Nacionales, por el que se amplían los límites del Parque Nacional de las Tablas de Daimiel por incorporación de terrenos colindantes al mismo",
+   "reclasificacion": "Ley 25/1980, de 3 de mayo (Jefatura del Estado), sobre reclasificación del Parque Nacional de las Tablas de Daimiel. (BOE, nº 110, de 7 de mayo de 1980).",
+   "superficie_ha": "3.030,00",
+   "geom_type": "MultiPolygon",
+   "feature_sha256": "171a174284f193bccb5788612b8363c43a6d20d394af193f835ee88cbd3fe00f"
+  },
+  {
+   "nombre": "Parque Nacional de la Caldera de Taburiente",
+   "declaracion": "Decreto del 6 de octubre 1954",
+   "fecha_declaracion": "06/10/1954",
+   "ampliacion": null,
+   "reclasificacion": "Ley 4/81 del 25 de marzo",
+   "superficie_ha": "4.690,00",
+   "geom_type": "MultiPolygon",
+   "feature_sha256": "8d005b3125278caef9de5d3d1891af0ef796f84f095a4c777d1ed4793994687a"
+  },
+  {
+   "nombre": "Parque Nacional de la Sierra de las Nieves",
+   "declaracion": "Ley 9/2021, de 1 de Julio",
+   "fecha_declaracion": "02/07/2021",
+   "ampliacion": null,
+   "reclasificacion": null,
+   "superficie_ha": "22.979,76",
+   "geom_type": "MultiPolygon",
+   "feature_sha256": "152cbdbec3bf2ea340d8cd50b2b921e5b92463dc8a974373c35672a88d3b2da8"
+  },
+  {
+   "nombre": "Parque Nacional de Timanfaya",
+   "declaracion": "Decreto 2615/1974, de 9 de agosto, de creación del P. N. de Timanfaya. BOE, nº 223, 17/09/1974.",
+   "fecha_declaracion": "09/08/1974",
+   "ampliacion": null,
+   "reclasificacion": "Ley 6/1981, de 25 de marzo, de reclasificación del Parque Nacional de Timanfaya. BOE, nº 90 de 15 de abril de 1981",
+   "superficie_ha": "5.107,50",
+   "geom_type": "MultiPolygon",
+   "feature_sha256": "b97a302e87829cf0827d9da3d7ab43c54a5d4ea5e8e055fd277a851f8490fc69"
+  },
+  {
+   "nombre": "Parque Nacional de Sierra Nevada",
+   "declaracion": "Ley 3/1999,11 de enero, por la que se crea el Parque Nacional de Sierra Nevada. BOE, nº 11, 13/01/9",
+   "fecha_declaracion": "11/01/1999",
+   "ampliacion": null,
+   "reclasificacion": null,
+   "superficie_ha": "85.882,885",
+   "geom_type": "MultiPolygon",
+   "feature_sha256": "95a2af0f628f58fb573a885e2df9968c8aeb36753501dba08ed873f503ba0ad6"
+  },
+  {
+   "nombre": "Parque Nacional Marítimo-Terrestre de las Islas Atlánticas de Galicia",
+   "declaracion": "Ley 15/2002, de 1 de Julio",
+   "fecha_declaracion": "01/07/2002",
+   "ampliacion": null,
+   "reclasificacion": null,
+   "superficie_ha": "8.480,00",
+   "geom_type": "MultiPolygon",
+   "feature_sha256": "b542c68daf2ed0a45566a0756b7598dbf188410ee0cd8ca5be484b759dedeb2a"
+  },
+  {
+   "nombre": "Parque Nacional de la Sierra de Guadarrama",
+   "declaracion": "Ley 7/2013, del 25 de Junio, de declaración del Parque Nacional de la Sierra de Guadarrama",
+   "fecha_declaracion": "25/06/2013",
+   "ampliacion": null,
+   "reclasificacion": null,
+   "superficie_ha": "33.960,00",
+   "geom_type": "MultiPolygon",
+   "feature_sha256": "5581c7ff57e8f980e73e1765204c3e7823c4aba9fe6df95dce917c50bacbd8ad"
+  },
+  {
+   "nombre": "Parque Nacional de Doñana",
+   "declaracion": "Decreto 2412/1969, de 16 de Octubre, de creación del PN de Doñana",
+   "fecha_declaracion": "16/10/1969",
+   "ampliacion": "Resolución de 6 de febrero de 2004",
+   "reclasificacion": "Ley 91/1978 del 28 de diciembre",
+   "superficie_ha": "54.252,00",
+   "geom_type": "MultiPolygon",
+   "feature_sha256": "f739806e60a557f1ef8673bec0d3a9c0db6d8689ad13580aaf5300d793ba96df"
+  },
+  {
+   "nombre": "Parque Nacional de los Picos de Europa",
+   "declaracion": "Ley del 24 de julio de 1918",
+   "fecha_declaracion": "22/07/1918",
+   "ampliacion": "Resolución de 04 de febrero de 2015",
+   "reclasificacion": "Ley 16/1995 de 30 de mayo",
+   "superficie_ha": "66030,36",
+   "geom_type": "MultiPolygon",
+   "feature_sha256": "b83b513c9d635e1d32c5a2a7a8561c3ace0b56bbd8af7c9add535fa5e701d542"
+  },
+  {
+   "nombre": "Parque Nacional de Ordesa y Monte Perdido",
+   "declaracion": "RD 16/08/1918, declaración del Parque Nacional Valle de Ordesa.Gaceta de Madrid, nº250,18/08/1918",
+   "fecha_declaracion": "16/08/1918",
+   "ampliacion": "Ley 52/1982, de 13 de julio de reclasificación y ampliación del Parque Nacional de Ordesa y Monte Perdido.BOE, nº 181, 30 de julio de 1982",
+   "reclasificacion": "Ley 52/1982, de 13 de julio de reclasificación y ampliación del Parque Nacional de Ordesa y Monte Perdido.BOE, nº 181, 30 de julio de 1982",
+   "superficie_ha": "15.696,20",
+   "geom_type": "MultiPolygon",
+   "feature_sha256": "b5d78403e268777fe38d669598ccd58c32a9c102a18b4b9af39a0605fd7ab2c5"
+  },
+  {
+   "nombre": "Parque Nacional de Garajonay",
+   "declaracion": "Ley 3/81, de 25 de marzo (Jefatura de Estado), de creación del Parque Nacional de Garajonay",
+   "fecha_declaracion": "25/03/1981",
+   "ampliacion": null,
+   "reclasificacion": "",
+   "superficie_ha": "3.984,00",
+   "geom_type": "MultiPolygon",
+   "feature_sha256": "d3502c2522984cd6ca9879cbae3f7ddee7d31d60b6d7627df0671fb05a23e5ba"
+  },
+  {
+   "nombre": "Parque Nacional Marítimo-Terrestre del Archipiélago de Cabrera",
+   "declaracion": "Ley 14/1991 de 29 de Abril",
+   "fecha_declaracion": "29/04/1991",
+   "ampliacion": "Resolución de 7 de febrero de 2019 (BOE 19.02.2019, núm. 43, pp. 15694 a 15704)",
+   "reclasificacion": null,
+   "superficie_ha": "90.800,52",
+   "geom_type": "MultiPolygon",
+   "feature_sha256": "2d24bdfd52d9fb2beed7f4ae6ad89b705141f7bd07d524656db116659f9c52a5"
+  },
+  {
+   "nombre": "Parque Nacional de Cabañeros",
+   "declaracion": "Ley 33/95 de 20 de noviembre, de declaración del P.N. de Cabañeros (BOE 278, de 21 de noviembre)",
+   "fecha_declaracion": "20/11/1995",
+   "ampliacion": "Resolución de 15 de noviembre de 2005, por la que se hace público el Acuerdo del Consejo de Ministros por el que se amplían los límites del P.N. de Cabañeros por incorporación de terrenos colindantes al mismo (BOE nº293, de 8 de diciembre de 2005)",
+   "reclasificacion": null,
+   "superficie_ha": "40.856,00",
+   "geom_type": "MultiPolygon",
+   "feature_sha256": "fcacb229b20ff784aa4ad32bda574c3ea2834936159d5a370f9a71262427d8a8"
+  },
+  {
+   "nombre": "Parque Nacional del Teide",
+   "declaracion": "Decreto del 22 de Enero de 1954",
+   "fecha_declaracion": "22/01/1954",
+   "ampliacion": "Resolución de 14 de octubre de 1999, de la Secretaría General de Medio Ambiente,  acuerdo por el que se amplían los límites del Parque Nacional del Teide por incorporación de terrenos colindantes al mismo.BOE, nº 310, de 28/04/1999",
+   "reclasificacion": "Ley 5/1981, de 25 de marzo, de reclasificación del Parque Nacional del Teide. BOE, nº 90, de 15 de abril de 1981.",
+   "superficie_ha": "18.990,00",
+   "geom_type": "MultiPolygon",
+   "feature_sha256": "6d435d44fbc88f70653c738893449b84e06e24cf2a89de0d869a7a8645b2a806"
+  },
+  {
+   "nombre": "Área de Especial Protección del PN Sierra de Guadarrama",
+   "declaracion": "Ley 7/2013, del 25 de Junio, de declaración del Parque Nacional de la Sierra de Guadarrama",
+   "fecha_declaracion": null,
+   "ampliacion": null,
+   "reclasificacion": null,
+   "superficie_ha": "7.011",
+   "geom_type": "MultiPolygon",
+   "feature_sha256": "f4ee1ca87455c917341752a06eba5931832366e1a42dc487c523e00224775257"
+  }
+ ]
+}

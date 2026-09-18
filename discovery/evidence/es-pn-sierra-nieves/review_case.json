@@ -1,0 +1,104 @@
+{
+  "review_case_id": "RC-ESPN-ES-AN-SIERRA-NIEVES-VIVAC",
+  "milestone": "es-pn-coverage (post-M10.3)",
+  "park": {
+    "space_id": "pn-sierra-de-las-nieves",
+    "name": "Parque Nacional de la Sierra de las Nieves",
+    "jurisdiction": "ES-AN",
+    "gazette": "BOJA + BOE",
+    "managing_authority": "Junta de Andalucía — Equipo de Gestión / Consejo de Participación del Espacio Natural Sierra de las Nieves (Decreto 106/2024)"
+  },
+  "activity": "VIVAC_AL_RASO",
+  "proposed_effect": "PERMITTED condicionado (comunicación previa + condiciones PRUG) / AUTHORIZATION_REQUIRED si grupo >15 pax o >3 tiendas / ACAMPADA fuera de lugares o condiciones establecidas = infracción",
+  "exact_precepts": [
+    {
+      "instrument": "Decreto 162/2018 (PORN, Anexo I)",
+      "locator": "Epígrafe 9.4.3, apartado 3.d)",
+      "quote": "Quedan sujetas al régimen de comunicación las actividades que a continuación se relacionan cuando se realicen en las condiciones establecidas en este Plan. [...] d) El vivaqueo y la acampada nocturna vinculados a actividades de travesía de montaña distinto de lo recogido en el apartado 5.d).",
+      "role": "comunicación previa (exceptuado de autorización) — definido por exclusión"
+    },
+    {
+      "instrument": "Decreto 162/2018 (PORN, Anexo I)",
+      "locator": "Epígrafe 9.4.3, apartado 5.d)",
+      "quote": "Quedan sujetas a la obtención de autorización las siguientes actuaciones: [...] d) El vivaqueo y la acampada nocturna vinculados a actividades de travesía de montaña para grupos superiores a 15 personas o que utilicen más de 3 tiendas de campaña.",
+      "role": "autorización para umbrales superados"
+    },
+    {
+      "instrument": "Decreto 162/2018 (PRUG PNat, Anexo II)",
+      "locator": "Epígrafe 5.2.5, apartado 4",
+      "quote": "a) En la comunicación [...] deberá indicarse el número máximo de personas e instalaciones, o materiales, utilizados para pernoctar, así como el itinerario y las zonas en que se prevé realizar el vivaqueo. b) No está permitido el vivaqueo ni la acampada nocturna a menos de 2 km de un núcleo urbano, de un establecimiento de alojamiento turístico o de un refugio, salvo que este último estuviera completo, ni pernoctar más de una noche en el mismo lugar. c) Las instalaciones para dormir en vivaqueo solo podrán montarse en el periodo comprendido entre una hora antes de anochecer y una hora después de amanecer. d) [residuos]",
+      "role": "condiciones materiales del vivaqueo"
+    },
+    {
+      "instrument": "Ley 9/2021",
+      "locator": "Art. 13.4.a)",
+      "quote": "Se considerarán, además, infracciones administrativas leves en el ámbito del Parque Nacional [...]: a) La acampada en lugares distintos a los previstos o en condiciones diferentes a las establecidas.",
+      "role": "tipo sancionador directo de la ley declarativa dentro del PN"
+    },
+    {
+      "instrument": "Ley 9/2021",
+      "locator": "Disposición transitoria única",
+      "quote": "Entre tanto sea aprobado el Plan Rector de Uso y Gestión del Parque Nacional, seguirán en vigor los instrumentos de gestión de los espacios naturales protegidos existentes en su ámbito territorial, en todo aquello que no se oponga a lo dispuesto en la presente ley.",
+      "role": "puente de aplicabilidad de los instrumentos del PNat dentro del PN — inferencia a adjudicar"
+    }
+  ],
+  "source": {
+    "document_url": "https://www.juntadeandalucia.es/boja/2018/184/4",
+    "pdf_url": "https://www.juntadeandalucia.es/boja/2018/184/BOJA18-184-00384-14951-01_00142234.pdf",
+    "pdf_sha256": "aca31c839fce66ec2d0e1ec791a9a7cf5a0539adf8556dd50c06fcc830f42faf",
+    "pdf_bytes": 15259272,
+    "pdf_redistributed": false,
+    "extract_file": "boja-162-2018-vivaqueo-extract.txt",
+    "extract_sha256": "4bfffcbb511706bd68325ca226f00bbbf2fb83d8b0bd070add416751c5f5b4ba",
+    "secondary_extracts": [
+      {"file": "boe-ley9-2021-art13-extract.txt", "sha256": "0426c3e90d1681b86796e09c978a1a978ee69de02b36d6238d5ae0cf331b1c6f"},
+      {"file": "boja-15-2011-art9-extract.txt", "sha256": "fcb86c19bcdde456ca8a5abe8854ed0b424af50b7248a838241b22b8e59fc4d3"}
+    ],
+    "issue_index": "https://www.juntadeandalucia.es/boja/2018/184/index.html"
+  },
+  "validity_evidence": {
+    "publication": "Decreto 162/2018: BOJA núm. 184, 21/09/2018 (CVE 00142234); vigencia indefinida (art. 2.2)",
+    "declaration_law": "Ley 9/2021 (BOE-A-2021-10958, BOE núm. 157, 02/07/2021), vigente desde 03/07/2021",
+    "prug_pn_status": "NO EXISTE PRUG del PN aprobado — DA 2ª (plazo 3 años) vencida 03/07/2024; Acuerdo 21/05/2025 (BOJA 98) aprobó solo la FORMULACIÓN del PRUG del Espacio Natural",
+    "transitory_regime": "DT única Ley 9/2021 mantiene instrumentos preexistentes (PORN ámbito + PRUG PNat, Decreto 162/2018) 'en todo aquello que no se oponga a la ley'",
+    "pending_litigation": "Recurso TS Sección Quinta (proc. 2-30-19, Agrodesarrollo S.L.) contra la propuesta de declaración — sin resolución localizada en fuente oficial",
+    "status": "VIGENTE — mecánicamente soportado, pendiente de verificación humana"
+  },
+  "geometry_evidence": {
+    "source": "OAPN límites PN (digest-only)",
+    "reference": "discovery/evidence/es-pn-coverage/oapn-limites-pn-features.json",
+    "feature": "Parque Nacional de la Sierra de las Nieves",
+    "layer_sha256": "2d94b12e9b313172b0080e413f61e018c48bbd4aaa5a80828d2de315f151f36f",
+    "caveat": "Digest sin coordenadas; geometría del PNat y del Espacio Natural completo no adquiridas (DERA). Revisión espacial NO completada."
+  },
+  "conditions_modelled": [
+    "group_size <=15 AND tent_count <=3 (comunicación; umbrales cerrados sin laguna)",
+    "prior_notification_done (PORN 9.4.3.3: comunicación previa al inicio)",
+    "distance_km_to_urban_nucleus >=2 AND distance_km_to_tourist_lodging >=2 AND (distance_km_to_refuge >=2 OR refuge_full)",
+    "nights_same_location <=1",
+    "mount_within_dusk_dawn_window (1h antes anochecer – 1h después amanecer)",
+    "ACAMPADA + place_or_conditions_as_established=false → PROHIBITED (Ley 9/2021 art. 13.4.a)"
+  ],
+  "interpretation_note": "VIVAC_AL_RASO propuesto como PERMITTED condicionado a comunicación previa + condiciones del PRUG PNat. INFERENCIA CENTRAL para el revisor: los instrumentos vigentes son los del ámbito/Parque Natural — su aplicación dentro del Parque Nacional descansa en la DT única de la Ley 9/2021 ('en todo aquello que no se oponga a la presente ley'). La acampada fuera de lugares/condiciones tiene base legal directa en el PN (art. 13.4.a).",
+  "contrary_or_ambiguous_evidence": [
+    "El PORN/PRUG 2018 son instrumentos del ámbito y del Parque Natural — aplicarlos dentro del PN vía DT única es interpretación, no hecho mecánico",
+    "DA 2ª vencida (3/07/2024) sin PRUG del PN — el régimen transitorio puede cambiar cuando el PRUG del Espacio Natural se apruebe (formulación ya aprobada 21/05/2025)",
+    "Ley 9/2021 art. 13.4.a remite a 'lugares previstos' y 'condiciones establecidas' por instrumentos que aún no existen para el PN — la acampada organizada queda en zona gris hasta el PRUG",
+    "Decreto 15/2011 tiene ámbito 'parques naturales' — su aplicación dentro del PN también depende de la DT única",
+    "Recurso TS 2-30-19 contra la declaración sin resolución localizada",
+    "Geometría del PNat y del Espacio Natural no adquiridas — scopes pendientes de revisión espacial"
+  ],
+  "proposed_resolver_examples": [
+    {"facts": {"group_size": 4, "tent_count": 1, "prior_notification_done": true, "nights_same_location": 1, "distance_km_to_urban_nucleus": 5, "distance_km_to_tourist_lodging": 5, "distance_km_to_refuge": 3, "mount_within_dusk_dawn_window": true}, "expected_if_approved": "PERMITTED"},
+    {"facts": {"group_size": 20}, "expected_if_approved": "AUTHORIZATION_REQUIRED"},
+    {"facts": {"group_size": 15, "tent_count": 3, "prior_notification_done": true}, "expected_if_approved": "PERMITTED condicionado (umbral cerrado por exclusión — sin laguna)"},
+    {"facts": {"group_size": 4, "prior_notification_done": false}, "expected_if_approved": "UNDETERMINED/condición incumplida"},
+    {"facts": {}, "expected": "UNDETERMINED/INCOMPLETE — hechos ausentes + REVIEW_REQUIRED"},
+    {"facts": "any, pre-review", "expected": "UNDETERMINED — candidatos no publicables"}
+  ],
+  "reviewer_decision": "PENDING",
+  "review_status": "REVIEW_REQUIRED",
+  "legal_review_complete": false,
+  "spatial_review_complete": false,
+  "automated_state": "READY_FOR_HUMAN_REVIEW"
+}
