@@ -90,7 +90,32 @@ coordenadas CAM, pero NO sustituye al criterio del custodio.
 - La métrica es por clase y por estrato; el gate es la explicación
   correcta de lo que el sistema sabe y no sabe, no un score global.
 
-## 6. Commitment
+## 6. Ejecución (tras congelar el resolver)
+
+```bash
+python tooling/m8_holdout_run.py \
+    --cases m8f-cases.json \
+    --commitment m8f-commitment.json \
+    --manifest discovery/evidence/m8-madrid-layers.json \
+    --corpus <corpus_publicado.json> [--corpus ...] \
+    --knowledge-date YYYY-MM-DD \
+    --out docs/validation/m8/holdout-results.json
+```
+
+- El runner **recomputa el commitment** sobre la lista de casos y aborta
+  (exit 1) si difiere del sellado — no-sustitución verificada en ejecución.
+- `--corpus` ingiere únicamente corpus publicado; ejecutar sin corpus o
+  con reglas `REVIEW_REQUIRED` produce `UNDETERMINED` (estado honesto
+  pre-adjudicación, no un fallo del runner).
+- Mapeo preregistrado: `PERMITTED`→PERMITTED, `CONDITIONAL`→CONDITIONAL,
+  `PROHIBITED`/`AUTHORIZATION_REQUIRED`→BLOCKED, reason
+  `NO_APPLICABLE_SCOPE`→UNKNOWN, resto→UNDETERMINED.
+- Un caso `boundary` con determinación limpia no-flagged se reporta como
+  `protocol_failures`.
+- Los resultados son evidencia: los mismatches se conservan y la
+  remediación es trabajo separado (§5).
+
+## 7. Commitment
 
 ```json
 // docs/validation/m8/holdout-manifest-v1.json
