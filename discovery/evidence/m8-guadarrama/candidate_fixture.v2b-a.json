@@ -175,7 +175,7 @@
      }
     ]
    },
-   "effective_from": "2020-03-01",
+   "effective_from": "2024-01-01",
    "effective_to": null,
    "recorded_at": "2026-09-18",
    "recorded_until": null,
@@ -187,7 +187,7 @@
     "lf-d18-48a3-condiciones",
     "lf-d18-48a1-def-vivac"
    ],
-   "interpretation_note": "RAMA A: vivac permitido en las 5 zonas oficiales Anexo III sujeto a art. 48.a.3 (<=1 noche/zona, grupos organizados <=10). Los facts son declarados por el usuario; su consumo queda marcado DEPENDS_ON_DECLARED_FACTS. Sin facts => CONDITIONAL, nunca PROHIBITED por ausencia de fact.",
+   "interpretation_note": "RAMA A: vivac permitido en las 5 zonas oficiales Anexo III sujeto a art. 48.a.3 (<=1 noche/zona, grupos organizados <=10). Los facts son declarados por el usuario; su consumo queda marcado DEPENDS_ON_DECLARED_FACTS. Sin facts => CONDITIONAL, nunca PROHIBITED por ausencia de fact. TEMPORAL BINDING (adjudicacion A): effective_from=2024-01-01 liga la regla al regimen post-modificacion del Anexo III (capa IDEM modificada en diciembre de 2023 excluyendo Pajaros_Penalara/Los Llanos; precision mensual -> todo diciembre no modelado). La geometria post-2023 NUNCA se retroproyecta: activity_date < 2024-01-01 => sin versiones elegibles => UNDETERMINED (regimen no modelado), nunca PROHIBITED/PERMITTED historicos falsos. La vigencia legal original del precepto (2020-03-01) consta en la evidencia, no en este binding operativo.",
    "normative_basis": [
     "lf-d18-48a2-ambito",
     "lf-d18-48a3-condiciones"
@@ -212,7 +212,7 @@
      }
     ]
    },
-   "effective_from": "2020-03-01",
+   "effective_from": "2024-01-01",
    "effective_to": null,
    "recorded_at": "2026-09-18",
    "recorded_until": null,
@@ -223,7 +223,7 @@
     "lf-d18-48a3-condiciones",
     "lf-d18-48a2-ambito"
    ],
-   "interpretation_note": "RAMA E dentro de la modalidad A: grupos organizados >10 en zonas Anexo III requieren autorizacion expresa (48.a.3.a, en todo caso). Solo opera donde la modalidad espacial/temporal es elegible; NO crea via de autorizacion fuera de las ramas permitidas. Si ademas falla otra condicion de la rama (p.ej. >1 noche) la respuesta es la prohibicion residual, no la autorizacion.",
+   "interpretation_note": "RAMA E dentro de la modalidad A: grupos organizados >10 en zonas Anexo III requieren autorizacion expresa (48.a.3.a, en todo caso). Solo opera donde la modalidad espacial/temporal es elegible; NO crea via de autorizacion fuera de las ramas permitidas. Si ademas falla otra condicion de la rama (p.ej. >1 noche) la respuesta es la prohibicion residual, no la autorizacion. TEMPORAL BINDING (adjudicacion A): effective_from=2024-01-01 liga la regla al regimen post-modificacion del Anexo III (capa IDEM modificada en diciembre de 2023 excluyendo Pajaros_Penalara/Los Llanos; precision mensual -> todo diciembre no modelado). La geometria post-2023 NUNCA se retroproyecta: activity_date < 2024-01-01 => sin versiones elegibles => UNDETERMINED (regimen no modelado), nunca PROHIBITED/PERMITTED historicos falsos. La vigencia legal original del precepto (2020-03-01) consta en la evidencia, no en este binding operativo.",
    "normative_basis": [
     "lf-d18-48a3-condiciones"
    ]

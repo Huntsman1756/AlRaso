@@ -332,3 +332,19 @@ def test_split_fixtures_publish_independently_and_compose():
                  {"group_size": 4, "nights_same_zone": 1,
                   "near_unguarded_refuge": False})
     assert reserve.legal_status is not LegalStatus.PERMITTED
+
+    # TEMPORAL BINDING (M8-D3 review fix): the corpus models only the
+    # post-Dec-2023 annex regime (effective_from 2024-01-01). Pre-2024
+    # activity dates must NEVER retroproject the current 5-polygon
+    # geometry — they resolve UNDETERMINED (regime not modelled),
+    # neither false PROHIBITED nor false PERMITTED.
+    facts = {"group_size": 4, "nights_same_zone": 1,
+             "near_unguarded_refuge": False}
+    for pre_date in ("2021-08-01", "2023-06-15", "2023-12-31"):
+        assert go(40.837697, -3.958714, pre_date,
+                  facts).legal_status is LegalStatus.UNDETERMINED
+        assert go(40.78740, -4.07142, pre_date,
+                  facts).legal_status is LegalStatus.UNDETERMINED
+    # boundary: 2024-01-01 is the first modelled date
+    post = go(40.837697, -3.958714, "2024-01-01", facts)
+    assert post.legal_status is not LegalStatus.UNDETERMINED

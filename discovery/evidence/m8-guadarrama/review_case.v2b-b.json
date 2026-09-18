@@ -106,7 +106,8 @@
   "refuge_has_free_places is_false — DECLARADO (sin feed de ocupacion)",
   "nights_same_zone <= 1, group_size <= 10 (48.a.3)",
   "restriccion dinamica fuego (pn-cm)",
-  "group_size > 10 bajo las condiciones de la rama (y fuera de Anexo III) => AUTHORIZATION_REQUIRED; scope:anexo3 is_false evita interferir la modalidad A"
+  "group_size > 10 bajo las condiciones de la rama (y fuera de Anexo III) => AUTHORIZATION_REQUIRED; scope:anexo3 is_false evita interferir la modalidad A",
+  "binding temporal del corpus: effective_from=2024-01-01 en todas las reglas — el modelo cubre solo el regimen post-modificacion del Anexo III (capa IDEM, dic/2023); activity_date anterior => UNDETERMINED por regimen no modelado, nunca retroproyeccion de la geometria vigente"
  ],
  "interpretation_note": "Permiso textual del art. 48.a.2 segunda parte. ADVERTENCIA DE PROVENANCE: los dos hechos habilitantes son declarados por el usuario y no verificables por AlRaso — la salida lleva DEPENDS_ON_DECLARED_FACTS. La ausencia de facts produce CONDITIONAL/UNDETERMINED, nunca PROHIBITED.",
  "contrary_or_ambiguous_evidence": [
@@ -144,6 +145,11 @@
   {
    "item": "gt10-refugio-auth",
    "proposition": "En la modalidad refugio, grupos organizados >10 => AUTHORIZATION_REQUIRED solo cuando las demas condiciones de la rama se satisfacen.",
+   "proposed": "APPROVE"
+  },
+  {
+   "item": "binding-temporal-post-2023",
+   "proposition": "La geometria IDEM vigente del Anexo III (post-exclusion dic/2023) solo sustenta determinaciones para activity_date >= 2024-01-01. Consultas anteriores resuelven UNDETERMINED (regimen pre-modificacion no modelado) en vez de retroproyectar los 5 poligonos actuales.",
    "proposed": "APPROVE"
   }
  ]

@@ -188,7 +188,7 @@
      }
     ]
    },
-   "effective_from": "2020-03-01",
+   "effective_from": "2024-01-01",
    "effective_to": null,
    "recorded_at": "2026-09-18",
    "recorded_until": null,
@@ -199,7 +199,7 @@
     "lf-d18-48a2-ambito",
     "lf-d18-48a3-condiciones"
    ],
-   "interpretation_note": "RAMA C — INFERENCIA A ADJUDICAR EXPLICITAMENTE: STSJM 1003/2022 anula el art. 48.2 unicamente \"en el extremo en que fija el limite de altitud en 2.000 metros\". Este modelo interpreta que subsisten el resto de condiciones de la clausula estacional: fuera de 15/6-15/10, no Zona de Reserva (condicion espacial derivada del scope, no declarable), grupo <=5, <=1 noche (48.a.3 en todo caso). Si el revisor estima que la nulidad extingue TODA la clausula, esta rama debe rechazarse — y esa decision NO bloquea A/B ni el cierre residual (que se recalcularia sin ella).",
+   "interpretation_note": "RAMA C — INFERENCIA A ADJUDICAR EXPLICITAMENTE: STSJM 1003/2022 anula el art. 48.2 unicamente \"en el extremo en que fija el limite de altitud en 2.000 metros\". Este modelo interpreta que subsisten el resto de condiciones de la clausula estacional: fuera de 15/6-15/10, no Zona de Reserva (condicion espacial derivada del scope, no declarable), grupo <=5, <=1 noche (48.a.3 en todo caso). Si el revisor estima que la nulidad extingue TODA la clausula, esta rama debe rechazarse — y esa decision NO bloquea A/B ni el cierre residual (que se recalcularia sin ella). TEMPORAL BINDING (adjudicacion A): effective_from=2024-01-01 liga la regla al regimen post-modificacion del Anexo III (capa IDEM modificada en diciembre de 2023 excluyendo Pajaros_Penalara/Los Llanos; precision mensual -> todo diciembre no modelado). La geometria post-2023 NUNCA se retroproyecta: activity_date < 2024-01-01 => sin versiones elegibles => UNDETERMINED (regimen no modelado), nunca PROHIBITED/PERMITTED historicos falsos. La vigencia legal original del precepto (2020-03-01) consta en la evidencia, no en este binding operativo.",
    "normative_basis": [
     "lf-d18-48a2-ambito",
     "lf-d18-48a3-condiciones"
