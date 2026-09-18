@@ -995,6 +995,8 @@ def test_git_diff_vs_main_only_allowed_files():
             # spatial provider; resolver consumes ScopeHit.on_boundary
             # (fail-closed BOUNDARY_AMBIGUOUS on regulatory edges).
             or f == "alraso/geojson_provider.py"
+            # M8-G product path: CLI resolve --layers-manifest + load-corpus
+            or f == "alraso/cli.py"
             # M8-D result contract: CONDITIONAL status, operational/current
             # restrictions (schema/store/engine/resolver), missing-fact
             # semantics and the tests that pin the new contract.

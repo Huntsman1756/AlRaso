@@ -23,7 +23,7 @@ from pathlib import Path
 from alraso.bitemporal import BitemporalStore
 from alraso.domain import Query
 from alraso.errors import AlRasoError
-from alraso.ingest.ordesa import load_ordesa
+from alraso.ingest.ordesa import ingest_corpus, load_ordesa
 from alraso.resolver import Resolver
 
 
@@ -67,9 +67,22 @@ def cmd_load_ordesa(args):
     return 0
 
 
+def cmd_load_corpus(args):
+    store = BitemporalStore.connect(args.db)
+    for fixture in args.fixture:
+        ingest_corpus(store, json.loads(
+            Path(fixture).read_text(encoding="utf-8")))
+        print("corpus loaded: " + fixture)
+    return 0
+
+
 def cmd_resolve(args):
     store = BitemporalStore.connect(args.db)
-    resolver = Resolver(store)
+    spatial = None
+    if args.layers_manifest:
+        from alraso.geojson_provider import load_manifest_provider
+        spatial = load_manifest_provider(Path(args.layers_manifest))
+    resolver = Resolver(store, spatial=spatial)
     q = Query(activity=args.activity, activity_date=args.date, knowledge_date=args.knowledge,
               spatial_scope_id=args.scope, lat=args.lat, lon=args.lon,
               facts=_parse_facts(args.facts))
@@ -132,6 +145,12 @@ def build_parser():
     a.add_argument("--fixture", default=None)
     a.set_defaults(func=cmd_load_ordesa)
 
+    a2 = _new_parser(sub, "load-corpus",
+                   "ingest a corpus fixture (repeatable --fixture)")
+    a2.add_argument("--db", default=":memory:")
+    a2.add_argument("--fixture", action="append", required=True)
+    a2.set_defaults(func=cmd_load_corpus)
+
     b = _new_parser(sub, "resolve", "resolve an activity")
     b.add_argument("--db", default=":memory:")
     b.add_argument("--activity", required=True)
@@ -140,6 +159,9 @@ def build_parser():
     b.add_argument("--scope", default=None)
     b.add_argument("--lat", type=float, default=None)
     b.add_argument("--lon", type=float, default=None)
+    b.add_argument("--layers-manifest", default=None,
+                   help="GeoJSON layer manifest -> hash-pinned spatial "
+                   "provider for coordinate queries")
     b.add_argument("--facts", default=None, help="comma list key=value (strict forms)")
     b.add_argument("--mode", choices=["fast", "explain"], default="fast")
     b.add_argument("--record", action="store_" + "true", help="append to determination log")
