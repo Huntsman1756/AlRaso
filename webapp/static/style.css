@@ -11,6 +11,7 @@
   --color-accent:#7fb3ff;
   --color-focus:#f8c15c;
   --color-permitted:#4ade80;
+  --color-conditional:#eab308;
   --color-prohibited:#f87171;
   --color-authorization:#fbbf24;
   --color-undetermined:#93a1b0;
@@ -141,6 +142,7 @@ main { flex:1 1 auto; min-height:0; display:flex; }
 .legal-result { display:flex; align-items:center; gap:8px; font-size:19px; font-weight:700; margin:10px 0 14px; padding:12px 14px; border-radius:8px; border-left:5px solid #999; background:#141a20; }
 #legal-emoji { font-size:22px; }
 .legal-status--permitted { border-left-color:var(--color-permitted); }
+.legal-status--conditional { border-left-color:var(--color-conditional); }
 .legal-status--prohibited { border-left-color:var(--color-prohibited); }
 .legal-status--authorization { border-left-color:var(--color-authorization); }
 .legal-status--undetermined { border-left-color:var(--color-undetermined); }

@@ -53,6 +53,7 @@ COMMA_OR_SPACE_RE = re.compile(r"^(-?\d+(?:\.\d+)?)\s*[, ]\s*(-?\d+(?:\.\d+)?)$"
 # cambiar ninguna determinacion. Codigo desconocido -> se muestra tal cual.
 PLAIN_LEGAL = {
     "PERMITTED": "Permitido según la normativa verificada",
+    "CONDITIONAL": "Permitido solo si se cumplen unas condiciones",
     "PROHIBITED": "Prohibido según la normativa verificada",
     "AUTHORIZATION_REQUIRED": "Necesitas una autorización previa",
     "UNDETERMINED": "No lo podemos determinar",
@@ -108,6 +109,10 @@ def ui_texto(legal: str, knowledge: str, coverage: str, conditions: list) -> dic
     elif legal == "PERMITTED":
         headline = "Permitido según la normativa verificada" + \
                    (" — bajo las condiciones indicadas" if conditions else "")
+    elif legal == "CONDITIONAL":
+        # M8-D: nunca un "sí" desnudo — siempre con la condición pendiente.
+        headline = ("Permitido solo si se cumplen unas condiciones que "
+                    "todavía no podemos comprobar — no es un sí directo")
     elif legal == "PROHIBITED":
         headline = "Prohibido según la normativa verificada"
     elif legal == "AUTHORIZATION_REQUIRED":

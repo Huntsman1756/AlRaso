@@ -42,6 +42,7 @@ const ACT_LABELS = {
 
 const PRIMARY_LEGAL_LABELS = {
   PERMITTED: "Permitido",
+  CONDITIONAL: "Permitido solo con condiciones",
   PROHIBITED: "Prohibido",
   AUTHORIZATION_REQUIRED: "Solo con autorización previa",
   UNDETERMINED: "No lo podemos determinar",
@@ -91,6 +92,7 @@ export function answerExplanation(d) {
     return undeterminedExplanation(d);
   }
   if (legal === "PERMITTED") return "La normativa verificada permite esta actividad.";
+  if (legal === "CONDITIONAL") return "La normativa permite esta actividad solo si se cumplen unas condiciones que no podemos comprobar automáticamente. No es un sí directo.";
   if (legal === "PROHIBITED") return "La normativa verificada prohíbe esta actividad.";
   if (legal === "AUTHORIZATION_REQUIRED") return "Esta actividad requiere una autorización previa.";
   return "No podemos mostrar una conclusión para este estado.";
@@ -118,6 +120,9 @@ export function whyText(d) {
   if (legal === "PERMITTED")
     return 'La normativa verificada permite ' + act + zone +
       ((d.conditions || []).length ? ", siempre que se cumplan las condiciones indicadas." : ".");
+  if (legal === "CONDITIONAL")
+    return 'La normativa permite ' + act + zone +
+      ', pero hay condiciones pendientes que no podemos comprobar.';
   if (legal === "PROHIBITED") return 'La normativa verificada prohíbe ' + act + zone + '.';
   if (legal === "AUTHORIZATION_REQUIRED") return 'Para ' + act + zone + ' hace falta una autorización previa según la normativa verificada.';
   if (hasReason(d, "NO_PUBLISHABLE_RULE_COVERAGE")) return "La zona está delimitada, pero falta una condición verificable para aplicar una regla concreta.";
@@ -136,6 +141,7 @@ export function whyText(d) {
 // Emoji mapping per legalStatus (never color-only)
 export const LEGAL_EMOJI = {
   PERMITTED: "✅",
+  CONDITIONAL: "🟡",
   PROHIBITED: "⛔",
   AUTHORIZATION_REQUIRED: "🟠",
   UNDETERMINED: "⚠️",
@@ -143,6 +149,7 @@ export const LEGAL_EMOJI = {
 
 export const LEGAL_BORDER_COLOR = {
   PERMITTED: "#22c55e",
+  CONDITIONAL: "#eab308",
   PROHIBITED: "#ef4444",
   AUTHORIZATION_REQUIRED: "#f59e0b",
   UNDETERMINED: "#93a1b0",
@@ -241,7 +248,7 @@ export function createLegalController({
     el.textContent = plain;
     el.dataset.code = value;
     el.className = "badge " + (
-      { PERMITTED: "ok", PROHIBITED: "bad", AUTHORIZATION_REQUIRED: "warn", UNDETERMINED: "unk",
+      { PERMITTED: "ok", CONDITIONAL: "warn", PROHIBITED: "bad", AUTHORIZATION_REQUIRED: "warn", UNDETERMINED: "unk",
         CURRENT: "ok", INCOMPLETE: "warn", CONFLICTING: "bad",
         VERIFIED: "ok", PARTIAL: "warn", UNKNOWN: "unk" }[value] || "unk");
   }
@@ -276,6 +283,7 @@ export function createLegalController({
     var resultEl = $("legal-result");
     var statusClass = {
       PERMITTED: "permitted",
+      CONDITIONAL: "conditional",
       PROHIBITED: "prohibited",
       AUTHORIZATION_REQUIRED: "authorization",
       UNDETERMINED: "undetermined",
