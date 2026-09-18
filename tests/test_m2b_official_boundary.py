@@ -1034,6 +1034,9 @@ def test_git_diff_vs_main_only_allowed_files():
             or f == "webapp/static/modules/legal.js"
             or f == "discovery/evidence/m8-madrid-layers.json"
             or f == "tests/test_m8d2_conditional_over_restriction.py"
+            # decision skeletons are PENDING artifacts bound by hash —
+            # they cannot publish anything until a human completes them.
+            or f.startswith("decisions/")
         )
         assert (
             f in allowed
