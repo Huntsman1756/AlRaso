@@ -172,7 +172,7 @@
      }
     ]
    },
-   "effective_from": "2020-03-01",
+   "effective_from": "2024-01-01",
    "effective_to": null,
    "recorded_at": "2026-09-18",
    "recorded_until": null,
@@ -183,7 +183,7 @@
     "lf-d18-48a2-ambito",
     "lf-d18-48a3-condiciones"
    ],
-   "interpretation_note": "RAMA B: entorno inmediato de refugio no guardado cuando no existen plazas libres (art. 48.a.2). Los hechos near_unguarded_refuge y refuge_has_free_places son DECLARADOS por el usuario — no existe capa oficial del entorno ni feed de ocupacion; la salida queda marcada DEPENDS_ON_DECLARED_FACTS. Facts ausentes => CONDITIONAL/UNDETERMINED, nunca PROHIBITED por mera ausencia.",
+   "interpretation_note": "RAMA B: entorno inmediato de refugio no guardado cuando no existen plazas libres (art. 48.a.2). Los hechos near_unguarded_refuge y refuge_has_free_places son DECLARADOS por el usuario — no existe capa oficial del entorno ni feed de ocupacion; la salida queda marcada DEPENDS_ON_DECLARED_FACTS. Facts ausentes => CONDITIONAL/UNDETERMINED, nunca PROHIBITED por mera ausencia. TEMPORAL BINDING (adjudicacion A): effective_from=2024-01-01 liga la regla al regimen post-modificacion del Anexo III (capa IDEM modificada en diciembre de 2023 excluyendo Pajaros_Penalara/Los Llanos; precision mensual -> todo diciembre no modelado). La geometria post-2023 NUNCA se retroproyecta: activity_date < 2024-01-01 => sin versiones elegibles => UNDETERMINED (regimen no modelado), nunca PROHIBITED/PERMITTED historicos falsos. La vigencia legal original del precepto (2020-03-01) consta en la evidencia, no en este binding operativo.",
    "normative_basis": [
     "lf-d18-48a2-ambito",
     "lf-d18-48a3-condiciones"
@@ -220,7 +220,7 @@
      }
     ]
    },
-   "effective_from": "2020-03-01",
+   "effective_from": "2024-01-01",
    "effective_to": null,
    "recorded_at": "2026-09-18",
    "recorded_until": null,
@@ -231,7 +231,7 @@
     "lf-d18-48a3-condiciones",
     "lf-d18-48a2-ambito"
    ],
-   "interpretation_note": "RAMA E dentro de la modalidad B: >10 en entorno de refugio no guardado sin plazas requiere autorizacion expresa (48.a.3.a). Solo existe donde la modalidad B es elegible: scope:anexo3 is_false lo excluye de las zonas Anexo III (que tienen su propia regla de autorizacion), y los facts de refugio deben estar declarados. Fuera de modalidad elegible la respuesta es la prohibicion residual, nunca AUTHORIZATION_REQUIRED por el mero tamano del grupo.",
+   "interpretation_note": "RAMA E dentro de la modalidad B: >10 en entorno de refugio no guardado sin plazas requiere autorizacion expresa (48.a.3.a). Solo existe donde la modalidad B es elegible: scope:anexo3 is_false lo excluye de las zonas Anexo III (que tienen su propia regla de autorizacion), y los facts de refugio deben estar declarados. Fuera de modalidad elegible la respuesta es la prohibicion residual, nunca AUTHORIZATION_REQUIRED por el mero tamano del grupo. TEMPORAL BINDING (adjudicacion A): effective_from=2024-01-01 liga la regla al regimen post-modificacion del Anexo III (capa IDEM modificada en diciembre de 2023 excluyendo Pajaros_Penalara/Los Llanos; precision mensual -> todo diciembre no modelado). La geometria post-2023 NUNCA se retroproyecta: activity_date < 2024-01-01 => sin versiones elegibles => UNDETERMINED (regimen no modelado), nunca PROHIBITED/PERMITTED historicos falsos. La vigencia legal original del precepto (2020-03-01) consta en la evidencia, no en este binding operativo.",
    "normative_basis": [
     "lf-d18-48a3-condiciones"
    ]

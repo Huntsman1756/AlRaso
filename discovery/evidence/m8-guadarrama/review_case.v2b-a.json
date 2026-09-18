@@ -105,7 +105,8 @@
   "nights_same_zone <= 1 (48.a.3.b)",
   "group_size <= 10 (48.a.3.a; >10 => AUTHORIZATION_REQUIRED dentro de esta misma modalidad)",
   "restricciones dinamicas fuego/Penalara verificadas como overlay",
-  "group_size > 10 dentro de Anexo III => AUTHORIZATION_REQUIRED (solo donde la modalidad es elegible; no crea via de autorizacion fuera)"
+  "group_size > 10 dentro de Anexo III => AUTHORIZATION_REQUIRED (solo donde la modalidad es elegible; no crea via de autorizacion fuera)",
+  "binding temporal del corpus: effective_from=2024-01-01 en todas las reglas — el modelo cubre solo el regimen post-modificacion del Anexo III (capa IDEM, dic/2023); activity_date anterior => UNDETERMINED por regimen no modelado, nunca retroproyeccion de la geometria vigente"
  ],
  "interpretation_note": "Permiso textual directo del art. 48.a.2 primera parte. Los facts son declarados por el usuario: toda determinacion que los consume queda marcada DEPENDS_ON_DECLARED_FACTS. Sin facts => CONDITIONAL.",
  "contrary_or_ambiguous_evidence": [
@@ -141,6 +142,11 @@
   {
    "item": "gt10-anexo3-auth",
    "proposition": "En zonas Anexo III, grupos organizados >10 => AUTHORIZATION_REQUIRED (48.a.3.a), nunca PROHIBITED por el mero tamano; solo dentro de la modalidad elegible.",
+   "proposed": "APPROVE"
+  },
+  {
+   "item": "binding-temporal-post-2023",
+   "proposition": "La geometria IDEM vigente del Anexo III (post-exclusion dic/2023) solo sustenta determinaciones para activity_date >= 2024-01-01. Consultas anteriores resuelven UNDETERMINED (regimen pre-modificacion no modelado) en vez de retroproyectar los 5 poligonos actuales.",
    "proposed": "APPROVE"
   }
  ]

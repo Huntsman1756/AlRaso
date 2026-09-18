@@ -105,7 +105,8 @@
   "D: prohibicion incondicional pn-cm (38.1.o + unicamente 48.a.2)",
   "relaciones: anexo3/refugio/estacional/anexo3-gt10/refugio-gt10 OVERRIDES prohibido-pn",
   "las relaciones gt10->prohibido solo disparan cuando la regla de autorizacion de la rama esta activa (modalidad elegible)",
-  "pax>10 fuera de toda modalidad => PROHIBITED, nunca AUTHORIZATION_REQUIRED"
+  "pax>10 fuera de toda modalidad => PROHIBITED, nunca AUTHORIZATION_REQUIRED",
+  "binding temporal del corpus: effective_from=2024-01-01 en todas las reglas — el modelo cubre solo el regimen post-modificacion del Anexo III (capa IDEM, dic/2023); activity_date anterior => UNDETERMINED por regimen no modelado, nunca retroproyeccion de la geometria vigente"
  ],
  "interpretation_note": "CIERRE INSEPARABLE: la verdad de \"el resto esta prohibido\" depende del conjunto completo de excepciones adjudicadas. Solo publicable cuando A, B y C esten adjudicadas. CORRECCION M8-D3: la autorizacion >10 (48.a.3.a) NO hace override de la prohibicion espacial por si sola — solo existe dentro de cada modalidad elegible (reglas per-branch en fixtures A/B). Para >10 sin modalidad elegible la respuesta es PROHIBITED, salvo base normativa adicional no modelada.",
  "contrary_or_ambiguous_evidence": [
@@ -156,6 +157,11 @@
   {
    "item": "gt10-solo-dentro-de-modalidad",
    "proposition": "La autorizacion >10 opera solo dentro de modalidades elegibles (per-branch); fuera de ellas, >10 sigue siendo PROHIBITED. Las relaciones gt10->prohibido son inertes salvo que la regla de autorizacion de la rama este activa.",
+   "proposed": "APPROVE"
+  },
+  {
+   "item": "binding-temporal-post-2023",
+   "proposition": "La geometria IDEM vigente del Anexo III (post-exclusion dic/2023) solo sustenta determinaciones para activity_date >= 2024-01-01. Consultas anteriores resuelven UNDETERMINED (regimen pre-modificacion no modelado) en vez de retroproyectar los 5 poligonos actuales.",
    "proposed": "APPROVE"
   }
  ]
