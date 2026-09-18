@@ -7,6 +7,7 @@ const FACT_LABELS = {
   noches: "número de noches",
   cota_m: "altitud (m)",
   actividad_montana_o_escalada: "actividad de montaña o escalada",
+  activity_date: "la fecha de la actividad",
 };
 const INTERNAL_FACTS = new Set(["jurisdiction_boundary_safe"]);
 const OP_TEXT = {
@@ -17,6 +18,7 @@ const OP_TEXT = {
   lt: function (l, v) { return l + " < " + v; },
   gt: function (l, v) { return l + " > " + v; },
   eq: function (l, v) { return l + " = " + v; },
+  date_in_range: function (l, v) { return l + " ∈ [" + v[0] + "…" + v[1] + "]"; },
 };
 export function conditionText(c) {
   var parts = ((c && c.ast && c.ast.all) || [])

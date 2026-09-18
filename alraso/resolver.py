@@ -99,11 +99,18 @@ from alraso.precedence import (
 from alraso.spatial import SpatialFactsProvider, ScopeHit
 from alraso.validation import parse_date_strict, validate_facts
 
+# Spatial scopes carry their own review vocabulary (publish_reviewed writes
+# SPATIAL_REVIEWED; shipped corpora use VERIFIED). Both mean the spatial
+# review is complete — rule-side REVIEW_REQUIRED etc. must never reach the
+# scope check in _permitted_invariants.
+PUBLISHABLE_SPATIAL_STATUSES = frozenset(
+    {"VERIFIED", "PUBLISHED", "SPATIAL_REVIEWED"})
+
 STANDING_WARNING = ("Las restricciones operativas no codificadas en el corpus "
                     "(acceso de vehiculos, reservas, cierres estacionales, avisos "
                     "de la direccion) no estan cubiertas por esta determinacion.")
 
-RESOLVER_VERSION = "0.3.0rc1-m8d"
+RESOLVER_VERSION = "0.3.0rc1-m8d2"
 SCHEMA_VERSION = "m1r3"
 
 DRIFT_TYPES = ("LEGAL_STATUS_CHANGED", "KNOWLEDGE_STATUS_CHANGED", "RULE_SET_CHANGED",
@@ -181,6 +188,11 @@ class Resolver:
         parse_date_strict(query.activity_date, field="activity_date")
         parse_date_strict(query.knowledge_date, field="knowledge_date")
         facts = validate_facts(query.facts)
+        # Derived fact (deterministic, documented): the query's own
+        # activity_date is exposed so temporal conditions (op date_in_range)
+        # can gate rules on the season. It is injected AFTER strict fact
+        # validation and always reflects the query — never a caller claim.
+        facts["activity_date"] = query.activity_date
 
         result = ResolveResult(legal_status=LegalStatus.UNDETERMINED,
                                knowledge_status=KnowledgeStatus.CURRENT,
@@ -505,6 +517,45 @@ class Resolver:
                               record=record, scopes=hits,
                               trace=trace)
 
+        # (5a) CONDITIONAL-over-restriction (M8-D2): a held restrictive effect
+        # cannot be asserted as a clean answer while an applicable PERMITTED
+        # rule stayed undetermined for missing facts — absence of evidence
+        # that a permission condition holds is not evidence the permission is
+        # absent. The answer degrades to CONDITIONAL (with the pending fields
+        # exposed), never to PROHIBITED/AUTHORIZATION_REQUIRED. Restrictive
+        # undetermined rules already failed closed earlier (MISSING_FACT), so
+        # every entry in undetermined_js here is a PERMITTED judgment.
+        if legal in (LegalStatus.PROHIBITED, LegalStatus.AUTHORIZATION_REQUIRED) \
+                and undetermined_js:
+            pending_versions = [v for v in eligible
+                                if v.seq in {j.rule_version_id for j in undetermined_js}]
+            result.evidence = self._evidence_for(active_versions + pending_versions)
+            missing_fields = sorted({f for j in undetermined_js
+                                     for c in j.conditions
+                                     for f in c.get("fields", [])})
+            result.decision_reason = (
+                f"restriccion aplicable ({legal.value}) pero existe(n) "
+                "permiso(s) sujeto(s) a condicion(es) no verificable(s) "
+                f"({', '.join(missing_fields)}); no es una respuesta negativa")
+            result.reason_codes = list(dict.fromkeys(
+                [REASON_CONDITIONAL_UNVERIFIED, REASON_MISSING_FACT]))
+            result.precedence_trace = trace + [
+                {"stage": "conditional_over_restriction",
+                 "undetermined": [j.as_dict() for j in undetermined_js]}]
+            result.basis = _basis(
+                scope_ids, [v.seq for v in active_versions + pending_versions],
+                [r["seq"] for r in outcome.relations_used],
+                self._fragments_of(result.evidence))
+            result.basis["source_document_ids"] = self._documents_of(result.evidence)
+            legal, dyn_codes = self._apply_dynamic_gate(
+                result, LegalStatus.CONDITIONAL, scope_ids, activity, query)
+            result.legal_status = legal
+            if dyn_codes:
+                result.reason_codes = list(dict.fromkeys(
+                    result.reason_codes + dyn_codes))
+            self._record(result, query, record)
+            return result
+
         participating = list(outcome.survivors)
         used_rel_seqs = [r["seq"] for r in outcome.relations_used]
         result.evidence = self._evidence_for(participating)
@@ -745,7 +796,7 @@ class Resolver:
                 # attribution (policed per version by the eligibility gate).
                 if not scope.get("geometry_source"):
                     v.append(f"scope sin procedencia geometrica: {p.spatial_scope_id}")
-                elif scope.get("review_status") not in PUBLISHABLE_REVIEW_STATUSES:
+                elif scope.get("review_status") not in PUBLISHABLE_SPATIAL_STATUSES:
                     v.append(f"spatial review pendiente en {p.spatial_scope_id}")
         # engine result traceable to real rule ids: every judgment must carry
         # the store's (rule_id, seq) pair it was asked about (no laundering)

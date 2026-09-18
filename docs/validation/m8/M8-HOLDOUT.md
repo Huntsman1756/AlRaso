@@ -1,6 +1,15 @@
 # M8-F — Holdout ciego Madrid (preregistrado)
 
-Estado: `M8_F_PREREG` · Sellado: `PENDING` (custodio humano)
+Estado: `M8_F_SEALED` (2026-09-18, custodio declarado no-independiente) ·
+**BASELINE INVALIDADO para evaluación primaria**: tras el REJECT de
+`RC-M8-ES-MD-GUADARRAMA-VIVAC` el resolver cambió materialmente
+(`0.3.0rc1-m8d` → `0.3.0rc1-m8d2`: semántica CONDITIONAL-over-restriction +
+op `date_in_range` + evaluación all/any estricta). El commitment sellado
+(`holdout-manifest-v1.json`, sha256 `89e7f66a…`) sigue siendo válido SOLO
+contra `m8-pre-human @ 65e6a67`. Evaluar el resolver m8d2 exige **nuevo
+holdout sellado** tras congelar el nuevo baseline — misma regla del
+protocolo: cambio material ⇒ el holdout previo no sirve como evaluación
+ciega primaria.
 Compromiso: `docs/validation/m8/holdout-manifest-v1.json`
 
 > Preregistrado **antes** de implementar M8-E (point resolver) y antes de
