@@ -1,0 +1,158 @@
+{
+  "schema": "alraso/es-pn-coverage-matrix/v1",
+  "generated": "2026-09-18",
+  "purpose": "Inventario verificado de los 16 parques nacionales españoles para el programa de cobertura de evidencia post-M10.3. Estado distingue: EVIDENCE_PACKAGE (paquete candidato REVIEW_REQUIRED construido), PENDING (sin paquete), BASELINE (corpus histórico pre-M10.3). NINGUNA fila implica regla publicable: todo queda pendiente de adjudicación humana.",
+  "geometry_source": {
+    "layer": "OAPN WFS view_red_oapn_limite_pn (sigred.oapn.es/geoserverOAPN)",
+    "layer_sha256_2026_09_18": "2d94b12e9b313172b0080e413f61e018c48bbd4aaa5a80828d2de315f151f36f",
+    "features": 17,
+    "license": "not_verified — geometría NO redistribuida; digests+propiedades en oapn-limites-pn-features.json",
+    "note": "17 features = 16 PN + 'Área de Especial Protección del PN Sierra de Guadarrama'. Identidad del parque = cadena 'Nombre' (sin ID estable)."
+  },
+  "parks": [
+    {
+      "park_id": "pn-ordesa",
+      "name": "Parque Nacional de Ordesa y Monte Perdido",
+      "jurisdiction": "ES-AR", "gazette": "BOA",
+      "declaracion": "RD 16/08/1918; reclasificación+ampliación Ley 52/1982",
+      "estado": "BASELINE",
+      "evidence": "corpus histórico publicable (pre-M10.3, adjudicado en fases anteriores)"
+    },
+    {
+      "park_id": "pn-picos",
+      "name": "Parque Nacional de los Picos de Europa",
+      "jurisdiction": "ES-AS+ES-CL+ES-CB", "gazette": "BOPA/BOCYL/BOC",
+      "declaracion": "Ley 24/07/1918; Ley 16/1995; ampliación Resolución 04/02/2015",
+      "estado": "BASELINE",
+      "evidence": "corpus histórico (baseline M2); pernocta tricompetencial documentada en G0"
+    },
+    {
+      "park_id": "pn-teide",
+      "name": "Parque Nacional del Teide",
+      "jurisdiction": "ES-CN", "gazette": "BOC",
+      "declaracion": "Decreto 22/01/1954; reclasificación Ley 5/1981",
+      "estado": "EVIDENCE_PACKAGE",
+      "evidence": "discovery/evidence/m10.3-teide — REVIEW_REQUIRED pendiente adjudicación"
+    },
+    {
+      "park_id": "pn-sierra-nevada",
+      "name": "Parque Nacional de Sierra Nevada",
+      "jurisdiction": "ES-AN", "gazette": "BOJA",
+      "declaracion": "Ley 3/1999 (creación)",
+      "estado": "EVIDENCE_PACKAGE",
+      "evidence": "discovery/evidence/m10.3-sierra-nevada — REVIEW_REQUIRED pendiente adjudicación"
+    },
+    {
+      "park_id": "pn-aiguestortes",
+      "name": "Parque Nacional de Aigüestortes i Estany de Sant Maurici",
+      "jurisdiction": "ES-CT", "gazette": "DOGC",
+      "declaracion": "Decreto 21/10/1955; Ley 7/88, Ley 22/90, Decreto 234/96",
+      "estado": "EVIDENCE_PACKAGE",
+      "evidence": "discovery/evidence/m10.3-aiguestortes — REVIEW_REQUIRED pendiente adjudicación"
+    },
+    {
+      "park_id": "pn-guadarrama",
+      "name": "Parque Nacional de la Sierra de Guadarrama",
+      "jurisdiction": "ES-MD+ES-CL", "gazette": "BOCM/BOCYL",
+      "declaracion": "Ley 7/2013",
+      "estado": "EVIDENCE_PACKAGE",
+      "evidence": "discovery/evidence/m8-guadarrama + capas hash-pinned m8-madrid-layers.json"
+    },
+    {
+      "park_id": "pn-donana",
+      "name": "Parque Nacional de Doñana",
+      "jurisdiction": "ES-AN", "gazette": "BOJA",
+      "declaracion": "Decreto 2412/1969 (BOE-A-1969-1252); reclasificación Ley 91/1978 (BOE-A-1979-932); ampliación Resolución 06/02/2004",
+      "instrumento_pernocta": "PRUG — Decreto 142/2016, de 2 de agosto (Junta de Andalucía)",
+      "estado": "EVIDENCE_PACKAGE",
+      "evidence": "discovery/evidence/es-pn-donana — este lote"
+    },
+    {
+      "park_id": "pn-sierra-de-las-nieves",
+      "name": "Parque Nacional de la Sierra de las Nieves",
+      "jurisdiction": "ES-AN", "gazette": "BOJA",
+      "declaracion": "Ley 9/2021 (BOE-A-2021-10958)",
+      "instrumento_pernocta": "PRUG pendiente; Decreto 106/2024 declara Espacio Natural; régimen transitorio",
+      "estado": "EVIDENCE_PACKAGE",
+      "evidence": "discovery/evidence/es-pn-sierra-nieves — este lote"
+    },
+    {
+      "park_id": "pn-monfrague",
+      "name": "Parque Nacional de Monfragüe",
+      "jurisdiction": "ES-EX", "gazette": "DOE",
+      "declaracion": "Ley 1/2007, de 2 de marzo",
+      "instrumento_pernocta": "PRUG — por verificar (Decreto de aprobación DOE)",
+      "estado": "PENDING",
+      "evidence": "siguiente lote candidato (DOE probado en atlas es-ex: acceso directo PDF)"
+    },
+    {
+      "park_id": "pn-cabaneros",
+      "name": "Parque Nacional de Cabañeros",
+      "jurisdiction": "ES-CM", "gazette": "DOCM",
+      "declaracion": "Ley 33/1995; ampliación Acuerdo Consejo de Ministros Resolución 15/11/2005",
+      "instrumento_pernocta": "PRUG — por verificar",
+      "estado": "PENDING",
+      "evidence": "lote futuro (DOCM en atlas es-cm)"
+    },
+    {
+      "park_id": "pn-tablas-daimiel",
+      "name": "Parque Nacional de las Tablas de Daimiel",
+      "jurisdiction": "ES-CM", "gazette": "DOCM",
+      "declaracion": "Decreto 1874/1973; reclasificación Ley 25/1980; ampliación Resolución 21/01/2014",
+      "instrumento_pernocta": "PRUG — por verificar",
+      "estado": "PENDING",
+      "evidence": "lote futuro (DOCM en atlas es-cm)"
+    },
+    {
+      "park_id": "pn-garajonay",
+      "name": "Parque Nacional de Garajonay",
+      "jurisdiction": "ES-CN", "gazette": "BOC",
+      "declaracion": "Ley 3/1981, de 25 de marzo",
+      "instrumento_pernocta": "PRUG — por verificar (BOC, canal probado en Teide)",
+      "estado": "PENDING",
+      "evidence": "lote futuro (BOC Canarias probado en m10.3-teide)"
+    },
+    {
+      "park_id": "pn-caldera-taburiente",
+      "name": "Parque Nacional de la Caldera de Taburiente",
+      "jurisdiction": "ES-CN", "gazette": "BOC",
+      "declaracion": "Decreto 06/10/1954; reclasificación Ley 4/1981",
+      "instrumento_pernocta": "PRUG — por verificar (BOC)",
+      "estado": "PENDING",
+      "evidence": "lote futuro (BOC Canarias)"
+    },
+    {
+      "park_id": "pn-timanfaya",
+      "name": "Parque Nacional de Timanfaya",
+      "jurisdiction": "ES-CN", "gazette": "BOC",
+      "declaracion": "Decreto 2615/1974; reclasificación Ley 6/1981",
+      "instrumento_pernocta": "PRUG — por verificar (BOC)",
+      "estado": "PENDING",
+      "evidence": "lote futuro (BOC Canarias)"
+    },
+    {
+      "park_id": "pn-islas-atlanticas",
+      "name": "Parque Nacional Marítimo-Terrestre de las Islas Atlánticas de Galicia",
+      "jurisdiction": "ES-GA", "gazette": "DOG",
+      "declaracion": "Ley 15/2002, de 1 de julio",
+      "instrumento_pernocta": "PRUG — por verificar (DOG, HTML abierto)",
+      "estado": "PENDING",
+      "evidence": "lote futuro (DOG en atlas es-ga)"
+    },
+    {
+      "park_id": "pn-cabrera",
+      "name": "Parque Nacional Marítimo-Terrestre del Archipiélago de Cabrera",
+      "jurisdiction": "ES-IB", "gazette": "BOIB",
+      "declaracion": "Ley 14/1991, de 29 de abril; ampliación Resolución 07/02/2019",
+      "instrumento_pernocta": "PRUG — por verificar (BOIB)",
+      "estado": "PENDING",
+      "evidence": "lote futuro (BOIB en atlas es-ib)"
+    }
+  ],
+  "notes": [
+    "Orden sugerido de lotes por canal ya probado: ES-AN (BOJA, Sierra Nevada) → ES-CN (BOC, Teide) → ES-GA (DOG) → ES-EX (DOE) → ES-CM (DOCM) → ES-IB (BOIB).",
+    "La actividad cubierta es VIVAC_AL_RASO/pernocta; cada paquete puede extender a ACAMPADA si el instrumento la regula explícitamente.",
+    "ESTADO EVIDENCE_PACKAGE no implica regla publicable: REVIEW_REQUIRED + adjudicación humana pendiente.",
+    "Geometría: digest-only hasta verificar licencia OAPN; si se confirma reutilización, hash-pin como en m8-madrid-layers.json."
+  ]
+}

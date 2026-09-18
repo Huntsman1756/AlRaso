@@ -1,0 +1,40 @@
+EXTRACTO VERIFICADO — Ley 9/2021, de 1 de julio, de declaración del Parque Nacional de la
+Sierra de las Nieves
+Fuente: BOE-A-2021-10958 — https://www.boe.es/diario_boe/txt.php?id=BOE-A-2021-10958
+ELI: https://www.boe.es/eli/es/l/2021/07/01/9 — consolidado: BOE-A-2021-10958
+Verificado contra texto BOE el 2026-09-18. Publicación: BOE núm. 157, 2/07/2021. Vigencia: 3/07/2021.
+
+=== Artículo 13. Régimen sancionador (apartado 4) ===
+
+4. Se considerarán, además, infracciones administrativas leves en el ámbito del Parque
+   Nacional, sujetas al régimen sancionador previsto en el apartado 1:
+    a) La acampada en lugares distintos a los previstos o en condiciones diferentes a las
+       establecidas.
+    b) La recolección sin autorización de especies de la flora silvestre, minerales y fósiles
+       que no suponga alteración significativa de las condiciones naturales del Parque
+       Nacional.
+    c) El desarrollo de actividades comerciales permitidas sin autorización.
+    d) El incumplimiento de cualquier otro precepto de la normativa del Parque Nacional.
+
+=== Disposición adicional segunda (verbatim) ===
+
+En el plazo de tres años desde la entrada en vigor de la presente ley se aprobará por la
+Comunidad Autónoma de Andalucía el Plan Rector de Uso y Gestión.
+
+=== Disposición transitoria única (verbatim) ===
+
+Entre tanto sea aprobado el Plan Rector de Uso y Gestión del Parque Nacional, seguirán en
+vigor los instrumentos de gestión de los espacios naturales protegidos existentes en su
+ámbito territorial, en todo aquello que no se oponga a lo dispuesto en la presente ley.
+
+=== Observaciones de evidencia ===
+- "acampada" aparece UNA sola vez en la ley (art. 13.4.a); "pernocta" y "vivac" no aparecen.
+- La ley tipifica infracción solo cuando la acampada es "en lugares distintos a los previstos
+  o en condiciones diferentes a las establecidas" → remite a los instrumentos de gestión.
+- DA 2ª: plazo de 3 años para aprobar el PRUG del PN — VENCIDO el 3/07/2024 sin aprobación.
+- DT única: mantiene vigentes los instrumentos de los ENP preexistentes en el ámbito
+  (PORN del ámbito + PRUG del Parque Natural, Decreto 162/2018) "en todo aquello que no se
+  oponga a la ley". Aplicabilidad de esos instrumentos dentro del PN = cuestión para el
+  revisor humano (inferencia, no automatizable).
+- Acuerdo de 21/05/2025 (BOJA 98): aprobada solo la FORMULACIÓN del PRUG del Espacio
+  Natural — no está en vigor, no es base normativa.

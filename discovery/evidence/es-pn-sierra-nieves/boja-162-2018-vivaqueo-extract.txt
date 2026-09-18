@@ -1,0 +1,56 @@
+EXTRACTO VERIFICADO — Decreto 162/2018, de 4 de septiembre, por el que se aprueban el Plan
+de Ordenación de los Recursos Naturales del ámbito de Sierra de las Nieves y el Plan Rector
+de Uso y Gestión del Parque Natural Sierra de las Nieves
+Fuente: BOJA núm. 184, de 21/09/2018 — https://www.juntadeandalucia.es/boja/2018/184/4
+PDF oficial: https://www.juntadeandalucia.es/boja/2018/184/BOJA18-184-00384-14951-01_00142234.pdf
+  (15.259.272 bytes; sha256:aca31c839fce66ec2d0e1ec791a9a7cf5a0539adf8556dd50c06fcc830f42faf;
+  PDF firmado CVE 00142234; NO redistribuido en el paquete)
+Verificado contra el PDF oficial el 2026-09-18 (páginas BOJA 307–309 y 393–394 del boletín).
+
+=== PORN (Anexo I) — epígrafe 9.4.3 "ACTIVIDADES DE USO PÚBLICO, TURISMO ACTIVO Y ECOTURISMO" ===
+
+9.4.3.3 (régimen de comunicación, introductor):
+"Quedan sujetas al régimen de comunicación las actividades que a continuación se relacionan
+cuando se realicen en las condiciones establecidas en este Plan. A efectos de control y
+seguimiento dichas actividades deberán ser comunicadas a la Consejería competente en materia
+de medio ambiente previamente al inicio de su ejecución: [...]"
+
+9.4.3.3.d):
+"El vivaqueo y la acampada nocturna vinculados a actividades de travesía de montaña distinto
+de lo recogido en el apartado 5.d)."
+
+9.4.3.5 (autorización, introductor):
+"Quedan sujetas a la obtención de autorización las siguientes actuaciones: [...]"
+
+9.4.3.5.d):
+"El vivaqueo y la acampada nocturna vinculados a actividades de travesía de montaña para
+grupos superiores a 15 personas o que utilicen más de 3 tiendas de campaña."
+
+=== PRUG Parque Natural (Anexo II) — epígrafe 5.2.5 "ACTIVIDADES DE USO PÚBLICO, TURISMO
+ACTIVO Y ECOTURISMO", apartado 4 ===
+
+"4. Condiciones específicas para el vivaqueo y la acampada nocturna vinculada a travesía de
+montaña y educación ambiental
+a) En la comunicación para la realización de esta actividad deberá indicarse el número
+   máximo de personas e instalaciones, o materiales, utilizados para pernoctar, así como el
+   itinerario y las zonas en que se prevé realizar el vivaqueo.
+b) No está permitido el vivaqueo ni la acampada nocturna a menos de 2 km de un núcleo
+   urbano, de un establecimiento de alojamiento turístico o de un refugio, salvo que este
+   último estuviera completo, ni pernoctar más de una noche en el mismo lugar.
+c) Las instalaciones para dormir en vivaqueo solo podrán montarse en el periodo comprendido
+   entre una hora antes de anochecer y una hora después de amanecer.
+d) Los participantes serán responsables de la recogida de los residuos generados por la
+   actividad, debiendo depositarlos en los lugares habilitados para ello."
+
+=== Observaciones de evidencia ===
+- El PORN (ámbito Sierra de las Nieves) regula el régimen de intervención; el PRUG del
+  Parque Natural fija las condiciones materiales del vivaqueo.
+- El PORN usa umbrales "superiores a 15 personas"/"más de 3 tiendas" para autorización
+  (9.4.3.5.d) y remite el resto a comunicación por EXCLUSIÓN (9.4.3.3.d: "distinto de lo
+  recogido en el apartado 5.d)"). A diferencia de Sierra Nevada (donde la excepción usaba
+  "menores de 15"), aquí el caso exacto 15 pax / 3 tiendas queda cubierto por el régimen
+  de comunicación — sin laguna literal en este punto.
+- Vigencia: art. 2 del Decreto — "El citado Plan tendrá vigencia indefinida pudiendo ser
+  modificado y revisado en los términos contemplados en su epígrafe 5."
+- Aplicabilidad dentro del Parque Nacional: vía Disposición transitoria única de la Ley
+  9/2021 — inferencia a adjudicar por el revisor humano.

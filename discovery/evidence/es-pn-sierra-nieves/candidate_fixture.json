@@ -1,0 +1,277 @@
+{
+  "$schema": "alraso/m103-candidate-fixture@1",
+  "fixture_meta": {
+    "name": "ESPN_CANDIDATE_SIERRA_NIEVES",
+    "purpose": "Post-M10.3 evidence candidate for pn-sierra-de-las-nieves (programa es-pn-coverage). NOT product corpus: every rule version is REVIEW_REQUIRED with legal_review_complete=false and spatial_review_complete=false, so the eligibility gate makes all of them non-publishable.",
+    "created": "2026-09-18",
+    "activity_scope": "VIVAC_AL_RASO y ACAMPADA solamente — vivaqueo/acampada nocturna de travesía; sin generalización a caravanas ni acampada organizada.",
+    "publishable": false
+  },
+  "source_documents": [
+    {
+      "id": "sd-ley-9-2021",
+      "authority": "Estado (Cortes Generales)",
+      "jurisdiction": "ES-NATIONAL",
+      "document_type": "LAW",
+      "title": "Ley 9/2021, de 1 de julio, de declaración del Parque Nacional de la Sierra de las Nieves",
+      "canonical_url": "https://www.boe.es/eli/es/l/2021/07/01/9",
+      "boe_id": "BOE-A-2021-10958",
+      "official_status": "VIGENTE — DA 2ª (plazo PRUG 3 años) VENCIDA 03/07/2024 sin aprobación; DT única mantiene instrumentos preexistentes",
+      "retrieved_at": "2026-09-18"
+    },
+    {
+      "id": "sd-decreto-162-2018",
+      "authority": "Junta de Andalucía (Consejo de Gobierno)",
+      "jurisdiction": "ES-AN",
+      "document_type": "DECREE",
+      "title": "Decreto 162/2018, de 4 de septiembre — PORN del ámbito de Sierra de las Nieves (Anexo I) + PRUG del Parque Natural Sierra de las Nieves (Anexo II)",
+      "canonical_url": "https://www.juntadeandalucia.es/boja/2018/184/4",
+      "official_status": "VIGENTE (art. 2: 'vigencia indefinida'); vigente dentro del PN vía DT única Ley 9/2021 — inferencia pendiente de adjudicación",
+      "retrieved_at": "2026-09-18",
+      "content_hash": "sha256:aca31c839fce66ec2d0e1ec791a9a7cf5a0539adf8556dd50c06fcc830f42faf (PDF oficial BOJA CVE 00142234, 15259272 bytes, no redistribuido)"
+    },
+    {
+      "id": "sd-decreto-15-2011",
+      "authority": "Junta de Andalucía",
+      "jurisdiction": "ES-AN",
+      "document_type": "DECREE",
+      "title": "Decreto 15/2011, de 1 de febrero, de planificación de usos y actividades en los parques naturales de Andalucía",
+      "canonical_url": "https://www.juntadeandalucia.es/boja/2011/30/3",
+      "official_status": "VIGENTE — ámbito parques naturales; aplicación dentro del PN pendiente de adjudicación (DT única)",
+      "retrieved_at": "2026-09-18"
+    },
+    {
+      "id": "sd-decreto-106-2024",
+      "authority": "Junta de Andalucía (Consejo de Gobierno)",
+      "jurisdiction": "ES-AN",
+      "document_type": "DECREE",
+      "title": "Decreto 106/2024, de 4 de junio — declara el Espacio Natural de la Sierra de las Nieves y crea sus órganos de gestión",
+      "canonical_url": "https://www.juntadeandalucia.es/boja/2024/111/43",
+      "official_status": "VIGENTE — ámbito unitario de gestión (PN + ZPP + PNat); corrección de errores BOJA 123",
+      "retrieved_at": "2026-09-18"
+    },
+    {
+      "id": "sd-acuerdo-prug-2025",
+      "authority": "Junta de Andalucía (Consejo de Gobierno)",
+      "jurisdiction": "ES-AN",
+      "document_type": "ADMINISTRATIVE_AGREEMENT",
+      "title": "Acuerdo de 21 de mayo de 2025 — aprobación de la FORMULACIÓN del PRUG del Espacio Natural Sierra de las Nieves",
+      "canonical_url": "https://www.juntadeandalucia.es/boja/2025/98/32",
+      "official_status": "CONTEXT — solo formulación; PRUG NO vigente, no es base normativa",
+      "retrieved_at": "2026-09-18"
+    },
+    {
+      "id": "sd-oapn-gis-nieves",
+      "authority": "OAPN (Organismo Autónomo Parques Nacionales)",
+      "jurisdiction": "ES-NATIONAL",
+      "document_type": "GIS_LAYER",
+      "title": "OAPN límites PN — feature 'Parque Nacional de la Sierra de las Nieves' (digest-only, licencia no verificada)",
+      "canonical_url": "discovery/evidence/es-pn-coverage/oapn-limites-pn-features.json",
+      "official_status": "DIGEST_ONLY — sin geometría redistribuida",
+      "retrieved_at": "2026-09-18"
+    }
+  ],
+  "legal_fragments": [
+    {
+      "id": "lf-ley9-art13-4a-acampada",
+      "source_document_id": "sd-ley-9-2021",
+      "locator": "Art. 13.4.a)",
+      "exact_text_hint": "La acampada en lugares distintos a los previstos o en condiciones diferentes a las establecidas. [infracción administrativa leve en el ámbito del Parque Nacional]",
+      "extracted_at": "2026-09-18",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "Ley 9/2021 art. 13.4.a) — único precepto de acampada en la ley declarativa",
+      "validity_from": "2021-07-03",
+      "validity_to": null
+    },
+    {
+      "id": "lf-ley9-dt-unica",
+      "source_document_id": "sd-ley-9-2021",
+      "locator": "Disposición transitoria única",
+      "exact_text_hint": "Entre tanto sea aprobado el Plan Rector de Uso y Gestión del Parque Nacional, seguirán en vigor los instrumentos de gestión de los espacios naturales protegidos existentes en su ámbito territorial, en todo aquello que no se oponga a lo dispuesto en la presente ley.",
+      "extracted_at": "2026-09-18",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "Ley 9/2021 DT única — vigencia de instrumentos preexistentes dentro del PN",
+      "validity_from": "2021-07-03",
+      "validity_to": null
+    },
+    {
+      "id": "lf-ley9-da2-prug",
+      "source_document_id": "sd-ley-9-2021",
+      "locator": "Disposición adicional segunda",
+      "exact_text_hint": "En el plazo de tres años desde la entrada en vigor de la presente ley se aprobará por la Comunidad Autónoma de Andalucía el Plan Rector de Uso y Gestión.",
+      "extracted_at": "2026-09-18",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "Ley 9/2021 DA 2ª — plazo PRUG vencido 03/07/2024",
+      "validity_from": "2021-07-03",
+      "validity_to": null
+    },
+    {
+      "id": "lf-porn-943-3d-comunicacion",
+      "source_document_id": "sd-decreto-162-2018",
+      "locator": "Anexo I (PORN) epígrafe 9.4.3, apartado 3.d)",
+      "exact_text_hint": "Quedan sujetas al régimen de comunicación las actividades que a continuación se relacionan cuando se realicen en las condiciones establecidas en este Plan. A efectos de control y seguimiento dichas actividades deberán ser comunicadas a la Consejería competente en materia de medio ambiente previamente al inicio de su ejecución: [...] d) El vivaqueo y la acampada nocturna vinculados a actividades de travesía de montaña distinto de lo recogido en el apartado 5.d).",
+      "extracted_at": "2026-09-18",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "PORN 9.4.3.3.d) — vivaqueo/acampada nocturna travesía: comunicación previa (excepto 5.d)",
+      "validity_from": "2018-09-22",
+      "validity_to": null
+    },
+    {
+      "id": "lf-porn-943-5d-autorizacion",
+      "source_document_id": "sd-decreto-162-2018",
+      "locator": "Anexo I (PORN) epígrafe 9.4.3, apartado 5.d)",
+      "exact_text_hint": "Quedan sujetas a la obtención de autorización las siguientes actuaciones: [...] d) El vivaqueo y la acampada nocturna vinculados a actividades de travesía de montaña para grupos superiores a 15 personas o que utilicen más de 3 tiendas de campaña.",
+      "extracted_at": "2026-09-18",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "PORN 9.4.3.5.d) — autorización >15 pax o >3 tiendas",
+      "validity_from": "2018-09-22",
+      "validity_to": null
+    },
+    {
+      "id": "lf-prug-525-4-condiciones",
+      "source_document_id": "sd-decreto-162-2018",
+      "locator": "Anexo II (PRUG PNat) epígrafe 5.2.5, apartado 4",
+      "exact_text_hint": "4. Condiciones específicas para el vivaqueo y la acampada nocturna vinculada a travesía de montaña y educación ambiental: a) [comunicación con nº máx. personas/instalaciones, itinerario y zonas]; b) No está permitido el vivaqueo ni la acampada nocturna a menos de 2 km de un núcleo urbano, de un establecimiento de alojamiento turístico o de un refugio, salvo que este último estuviera completo, ni pernoctar más de una noche en el mismo lugar; c) Las instalaciones para dormir en vivaqueo solo podrán montarse en el periodo comprendido entre una hora antes de anochecer y una hora después de amanecer; d) [residuos recogidos y depositados]",
+      "extracted_at": "2026-09-18",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "PRUG PNat 5.2.5.4 — condiciones materiales del vivaqueo",
+      "validity_from": "2018-09-22",
+      "validity_to": null
+    },
+    {
+      "id": "lf-d15-2011-def-vivaquear",
+      "source_document_id": "sd-decreto-15-2011",
+      "locator": "Art. 3.j) y 3.e)",
+      "exact_text_hint": "j) Vivaquear: dormir o descansar durante la noche al raso o intemperie, usando o no elementos de abrigo, como saco de dormir, funda de vivac o los medios que proporciona el entorno sin alterarlo. e) Acampada nocturna: la modalidad de pernocta que consiste en instalar una tienda de campaña ligera (la que sirve exclusivamente para dormir) al anochecer, una hora antes de la puesta de sol, hasta el amanecer, una hora después de su salida al día siguiente.",
+      "extracted_at": "2026-09-18",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "Decreto 15/2011 art. 3 — definiciones de actividad",
+      "validity_from": "2011-02-02",
+      "validity_to": null
+    }
+  ],
+  "spatial_scopes": [
+    {
+      "id": "ss-es-an-sierra-nieves-espacio-natural",
+      "scope_type": "PROTECTED_AREA",
+      "official_name": "Espacio Natural de la Sierra de las Nieves (PN + ZPP + PNat; Decreto 106/2024)",
+      "geometry_source": "sd-oapn-gis-nieves",
+      "feature_id": "Parque Nacional de la Sierra de las Nieves",
+      "srid_native": 25830,
+      "review_status": "SPATIAL_REVIEW_PENDING_GEOMETRY",
+      "relevance": "REGULATORY",
+      "note": "El Espacio Natural (98.099,62 ha) integra PN+ZPP+PNat; el layer OAPN solo aporta el límite del PN (22.979,76 ha). Geometría completa pendiente (DERA Junta de Andalucía)."
+    },
+    {
+      "id": "ss-pn-sierra-de-las-nieves",
+      "scope_type": "NATIONAL_PARK",
+      "parent_scope": "ss-es-an-sierra-nieves-espacio-natural",
+      "official_name": "Parque Nacional de la Sierra de las Nieves",
+      "geometry_source": "sd-oapn-gis-nieves",
+      "feature_id": "Parque Nacional de la Sierra de las Nieves",
+      "srid_native": 25830,
+      "review_status": "SPATIAL_REVIEW_PENDING_GEOMETRY",
+      "relevance": "REGULATORY"
+    },
+    {
+      "id": "ss-pnat-sierra-de-las-nieves",
+      "scope_type": "PROTECTED_AREA",
+      "parent_scope": "ss-es-an-sierra-nieves-espacio-natural",
+      "official_name": "Parque Natural Sierra de las Nieves (ámbito originario del PORN/PRUG 2018)",
+      "geometry_source": "sd-decreto-162-2018",
+      "feature_id": "PENDING — geometría PNat no adquirida (DERA)",
+      "srid_native": 25830,
+      "review_status": "SPATIAL_REVIEW_PENDING_GEOMETRY",
+      "relevance": "REGULATORY"
+    }
+  ],
+  "legal_rule_versions": [
+    {
+      "rule_id": "alraso:es-an/pn-sierra-de-las-nieves/pernocta#vivac-comunicacion",
+      "activity": "VIVAC_AL_RASO",
+      "spatial_scope_id": "ss-pn-sierra-de-las-nieves",
+      "effect": "PERMITTED",
+      "condition": {
+        "all": [
+          {"field": "group_size", "op": "lte", "value": 15},
+          {"field": "tent_count", "op": "lte", "value": 3},
+          {"field": "prior_notification_done", "op": "is_true"},
+          {"field": "nights_same_location", "op": "lte", "value": 1},
+          {"field": "distance_km_to_urban_nucleus", "op": "gte", "value": 2},
+          {"field": "distance_km_to_tourist_lodging", "op": "gte", "value": 2},
+          {"any": [
+            {"field": "distance_km_to_refuge", "op": "gte", "value": 2},
+            {"field": "refuge_full", "op": "is_true"}
+          ]},
+          {"field": "mount_within_dusk_dawn_window", "op": "is_true"}
+        ]
+      },
+      "effective_from": "2018-09-22",
+      "effective_to": null,
+      "recorded_at": "2026-09-18",
+      "recorded_until": null,
+      "review_status": "REVIEW_REQUIRED",
+      "legal_review_complete": false,
+      "spatial_review_complete": false,
+      "evidence": ["lf-porn-943-3d-comunicacion", "lf-prug-525-4-condiciones", "lf-ley9-dt-unica"],
+      "interpretation_note": "PROPOSED (pending human review): el vivaqueo/acampada nocturna de travesía ≤15 pax y ≤3 tiendas queda sujeto a comunicación previa (PORN 9.4.3.3.d, por exclusión del 5.d) con las condiciones del PRUG PNat 5.2.5.4 (≥2 km núcleo/alojamiento/refugio salvo refugio completo; máx. 1 noche/lugar; instalaciones solo 1h antes anochecer–1h después amanecer; residuos). INFERENCIAS A ADJUDICAR: (1) el PORN/PRUG son instrumentos del ámbito/PNat — su aplicación dentro del PN vía DT única de la Ley 9/2021 'en lo que no se oponga a la ley' es una interpretación del revisor, no automatizable; (2) comunicación previa ≠ permiso sin trámite — el efecto PERMITTED queda condicionado a prior_notification_done.",
+      "normative_basis": ["lf-porn-943-3d-comunicacion", "lf-prug-525-4-condiciones"]
+    },
+    {
+      "rule_id": "alraso:es-an/pn-sierra-de-las-nieves/pernocta#vivac-autorizacion-grupo",
+      "activity": "VIVAC_AL_RASO",
+      "spatial_scope_id": "ss-pn-sierra-de-las-nieves",
+      "effect": "AUTHORIZATION_REQUIRED",
+      "condition": {
+        "any": [
+          {"field": "group_size", "op": "gt", "value": 15},
+          {"field": "tent_count", "op": "gt", "value": 3}
+        ]
+      },
+      "effective_from": "2018-09-22",
+      "effective_to": null,
+      "recorded_at": "2026-09-18",
+      "recorded_until": null,
+      "review_status": "REVIEW_REQUIRED",
+      "legal_review_complete": false,
+      "spatial_review_complete": false,
+      "evidence": ["lf-porn-943-5d-autorizacion"],
+      "interpretation_note": "PROPOSED (pending human review): PORN 9.4.3.5.d somete a autorización el vivaqueo/acampada nocturna de travesía para grupos 'superiores a 15 personas' o 'más de 3 tiendas'. El caso exacto 15 pax/3 tiendas queda en comunicación (el 3.d se define por exclusión) — sin laguna literal, a diferencia de Sierra Nevada.",
+      "normative_basis": ["lf-porn-943-5d-autorizacion"]
+    },
+    {
+      "rule_id": "alraso:es-an/pn-sierra-de-las-nieves/pernocta#acampada-fuera-lugares",
+      "activity": "ACAMPADA",
+      "spatial_scope_id": "ss-pn-sierra-de-las-nieves",
+      "effect": "PROHIBITED",
+      "condition": {"field": "place_or_conditions_as_established", "op": "is_false"},
+      "effective_from": "2021-07-03",
+      "effective_to": null,
+      "recorded_at": "2026-09-18",
+      "recorded_until": null,
+      "review_status": "REVIEW_REQUIRED",
+      "legal_review_complete": false,
+      "spatial_review_complete": false,
+      "evidence": ["lf-ley9-art13-4a-acampada"],
+      "interpretation_note": "PROPOSED (pending human review): Ley 9/2021 art. 13.4.a tipifica como infracción leve 'la acampada en lugares distintos a los previstos o en condiciones diferentes a las establecidas' — dentro del PN por la propia ley. Modelada como PROHIBITED fuera de lugares/condiciones establecidos; qué lugares/condiciones 'establecidos' existen hoy depende de los instrumentos vigentes (PRUG PNat vía DT única; futuro PRUG PN) — el revisor debe cerrar si existe algún lugar 'previsto' para acampada dentro del PN.",
+      "normative_basis": ["lf-ley9-art13-4a-acampada"]
+    }
+  ],
+  "rule_relations": [],
+  "expected": {
+    "publishability": [
+      {
+        "assert": "NO_RULE_PUBLISHABLE",
+        "note": "Toda versión REVIEW_REQUIRED + legal/spatial review incompletos => eligibility gate rechaza; resolver devuelve UNDETERMINED/INCOMPLETE para cualquier consulta en ss-pn-sierra-de-las-nieves."
+      }
+    ],
+    "basic_queries": [
+      {
+        "query": {"activity": "VIVAC_AL_RASO", "spatial_scope_id": "ss-pn-sierra-de-las-nieves", "activity_date": "2026-09-01", "knowledge_date": "2026-09-18"},
+        "expected_legal_status": "UNDETERMINED",
+        "expected_knowledge_status": "INCOMPLETE",
+        "note": "Sin revisión humana no hay regla publicable: fail-closed, nunca PERMITTED por ausencia de prohibición ni PROHIBITED automático."
+      }
+    ]
+  }
+}

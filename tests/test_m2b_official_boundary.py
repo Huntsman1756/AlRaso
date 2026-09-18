@@ -975,6 +975,16 @@ def test_git_diff_vs_main_only_allowed_files():
             or f.startswith("tests/test_publish_reviewed")
             or f.startswith("tests/test_m7_")
         )
+        # es-pn national-park coverage (feat/es-pn-coverage): post-M10.3
+        # evidence-only expansion to remaining Spanish national parks.
+        # Bounded to evidence packages (REVIEW_REQUIRED candidates),
+        # the coverage matrix, candidate safety tests and reports.
+        # alraso/, webapp/ and qa/browser/ stay FROZEN.
+        espn_allowed = (
+            f.startswith("discovery/evidence/es-pn")
+            or f.startswith("tests/test_es_pn_")
+            or f.startswith("docs/reports/ES-PN-")
+        )
         # M8 Madrid personal-utility vertical (feat/m8-madrid-vertical):
         # authoritative CAM source inventory, official geometry, evidence
         # packages and tests. Human-review gating unchanged: candidates stay
@@ -1026,5 +1036,6 @@ def test_git_diff_vs_main_only_allowed_files():
             or m10_2a_allowed
             or m10_3_allowed
             or closure_allowed
+            or espn_allowed
             or m8_allowed
         ), f"Unexpected file changed: {f}"

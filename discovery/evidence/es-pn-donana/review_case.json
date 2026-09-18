@@ -1,0 +1,90 @@
+{
+  "review_case_id": "RC-ESPN-ES-AN-DONANA-VIVAC",
+  "milestone": "es-pn-coverage (post-M10.3)",
+  "park": {
+    "space_id": "pn-donana",
+    "name": "Parque Nacional de Doñana",
+    "jurisdiction": "ES-AN",
+    "gazette": "BOJA + BOE",
+    "managing_authority": "Junta de Andalucía — Equipo de Gestión del Espacio Natural de Doñana / Patronato del Parque Nacional"
+  },
+  "activity": "VIVAC_AL_RASO",
+  "proposed_effect": "PROHIBITED (acampada/pernocta al aire libre = infracción en todo el Espacio Natural) / AUTHORIZATION_REQUIRED solo para eventos científicos, divulgativos o culturales",
+  "exact_precepts": [
+    {
+      "instrument": "Ley 8/1999, de 27 de octubre, del Espacio Natural de Doñana",
+      "locator": "Art. 44.c)",
+      "quote": "La acampada y pernocta al aire libre, excepto las autorizadas para eventos científicos, divulgativos o culturales.",
+      "role": "infracción administrativa en todo el Espacio Natural (integra el PN)"
+    },
+    {
+      "instrument": "Ley 8/1999",
+      "locator": "Art. 44.b)",
+      "quote": "La circulación a pie, con tracción animal o con medios motorizados fuera de los lugares habilitados para ello en el Plan Rector de Uso y Gestión, y que se realice sin la autorización expedida por el órgano administrativo competente del Espacio Natural Doñana.",
+      "role": "contexto: circulación fuera de lugares habilitados también es infracción"
+    },
+    {
+      "instrument": "Decreto 26/2018, de 23 de enero",
+      "locator": "Art. 1.5",
+      "quote": "Se prohíbe con carácter general la acampada y pernocta con fines vacacionales o de ocio fuera de los campamentos de turismo.",
+      "role": "prohibición autonómica general (caveat de finalidad: 'vacacional u ocio')"
+    },
+    {
+      "instrument": "Decreto 142/2016, de 2 de agosto",
+      "locator": "Anexos V (PORN) y VI (PRUG) — epígrafe 8.4.4 (régimen de actividades de uso público)",
+      "quote": "[Texto íntegro de los anexos NO extraído verbatim en esta sesión; epígrafes 8.4.4.1.b), 8.4.4.2, 8.4.4.3, 8.4.4.6.a)-b), 8.4.4.9, 8.4.4.10.a).3 y 8.6.2.1.2.n) PORN + 6.2.1.p)/6.2.2.h) PRUG ANULADOS por STSJ Andalucía 21/11/2018]",
+      "role": "instrumento de planificación vigente con anulaciones parciales; ningún epígrafe anulado identificado como precepto de acampada/pernocta"
+    },
+    {
+      "instrument": "Orden de 28 de junio de 2024 (BOJA 152)",
+      "locator": "Anexo II — Ordenación de actividades",
+      "quote": "[Ordena operativamente la acampada autorizable; texto NO extraído verbatim — lectura pendiente del revisor]",
+      "role": "desarrollo subordinado del PORN/PRUG: condiciones operativas de la acampada"
+    }
+  ],
+  "source": {
+    "document_url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-1999-23524",
+    "eli_url": "https://www.boe.es/eli/es-an/l/1999/10/27/8",
+    "extract_file": "boe-ley8-1999-art44-extract.txt",
+    "extract_sha256": "b0338f25ca193280075ba2bb293d80ba8b7daab868da91f405efa206e8029a7b",
+    "secondary_extract_file": "boja-26-2018-art1-extract.txt",
+    "secondary_extract_sha256": "e47f50e0359a7b8570917e04c153557b80f0543bd8e4c8d09eac43876fe451e2"
+  },
+  "validity_evidence": {
+    "publication": "Ley 8/1999: BOJA núm. 137, 25/11/1999; BOE-A-1999-23524 (10/12/1999); vigencia desde 15/12/1999",
+    "constitutionality": "STC 331/2005, de 15/12/2005 (BOE-T-2006-413): solo art. 16.7 inconstitucional; art. 44.c) intacto",
+    "planning_instrument": "Decreto 142/2016 (BOJA 185, 26/09/2016) aprobó PORN+PRUG únicos del Espacio Natural; anulaciones parciales STSJ Andalucía 21/11/2018 y 21/07/2020 — ninguna identificada sobre preceptos de acampada/pernocta",
+    "pending_modification": "Borrador de Orden de modificación del PORN/PRUG en información pública (sep-oct 2025) — NO vigente",
+    "status": "VIGENTE — mecánicamente soportado, pendiente de verificación humana"
+  },
+  "geometry_evidence": {
+    "source": "OAPN límites PN (digest-only)",
+    "reference": "discovery/evidence/es-pn-coverage/oapn-limites-pn-features.json",
+    "feature": "Parque Nacional de Doñana",
+    "layer_sha256": "2d94b12e9b313172b0080e413f61e018c48bbd4aaa5a80828d2de315f151f36f",
+    "caveat": "Digest sin coordenadas; el layer OAPN solo cubre el PN — geometría del Espacio Natural completo (PN+PNat+zonas) pendiente. Revisión espacial NO completada."
+  },
+  "conditions_modelled": [
+    "VIVAC_AL_RASO → PROHIBITED incondicional (subsunción de 'vivac' en 'pernocta al aire libre' = inferencia del revisor)",
+    "ACAMPADA + event_type ∈ {scientific, divulgative, cultural} → AUTHORIZATION_REQUIRED",
+    "ACAMPADA + purpose ∈ {vacacional, ocio} → PROHIBITED (Decreto 26/2018, caveat de finalidad)"
+  ],
+  "interpretation_note": "A diferencia de Sierra Nevada (régimen de comunicación con umbrales), Doñana tiene una prohibición legal directa: la pernocta al aire libre es infracción en todo el Espacio Natural salvo autorización para eventos científicos/divulgativos/culturales. La inferencia clave que debe confirmar el revisor es que 'vivac' ⊂ 'pernocta al aire libre' (el término no aparece en la ley).",
+  "contrary_or_ambiguous_evidence": [
+    "El término 'vivac'/'vivaqueo' no aparece en la Ley 8/1999 — la subsunción en 'pernocta al aire libre' es interpretación",
+    "Anexo II del PSUP 2024 (condiciones operativas de la acampada) no extraído verbatim — puede contener vías de acampada autorizable no cubiertas por el modelo",
+    "Borrador de modificación del PORN/PRUG (sep 2025) reescribe epígrafes de zonificación y 8.4.4 — vigilar aprobación",
+    "Decreto 26/2018 art. 1.5 limita la prohibición a 'fines vacacionales o de ocio' — la travesía de montaña podría quedar fuera de ese tipo",
+    "Geometría del Espacio Natural completo no adquirida — el scope ss-es-an-donana-espacio-natural usa el límite del PN como aproximación pendiente"
+  ],
+  "proposed_resolver_examples": [
+    {"facts": {}, "expected": "UNDETERMINED/INCOMPLETE — REVIEW_REQUIRED bloquea publicación"},
+    {"facts": {"event_type": "scientific"}, "expected_if_approved": "ACAMPADA → AUTHORIZATION_REQUIRED; VIVAC sigue PROHIBITED salvo que el revisor extienda la excepción"},
+    {"facts": "any, pre-review", "expected": "UNDETERMINED — candidatos no publicables"}
+  ],
+  "reviewer_decision": "PENDING",
+  "review_status": "REVIEW_REQUIRED",
+  "legal_review_complete": false,
+  "spatial_review_complete": false,
+  "automated_state": "READY_FOR_HUMAN_REVIEW"
+}
