@@ -188,6 +188,53 @@
     "lf-d18-48a2-ambito",
     "lf-d18-48a3-condiciones"
    ]
+  },
+  {
+   "rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-refugio-gt10",
+   "activity": "VIVAC_AL_RASO",
+   "spatial_scope_id": "ss-pnsg-pn-cm",
+   "effect": "AUTHORIZATION_REQUIRED",
+   "condition": {
+    "all": [
+     {
+      "field": "scope:ss-pnsg-vivac-anexo3",
+      "op": "is_false"
+     },
+     {
+      "field": "near_unguarded_refuge",
+      "op": "is_true"
+     },
+     {
+      "field": "refuge_has_free_places",
+      "op": "is_false"
+     },
+     {
+      "field": "nights_same_zone",
+      "op": "lte",
+      "value": 1
+     },
+     {
+      "field": "group_size",
+      "op": "gt",
+      "value": 10
+     }
+    ]
+   },
+   "effective_from": "2020-03-01",
+   "effective_to": null,
+   "recorded_at": "2026-09-18",
+   "recorded_until": null,
+   "review_status": "REVIEW_REQUIRED",
+   "legal_review_complete": false,
+   "spatial_review_complete": false,
+   "evidence": [
+    "lf-d18-48a3-condiciones",
+    "lf-d18-48a2-ambito"
+   ],
+   "interpretation_note": "RAMA E dentro de la modalidad B: >10 en entorno de refugio no guardado sin plazas requiere autorizacion expresa (48.a.3.a). Solo existe donde la modalidad B es elegible: scope:anexo3 is_false lo excluye de las zonas Anexo III (que tienen su propia regla de autorizacion), y los facts de refugio deben estar declarados. Fuera de modalidad elegible la respuesta es la prohibicion residual, nunca AUTHORIZATION_REQUIRED por el mero tamano del grupo.",
+   "normative_basis": [
+    "lf-d18-48a3-condiciones"
+   ]
   }
  ],
  "rule_relations": [],

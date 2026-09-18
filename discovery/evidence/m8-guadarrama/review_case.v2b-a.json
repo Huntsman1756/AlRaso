@@ -100,11 +100,12 @@
  "spatial_review_complete": false,
  "automated_state": "READY_FOR_HUMAN_REVIEW",
  "review_case_id": "RC-M8-ES-MD-GUADARRAMA-VIVAC-V2B-A",
- "proposed_effect": "PERMITTED condicionado en zonas Anexo III (nights<=1, group_size<=10)",
+ "proposed_effect": "PERMITTED condicionado en zonas Anexo III (nights<=1, group<=10) + AUTHORIZATION_REQUIRED para grupos >10 dentro de la misma modalidad (48.a.3.a)",
  "conditions_modelled": [
   "nights_same_zone <= 1 (48.a.3.b)",
-  "group_size <= 10 (48.a.3.a; >10 viaja en la rama E del fixture cierre)",
-  "restricciones dinamicas fuego/Penalara verificadas como overlay"
+  "group_size <= 10 (48.a.3.a; >10 => AUTHORIZATION_REQUIRED dentro de esta misma modalidad)",
+  "restricciones dinamicas fuego/Penalara verificadas como overlay",
+  "group_size > 10 dentro de Anexo III => AUTHORIZATION_REQUIRED (solo donde la modalidad es elegible; no crea via de autorizacion fuera)"
  ],
  "interpretation_note": "Permiso textual directo del art. 48.a.2 primera parte. Los facts son declarados por el usuario: toda determinacion que los consume queda marcada DEPENDS_ON_DECLARED_FACTS. Sin facts => CONDITIONAL.",
  "contrary_or_ambiguous_evidence": [
@@ -135,6 +136,11 @@
   {
    "item": "geometria-idem-como-anexo3",
    "proposition": "La capa oficial IDEM ZON_VIVAC_ANUA (sha256 b6fa71b2) es el referente operativo del Anexo III.",
+   "proposed": "APPROVE"
+  },
+  {
+   "item": "gt10-anexo3-auth",
+   "proposition": "En zonas Anexo III, grupos organizados >10 => AUTHORIZATION_REQUIRED (48.a.3.a), nunca PROHIBITED por el mero tamano; solo dentro de la modalidad elegible.",
    "proposed": "APPROVE"
   }
  ]

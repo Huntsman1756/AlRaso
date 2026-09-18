@@ -100,12 +100,13 @@
  "spatial_review_complete": false,
  "automated_state": "READY_FOR_HUMAN_REVIEW",
  "review_case_id": "RC-M8-ES-MD-GUADARRAMA-VIVAC-V2B-B",
- "proposed_effect": "PERMITTED en entorno inmediato de refugio no guardado sin plazas libres",
+ "proposed_effect": "PERMITTED en entorno inmediato de refugio no guardado sin plazas libres + AUTHORIZATION_REQUIRED >10 bajo las mismas condiciones",
  "conditions_modelled": [
   "near_unguarded_refuge is_true — DECLARADO por el usuario (sin capa oficial)",
   "refuge_has_free_places is_false — DECLARADO (sin feed de ocupacion)",
   "nights_same_zone <= 1, group_size <= 10 (48.a.3)",
-  "restriccion dinamica fuego (pn-cm)"
+  "restriccion dinamica fuego (pn-cm)",
+  "group_size > 10 bajo las condiciones de la rama (y fuera de Anexo III) => AUTHORIZATION_REQUIRED; scope:anexo3 is_false evita interferir la modalidad A"
  ],
  "interpretation_note": "Permiso textual del art. 48.a.2 segunda parte. ADVERTENCIA DE PROVENANCE: los dos hechos habilitantes son declarados por el usuario y no verificables por AlRaso — la salida lleva DEPENDS_ON_DECLARED_FACTS. La ausencia de facts produce CONDITIONAL/UNDETERMINED, nunca PROHIBITED.",
  "contrary_or_ambiguous_evidence": [
@@ -138,6 +139,11 @@
   {
    "item": "facts-declarados-provenance",
    "proposition": "Aceptar hechos declarados por el usuario como input de la rama, marcando la dependencia en la salida.",
+   "proposed": "APPROVE"
+  },
+  {
+   "item": "gt10-refugio-auth",
+   "proposition": "En la modalidad refugio, grupos organizados >10 => AUTHORIZATION_REQUIRED solo cuando las demas condiciones de la rama se satisfacen.",
    "proposed": "APPROVE"
   }
  ]

@@ -106,7 +106,8 @@
   "scope:ss-pnsg-reserva-cm is_false (exclusion espacial derivada, no declarable)",
   "group_size <= 5",
   "nights_same_zone <= 1",
-  "restriccion dinamica fuego (pn-cm)"
+  "restriccion dinamica fuego (pn-cm)",
+  "interaccion de tamanos: <=5 elegible; 6-10 => C no satisfecha => PROHIBITED via cierre; >10 => PROHIBITED por defecto (sin via de autorizacion estacional modelada)"
  ],
  "interpretation_note": "INFERENCIA CENTRAL A ADJUDICAR: STSJM 1003/2022 anula el art. 48.2 \"en el extremo en que fija el limite de altitud en 2.000 metros\". Este modelo lee que subsisten las demas condiciones de la clausula estacional (estacionalidad, no-Reserva, <=5). La lectura alternativa (la nulidad extingue toda la clausula) implica REJECT de esta rama sin afectar a A/B/cierre. La exclusion de Reserva se modela como condicion espacial derivada del scope oficial — fiel al tenor de la clausula y sin regla prohibido-reserva general, que carecia de base.",
  "contrary_or_ambiguous_evidence": [
@@ -149,6 +150,11 @@
    "item": "reserva-como-condicion-espacial",
    "proposition": "La exclusion de Zona de Reserva se modela dentro de la rama C via fact derivado scope:, no como prohibicion general (sin base verificada para esta).",
    "proposed": "APPROVE"
+  },
+  {
+   "item": "interaccion-gt5-gt10-estacional",
+   "proposition": "La clausula estacional fija <=5 mientras 48.a.3.a habla de autorizacion para >10 organizados. El modelo NO presupone que 48.a.3.a hace override del limite especifico de C: 6-10 y >10 en la rama estacional responden PROHIBITED via cierre residual. Si el revisor estima que existe via de autorizacion para >10 estacional, esta interaccion es EXTERNAL_REVIEW.",
+   "proposed": "APPROVE del fail-closed o EXTERNAL_REVIEW"
   }
  ]
 }

@@ -100,13 +100,14 @@
  "spatial_review_complete": false,
  "automated_state": "READY_FOR_HUMAN_REVIEW",
  "review_case_id": "RC-M8-ES-MD-GUADARRAMA-VIVAC-V2B-CIERRE",
- "proposed_effect": "PROHIBITED residual pn-cm + AUTHORIZATION_REQUIRED >10 + OVERRIDES",
+ "proposed_effect": "PROHIBITED residual pn-cm + relaciones OVERRIDES de las ramas y sus autorizaciones >10 per-branch",
  "conditions_modelled": [
   "D: prohibicion incondicional pn-cm (38.1.o + unicamente 48.a.2)",
-  "E: group_size > 10 => AUTHORIZATION_REQUIRED (48.a.3.a)",
-  "relaciones: anexo3/refugio/estacional/gt10 OVERRIDES prohibido-pn"
+  "relaciones: anexo3/refugio/estacional/anexo3-gt10/refugio-gt10 OVERRIDES prohibido-pn",
+  "las relaciones gt10->prohibido solo disparan cuando la regla de autorizacion de la rama esta activa (modalidad elegible)",
+  "pax>10 fuera de toda modalidad => PROHIBITED, nunca AUTHORIZATION_REQUIRED"
  ],
- "interpretation_note": "CIERRE INSEPARABLE: la verdad de \"el resto esta prohibido\" depende del conjunto completo de excepciones adjudicadas. Solo publicable cuando A, B y C esten adjudicadas (aprobadas o rechazadas); si alguna cambia, las relaciones se recalculan. ITEM A ADJUDICAR: gt10-OVERRIDES-prohibido hace que >10 pax responda AUTHORIZATION_REQUIRED en todo el PN — incluido donde el vivac <=10 estaria prohibido; alternativa: sin esa relacion, >10 fuera de ramas permitidas responde conflicto/UNDETERMINED.",
+ "interpretation_note": "CIERRE INSEPARABLE: la verdad de \"el resto esta prohibido\" depende del conjunto completo de excepciones adjudicadas. Solo publicable cuando A, B y C esten adjudicadas. CORRECCION M8-D3: la autorizacion >10 (48.a.3.a) NO hace override de la prohibicion espacial por si sola — solo existe dentro de cada modalidad elegible (reglas per-branch en fixtures A/B). Para >10 sin modalidad elegible la respuesta es PROHIBITED, salvo base normativa adicional no modelada.",
  "contrary_or_ambiguous_evidence": [
   "DEPENDENCIA: adjudicar este cierre antes que A/B/C violaria la logica del residual — el orden de firma importa.",
   "ZPP deliberadamente sin regla (92.3.e, cuestion abierta).",
@@ -116,29 +117,34 @@
   {
    "facts": {
     "pt": "interior PN verano",
-    "near_unguarded_refuge": false
+    "near_unguarded_refuge": false,
+    "group_size": 4
    },
    "expected_if_approved": "PROHIBITED"
   },
   {
    "facts": {
-    "pt": "interior PN verano"
+    "pt": "interior PN verano",
+    "near_unguarded_refuge": false,
+    "group_size": 20
    },
-   "expected_if_approved": "CONDITIONAL (refugio pendiente)"
+   "expected_if_approved": "PROHIBITED (nunca AUTH por el mero tamano)"
   },
   {
    "facts": {
     "pt": "zona anexo3",
-    "group_size": 15
+    "group_size": 15,
+    "nights_same_zone": 1
    },
    "expected_if_approved": "AUTHORIZATION_REQUIRED"
   },
   {
    "facts": {
-    "pt": "interior PN",
-    "group_size": 15
+    "pt": "interior PN invierno no-Reserva",
+    "group_size": 11,
+    "near_unguarded_refuge": false
    },
-   "expected_if_approved": "AUTHORIZATION_REQUIRED (item a adjudicar)"
+   "expected_if_approved": "PROHIBITED (interaccion C adjudicada fail-closed)"
   }
  ],
  "adjudication_items": [
@@ -148,9 +154,9 @@
    "proposed": "APPROVE solo tras A/B/C"
   },
   {
-   "item": "gt10-auth-over-prohibido",
-   "proposition": "Para >10 pax la respuesta es AUTHORIZATION_REQUIRED incluso donde el vivac <=10 estaria prohibido.",
-   "proposed": "APPROVE o sin-relacion => UNDETERMINED"
+   "item": "gt10-solo-dentro-de-modalidad",
+   "proposition": "La autorizacion >10 opera solo dentro de modalidades elegibles (per-branch); fuera de ellas, >10 sigue siendo PROHIBITED. Las relaciones gt10->prohibido son inertes salvo que la regla de autorizacion de la rama este activa.",
+   "proposed": "APPROVE"
   }
  ]
 }
