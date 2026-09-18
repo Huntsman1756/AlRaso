@@ -80,14 +80,16 @@ cd F:\_Proyectos\AlRaso
 python tooling/m8_holdout_seal.py \
     --input F:\_Proyectos\m8f-cases.json \
     --custodian "Nombre Apellido, rol/contacto" \
-    --output F:\_Proyectos\m8f-commitment.json
+    --output docs/validation/m8/holdout-manifest-v1.json
 ```
 
 Exit 0 = sellado; exit 1 = validación fallida (corregir el fichero y
-resellar — el commitment anterior queda inválido si cambian los casos).
+resellar — el commitment anterior queda inválido si cambian los casos;
+la validación ocurre ANTES de escribir, un run fallido no toca el
+manifest).
 
-El seal escribe `m8f-commitment.json` **sin contenido de casos** (solo
-los campos públicos de §2) e imprime los valores a devolver:
+El seal escribe el commitment **sin contenido de casos** (solo los
+campos públicos de §2) e imprime los valores a devolver:
 
 ```text
 CUSTODIAN            = ...
@@ -100,8 +102,19 @@ STATUS               = SEALED
 
 ## 4. Registrar el commitment (público)
 
-Copiar esos campos en `docs/validation/m8/holdout-manifest-v1.json`
-(sustituir los `PENDING`). Ese fichero sí se commitea.
+**Control fijado**: el artefacto que produce el seal debe ser
+*exactamente* el que termina en `docs/validation/m8/holdout-manifest-v1.json`.
+
+- Preferido: `--output` apuntando directamente al manifest (como en §3)
+  — byte-perfect por construcción.
+- Alternativa: generarlo fuera del repo y **copiarlo byte-for-byte** al
+  manifest.
+- Prohibido: reconstruir manualmente el JSON a partir de los valores
+  impresos en consola.
+
+El commit que introduce el manifest sellado va **vía PR** (es un
+artefacto de validación), y debe contener únicamente ese fichero —
+nunca `m8f-cases.json` ni ningún derivado con contenido de casos.
 
 Baseline contra el que se evaluará (identificado por commit+hash, no por
 descripción):
@@ -113,13 +126,25 @@ SCHEMA_VERSION       = m1r3
 LAYERS_MANIFEST_SHA256 = 788b05f31f90ec3d1be44b1dde6d3c08bcd6703c11a08e4e08c9380e1839f8e6
 ```
 
-Nota: `main` ha avanzado a `1c02685` (paquetes de evidencia es-pn);
-el código del resolver es idéntico al del tag — los commits posteriores
-solo añadieron evidencia, no código. Si cualquier commit tocara
-`alraso/resolver.py`, `alraso/spatial.py`, `alraso/geojson_provider.py`,
-`alraso/domain.py`, `alraso/engine.py`, `alraso/bitemporal.py`,
-`alraso/schema.py`, `alraso/ingest/ordesa.py` o las capas hash-pinned,
-el run debe declararse inválido y tratarse como nueva evaluación.
+**Control fijado — qué está congelado y qué no**: hasta la ejecución de
+M8-F, el código efectivo del resolver debe seguir correspondiendo a
+`m8-pre-human @ 65e6a67`. No basta con que "main siga siendo
+compatible". Pueden cambiar fixtures/corpus publicados; NO pueden
+cambiar materialmente:
+
+- algoritmo del resolver (`alraso/resolver.py`, `engine.py`, `domain.py`)
+- clases de resultado y mapping del holdout (`m8_holdout_run.py::_actual_class`)
+- precedencias y modelo de reglas (`bitemporal.py`, `schema.py`,
+  `ingest/ordesa.py`, `publish_reviewed.py`, `review_decision.py`)
+- geometría (`spatial.py`, `geojson_provider.py`, las capas hash-pinned
+  y el manifiesto de capas)
+- seal/runner (`tooling/m8_holdout_seal.py`, `m8_holdout_run.py`)
+
+Si cualquiera de esas piezas cambia materialmente, el mismo holdout **ya
+no sirve como evaluación ciega primaria**: el run se declara inválido y
+la nueva evaluación requiere casos nuevos sellados de nuevo. (Los
+commits posteriores al tag hasta `5b42fe7` solo añaden evidencia y
+documentación — resolver idéntico.)
 
 ## 5. Garantías que el sistema ya implementa (verificado en código)
 
@@ -143,6 +168,11 @@ el run debe declararse inválido y tratarse como nueva evaluación.
 - [ ] `m8f-cases.json` está FUERA del repo (verificar: no aparece en
       `git status` ni en ninguna ruta bajo `AlRaso\`)
 - [ ] ≥1 caso por cada uno de los 12 estratos; `case_id`s únicos
+- [ ] **los casos intentan romper el resolver, no son puntos cómodos**:
+      incluir holes reales, puntos próximos pero NO sobre boundary,
+      superposiciones de scopes, exterior inmediato de un scope, fechas
+      distintas donde la temporalidad importe, y casos donde
+      `UNDETERMINED`/`UNKNOWN` sea genuinamente la respuesta correcta
 - [ ] coordenadas reales comprobadas contra las capas oficiales o un
       mapa (el seal solo valida la caja CAM, no la pertenencia a estratos)
 - [ ] estrato `boundary`: coordenada sobre una arista real de una capa
