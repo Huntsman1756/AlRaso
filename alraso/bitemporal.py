@@ -87,6 +87,14 @@ PUBLISHABLE_FRAGMENT_STATUSES = frozenset({"VERIFIED", "PUBLISHED"})
 SCOPE_RELEVANCES = frozenset({"REGULATORY", "CONTEXT_ONLY"})
 DEFAULT_SCOPE_RELEVANCE = "REGULATORY"
 
+# M8-D: operational/current restrictions are observations, not normative
+# rules. BLOCK = the restriction impeds the activity outright; RESTRICT = it
+# imposes a requirement AlRaso cannot evaluate automatically. A NULL effect is
+# a declared check whose outcome is unknown.
+KNOWN_RESTRICTION_EFFECTS = frozenset({"BLOCK", "RESTRICT"})
+KNOWN_RESTRICTION_KINDS = frozenset(
+    {"FIRE_RISK", "SEASONAL", "CLOSURE", "ADMINISTRATIVE", "EXPECTED_CHECK", "OTHER"})
+
 
 @dataclass
 class VersionRow:
@@ -168,6 +176,52 @@ class RelationVersionRow:
 
 
 @dataclass
+class OperationalRestrictionRow:
+    """A system-time-versioned observation about a current/operational
+    restriction (M8-D). NEVER a normative rule: it can demote a normative
+    PERMITTED to CONDITIONAL/PROHIBITED but can never create permission."""
+
+    seq: int
+    restriction_id: str
+    kind: str
+    activity: str | None            # NULL = applies to every activity
+    spatial_scope_id: str
+    effect: str | None              # BLOCK | RESTRICT | None (check-only)
+    required: bool                  # material check for affirmative answers
+    verified: bool                  # observed at the source
+    restriction_active: bool | None  # only meaningful when verified
+    observed_at: str | None
+    valid_from: str | None
+    valid_to: str | None
+    month_window: list[int] | None   # recurring months the check applies to
+    source_document_id: str | None
+    description: str | None
+    detail: dict[str, Any]
+    recorded_at: str
+    recorded_until: str | None
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "seq": self.seq,
+            "restriction_id": self.restriction_id,
+            "kind": self.kind,
+            "activity": self.activity,
+            "spatial_scope_id": self.spatial_scope_id,
+            "effect": self.effect,
+            "required": self.required,
+            "verified": self.verified,
+            "restriction_active": self.restriction_active,
+            "observed_at": self.observed_at,
+            "valid_from": self.valid_from,
+            "valid_to": self.valid_to,
+            "month_window": self.month_window,
+            "source_document_id": self.source_document_id,
+            "description": self.description,
+            "recorded_at": self.recorded_at,
+        }
+
+
+@dataclass
 class Selection:
     """Result of a bitemporal selection for one (activity, scope) pair.
 
@@ -224,6 +278,12 @@ _R_COLUMNS = (
     "seq, relation_id, relation_type, from_rule_id, from_effect, to_rule_id, to_effect, "
     "effective_from, effective_to, recorded_at, recorded_until, evidence, review_status, "
     "legal_review_complete, ai_proposed, human_verified"
+)
+
+_OR_COLUMNS = (
+    "seq, restriction_id, kind, activity, spatial_scope_id, effect, required, verified, "
+    "restriction_active, observed_at, valid_from, valid_to, month_window, "
+    "source_document_id, description, detail, recorded_at, recorded_until"
 )
 
 
@@ -568,6 +628,121 @@ class BitemporalStore:
              review_status, int(legal_review_complete), int(ai_proposed), int(human_verified)),
         )
         self._finish()
+
+    def add_operational_restriction(self, d: dict[str, Any]) -> None:
+        """Append an operational/current-restriction observation (M8-D).
+
+        These rows describe dynamic facts (closures, seasonal regimes, checks a
+        caller must run at query time). They are never normative rules and
+        never participate in legal-effect precedence.
+        """
+        for key in ("restriction_id", "kind", "spatial_scope_id", "recorded_at"):
+            if not d.get(key):
+                raise InvalidRule(f"operational_restriction requires {key!r}")
+        if d["kind"] not in KNOWN_RESTRICTION_KINDS:
+            raise InvalidRule(f"unknown restriction kind {d['kind']!r}")
+        effect = d.get("effect")
+        if effect is not None and effect not in KNOWN_RESTRICTION_EFFECTS:
+            raise InvalidRule(f"unknown restriction effect {effect!r}")
+        for field in ("recorded_at",):
+            parse_date_strict(d[field], field=field)
+        for field in ("recorded_until", "observed_at", "valid_from", "valid_to"):
+            if d.get(field) is not None:
+                parse_date_strict(d[field], field=field)
+        if (d.get("valid_from") is not None and d.get("valid_to") is not None
+                and d["valid_to"] < d["valid_from"]):
+            raise InvalidRule("restriction valid_to precedes valid_from")
+        if (d.get("recorded_until") is not None
+                and d["recorded_until"] < d["recorded_at"]):
+            raise InvalidRule("restriction recorded_until precedes recorded_at")
+        required = parse_bool_strict(d.get("required", True), field="required")
+        verified = parse_bool_strict(d.get("verified", False), field="verified")
+        active = d.get("restriction_active", None)
+        restriction_active = None if active is None else parse_bool_strict(
+            active, field="restriction_active")
+        if not verified and restriction_active is not None:
+            raise InvalidRule(
+                "restriction_active may only be set on a verified observation")
+        month_window = d.get("month_window")
+        if month_window is not None:
+            if (not isinstance(month_window, list) or not month_window
+                    or any(not isinstance(m, int) or isinstance(m, bool)
+                           or m < 1 or m > 12 for m in month_window)):
+                raise InvalidRule("month_window must be a non-empty list of months 1-12")
+        detail = d.get("detail", {})
+        if not isinstance(detail, dict):
+            raise InvalidRule("restriction detail must be an object")
+        self.conn.execute(
+            "INSERT INTO operational_restriction (restriction_id, kind, activity, "
+            "spatial_scope_id, effect, required, verified, restriction_active, "
+            "observed_at, valid_from, valid_to, month_window, source_document_id, "
+            "description, detail, recorded_at, recorded_until) "
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            (d["restriction_id"], d["kind"], d.get("activity"),
+             d["spatial_scope_id"], effect, int(required), int(verified),
+             None if restriction_active is None else int(restriction_active),
+             d.get("observed_at"), d.get("valid_from"), d.get("valid_to"),
+             json.dumps(month_window) if month_window is not None else None,
+             d.get("source_document_id"), d.get("description"),
+             json.dumps(detail), d["recorded_at"], d.get("recorded_until")),
+        )
+        self._finish()
+
+    def _row_to_restriction(self, r: sqlite3.Row) -> OperationalRestrictionRow:
+        mw = r["month_window"]
+        return OperationalRestrictionRow(
+            seq=r["seq"], restriction_id=r["restriction_id"], kind=r["kind"],
+            activity=r["activity"], spatial_scope_id=r["spatial_scope_id"],
+            effect=r["effect"], required=bool(r["required"]),
+            verified=bool(r["verified"]),
+            restriction_active=(None if r["restriction_active"] is None
+                                else bool(r["restriction_active"])),
+            observed_at=r["observed_at"], valid_from=r["valid_from"],
+            valid_to=r["valid_to"],
+            month_window=json.loads(mw) if mw else None,
+            source_document_id=r["source_document_id"],
+            description=r["description"],
+            detail=json.loads(r["detail"]) if r["detail"] else {},
+            recorded_at=r["recorded_at"], recorded_until=r["recorded_until"],
+        )
+
+    def operational_restrictions_at(self, scope_ids: list[str], activity: str,
+                                    activity_date: str,
+                                    knowledge_date: str) -> list[OperationalRestrictionRow]:
+        """Current-belief operational restrictions covering (scope, activity,
+        activity_date). System time selects the latest description per
+        restriction_id visible at knowledge_date; the declared valid window
+        and month_window filter by activity_date. Rows out of season or out of
+        window simply do not apply."""
+        self._check_dates(activity_date, knowledge_date)
+        if not scope_ids:
+            return []
+        ph = ",".join("?" * len(scope_ids))
+        rows = self.conn.execute(
+            f"SELECT {_OR_COLUMNS} FROM operational_restriction "
+            f"WHERE spatial_scope_id IN ({ph}) AND recorded_at <= ? "
+            "AND (recorded_until IS NULL OR ? < recorded_until)",
+            (*scope_ids, knowledge_date, knowledge_date)).fetchall()
+        latest: dict[str, OperationalRestrictionRow] = {}
+        for r in rows:
+            row = self._row_to_restriction(r)
+            cur = latest.get(row.restriction_id)
+            if cur is None or (row.recorded_at, row.seq) > (cur.recorded_at, cur.seq):
+                latest[row.restriction_id] = row
+        out: list[OperationalRestrictionRow] = []
+        month = int(activity_date[5:7])
+        for row in latest.values():
+            if row.activity is not None and row.activity != activity:
+                continue
+            if row.valid_from is not None and activity_date < row.valid_from:
+                continue
+            if row.valid_to is not None and activity_date > row.valid_to:
+                continue
+            if row.month_window is not None and month not in row.month_window:
+                continue
+            out.append(row)
+        out.sort(key=lambda r: (r.restriction_id, r.seq))
+        return out
 
     # ---- selection -------------------------------------------------------------
     @staticmethod

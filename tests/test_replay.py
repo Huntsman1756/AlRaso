@@ -172,7 +172,7 @@ def test_recorded_query_keeps_engine_and_schema_identity():
     rec = s.determinations()[0]
     cq = rec["canonical_query"]
     assert cq["engineAdapter"] == "own"
-    assert cq["schemaVersion"] == "m1r2"
+    assert cq["schemaVersion"] == "m1r3"
     assert rec["knowledge_state_hash"] and rec["rule_version_seqs"]
     assert rec["source_document_ids"] == ["sd-test"]
 

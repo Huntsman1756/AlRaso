@@ -1,248 +1,261 @@
 {
-  "$schema": "alraso-corpus-candidate-v1",
-  "fixture_meta": {
-    "name": "M8_CANDIDATE_PR_CURSO_MEDIO_GUADARRAMA",
-    "purpose": "M8 Madrid vertical — evidence candidate for PR Curso Medio del río Guadarrama. NOT product corpus: every rule version is REVIEW_REQUIRED with legal/spatial review incomplete; non-publishable until human adjudication.",
-    "created": "2026-09-17",
-    "activity_scope": "ACAMPADA (literal) + VIVAC_AL_RASO (salto interpretativo documentado). La supuesta remisión vivac→PRUG está verificada como INEXISTENTE en este PORN y no hay PRUG.",
-    "publishable": false
+ "$schema": "alraso-corpus-candidate-v1",
+ "fixture_meta": {
+  "name": "M8_CANDIDATE_PR_CURSO_MEDIO_GUADARRAMA",
+  "purpose": "M8 Madrid vertical — evidence candidate for PR Curso Medio del río Guadarrama. NOT product corpus: every rule version is REVIEW_REQUIRED with legal/spatial review incomplete; non-publishable until human adjudication.",
+  "created": "2026-09-17",
+  "activity_scope": "ACAMPADA (literal) + VIVAC_AL_RASO (salto interpretativo documentado). La supuesta remisión vivac→PRUG está verificada como INEXISTENTE en este PORN y no hay PRUG.",
+  "publishable": false
+ },
+ "source_documents": [
+  {
+   "id": "sd-decreto-26-1999",
+   "authority": "Comunidad de Madrid",
+   "jurisdiction": "ES-MD",
+   "document_type": "DECREE",
+   "title": "Decreto 26/1999, de 11 de febrero — aprueba el PORN del PR del Curso Medio del río Guadarrama y su entorno",
+   "canonical_url": "https://gestiona.comunidad.madrid/rlma_web/Descarga.icm?idLegislacion=676&idDocumento=1",
+   "official_status": "VIGENTE (RLMA ID=676) — BOCM núm. 50, 01/03/1999",
+   "retrieved_at": "2026-09-17",
+   "content_hash": "sha256:e0ce3124ab0ebb7585b039d04ad91018cacb886d172ec3219d82493774c2685a (PDF RLMA, not redistributed)"
   },
-  "source_documents": [
-    {
-      "id": "sd-decreto-26-1999",
-      "authority": "Comunidad de Madrid",
-      "jurisdiction": "ES-MD",
-      "document_type": "DECREE",
-      "title": "Decreto 26/1999, de 11 de febrero — aprueba el PORN del PR del Curso Medio del río Guadarrama y su entorno",
-      "canonical_url": "https://gestiona.comunidad.madrid/rlma_web/Descarga.icm?idLegislacion=676&idDocumento=1",
-      "official_status": "VIGENTE (RLMA ID=676) — BOCM núm. 50, 01/03/1999",
-      "retrieved_at": "2026-09-17",
-      "content_hash": "sha256:e0ce3124ab0ebb7585b039d04ad91018cacb886d172ec3219d82493774c2685a (PDF RLMA, not redistributed)"
-    },
-    {
-      "id": "sd-decreto-124-2002",
-      "authority": "Comunidad de Madrid",
-      "jurisdiction": "ES-MD",
-      "document_type": "DECREE_AMENDMENT",
-      "title": "Decreto 124/2002, de 5 de julio — extensión del PORN a la zona de ampliación",
-      "canonical_url": "https://gestiona.comunidad.madrid/rlma_web/FichaNormativa.icm",
-      "official_status": "VIGENTE — BOCM núm. 184, 05/08/2002",
-      "retrieved_at": "2026-09-17",
-      "content_hash": "sha256:1005e61c0c858866e09bb0e26b9d222b9af1773313eebfeb97b98bfbfc362ffb (PDF RLMA, not redistributed)"
-    },
-    {
-      "id": "sd-ley-20-1999",
-      "authority": "Comunidad de Madrid",
-      "jurisdiction": "ES-MD",
-      "document_type": "LAW",
-      "title": "Ley 20/1999, de 3 de mayo — declaración del Parque Regional (consolidado)",
-      "canonical_url": "https://www.boe.es/buscar/act.php?id=BOE-A-1999-17642",
-      "official_status": "VIGENTE con modificaciones (Ley 4/2001, Ley 11/2022)",
-      "retrieved_at": "2026-09-17"
-    },
-    {
-      "id": "sd-decreto-121-2002",
-      "authority": "Comunidad de Madrid",
-      "jurisdiction": "ES-MD",
-      "document_type": "DECREE",
-      "title": "Decreto 121/2002 — revisión del Plan de Ordenación del Embalse de Valmayor (contexto)",
-      "canonical_url": "https://gestiona.comunidad.madrid/rlma_web/FichaNormativa.icm",
-      "official_status": "CONTEXT — sub-ámbito del embalse dentro del parque; epígrafe 7.d no extraído",
-      "retrieved_at": "2026-09-17"
-    },
-    {
-      "id": "sd-idem-prcmg",
-      "authority": "Comunidad de Madrid — IDEM",
-      "jurisdiction": "ES-MD",
-      "document_type": "GIS_LAYER",
-      "title": "Límite y zonificación del PR Curso Medio del Guadarrama (3 zonas funcionales del PORN)",
-      "canonical_url": "https://idem.comunidad.madrid/geoidem/LugaresProtegidos/ows?service=WFS&request=GetFeature&typeName=LugaresProtegidos:IDEM_MA_PR_GUADARRAMA",
-      "official_status": "OFFICIAL — CC-BY 4.0",
-      "retrieved_at": "2026-09-17",
-      "content_hash": "sha256:d05c249f28325f26c074ac8b0eb142d26e4fc712f36ef97db0a305b202bedced (IDEM_MA_PR_GUADARRAMA.geojson, EPSG:4326)"
-    }
-  ],
-  "legal_fragments": [
-    {
-      "id": "lf-d26-42-acampada",
-      "source_document_id": "sd-decreto-26-1999",
-      "locator": "Apartado 4.2 — normativa de actividades de uso público, deportivas y recreativas",
-      "exact_text_hint": "Se prohíbe la acampada libre en todo el ámbito de ordenación.",
-      "extracted_at": "2026-09-17",
-      "review_status": "REVIEW_REQUIRED",
-      "provision_ref": "Decreto 26/1999, §4.2 — prohibición de acampada libre en todo el parque",
-      "validity_from": "1999-03-01",
-      "validity_to": null
-    },
-    {
-      "id": "lf-d124-42-acampada",
-      "source_document_id": "sd-decreto-124-2002",
-      "locator": "Apartado 4.2",
-      "exact_text_hint": "Se prohíbe la acampada libre en toda la zona de ampliación del PORN.",
-      "extracted_at": "2026-09-17",
-      "review_status": "REVIEW_REQUIRED",
-      "provision_ref": "Decreto 124/2002, §4.2 — extensión de la prohibición a la ampliación",
-      "validity_from": "2002-08-05",
-      "validity_to": null
-    },
-    {
-      "id": "lf-ley20-93-usos",
-      "source_document_id": "sd-ley-20-1999",
-      "locator": "Art. 9.3",
-      "exact_text_hint": "Son usos compatibles los turísticos, recreativos y deportivos, con las limitaciones establecidas en el Plan de Ordenación de los Recursos Naturales.",
-      "extracted_at": "2026-09-17",
-      "review_status": "REVIEW_REQUIRED",
-      "provision_ref": "Ley 20/1999, art. 9.3 — habilitante genérico remitido al PORN",
-      "validity_from": "1999-05-03",
-      "validity_to": null
-    },
-    {
-      "id": "lf-d26-vivac-ausencia",
-      "source_document_id": "sd-decreto-26-1999",
-      "locator": "texto completo del PORN (búsqueda exhaustiva)",
-      "exact_text_hint": "VERIFICADO: el texto oficial no contiene ningún precepto sobre vivac/pernocta al raso (única coincidencia de 'vivac': 'pastos vivaces'). La remisión vivac→PRUG atribuida a este PORN NO existe — corresponde al §4.4.8.6 del Decreto 96/2009.",
-      "extracted_at": "2026-09-17",
-      "review_status": "REVIEW_REQUIRED",
-      "provision_ref": "Decreto 26/1999 — ausencia verificada de régimen de vivac",
-      "validity_from": "1999-03-01",
-      "validity_to": null
-    },
-    {
-      "id": "lf-prug-inexistente",
-      "source_document_id": "sd-decreto-26-1999",
-      "locator": "memoria / régimen de planes",
-      "exact_text_hint": "Una vez aprobado el presente P.O.R.N. y la correspondiente figura de protección, los órganos gestores de esta zona elaborarán el Plan Rector de Uso y Gestión (P.R.U.G.). — NUNCA aprobado: PNL 87/2018 instó a su elaboración; no consta decreto.",
-      "extracted_at": "2026-09-17",
-      "review_status": "REVIEW_REQUIRED",
-      "provision_ref": "PRUG del parque — inexistente; cualquier remisión a PRUG es inoperante",
-      "validity_from": null,
-      "validity_to": null
-    },
-    {
-      "id": "lf-d121-valmayor",
-      "source_document_id": "sd-decreto-121-2002",
-      "locator": "usos prohibidos, letra i)",
-      "exact_text_hint": "i) La acampada libre, el baño y los deportes náuticos de todo tipo, a excepción de lo dispuesto en el epígrafe 7.d).",
-      "extracted_at": "2026-09-17",
-      "review_status": "REVIEW_REQUIRED",
-      "provision_ref": "Decreto 121/2002 — prohibición de acampada libre en el sub-ámbito del embalse (contexto; excepciones 7.d no extraídas)",
-      "validity_from": "2002-07-05",
-      "validity_to": null
-    }
-  ],
-  "spatial_scopes": [
-    {
-      "id": "ss-prcmg-parque",
-      "scope_type": "REGIONAL_PARK",
-      "official_name": "Parque Regional del Curso Medio del río Guadarrama y su entorno",
-      "geometry_source": "sd-idem-prcmg",
-      "feature_id": "IDEM_MA_PR_GUADARRAMA (3 features — todo el ámbito)",
-      "srid_native": 25830,
-      "review_status": "SPATIAL_REVIEW_PENDING",
-      "relevance": "REGULATORY"
-    },
-    {
-      "id": "ss-prcmg-max-proteccion",
-      "scope_type": "PARK_SECTOR",
-      "parent_scope": "ss-prcmg-parque",
-      "official_name": "Zonas de Máxima Protección del PORN (CD_TIPO_ZONA=1)",
-      "geometry_source": "sd-idem-prcmg",
-      "feature_id": "feature CD_TIPO_ZONA=1 de IDEM_MA_PR_GUADARRAMA",
-      "srid_native": 25830,
-      "review_status": "SPATIAL_REVIEW_PENDING",
-      "relevance": "CONTEXT_ONLY"
-    },
-    {
-      "id": "ss-prcmg-proteccion-mejora",
-      "scope_type": "PARK_SECTOR",
-      "parent_scope": "ss-prcmg-parque",
-      "official_name": "Zonas de Protección y Mejora del PORN (CD_TIPO_ZONA=2)",
-      "geometry_source": "sd-idem-prcmg",
-      "feature_id": "feature CD_TIPO_ZONA=2 de IDEM_MA_PR_GUADARRAMA",
-      "srid_native": 25830,
-      "review_status": "SPATIAL_REVIEW_PENDING",
-      "relevance": "CONTEXT_ONLY"
-    },
-    {
-      "id": "ss-prcmg-mantenimiento",
-      "scope_type": "PARK_SECTOR",
-      "parent_scope": "ss-prcmg-parque",
-      "official_name": "Zonas de Mantenimiento de la Actividad del PORN (CD_TIPO_ZONA=3)",
-      "geometry_source": "sd-idem-prcmg",
-      "feature_id": "feature CD_TIPO_ZONA=3 de IDEM_MA_PR_GUADARRAMA",
-      "srid_native": 25830,
-      "review_status": "SPATIAL_REVIEW_PENDING",
-      "relevance": "CONTEXT_ONLY"
-    }
-  ],
-  "legal_rule_versions": [
-    {
-      "rule_id": "alraso:es-md/pr-curso-medio-guadarrama/acampada#libre-prohibida",
-      "activity": "ACAMPADA",
-      "spatial_scope_id": "ss-prcmg-parque",
-      "effect": "PROHIBITED",
-      "condition": null,
-      "effective_from": "1999-03-01",
-      "effective_to": null,
-      "recorded_at": "2026-09-17",
-      "recorded_until": null,
-      "review_status": "REVIEW_REQUIRED",
-      "legal_review_complete": false,
-      "spatial_review_complete": false,
-      "evidence": [
-        "lf-d26-42-acampada",
-        "lf-d124-42-acampada"
-      ],
-      "interpretation_note": "LITERAL: 'Se prohíbe la acampada libre en todo el ámbito de ordenación' (D 26/1999 §4.2) + 'en toda la zona de ampliación' (D 124/2002 §4.2). Sin salto interpretativo. Posibles excepciones del epígrafe 7.d del Plan de Valmayor no extraídas — sub-ámbito a verificar.",
-      "normative_basis": [
-        "lf-d26-42-acampada",
-        "lf-d124-42-acampada"
-      ]
-    },
-    {
-      "rule_id": "alraso:es-md/pr-curso-medio-guadarrama/pernocta#vivac-prohibido",
-      "activity": "VIVAC_AL_RASO",
-      "spatial_scope_id": "ss-prcmg-parque",
-      "effect": "PROHIBITED",
-      "condition": null,
-      "effective_from": "1999-03-01",
-      "effective_to": null,
-      "recorded_at": "2026-09-17",
-      "recorded_until": null,
-      "review_status": "REVIEW_REQUIRED",
-      "legal_review_complete": false,
-      "spatial_review_complete": false,
-      "evidence": [
-        "lf-d26-42-acampada",
-        "lf-d26-vivac-ausencia",
-        "lf-prug-inexistente"
-      ],
-      "interpretation_note": "PROPOSED con SALTO INTERPRETATIVO: extiende la prohibición de 'acampada libre' al vivac al raso. VERIFICADO que no existe remisión vivac→PRUG en este PORN (la remisión real es del §4.4.8.6 del D 96/2009, otro instrumento) y que no hay PRUG. Si el revisor decide que vivac ⊄ acampada libre, esta regla muere y el parque queda sin regulación propia del vivac => UNDETERMINED (régimen general regional aparte).",
-      "normative_basis": [
-        "lf-d26-42-acampada"
-      ]
-    }
-  ],
-  "rule_relations": [],
-  "expected": {
-    "publishability": [
-      {
-        "assert": "NO_RULE_PUBLISHABLE",
-        "note": "Toda versión REVIEW_REQUIRED + reviews incompletas => eligibility gate rechaza; resolver devuelve UNDETERMINED/INCOMPLETE para cualquier consulta."
-      }
-    ],
-    "basic_queries": [
-      {
-        "query": {
-          "activity": "VIVAC_AL_RASO",
-          "spatial_scope_id": "ss-prcmg-parque",
-          "activity_date": "2026-09-17",
-          "knowledge_date": "2026-09-17"
-        },
-        "expected_legal_status": "UNDETERMINED",
-        "expected_knowledge_status": "INCOMPLETE",
-        "note": "Sin revisión humana no hay regla publicable."
-      }
-    ]
+  {
+   "id": "sd-decreto-124-2002",
+   "authority": "Comunidad de Madrid",
+   "jurisdiction": "ES-MD",
+   "document_type": "DECREE_AMENDMENT",
+   "title": "Decreto 124/2002, de 5 de julio — extensión del PORN a la zona de ampliación",
+   "canonical_url": "https://gestiona.comunidad.madrid/rlma_web/FichaNormativa.icm",
+   "official_status": "VIGENTE — BOCM núm. 184, 05/08/2002",
+   "retrieved_at": "2026-09-17",
+   "content_hash": "sha256:1005e61c0c858866e09bb0e26b9d222b9af1773313eebfeb97b98bfbfc362ffb (PDF RLMA, not redistributed)"
+  },
+  {
+   "id": "sd-ley-20-1999",
+   "authority": "Comunidad de Madrid",
+   "jurisdiction": "ES-MD",
+   "document_type": "LAW",
+   "title": "Ley 20/1999, de 3 de mayo — declaración del Parque Regional (consolidado)",
+   "canonical_url": "https://www.boe.es/buscar/act.php?id=BOE-A-1999-17642",
+   "official_status": "VIGENTE con modificaciones (Ley 4/2001, Ley 11/2022)",
+   "retrieved_at": "2026-09-17"
+  },
+  {
+   "id": "sd-decreto-121-2002",
+   "authority": "Comunidad de Madrid",
+   "jurisdiction": "ES-MD",
+   "document_type": "DECREE",
+   "title": "Decreto 121/2002 — revisión del Plan de Ordenación del Embalse de Valmayor (contexto)",
+   "canonical_url": "https://gestiona.comunidad.madrid/rlma_web/FichaNormativa.icm",
+   "official_status": "CONTEXT — sub-ámbito del embalse dentro del parque; epígrafe 7.d no extraído",
+   "retrieved_at": "2026-09-17"
+  },
+  {
+   "id": "sd-idem-prcmg",
+   "authority": "Comunidad de Madrid — IDEM",
+   "jurisdiction": "ES-MD",
+   "document_type": "GIS_LAYER",
+   "title": "Límite y zonificación del PR Curso Medio del Guadarrama (3 zonas funcionales del PORN)",
+   "canonical_url": "https://idem.comunidad.madrid/geoidem/LugaresProtegidos/ows?service=WFS&request=GetFeature&typeName=LugaresProtegidos:IDEM_MA_PR_GUADARRAMA",
+   "official_status": "OFFICIAL — CC-BY 4.0",
+   "retrieved_at": "2026-09-17",
+   "content_hash": "sha256:d05c249f28325f26c074ac8b0eb142d26e4fc712f36ef97db0a305b202bedced (IDEM_MA_PR_GUADARRAMA.geojson, EPSG:4326)"
   }
+ ],
+ "legal_fragments": [
+  {
+   "id": "lf-d26-42-acampada",
+   "source_document_id": "sd-decreto-26-1999",
+   "locator": "Apartado 4.2 — normativa de actividades de uso público, deportivas y recreativas",
+   "exact_text_hint": "Se prohíbe la acampada libre en todo el ámbito de ordenación.",
+   "extracted_at": "2026-09-17",
+   "review_status": "REVIEW_REQUIRED",
+   "provision_ref": "Decreto 26/1999, §4.2 — prohibición de acampada libre en todo el parque",
+   "validity_from": "1999-03-01",
+   "validity_to": null
+  },
+  {
+   "id": "lf-d124-42-acampada",
+   "source_document_id": "sd-decreto-124-2002",
+   "locator": "Apartado 4.2",
+   "exact_text_hint": "Se prohíbe la acampada libre en toda la zona de ampliación del PORN.",
+   "extracted_at": "2026-09-17",
+   "review_status": "REVIEW_REQUIRED",
+   "provision_ref": "Decreto 124/2002, §4.2 — extensión de la prohibición a la ampliación",
+   "validity_from": "2002-08-05",
+   "validity_to": null
+  },
+  {
+   "id": "lf-ley20-93-usos",
+   "source_document_id": "sd-ley-20-1999",
+   "locator": "Art. 9.3",
+   "exact_text_hint": "Son usos compatibles los turísticos, recreativos y deportivos, con las limitaciones establecidas en el Plan de Ordenación de los Recursos Naturales.",
+   "extracted_at": "2026-09-17",
+   "review_status": "REVIEW_REQUIRED",
+   "provision_ref": "Ley 20/1999, art. 9.3 — habilitante genérico remitido al PORN",
+   "validity_from": "1999-05-03",
+   "validity_to": null
+  },
+  {
+   "id": "lf-d26-vivac-ausencia",
+   "source_document_id": "sd-decreto-26-1999",
+   "locator": "texto completo del PORN (búsqueda exhaustiva)",
+   "exact_text_hint": "VERIFICADO: el texto oficial no contiene ningún precepto sobre vivac/pernocta al raso (única coincidencia de 'vivac': 'pastos vivaces'). La remisión vivac→PRUG atribuida a este PORN NO existe — corresponde al §4.4.8.6 del Decreto 96/2009.",
+   "extracted_at": "2026-09-17",
+   "review_status": "REVIEW_REQUIRED",
+   "provision_ref": "Decreto 26/1999 — ausencia verificada de régimen de vivac",
+   "validity_from": "1999-03-01",
+   "validity_to": null
+  },
+  {
+   "id": "lf-prug-inexistente",
+   "source_document_id": "sd-decreto-26-1999",
+   "locator": "memoria / régimen de planes",
+   "exact_text_hint": "Una vez aprobado el presente P.O.R.N. y la correspondiente figura de protección, los órganos gestores de esta zona elaborarán el Plan Rector de Uso y Gestión (P.R.U.G.). — NUNCA aprobado: PNL 87/2018 instó a su elaboración; no consta decreto.",
+   "extracted_at": "2026-09-17",
+   "review_status": "REVIEW_REQUIRED",
+   "provision_ref": "PRUG del parque — inexistente; cualquier remisión a PRUG es inoperante",
+   "validity_from": null,
+   "validity_to": null
+  },
+  {
+   "id": "lf-d121-valmayor",
+   "source_document_id": "sd-decreto-121-2002",
+   "locator": "usos prohibidos, letra i)",
+   "exact_text_hint": "i) La acampada libre, el baño y los deportes náuticos de todo tipo, a excepción de lo dispuesto en el epígrafe 7.d).",
+   "extracted_at": "2026-09-17",
+   "review_status": "REVIEW_REQUIRED",
+   "provision_ref": "Decreto 121/2002 — prohibición de acampada libre en el sub-ámbito del embalse (contexto; excepciones 7.d no extraídas)",
+   "validity_from": "2002-07-05",
+   "validity_to": null
+  }
+ ],
+ "spatial_scopes": [
+  {
+   "id": "ss-prcmg-parque",
+   "scope_type": "REGIONAL_PARK",
+   "official_name": "Parque Regional del Curso Medio del río Guadarrama y su entorno",
+   "geometry_source": "sd-idem-prcmg",
+   "feature_id": "IDEM_MA_PR_GUADARRAMA (3 features — todo el ámbito)",
+   "srid_native": 25830,
+   "review_status": "SPATIAL_REVIEW_PENDING",
+   "relevance": "REGULATORY"
+  },
+  {
+   "id": "ss-prcmg-max-proteccion",
+   "scope_type": "PARK_SECTOR",
+   "parent_scope": "ss-prcmg-parque",
+   "official_name": "Zonas de Máxima Protección del PORN (CD_TIPO_ZONA=1)",
+   "geometry_source": "sd-idem-prcmg",
+   "feature_id": "feature CD_TIPO_ZONA=1 de IDEM_MA_PR_GUADARRAMA",
+   "srid_native": 25830,
+   "review_status": "SPATIAL_REVIEW_PENDING",
+   "relevance": "CONTEXT_ONLY"
+  },
+  {
+   "id": "ss-prcmg-proteccion-mejora",
+   "scope_type": "PARK_SECTOR",
+   "parent_scope": "ss-prcmg-parque",
+   "official_name": "Zonas de Protección y Mejora del PORN (CD_TIPO_ZONA=2)",
+   "geometry_source": "sd-idem-prcmg",
+   "feature_id": "feature CD_TIPO_ZONA=2 de IDEM_MA_PR_GUADARRAMA",
+   "srid_native": 25830,
+   "review_status": "SPATIAL_REVIEW_PENDING",
+   "relevance": "CONTEXT_ONLY"
+  },
+  {
+   "id": "ss-prcmg-mantenimiento",
+   "scope_type": "PARK_SECTOR",
+   "parent_scope": "ss-prcmg-parque",
+   "official_name": "Zonas de Mantenimiento de la Actividad del PORN (CD_TIPO_ZONA=3)",
+   "geometry_source": "sd-idem-prcmg",
+   "feature_id": "feature CD_TIPO_ZONA=3 de IDEM_MA_PR_GUADARRAMA",
+   "srid_native": 25830,
+   "review_status": "SPATIAL_REVIEW_PENDING",
+   "relevance": "CONTEXT_ONLY"
+  }
+ ],
+ "legal_rule_versions": [
+  {
+   "rule_id": "alraso:es-md/pr-curso-medio-guadarrama/acampada#libre-prohibida",
+   "activity": "ACAMPADA",
+   "spatial_scope_id": "ss-prcmg-parque",
+   "effect": "PROHIBITED",
+   "condition": null,
+   "effective_from": "1999-03-01",
+   "effective_to": null,
+   "recorded_at": "2026-09-17",
+   "recorded_until": null,
+   "review_status": "REVIEW_REQUIRED",
+   "legal_review_complete": false,
+   "spatial_review_complete": false,
+   "evidence": [
+    "lf-d26-42-acampada",
+    "lf-d124-42-acampada"
+   ],
+   "interpretation_note": "LITERAL: 'Se prohíbe la acampada libre en todo el ámbito de ordenación' (D 26/1999 §4.2) + 'en toda la zona de ampliación' (D 124/2002 §4.2). Sin salto interpretativo. Posibles excepciones del epígrafe 7.d del Plan de Valmayor no extraídas — sub-ámbito a verificar.",
+   "normative_basis": [
+    "lf-d26-42-acampada",
+    "lf-d124-42-acampada"
+   ]
+  },
+  {
+   "rule_id": "alraso:es-md/pr-curso-medio-guadarrama/pernocta#vivac-prohibido",
+   "activity": "VIVAC_AL_RASO",
+   "spatial_scope_id": "ss-prcmg-parque",
+   "effect": "PROHIBITED",
+   "condition": null,
+   "effective_from": "1999-03-01",
+   "effective_to": null,
+   "recorded_at": "2026-09-17",
+   "recorded_until": null,
+   "review_status": "REVIEW_REQUIRED",
+   "legal_review_complete": false,
+   "spatial_review_complete": false,
+   "evidence": [
+    "lf-d26-42-acampada",
+    "lf-d26-vivac-ausencia",
+    "lf-prug-inexistente"
+   ],
+   "interpretation_note": "PROPOSED con SALTO INTERPRETATIVO: extiende la prohibición de 'acampada libre' al vivac al raso. VERIFICADO que no existe remisión vivac→PRUG en este PORN (la remisión real es del §4.4.8.6 del D 96/2009, otro instrumento) y que no hay PRUG. Si el revisor decide que vivac ⊄ acampada libre, esta regla muere y el parque queda sin regulación propia del vivac => UNDETERMINED (régimen general regional aparte).",
+   "normative_basis": [
+    "lf-d26-42-acampada"
+   ]
+  }
+ ],
+ "rule_relations": [],
+ "expected": {
+  "publishability": [
+   {
+    "assert": "NO_RULE_PUBLISHABLE",
+    "note": "Toda versión REVIEW_REQUIRED + reviews incompletas => eligibility gate rechaza; resolver devuelve UNDETERMINED/INCOMPLETE para cualquier consulta."
+   }
+  ],
+  "basic_queries": [
+   {
+    "query": {
+     "activity": "VIVAC_AL_RASO",
+     "spatial_scope_id": "ss-prcmg-parque",
+     "activity_date": "2026-09-17",
+     "knowledge_date": "2026-09-17"
+    },
+    "expected_legal_status": "UNDETERMINED",
+    "expected_knowledge_status": "INCOMPLETE",
+    "note": "Sin revisión humana no hay regla publicable."
+   }
+  ]
+ },
+ "operational_restrictions": [
+  {
+   "restriction_id": "chk-prcmg-parque-riesgo-incendio",
+   "kind": "FIRE_RISK",
+   "activity": null,
+   "spatial_scope_id": "ss-prcmg-parque",
+   "effect": "RESTRICT",
+   "required": true,
+   "verified": false,
+   "description": "La Comunidad de Madrid declara restricciones temporales en epoca de alto riesgo de incendio forestal que pueden afectar a la pernocta/vivac en el espacio protegido. Comprobacion de la fuente dinamica (avisos CAM / direccion del parque) pendiente: debe verificarse el aviso vigente en la fecha de la actividad.",
+   "recorded_at": "2026-09-17"
+  }
+ ]
 }

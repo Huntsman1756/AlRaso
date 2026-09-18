@@ -91,7 +91,32 @@ def test_identity_laundering_blocks_permitted():
 
 def test_undetermined_outcome_never_promoted():
     res = Resolver(good_store(), engine=MutatingEngine("undetermined_outcome")).resolve(Q)
-    assert res.legal_status is LegalStatus.UNDETERMINED
+    # M8-D: an undetermined PERMITTED judgment becomes CONDITIONAL (an
+    # applicable permission with unverifiable requirements) — still never an
+    # unqualified PERMITTED.
+    assert res.legal_status is LegalStatus.CONDITIONAL
+
+    # an undetermined RESTRICTIVE judgment stays a hard fail-closed UNDETERMINED
+    class UndeterminedBlock:
+        name = "ub"
+        version = "ub/1"
+
+        def capabilities(self):
+            return EngineCapabilities(True, frozenset(), frozenset(),
+                                      frozenset({"PROHIBITED"}), True, True, True)
+
+        def evaluate(self, versions, facts, mode="fast"):
+            v = versions[0]
+            return EngineResult(judgments=[JudgmentResult(
+                rule_id=v.rule_id, rule_version_id=v.seq, effect="PROHIBITED",
+                outcome="undetermined")])
+
+    s = new_store()
+    scope(s, S)
+    rule(s, "alraso:es:t/inv#proh", S, "PROHIBITED")
+    res2 = Resolver(s, engine=UndeterminedBlock()).resolve(Q)
+    assert res2.legal_status is LegalStatus.UNDETERMINED
+    assert "MISSING_FACT" in res2.reason_codes
 
 
 def test_ineligible_participant_blocks_permitted(monkeypatch):

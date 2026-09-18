@@ -2,12 +2,21 @@
   "schema": "alraso-dependencies-lock/v1",
   "purpose": "Reproducible identity for the M1 pilot environment (remediation F09). Not a pip lockfile: the runtime package is stdlib-only; this pins what the repo's executable verification depends on. Git commits are full 40-hex SHAs: a short SHA is neither an immutable identity nor resolvable by CI checkout.",
   "python": {
-    "tested": ["3.11.15 (Windows, hermetic suite)", "3.12 (Docker, real-Axiom integration)"],
+    "tested": [
+      "3.11.15 (Windows, hermetic suite)",
+      "3.12 (Docker, real-Axiom integration)"
+    ],
     "minimum": "3.11"
   },
   "python_packages": {
-    "pytest": {"pin": ">=8", "used_for": "dev/test extra only"},
-    "PyYAML": {"pin": ">=6,<7", "used_for": "alraso[axiom] extra only; core stays dep-free"}
+    "pytest": {
+      "pin": ">=8",
+      "used_for": "dev/test extra only"
+    },
+    "PyYAML": {
+      "pin": ">=6,<7",
+      "used_for": "alraso[axiom] extra only; core stays dep-free"
+    }
   },
   "axiom": {
     "status": "EXPERIMENTAL_ADAPTER",
@@ -21,6 +30,6 @@
     }
   },
   "rulespec_compiler_contract_version": "rulespec/v1+m1r1",
-  "schema_version": "m1r2",
-  "resolver_version": "0.2.1-hardening"
+  "schema_version": "m1r3",
+  "resolver_version": "0.3.0rc1-m8d"
 }

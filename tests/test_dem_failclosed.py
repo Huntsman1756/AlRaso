@@ -34,8 +34,11 @@ def test_dem_unconfigured_never_injects_cota(svc, monkeypatch):
                                facts={"actividad_montana_o_escalada": True, "nights": 2})
     assert out["cotaFactSource"] == "NONE"
     assert out["dem"] is None
-    assert out["determination"]["legalStatus"] == "UNDETERMINED"
-    assert "ENGINE_MISSING_INPUT" in out["determination"]["reasonCodes"]
+    # M8-D contract: an applicable permission whose material fact (cota_m)
+    # cannot be verified is CONDITIONAL — never an unqualified yes, never a
+    # bare UNDETERMINED that hides the conditional permission.
+    assert out["determination"]["legalStatus"] == "CONDITIONAL"
+    assert "MISSING_FACT" in out["determination"]["reasonCodes"]
 
 
 def test_dem_unavailable_user_cota_still_used(svc, monkeypatch):

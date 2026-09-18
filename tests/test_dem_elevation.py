@@ -117,8 +117,10 @@ def test_dem_nodata_fails_closed(svc, monkeypatch, tmp_path):
     _configure(monkeypatch, tmp_path, 9999.0, nodata=9999.0)
     out = _resolve(svc, 43.2662, -4.8686, BASE_FACTS)
     assert out["cotaFactSource"] == "NONE"
-    assert out["determination"]["legalStatus"] == "UNDETERMINED"
-    assert "ENGINE_MISSING_INPUT" in out["determination"]["reasonCodes"]
+    # M8-D: cota_m not injectable -> the material fact is unverifiable ->
+    # CONDITIONAL (never a bare PERMITTED, never a hidden condition).
+    assert out["determination"]["legalStatus"] == "CONDITIONAL"
+    assert "MISSING_FACT" in out["determination"]["reasonCodes"]
 
 
 def test_dem_out_of_coverage_fails_closed(svc, monkeypatch, tmp_path):
@@ -126,14 +128,14 @@ def test_dem_out_of_coverage_fails_closed(svc, monkeypatch, tmp_path):
     _configure(monkeypatch, tmp_path, 2400.0, bbox=(-2.0, 44.0, -1.0, 45.0))
     out = _resolve(svc, 43.2662, -4.8686, BASE_FACTS)
     assert out["cotaFactSource"] == "NONE"
-    assert out["determination"]["legalStatus"] == "UNDETERMINED"
+    assert out["determination"]["legalStatus"] == "CONDITIONAL"
 
 
 def test_dem_hash_mismatch_fails_closed(svc, monkeypatch, tmp_path):
     _configure(monkeypatch, tmp_path, 2400.0, source_sha256="0" * 64)
     out = _resolve(svc, 43.2662, -4.8686, BASE_FACTS)
     assert out["cotaFactSource"] == "NONE"
-    assert out["determination"]["legalStatus"] == "UNDETERMINED"
+    assert out["determination"]["legalStatus"] == "CONDITIONAL"
 
 
 def test_dem_missing_file_fails_closed(svc, monkeypatch, tmp_path):
@@ -141,7 +143,7 @@ def test_dem_missing_file_fails_closed(svc, monkeypatch, tmp_path):
     monkeypatch.setattr(dem_mod, "DEM_TILE", str(tmp_path / "does_not_exist.tif"))
     out = _resolve(svc, 43.2662, -4.8686, BASE_FACTS)
     assert out["cotaFactSource"] == "NONE"
-    assert out["determination"]["legalStatus"] == "UNDETERMINED"
+    assert out["determination"]["legalStatus"] == "CONDITIONAL"
 
 
 def test_dem_priority_over_user_and_diff_warning(svc, monkeypatch, tmp_path):
@@ -177,4 +179,4 @@ def test_dem_no_crs_fails_closed(svc, monkeypatch, tmp_path):
     out = _resolve(svc, 43.2662, -4.8686, BASE_FACTS)
     assert out["cotaFactSource"] == "NONE"
     assert out["dem"] is None
-    assert out["determination"]["legalStatus"] == "UNDETERMINED"
+    assert out["determination"]["legalStatus"] == "CONDITIONAL"
