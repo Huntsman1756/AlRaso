@@ -991,6 +991,10 @@ def test_git_diff_vs_main_only_allowed_files():
             # preregistered boundary policy (M8-PREREG §10).
             or f == "alraso/spatial.py"
             or f == "tests/test_spatial_holes.py"
+            # M8-E point resolver: hash-pinned official GeoJSON layers ->
+            # spatial provider; resolver consumes ScopeHit.on_boundary
+            # (fail-closed BOUNDARY_AMBIGUOUS on regulatory edges).
+            or f == "alraso/geojson_provider.py"
             # M8-D result contract: CONDITIONAL status, operational/current
             # restrictions (schema/store/engine/resolver), missing-fact
             # semantics and the tests that pin the new contract.
