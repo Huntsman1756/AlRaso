@@ -192,6 +192,41 @@
     "lf-d18-48a2-ambito",
     "lf-d18-48a3-condiciones"
    ]
+  },
+  {
+   "rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-anexo3-gt10",
+   "activity": "VIVAC_AL_RASO",
+   "spatial_scope_id": "ss-pnsg-vivac-anexo3",
+   "effect": "AUTHORIZATION_REQUIRED",
+   "condition": {
+    "all": [
+     {
+      "field": "nights_same_zone",
+      "op": "lte",
+      "value": 1
+     },
+     {
+      "field": "group_size",
+      "op": "gt",
+      "value": 10
+     }
+    ]
+   },
+   "effective_from": "2020-03-01",
+   "effective_to": null,
+   "recorded_at": "2026-09-18",
+   "recorded_until": null,
+   "review_status": "REVIEW_REQUIRED",
+   "legal_review_complete": false,
+   "spatial_review_complete": false,
+   "evidence": [
+    "lf-d18-48a3-condiciones",
+    "lf-d18-48a2-ambito"
+   ],
+   "interpretation_note": "RAMA E dentro de la modalidad A: grupos organizados >10 en zonas Anexo III requieren autorizacion expresa (48.a.3.a, en todo caso). Solo opera donde la modalidad espacial/temporal es elegible; NO crea via de autorizacion fuera de las ramas permitidas. Si ademas falla otra condicion de la rama (p.ej. >1 noche) la respuesta es la prohibicion residual, no la autorizacion.",
+   "normative_basis": [
+    "lf-d18-48a3-condiciones"
+   ]
   }
  ],
  "rule_relations": [],

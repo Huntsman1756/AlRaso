@@ -120,27 +120,42 @@ Baseline contra el que se evaluará (identificado por commit+hash, no por
 descripción):
 
 ```text
-BASELINE_TAG         = m8d2-pre-human   (NUEVO baseline — ver nota)
-RESOLVER_VERSION     = 0.3.0rc1-m8d2
+BASELINE_TAG         = m8d3-pre-human   (baseline vigente — ver notas)
+RESOLVER_VERSION     = 0.3.0rc1-m8d3
 SCHEMA_VERSION       = m1r3
 LAYERS_MANIFEST_SHA256 = fb13e79ee2d9f7f1778c24d51268668e43c3b5a23da7d855bf2129a5de3f34ab
 ```
 
-**Baseline anterior INVALIDADO como evaluación primaria**: tras el REJECT
-de `RC-M8-ES-MD-GUADARRAMA-VIVAC` (v1), el resolver cambió materialmente
-(`m8d` → `m8d2`: CONDITIONAL-over-restriction, `date_in_range`,
-`activity_date`/`scope:<id>` derivados, provenance de hechos declarados,
-dedupe idempotente en ingest split-fixture). El commitment v1
-(`holdout-manifest-v1.json`, sha256 `89e7f66a…`) solo sigue siendo válido
-contra `m8-pre-human @ 65e6a67`. Para m8d2 se re-sellara M8-F: si los
-casos secretos de `m8f-cases.json` nunca fueron ejecutados ni expuestos,
-se conservan EXACTAMENTE esos casos (muestra elegida antes de la
-remodelación) y se produce `holdout-manifest-v2.json` ligado al nuevo
-baseline; si fueron expuestos, se diseña un holdout nuevo por custodio.
+**Baselines anteriores INVALIDADOS como evaluación primaria** (los tags se
+conservan inmutables como evidencia histórica):
+
+- `m8-pre-human @ 65e6a67` / resolver `m8d`: tras el REJECT de
+  `RC-M8-ES-MD-GUADARRAMA-VIVAC` (v1), el resolver cambió materialmente
+  (`m8d` → `m8d2`: CONDITIONAL-over-restriction, `date_in_range`,
+  `activity_date`/`scope:<id>` derivados, provenance de hechos
+  declarados, dedupe idempotente en ingest split-fixture). El commitment
+  v1 (`holdout-manifest-v1.json`, sha256 `89e7f66a…`) solo sigue siendo
+  válido contra `m8-pre-human @ 65e6a67`.
+- `m8d2-pre-human @ b4a83a6` / resolver `m8d2`: SUPERSEDED antes de
+  cualquier adjudicación — defecto jurídico-semántico detectado en
+  revisión del modelo: la regla `>10 pax → AUTHORIZATION_REQUIRED`
+  scopeada a todo `pn-cm` con `gt10 OVERRIDES prohibido` convertía el
+  tamaño del grupo en una vía de autorización territorial que el art.
+  48.a.3.a no establece (la autorización opera «en todo caso» sobre
+  modalidades ya elegibles, no sobre el territorio). Corregido en m8d3:
+  `AUTHORIZATION_REQUIRED` existe solo dentro de cada modalidad
+  elegible (reglas per-branch en fixtures A/B); fuera de ellas, >10
+  sigue siendo `PROHIBITED`.
+
+Para m8d3 se re-sellará M8-F: si los casos secretos de `m8f-cases.json`
+nunca fueron ejecutados ni expuestos, se conservan EXACTAMENTE esos
+casos (muestra elegida antes de la remodelación) y se produce
+`holdout-manifest-v2.json` ligado al nuevo baseline; si fueron
+expuestos, se diseña un holdout nuevo por custodio.
 
 **Control fijado — qué está congelado y qué no**: hasta la ejecución de
 M8-F, el código efectivo del resolver debe seguir correspondiendo al
-baseline taggeado (`m8d2-pre-human`). No basta con que "main siga siendo
+baseline taggeado (`m8d3-pre-human`). No basta con que "main siga siendo
 compatible". Pueden cambiar fixtures/corpus publicados; NO pueden
 cambiar materialmente:
 

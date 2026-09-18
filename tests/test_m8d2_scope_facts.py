@@ -268,10 +268,24 @@ def test_split_fixtures_publish_independently_and_compose():
              {"nights_same_zone": 1, "group_size": 15})
     assert g15.legal_status is LegalStatus.AUTHORIZATION_REQUIRED
 
+    # annex3 group>10 but another branch condition fails (>1 night) ->
+    # PROHIBITED: authorization only surfaces when the modality is
+    # otherwise eligible and group size is the ONLY additional condition
+    g15n2 = go(40.837697, -3.958714, "2026-01-15",
+               {"nights_same_zone": 2, "group_size": 15})
+    assert g15n2.legal_status is LegalStatus.PROHIBITED
+
     # interior PN summer, refuge excluded, group<=10 -> PROHIBITED
     interior = go(40.78740, -4.07142, "2026-08-01",
                   {"near_unguarded_refuge": False, "group_size": 4})
     assert interior.legal_status is LegalStatus.PROHIBITED
+
+    # same prohibited location with group 20 -> STILL PROHIBITED, never
+    # AUTHORIZATION_REQUIRED: group size never overrides a spatial
+    # prohibition (48.a.3.a applies only inside an eligible modality)
+    interior20 = go(40.78740, -4.07142, "2026-08-01",
+                    {"near_unguarded_refuge": False, "group_size": 20})
+    assert interior20.legal_status is LegalStatus.PROHIBITED
 
     # interior PN summer, refuge branch pending -> CONDITIONAL/UNDETERMINED
     pending = go(40.78740, -4.07142, "2026-08-01")
@@ -279,12 +293,39 @@ def test_split_fixtures_publish_independently_and_compose():
                                     LegalStatus.UNDETERMINED)
     assert pending.legal_status is not LegalStatus.PROHIBITED
 
+    # refuge modality eligible + group>10 -> AUTHORIZATION_REQUIRED
+    refuge15 = go(40.78740, -4.07142, "2026-08-01",
+                  {"near_unguarded_refuge": True,
+                   "refuge_has_free_places": False,
+                   "nights_same_zone": 1, "group_size": 15})
+    assert refuge15.legal_status is LegalStatus.AUTHORIZATION_REQUIRED
+
+    # refuge + group>10 but nights>1 -> branch no longer eligible ->
+    # PROHIBITED via residual, not AUTH
+    refuge15n2 = go(40.78740, -4.07142, "2026-08-01",
+                    {"near_unguarded_refuge": True,
+                     "refuge_has_free_places": False,
+                     "nights_same_zone": 2, "group_size": 15})
+    assert refuge15n2.legal_status is LegalStatus.PROHIBITED
+
     # interior PN winter, <=5, not reserve -> seasonal branch fires
     winter = go(40.78740, -4.07142, "2026-01-15",
                 {"group_size": 4, "nights_same_zone": 1,
                  "near_unguarded_refuge": False})
     assert winter.legal_status in (LegalStatus.CONDITIONAL,
                                   LegalStatus.PERMITTED)
+
+    # seasonal branch group-size interaction (fail-closed, adjudicated):
+    # <=5 eligible; 6-10 -> clause unsatisfied -> PROHIBITED; >10 ->
+    # PROHIBITED too (no seasonal authorization route is modelled)
+    for g, expected in ((5, (LegalStatus.CONDITIONAL, LegalStatus.PERMITTED)),
+                        (6, (LegalStatus.PROHIBITED,)),
+                        (10, (LegalStatus.PROHIBITED,)),
+                        (11, (LegalStatus.PROHIBITED,))):
+        r = go(40.78740, -4.07142, "2026-01-15",
+               {"group_size": g, "nights_same_zone": 1,
+                "near_unguarded_refuge": False})
+        assert r.legal_status in expected, (g, r.legal_status)
 
     # reserve point in winter -> not permitted (scope-fact excludes C)
     reserve = go(40.83692, -3.95630, "2026-01-15",

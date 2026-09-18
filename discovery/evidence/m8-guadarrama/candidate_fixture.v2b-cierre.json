@@ -2,7 +2,7 @@
  "$schema": "alraso-corpus-candidate-v1",
  "fixture_meta": {
   "name": "M8_CANDIDATE_GUADARRAMA_V2B_CIERRE",
-  "purpose": "Cierre residual inseparable: D (prohibicion \"unicamente se permitira\") + E (autorizacion >10) + relaciones OVERRIDES sobre las ramas de permiso. DEPENDE de la adjudicacion de A/B/C — la verdad del residual depende del conjunto completo de excepciones.",
+  "purpose": "Cierre residual inseparable: D (prohibicion \"unicamente se permitira\") + relaciones OVERRIDES de todas las ramas y sus autorizaciones >10. Las relaciones gt10->prohibido solo disparan cuando la regla de autorizacion de la rama correspondiente esta ACTIVA — es decir, donde la modalidad espacial/temporal es elegible. DEPENDE de la adjudicacion de A/B/C.",
   "created": "2026-09-18",
   "publishable": false,
   "activity_scope": "VIVAC_AL_RASO only — art. 38.1.o acampada/pernocta captured as fragment evidence, NOT generalized into an ACAMPADA rule; CAM general rule (D 26/2025) captured as context fragment only",
@@ -162,36 +162,9 @@
     "lf-d18-381o-incompatible",
     "lf-d18-48a2-ambito"
    ],
-   "interpretation_note": "RAMA D: cierre residual — art. 38.1.o + \"unicamente se permitira\" del 48.a.2. Solo es correcto PUBLICADO tras adjudicar TODAS las ramas de permiso (A/B/C): las excepciones operan via relaciones OVERRIDES declaradas. Si alguna rama queda sin adjudicar o rechazada, este cierre debe recalcularse antes de firmar.",
+   "interpretation_note": "RAMA D: cierre residual — art. 38.1.o + \"unicamente se permitira\" del 48.a.2. Solo es correcto PUBLICADO tras adjudicar TODAS las ramas de permiso (A/B/C): las excepciones operan via relaciones OVERRIDES declaradas. Para pax>10 NO existe via de autorizacion fuera de las modalidades elegibles — el tamano del grupo nunca hace override de la prohibicion espacial por si solo.",
    "normative_basis": [
     "lf-d18-381o-incompatible",
-    "lf-d18-48a2-ambito"
-   ]
-  },
-  {
-   "rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-autorizacion-gt10",
-   "activity": "VIVAC_AL_RASO",
-   "spatial_scope_id": "ss-pnsg-pn-cm",
-   "effect": "AUTHORIZATION_REQUIRED",
-   "condition": {
-    "field": "group_size",
-    "op": "gt",
-    "value": 10
-   },
-   "effective_from": "2020-03-01",
-   "effective_to": null,
-   "recorded_at": "2026-09-18",
-   "recorded_until": null,
-   "review_status": "REVIEW_REQUIRED",
-   "legal_review_complete": false,
-   "spatial_review_complete": false,
-   "evidence": [
-    "lf-d18-48a3-condiciones",
-    "lf-d18-48a2-ambito"
-   ],
-   "interpretation_note": "RAMA E: grupos organizados >10 requieren autorizacion expresa (art. 48.a.3.a, \"en todo caso\"). AUTHORIZATION_REQUIRED, nunca PROHIBITED. La relacion gt10-OVERRIDES-prohibido hace que para >10 la consecuencia operativa sea la autorizacion en todo el ambito PN — item explicito a adjudicar (tambien en zonas donde el vivac <=10 estaria prohibido).",
-   "normative_basis": [
-    "lf-d18-48a3-condiciones",
     "lf-d18-48a2-ambito"
    ]
   }
@@ -267,9 +240,32 @@
    ]
   },
   {
-   "relation_id": "rel-vivac-gt10-over-prohibido",
+   "relation_id": "rel-vivac-anexo3-gt10-over-prohibido",
    "relation_type": "OVERRIDES",
-   "from_rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-autorizacion-gt10",
+   "from_rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-anexo3-gt10",
+   "to_rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-prohibido-pn",
+   "from_effect": null,
+   "to_effect": null,
+   "effective_from": "2020-03-01",
+   "effective_to": null,
+   "recorded_at": "2026-09-18",
+   "recorded_until": null,
+   "review_status": "REVIEW_REQUIRED",
+   "legal_review_complete": false,
+   "human_verified": false,
+   "ai_proposed": true,
+   "evidence": [
+    "lf-d18-48a3-condiciones",
+    "lf-d18-381o-incompatible"
+   ],
+   "normative_basis": [
+    "lf-d18-48a2-ambito"
+   ]
+  },
+  {
+   "relation_id": "rel-vivac-refugio-gt10-over-prohibido",
+   "relation_type": "OVERRIDES",
+   "from_rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-refugio-gt10",
    "to_rule_id": "alraso:es-md/pn-sierra-guadarrama/pernocta#vivac-prohibido-pn",
    "from_effect": null,
    "to_effect": null,

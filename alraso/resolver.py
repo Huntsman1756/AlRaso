@@ -112,7 +112,7 @@ STANDING_WARNING = ("Las restricciones operativas no codificadas en el corpus "
                     "(acceso de vehiculos, reservas, cierres estacionales, avisos "
                     "de la direccion) no estan cubiertas por esta determinacion.")
 
-RESOLVER_VERSION = "0.3.0rc1-m8d2"
+RESOLVER_VERSION = "0.3.0rc1-m8d3"
 SCHEMA_VERSION = "m1r3"
 
 DRIFT_TYPES = ("LEGAL_STATUS_CHANGED", "KNOWLEDGE_STATUS_CHANGED", "RULE_SET_CHANGED",

@@ -9,10 +9,17 @@ de hechos declarados, ingest split-fixture idempotente). El commitment v1
 (`holdout-manifest-v1.json`, sha256 `89e7f66a…`) sigue siendo válido SOLO
 contra `m8-pre-human @ 65e6a67`.
 
-**Re-sello m8d2**: si los casos de `m8f-cases.json` nunca fueron ejecutados
+**Baseline m8d2 SUPERSEDED antes de adjudicación**: el tag
+`m8d2-pre-human @ b4a83a6` se conserva inmutable como evidencia, pero el
+modelo congelado contenía un defecto jurídico-semántico (`>10 pax →
+AUTHORIZATION_REQUIRED` en todo `pn-cm` con `gt10 OVERRIDES prohibido`
+— el tamaño del grupo no es una vía de autorización territorial; el art.
+48.a.3.a opera solo sobre modalidades elegibles). Corregido en m8d3.
+
+**Re-sello m8d3**: si los casos de `m8f-cases.json` nunca fueron ejecutados
 ni expuestos, se conservan EXACTAMENTE (muestra elegida antes de la
 remodelación) y el custodio produce `holdout-manifest-v2.json` ligado al
-tag `m8d2-pre-human` — el `holdout_sha256` resultante debe ser IDÉNTICO al
+tag `m8d3-pre-human` — el `holdout_sha256` resultante debe ser IDÉNTICO al
 v1 (mismos casos, misma canonicalización); si difiere, los casos cambiaron
 y hay que investigar antes de seguir. Si los casos fueron expuestos, se
 diseña un holdout nuevo por custodio. Nunca ejecutar el runner contra un
