@@ -1,0 +1,117 @@
+{
+  "review_case_id": "RC-M8-ES-MD-PRSE-VIVAC",
+  "milestone": "M8",
+  "park": {
+    "space_id": "pr-sureste",
+    "name": "Parque Regional del Sureste (ejes de los cursos bajos de los ríos Manzanares y Jarama)",
+    "jurisdiction": "ES-MD",
+    "gazette": "BOCM",
+    "managing_authority": "Comunidad de Madrid — Consejería de Medio Ambiente (Agencia de Medio Ambiente histórica)"
+  },
+  "activity": "VIVAC_AL_RASO / ACAMPADA",
+  "proposed_effect": "PROHIBITED en Zonas A (absoluto) / AUTHORIZATION_REQUIRED en Zonas B, C, D, E (acampada; vivac por extensión interpretativa) / Zonas F, G: sin regla específica (UNDETERMINED)",
+  "exact_precepts": [
+    {
+      "instrument": "Ley 6/1994, de 28 de junio (texto consolidado BOE-A-1994-19704)",
+      "locator": "Art. 27.3.d) — Zonas A, Reserva Integral",
+      "quote": "d) La acampada y producción de fuegos.",
+      "role": "prohibición absoluta de acampada en Zonas de Reserva Integral"
+    },
+    {
+      "instrument": "Ley 6/1994",
+      "locator": "Art. 28.3.e) — Zonas B, Reserva Natural",
+      "quote": "e) La acampada y producción de fuegos, sin autorización expresa de la Agencia de Medio Ambiente.",
+      "role": "acampada prohibida salvo autorización expresa en Zonas B"
+    },
+    {
+      "instrument": "Decreto 27/1999, de 11 de febrero (PORN, RLMA ID=671 VIGENTE)",
+      "locator": "§12.1.2.g / §12.2.2.h / §12.3.2.i / §12.4.2-3.g / §12.5.2-3.f",
+      "quote": "A: 'La acampada y producción de fuegos.' / B: 'La acampada y producción de fuegos, sin autorización expresa de la Consejería.' / C: 'La acampada y producción de fuego, salvo autorización expresa de la Consejería.' / D: 'la acampada y producción de fuego, requerirán la autorización de la Consejería.' / E: 'La acampada y producción de fuego no estarán permitidas, salvo autorización expresa de la Consejería.'",
+      "role": "desarrollo zonal coherente con la ley: A absoluto; B/C/D/E con autorización"
+    },
+    {
+      "instrument": "Decreto 9/2009, de 5 de febrero (PRUG)",
+      "locator": "RLMA ID=1651",
+      "quote": "ANULADO de pleno derecho por el Tribunal Supremo el 20/09/2012 (rec. casación 7089/2010 y 5349/2010). Borrador de nuevo PRUG en consulta pública 2020 sin aprobación posterior.",
+      "role": "NO es derecho vigente — excluido como base normativa"
+    }
+  ],
+  "source": {
+    "document_url": "https://www.boe.es/buscar/act.php?id=BOE-A-1994-19704",
+    "consolidated_url": "https://www.boe.es/buscar/act.php?id=BOE-A-1994-19704",
+    "stable_id": "Ley 6/1994 — BOCM núm. 163; BOE-A-1994-19704 / PORN Decreto 27/1999 — BOCM 03/03/1999, RLMA ID=671",
+    "pdf_sha256": "e3e88992411e5b609936c3bb51db5c4e38e672eee7a54db94b4bb01ac1608c67 (D 27/1999, PDF oficial RLMA, no redistribuido)",
+    "pdf_redistributed": false,
+    "extract_file": "prse-extract.txt",
+    "extract_sha256": "9db343b69a8573594727c7e7f3d534ac052e966a67a94d46a726dea85f153665",
+    "modification": "Ley 7/2003 (Zona G + art. 32 bis), Ley 11/2022; ámbito: Ley 2/2011 (Cañada Real)",
+    "related": "PRUG Decreto 9/2009 — ANULADO (TS 20/09/2012); Orden 200/2010 plan cinegético (art. 1.1.2 anulado)"
+  },
+  "validity_evidence": {
+    "publication": "Ley 6/1994: BOCM núm. 163; PORN: BOCM 03/03/1999",
+    "entry_into_force": "Ambos vigentes (RLMA ID=671)",
+    "judicial_status": "STS 18/05/2012 confirmó la validez del PORN; el PRUG D 9/2009 fue ANULADO por el TS (20/09/2012) y NO es derecho vigente",
+    "supersession_check": "Sin PRUG vigente: rige Ley + PORN + sectorial; borrador de PRUG 2020 sin aprobar",
+    "status": "VIGENTE (ley y PORN) — mecánicamente soportado, pendiente de verificación humana"
+  },
+  "geometry_evidence": {
+    "source": "IDEM WFS oficial Comunidad de Madrid (geoidem) — geometría real, NO digest",
+    "retrieved": "2026-09-17",
+    "license": "CC-BY 4.0 Comunidad de Madrid",
+    "layers": {
+      "prse_zonificacion": {
+        "typeName": "LugaresProtegidos:IDEM_MA_PR_SURESTE",
+        "file": "IDEM_MA_PR_SURESTE.geojson",
+        "sha256": "1bc022d134bf5719744f5fee9e0760ff02767e0a152a0e927144816dfecdeb87",
+        "features": 14,
+        "zones": "A1, A2 (Reserva Integral); B1, B2 (Reserva Natural); C1, C2 (Degradadas); D1, D2, D3 (Explotación Ordenada); E1, E2, E3 (Agrario/Recreativo); F1 (Periférica); G (urbanística)",
+        "note": "Capa oficial 'límite y zonificación' — permite reglas por zonas coherentes con la estructura de la ley y el PORN"
+      }
+    },
+    "caveat": "Los MultiPolygon de la capa contienen anillos interiores — requieren el soporte de holes implementado en alraso/spatial.py (P0). Zonas F y G no tienen precepto de acampada localizado: quedan sin regla => UNDETERMINED."
+  },
+  "conditions_modelled": [
+    "PROHIBITED absoluto en Zonas A (ley 27.3.d + PORN 12.1.2.g)",
+    "AUTHORIZATION_REQUIRED en Zonas B, C, D, E (ley 28.3.e + PORN 12.2.2.h/12.3.2.i/12.4.g/12.5.f — autorización de la Agencia/Consejería de Medio Ambiente)",
+    "Zonas F y G: sin regla (sin precepto localizado) => UNDETERMINED",
+    "NO modelado: nada del PRUG D 9/2009 (anulado); producción de fuego (actividad distinta); plan cinegético"
+  ],
+  "interpretation_note": "Régimen zonal claro para 'acampada': absoluto en A, con autorización en B-E. La cuestión del revisor es la extensión al vivac al raso (salto interpretativo, documentado) y el régimen de F/G (sin precepto). El PRUG anulado NO puede usarse: cualquier condición de vivac que hubiera desarrollado murió con él.",
+  "contrary_or_ambiguous_evidence": [
+    "Salto interpretativo vivac ⊆ acampada (ley/PORN de 1994/1999, anteriores a la noción de vivac en la planificación madrileña)",
+    "PRUG D 9/2009 ANULADO — si existían preceptos de vivac en él, no son derecho vigente; no hay régimen de desarrollo operante",
+    "Zonas F y G sin precepto de acampada localizado en el extracto — posible laguna o precepto no encontrado",
+    "La web de CAM (criterio administrativo) permite el vivac fuera del PN con carácter general — podría argumentarse contra la extensión de la prohibición de acampada al vivac"
+  ],
+  "proposed_resolver_examples": [
+    {
+      "facts": {
+        "scope": "ss-prse-zona-a",
+        "activity": "ACAMPADA"
+      },
+      "expected_if_approved": "PROHIBITED"
+    },
+    {
+      "facts": {
+        "scope": "ss-prse-zonas-b-e",
+        "activity": "ACAMPADA"
+      },
+      "expected_if_approved": "AUTHORIZATION_REQUIRED"
+    },
+    {
+      "facts": {
+        "scope": "ss-prse-zonas-fg"
+      },
+      "expected": "UNDETERMINED — sin regla"
+    },
+    {
+      "facts": "any, pre-review",
+      "expected": "UNDETERMINED/INCOMPLETE — REVIEW_REQUIRED bloquea publicación"
+    }
+  ],
+  "reviewer_decision": "PENDING",
+  "review_status": "REVIEW_REQUIRED",
+  "legal_review_complete": false,
+  "spatial_review_complete": false,
+  "automated_state": "READY_FOR_HUMAN_REVIEW"
+}

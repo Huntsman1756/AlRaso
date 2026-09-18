@@ -1,0 +1,99 @@
+EXTRACTO DE EVIDENCIA NORMATIVA — Parque Regional de la Cuenca Alta del Manzanares (PRCAM)
+Actividad objeto: vivac / pernocta al raso / acampada
+Fecha de extracción: 2026-09-17
+Fuentes: BOE consolidado Ley 1/1985 (BOE-A-1985-8242); PDF oficial MITECO del
+Decreto 96/2009 (PORN Sierra de Guadarrama, ámbito CAM); registro RLMA.
+
+=====================================================================
+1. Ley 1/1985, de 23 de enero, del Parque Regional de la Cuenca Alta del
+   Manzanares (texto consolidado BOE-A-1985-8242; BOCM núm. 33, 08/02/1985)
+
+Art. 14.2 (Zonas de Reserva Natural) — chapeau:
+"En las Zonas de Reserva Natural no se permitirá ningún uso o actividad
+que no se oriente directamente a la conservación del ambiente y al
+mantenimiento del equilibrio natural en las zonas mismas."
+
+Art. 14.2.h):
+"h) La acampada sin autorización expresa del Patronato, así como la
+producción de fuego."
+
+Notas de sistema:
+- Art. 15 (Zonas A1, Reserva Natural Integral — La Pedriza): régimen más
+  estricto. Art. 16.2 somete las Zonas A2 (Reserva Natural Educativa) a
+  las prohibiciones del art. 14.
+- Ley 11/2022 suprimió las letras d) y j) del art. 14.2; la letra h)
+  subsiste vigente en el texto consolidado.
+- La ley NO nombra "vivac": sólo "acampada".
+- Modificaciones de ámbito: Leyes 2/1987, 7/1991, 5/1993, 10/2003,
+  6/2013 (recorte por incorporación de terrenos al Parque Nacional),
+  11/2022.
+
+=====================================================================
+2. Decreto 96/2009, de 18 de noviembre — PORN de la Sierra de Guadarrama
+   en el ámbito territorial de la Comunidad de Madrid (BOCM 14/01/2010;
+   PDF oficial MITECO; RLMA: VIGENTE, ANULADO PARCIALMENTE)
+
+Apartado 4.4.8.6 (normativa de uso público y deportivo):
+"Salvo en las Zonas de Reserva y de Asentamientos Tradicionales, se
+autoriza con carácter general la práctica del vivac o la pernocta "al
+raso", sin instalación de tiendas de campaña, "dobles techos" o
+similares en el ámbito de ordenación del presente PORN. Se entiende como
+vivac o pernocta "al raso" pasar la noche a la intemperie, utilizando o
+no elementos de abrigo, como sacos de dormir o funda de vivac, o los
+medios que proporciona el entorno sin alterarlo. Tan sólo en condiciones
+de tiempo extremadamente adversas, sobrevenidas, podrá hacerse uso
+circunstancial de tiendas de supervivencia. La práctica de esta
+actividad en propiedades particulares deberá contar con la autorización
+del propietario. Las condiciones a que se ajustará la práctica de la
+pernocta "al raso" deberán desarrollarse, en su caso, en los
+correspondientes PRUG, garantizando la conservación del medio natural y
+el respeto a la propiedad privada."
+
+Apartado 4.4.8.n)-ñ):
+"n) Se prohíbe la acampada libre en todo el ámbito de ordenación.
+ñ) Únicamente se permitirá la acampada en las zonas autorizadas como
+campamentos de turismo. Su práctica se ajustará a los requisitos
+establecidos en el Decreto 3/1993 [...] y en el Decreto 7/1993 [...]"
+
+Disposición Transitoria Primera:
+"Los planes rectores de uso y gestión y el Plan de Ordenación de los
+Recursos Naturales del Parque Regional de la Cuenca Alta del Manzanares
+y Parque Natural de la Cumbre, Circo y Lagunas de Peñalara, seguirán en
+vigor en sus respectivos ámbitos. En aquellas materias no reguladas por
+los citados planes, será de aplicación el Plan de Ordenación de los
+Recursos Naturales de la Sierra de Guadarrama. Esta disposición
+transitoria no será de aplicación en las áreas de Planeamiento
+Urbanístico establecidas en el Plan de Ordenación de los Recursos
+Naturales de la Sierra de Guadarrama, que se regirán por lo previsto en
+el mismo."
+
+Anulación parcial (registro RLMA; Resolución de 29/01/2015 publica la
+STSJM 604/2012, de 31 de mayo): las delimitaciones de las Zonas de
+Aprovechamiento Ordenado se anulan respecto de los ámbitos de Reserva
+Natural A1/A2 del PRCAM coincidentes, "debiendo prevalecer los
+determinados por el PRUG del Parque Regional".
+
+=====================================================================
+3. PRUG del PRCAM — Orden de 28/05/1987 + revisión por Orden de
+   20/10/1995 (RLMA: VIGENTE)
+   LAGUNA DE EVIDENCIA: los preceptos del PRUG sobre uso público /
+   acampada / pernocta NO han sido extraídos verbatim en esta iteración.
+   El §4.4.8.6 del D 96/2009 remite el desarrollo de las condiciones "a
+   los correspondientes PRUG": sin ese texto no puede cerrarse la regla.
+
+=====================================================================
+4. Solape con el Parque Nacional
+   La parte de La Pedriza/Peñalara incorporada al PNSG por Ley 7/2013
+   (con recorte del PRCAM por Ley 6/2013) se rige por el PRUG-PNSG
+   (Decreto 18/2020, art. 48 — ver paquete m8-guadarrama), no por la
+   Ley 1/1985 ni el PRUG-PRCAM.
+
+=====================================================================
+5. Cuestión interpretativa abierta
+   "Acampada" (Ley 1/1985) frente a "vivac/pernocta al raso"
+   (D 96/2009, que los define expresamente y los autoriza con carácter
+   general fuera de Zonas de Reserva y Asentamientos Tradicionales).
+   Si el vivac queda fuera de la noción legal de "acampada", la DT1 del
+   D 96/2009 podría operar como norma supletoria en el PRCAM; si el
+   PRUG-PRCAM regula la materia, prevalece éste (DT1; y en A1/A2 la
+   STSJM 604/2012 refuerza la prevalencia del PRUG del parque).

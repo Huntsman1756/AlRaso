@@ -1,0 +1,116 @@
+{
+  "review_case_id": "RC-M8-ES-MD-PRCMG-VIVAC",
+  "milestone": "M8",
+  "park": {
+    "space_id": "pr-curso-medio-guadarrama",
+    "name": "Parque Regional del Curso Medio del río Guadarrama y su entorno",
+    "jurisdiction": "ES-MD",
+    "gazette": "BOCM",
+    "managing_authority": "Comunidad de Madrid — Junta Rectora del Parque Regional"
+  },
+  "activity": "VIVAC_AL_RASO / ACAMPADA",
+  "proposed_effect": "PROHIBITED para acampada libre en todo el parque (literal); PROHIBITED propuesto para vivac por extensión interpretativa — SIN la supuesta remisión vivac→PRUG, verificada inexistente",
+  "exact_precepts": [
+    {
+      "instrument": "Decreto 26/1999, de 11 de febrero (PORN)",
+      "locator": "Apartado 4.2 — normativa de actividades de uso público, deportivas y recreativas",
+      "quote": "Se prohíbe la acampada libre en todo el ámbito de ordenación.",
+      "role": "prohibición general de acampada libre en todo el parque"
+    },
+    {
+      "instrument": "Decreto 124/2002, de 5 de julio (ampliación del PORN)",
+      "locator": "Apartado 4.2",
+      "quote": "Se prohíbe la acampada libre en toda la zona de ampliación del PORN.",
+      "role": "extensión de la prohibición a la zona ampliada por Ley 20/1999"
+    },
+    {
+      "instrument": "Ley 20/1999, de 3 de mayo (consolidado BOE-A-1999-17642)",
+      "locator": "Art. 9.3",
+      "quote": "Son usos compatibles los turísticos, recreativos y deportivos, con las limitaciones establecidas en el Plan de Ordenación de los Recursos Naturales.",
+      "role": "habilitante genérico — remite las limitaciones al PORN"
+    },
+    {
+      "instrument": "PRUG del parque",
+      "locator": "—",
+      "quote": "INEXISTENTE: previsto por el propio PORN pero nunca aprobado (PNL 87/2018 instó a su elaboración; no consta decreto).",
+      "role": "la remisión a PRUG — incluida la hipotética remisión vivac→PRUG — es inoperante para este parque"
+    },
+    {
+      "instrument": "Decreto 121/2002 (Plan de Ordenación del Embalse de Valmayor, revisión)",
+      "locator": "usos prohibidos, letra i)",
+      "quote": "i) La acampada libre, el baño y los deportes náuticos de todo tipo, a excepción de lo dispuesto en el epígrafe 7.d).",
+      "role": "contexto — sub-ámbito del embalse dentro del parque"
+    }
+  ],
+  "source": {
+    "document_url": "https://gestiona.comunidad.madrid/rlma_web/Descarga.icm?idLegislacion=676&idDocumento=1",
+    "consolidated_url": "https://gestiona.comunidad.madrid/wleg_pub/servlet/Servidor?nmnorma=1298&opcion=VerHtml",
+    "stable_id": "Decreto 26/1999 — BOCM núm. 50, 01/03/1999; RLMA ID=676",
+    "pdf_sha256": "e0ce3124ab0ebb7585b039d04ad91018cacb886d172ec3219d82493774c2685a (D 26/1999) / 1005e61c0c858866e09bb0e26b9d222b9af1773313eebfeb97b98bfbfc362ffb (D 124/2002) — PDFs RLMA, no redistribuidos",
+    "pdf_redistributed": false,
+    "extract_file": "prcmg-extract.txt",
+    "extract_sha256": "1a243cc39b4683777c42d48ddecae276dd7f97c89af612c45a5695cd4f9f7962",
+    "modification": "Ley 4/2001 (disp. adic. 3ª); Ley 11/2022 (procedimiento PRUG); ampliación D 124/2002",
+    "related": "Plan de Ordenación del Embalse de Valmayor (D 121/2002)"
+  },
+  "validity_evidence": {
+    "publication": "BOCM núm. 50, 1 de marzo de 1999; ampliación BOCM núm. 184, 05/08/2002",
+    "entry_into_force": "Vigente (RLMA ID=676)",
+    "judicial_status": "Sin anulaciones localizadas para D 26/1999, D 124/2002 o Ley 20/1999",
+    "supersession_check": "PORN vigente; PRUG nunca aprobado; sin instrumento posterior que desarrolle el régimen",
+    "status": "VIGENTE — mecánicamente soportado, pendiente de verificación humana"
+  },
+  "geometry_evidence": {
+    "source": "IDEM WFS oficial Comunidad de Madrid (geoidem) — geometría real, NO digest",
+    "retrieved": "2026-09-17",
+    "license": "CC-BY 4.0 Comunidad de Madrid",
+    "layers": {
+      "prcmg_zonificacion": {
+        "typeName": "LugaresProtegidos:IDEM_MA_PR_GUADARRAMA",
+        "file": "IDEM_MA_PR_GUADARRAMA.geojson",
+        "sha256": "d05c249f28325f26c074ac8b0eb142d26e4fc712f36ef97db0a305b202bedced",
+        "features": 3,
+        "zones": "Máxima Protección (7.776 ha), Protección y Mejora (6.935 ha), Mantenimiento de la Actividad (7.948 ha)",
+        "note": "Zonificación funcional del PORN; la prohibición de acampada libre es general en todo el ámbito, no por zonas"
+      }
+    },
+    "caveat": "La prohibición es 'en todo el ámbito de ordenación': el scope de la regla es el parque completo. El sub-ámbito del Plan de Valmayor no tiene capa IDEM propia adquirida."
+  },
+  "conditions_modelled": [
+    "PROHIBITED literal para ACAMPADA (acampada libre) en todo el parque",
+    "PROHIBITED propuesto para VIVAC_AL_RASO por extensión interpretativa (vivac ⊆ acampada libre)",
+    "NO modelado: excepciones del epígrafe 7.d del Plan de Valmayor (sub-ámbito); régimen general CAM fuera del parque"
+  ],
+  "interpretation_note": "VERIFICADO: la atribución de un permiso de vivac con remisión a PRUG a este PORN es ERRÓNEA — no existe en el texto (esa remisión es del §4.4.8.6 del D 96/2009, otro PORN). Además no hay PRUG, por lo que la remisión sería inoperante de todos modos. La única base normativa es la prohibición de acampada libre; la cuestión residual es si 'acampada libre' cubre el vivac sin elementos de acampada.",
+  "contrary_or_ambiguous_evidence": [
+    "Salto interpretativo vivac ⊆ acampada libre no resuelto — si el vivac puro queda fuera, el parque no regula el vivac y opera el régimen general regional (con la misma laguna)",
+    "El epígrafe 7.d del Plan de Valmayor (D 121/2002) puede contener excepciones a la prohibición dentro del sub-ámbito del embalse — no extraído",
+    "La web de CAM (criterio administrativo, no normativo) afirma que el vivac fuera del PN se permite con carácter general — podría argumentarse que la prohibición de 'acampada libre' no alcanza al vivac",
+    "Sin PRUG: ningún desarrollo normativo puede matizar la prohibición desde la aprobación del PORN"
+  ],
+  "proposed_resolver_examples": [
+    {
+      "facts": {
+        "scope": "ss-prcmg-parque",
+        "activity": "ACAMPADA"
+      },
+      "expected_if_approved": "PROHIBITED"
+    },
+    {
+      "facts": {
+        "scope": "ss-prcmg-parque",
+        "activity": "VIVAC_AL_RASO"
+      },
+      "expected_if_approved": "PROHIBITED si el revisor acepta la extensión; UNDETERMINED si la rechaza"
+    },
+    {
+      "facts": "any, pre-review",
+      "expected": "UNDETERMINED/INCOMPLETE — REVIEW_REQUIRED bloquea publicación"
+    }
+  ],
+  "reviewer_decision": "PENDING",
+  "review_status": "REVIEW_REQUIRED",
+  "legal_review_complete": false,
+  "spatial_review_complete": false,
+  "automated_state": "READY_FOR_HUMAN_REVIEW"
+}

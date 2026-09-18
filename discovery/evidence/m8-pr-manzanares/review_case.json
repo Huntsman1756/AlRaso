@@ -1,0 +1,129 @@
+{
+  "review_case_id": "RC-M8-ES-MD-PRCAM-VIVAC",
+  "milestone": "M8",
+  "park": {
+    "space_id": "pr-ca-manzanares",
+    "name": "Parque Regional de la Cuenca Alta del Manzanares",
+    "jurisdiction": "ES-MD",
+    "gazette": "BOCM",
+    "managing_authority": "Comunidad de Madrid — Patronato del Parque Regional"
+  },
+  "activity": "VIVAC_AL_RASO / ACAMPADA",
+  "proposed_effect": "AUTHORIZATION_REQUIRED en Zonas de Reserva Natural A1/A2 (acampada; vivac por extensión interpretativa) / resto del parque: PERMITTED propuesto vía §4.4.8.6 D 96/2009 como norma supletoria (DT1) — sin cerrar porque el PRUG-PRCAM no ha sido extraído",
+  "exact_precepts": [
+    {
+      "instrument": "Ley 1/1985, de 23 de enero (texto consolidado BOE-A-1985-8242)",
+      "locator": "Art. 14.2.h) — Zonas de Reserva Natural",
+      "quote": "h) La acampada sin autorización expresa del Patronato, así como la producción de fuego.",
+      "role": "prohibición de acampada sin autorización en Zonas de Reserva Natural (A1/A2); la ley no nombra vivac"
+    },
+    {
+      "instrument": "Decreto 96/2009, de 18 de noviembre (PORN Sierra de Guadarrama, ámbito CAM)",
+      "locator": "Apartado 4.4.8.6",
+      "quote": "Salvo en las Zonas de Reserva y de Asentamientos Tradicionales, se autoriza con carácter general la práctica del vivac o la pernocta \"al raso\", sin instalación de tiendas de campaña [...] La práctica de esta actividad en propiedades particulares deberá contar con la autorización del propietario. Las condiciones a que se ajustará la práctica de la pernocta \"al raso\" deberán desarrollarse, en su caso, en los correspondientes PRUG [...]",
+      "role": "única autorización normativa expresa del vivac localizada en territorio CAM — remite condiciones a los PRUG"
+    },
+    {
+      "instrument": "Decreto 96/2009",
+      "locator": "Apartado 4.4.8.n)-ñ)",
+      "quote": "n) Se prohíbe la acampada libre en todo el ámbito de ordenación. ñ) Únicamente se permitirá la acampada en las zonas autorizadas como campamentos de turismo [...]",
+      "role": "distinción normativa expresa: acampada libre prohibida ≠ vivac autorizado"
+    },
+    {
+      "instrument": "Decreto 96/2009",
+      "locator": "Disposición Transitoria Primera",
+      "quote": "Los planes rectores de uso y gestión y el Plan de Ordenación de los Recursos Naturales del Parque Regional de la Cuenca Alta del Manzanares y Parque Natural de la Cumbre, Circo y Lagunas de Peñalara, seguirán en vigor en sus respectivos ámbitos. En aquellas materias no reguladas por los citados planes, será de aplicación el Plan de Ordenación de los Recursos Naturales de la Sierra de Guadarrama.",
+      "role": "mecanismo supletorio — el §4.4.8.6 sólo opera en el PRCAM en materias no reguladas por su PRUG"
+    },
+    {
+      "instrument": "STSJM 604/2012, de 31 de mayo (publicada por Resolución de 29/01/2015, RLMA)",
+      "locator": "Fallo, apartado (a)",
+      "quote": "Las delimitaciones de las Zonas de Aprovechamiento Ordenado de los Recursos Naturales deben anularse en relación con los ámbitos de Reserva Natural, A1 o A2 del Parque Regional de la Cuenca Alta del Manzanares coincidentes con dichas zonas en cuanto a la relación de usos permitidos en las mismas debiendo prevalecer los determinados por el PRUG del Parque Regional.",
+      "role": "en A1/A2 prevalece el PRUG del PRCAM sobre los usos del PORN (registro RLMA; no re-verificado verbatim en esta iteración)"
+    },
+    {
+      "instrument": "PRUG PRCAM — Orden de 28/05/1987 + revisión Orden de 20/10/1995",
+      "locator": "capítulo de uso público (no extraído)",
+      "quote": "LAGUNA DE EVIDENCIA: preceptos del PRUG sobre acampada/pernocta no extraídos verbatim; sin ellos no puede evaluarse si la DT1 deja operar el §4.4.8.6",
+      "role": "instrumento de desarrollo exigido por la remisión — pendiente"
+    }
+  ],
+  "source": {
+    "document_url": "https://www.boe.es/buscar/act.php?id=BOE-A-1985-8242",
+    "consolidated_url": "https://www.boe.es/buscar/act.php?id=BOE-A-1985-8242",
+    "stable_id": "Ley 1/1985 — BOCM núm. 33, 08/02/1985; BOE-A-1985-8242",
+    "pdf_sha256": "c967e49392b8fc36b2c11c756f9266f896ee54c4f38b87959a4a5d289102ea87 (D 96/2009, PDF oficial MITECO, no redistribuido)",
+    "pdf_redistributed": false,
+    "extract_file": "prcam-extract.txt",
+    "extract_sha256": "562db0abb9b93240c55691bb87ad39573e10d01e9745d4da273f78439652c83c",
+    "modification": "Leyes 2/1987, 7/1991, 5/1993, 10/2003, 6/2013 (recorte PN), 11/2022; PRUG Orden 20/10/1995 vigente",
+    "related": "Decreto 96/2009 (BOCM 14/01/2010) — PORN Sierra de Guadarrama, norma supletoria vía DT1"
+  },
+  "validity_evidence": {
+    "publication": "BOCM núm. 33, 8 de febrero de 1985; PORN D 96/2009: BOCM 14/01/2010",
+    "entry_into_force": "Ley 1/1985 vigente con modificaciones; D 96/2009 vigente con anulación parcial",
+    "judicial_status": "STSJM 604/2012: anulación parcial de zonificación ZAO del PORN donde coincide con A1/A2 del PRCAM (prevalece PRUG del parque); STS de 18/05/2012 confirma validez del PORN en recurso indirecto (registro RLMA)",
+    "supersession_check": "PRUG-PRCAM (1987/1995) sigue vigente según RLMA; ámbito PNSG regulado por D 18/2020",
+    "status": "VIGENTE con nulidades parciales — mecánicamente soportado, pendiente de verificación humana"
+  },
+  "geometry_evidence": {
+    "source": "IDEM WFS oficial Comunidad de Madrid (geoidem) — geometría real, NO digest",
+    "retrieved": "2026-09-17",
+    "license": "CC-BY 4.0 Comunidad de Madrid",
+    "layers": {
+      "prcam_zonificacion": {
+        "typeName": "LugaresProtegidos:IDEM_MA_PR_CA_MANZANARES",
+        "file": "IDEM_MA_PR_CA_MANZANARES.geojson",
+        "sha256": "560b349880eeb96a20b6f85583006dc9995a138424b1036bf48c379c44da1c63",
+        "features": 51,
+        "zones": "CD_TIPO_ZONA: A1 (Reserva Natural Integral), A2 (Reserva Natural Educativa), B1/B2 (Parque Comarcal Agropecuario), P (planeamiento urbanístico)",
+        "note": "Capa oficial 'límites y zonificación' que resuelve el recorte de la Ley 6/2013 por el Parque Nacional"
+      }
+    },
+    "caveat": "El ámbito del PORN D 96/2009 no coincide exactamente con el polígono del parque: la operatividad supletoria del §4.4.8.6 requiere comprobación espacial por punto (¿el punto está dentro del ámbito de ordenación del PORN sierra?). La capa IDEM del PORN sierra no ha sido adquirida en esta iteración."
+  },
+  "conditions_modelled": [
+    "AUTHORIZATION_REQUIRED en Zonas de Reserva Natural (art. 14.2.h — autorización expresa del Patronato)",
+    "PERMITTED propuesto en el resto del parque con condición de propiedad (autorización del propietario en fincas particulares — §4.4.8.6 D 96/2009)",
+    "NO modelado: condiciones que 'los correspondientes PRUG' deban desarrollar (PRUG-PRCAM no extraído); restricciones en Zonas de Reserva/Asentamientos Tradicionales del PORN sierra; régimen de refugios"
+  ],
+  "interpretation_note": "Doble cuestión para el revisor: (1) ¿'acampada' de la Ley 1/1985 incluye el vivac al raso? Si no, el vivac en A1/A2 podría no estar regulado por la ley; (2) si el PRUG-PRCAM no regula el vivac, la DT1 del D 96/2009 haría aplicable el §4.4.8.6 (autorización general salvo Zonas de Reserva/Asentamientos Tradicionales y sujeto a propietario en fincas privadas). La propuesta modela el caso conservador en A1/A2 (AUTHORIZATION_REQUIRED) y el permiso supletorio en el resto, ambos REVIEW_REQUIRED.",
+  "contrary_or_ambiguous_evidence": [
+    "Laguna definicional: 'acampada' (1985) vs 'vivac/pernocta al raso' (definido expresamente en D 96/2009 §4.4.8.6) — la equiparación es un salto interpretativo",
+    "PRUG-PRCAM vigente pero sin extracto verbatim: si regula la materia, la DT1 deja de operar y el §4.4.8.6 no aplica",
+    "Cobertura espacial del PORN sierra sobre el PRCAM no verificada geométricamente (¿todo el parque o sólo la parte serrana?)",
+    "STSJM 604/2012 refuerza la prevalencia del PRUG-PRCAM en A1/A2 — podría extenderse como criterio al resto",
+    "Solape PN: puntos del PRCAM histórico dentro del PNSG se rigen por D 18/2020 art. 48 (paquete m8-guadarrama); la capa IDEM ya descuenta el recorte Ley 6/2013"
+  ],
+  "proposed_resolver_examples": [
+    {
+      "facts": {
+        "scope": "ss-prcam-reserva-natural"
+      },
+      "expected_if_approved": "AUTHORIZATION_REQUIRED (acampada y, por extensión propuesta, vivac)"
+    },
+    {
+      "facts": {
+        "scope": "ss-prcam-parque",
+        "private_landowner_authorization": true
+      },
+      "expected_if_approved": "PERMITTED (supletorio §4.4.8.6) — o UNDETERMINED si el revisor rechaza la supletoriedad"
+    },
+    {
+      "facts": {
+        "scope": "ss-prcam-parque",
+        "private_landowner_authorization": false
+      },
+      "expected_if_approved": "condición incumplida => sin PERMITTED"
+    },
+    {
+      "facts": "any, pre-review",
+      "expected": "UNDETERMINED/INCOMPLETE — REVIEW_REQUIRED bloquea publicación"
+    }
+  ],
+  "reviewer_decision": "PENDING",
+  "review_status": "REVIEW_REQUIRED",
+  "legal_review_complete": false,
+  "spatial_review_complete": false,
+  "automated_state": "READY_FOR_HUMAN_REVIEW"
+}
