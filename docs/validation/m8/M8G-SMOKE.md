@@ -60,9 +60,12 @@ python -m alraso resolve --db m8-smoke.db --activity VIVAC_AL_RASO \
 ## 4. Pendiente para M8-G completo
 
 - Ejecutar el mismo smoke tras la **adjudicación humana** de las reglas
-  candidatas (entonces los puntos 1 y 5 deben producir la clase
-  adjudicada — PERMITTED/CONDITIONAL/BLOCKED — y el holdout M8-F podrá
-  correr con corpus publicado).
+  candidatas. El gate correcto exige **la determinación que resulte del
+  conjunto completo de reglas publicadas**, no forzar la clase de un caso
+  concreto: un punto puede seguir siendo `UNDETERMINED` si queda un
+  solapamiento normativo sin resolver, una condición no verificable o
+  falta una regla aplicable de mayor precedencia. (Y el holdout M8-F
+  podrá correr con corpus publicado.)
 - Integración webapp-Madrid (mapa + tarjeta) como vertical de producto —
   la webapp actual sigue sirviendo Picos/Goriz; el wiring del manifiesto
   de capas a `Service` es trabajo propio (frontend), no bloquea la
