@@ -1,286 +1,299 @@
 {
-  "$schema": "alraso-corpus-candidate-v1",
-  "fixture_meta": {
-    "name": "M8_CANDIDATE_PR_SURESTE",
-    "purpose": "M8 Madrid vertical — evidence candidate for PR del Sureste. NOT product corpus: every rule version is REVIEW_REQUIRED with legal/spatial review incomplete; non-publishable until human adjudication. PRUG D 9/2009 ANULADO is recorded as context, never as normative basis.",
-    "created": "2026-09-17",
-    "activity_scope": "ACAMPADA (literal) + VIVAC_AL_RASO (salto interpretativo documentado); régimen zonal A / B-E / F-G",
-    "publishable": false
+ "$schema": "alraso-corpus-candidate-v1",
+ "fixture_meta": {
+  "name": "M8_CANDIDATE_PR_SURESTE",
+  "purpose": "M8 Madrid vertical — evidence candidate for PR del Sureste. NOT product corpus: every rule version is REVIEW_REQUIRED with legal/spatial review incomplete; non-publishable until human adjudication. PRUG D 9/2009 ANULADO is recorded as context, never as normative basis.",
+  "created": "2026-09-17",
+  "activity_scope": "ACAMPADA (literal) + VIVAC_AL_RASO (salto interpretativo documentado); régimen zonal A / B-E / F-G",
+  "publishable": false
+ },
+ "source_documents": [
+  {
+   "id": "sd-ley-6-1994",
+   "authority": "Comunidad de Madrid",
+   "jurisdiction": "ES-MD",
+   "document_type": "LAW",
+   "title": "Ley 6/1994, de 28 de junio, de declaración del Parque Regional del Sureste (consolidado)",
+   "canonical_url": "https://www.boe.es/buscar/act.php?id=BOE-A-1994-19704",
+   "official_status": "VIGENTE con modificaciones (Ley 7/2003, Ley 11/2022)",
+   "retrieved_at": "2026-09-17"
   },
-  "source_documents": [
-    {
-      "id": "sd-ley-6-1994",
-      "authority": "Comunidad de Madrid",
-      "jurisdiction": "ES-MD",
-      "document_type": "LAW",
-      "title": "Ley 6/1994, de 28 de junio, de declaración del Parque Regional del Sureste (consolidado)",
-      "canonical_url": "https://www.boe.es/buscar/act.php?id=BOE-A-1994-19704",
-      "official_status": "VIGENTE con modificaciones (Ley 7/2003, Ley 11/2022)",
-      "retrieved_at": "2026-09-17"
-    },
-    {
-      "id": "sd-decreto-27-1999",
-      "authority": "Comunidad de Madrid",
-      "jurisdiction": "ES-MD",
-      "document_type": "DECREE",
-      "title": "Decreto 27/1999, de 11 de febrero — aprueba el PORN del Parque Regional del Sureste",
-      "canonical_url": "https://gestiona.comunidad.madrid/rlma_web/Descarga.icm?idLegislacion=671&idDocumento=1",
-      "official_status": "VIGENTE (RLMA ID=671; STS 18/05/2012 confirmó validez) — BOCM 03/03/1999",
-      "retrieved_at": "2026-09-17",
-      "content_hash": "sha256:e3e88992411e5b609936c3bb51db5c4e38e672eee7a54db94b4bb01ac1608c67 (PDF oficial RLMA, not redistributed)"
-    },
-    {
-      "id": "sd-decreto-9-2009-prug",
-      "authority": "Comunidad de Madrid",
-      "jurisdiction": "ES-MD",
-      "document_type": "PRUG",
-      "title": "Decreto 9/2009, de 5 de febrero — PRUG del Parque Regional del Sureste",
-      "canonical_url": "https://gestiona.comunidad.madrid/rlma_web/FichaNormativa.icm?ID=1651",
-      "official_status": "ANULADO de pleno derecho por el Tribunal Supremo (20/09/2012, rec. 7089/2010 y 5349/2010) — NO es derecho vigente; no se deriva ninguna regla",
-      "retrieved_at": "2026-09-17"
-    },
-    {
-      "id": "sd-idem-prse",
-      "authority": "Comunidad de Madrid — IDEM",
-      "jurisdiction": "ES-MD",
-      "document_type": "GIS_LAYER",
-      "title": "Límite y zonificación del Parque Regional del Sureste (14 features, zonas A-G)",
-      "canonical_url": "https://idem.comunidad.madrid/geoidem/LugaresProtegidos/ows?service=WFS&request=GetFeature&typeName=LugaresProtegidos:IDEM_MA_PR_SURESTE",
-      "official_status": "OFFICIAL — CC-BY 4.0",
-      "retrieved_at": "2026-09-17",
-      "content_hash": "sha256:1bc022d134bf5719744f5fee9e0760ff02767e0a152a0e927144816dfecdeb87 (IDEM_MA_PR_SURESTE.geojson, EPSG:4326)"
-    }
-  ],
-  "legal_fragments": [
-    {
-      "id": "lf-ley6-273d-zona-a",
-      "source_document_id": "sd-ley-6-1994",
-      "locator": "Art. 27.3.d)",
-      "exact_text_hint": "d) La acampada y producción de fuegos.",
-      "extracted_at": "2026-09-17",
-      "review_status": "REVIEW_REQUIRED",
-      "provision_ref": "Ley 6/1994, art. 27.3.d — prohibición absoluta de acampada en Zonas A (Reserva Integral)",
-      "validity_from": "1994-06-28",
-      "validity_to": null
-    },
-    {
-      "id": "lf-ley6-283e-zona-b",
-      "source_document_id": "sd-ley-6-1994",
-      "locator": "Art. 28.3.e)",
-      "exact_text_hint": "e) La acampada y producción de fuegos, sin autorización expresa de la Agencia de Medio Ambiente.",
-      "extracted_at": "2026-09-17",
-      "review_status": "REVIEW_REQUIRED",
-      "provision_ref": "Ley 6/1994, art. 28.3.e — acampada prohibida salvo autorización en Zonas B (Reserva Natural)",
-      "validity_from": "1994-06-28",
-      "validity_to": null
-    },
-    {
-      "id": "lf-d27-1212g-zona-a",
-      "source_document_id": "sd-decreto-27-1999",
-      "locator": "§12.1.2.g (Zonas A1, A2 — usos prohibidos)",
-      "exact_text_hint": "g) La acampada y producción de fuegos.",
-      "extracted_at": "2026-09-17",
-      "review_status": "REVIEW_REQUIRED",
-      "provision_ref": "Decreto 27/1999 PORN, §12.1.2.g — prohibición absoluta de acampada en Zonas A",
-      "validity_from": "1999-03-03",
-      "validity_to": null
-    },
-    {
-      "id": "lf-d27-1222h-zona-b",
-      "source_document_id": "sd-decreto-27-1999",
-      "locator": "§12.2.2.h (Zonas B1, B2 — usos prohibidos)",
-      "exact_text_hint": "h) La acampada y producción de fuegos, sin autorización expresa de la Consejería de Medio Ambiente y Desarrollo Regional.",
-      "extracted_at": "2026-09-17",
-      "review_status": "REVIEW_REQUIRED",
-      "provision_ref": "Decreto 27/1999 PORN, §12.2.2.h — acampada con autorización en Zonas B",
-      "validity_from": "1999-03-03",
-      "validity_to": null
-    },
-    {
-      "id": "lf-d27-cde-autorizacion",
-      "source_document_id": "sd-decreto-27-1999",
-      "locator": "§12.3.2.i / §12.4.2-3.g / §12.5.2-3.f",
-      "exact_text_hint": "C: 'La acampada y producción de fuego, salvo autorización expresa de la Consejería.' / D: 'la acampada y producción de fuego, requerirán la autorización de la Consejería.' / E: 'La acampada y producción de fuego no estarán permitidas, salvo autorización expresa de la Consejería.'",
-      "extracted_at": "2026-09-17",
-      "review_status": "REVIEW_REQUIRED",
-      "provision_ref": "Decreto 27/1999 PORN — acampada con autorización en Zonas C, D y E",
-      "validity_from": "1999-03-03",
-      "validity_to": null
-    },
-    {
-      "id": "lf-d9-2009-anulado",
-      "source_document_id": "sd-decreto-9-2009-prug",
-      "locator": "RLMA ID=1651 — estado de la norma",
-      "exact_text_hint": "ANULADO de pleno derecho por el Tribunal Supremo el 20/09/2012 (recursos de casación 7089/2010 y 5349/2010). Borrador de nuevo PRUG en consulta pública 2020 sin aprobación. No se deriva ninguna regla de este instrumento.",
-      "extracted_at": "2026-09-17",
-      "review_status": "REVIEW_REQUIRED",
-      "provision_ref": "Decreto 9/2009 PRUG — anulado; registrado para explicar la ausencia de régimen de desarrollo",
-      "validity_from": null,
-      "validity_to": "2012-09-20"
-    }
-  ],
-  "spatial_scopes": [
-    {
-      "id": "ss-prse-parque",
-      "scope_type": "REGIONAL_PARK",
-      "official_name": "Parque Regional del Sureste",
-      "geometry_source": "sd-idem-prse",
-      "feature_id": "IDEM_MA_PR_SURESTE (14 features — límite + zonificación A-G)",
-      "srid_native": 25830,
-      "review_status": "SPATIAL_REVIEW_PENDING",
-      "relevance": "REGULATORY"
-    },
-    {
-      "id": "ss-prse-zona-a",
-      "scope_type": "PARK_SECTOR",
-      "parent_scope": "ss-prse-parque",
-      "official_name": "Zonas A de Reserva Integral (A1, A2)",
-      "geometry_source": "sd-idem-prse",
-      "feature_id": "features CD_AREA in (A1, A2) de IDEM_MA_PR_SURESTE",
-      "srid_native": 25830,
-      "review_status": "SPATIAL_REVIEW_PENDING",
-      "relevance": "REGULATORY"
-    },
-    {
-      "id": "ss-prse-zonas-b-e",
-      "scope_type": "PARK_SECTOR",
-      "parent_scope": "ss-prse-parque",
-      "official_name": "Zonas B, C, D y E (Reserva Natural / Degradadas / Explotación Ordenada / Agrario-Recreativo)",
-      "geometry_source": "sd-idem-prse",
-      "feature_id": "features CD_AREA in (B1, B2, C1, C2, D1, D2, D3, E1, E2, E3) de IDEM_MA_PR_SURESTE",
-      "srid_native": 25830,
-      "review_status": "SPATIAL_REVIEW_PENDING",
-      "relevance": "REGULATORY"
-    },
-    {
-      "id": "ss-prse-zonas-fg",
-      "scope_type": "PARK_SECTOR",
-      "parent_scope": "ss-prse-parque",
-      "official_name": "Zonas F (Periférica de Protección) y G (planeamiento urbanístico)",
-      "geometry_source": "sd-idem-prse",
-      "feature_id": "features CD_AREA in (F1, G) de IDEM_MA_PR_SURESTE",
-      "srid_native": 25830,
-      "review_status": "SPATIAL_REVIEW_PENDING",
-      "relevance": "REGULATORY"
-    }
-  ],
-  "legal_rule_versions": [
-    {
-      "rule_id": "alraso:es-md/pr-sureste/acampada#zona-a-prohibida",
-      "activity": "ACAMPADA",
-      "spatial_scope_id": "ss-prse-zona-a",
-      "effect": "PROHIBITED",
-      "condition": null,
-      "effective_from": "1994-06-28",
-      "effective_to": null,
-      "recorded_at": "2026-09-17",
-      "recorded_until": null,
-      "review_status": "REVIEW_REQUIRED",
-      "legal_review_complete": false,
-      "spatial_review_complete": false,
-      "evidence": [
-        "lf-ley6-273d-zona-a",
-        "lf-d27-1212g-zona-a"
-      ],
-      "interpretation_note": "LITERAL: ley (27.3.d) y PORN (12.1.2.g) prohiben la acampada sin cláusula de autorización en Zonas A.",
-      "normative_basis": [
-        "lf-ley6-273d-zona-a",
-        "lf-d27-1212g-zona-a"
-      ]
-    },
-    {
-      "rule_id": "alraso:es-md/pr-sureste/acampada#zonas-b-e-autorizacion",
-      "activity": "ACAMPADA",
-      "spatial_scope_id": "ss-prse-zonas-b-e",
-      "effect": "AUTHORIZATION_REQUIRED",
-      "condition": null,
-      "effective_from": "1994-06-28",
-      "effective_to": null,
-      "recorded_at": "2026-09-17",
-      "recorded_until": null,
-      "review_status": "REVIEW_REQUIRED",
-      "legal_review_complete": false,
-      "spatial_review_complete": false,
-      "evidence": [
-        "lf-ley6-283e-zona-b",
-        "lf-d27-1222h-zona-b",
-        "lf-d27-cde-autorizacion"
-      ],
-      "interpretation_note": "LITERAL: en Zonas B (ley 28.3.e + PORN 12.2.2.h), C (12.3.2.i), D (12.4.g) y E (12.5.f) la acampada está prohibida salvo autorización expresa de la Agencia/Consejería de Medio Ambiente => AUTHORIZATION_REQUIRED uniforme.",
-      "normative_basis": [
-        "lf-ley6-283e-zona-b",
-        "lf-d27-1222h-zona-b",
-        "lf-d27-cde-autorizacion"
-      ]
-    },
-    {
-      "rule_id": "alraso:es-md/pr-sureste/pernocta#vivac-zona-a",
-      "activity": "VIVAC_AL_RASO",
-      "spatial_scope_id": "ss-prse-zona-a",
-      "effect": "PROHIBITED",
-      "condition": null,
-      "effective_from": "1994-06-28",
-      "effective_to": null,
-      "recorded_at": "2026-09-17",
-      "recorded_until": null,
-      "review_status": "REVIEW_REQUIRED",
-      "legal_review_complete": false,
-      "spatial_review_complete": false,
-      "evidence": [
-        "lf-ley6-273d-zona-a",
-        "lf-d27-1212g-zona-a"
-      ],
-      "interpretation_note": "PROPOSED con SALTO INTERPRETATIVO: extiende la prohibición absoluta de 'acampada' al vivac al raso en Zonas A. Ley y PORN son de 1994/1999, anteriores a la noción de vivac; el revisor decide la equiparación.",
-      "normative_basis": [
-        "lf-ley6-273d-zona-a",
-        "lf-d27-1212g-zona-a"
-      ]
-    },
-    {
-      "rule_id": "alraso:es-md/pr-sureste/pernocta#vivac-zonas-b-e",
-      "activity": "VIVAC_AL_RASO",
-      "spatial_scope_id": "ss-prse-zonas-b-e",
-      "effect": "AUTHORIZATION_REQUIRED",
-      "condition": null,
-      "effective_from": "1994-06-28",
-      "effective_to": null,
-      "recorded_at": "2026-09-17",
-      "recorded_until": null,
-      "review_status": "REVIEW_REQUIRED",
-      "legal_review_complete": false,
-      "spatial_review_complete": false,
-      "evidence": [
-        "lf-ley6-283e-zona-b",
-        "lf-d27-1222h-zona-b",
-        "lf-d27-cde-autorizacion"
-      ],
-      "interpretation_note": "PROPOSED con SALTO INTERPRETATIVO: extiende el régimen de autorización de 'acampada' al vivac al raso en Zonas B-E. El PRUG que habría desarrollado condiciones está ANULADO (D 9/2009, TS 20/09/2012) — no hay régimen de desarrollo operante. El revisor decide la equiparación.",
-      "normative_basis": [
-        "lf-ley6-283e-zona-b",
-        "lf-d27-cde-autorizacion"
-      ]
-    }
-  ],
-  "rule_relations": [],
-  "expected": {
-    "publishability": [
-      {
-        "assert": "NO_RULE_PUBLISHABLE",
-        "note": "Toda versión REVIEW_REQUIRED + reviews incompletas => eligibility gate rechaza; resolver devuelve UNDETERMINED/INCOMPLETE para cualquier consulta."
-      }
-    ],
-    "basic_queries": [
-      {
-        "query": {
-          "activity": "VIVAC_AL_RASO",
-          "spatial_scope_id": "ss-prse-zona-a",
-          "activity_date": "2026-09-17",
-          "knowledge_date": "2026-09-17"
-        },
-        "expected_legal_status": "UNDETERMINED",
-        "expected_knowledge_status": "INCOMPLETE",
-        "note": "Sin revisión humana no hay regla publicable."
-      }
-    ]
+  {
+   "id": "sd-decreto-27-1999",
+   "authority": "Comunidad de Madrid",
+   "jurisdiction": "ES-MD",
+   "document_type": "DECREE",
+   "title": "Decreto 27/1999, de 11 de febrero — aprueba el PORN del Parque Regional del Sureste",
+   "canonical_url": "https://gestiona.comunidad.madrid/rlma_web/Descarga.icm?idLegislacion=671&idDocumento=1",
+   "official_status": "VIGENTE (RLMA ID=671; STS 18/05/2012 confirmó validez) — BOCM 03/03/1999",
+   "retrieved_at": "2026-09-17",
+   "content_hash": "sha256:e3e88992411e5b609936c3bb51db5c4e38e672eee7a54db94b4bb01ac1608c67 (PDF oficial RLMA, not redistributed)"
+  },
+  {
+   "id": "sd-decreto-9-2009-prug",
+   "authority": "Comunidad de Madrid",
+   "jurisdiction": "ES-MD",
+   "document_type": "PRUG",
+   "title": "Decreto 9/2009, de 5 de febrero — PRUG del Parque Regional del Sureste",
+   "canonical_url": "https://gestiona.comunidad.madrid/rlma_web/FichaNormativa.icm?ID=1651",
+   "official_status": "ANULADO de pleno derecho por el Tribunal Supremo (20/09/2012, rec. 7089/2010 y 5349/2010) — NO es derecho vigente; no se deriva ninguna regla",
+   "retrieved_at": "2026-09-17"
+  },
+  {
+   "id": "sd-idem-prse",
+   "authority": "Comunidad de Madrid — IDEM",
+   "jurisdiction": "ES-MD",
+   "document_type": "GIS_LAYER",
+   "title": "Límite y zonificación del Parque Regional del Sureste (14 features, zonas A-G)",
+   "canonical_url": "https://idem.comunidad.madrid/geoidem/LugaresProtegidos/ows?service=WFS&request=GetFeature&typeName=LugaresProtegidos:IDEM_MA_PR_SURESTE",
+   "official_status": "OFFICIAL — CC-BY 4.0",
+   "retrieved_at": "2026-09-17",
+   "content_hash": "sha256:1bc022d134bf5719744f5fee9e0760ff02767e0a152a0e927144816dfecdeb87 (IDEM_MA_PR_SURESTE.geojson, EPSG:4326)"
   }
+ ],
+ "legal_fragments": [
+  {
+   "id": "lf-ley6-273d-zona-a",
+   "source_document_id": "sd-ley-6-1994",
+   "locator": "Art. 27.3.d)",
+   "exact_text_hint": "d) La acampada y producción de fuegos.",
+   "extracted_at": "2026-09-17",
+   "review_status": "REVIEW_REQUIRED",
+   "provision_ref": "Ley 6/1994, art. 27.3.d — prohibición absoluta de acampada en Zonas A (Reserva Integral)",
+   "validity_from": "1994-06-28",
+   "validity_to": null
+  },
+  {
+   "id": "lf-ley6-283e-zona-b",
+   "source_document_id": "sd-ley-6-1994",
+   "locator": "Art. 28.3.e)",
+   "exact_text_hint": "e) La acampada y producción de fuegos, sin autorización expresa de la Agencia de Medio Ambiente.",
+   "extracted_at": "2026-09-17",
+   "review_status": "REVIEW_REQUIRED",
+   "provision_ref": "Ley 6/1994, art. 28.3.e — acampada prohibida salvo autorización en Zonas B (Reserva Natural)",
+   "validity_from": "1994-06-28",
+   "validity_to": null
+  },
+  {
+   "id": "lf-d27-1212g-zona-a",
+   "source_document_id": "sd-decreto-27-1999",
+   "locator": "§12.1.2.g (Zonas A1, A2 — usos prohibidos)",
+   "exact_text_hint": "g) La acampada y producción de fuegos.",
+   "extracted_at": "2026-09-17",
+   "review_status": "REVIEW_REQUIRED",
+   "provision_ref": "Decreto 27/1999 PORN, §12.1.2.g — prohibición absoluta de acampada en Zonas A",
+   "validity_from": "1999-03-03",
+   "validity_to": null
+  },
+  {
+   "id": "lf-d27-1222h-zona-b",
+   "source_document_id": "sd-decreto-27-1999",
+   "locator": "§12.2.2.h (Zonas B1, B2 — usos prohibidos)",
+   "exact_text_hint": "h) La acampada y producción de fuegos, sin autorización expresa de la Consejería de Medio Ambiente y Desarrollo Regional.",
+   "extracted_at": "2026-09-17",
+   "review_status": "REVIEW_REQUIRED",
+   "provision_ref": "Decreto 27/1999 PORN, §12.2.2.h — acampada con autorización en Zonas B",
+   "validity_from": "1999-03-03",
+   "validity_to": null
+  },
+  {
+   "id": "lf-d27-cde-autorizacion",
+   "source_document_id": "sd-decreto-27-1999",
+   "locator": "§12.3.2.i / §12.4.2-3.g / §12.5.2-3.f",
+   "exact_text_hint": "C: 'La acampada y producción de fuego, salvo autorización expresa de la Consejería.' / D: 'la acampada y producción de fuego, requerirán la autorización de la Consejería.' / E: 'La acampada y producción de fuego no estarán permitidas, salvo autorización expresa de la Consejería.'",
+   "extracted_at": "2026-09-17",
+   "review_status": "REVIEW_REQUIRED",
+   "provision_ref": "Decreto 27/1999 PORN — acampada con autorización en Zonas C, D y E",
+   "validity_from": "1999-03-03",
+   "validity_to": null
+  },
+  {
+   "id": "lf-d9-2009-anulado",
+   "source_document_id": "sd-decreto-9-2009-prug",
+   "locator": "RLMA ID=1651 — estado de la norma",
+   "exact_text_hint": "ANULADO de pleno derecho por el Tribunal Supremo el 20/09/2012 (recursos de casación 7089/2010 y 5349/2010). Borrador de nuevo PRUG en consulta pública 2020 sin aprobación. No se deriva ninguna regla de este instrumento.",
+   "extracted_at": "2026-09-17",
+   "review_status": "REVIEW_REQUIRED",
+   "provision_ref": "Decreto 9/2009 PRUG — anulado; registrado para explicar la ausencia de régimen de desarrollo",
+   "validity_from": null,
+   "validity_to": "2012-09-20"
+  }
+ ],
+ "spatial_scopes": [
+  {
+   "id": "ss-prse-parque",
+   "scope_type": "REGIONAL_PARK",
+   "official_name": "Parque Regional del Sureste",
+   "geometry_source": "sd-idem-prse",
+   "feature_id": "IDEM_MA_PR_SURESTE (14 features — límite + zonificación A-G)",
+   "srid_native": 25830,
+   "review_status": "SPATIAL_REVIEW_PENDING",
+   "relevance": "REGULATORY"
+  },
+  {
+   "id": "ss-prse-zona-a",
+   "scope_type": "PARK_SECTOR",
+   "parent_scope": "ss-prse-parque",
+   "official_name": "Zonas A de Reserva Integral (A1, A2)",
+   "geometry_source": "sd-idem-prse",
+   "feature_id": "features CD_AREA in (A1, A2) de IDEM_MA_PR_SURESTE",
+   "srid_native": 25830,
+   "review_status": "SPATIAL_REVIEW_PENDING",
+   "relevance": "REGULATORY"
+  },
+  {
+   "id": "ss-prse-zonas-b-e",
+   "scope_type": "PARK_SECTOR",
+   "parent_scope": "ss-prse-parque",
+   "official_name": "Zonas B, C, D y E (Reserva Natural / Degradadas / Explotación Ordenada / Agrario-Recreativo)",
+   "geometry_source": "sd-idem-prse",
+   "feature_id": "features CD_AREA in (B1, B2, C1, C2, D1, D2, D3, E1, E2, E3) de IDEM_MA_PR_SURESTE",
+   "srid_native": 25830,
+   "review_status": "SPATIAL_REVIEW_PENDING",
+   "relevance": "REGULATORY"
+  },
+  {
+   "id": "ss-prse-zonas-fg",
+   "scope_type": "PARK_SECTOR",
+   "parent_scope": "ss-prse-parque",
+   "official_name": "Zonas F (Periférica de Protección) y G (planeamiento urbanístico)",
+   "geometry_source": "sd-idem-prse",
+   "feature_id": "features CD_AREA in (F1, G) de IDEM_MA_PR_SURESTE",
+   "srid_native": 25830,
+   "review_status": "SPATIAL_REVIEW_PENDING",
+   "relevance": "REGULATORY"
+  }
+ ],
+ "legal_rule_versions": [
+  {
+   "rule_id": "alraso:es-md/pr-sureste/acampada#zona-a-prohibida",
+   "activity": "ACAMPADA",
+   "spatial_scope_id": "ss-prse-zona-a",
+   "effect": "PROHIBITED",
+   "condition": null,
+   "effective_from": "1994-06-28",
+   "effective_to": null,
+   "recorded_at": "2026-09-17",
+   "recorded_until": null,
+   "review_status": "REVIEW_REQUIRED",
+   "legal_review_complete": false,
+   "spatial_review_complete": false,
+   "evidence": [
+    "lf-ley6-273d-zona-a",
+    "lf-d27-1212g-zona-a"
+   ],
+   "interpretation_note": "LITERAL: ley (27.3.d) y PORN (12.1.2.g) prohiben la acampada sin cláusula de autorización en Zonas A.",
+   "normative_basis": [
+    "lf-ley6-273d-zona-a",
+    "lf-d27-1212g-zona-a"
+   ]
+  },
+  {
+   "rule_id": "alraso:es-md/pr-sureste/acampada#zonas-b-e-autorizacion",
+   "activity": "ACAMPADA",
+   "spatial_scope_id": "ss-prse-zonas-b-e",
+   "effect": "AUTHORIZATION_REQUIRED",
+   "condition": null,
+   "effective_from": "1994-06-28",
+   "effective_to": null,
+   "recorded_at": "2026-09-17",
+   "recorded_until": null,
+   "review_status": "REVIEW_REQUIRED",
+   "legal_review_complete": false,
+   "spatial_review_complete": false,
+   "evidence": [
+    "lf-ley6-283e-zona-b",
+    "lf-d27-1222h-zona-b",
+    "lf-d27-cde-autorizacion"
+   ],
+   "interpretation_note": "LITERAL: en Zonas B (ley 28.3.e + PORN 12.2.2.h), C (12.3.2.i), D (12.4.g) y E (12.5.f) la acampada está prohibida salvo autorización expresa de la Agencia/Consejería de Medio Ambiente => AUTHORIZATION_REQUIRED uniforme.",
+   "normative_basis": [
+    "lf-ley6-283e-zona-b",
+    "lf-d27-1222h-zona-b",
+    "lf-d27-cde-autorizacion"
+   ]
+  },
+  {
+   "rule_id": "alraso:es-md/pr-sureste/pernocta#vivac-zona-a",
+   "activity": "VIVAC_AL_RASO",
+   "spatial_scope_id": "ss-prse-zona-a",
+   "effect": "PROHIBITED",
+   "condition": null,
+   "effective_from": "1994-06-28",
+   "effective_to": null,
+   "recorded_at": "2026-09-17",
+   "recorded_until": null,
+   "review_status": "REVIEW_REQUIRED",
+   "legal_review_complete": false,
+   "spatial_review_complete": false,
+   "evidence": [
+    "lf-ley6-273d-zona-a",
+    "lf-d27-1212g-zona-a"
+   ],
+   "interpretation_note": "PROPOSED con SALTO INTERPRETATIVO: extiende la prohibición absoluta de 'acampada' al vivac al raso en Zonas A. Ley y PORN son de 1994/1999, anteriores a la noción de vivac; el revisor decide la equiparación.",
+   "normative_basis": [
+    "lf-ley6-273d-zona-a",
+    "lf-d27-1212g-zona-a"
+   ]
+  },
+  {
+   "rule_id": "alraso:es-md/pr-sureste/pernocta#vivac-zonas-b-e",
+   "activity": "VIVAC_AL_RASO",
+   "spatial_scope_id": "ss-prse-zonas-b-e",
+   "effect": "AUTHORIZATION_REQUIRED",
+   "condition": null,
+   "effective_from": "1994-06-28",
+   "effective_to": null,
+   "recorded_at": "2026-09-17",
+   "recorded_until": null,
+   "review_status": "REVIEW_REQUIRED",
+   "legal_review_complete": false,
+   "spatial_review_complete": false,
+   "evidence": [
+    "lf-ley6-283e-zona-b",
+    "lf-d27-1222h-zona-b",
+    "lf-d27-cde-autorizacion"
+   ],
+   "interpretation_note": "PROPOSED con SALTO INTERPRETATIVO: extiende el régimen de autorización de 'acampada' al vivac al raso en Zonas B-E. El PRUG que habría desarrollado condiciones está ANULADO (D 9/2009, TS 20/09/2012) — no hay régimen de desarrollo operante. El revisor decide la equiparación.",
+   "normative_basis": [
+    "lf-ley6-283e-zona-b",
+    "lf-d27-cde-autorizacion"
+   ]
+  }
+ ],
+ "rule_relations": [],
+ "expected": {
+  "publishability": [
+   {
+    "assert": "NO_RULE_PUBLISHABLE",
+    "note": "Toda versión REVIEW_REQUIRED + reviews incompletas => eligibility gate rechaza; resolver devuelve UNDETERMINED/INCOMPLETE para cualquier consulta."
+   }
+  ],
+  "basic_queries": [
+   {
+    "query": {
+     "activity": "VIVAC_AL_RASO",
+     "spatial_scope_id": "ss-prse-zona-a",
+     "activity_date": "2026-09-17",
+     "knowledge_date": "2026-09-17"
+    },
+    "expected_legal_status": "UNDETERMINED",
+    "expected_knowledge_status": "INCOMPLETE",
+    "note": "Sin revisión humana no hay regla publicable."
+   }
+  ]
+ },
+ "operational_restrictions": [
+  {
+   "restriction_id": "chk-prse-parque-riesgo-incendio",
+   "kind": "FIRE_RISK",
+   "activity": null,
+   "spatial_scope_id": "ss-prse-parque",
+   "effect": "RESTRICT",
+   "required": true,
+   "verified": false,
+   "description": "La Comunidad de Madrid declara restricciones temporales en epoca de alto riesgo de incendio forestal que pueden afectar a la pernocta/vivac en el espacio protegido. Comprobacion de la fuente dinamica (avisos CAM / direccion del parque) pendiente: debe verificarse el aviso vigente en la fecha de la actividad.",
+   "recorded_at": "2026-09-17"
+  }
+ ]
 }

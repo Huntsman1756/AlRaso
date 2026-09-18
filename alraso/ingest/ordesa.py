@@ -46,6 +46,8 @@ def ingest_corpus(store: BitemporalStore, fx: dict[str, Any]) -> None:
             store.add_rule_version(v)
         for r in fx.get("rule_relations", []):
             store.add_relation(r)
+        for o in fx.get("operational_restrictions", []):
+            store.add_operational_restriction(o)
 
 
 def load_ordesa(store: BitemporalStore, path: str | Path | None = None) -> dict[str, Any]:

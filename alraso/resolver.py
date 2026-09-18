@@ -21,6 +21,9 @@ Pipeline (each stage appended to precedenceTrace):
                                      relation versions are inert + conflicting
   5b. coverage gate              -> a PERMITTED may not stand on an unresolved
                                      applicable jurisdiction (H3/D4)
+  5c. dynamic gate               -> observed operational/current restrictions
+                                     demote PERMITTED/CONDITIONAL answers;
+                                     they never create one (M8-D)
   6. PERMITTED invariant gate    -> defense-in-depth: a PERMITTED must prove
                                      every clause of the safety contract (F25)
   7. composition                 -> legalStatus x knowledgeStatus + evidence +
@@ -82,6 +85,9 @@ from alraso.errors import (
     REASON_NORM_VALIDITY_UNKNOWN,
     REASON_NORM_BASIS_OUTSIDE,
     REASON_NORM_PRECEPT_MISSING,
+    REASON_MISSING_FACT,
+    REASON_CONDITIONAL_UNVERIFIED,
+    REASON_OPERATIONAL_BLOCK,
 )
 from alraso.precedence import (
     Judgment,
@@ -96,8 +102,8 @@ STANDING_WARNING = ("Las restricciones operativas no codificadas en el corpus "
                     "(acceso de vehiculos, reservas, cierres estacionales, avisos "
                     "de la direccion) no estan cubiertas por esta determinacion.")
 
-RESOLVER_VERSION = "0.2.1-hardening"
-SCHEMA_VERSION = "m1r2"
+RESOLVER_VERSION = "0.3.0rc1-m8d"
+SCHEMA_VERSION = "m1r3"
 
 DRIFT_TYPES = ("LEGAL_STATUS_CHANGED", "KNOWLEDGE_STATUS_CHANGED", "RULE_SET_CHANGED",
                "EVIDENCE_CHANGED", "PRECEDENCE_CHANGED", "SPATIAL_SCOPE_CHANGED",
@@ -355,6 +361,63 @@ class Resolver:
         result.conditions = [c for j in engine_result.judgments for c in j.conditions]
         result.rule_versions = [v.as_dict() for v in eligible]
 
+        # M8-D: judgments the engine could not decide because a required fact
+        # is missing are classified BY EFFECT. An undetermined restrictive
+        # rule (PROHIBITED / AUTHORIZATION_REQUIRED) can never be assumed away:
+        # it might govern, so the answer fails closed to UNDETERMINED. An
+        # undetermined PERMITTED rule simply does not fire — it is reported and
+        # may produce CONDITIONAL when nothing else holds.
+        undetermined_js = [j for j in engine_result.judgments
+                           if j.outcome == "undetermined"]
+        blocking_undetermined = [j for j in undetermined_js
+                                 if j.effect != "PERMITTED"]
+        if blocking_undetermined:
+            trace.append({"stage": "missing_facts",
+                          "undetermined": [j.as_dict() for j in undetermined_js]})
+            return self._fail(query, reason=REASON_MISSING_FACT,
+                              message=("hechos necesarios ausentes en regla(s) "
+                                       "potencialmente restrictiva(s): "
+                                       + ", ".join(j.rule_id for j in blocking_undetermined)
+                                       + " — no puede descartarse que rija(n)"),
+                              record=record, scopes=hits,
+                              knowledge=KnowledgeStatus.INCOMPLETE,
+                              trace=trace)
+
+        if not active and undetermined_js:
+            # CONDITIONAL (M8-D): at least one applicable permission exists but
+            # a material requirement cannot be verified automatically. Dynamic
+            # checks still apply and may further demote to PROHIBITED.
+            cond_versions = [v for v in eligible
+                             if v.seq in {j.rule_version_id for j in undetermined_js}]
+            result.evidence = self._evidence_for(cond_versions)
+            legal, dyn_codes = self._apply_dynamic_gate(
+                result, LegalStatus.CONDITIONAL, scope_ids, activity, query)
+            result.legal_status = legal
+            result.knowledge_status = KnowledgeStatus.CURRENT
+            missing_fields = sorted({f for j in undetermined_js
+                                     for c in j.conditions
+                                     for f in c.get("fields", [])})
+            result.decision_reason = (
+                "permiso aplicable sujeto a condicion(es) no verificable(s) "
+                f"automaticamente ({', '.join(missing_fields)}); "
+                "no es una respuesta afirmativa")
+            codes = [REASON_CONDITIONAL_UNVERIFIED, REASON_MISSING_FACT] + dyn_codes
+            result.reason_codes = list(dict.fromkeys(codes))
+            result.precedence_trace = trace + [
+                {"stage": "missing_facts",
+                 "undetermined": [j.as_dict() for j in undetermined_js]}]
+            result.basis = _basis(scope_ids, [v.seq for v in cond_versions],
+                                  fragment_ids=self._fragments_of(result.evidence))
+            result.basis["source_document_ids"] = self._documents_of(result.evidence)
+            self._record(result, query, record)
+            return result
+
+        if undetermined_js:
+            result.warnings.append(
+                "permisos adicionales no evaluables por hechos ausentes (no "
+                "afectan a la determinacion): "
+                + ", ".join(j.rule_id for j in undetermined_js))
+
         if not active:
             result.legal_status = LegalStatus.UNDETERMINED
             result.knowledge_status = KnowledgeStatus.INCOMPLETE
@@ -444,6 +507,11 @@ class Resolver:
                               knowledge=KnowledgeStatus.INCOMPLETE,
                               trace=trace)
 
+        # (5c) operational/dynamic restrictions (M8-D): observed current
+        # checks can only DEMOTE an affirmative answer — never create it.
+        legal, dyn_codes = self._apply_dynamic_gate(
+            result, legal, scope_ids, activity, query)
+
         # (6) PERMITTED invariant gate (F25, defense in depth) ---------------------------
         if legal is LegalStatus.PERMITTED:
             violations = self._permitted_invariants(
@@ -465,7 +533,11 @@ class Resolver:
                                   trace=trace)
 
         result.legal_status = legal
+        if dyn_codes:
+            result.reason_codes = list(dict.fromkeys(dyn_codes))
         result.decision_reason = self._decision_reason(legal, activity, participating)
+        if REASON_OPERATIONAL_BLOCK in dyn_codes:
+            result.decision_reason += " (democion por restriccion operativa activa)"
         result.precedence_trace = trace + [
             {"stage": "precedence", "survivors": sorted(v.seq for v in participating),
              "relations_used": used_rel_seqs}]
@@ -508,6 +580,50 @@ class Resolver:
     def _documents_of(evidence: list[dict[str, Any]]) -> list[str]:
         return sorted({e["source_document_id"] for e in evidence})
 
+    # ---- operational/dynamic restrictions (M8-D) ---------------------------------
+    def _apply_dynamic_gate(self, result: ResolveResult, legal: LegalStatus,
+                            scope_ids: list[str], activity: str,
+                            query: Query) -> tuple[LegalStatus, list[str]]:
+        """Observed current/operational restrictions for the applicable scopes.
+
+        Demote-only semantics:
+          * verified + active + effect=BLOCK   -> PROHIBITED (any prior status
+            except an already-stricter PROHIBITED)
+          * verified + active + effect=RESTRICT, or any REQUIRED check not
+            verified-clear                      -> CONDITIONAL (from PERMITTED
+            or CONDITIONAL)
+        Restrictions are never normative rules and can never produce an
+        affirmative answer. Every observed check is exposed on the result so a
+        caller can see exactly what was and was not verified."""
+        checks = self.store.operational_restrictions_at(
+            scope_ids, activity, query.activity_date, query.knowledge_date)
+        result.dynamic_checks = [c.as_dict() for c in checks]
+        if not checks:
+            return legal, []
+        blocks = [c for c in checks
+                  if c.verified and c.restriction_active and c.effect == "BLOCK"]
+        restricts = [c for c in checks
+                     if c.verified and c.restriction_active and c.effect == "RESTRICT"]
+        pending_required = [c for c in checks if c.required
+                            and not (c.verified and c.restriction_active is False)]
+        if legal is not LegalStatus.PROHIBITED and blocks:
+            result.warnings.append(
+                "restriccion operativa activa verificada que impide la actividad: "
+                + ", ".join(c.restriction_id for c in blocks))
+            return LegalStatus.PROHIBITED, [REASON_OPERATIONAL_BLOCK]
+        if legal in (LegalStatus.PERMITTED, LegalStatus.CONDITIONAL):
+            pending = restricts + [c for c in pending_required
+                                   if c not in restricts]
+            if pending:
+                result.warnings.append(
+                    "requisitos operativos activos o sin verificar: "
+                    + ", ".join(c.restriction_id for c in pending))
+                codes = [REASON_CONDITIONAL_UNVERIFIED]
+                if restricts:
+                    codes.append(REASON_OPERATIONAL_BLOCK)
+                return LegalStatus.CONDITIONAL, codes
+        return legal, []
+
     def _decision_reason(self, legal: LegalStatus, activity: str,
                          participants: list[VersionRow]) -> str:
         scopes = sorted({v.spatial_scope_id for v in participants})
@@ -515,6 +631,9 @@ class Resolver:
                 f"{activity} en {', '.join(scopes)}")
         if legal is LegalStatus.PERMITTED:
             base += " (invariant PERMITTED verificado)"
+        elif legal is LegalStatus.CONDITIONAL:
+            base += (" — hay requisitos materiales no verificables "
+                     "automaticamente; no es una respuesta afirmativa")
         return base
 
     # ---- PERMITTED invariant (F25) --------------------------------------------------------
@@ -555,8 +674,20 @@ class Resolver:
             v.append("evidence no publicable (fragmento sin revisar)")
         if not set(required) <= {e["id"] for e in evidence}:
             v.append("evidence no materializada en el resultado")
-        if any(j.outcome not in ("holds", "not_holds") for j in engine_result.judgments):
+        if any(j.outcome not in ("holds", "not_holds") and j.effect != "PERMITTED"
+               for j in engine_result.judgments):
             v.append("outcome no determinable del motor")
+        # M8-D: a naked PERMITTED may not stand while a required operational
+        # check is unverified or a verified restriction is active (the dynamic
+        # gate demotes first; this is the redundant line of defence)
+        checks = self.store.operational_restrictions_at(
+            [h.scope_id for h in hits], query.activity,
+            query.activity_date, knowledge_date)
+        if any(c.verified and c.restriction_active for c in checks):
+            v.append("restriccion operativa activa verificada")
+        if any(c.required and not (c.verified and c.restriction_active is False)
+               for c in checks):
+            v.append("requisito operativo sin verificar")
         effects = {p.effect for p in participating}
         if len(effects) != 1 or "PERMITTED" not in effects:
             v.append("efectos no univocos o no permisivos")

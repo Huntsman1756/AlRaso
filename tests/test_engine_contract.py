@@ -87,8 +87,17 @@ def test_condition_missing_fact_fails_closed(tmp_path):
             with pytest.raises(UnsupportedEngineCapability):
                 evaluate(adapter, [make_version(condition=cond)], {})
             continue
-        with pytest.raises(EngineFailure):
-            evaluate(adapter, [make_version(condition=cond)], {})
+        try:
+            res = evaluate(adapter, [make_version(condition=cond)], {})
+        except EngineFailure:
+            continue  # adapter-level fail-closed (e.g. missing input error)
+        # M8-D: the own adapter reports the judgment as undetermined with the
+        # missing fields recorded — never "holds", never a guess.
+        assert holds_ids(res) == []
+        und = [j for j in res.judgments if j.outcome == "undetermined"]
+        assert len(und) == 1
+        fields = {f for c in und[0].conditions for f in c.get("fields", [])}
+        assert "altitude_m" in fields
 
 
 def test_condition_invalid_never_permits(tmp_path):

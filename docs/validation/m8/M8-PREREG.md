@@ -18,7 +18,7 @@ using only authoritative evidence?
 
 ```text
 PERMITTED
-PERMITTED_WITH_CONDITIONS   ← decisión de vocabulario ABIERTA (ver §6)
+CONDITIONAL                 ← ADJUDICADO en §6 (antes "PERMITTED_WITH_CONDITIONS")
 BLOCKED                     ← se mapea a PROHIBITED en el vocabulario actual
 UNDETERMINED
 UNKNOWN                     ← fuera de todo scope conocido
@@ -53,7 +53,7 @@ UNKNOWN                     ← fuera de todo scope conocido
 
 ## 6. Decisión abierta: PERMITTED_WITH_CONDITIONS
 
-El enum actual (`alraso/domain.py`) es `PERMITTED | PROHIBITED |
+El enum original (`alraso/domain.py`) era `PERMITTED | PROHIBITED |
 AUTHORIZATION_REQUIRED | UNDETERMINED | CONFLICT`. La regla general CAM
 ("permitido salvo condiciones no verificables por el resolver") no encaja
 limpio: un `PERMITTED` absoluto sobreafirma; un `UNDETERMINED` permanente
@@ -71,6 +71,31 @@ Opciones:
 Recomendación pre-registrada: **(b) primero**; (a) solo si la experiencia
 de producto lo exige tras M8-E. La decisión final queda registrada aquí
 antes de implementar.
+
+**ADJUDICADA (2026-09-17, mandato M8):** se adopta la opción (a) con el
+nombre `LegalStatus.CONDITIONAL`. `PERMITTED` significa ahora
+*exclusivamente* "todos los requisitos materiales han sido comprobados y
+satisfechos"; una condición no verificable nunca colapsa en `PERMITTED`.
+Semántica implementada y testeada:
+
+- `PERMITTED` — todo requisito material comprobado y satisfecho.
+- `CONDITIONAL` — una norma aplicable permite la actividad pero al menos un
+  requisito material no es verificable automáticamente (hecho ausente del
+  llamante o restricción operativa no verificada). Un consumidor nunca puede
+  presentar `CONDITIONAL` como un "sí" desnudo.
+- Hecho ausente en regla restrictiva (PROHIBITED/AUTHORIZATION_REQUIRED) →
+  `UNDETERMINED` + `MISSING_FACT` (no se descarta que rija).
+- Hecho ausente en regla permisiva sin otra regla activa → `CONDITIONAL` +
+  `MISSING_FACT` + campos ausentes en `conditions`.
+- Restricciones operativas (`operational_restriction`, M8-D): observaciones
+  append-only versionadas por system-time, NUNCA reglas normativas.
+  `verified+active+BLOCK` → `PROHIBITED`; `verified+active+RESTRICT` o check
+  `required` sin verificar → `CONDITIONAL`. Solo degradan, nunca crean
+  respuesta afirmativa. Todos los checks observados se exponen en
+  `result.dynamic_checks` (verificados o no).
+- `month_window` modela checks estacionales recurrentes (régimen estival de
+  Peñalara); fuera de ventana el check no aplica.
+- `RESOLVER_VERSION`/`SCHEMA_VERSION` → `0.3.0rc1-m8d`/`m1r3`.
 
 ## 7. Holdout Madrid (M8-F)
 
@@ -119,6 +144,6 @@ Política fijada **antes** de implementar el resolver de puntos:
 | 2026-09-17 | M8-A fuentes CAM | DONE — D 18/2020 (PRUG, sha256 `f34a023e…`), D 238/2023 (`15616e02…`), D 26/2025 art. 4 (acampada libre prohibida CAM), STSJM 1003/2022 (nulidad 2000 m) |
 | 2026-09-17 | M8-B geometría oficial | DONE — IDEM WFS: 5 polígonos vivac Anexo III (`b6fa71b2…`), límite PN-CM+ZPP (`d64025a1…`), zonificación 165 feat. (`ab84aa9f…`), ENP/PRs/RN2000. Geometría real CC-BY 4.0, no digest |
 | 2026-09-17 | M8-C Guadarrama | DONE — `discovery/evidence/m8-guadarrama/`: `RC-M8-ES-MD-GUADARRAMA-VIVAC`, 2 reglas propuestas `REVIEW_REQUIRED`, 5 tests fail-closed verdes |
-| — | M8-D temporal/excepcional | PARTIAL — Peñalara (15 pax/día, perros) y exclusiones dic/2023 documentadas como cuestiones del revisor; restricción de incendios discrecional no modelable |
+| 2026-09-17 | M8-D temporal/excepcional | DONE — `operational_restriction` separado de `legal_rule_version`; checks declarados en los 4 fixtures (incendio + régimen estival Peñalara); demote-only, `dynamic_checks` expuestos; contrato `CONDITIONAL` adjudicado (§6) |
 | 2026-09-17 | M8-C PRs | DONE (candidatos) — `m8-pr-manzanares/` (`RC-M8-ES-MD-PRCAM-VIVAC`: Ley 1/1985 art. 14.2.h + D 96/2009 §4.4.8.6/DT1, PRUG-PRCAM sin extraer = laguna), `m8-pr-guadarrama-medio/` (`RC-M8-ES-MD-PRCMG-VIVAC`: prohibición acampada libre D 26/1999+D 124/2002; **verificado que la remisión vivac→PRUG NO existe en este PORN** y que el PRUG nunca fue aprobado), `m8-pr-sureste/` (`RC-M8-ES-MD-PRSE-VIVAC`: régimen zonal Ley 6/1994+D 27/1999; **PRUG D 9/2009 ANULADO** — excluido como base). 9 reglas `REVIEW_REQUIRED`, 14 tests fail-closed verdes. Territorio general CAM: PENDING |
 | — | M8-E/F/G | PENDING |

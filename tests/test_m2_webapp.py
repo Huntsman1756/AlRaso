@@ -46,7 +46,9 @@ def test_goriz_inside_without_facts_never_permitted(svc):
 
 def test_picos_and_ordesa_schematic_are_partial_never_permitted(svc):
     picos = _resolve(svc, 43.17068, -4.80299)
-    assert picos["determination"]["legalStatus"] == "UNDETERMINED"
+    # M8-D: sin cota_m la regla permisiva no es evaluable -> CONDITIONAL,
+    # nunca un PERMITTED desnudo.
+    assert picos["determination"]["legalStatus"] == "CONDITIONAL"
     assert picos["coverage"]["status"] == "PARTIAL"
     ordesa = _resolve(svc, 42.66, 0.06)
     assert ordesa["determination"]["legalStatus"] == "UNDETERMINED"
@@ -379,8 +381,9 @@ def test_picos_product_is_jurisdiction_aware(svc):
 def test_picos_product_without_facts_never_permitted(svc):
     out = server.resolve_point(svc, lat=43.2662, lon=-4.8686, activity="VIVAC_AL_RASO",
                                activity_date=TODAY, knowledge_date=TODAY, facts={})
-    assert out["determination"]["legalStatus"] == "UNDETERMINED"
-    assert "ENGINE_MISSING_INPUT" in out["determination"]["reasonCodes"]
+    # M8-D: permiso aplicable con hecho material no verificable -> CONDITIONAL.
+    assert out["determination"]["legalStatus"] == "CONDITIONAL"
+    assert "MISSING_FACT" in out["determination"]["reasonCodes"]
 
 
 def test_picos_boundary_guard_fails_closed(svc):

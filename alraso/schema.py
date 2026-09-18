@@ -8,7 +8,8 @@ Status claims (M1 remediation F08 — no unproven parity claims):
                 Append-only EXACTLY means (asserted in
                 tests/test_storage_integrity.py):
                   legal_rule_version, rule_relation_version, source_document,
-                  legal_fragment, determination  -> UPDATE and DELETE forbidden
+                  legal_fragment, determination, operational_restriction
+                                               -> UPDATE and DELETE forbidden
                   spatial_scope                  -> DELETE forbidden; metadata
                      UPDATE is intentionally allowed (name/geometry_source/
                      review_status are descriptive attributes of a durable
@@ -177,6 +178,34 @@ BEGIN SELECT RAISE(ABORT, 'legal_fragment is append-only'); END;
 CREATE TRIGGER __INE__ ss_no_delete BEFORE DELETE ON spatial_scope
 BEGIN SELECT RAISE(ABORT, 'spatial_scope is append-only: DELETE is forbidden'); END;
 
+CREATE TABLE __INE__ operational_restriction (
+  seq               INTEGER __PK__ AUTOINCREMENT,
+  restriction_id    TEXT __NN__,
+  kind              TEXT __NN__,
+  activity          TEXT,
+  spatial_scope_id  TEXT __NN__ REFERENCES spatial_scope(id),
+  effect            TEXT,
+  required          INTEGER __NN__ DEFAULT 1,
+  verified          INTEGER __NN__ DEFAULT 0,
+  restriction_active INTEGER,
+  observed_at       TEXT,
+  valid_from        TEXT,
+  valid_to          TEXT,
+  month_window      TEXT,
+  source_document_id TEXT,
+  description       TEXT,
+  detail            TEXT __NN__ DEFAULT '{}',
+  recorded_at       TEXT __NN__,
+  recorded_until    TEXT
+);
+CREATE INDEX __INE__ or_lookup
+  ON operational_restriction (spatial_scope_id, activity, recorded_at);
+
+CREATE TRIGGER __INE__ or_no_update BEFORE UPDATE ON operational_restriction
+BEGIN SELECT RAISE(ABORT, 'operational_restriction is append-only: append a new observation instead'); END;
+CREATE TRIGGER __INE__ or_no_delete BEFORE DELETE ON operational_restriction
+BEGIN SELECT RAISE(ABORT, 'operational_restriction is append-only: DELETE is forbidden'); END;
+
 CREATE TABLE __INE__ determination (
   seq                  INTEGER __PK__ AUTOINCREMENT,
   canonical_query      TEXT __NN__,
@@ -286,6 +315,27 @@ CREATE TABLE __INE__ rule_relation_version (
   legal_review_complete boolean __NN__ DEFAULT false,
   ai_proposed         boolean __NN__ DEFAULT false,
   human_verified      boolean __NN__ DEFAULT false
+);
+
+CREATE TABLE __INE__ operational_restriction (
+  seq               bigserial __PK__,
+  restriction_id    text __NN__,
+  kind              text __NN__,
+  activity          text,
+  spatial_scope_id  text __NN__ REFERENCES spatial_scope(id),
+  effect            text,
+  required          boolean __NN__ DEFAULT true,
+  verified          boolean __NN__ DEFAULT false,
+  restriction_active boolean,
+  observed_at       date,
+  valid_from        date,
+  valid_to          date,
+  month_window      jsonb,
+  source_document_id text,
+  description       text,
+  detail            jsonb __NN__ DEFAULT '{}',
+  recorded_at       date __NN__,
+  recorded_until    date
 );
 
 CREATE TABLE __INE__ determination (

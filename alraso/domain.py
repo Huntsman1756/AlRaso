@@ -70,9 +70,17 @@ class Effect(str, Enum):
 
 
 class LegalStatus(str, Enum):
-    """Public outcome axis: what the law allows for this activity+scope+date."""
+    """Public outcome axis: what the law allows for this activity+scope+date.
+
+    M8-D contract: PERMITTED means every material requirement was checked and
+    satisfied. CONDITIONAL means an applicable norm permits the activity but at
+    least one material requirement could not be verified automatically (a
+    missing fact or an unchecked operational restriction) — a caller must
+    never render CONDITIONAL as an unqualified "yes".
+    """
 
     PERMITTED = "PERMITTED"
+    CONDITIONAL = "CONDITIONAL"
     PROHIBITED = "PROHIBITED"
     AUTHORIZATION_REQUIRED = "AUTHORIZATION_REQUIRED"
     UNDETERMINED = "UNDETERMINED"
@@ -213,6 +221,10 @@ class ResolveResult:
     evidence: list[dict[str, Any]] = field(default_factory=list)
     precedence_trace: list[dict[str, Any]] = field(default_factory=list)
     unresolved_conflicts: list[dict[str, Any]] = field(default_factory=list)
+    # dynamic/operational restrictions observed for the query scopes:
+    # every record is exposed (verified or not) so the caller can see which
+    # current restrictions were actually checked.
+    dynamic_checks: list[dict[str, Any]] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
     reason_codes: list[str] = field(default_factory=list)
     decision_reason: str = ""
@@ -231,6 +243,7 @@ class ResolveResult:
             "evidence": self.evidence,
             "precedenceTrace": self.precedence_trace,
             "unresolvedConflicts": self.unresolved_conflicts,
+            "dynamicChecks": self.dynamic_checks,
             "warnings": self.warnings,
             "reasonCodes": self.reason_codes,
             "decisionReason": self.decision_reason,

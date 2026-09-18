@@ -80,8 +80,9 @@ def test_jurisdictions_are_mutually_exclusive(res):
 
 def test_without_facts_never_permitted(res):
     out = _q(res, 43.2662, -4.8686, {})
-    assert out["legalStatus"] == "UNDETERMINED"
-    assert "ENGINE_MISSING_INPUT" in out["reasonCodes"]
+    # M8-D: permiso aplicable con hechos materiales no verificables -> CONDITIONAL
+    assert out["legalStatus"] == "CONDITIONAL"
+    assert "MISSING_FACT" in out["reasonCodes"]
 
 
 def test_below_1800_never_permitted(res):
@@ -107,11 +108,11 @@ def test_cota_1801_permitted(res):
 
 def test_without_boundary_fact_never_permitted(res):
     # Si se reutiliza el fixture sin el guard de frontera, falta el hecho interno
-    # -> fail-closed (nunca un permiso).
+    # -> fail-closed: CONDITIONAL (M8-D), nunca un permiso desnudo.
     out = _q(res, 43.2662, -4.8686, {"actividad_montana_o_escalada": True,
                                      "nights": 2, "cota_m": 2400})
-    assert out["legalStatus"] == "UNDETERMINED"
-    assert "ENGINE_MISSING_INPUT" in out["reasonCodes"]
+    assert out["legalStatus"] == "CONDITIONAL"
+    assert "MISSING_FACT" in out["reasonCodes"]
 
 
 def test_boundary_unsafe_fact_never_permitted(res):

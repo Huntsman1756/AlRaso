@@ -29,7 +29,7 @@ from typing import Any, Literal, Protocol
 
 from alraso.bitemporal import VersionRow
 from alraso import conditions
-from alraso.errors import EngineMissingInput, EngineFailure, UnsupportedEngineCapability
+from alraso.errors import EngineFailure, UnsupportedEngineCapability
 
 # re-exported so existing imports keep working during the remediation
 EngineError = EngineFailure
@@ -140,8 +140,10 @@ class RuleEngineAdapter(Protocol):
 class OwnEvaluatorAdapter:
     """Evaluates store versions natively. Effect-only versions always hold;
     conditional versions hold iff their (strictly validated) AST evaluates true
-    over the facts. A missing referenced fact raises EngineMissingInput
-    (fail-closed: never a guess, never PERMITTED)."""
+    over the facts. A missing referenced fact yields outcome "undetermined"
+    with the missing fields recorded on the judgment (M8-D: the resolver then
+    decides CONDITIONAL vs UNDETERMINED by effect); a structurally bad
+    condition still raises EngineFailure (corrupt corpus, not a query gap)."""
 
     name = "own"
     version = OWN_EVALUATOR_VERSION
@@ -171,10 +173,17 @@ class OwnEvaluatorAdapter:
             cond_trace: list[dict[str, Any]] = []
             try:
                 holds = conditions.evaluate(v.condition, facts)
-            except conditions.MissingFact as e:
-                raise EngineMissingInput(
-                    str(e), detail={"field": e.field, "rule_id": v.rule_id,
-                                    "rule_version_id": v.seq}) from e
+            except conditions.MissingFact:
+                missing = sorted(conditions.referenced_fields(v.condition)
+                                 - set(facts))
+                cond_trace.append({"kind": "missing_input", "fields": missing,
+                                   "ast": v.condition})
+                judgments.append(JudgmentResult(
+                    rule_id=v.rule_id, rule_version_id=v.seq, effect=v.effect,
+                    outcome="undetermined",
+                    conditions=cond_trace,
+                    trace=["missing fact(s): " + ",".join(missing)]))
+                continue
             except conditions.BadCondition as e:
                 raise EngineFailure(f"bad condition in {v.rule_id}: {e}") from e
             cond_trace.append({"kind": "condition", "holds": holds, "ast": v.condition})

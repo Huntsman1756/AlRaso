@@ -489,18 +489,19 @@ class TestResolverA_B_F_G:
         assert "ss-pnpe-es-cl" not in scope_ids
 
     def test_B_p1_asturias_undetermined(self, fx, svc):
-        """B: P1_asturias_interior + facts → UNDETERMINED.
+        """B: P1_asturias_interior + facts → never PERMITTED.
 
-        Real DEM cota=1510 < 1800 → UNDETERMINED with DEM.
-        Without DEM: cota_m not provided → ENGINE_MISSING_INPUT → UNDETERMINED.
-        Both paths verified: UNDETERMINED regardless of DEM availability.
+        Real DEM cota=1510 < 1800 → condition false → UNDETERMINED with DEM.
+        Without DEM: cota_m not provided → MISSING_FACT → CONDITIONAL (M8-D:
+        the permission exists but the material fact is unverifiable).
+        Both paths are fail-closed; neither may produce PERMITTED.
         """
         out = server.resolve_point(
             svc, lat=43.2662, lon=-4.8686,
             activity="VIVAC_AL_RASO", activity_date=TODAY, knowledge_date=TODAY,
             facts={"actividad_montana_o_escalada": True, "nights": 2},
         )
-        assert out["determination"]["legalStatus"] == "UNDETERMINED"
+        assert out["determination"]["legalStatus"] in ("UNDETERMINED", "CONDITIONAL")
         scope_ids = [s["scope_id"] for s in out["applicableScope"]]
         assert "ss-pnpe-es-as" in scope_ids
 
@@ -990,6 +991,23 @@ def test_git_diff_vs_main_only_allowed_files():
             # preregistered boundary policy (M8-PREREG §10).
             or f == "alraso/spatial.py"
             or f == "tests/test_spatial_holes.py"
+            # M8-D result contract: CONDITIONAL status, operational/current
+            # restrictions (schema/store/engine/resolver), missing-fact
+            # semantics and the tests that pin the new contract.
+            or f == "alraso/domain.py"
+            or f == "alraso/errors.py"
+            or f == "alraso/schema.py"
+            or f == "alraso/bitemporal.py"
+            or f == "alraso/engine.py"
+            or f == "alraso/resolver.py"
+            or f == "alraso/ingest/ordesa.py"
+            or f == "tooling/DEPENDENCIES.lock.json"
+            or f == "tests/test_replay.py"
+            or f == "tests/test_engine_contract.py"
+            or f == "tests/test_failclosed.py"
+            or f == "tests/test_invariants.py"
+            or f == "tests/test_dem_failclosed.py"
+            or f == "tests/test_m2_webapp.py"
         )
         assert (
             f in allowed

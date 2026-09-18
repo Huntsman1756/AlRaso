@@ -61,8 +61,11 @@ def test_missing_fact_on_conditional_rule_fails_closed():
     base2 = dict(activity="ACAMPADA", activity_date="2021-07-15",
                  knowledge_date="2023-06-15", spatial_scope_id="s-synth")
     missing2 = r2.resolve(Query(**base2, facts={}))
-    assert missing2.legal_status is LegalStatus.UNDETERMINED
-    assert missing2.knowledge_status.value == "INCOMPLETE"
+    # M8-D: a missing fact on a PERMISSION yields CONDITIONAL (the norm may
+    # permit if altitude >= 2100, which we cannot verify) — still never an
+    # unqualified yes. A missing fact on a restrictive rule stays UNDETERMINED.
+    assert missing2.legal_status is LegalStatus.CONDITIONAL
+    assert "MISSING_FACT" in missing2.reason_codes
     above2 = r2.resolve(Query(**base2, facts={"altitude_m": 2200}))
     assert above2.legal_status is LegalStatus.PERMITTED
     below2 = r2.resolve(Query(**base2, facts={"altitude_m": 1500}))
