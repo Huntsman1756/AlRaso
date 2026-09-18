@@ -88,6 +88,14 @@ def apply_decision(
         version["spatial_review_complete"] = (
             True if spatial_done else None)
 
+    # Rule relations are part of the adjudicated content: an APPROVE decision
+    # binds the fixture hash INCLUDING declared precedence, so the relation
+    # becomes human-verified and publishable exactly like the rule versions.
+    for rel in out.get("rule_relations", []):
+        rel["review_status"] = "VERIFIED"
+        rel["legal_review_complete"] = True
+        rel["human_verified"] = True
+
     # Candidate-era assertions were written to prove non-publishability; they
     # are not valid expectations for the reviewed fixture. Publication-time
     # expectations live in tests, not in product data.

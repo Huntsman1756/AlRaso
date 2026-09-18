@@ -112,7 +112,8 @@ _CONDITION_NODE_KEYS = {
     "not": {"not"},
     "field": {"field", "op", "value"},
 }
-_KNOWN_OPS = {"eq", "neq", "gte", "gt", "lte", "lt", "in", "is_true", "is_false"}
+_KNOWN_OPS = {"eq", "neq", "gte", "gt", "lte", "lt", "in", "is_true", "is_false",
+              "date_in_range"}
 _NUM_OPS = {"gte", "gt", "lte", "lt"}
 
 
@@ -170,5 +171,21 @@ def _validate_node(cond: dict[str, Any], kind: str, where: str) -> None:
                 parse_fact_value(v, field=f"{where}.value[]")
         elif op in ("is_true", "is_false"):
             pass  # fact-side bool-ness is checked at evaluation, strictly
+        elif op == "date_in_range":
+            bounds = cond.get("value")
+            if (not isinstance(bounds, list) or len(bounds) != 2
+                    or not all(isinstance(x, str) for x in bounds)):
+                raise InvalidCondition(
+                    f"{where}: date_in_range requires ['MM-DD','MM-DD']")
+            from datetime import date as _date
+            for x in bounds:
+                p = x.split("-")
+                try:
+                    ok = len(p) == 2 and bool(_date(2000, int(p[0]), int(p[1])))
+                except (ValueError, TypeError):
+                    ok = False
+                if not ok:
+                    raise InvalidCondition(
+                        f"{where}: date_in_range bound {x!r} is not a valid 'MM-DD'")
         elif op in ("eq", "neq"):
             parse_fact_value(cond.get("value"), field=f"{where}.value")

@@ -273,6 +273,7 @@ MANIFEST = EV.parent / "m8-madrid-layers.json"
 
 ALL_MANIFEST_SCOPES = {
     "ss-pnsg-vivac-anexo3", "ss-pnsg-pn-cm", "ss-pnsg-zpp-cm",
+    "ss-pnsg-reserva-cm",
     "ss-prcam-parque", "ss-prcam-reserva-natural",
     "ss-prcmg-parque", "ss-prcmg-max-proteccion",
     "ss-prcmg-proteccion-mejora", "ss-prcmg-mantenimiento",

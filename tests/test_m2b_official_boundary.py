@@ -1024,6 +1024,16 @@ def test_git_diff_vs_main_only_allowed_files():
             or f == "tests/test_invariants.py"
             or f == "tests/test_dem_failclosed.py"
             or f == "tests/test_m2_webapp.py"
+            # M8-D2 remodel (post-REJECT of RC-M8-ES-MD-GUADARRAMA-VIVAC):
+            # CONDITIONAL-over-restriction semantics, activity_date-derived
+            # fact + date_in_range op, Reserva scope in the layer manifest,
+            # candidate fixture v2b and the contract tests.
+            or f == "alraso/conditions.py"
+            or f == "alraso/validation.py"
+            or f == "alraso/publish_reviewed.py"
+            or f == "webapp/static/modules/legal.js"
+            or f == "discovery/evidence/m8-madrid-layers.json"
+            or f == "tests/test_m8d2_conditional_over_restriction.py"
         )
         assert (
             f in allowed

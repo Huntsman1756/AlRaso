@@ -22,6 +22,15 @@
       "name_property": "DS_ZONA"
     },
     {
+      "id": "idem-ma-pnsg-reserva-cm",
+      "path": "m8-guadarrama/IDEM_MA_PNSG_RESERVA_CM.geojson",
+      "sha256": "fd3af320e0c649ec5a90b0256eac12265162843d3a67f7d600f1848c287e50c5",
+      "scope_type": "PARK_SECTOR",
+      "scope_id": "ss-pnsg-reserva-cm",
+      "official_name": "Zonas de Reserva PRUG PNSG (lado Comunidad de Madrid)",
+      "note": "derived subset of IDEM_MA_PNSG_ZONIFICACION: DS_ZONIF='Zona de Reserva' AND DS_PROV='MADRID' (11 features; geometry unmodified)"
+    },
+    {
       "id": "idem-ma-pn-guadarrama-cm-zpp",
       "path": "m8-guadarrama/IDEM_MA_PN_GUADARRAMA_CM.geojson",
       "sha256": "d64025a17861c33dc9a84bed082c8cbb75b4446ad5c44bcb686646436ccfb833",

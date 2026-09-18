@@ -39,7 +39,8 @@ DEFAULT_ENGINE = "own"
 OWN_EVALUATOR_VERSION = "own-evaluator/1"
 
 CONDITION_KINDS = frozenset({"const", "all", "any", "not", "field"})
-CONDITION_OPS = frozenset({"eq", "neq", "gte", "gt", "lte", "lt", "in", "is_true", "is_false"})
+CONDITION_OPS = frozenset({"eq", "neq", "gte", "gt", "lte", "lt", "in", "is_true", "is_false",
+                           "date_in_range"})
 MODELLED_EFFECTS = frozenset({"PERMITTED", "PROHIBITED", "AUTHORIZATION_REQUIRED"})
 
 

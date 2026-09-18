@@ -1,0 +1,177 @@
+{
+ "review_case_id": "RC-M8-ES-MD-GUADARRAMA-VIVAC-V2B",
+ "milestone": "M8",
+ "park": {
+  "space_id": "pn-sierra-guadarrama-cm",
+  "name": "Parque Nacional de la Sierra de Guadarrama (ámbito Comunidad de Madrid)",
+  "jurisdiction": "ES-MD",
+  "gazette": "BOCM",
+  "managing_authority": "Comunidad de Madrid — Organismo Autónomo Parque Nacional Sierra de Guadarrama"
+ },
+ "activity": "VIVAC_AL_RASO",
+ "proposed_effect": "v2b — ramas art. 48 explicitas: A Anexo III PERMITTED condicionado (<=1 noche, <=10 pax); B refugio no guardado PERMITTED si sin plazas (facts declarables, ausentes => CONDITIONAL nunca PROHIBITED); C estacional post-nulidad PERMITTED fuera de 15/6-15/10 no-Reserva <=5 pax (date_in_range sobre activity_date derivado); D resto PRUG PROHIBITED con TODAS las excepciones via OVERRIDES; E >10 pax AUTHORIZATION_REQUIRED; F restriccion fuego dinamica; Zona de Reserva PROHIBITED (scope derivado CM); ZPP abierto.",
+ "exact_precepts": [
+  {
+   "instrument": "Decreto 18/2020, de 11 de febrero (PRUG-PNSG ámbito CAM)",
+   "locator": "Art. 48. a) Vivac",
+   "quote": "1. A efectos de aplicación del presente PRUG se entiende por vivac o vivaquear, el hecho de dormir o descansar durante la noche al raso o intemperie, usando o no elementos de abrigo, como saco de dormir o funda de vivac o los medios que proporciona el entorno sin alterarlo, sin instalar tiendas de campaña, doble techo o similar, siendo esta una actividad asociada a la práctica del montañismo. 2. En el ámbito del PRUG únicamente se permitirá el vivac o la pernocta al raso en los lugares recogidos en el Anexo III [...] así como en el entorno inmediato de los refugios no guardados existentes en el parque nacional siempre que no existan plazas libres en el interior de dichas infraestructuras. [...] 3. En todo caso se exigirá el cumplimiento de las siguientes condiciones: a) No se permitirá, salvo expresa autorización, el vivac de grupos organizados con más de 10 componentes. b) Salvo en caso de emergencia o fuerza mayor, no se podrá permanecer más de una noche en la misma zona. c) Se prohíbe la apertura de zanjas de drenaje y la acumulación de piedras y/o elementos vegetales a modo de parapeto.",
+   "role": "régimen completo del vivac — definición, ámbito espacial y condiciones"
+  },
+  {
+   "instrument": "Decreto 18/2020",
+   "locator": "Art. 38.1.o)",
+   "quote": "o) La acampada libre en cualquier modalidad, así como la pernocta al aire libre, incluso bajo resguardos naturales, a excepción de lo especificado en el artículo 48.",
+   "role": "actividad incompatible residual — cierre del régimen"
+  },
+  {
+   "instrument": "Decreto 18/2020",
+   "locator": "Art. 92.3.e)",
+   "quote": "e) Pernocta en cualquier modalidad en lugares no habilitados expresamente para la acampada, salvo derechos de propiedad, que estará sometida a las condiciones del apartado 3 del artículo 48.a)",
+   "role": "régimen ZPP y entornos de Puertos — interpretación abierta (ver cuestiones)"
+  },
+  {
+   "instrument": "Texto consolidado oficial (parquenacionalsierraguadarrama.es)",
+   "locator": "Nota (8) al art. 48",
+   "quote": "Se declara la nulidad del artículo 48.2 en el extremo en que fija el límite de altitud en 2.000 metros para la práctica de la actividad de vivac por la Sentencia TSJ Madrid 1003/2022, de 4 de noviembre, núm. rec. 197/2022.",
+   "role": "nulidad judicial — la cláusula de altitud NO es derecho vigente; nulidad no re-legislada"
+  },
+  {
+   "instrument": "Decreto 26/2025, de 14 de mayo (regla general CAM, fuera de ENP)",
+   "locator": "Arts. 3, 4 y Disp. Derogatoria",
+   "quote": "Art. 4. La acampada libre está prohibida en todo el territorio de la Comunidad de Madrid. [...] Disp. Derogatoria: Queda derogado el Decreto 3/1993. [...] Disp. Final 2ª: entrará en vigor el día siguiente al de su publicación (2025-05-23).",
+   "role": "regla general regional — definición de acampada por 'elementos de acampada'; el vivac puro es laguna definicional"
+  }
+ ],
+ "source": {
+  "document_url": "https://www.bocm.es/boletin/CM_Orden_BOCM/2020/02/29/BOCM-20200229-1.PDF",
+  "consolidated_url": "https://parquenacionalsierraguadarrama.es/legislacion/",
+  "stable_id": "Decreto 18/2020 — BOCM núm. 51 extraordinario, 29/02/2020",
+  "pdf_sha256": "f34a023e9560c1b48859d2921550c5a22660c4959b68cea1afb843cb9cfa0964",
+  "pdf_redistributed": false,
+  "extract_file": "prug-d18-2020-art48-extract.txt",
+  "extract_sha256": "d6bffd66b47b78b93bbd98bafb0747557fc89723d1b9390c31f51ebb960ac627",
+  "modification": "Decreto 238/2023 (BOCM 222, 18/09/2023) sha256 15616e02bb6d05acb0c07b7cc392a9fa667c5aca7f0fcf31448650288bc66759 — arts. 29.2/45.2 + Anexos X-XII; NO toca art. 48",
+  "general_rule": "Decreto 26/2025 (BOCM 121, 22/05/2025) — art. 4 prohibición acampada libre CAM"
+ },
+ "validity_evidence": {
+  "publication": "BOCM núm. 51 extraordinario, 29 de febrero de 2020",
+  "entry_into_force": "2020-03-01 (disp. final — día siguiente a publicación; computada, a confirmar)",
+  "judicial_status": "STSJM 1003/2022 anula parcialmente art. 48.a.2 (límite 2.000 m); STSJM 1135/2021 y 135/2023 anulan otros preceptos no relativos al vivac",
+  "supersession_check": "PRUG vigente; modificado por Decreto 238/2023 sin tocar art. 48",
+  "status": "VIGENTE con nulidades parciales — mecánicamente soportado, pendiente de verificación humana"
+ },
+ "geometry_evidence": {
+  "source": "IDEM WFS oficial Comunidad de Madrid (geoidem) — geometría real, NO digest",
+  "retrieved": "2026-09-17",
+  "license": "CC-BY 4.0 Comunidad de Madrid",
+  "layers": {
+   "vivac_zones": {
+    "typeName": "Zonas:IDEM_MA_PNSG_ZON_VIVAC_ANUA",
+    "file": "IDEM_MA_PNSG_ZON_VIVAC_ANUA.geojson",
+    "sha256": "b6fa71b24927a5a44229e0363773c67e309a773c9e20649fa5d710f9f63958b6",
+    "features": 5,
+    "zones": [
+     "Prado Peluca",
+     "Yelmo",
+     "El Pajaro Pedriza",
+     "Las Torres",
+     "Zabala"
+    ],
+    "note": "Capa modificada en dic/2023: excluye 'Pájaros_Peñalara // Los Llanos' (arts. 33.1 y 45.3 PRUG)"
+   },
+   "pn_boundary_cm": {
+    "typeName": "LugaresProtegidos:IDEM_MA_PN_GUADARRAMA_CM",
+    "file": "IDEM_MA_PN_GUADARRAMA_CM.geojson",
+    "sha256": "d64025a17861c33dc9a84bed082c8cbb75b4446ad5c44bcb686646436ccfb833",
+    "features": 2,
+    "note": "PN-CM = 1 polígono simple (4174 vértices); ZPP-CM = MultiPolygon 2 partes con 7 anillos interiores — los huecos no son representables fielmente en el modelo de anillos actual; ZPP se deja como evidencia sin geometría en el fixture"
+   },
+   "zonificacion_prug": {
+    "typeName": "Zonas:IDEM_MA_PNSG_ZONIFICACION",
+    "file": "IDEM_MA_PNSG_ZONIFICACION.geojson",
+    "sha256": "ab84aa9fd7d064523fdcd332ad6ea37e105f09fd4a6b553893c35731906aea1f",
+    "features": 165,
+    "note": "14 Zona de Reserva — relevante para la cláusula de altitud (anulada); conservada como evidencia de contexto"
+   }
+  },
+  "caveat": "El 'entorno inmediato de los refugios no guardados' (art. 48.a.2) carece de delimitación oficial publicada — sub-scope no cerrable mecánicamente. La condición 'siempre que no existan plazas libres en el interior' es un hecho operativo no modelable."
+ },
+ "conditions_modelled": [
+  "A: nights_same_zone <= 1, group_size <= 10 (48.a.3; >10 => AUTH via rama E)",
+  "B: near_unguarded_refuge, refuge_has_free_places=false (facts declarables — sin geometria oficial del entorno inmediato)",
+  "C: activity_date NOT IN [06-15,10-15] (fact derivado de la query, op date_in_range), group_size <= 5, nights <= 1, exclusion Reserva via scope+OVERRIDES",
+  "D: PROHIBITED incondicional pn-cm; excepciones A/B/C/E con OVERRIDES declarado (human_verified tras adjudicacion)",
+  "E: group_size > 10 en anexo3 => AUTHORIZATION_REQUIRED",
+  "Reserva: PROHIBITED incondicional (11 features CM derivadas de zonificacion oficial)",
+  "F: restriccion riesgo incendio dinamica (operational_restriction, verified=false) — CONDITIONAL mientras no se verifique",
+  "NO modelado: regimen administrativo Peñalara (15 pax/dia, perros) — sin base PRUG identificada; laguna definicional vivac puro fuera de ENP"
+ ],
+ "interpretation_note": "v2b implementa la decision del revisor: ninguna prohibicion con excepciones sin representar; ausencia de fact nunca => PROHIBITED (semantica CONDITIONAL-over-restriction en el resolver, requiere baseline nuevo); nulidad parcial representada explicitamente via rama C; relaciones OVERRIDES = excepciones legales declaradas del art. 48.a.2 sobre el cierre 38.1.o. Residual declarado: (1) entorno inmediato de refugio por facts declarables, no geometria — la Administracion no publica delimitacion; (2) grupo >10 fuera de anexo3 cae a PROHIBITED aunque juridicamente seria AUTH (sin base para scopearlo); (3) rama C asume que la nulidad deja subsistente la permision estacional sin limite altitudinal — lectura del fallo por el revisor.",
+ "contrary_or_ambiguous_evidence": [
+  "Nulidad del límite de 2000 m (STSJM 1003/2022) no re-legislada: ¿el art. 48.a.2 queda reducido a Anexo III + refugios, o la nulidad reabre el vivac fuera de Anexo III sin límite altitudinal? Lectura conservadora adoptada: solo Anexo III",
+  "Art. 92.3.e ZPP: ¿vivac permitido condicionado o remisión vacía? Literalmente somete la pernocta no habilitada a las condiciones del 48.a.3",
+  "Laguna definicional CAM: 'acampada libre' (D 26/2025) se define por elementos de acampada; el vivac puro sin tienda podría quedar fuera de la prohibición general fuera de ENP — la web de CAM lo afirma pero es interpretación no normativa",
+  "Régimen administrativo Peñalara (máx. 15 pax/día con autorización, vivac con perros prohibido) publicado por el parque sin base en precepto PRUG identificado — jerarquía normativa a verificar",
+  "El entorno inmediato de refugios no guardados no tiene delimitación oficial ni condición 'sin plazas libres' verificable",
+  "ZPP MultiPolygon con 7 huecos no representable en el modelo de anillos — si el revisor aprueba una regla ZPP hace falta soporte de anillos interiores o aproximación documentada",
+  "v2b residuals: (i) si el revisor estimara que la nulidad extingue TODA la clausula estacional y no solo el limite de altitud, la rama C deberia retirarse — decision juridica explicita a firmar; (ii) la geometria Reserva es un subset derivado de la capa oficial (filtro DS_ZONIF+DS_PROV documentado), no una capa oficial directa; (iii) near_unguarded_refuge/refuge_has_free_places son hechos declarables del usuario, no verificables por el sistema."
+ ],
+ "proposed_resolver_examples": [
+  {
+   "facts": {
+    "pt": "Zabala anexo3",
+    "nights_same_zone": 1,
+    "group_size": 4
+   },
+   "expected_if_approved": "CONDITIONAL (fuego sin verificar) / PERMITTED si check verificado"
+  },
+  {
+   "facts": {
+    "pt": "anexo3",
+    "group_size": 15
+   },
+   "expected_if_approved": "AUTHORIZATION_REQUIRED"
+  },
+  {
+   "facts": {
+    "pt": "interior PN, verano, sin facts"
+   },
+   "expected_if_approved": "CONDITIONAL (bolsillo refugio pendiente)"
+  },
+  {
+   "facts": {
+    "pt": "interior PN, verano",
+    "near_unguarded_refuge": false
+   },
+   "expected_if_approved": "PROHIBITED"
+  },
+  {
+   "facts": {
+    "pt": "interior PN, invierno",
+    "group_size": 4,
+    "nights_same_zone": 1,
+    "near_unguarded_refuge": false
+   },
+   "expected_if_approved": "PERMITTED (rama C)"
+  },
+  {
+   "facts": {
+    "pt": "Zona de Reserva, invierno",
+    "group_size": 4
+   },
+   "expected_if_approved": "PROHIBITED"
+  },
+  {
+   "facts": {
+    "pt": "ZPP"
+   },
+   "expected_if_approved": "UNDETERMINED (cuestion abierta)"
+  }
+ ],
+ "reviewer_decision": "PENDING",
+ "review_status": "REVIEW_REQUIRED",
+ "legal_review_complete": false,
+ "spatial_review_complete": false,
+ "automated_state": "READY_FOR_HUMAN_REVIEW",
+ "supersedes": "RC-M8-ES-MD-GUADARRAMA-VIVAC (v1) — REJECTED por defecto objetivo de modelado: la condicion de carve-out usaba facts no suministrables por el resolver de coordenadas, envenenando todo el PN a UNDETERMINED. Decision humana REJECT registrada."
+}

@@ -18,14 +18,17 @@ Grammar:
     {"any": [cond, ...]}          # empty -> False
     {"not": cond}
     {"field": name, "op": op, "value": v}
-      op in: eq neq gte gt lte lt in is_true is_false
+      op in: eq neq gte gt lte lt in is_true is_false date_in_range
+      date_in_range: fact = ISO 'YYYY-MM-DD'; value = ["MM-DD","MM-DD"]
+      inclusive, wrapping year-end when start > end (e.g. ["10-16","06-14"]).
 """
 
 from __future__ import annotations
 
+from datetime import date
 from typing import Any
 
-from alraso.validation import parse_number_strict, validate_condition
+from alraso.validation import parse_date_strict, parse_number_strict, validate_condition
 
 
 class MissingFact(Exception):
@@ -94,6 +97,38 @@ def _op_is_false(a: Any, _b: Any) -> bool:
     return not a
 
 
+def _md_int(d: date) -> int:
+    return d.month * 100 + d.day
+
+
+def _parse_md(x: Any) -> int:
+    if not isinstance(x, str):
+        raise BadCondition("date_in_range bounds must be 'MM-DD' strings")
+    parts = x.split("-")
+    if len(parts) != 2:
+        raise BadCondition(f"date_in_range bound {x!r} is not 'MM-DD'")
+    try:
+        return _md_int(date(2000, int(parts[0]), int(parts[1])))
+    except (ValueError, TypeError) as e:
+        raise BadCondition(f"date_in_range bound {x!r} is not a valid month-day") from e
+
+
+def _op_date_in_range(a: Any, b: Any) -> bool:
+    """Fact is an ISO 'YYYY-MM-DD' date; value is ["MM-DD","MM-DD"] inclusive,
+    wrapping year-end when start > end. A non-date fact is BadCondition
+    (never coerced, never guessed)."""
+    if not isinstance(b, list) or len(b) != 2:
+        raise BadCondition("date_in_range requires a ['MM-DD','MM-DD'] value")
+    start, end = _parse_md(b[0]), _parse_md(b[1])
+    try:
+        md = _md_int(parse_date_strict(a, field="fact"))
+    except Exception as e:
+        raise BadCondition(str(e)) from e
+    if start <= end:
+        return start <= md <= end
+    return md >= start or md <= end
+
+
 _OPS: dict[str, Any] = {
     "eq": _op_eq,
     "neq": _op_neq,
@@ -104,6 +139,7 @@ _OPS: dict[str, Any] = {
     "in": _op_in,
     "is_true": _op_is_true,
     "is_false": _op_is_false,
+    "date_in_range": _op_date_in_range,
 }
 
 
@@ -121,9 +157,31 @@ def _eval_validated(cond: dict[str, Any], facts: dict[str, Any]) -> bool:
     if "const" in cond:
         return cond["const"]
     if "all" in cond:
-        return bool(cond["all"]) and all(_eval_validated(c, facts) for c in cond["all"])
+        if not cond["all"]:
+            return False
+        missing: Exception | None = None
+        for c in cond["all"]:
+            try:
+                if not _eval_validated(c, facts):
+                    return False
+            except MissingFact as e:
+                missing = missing or e
+        if missing is not None:
+            raise missing
+        return True
     if "any" in cond:
-        return bool(cond["any"]) and any(_eval_validated(c, facts) for c in cond["any"])
+        if not cond["any"]:
+            return False
+        missing = None
+        for c in cond["any"]:
+            try:
+                if _eval_validated(c, facts):
+                    return True
+            except MissingFact as e:
+                missing = missing or e
+        if missing is not None:
+            raise missing
+        return False
     if "not" in cond:
         return not _eval_validated(cond["not"], facts)
     field = cond["field"]
