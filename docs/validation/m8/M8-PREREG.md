@@ -120,5 +120,5 @@ Política fijada **antes** de implementar el resolver de puntos:
 | 2026-09-17 | M8-B geometría oficial | DONE — IDEM WFS: 5 polígonos vivac Anexo III (`b6fa71b2…`), límite PN-CM+ZPP (`d64025a1…`), zonificación 165 feat. (`ab84aa9f…`), ENP/PRs/RN2000. Geometría real CC-BY 4.0, no digest |
 | 2026-09-17 | M8-C Guadarrama | DONE — `discovery/evidence/m8-guadarrama/`: `RC-M8-ES-MD-GUADARRAMA-VIVAC`, 2 reglas propuestas `REVIEW_REQUIRED`, 5 tests fail-closed verdes |
 | — | M8-D temporal/excepcional | PARTIAL — Peñalara (15 pax/día, perros) y exclusiones dic/2023 documentadas como cuestiones del revisor; restricción de incendios discrecional no modelable |
-| — | M8-C PRs (Manzanares, Guadarrama medio, Sureste) + territorio general | PENDING |
+| 2026-09-17 | M8-C PRs | DONE (candidatos) — `m8-pr-manzanares/` (`RC-M8-ES-MD-PRCAM-VIVAC`: Ley 1/1985 art. 14.2.h + D 96/2009 §4.4.8.6/DT1, PRUG-PRCAM sin extraer = laguna), `m8-pr-guadarrama-medio/` (`RC-M8-ES-MD-PRCMG-VIVAC`: prohibición acampada libre D 26/1999+D 124/2002; **verificado que la remisión vivac→PRUG NO existe en este PORN** y que el PRUG nunca fue aprobado), `m8-pr-sureste/` (`RC-M8-ES-MD-PRSE-VIVAC`: régimen zonal Ley 6/1994+D 27/1999; **PRUG D 9/2009 ANULADO** — excluido como base). 9 reglas `REVIEW_REQUIRED`, 14 tests fail-closed verdes. Territorio general CAM: PENDING |
 | — | M8-E/F/G | PENDING |

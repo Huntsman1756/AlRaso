@@ -1,0 +1,72 @@
+EXTRACTO DE EVIDENCIA NORMATIVA — Parque Regional del Curso Medio del
+río Guadarrama y su entorno
+Actividad objeto: vivac / pernocta al raso / acampada
+Fecha de extracción: 2026-09-17
+Fuentes: PDF oficial RLMA (descarga FichaNormativa ID=676) del Decreto
+26/1999; Decreto 124/2002; texto consolidado BOE de la Ley 20/1999
+(BOE-A-1999-17642).
+
+=====================================================================
+1. Decreto 26/1999, de 11 de febrero — aprueba el PORN del Parque
+   Regional del Curso Medio del río Guadarrama y su entorno
+   (BOCM núm. 50, 01/03/1999; RLMA ID=676, VIGENTE)
+
+Apartado 4.2 (normativa sobre actividades de uso público, deportivas y
+recreativas), verbatim del PDF oficial:
+"Se prohíbe la acampada libre en todo el ámbito de ordenación."
+
+VERIFICACIÓN EXHAUSTIVA SOBRE EL TEXTO OFICIAL EXTRAÍDO (pdftotext del
+PDF RLMA, 149 KB de texto): las únicas apariciones de "vivac" son
+"pastos vivaces" (vegetación); NO existe ningún precepto sobre vivac,
+pernocta "al raso" o bivouac, y NO existe la remisión vivac→PRUG que se
+había atribuido a este PORN (esa remisión existe, en cambio, en el
+§4.4.8.6 del Decreto 96/2009 — PORN de la Sierra de Guadarrama, otro
+instrumento: ver paquete m8-pr-manzanares).
+
+=====================================================================
+2. Decreto 124/2002, de 5 de julio — extiende el PORN a la zona de
+   ampliación (BOCM núm. 184, 05/08/2002)
+
+Verbatim del PDF oficial:
+"Se prohíbe la acampada libre en toda la zona de ampliación del PORN."
+
+La ampliación cubre los términos añadidos por la Ley 20/1999 (El Álamo,
+Arroyomolinos, Boadilla del Monte, Colmenarejo, Galapagar, Moraleja de
+Enmedio, Móstoles, Navalcarnero, Serranillos del Valle y Villaviciosa
+de Odón).
+
+=====================================================================
+3. Ley 20/1999, de 3 de mayo (texto consolidado BOE-A-1999-17642)
+
+Art. 9.3:
+"Son usos compatibles los turísticos, recreativos y deportivos, con las
+limitaciones establecidas en el Plan de Ordenación de los Recursos
+Naturales."
+
+La ley NO contiene preceptos sobre acampada ni vivac (búsqueda
+exhaustiva en el consolidado: cero apariciones).
+
+=====================================================================
+4. PRUG — INEXISTENTE
+   El propio PORN preveía su elaboración ("una vez aprobado el presente
+   P.O.R.N. y la correspondiente figura de protección, los órganos
+   gestores de esta zona elaborarán el Plan Rector de Uso y Gestión"),
+   pero NUNCA fue aprobado (PNL 87/2018 de la Asamblea de Madrid instó a
+   su elaboración; sin decreto posterior). Cualquier remisión a
+   "los correspondientes PRUG" es INOPERANTE para este parque.
+
+=====================================================================
+5. Instrumento relacionado: Plan de Ordenación del Embalse de Valmayor
+   (revisión, Decreto 121/2002, de 5 de julio) — prohíbe "la acampada
+   libre, el baño y los deportes náuticos de todo tipo, a excepción de
+   lo dispuesto en el epígrafe 7.d)" dentro del ámbito del plan del
+   embalse (sub-ámbito dentro del parque; registrado como contexto).
+
+=====================================================================
+6. Cuestión interpretativa abierta
+   La prohibición literal es de "acampada libre". Si el vivac al raso
+   (sin tienda ni elementos de acampada) queda fuera de esa noción, el
+   parque carece de regulación propia del vivac y el punto quedaría
+   remitido al régimen general regional (D 26/2025 prohíbe la acampada
+   libre en toda la CAM, con la misma laguna definicional) — cuestión
+   para el revisor.

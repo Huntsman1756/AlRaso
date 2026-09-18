@@ -1,0 +1,259 @@
+{
+  "$schema": "alraso-corpus-candidate-v1",
+  "fixture_meta": {
+    "name": "M8_CANDIDATE_PR_CA_MANZANARES",
+    "purpose": "M8 Madrid vertical — evidence candidate for PR Cuenca Alta del Manzanares. NOT product corpus: every rule version is REVIEW_REQUIRED with legal/spatial review incomplete; the eligibility gate makes all of them non-publishable. Pending human adjudication.",
+    "created": "2026-09-17",
+    "activity_scope": "VIVAC_AL_RASO + ACAMPADA — la ley regula 'acampada'; las reglas de vivac llevan el salto interpretativo documentado",
+    "publishable": false
+  },
+  "source_documents": [
+    {
+      "id": "sd-ley-1-1985",
+      "authority": "Comunidad de Madrid",
+      "jurisdiction": "ES-MD",
+      "document_type": "LAW",
+      "title": "Ley 1/1985, de 23 de enero, del Parque Regional de la Cuenca Alta del Manzanares (texto consolidado)",
+      "canonical_url": "https://www.boe.es/buscar/act.php?id=BOE-A-1985-8242",
+      "official_status": "VIGENTE con modificaciones (última Ley 11/2022) — BOE-A-1985-8242",
+      "retrieved_at": "2026-09-17"
+    },
+    {
+      "id": "sd-decreto-96-2009",
+      "authority": "Comunidad de Madrid (Consejería de Medio Ambiente)",
+      "jurisdiction": "ES-MD",
+      "document_type": "DECREE",
+      "title": "Decreto 96/2009, de 18 de noviembre — PORN de la Sierra de Guadarrama en el ámbito territorial de la Comunidad de Madrid",
+      "canonical_url": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/parques-nacionales/Porn%20Guadarrama%20Madrid%20sin%20cartograf%C3%ADa_tcm30-65005.pdf",
+      "official_status": "VIGENTE, ANULADO PARCIALMENTE (STSJM 604/2012; Resolución 29/01/2015) — BOCM 14/01/2010",
+      "retrieved_at": "2026-09-17",
+      "content_hash": "sha256:c967e49392b8fc36b2c11c756f9266f896ee54c4f38b87959a4a5d289102ea87 (PDF oficial MITECO, not redistributed)"
+    },
+    {
+      "id": "sd-prug-prcam",
+      "authority": "Comunidad de Madrid",
+      "jurisdiction": "ES-MD",
+      "document_type": "PRUG",
+      "title": "PRUG del PRCAM — Orden de 28/05/1987 + revisión por Orden de 20/10/1995",
+      "canonical_url": "https://gestiona.comunidad.madrid/rlma_web/FichaNormativa.icm?ID=2767",
+      "official_status": "VIGENTE (RLMA) — LAGUNA: preceptos de uso público no extraídos verbatim en esta iteración",
+      "retrieved_at": "2026-09-17"
+    },
+    {
+      "id": "sd-idem-prcam",
+      "authority": "Comunidad de Madrid — IDEM",
+      "jurisdiction": "ES-MD",
+      "document_type": "GIS_LAYER",
+      "title": "Límites y zonificación del PRCAM (Ley 1/1985 y modificaciones + PRUG; resuelve recorte Ley 6/2013)",
+      "canonical_url": "https://idem.comunidad.madrid/geoidem/LugaresProtegidos/ows?service=WFS&request=GetFeature&typeName=LugaresProtegidos:IDEM_MA_PR_CA_MANZANARES",
+      "official_status": "OFFICIAL — CC-BY 4.0",
+      "retrieved_at": "2026-09-17",
+      "content_hash": "sha256:560b349880eeb96a20b6f85583006dc9995a138424b1036bf48c379c44da1c63 (IDEM_MA_PR_CA_MANZANARES.geojson, EPSG:4326)"
+    }
+  ],
+  "legal_fragments": [
+    {
+      "id": "lf-ley1-14-chapeau",
+      "source_document_id": "sd-ley-1-1985",
+      "locator": "Art. 14.2 (chapeau)",
+      "exact_text_hint": "En las Zonas de Reserva Natural no se permitirá ningún uso o actividad que no se oriente directamente a la conservación del ambiente y al mantenimiento del equilibrio natural en las zonas mismas.",
+      "extracted_at": "2026-09-17",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "Ley 1/1985, art. 14.2 — régimen restrictivo Zonas de Reserva Natural",
+      "validity_from": "1985-01-23",
+      "validity_to": null
+    },
+    {
+      "id": "lf-ley1-14h-acampada",
+      "source_document_id": "sd-ley-1-1985",
+      "locator": "Art. 14.2.h)",
+      "exact_text_hint": "h) La acampada sin autorización expresa del Patronato, así como la producción de fuego.",
+      "extracted_at": "2026-09-17",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "Ley 1/1985, art. 14.2.h — acampada requiere autorización expresa del Patronato en A1/A2",
+      "validity_from": "1985-01-23",
+      "validity_to": null
+    },
+    {
+      "id": "lf-d96-4486-vivac",
+      "source_document_id": "sd-decreto-96-2009",
+      "locator": "Apartado 4.4.8.6",
+      "exact_text_hint": "Salvo en las Zonas de Reserva y de Asentamientos Tradicionales, se autoriza con carácter general la práctica del vivac o la pernocta \"al raso\", sin instalación de tiendas de campaña, \"dobles techos\" o similares en el ámbito de ordenación del presente PORN. [...] La práctica de esta actividad en propiedades particulares deberá contar con la autorización del propietario. Las condiciones a que se ajustará la práctica de la pernocta \"al raso\" deberán desarrollarse, en su caso, en los correspondientes PRUG [...]",
+      "extracted_at": "2026-09-17",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "Decreto 96/2009, §4.4.8.6 — autorización general del vivac al raso con remisión a PRUG",
+      "validity_from": "2009-11-18",
+      "validity_to": null
+    },
+    {
+      "id": "lf-d96-448n-acampada",
+      "source_document_id": "sd-decreto-96-2009",
+      "locator": "Apartado 4.4.8.n)-ñ)",
+      "exact_text_hint": "n) Se prohíbe la acampada libre en todo el ámbito de ordenación. ñ) Únicamente se permitirá la acampada en las zonas autorizadas como campamentos de turismo [...]",
+      "extracted_at": "2026-09-17",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "Decreto 96/2009, §4.4.8.n-ñ — distinción expresa acampada libre (prohibida) / vivac (autorizado)",
+      "validity_from": "2009-11-18",
+      "validity_to": null
+    },
+    {
+      "id": "lf-d96-dt1-supletorio",
+      "source_document_id": "sd-decreto-96-2009",
+      "locator": "Disposición Transitoria Primera",
+      "exact_text_hint": "Los planes rectores de uso y gestión y el Plan de Ordenación de los Recursos Naturales del Parque Regional de la Cuenca Alta del Manzanares y Parque Natural de la Cumbre, Circo y Lagunas de Peñalara, seguirán en vigor en sus respectivos ámbitos. En aquellas materias no reguladas por los citados planes, será de aplicación el Plan de Ordenación de los Recursos Naturales de la Sierra de Guadarrama.",
+      "extracted_at": "2026-09-17",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "Decreto 96/2009, DT1 — supletoriedad del PORN sierra en materias no reguladas por PRUG-PRCAM",
+      "validity_from": "2009-11-18",
+      "validity_to": null
+    },
+    {
+      "id": "lf-stsjm-604-2012",
+      "source_document_id": "sd-decreto-96-2009",
+      "locator": "STSJM 604/2012, fallo (a) — publicada por Resolución 29/01/2015",
+      "exact_text_hint": "Las delimitaciones de las Zonas de Aprovechamiento Ordenado [...] deben anularse en relación con los ámbitos de Reserva Natural, A1 o A2 del Parque Regional de la Cuenca Alta del Manzanares coincidentes con dichas zonas en cuanto a la relación de usos permitidos en las mismas debiendo prevalecer los determinados por el PRUG del Parque Regional.",
+      "extracted_at": "2026-09-17",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "STSJM 604/2012 — prevalencia del PRUG-PRCAM en A1/A2 (registro RLMA)",
+      "validity_from": "2012-05-31",
+      "validity_to": null
+    },
+    {
+      "id": "lf-prug-prcam-gap",
+      "source_document_id": "sd-prug-prcam",
+      "locator": "capítulo de uso público",
+      "exact_text_hint": "LAGUNA DE EVIDENCIA: el PRUG del PRCAM (vigente) no ha sido extraído; sus preceptos sobre acampada/pernocta son desconocidos en este paquete y determinan si opera la DT1 del D 96/2009.",
+      "extracted_at": "2026-09-17",
+      "review_status": "REVIEW_REQUIRED",
+      "provision_ref": "PRUG PRCAM 1987/1995 — instrumento de desarrollo pendiente de extracto",
+      "validity_from": "1995-10-20",
+      "validity_to": null
+    }
+  ],
+  "spatial_scopes": [
+    {
+      "id": "ss-prcam-parque",
+      "scope_type": "REGIONAL_PARK",
+      "official_name": "Parque Regional de la Cuenca Alta del Manzanares (límite oficial post-Ley 6/2013)",
+      "geometry_source": "sd-idem-prcam",
+      "feature_id": "IDEM_MA_PR_CA_MANZANARES (todas las features — límite + zonificación)",
+      "srid_native": 25830,
+      "review_status": "SPATIAL_REVIEW_PENDING",
+      "relevance": "REGULATORY"
+    },
+    {
+      "id": "ss-prcam-reserva-natural",
+      "scope_type": "PARK_SECTOR",
+      "parent_scope": "ss-prcam-parque",
+      "official_name": "Zonas de Reserva Natural del PRCAM (A1 Reserva Natural Integral + A2 Reserva Natural Educativa)",
+      "geometry_source": "sd-idem-prcam",
+      "feature_id": "features CD_TIPO_ZONA in (A1, A2) de IDEM_MA_PR_CA_MANZANARES",
+      "srid_native": 25830,
+      "review_status": "SPATIAL_REVIEW_PENDING",
+      "relevance": "REGULATORY"
+    }
+  ],
+  "legal_rule_versions": [
+    {
+      "rule_id": "alraso:es-md/pr-ca-manzanares/acampada#reserva-natural-autorizacion",
+      "activity": "ACAMPADA",
+      "spatial_scope_id": "ss-prcam-reserva-natural",
+      "effect": "AUTHORIZATION_REQUIRED",
+      "condition": null,
+      "effective_from": "1985-01-23",
+      "effective_to": null,
+      "recorded_at": "2026-09-17",
+      "recorded_until": null,
+      "review_status": "REVIEW_REQUIRED",
+      "legal_review_complete": false,
+      "spatial_review_complete": false,
+      "evidence": [
+        "lf-ley1-14h-acampada",
+        "lf-ley1-14-chapeau"
+      ],
+      "interpretation_note": "LITERAL: art. 14.2.h exige autorización expresa del Patronato para acampar en Zonas de Reserva Natural. Sin salto interpretativo.",
+      "normative_basis": [
+        "lf-ley1-14h-acampada"
+      ]
+    },
+    {
+      "rule_id": "alraso:es-md/pr-ca-manzanares/pernocta#vivac-reserva-natural",
+      "activity": "VIVAC_AL_RASO",
+      "spatial_scope_id": "ss-prcam-reserva-natural",
+      "effect": "AUTHORIZATION_REQUIRED",
+      "condition": null,
+      "effective_from": "1985-01-23",
+      "effective_to": null,
+      "recorded_at": "2026-09-17",
+      "recorded_until": null,
+      "review_status": "REVIEW_REQUIRED",
+      "legal_review_complete": false,
+      "spatial_review_complete": false,
+      "evidence": [
+        "lf-ley1-14h-acampada",
+        "lf-d96-4486-vivac"
+      ],
+      "interpretation_note": "PROPOSED con SALTO INTERPRETATIVO: extiende el régimen de 'acampada' (art. 14.2.h) al vivac al raso en Zonas de Reserva Natural. Lectura conservadora: si vivac ⊆ acampada => autorización del Patronato; si no, en A1/A2 prevalecería el PRUG-PRCAM (STSJM 604/2012) y la autorización general del §4.4.8.6 D 96/2009 quedaría excluida en Zonas de Reserva del PORN sierra — ambas lecturas desaconsejan PERMITTED. El revisor decide.",
+      "normative_basis": [
+        "lf-ley1-14h-acampada"
+      ]
+    },
+    {
+      "rule_id": "alraso:es-md/pr-ca-manzanares/pernocta#vivac-parque-supletorio",
+      "activity": "VIVAC_AL_RASO",
+      "spatial_scope_id": "ss-prcam-parque",
+      "effect": "PERMITTED",
+      "condition": {
+        "any": [
+          {
+            "field": "public_or_communal_land",
+            "op": "is_true"
+          },
+          {
+            "field": "private_landowner_authorization",
+            "op": "is_true"
+          }
+        ]
+      },
+      "effective_from": "2009-11-18",
+      "effective_to": null,
+      "recorded_at": "2026-09-17",
+      "recorded_until": null,
+      "review_status": "REVIEW_REQUIRED",
+      "legal_review_complete": false,
+      "spatial_review_complete": false,
+      "evidence": [
+        "lf-d96-4486-vivac",
+        "lf-d96-dt1-supletorio",
+        "lf-prug-prcam-gap"
+      ],
+      "interpretation_note": "PROPOSED (pendiente): el §4.4.8.6 del D 96/2009 autoriza el vivac al raso con carácter general fuera de Zonas de Reserva/Asentamientos Tradicionales del PORN sierra; la DT1 lo haría aplicable al PRCAM sólo en materias no reguladas por el PRUG-PRCAM (no extraído) y sólo donde el punto esté dentro del ámbito del PORN sierra (geometría no adquirida). La condición de propiedad modela 'en propiedades particulares ... autorización del propietario'. Si el revisor rechaza la supletoriedad o el ámbito, esta regla muere y el resultado queda UNDETERMINED.",
+      "normative_basis": [
+        "lf-d96-4486-vivac",
+        "lf-d96-dt1-supletorio"
+      ]
+    }
+  ],
+  "rule_relations": [],
+  "expected": {
+    "publishability": [
+      {
+        "assert": "NO_RULE_PUBLISHABLE",
+        "note": "Toda versión REVIEW_REQUIRED + reviews incompletas => eligibility gate rechaza; resolver devuelve UNDETERMINED/INCOMPLETE para cualquier consulta."
+      }
+    ],
+    "basic_queries": [
+      {
+        "query": {
+          "activity": "VIVAC_AL_RASO",
+          "spatial_scope_id": "ss-prcam-reserva-natural",
+          "activity_date": "2026-09-17",
+          "knowledge_date": "2026-09-17"
+        },
+        "expected_legal_status": "UNDETERMINED",
+        "expected_knowledge_status": "INCOMPLETE",
+        "note": "Sin revisión humana no hay regla publicable."
+      }
+    ]
+  }
+}

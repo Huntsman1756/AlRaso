@@ -1,0 +1,75 @@
+EXTRACTO DE EVIDENCIA NORMATIVA — Parque Regional del Sureste (ejes de
+los cursos bajos de los ríos Manzanares y Jarama)
+Actividad objeto: vivac / pernocta al raso / acampada
+Fecha de extracción: 2026-09-17
+Fuentes: texto consolidado BOE de la Ley 6/1994 (BOE-A-1994-19704);
+PDF oficial RLMA (descarga FichaNormativa ID=671) del Decreto 27/1999
+(PORN); registro RLMA para estado del PRUG.
+
+=====================================================================
+1. Ley 6/1994, de 28 de junio, de declaración del Parque Regional del
+   Sureste (texto consolidado BOE-A-1994-19704; BOCM núm. 163)
+
+Art. 27.3 (Zonas A, Reserva Integral — usos prohibidos):
+"d) La acampada y producción de fuegos."
+   => prohibición ABSOLUTA (sin cláusula de autorización).
+
+Art. 28.3 (Zonas B, Reserva Natural — usos prohibidos):
+"e) La acampada y producción de fuegos, sin autorización expresa de la
+Agencia de Medio Ambiente."
+   => prohibida SALVO autorización expresa.
+
+La ley NO nombra "vivac": sólo "acampada".
+Modificaciones: Ley 7/2003 (nueva Zona G + art. 32 bis), Ley 11/2022;
+ámbito también afectado por Ley 2/2011 (Cañada Real Galiana).
+
+=====================================================================
+2. Decreto 27/1999, de 11 de febrero — aprueba el PORN
+   (BOCM 03/03/1999; RLMA ID=671, VIGENTE; STS de 18/05/2012 confirmó
+   su validez en recurso indirecto — registro RLMA)
+
+Normas particulares, epígrafe 12 — verbatim del PDF oficial RLMA:
+
+§12.1.2 (Zonas A1, A2 — usos prohibidos):
+"g) La acampada y producción de fuegos."
+
+§12.2.2 (Zonas B1, B2 — usos prohibidos):
+"h) La acampada y producción de fuegos, sin autorización expresa de la
+Consejería de Medio Ambiente y Desarrollo Regional."
+
+§12.3.2 (Zonas C — usos prohibidos):
+"i) La acampada y producción de fuego, salvo autorización expresa de la
+Consejería de Medio Ambiente y Desarrollo Regional."
+
+§12.4.2/12.4.3 (Zonas D):
+"g) La circulación incontrolada de vehículos a motor fuera de las vías
+de tránsito autorizadas, así como la acampada y producción de fuego,
+requerirán la autorización de la Consejería de Medio Ambiente y
+Desarrollo Regional."
+
+§12.5.2/12.5.3 (Zonas E):
+"f) La acampada y producción de fuego no estarán permitidas, salvo
+autorización expresa de la Consejería de Medio Ambiente y Desarrollo
+Regional."
+
+Zonas F (Periférica de Protección) y G (planeamiento urbanístico, Ley
+7/2003): el extracto no ha localizado precepto propio sobre acampada —
+quedan sin regla específica en este paquete.
+
+=====================================================================
+3. PRUG — Decreto 9/2009, de 5 de febrero (RLMA ID=1651)
+   ESTADO: ANULADO de pleno derecho por el Tribunal Supremo el
+   20/09/2012 (recursos de casación 7089/2010 y 5349/2010). La
+   Resolución de 15/04/2009 (anexo cartográfico) también quedó anulada.
+   Un borrador de nuevo PRUG estuvo en consulta pública marzo-junio
+   2020 (participa.comunidad.madrid) SIN decreto de aprobación
+   posterior localizado.
+   => NO existe PRUG vigente. El régimen aplicable es Ley 6/1994 +
+      PORN D 27/1999 + normativa sectorial.
+
+=====================================================================
+4. Cuestión interpretativa abierta
+   "Acampada" en ley de 1994 y PORN de 1999 frente a "vivac/pernocta al
+   raso" (concepto introducido en la planificación madrileña con el
+   PORN de Peñalara y el D 96/2009). La equiparación vivac ⊆ acampada
+   es un salto interpretativo que decide el revisor.
