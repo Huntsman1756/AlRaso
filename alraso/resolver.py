@@ -88,6 +88,7 @@ from alraso.errors import (
     REASON_MISSING_FACT,
     REASON_CONDITIONAL_UNVERIFIED,
     REASON_OPERATIONAL_BLOCK,
+    REASON_BOUNDARY_AMBIGUOUS,
 )
 from alraso.precedence import (
     Judgment,
@@ -200,6 +201,28 @@ class Resolver:
         result.applicable_scope = [h.as_dict() for h in hits]
         scope_ids = [h.scope_id for h in hits]
         trace.append({"stage": "spatial", "scope_ids": scope_ids})
+
+        # (2b) boundary ambiguity gate (M8-E, preregistered policy): a hit on
+        # a REGULATORY scope's edge is ambiguous membership — it can never
+        # alone support a determination. CONTEXT_ONLY boundary hits degrade
+        # to a warning (they regulate nothing).
+        boundary_hits = [h for h in hits if h.on_boundary]
+        if boundary_hits:
+            ambiguous = [h for h in boundary_hits
+                         if ((self.store.get_scope(h.scope_id) or {})
+                             .get("relevance") or "REGULATORY") != "CONTEXT_ONLY"]
+            if ambiguous:
+                return self._fail(query, reason=REASON_BOUNDARY_AMBIGUOUS,
+                                  message=("punto en el borde de ambito(s) regulatorio(s): "
+                                           + ", ".join(h.scope_id for h in ambiguous)
+                                           + " — pertenencia ambigua, no puede sostener "
+                                           "ninguna determinacion"),
+                                  record=record, scopes=hits,
+                                  knowledge=KnowledgeStatus.INCOMPLETE,
+                                  trace=trace)
+            result.warnings.append(
+                "borde de ambito(s) CONTEXT_ONLY (no regulan): "
+                + ", ".join(h.scope_id for h in boundary_hits))
         if not hits:
             return self._fail(query, reason=REASON_NO_SCOPE,
                               message="no hay ambito espacial resoluble para este punto/scope",

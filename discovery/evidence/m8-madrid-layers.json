@@ -1,0 +1,107 @@
+{
+  "schema": "alraso-m8-layer-manifest-v1",
+  "note": "Official IDEM layers feeding the Madrid point resolver. Every layer is sha256-pinned; digests re-verified at load. Paths are relative to this file. Candidate scopes remain REVIEW_REQUIRED — geometry loading does not publish rules.",
+  "layers": [
+    {
+      "id": "idem-ma-pnsg-zon-vivac-anua",
+      "path": "m8-guadarrama/IDEM_MA_PNSG_ZON_VIVAC_ANUA.geojson",
+      "sha256": "b6fa71b24927a5a44229e0363773c67e309a773c9e20649fa5d710f9f63958b6",
+      "scope_type": "PARK_SECTOR",
+      "scope_id": "ss-pnsg-vivac-anexo3",
+      "official_name": "Zonas de vivac autorizadas (Anexo III, Decreto 18/2020)"
+    },
+    {
+      "id": "idem-ma-pn-guadarrama-cm-pn",
+      "path": "m8-guadarrama/IDEM_MA_PN_GUADARRAMA_CM.geojson",
+      "sha256": "d64025a17861c33dc9a84bed082c8cbb75b4446ad5c44bcb686646436ccfb833",
+      "scope_type": "NATIONAL_PARK",
+      "scope_property": "CD_ZONA",
+      "scope_map": {"PN": "ss-pnsg-pn-cm"},
+      "unmapped": "skip",
+      "official_name": "PN Sierra de Guadarrama (lado Comunidad de Madrid)",
+      "name_property": "DS_ZONA"
+    },
+    {
+      "id": "idem-ma-pn-guadarrama-cm-zpp",
+      "path": "m8-guadarrama/IDEM_MA_PN_GUADARRAMA_CM.geojson",
+      "sha256": "d64025a17861c33dc9a84bed082c8cbb75b4446ad5c44bcb686646436ccfb833",
+      "scope_type": "PARK_SECTOR",
+      "scope_property": "CD_ZONA",
+      "scope_map": {"ZPP": "ss-pnsg-zpp-cm"},
+      "unmapped": "skip",
+      "official_name": "ZPP PN Sierra de Guadarrama (lado CAM)",
+      "name_property": "DS_ZONA"
+    },
+    {
+      "id": "idem-ma-pr-ca-manzanares-parque",
+      "path": "m8-pr-manzanares/IDEM_MA_PR_CA_MANZANARES.geojson",
+      "sha256": "560b349880eeb96a20b6f85583006dc9995a138424b1036bf48c379c44da1c63",
+      "scope_type": "REGIONAL_PARK",
+      "scope_id": "ss-prcam-parque",
+      "official_name": "Parque Regional de la Cuenca Alta del Manzanares"
+    },
+    {
+      "id": "idem-ma-pr-ca-manzanares-reserva",
+      "path": "m8-pr-manzanares/IDEM_MA_PR_CA_MANZANARES.geojson",
+      "sha256": "560b349880eeb96a20b6f85583006dc9995a138424b1036bf48c379c44da1c63",
+      "scope_type": "PARK_SECTOR",
+      "scope_property": "CD_TIPO_ZONA",
+      "scope_map": {"A1": "ss-prcam-reserva-natural", "A2": "ss-prcam-reserva-natural"},
+      "unmapped": "skip",
+      "scope_names": {"ss-prcam-reserva-natural": "Reserva Natural del PR Cuenca Alta del Manzanares"}
+    },
+    {
+      "id": "idem-ma-pr-guadarrama-parque",
+      "path": "m8-pr-guadarrama-medio/IDEM_MA_PR_GUADARRAMA.geojson",
+      "sha256": "d05c249f28325f26c074ac8b0eb142d26e4fc712f36ef97db0a305b202bedced",
+      "scope_type": "REGIONAL_PARK",
+      "scope_id": "ss-prcmg-parque",
+      "official_name": "Parque Regional del Curso Medio del río Guadarrama y su entorno"
+    },
+    {
+      "id": "idem-ma-pr-guadarrama-zonas",
+      "path": "m8-pr-guadarrama-medio/IDEM_MA_PR_GUADARRAMA.geojson",
+      "sha256": "d05c249f28325f26c074ac8b0eb142d26e4fc712f36ef97db0a305b202bedced",
+      "scope_type": "PARK_SECTOR",
+      "scope_property": "CD_TIPO_ZONA",
+      "scope_map": {
+        "1": "ss-prcmg-max-proteccion",
+        "2": "ss-prcmg-proteccion-mejora",
+        "3": "ss-prcmg-mantenimiento"
+      },
+      "scope_names": {
+        "ss-prcmg-max-proteccion": "Zona de Máxima Protección (PR Curso Medio)",
+        "ss-prcmg-proteccion-mejora": "Zona de Protección y Mejora (PR Curso Medio)",
+        "ss-prcmg-mantenimiento": "Zona de Mantenimiento de la Actividad (PR Curso Medio)"
+      }
+    },
+    {
+      "id": "idem-ma-pr-sureste-parque",
+      "path": "m8-pr-sureste/IDEM_MA_PR_SURESTE.geojson",
+      "sha256": "1bc022d134bf5719744f5fee9e0760ff02767e0a152a0e927144816dfecdeb87",
+      "scope_type": "REGIONAL_PARK",
+      "scope_id": "ss-prse-parque",
+      "official_name": "Parque Regional del Sureste"
+    },
+    {
+      "id": "idem-ma-pr-sureste-zonas",
+      "path": "m8-pr-sureste/IDEM_MA_PR_SURESTE.geojson",
+      "sha256": "1bc022d134bf5719744f5fee9e0760ff02767e0a152a0e927144816dfecdeb87",
+      "scope_type": "PARK_SECTOR",
+      "scope_property": "CD_AREA",
+      "scope_map": {
+        "A1": "ss-prse-zona-a", "A2": "ss-prse-zona-a",
+        "B1": "ss-prse-zonas-b-e", "B2": "ss-prse-zonas-b-e",
+        "C1": "ss-prse-zonas-b-e", "C2": "ss-prse-zonas-b-e",
+        "D1": "ss-prse-zonas-b-e", "D2": "ss-prse-zonas-b-e", "D3": "ss-prse-zonas-b-e",
+        "E1": "ss-prse-zonas-b-e", "E2": "ss-prse-zonas-b-e", "E3": "ss-prse-zonas-b-e",
+        "F1": "ss-prse-zonas-fg", "G": "ss-prse-zonas-fg"
+      },
+      "scope_names": {
+        "ss-prse-zona-a": "Zona A — Reserva (PR Sureste)",
+        "ss-prse-zonas-b-e": "Zonas B–E — usos regulados (PR Sureste)",
+        "ss-prse-zonas-fg": "Zonas F–G (PR Sureste)"
+      }
+    }
+  ]
+}
